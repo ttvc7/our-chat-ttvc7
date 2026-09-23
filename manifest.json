@@ -1,0 +1,15 @@
+{
+  "name": "ttvc7",
+  "short_name": "ttvc7",
+  "start_url": "./index.html",
+  "display": "standalone",
+  "background_color": "#f5f5f5",
+  "theme_color": "#f7f7f7",
+  "icons": [
+    {
+      "src": "IMG_20260923_234816.jpg",
+      "sizes": "512x512",
+      "type": "image/jpeg"
+    }
+  ]
+}
