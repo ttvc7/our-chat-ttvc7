@@ -239,3 +239,22 @@
   color: #ccc;
   margin: 16px 0;
   }
+/* 字卡分类标签 */
+.card-cats {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin: 12px 0;
+}
+.card-cat {
+  padding: 5px 14px;
+  border-radius: 14px;
+  background: #f0f0f0;
+  font-size: 13px;
+  color: #666;
+  cursor: pointer;
+}
+.card-cat.active {
+  background: #07c160;
+  color: #fff;
+}
