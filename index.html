@@ -343,11 +343,7 @@ sendEl.addEventListener('click', sendMessage);
 inputEl.addEventListener('keydown', e => { if (e.key === 'Enter') sendMessage(); });
 
 /* 加载本地历史 */
-if (messages.length === 0) {
-  addMessage('ta', '你来啦，我一直在等你。', true);
-} else {
-  messages.forEach(m => addMessage(m.sender, m.content, false));
-}
+messages.forEach(m => addMessage(m.sender, m.content, false));
 
 /* 字卡管理 */
 const modal = document.getElementById('cardModal');
