@@ -19,13 +19,13 @@ body {
 #loading {
   position: fixed;
   inset: 0;
-  background: linear-gradient(160deg, #fdfbfb 0%, #f7f1f7 45%, #efe6f5 100%);
+  background: linear-gradient(180deg, #ffffff 0%, #f7f7f7 50%, #ececec 100%);
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: center;
   z-index: 999;
-  transition: opacity 0.6s ease;
+  transition: opacity 0.7s ease;
   overflow: hidden;
 }
 #loading.fade-out { opacity: 0; pointer-events: none; }
@@ -35,78 +35,92 @@ body {
   position: absolute;
   width: 6px; height: 6px;
   border-radius: 50%;
-  background: rgba(214, 190, 230, 0.7);
-  box-shadow: 0 0 10px rgba(214, 190, 230, 0.9);
-  animation: float 6s ease-in-out infinite, glow 3s ease-in-out infinite;
+  background: rgba(255, 255, 255, 0.9);
+  box-shadow: 0 0 12px rgba(255, 255, 255, 1);
+  animation: float 7s ease-in-out infinite, glow 3s ease-in-out infinite;
 }
-.sparkle:nth-child(1) { top: 22%; left: 18%; animation-delay: 0s; width: 5px; height: 5px; }
-.sparkle:nth-child(2) { top: 30%; right: 16%; animation-delay: 1.2s; width: 7px; height: 7px; background: rgba(230, 200, 235, 0.65); }
-.sparkle:nth-child(3) { bottom: 32%; left: 22%; animation-delay: 2.4s; width: 4px; height: 4px; }
-.sparkle:nth-child(4) { bottom: 26%; right: 20%; animation-delay: 3.6s; width: 6px; height: 6px; background: rgba(200, 180, 225, 0.6); }
-.sparkle:nth-child(5) { top: 48%; left: 10%; animation-delay: 4.8s; width: 5px; height: 5px; }
-.sparkle:nth-child(6) { top: 60%; right: 12%; animation-delay: 2s; width: 4px; height: 4px; }
+.sparkle:nth-child(1) { top: 20%; left: 15%; animation-delay: 0s; width: 5px; height: 5px; }
+.sparkle:nth-child(2) { top: 28%; right: 14%; animation-delay: 1.2s; width: 8px; height: 8px; }
+.sparkle:nth-child(3) { bottom: 34%; left: 20%; animation-delay: 2.4s; width: 4px; height: 4px; }
+.sparkle:nth-child(4) { bottom: 28%; right: 18%; animation-delay: 3.6s; width: 7px; height: 7px; }
+.sparkle:nth-child(5) { top: 46%; left: 8%; animation-delay: 4.8s; width: 5px; height: 5px; }
+.sparkle:nth-child(6) { top: 58%; right: 10%; animation-delay: 2s; width: 4px; height: 4px; }
+.sparkle:nth-child(7) { top: 70%; left: 30%; animation-delay: 5.5s; width: 3px; height: 3px; }
+.sparkle:nth-child(8) { top: 15%; right: 35%; animation-delay: 3s; width: 4px; height: 4px; }
 
 @keyframes float {
-  0%, 100% { transform: translateY(0); }
-  50% { transform: translateY(-18px); }
+  0%, 100% { transform: translate(0, 0); }
+  50% { transform: translate(0, -22px); }
 }
 @keyframes glow {
-  0%, 100% { opacity: 0.4; }
+  0%, 100% { opacity: 0.3; }
   50% { opacity: 1; }
 }
 
 .ring {
-  width: 92px;
-  height: 92px;
+  width: 130px;
+  height: 130px;
   border-radius: 50%;
-  border: 3px solid #d5c8dd;
+  border: 3px solid #d0d0d0;
   display: flex;
   align-items: center;
   justify-content: center;
-  margin-bottom: 42px;
-  box-shadow: 0 0 30px rgba(213, 200, 221, 0.35);
+  margin-bottom: 50px;
+  box-shadow: 0 0 40px rgba(200, 200, 200, 0.35);
 }
 .dot {
-  width: 18px;
-  height: 18px;
+  width: 26px;
+  height: 26px;
   border-radius: 50%;
   background: #ffffff;
-  box-shadow: 0 0 14px rgba(200, 170, 220, 0.85);
-  animation: breathe 1.6s ease-in-out infinite;
+  box-shadow: 0 0 20px rgba(220, 200, 230, 0.9);
+  animation: breathe 1.8s ease-in-out infinite;
 }
 @keyframes breathe {
-  0%, 100% { transform: scale(0.6); }
-  50% { transform: scale(1.1); }
+  0%, 100% { transform: scale(0.5); }
+  50% { transform: scale(1.25); }
 }
 
 .loading-text {
   font-size: 14px;
-  color: #9b8fa6;
+  color: #9a9a9a;
   letter-spacing: 1.5px;
-  margin-bottom: 32px;
+  margin-bottom: 36px;
 }
 
-.bar {
-  width: 150px;
-  height: 2px;
-  background: #ece5f0;
-  border-radius: 2px;
-  overflow: hidden;
-  position: relative;
-}
-.bar::after {
-  content: '';
+/* 底部能量波动 */
+.wave {
   position: absolute;
-  left: 0; top: 0;
-  height: 100%;
-  width: 0;
-  background: linear-gradient(90deg, #d5c0e0, #b8a0cc);
-  border-radius: 2px;
-  animation: fill 2s linear forwards;
+  bottom: 90px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 180px;
+  height: 40px;
+  display: flex;
+  align-items: flex-end;
+  justify-content: center;
+  gap: 6px;
 }
-@keyframes fill {
-  from { width: 0; }
-  to { width: 100%; }
+.wave span {
+  display: block;
+  width: 3px;
+  border-radius: 3px;
+  background: linear-gradient(180deg, rgba(240, 210, 225, 0.9), rgba(250, 235, 245, 0.3));
+  animation: waveMove 1.6s ease-in-out infinite;
+}
+.wave span:nth-child(1) { height: 8px; animation-delay: 0s; }
+.wave span:nth-child(2) { height: 14px; animation-delay: 0.1s; }
+.wave span:nth-child(3) { height: 20px; animation-delay: 0.2s; }
+.wave span:nth-child(4) { height: 28px; animation-delay: 0.3s; }
+.wave span:nth-child(5) { height: 36px; animation-delay: 0.4s; }
+.wave span:nth-child(6) { height: 28px; animation-delay: 0.5s; }
+.wave span:nth-child(7) { height: 20px; animation-delay: 0.6s; }
+.wave span:nth-child(8) { height: 14px; animation-delay: 0.7s; }
+.wave span:nth-child(9) { height: 8px; animation-delay: 0.8s; }
+
+@keyframes waveMove {
+  0%, 100% { transform: scaleY(0.4); opacity: 0.5; }
+  50% { transform: scaleY(1); opacity: 1; }
 }
 
 /* ===== 聊天界面 ===== */
@@ -204,11 +218,16 @@ body {
   <div class="sparkle"></div>
   <div class="sparkle"></div>
   <div class="sparkle"></div>
+  <div class="sparkle"></div>
+  <div class="sparkle"></div>
   <div class="ring">
     <div class="dot"></div>
   </div>
   <div class="loading-text">正在连接你和 TA 的世界…</div>
-  <div class="bar"></div>
+  <div class="wave">
+    <span></span><span></span><span></span><span></span><span></span>
+    <span></span><span></span><span></span><span></span>
+  </div>
 </div>
 
 <!-- 聊天界面 -->
@@ -252,11 +271,12 @@ const inputEl = document.getElementById('input');
 const sendEl = document.getElementById('send');
 document.getElementById('taName').textContent = TA_NAME;
 
+// 3 秒后隐藏加载页
 setTimeout(() => {
   const loading = document.getElementById('loading');
   loading.classList.add('fade-out');
-  setTimeout(() => loading.remove(), 600);
-}, 2000);
+  setTimeout(() => loading.remove(), 700);
+}, 3000);
 
 function addMessage(sender, content) {
   const row = document.createElement('div');
@@ -359,4 +379,4 @@ document.getElementById('addCardBtn').onclick = async () => {
 };
 </script>
 </body>
-</html>
+  </html>
