@@ -19,32 +19,59 @@ body {
 #loading {
   position: fixed;
   inset: 0;
-  background: #f2f0ee;
+  background: linear-gradient(160deg, #fdfbfb 0%, #f7f1f7 45%, #efe6f5 100%);
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: center;
   z-index: 999;
   transition: opacity 0.6s ease;
+  overflow: hidden;
 }
 #loading.fade-out { opacity: 0; pointer-events: none; }
 
-.ring {
-  width: 90px;
-  height: 90px;
+/* 背景漂浮光点 */
+.sparkle {
+  position: absolute;
+  width: 6px; height: 6px;
   border-radius: 50%;
-  border: 3px solid #d8d5d2;
+  background: rgba(214, 190, 230, 0.7);
+  box-shadow: 0 0 10px rgba(214, 190, 230, 0.9);
+  animation: float 6s ease-in-out infinite, glow 3s ease-in-out infinite;
+}
+.sparkle:nth-child(1) { top: 22%; left: 18%; animation-delay: 0s; width: 5px; height: 5px; }
+.sparkle:nth-child(2) { top: 30%; right: 16%; animation-delay: 1.2s; width: 7px; height: 7px; background: rgba(230, 200, 235, 0.65); }
+.sparkle:nth-child(3) { bottom: 32%; left: 22%; animation-delay: 2.4s; width: 4px; height: 4px; }
+.sparkle:nth-child(4) { bottom: 26%; right: 20%; animation-delay: 3.6s; width: 6px; height: 6px; background: rgba(200, 180, 225, 0.6); }
+.sparkle:nth-child(5) { top: 48%; left: 10%; animation-delay: 4.8s; width: 5px; height: 5px; }
+.sparkle:nth-child(6) { top: 60%; right: 12%; animation-delay: 2s; width: 4px; height: 4px; }
+
+@keyframes float {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(-18px); }
+}
+@keyframes glow {
+  0%, 100% { opacity: 0.4; }
+  50% { opacity: 1; }
+}
+
+.ring {
+  width: 92px;
+  height: 92px;
+  border-radius: 50%;
+  border: 3px solid #d5c8dd;
   display: flex;
   align-items: center;
   justify-content: center;
-  margin-bottom: 40px;
+  margin-bottom: 42px;
+  box-shadow: 0 0 30px rgba(213, 200, 221, 0.35);
 }
 .dot {
   width: 18px;
   height: 18px;
   border-radius: 50%;
   background: #ffffff;
-  box-shadow: 0 0 0 2px #e8e5e2;
+  box-shadow: 0 0 14px rgba(200, 170, 220, 0.85);
   animation: breathe 1.6s ease-in-out infinite;
 }
 @keyframes breathe {
@@ -54,15 +81,15 @@ body {
 
 .loading-text {
   font-size: 14px;
-  color: #a0a0a0;
-  letter-spacing: 1px;
-  margin-bottom: 30px;
+  color: #9b8fa6;
+  letter-spacing: 1.5px;
+  margin-bottom: 32px;
 }
 
 .bar {
-  width: 140px;
+  width: 150px;
   height: 2px;
-  background: #e0ddd9;
+  background: #ece5f0;
   border-radius: 2px;
   overflow: hidden;
   position: relative;
@@ -73,7 +100,7 @@ body {
   left: 0; top: 0;
   height: 100%;
   width: 0;
-  background: #b8b4b0;
+  background: linear-gradient(90deg, #d5c0e0, #b8a0cc);
   border-radius: 2px;
   animation: fill 2s linear forwards;
 }
@@ -171,6 +198,12 @@ body {
 
 <!-- 加载页 -->
 <div id="loading">
+  <div class="sparkle"></div>
+  <div class="sparkle"></div>
+  <div class="sparkle"></div>
+  <div class="sparkle"></div>
+  <div class="sparkle"></div>
+  <div class="sparkle"></div>
   <div class="ring">
     <div class="dot"></div>
   </div>
@@ -219,7 +252,6 @@ const inputEl = document.getElementById('input');
 const sendEl = document.getElementById('send');
 document.getElementById('taName').textContent = TA_NAME;
 
-// 2 秒后隐藏加载页
 setTimeout(() => {
   const loading = document.getElementById('loading');
   loading.classList.add('fade-out');
@@ -327,4 +359,4 @@ document.getElementById('addCardBtn').onclick = async () => {
 };
 </script>
 </body>
-  </html>
+</html>
