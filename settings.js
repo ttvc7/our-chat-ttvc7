@@ -33,34 +33,15 @@
     myAvatarStyle: load('avatar_style_my', '')
   };
 
-  function saveCfg(key, val) {
-    cfg[key] = val;
-    localStorage.setItem(camelToSnake(key), JSON.stringify(val));
-  }
-  function camelToSnake(s) {
-    const map = {
-      taName:'ta_name', myName:'my_name',
-      taAvatar:'ta_avatar', myAvatar:'my_avatar',
-      textColor:'text_color', patToTa:'pat_to_ta', patToMe:'pat_to_me',
-      bubbleShape:'bubble_shape', fontSize:'font_size',
-      chatBg:'chat_bg', chatBgImage:'chat_bg_image',
-      taAvatarStyle:'avatar_style_ta', myAvatarStyle:'avatar_style_my'
-    };
-    return map[s] || s;
-  }
-
   // ===== 应用设置到界面 =====
   function applyAll() {
-    // 顶部昵称
     const taNameEl = document.getElementById('taName');
     if (taNameEl) taNameEl.textContent = cfg.taName;
 
-    // 文字颜色（所有气泡）
     document.querySelectorAll('.bubble').forEach(b => {
       b.style.color = cfg.textColor;
     });
 
-    // 气泡形状
     if (cfg.bubbleShape) {
       let radius = '8px';
       if (cfg.bubbleShape === 'round') radius = '18px';
@@ -69,12 +50,10 @@
       document.querySelectorAll('.bubble').forEach(b => b.style.borderRadius = radius);
     }
 
-    // 字体大小
     if (cfg.fontSize) {
       document.querySelectorAll('.bubble').forEach(b => b.style.fontSize = cfg.fontSize + 'px');
     }
 
-    // 背景
     const messagesEl = document.getElementById('messages');
     if (messagesEl) {
       if (cfg.chatBgImage) {
@@ -84,7 +63,6 @@
       }
     }
 
-    // 头像
     document.querySelectorAll('.msg-row').forEach(row => {
       const avatar = row.querySelector('.avatar');
       if (!avatar) return;
@@ -105,7 +83,6 @@
     });
   }
 
-  // 每次新消息渲染后，重新应用一次（头像等）
   function hookNewMessages() {
     const messagesEl = document.getElementById('messages');
     if (!messagesEl) return;
@@ -155,7 +132,6 @@
   function renderBeautify() {
     settingsBody.innerHTML = `
       <div class="sub-head">${backBtn()}美化</div>
-
       <div class="sec-title">聊天背景</div>
       <div class="color-row">
         <div class="color-dot" style="background:#f5f5f5" data-bg="#f5f5f5"></div>
@@ -195,7 +171,6 @@
   }
 
   function bindBeautify() {
-    // 背景色
     settingsBody.querySelectorAll('.color-dot').forEach(dot => {
       dot.onclick = () => {
         const bg = dot.dataset.bg;
@@ -210,7 +185,6 @@
       };
     });
 
-    // 背景图
     const pickBtn = document.getElementById('pickBgBtn');
     const upload = document.getElementById('bgUpload');
     if (pickBtn && upload) {
@@ -228,7 +202,6 @@
       };
     }
 
-    // 气泡形状、字体大小
     settingsBody.querySelectorAll('.opt-card').forEach(card => {
       card.onclick = () => {
         if (card.dataset.bubble) {
@@ -248,7 +221,6 @@
       };
     });
 
-    // 气泡 CSS
     const bubbleCssBtn = document.getElementById('applyBubbleCss');
     if (bubbleCssBtn) {
       bubbleCssBtn.onclick = () => {
@@ -264,7 +236,6 @@
       };
     }
 
-    // 字体 CSS
     const fontCssBtn = document.getElementById('applyFontCss');
     if (fontCssBtn) {
       fontCssBtn.onclick = () => {
@@ -338,7 +309,6 @@
   }
 
   function bindAppearance() {
-    // 文字颜色
     const picker = document.getElementById('textColorPicker');
     const applyColor = document.getElementById('applyTextColor');
     if (picker && applyColor) {
@@ -349,7 +319,6 @@
       };
     }
 
-    // 主题 CSS
     const themeBtn = document.getElementById('applyThemeCss');
     if (themeBtn) {
       themeBtn.onclick = () => {
@@ -365,7 +334,6 @@
       };
     }
 
-    // 头像更换
     let currentAvatarTarget = null;
     const avatarUpload = document.getElementById('avatarUpload');
     document.getElementById('taAvatarRow').onclick = () => { currentAvatarTarget = 'ta'; avatarUpload.click(); };
@@ -388,7 +356,6 @@
       avatarUpload.value = '';
     };
 
-    // 保存昵称
     document.getElementById('saveNames').onclick = () => {
       const ta = document.getElementById('taNameInput').value.trim() || 'TA';
       const my = document.getElementById('myNameInput').value.trim() || '我';
@@ -400,7 +367,6 @@
       alert('已保存');
     };
 
-    // 头像样式（两个头像同时应用）
     settingsBody.querySelectorAll('.opt-card').forEach(card => {
       card.onclick = () => {
         const style = card.dataset.avatar;
@@ -414,7 +380,6 @@
       };
     });
 
-    // 拍一拍：他拍我列表
     renderPatList();
     document.getElementById('addPatBtn').onclick = () => {
       cfg.patToMe.push('');
@@ -476,7 +441,6 @@
     };
   }
 
-  // ===== 音乐 / 信箱 / 陪伴（占位） =====
   function renderMusic() {
     settingsBody.innerHTML = `<div class="sub-head">${backBtn()}音乐</div><p style="color:#999;padding:20px 0;">音乐功能正在开发中…</p>`;
     bindBack();
@@ -586,7 +550,6 @@
     applyAll();
     hookNewMessages();
 
-    // 恢复自定义 CSS
     const bubbleCss = localStorage.getItem('bubble_css');
     if (bubbleCss) {
       const s = document.createElement('style');
