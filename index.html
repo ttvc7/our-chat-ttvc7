@@ -219,17 +219,37 @@ body {
   </footer>
 </div>
 
-<!-- 字卡弹窗 -->
+  <!-- 字卡弹窗 -->
 <div id="cardModal" class="modal hidden">
-  <div class="modal-box">
+  <div class="modal-box" id="cardBox">
     <div class="modal-head">
-      <span>TA 的字卡库</span>
+      <span id="cardTitle">字卡库</span>
       <button id="closeCardBtn">×</button>
     </div>
     <div class="modal-body">
-      <textarea id="cardInput" placeholder="输入一句 TA 可能说的话…"></textarea>
-      <button id="addCardBtn">添加字卡</button>
-      <div id="cardList"></div>
+      <div class="card-tabs">
+        <div class="card-tab active" data-tab="main">主字卡</div>
+        <div class="card-tab" data-tab="emoji">Emoji</div>
+        <div class="card-tab" data-tab="pat">拍一拍</div>
+        <div class="card-tab" data-tab="sticker">表情包</div>
+      </div>
+
+      <div id="cardPanelMain">
+        <textarea id="cardInput" placeholder="输入字卡内容…&#10;第一行写【分类名】就会自动归类，例如：&#10;【日常】"></textarea>
+        <button id="addCardBtn">添加字卡</button>
+        <div class="card-cats" id="cardCats"></div>
+        <div id="cardList"></div>
+      </div>
+
+      <div id="cardPanelEmoji" style="display:none;">
+        <p style="color:#999;padding:20px 0;text-align:center;">Emoji 功能开发中…</p>
+      </div>
+      <div id="cardPanelPat" style="display:none;">
+        <p style="color:#999;padding:20px 0;text-align:center;">拍一拍字卡开发中…</p>
+      </div>
+      <div id="cardPanelSticker" style="display:none;">
+        <p style="color:#999;padding:20px 0;text-align:center;">表情包功能开发中…</p>
+      </div>
     </div>
   </div>
 </div>
