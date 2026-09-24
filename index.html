@@ -363,35 +363,123 @@ const cardModal = document.getElementById('cardModal');
 document.getElementById('openCardBtn').onclick = () => { cardModal.classList.remove('hidden'); loadCards(); };
 document.getElementById('closeCardBtn').onclick = () => cardModal.classList.add('hidden');
 
+/* ===== 字卡系统 ===== */
+let currentCat = 'all';
+
+function parseCardContent(text) {
+  // 返回 { category, content }
+  const lines = text.split('\n').map(l => l.trim()).filter(l => l);
+  if (lines.length === 0) return null;
+  const first = lines[0];
+  const match = first.match(/^【(.+?)】(.*)$/);
+  if (match) {
+    const category = match[1].trim();
+    const rest = match[2].trim();
+    let content = rest;
+    if (lines.length > 1) {
+      content = (rest ? rest + '\n' : '') + lines.slice(1).join('\n');
+    }
+    return { category, content };
+  }
+  return { category: '', content: lines.join('\n') };
+}
+
 function loadCards() {
   const list = document.getElementById('cardList');
-  if (cards.length === 0) {
-    list.innerHTML = '<div style="color:#999;font-size:13px;">还没有字卡，加一条试试</div>';
+  const catsBox = document.getElementById('cardCats');
+  if (!list || !catsBox) return;
+
+  // 收集所有分类
+  const cats = new Set();
+  cards.forEach(c => {
+    const obj = typeof c === 'string' ? { content: c, category: '' } : c;
+    if (obj.category) cats.add(obj.category);
+  });
+
+  // 渲染分类标签
+  catsBox.innerHTML = '';
+  const allCat = document.createElement('div');
+  allCat.className = 'card-cat' + (currentCat === 'all' ? ' active' : '');
+  allCat.textContent = '全部';
+  allCat.onclick = () => { currentCat = 'all'; loadCards(); };
+  catsBox.appendChild(allCat);
+
+  const noCat = document.createElement('div');
+  noCat.className = 'card-cat' + (currentCat === '未分类' ? ' active' : '');
+  noCat.textContent = '未分类';
+  noCat.onclick = () => { currentCat = '未分类'; loadCards(); };
+  catsBox.appendChild(noCat);
+
+  cats.forEach(cat => {
+    const el = document.createElement('div');
+    el.className = 'card-cat' + (currentCat === cat ? ' active' : '');
+    el.textContent = cat;
+    el.onclick = () => { currentCat = cat; loadCards(); };
+    catsBox.appendChild(el);
+  });
+
+  // 过滤
+  let filtered = cards.map((c, idx) => {
+    const obj = typeof c === 'string' ? { content: c, category: '' } : c;
+    return { ...obj, _idx: idx };
+  });
+  if (currentCat === '未分类') {
+    filtered = filtered.filter(c => !c.category);
+  } else if (currentCat !== 'all') {
+    filtered = filtered.filter(c => c.category === currentCat);
+  }
+
+  // 渲染列表
+  if (filtered.length === 0) {
+    list.innerHTML = '<div style="color:#999;font-size:13px;text-align:center;padding:20px 0;">还没有字卡，加一条试试</div>';
     return;
   }
   list.innerHTML = '';
-  cards.forEach((content, idx) => {
+  filtered.forEach(card => {
     const div = document.createElement('div');
     div.className = 'card-item';
-    const s = document.createElement('span');
-    s.textContent = content;
+
+    const contentWrap = document.createElement('div');
+    contentWrap.style.flex = '1';
+    contentWrap.style.wordBreak = 'break-word';
+
+    const s = document.createElement('div');
+    s.textContent = card.content;
+    s.style.fontSize = '14px';
+    s.style.color = '#333';
+    contentWrap.appendChild(s);
+
+    if (card.category) {
+      const tag = document.createElement('span');
+      tag.textContent = card.category;
+      tag.style.cssText = 'display:inline-block;font-size:11px;color:#999;background:#f0f0f0;padding:2px 8px;border-radius:8px;margin-top:6px;';
+      contentWrap.appendChild(tag);
+    }
+
     const btn = document.createElement('button');
     btn.textContent = '×';
     btn.onclick = () => {
-      cards.splice(idx, 1);
+      cards.splice(card._idx, 1);
       save('our_cards', cards);
       loadCards();
     };
-    div.appendChild(s); div.appendChild(btn);
+
+    div.appendChild(contentWrap);
+    div.appendChild(btn);
     list.appendChild(div);
   });
 }
 
 document.getElementById('addCardBtn').onclick = () => {
   const input = document.getElementById('cardInput');
-  const content = input.value.trim();
-  if (!content) return;
-  cards.push(content);
+  const text = input.value.trim();
+  if (!text) return;
+  const parsed = parseCardContent(text);
+  if (!parsed || !parsed.content) {
+    alert('字卡内容不能为空');
+    return;
+  }
+  cards.push({ content: parsed.content, category: parsed.category });
   save('our_cards', cards);
   input.value = '';
   loadCards();
