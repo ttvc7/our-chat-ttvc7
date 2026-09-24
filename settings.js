@@ -56,6 +56,10 @@
         <div class="color-dot" style="background:#f7f0f5" data-bg="#f7f0f5"></div>
         <div class="color-dot" style="background:#eef4ee" data-bg="#eef4ee"></div>
       </div>
+      <div style="margin-top:10px;">
+  <input type="file" id="bgUpload" accept="image/*" style="display:none;">
+  <button class="btn-primary" id="pickBgBtn" style="margin-top:0;">从相册选图</button>
+</div>
       <div class="sec-title">气泡形状</div>
       <div class="opt-grid">
         <div class="opt-card" data-bubble="sharp">标准尖角</div>
@@ -84,6 +88,24 @@
         dot.classList.add('active');
       };
     });
+    // 相册选图
+const pickBtn = document.getElementById('pickBgBtn');
+const upload = document.getElementById('bgUpload');
+if (pickBtn && upload) {
+  pickBtn.onclick = () => upload.click();
+  upload.onchange = (e) => {
+    const file = e.target.files[0];
+    if (!file) return;
+    const reader = new FileReader();
+    reader.onload = (ev) => {
+      const url = ev.target.result;
+      document.getElementById('messages').style.background =
+        `url(${url}) center/cover no-repeat`;
+      localStorage.setItem('chat_bg_image', url);
+    };
+    reader.readAsDataURL(file);
+  };
+}
     settingsBody.querySelectorAll('.opt-card').forEach(card => {
       card.onclick = () => {
         if (card.dataset.bubble) {
