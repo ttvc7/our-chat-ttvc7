@@ -258,3 +258,25 @@
   background: #07c160;
   color: #fff;
 }
+/* 字卡标签行 */
+.card-tabs {
+  display: flex;
+  gap: 8px;
+  margin-bottom: 16px;
+  border-bottom: 1px solid #eee;
+  padding-bottom: 10px;
+  overflow-x: auto;
+}
+.card-tab {
+  padding: 6px 14px;
+  font-size: 14px;
+  color: #999;
+  cursor: pointer;
+  white-space: nowrap;
+  border-radius: 8px;
+}
+.card-tab.active {
+  color: #07c160;
+  background: #f0fdf4;
+  font-weight: 600;
+    }
