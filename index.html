@@ -6,7 +6,6 @@
 <title>ttvc7</title>
 <link rel="icon" href="IMG_20260923_234621.jpg">
 <link rel="manifest" href="manifest.json">
-<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 <style>
 * { margin: 0; padding: 0; box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
 html, body { height: 100%; overflow: hidden; }
@@ -30,7 +29,6 @@ body {
 }
 #loading.fade-out { opacity: 0; pointer-events: none; }
 
-/* 背景漂浮光点 */
 .sparkle {
   position: absolute;
   width: 6px; height: 6px;
@@ -88,7 +86,6 @@ body {
   margin-bottom: 36px;
 }
 
-/* 底部能量波动 */
 .wave {
   position: absolute;
   bottom: 90px;
@@ -258,18 +255,30 @@ body {
 </div>
 
 <script>
-const SUPABASE_URL = 'https://znbrbhmpiittbhywugri.supabase.co';
-const SUPABASE_KEY = 'sb_publishable_BgXEgg54eM8cPpXRS7rviw_Ru-PlSLh';
+/* ===== 本地存储版，不再使用云端 ===== */
 const TA_NAME = 'TA';
 const MY_NAME = '我';
 const MIN_DELAY = 900;
 const MAX_DELAY = 2200;
 
-const db = supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
 const messagesEl = document.getElementById('messages');
 const inputEl = document.getElementById('input');
 const sendEl = document.getElementById('send');
 document.getElementById('taName').textContent = TA_NAME;
+
+/* 本地数据读写 */
+function load(key, def) {
+  try {
+    const v = localStorage.getItem(key);
+    return v ? JSON.parse(v) : def;
+  } catch (e) { return def; }
+}
+function save(key, val) {
+  try { localStorage.setItem(key, JSON.stringify(val)); } catch (e) {}
+}
+
+let messages = load('our_messages', []);
+let cards = load('our_cards', []);
 
 // 3 秒后隐藏加载页
 setTimeout(() => {
@@ -278,7 +287,7 @@ setTimeout(() => {
   setTimeout(() => loading.remove(), 700);
 }, 3000);
 
-function addMessage(sender, content) {
+function addMessage(sender, content, store = true) {
   const row = document.createElement('div');
   row.className = 'msg-row ' + (sender === 'me' ? 'me' : 'ta');
   const avatar = document.createElement('div');
@@ -291,7 +300,13 @@ function addMessage(sender, content) {
   row.appendChild(bubble);
   messagesEl.appendChild(row);
   messagesEl.scrollTop = messagesEl.scrollHeight;
+
+  if (store) {
+    messages.push({ sender, content, t: Date.now() });
+    save('our_messages', messages);
+  }
 }
+
 function showTyping() {
   const row = document.createElement('div');
   row.className = 'msg-row ta';
@@ -302,13 +317,9 @@ function showTyping() {
 }
 function hideTyping() { const t = document.getElementById('typing'); if (t) t.remove(); }
 
-async function drawCard() {
-  const { data, error } = await db.from('cards').select('content, weight').eq('enabled', true);
-  if (error || !data || data.length === 0) return '（字卡库还是空的，点右上角添加一些吧）';
-  const total = data.reduce((s, c) => s + (c.weight || 1), 0);
-  let r = Math.random() * total;
-  for (const c of data) { r -= (c.weight || 1); if (r <= 0) return c.content; }
-  return data[data.length - 1].content;
+function drawCard() {
+  if (cards.length === 0) return '（字卡库还是空的，点右上角添加一些吧）';
+  return cards[Math.floor(Math.random() * cards.length)];
 }
 
 async function sendMessage() {
@@ -317,50 +328,49 @@ async function sendMessage() {
   inputEl.value = '';
   sendEl.disabled = true;
   addMessage('me', text);
-  await db.from('messages').insert({ sender: 'me', content: text });
+
   showTyping();
   const delay = MIN_DELAY + Math.random() * (MAX_DELAY - MIN_DELAY);
   await new Promise(r => setTimeout(r, delay));
-  const reply = await drawCard();
+
+  const reply = drawCard();
   hideTyping();
   addMessage('ta', reply);
-  await db.from('messages').insert({ sender: 'ta', content: reply });
+
   sendEl.disabled = false;
 }
 sendEl.addEventListener('click', sendMessage);
 inputEl.addEventListener('keydown', e => { if (e.key === 'Enter') sendMessage(); });
 
-async function loadHistory() {
-  const { data, error } = await db.from('messages').select('*').order('created_at', { ascending: true }).limit(200);
-  if (error || !data) return;
-  if (data.length === 0) { addMessage('ta', '你来啦，我一直在等你。'); return; }
-  data.forEach(m => addMessage(m.sender, m.content));
+/* 加载本地历史 */
+if (messages.length === 0) {
+  addMessage('ta', '你来啦，我一直在等你。', true);
+} else {
+  messages.forEach(m => addMessage(m.sender, m.content, false));
 }
-loadHistory();
 
+/* 字卡管理 */
 const modal = document.getElementById('cardModal');
 document.getElementById('openCardBtn').onclick = () => { modal.classList.remove('hidden'); loadCards(); };
 document.getElementById('closeCardBtn').onclick = () => modal.classList.add('hidden');
 
-async function loadCards() {
+function loadCards() {
   const list = document.getElementById('cardList');
-  list.innerHTML = '加载中…';
-  const { data, error } = await db.from('cards').select('*').order('created_at', { ascending: false });
-  if (error) { list.textContent = '加载失败：' + error.message; return; }
-  if (!data || data.length === 0) {
+  if (cards.length === 0) {
     list.innerHTML = '<div style="color:#999;font-size:13px;">还没有字卡，加一条试试</div>';
     return;
   }
   list.innerHTML = '';
-  data.forEach(card => {
+  cards.forEach((content, idx) => {
     const div = document.createElement('div');
     div.className = 'card-item';
     const s = document.createElement('span');
-    s.textContent = card.content;
+    s.textContent = content;
     const btn = document.createElement('button');
     btn.textContent = '×';
-    btn.onclick = async () => {
-      await db.from('cards').delete().eq('id', card.id);
+    btn.onclick = () => {
+      cards.splice(idx, 1);
+      save('our_cards', cards);
       loadCards();
     };
     div.appendChild(s); div.appendChild(btn);
@@ -368,20 +378,15 @@ async function loadCards() {
   });
 }
 
-document.getElementById('addCardBtn').onclick = async () => {
+document.getElementById('addCardBtn').onclick = () => {
   const input = document.getElementById('cardInput');
   const content = input.value.trim();
   if (!content) return;
-  const { error } = await db.from('cards').insert({ content, weight: 1, enabled: true });
-  if (error) { alert('添加失败：' + error.message); return; }
+  cards.push(content);
+  save('our_cards', cards);
   input.value = '';
   loadCards();
 };
 </script>
-  <script>
-if ('serviceWorker' in navigator) {
-  navigator.serviceWorker.register('sw.js');
-}
-  </script>
 </body>
-  </html>
+</html>
