@@ -5,7 +5,6 @@
   const closeBtn = document.getElementById('closeSettingsBtn');
   const openBtn = document.getElementById('openSettingsBtn');
 
-  // ===== 数据读写 =====
   function load(key, def) {
     try {
       const v = localStorage.getItem(key);
@@ -16,7 +15,6 @@
     try { localStorage.setItem(key, JSON.stringify(val)); } catch (e) {}
   }
 
-  // ===== 全局状态 =====
   let cfg = {
     taName: load('ta_name', 'TA'),
     myName: load('my_name', '我'),
@@ -30,10 +28,10 @@
     chatBg: load('chat_bg', ''),
     chatBgImage: load('chat_bg_image', ''),
     taAvatarStyle: load('avatar_style_ta', ''),
-    myAvatarStyle: load('avatar_style_my', '')
+    myAvatarStyle: load('avatar_style_my', ''),
+    themeColor: load('theme_color', '')
   };
 
-  // ===== 应用设置到界面 =====
   function applyAll() {
     const taNameEl = document.getElementById('taName');
     if (taNameEl) taNameEl.textContent = cfg.taName;
@@ -90,7 +88,24 @@
     observer.observe(messagesEl, { childList: true });
   }
 
-  // ===== 主菜单 =====
+  function applyThemeColor(color) {
+    let s = document.getElementById('userThemeColor');
+    if (!s) {
+      s = document.createElement('style');
+      s.id = 'userThemeColor';
+      document.head.appendChild(s);
+    }
+    s.textContent = `
+      #send { background: ${color} !important; }
+      #openCardBtn { color: ${color} !important; }
+      .card-tab.active { color: ${color} !important; background: ${color}22 !important; }
+      .card-cat.active { background: ${color} !important; }
+      .back { color: ${color} !important; }
+      .btn-primary { background: ${color} !important; }
+      .sub-head .back { color: ${color} !important; }
+    `;
+  }
+
   function renderMain() {
     settingsBody.innerHTML = `
       <div class="settings-grid">
@@ -257,9 +272,9 @@
     settingsBody.innerHTML = `
       <div class="sub-head">${backBtn()}外观</div>
 
-      <div class="sec-title">文字颜色（拖动选色）</div>
+      <div class="sec-title">文字 & 主题颜色</div>
       <input type="color" class="color-slider" id="textColorPicker" value="${cfg.textColor}">
-      <button class="btn-primary" id="applyTextColor">应用到所有文字</button>
+      <button class="btn-primary" id="applyTextColor">应用颜色（文字 + 按钮同步）</button>
 
       <div class="sec-title">主题 CSS（高级）</div>
       <textarea class="css-area" id="themeCssInput" placeholder="body { ... }"></textarea>
@@ -313,9 +328,13 @@
     const applyColor = document.getElementById('applyTextColor');
     if (picker && applyColor) {
       applyColor.onclick = () => {
-        cfg.textColor = picker.value;
-        save('text_color', picker.value);
+        const color = picker.value;
+        cfg.textColor = color;
+        cfg.themeColor = color;
+        save('text_color', color);
+        save('theme_color', color);
         applyAll();
+        applyThemeColor(color);
       };
     }
 
@@ -475,7 +494,7 @@
       text += 'TA昵称：' + data.taName + '\n';
       text += '我的昵称：' + data.myName + '\n\n';
       text += '=== 字卡 ===\n';
-      data.cards.forEach(c => text += c + '\n');
+      data.cards.forEach(c => text += (c.content || c) + '\n');
       text += '\n=== 聊天记录 ===\n';
       data.messages.forEach(m => {
         text += (m.sender === 'me' ? data.myName : data.taName) + '：' + m.content + '\n';
@@ -518,7 +537,6 @@
     bindBack();
   }
 
-  // ===== 图片压缩 =====
   function compressImage(file, maxSize, callback) {
     const reader = new FileReader();
     reader.onload = (e) => {
@@ -541,11 +559,9 @@
     reader.readAsDataURL(file);
   }
 
-  // ===== 打开 / 关闭 =====
   openBtn.onclick = () => { renderMain(); settingsModal.classList.remove('hidden'); };
   closeBtn.onclick = () => settingsModal.classList.add('hidden');
 
-  // ===== 启动时恢复设置 =====
   window.addEventListener('load', () => {
     applyAll();
     hookNewMessages();
@@ -570,6 +586,10 @@
       s.id = 'userThemeCss';
       s.textContent = JSON.parse(themeCss);
       document.head.appendChild(s);
+    }
+    const savedThemeColor = localStorage.getItem('theme_color');
+    if (savedThemeColor) {
+      applyThemeColor(JSON.parse(savedThemeColor));
     }
   });
 
