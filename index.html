@@ -1,3 +1,4 @@
+
 <!DOCTYPE html>
 <html lang="zh-CN">
 <head>
@@ -27,27 +28,29 @@
 <!-- 聊天界面 -->
 <div id="app">
   <header class="chat-header">
-  <div class="header-left"></div>
-  <span id="taName">TA</span>
-  <div class="header-right">
-    <button class="header-btn" id="openMenuBtn" title="菜单">
-      <svg viewBox="0 0 24 24" fill="none" stroke="#666" stroke-width="2.5" stroke-linecap="round">
-        <circle cx="5" cy="12" r="1.5" fill="#666" stroke="none"></circle>
-        <circle cx="12" cy="12" r="1.5" fill="#666" stroke="none"></circle>
-        <circle cx="19" cy="12" r="1.5" fill="#666" stroke="none"></circle>
-      </svg>
-    </button>
-  </div>
-          </header>
-  <div id="menuPopup">
-  <div class="menu-item" id="menuSettings">设置</div>
-  <div class="menu-item" id="menuCards">字卡库</div>
-  </div>
+    <div class="header-left"></div>
+    <span id="taName">TA</span>
+    <div class="header-right">
+      <button class="header-btn" id="openMenuBtn" title="菜单">
+        <svg viewBox="0 0 24 24" fill="none" stroke="#666" stroke-width="2.5" stroke-linecap="round">
+          <circle cx="5" cy="12" r="1.5" fill="#666" stroke="none"></circle>
+          <circle cx="12" cy="12" r="1.5" fill="#666" stroke="none"></circle>
+          <circle cx="19" cy="12" r="1.5" fill="#666" stroke="none"></circle>
+        </svg>
+      </button>
+    </div>
+  </header>
   <div id="messages"></div>
   <footer class="chat-footer">
     <input id="input" type="text" placeholder="输入消息…" autocomplete="off">
     <button id="send">发送</button>
   </footer>
+</div>
+
+<!-- 顶部菜单 -->
+<div id="menuPopup">
+  <div class="menu-item" id="menuSettings">设置</div>
+  <div class="menu-item" id="menuCards">字卡库</div>
 </div>
 
 <!-- 字卡弹窗 -->
@@ -100,7 +103,6 @@
 </div>
 
 <script>
-/* ===== 本地存储 ===== */
 const MIN_DELAY = 900;
 const MAX_DELAY = 2200;
 
@@ -121,7 +123,6 @@ function save(key, val) {
 let messages = load('our_messages', []);
 let cards = load('our_cards', []);
 
-// 加载页 2 秒
 setTimeout(() => {
   const loading = document.getElementById('loading');
   if (loading) {
@@ -151,16 +152,22 @@ function addMessage(sender, content, store = true) {
   }
 }
 
+/* 正在输入：改顶部标题 */
 function showTyping() {
-  const row = document.createElement('div');
-  row.className = 'msg-row ta';
-  row.id = 'typing';
-  const ta = load('ta_name', 'TA');
-  row.innerHTML = '<div class="avatar">' + ta.charAt(0) + '</div><div class="bubble">对方正在输入中<span class="typing"><span></span><span></span><span></span></span></div>';
-  messagesEl.appendChild(row);
-  messagesEl.scrollTop = messagesEl.scrollHeight;
+  const taNameEl = document.getElementById('taName');
+  if (taNameEl && !taNameEl.dataset.typing) {
+    taNameEl.dataset.original = taNameEl.textContent;
+    taNameEl.dataset.typing = '1';
+    taNameEl.textContent = '对方正在输入中…';
+  }
 }
-function hideTyping() { const t = document.getElementById('typing'); if (t) t.remove(); }
+function hideTyping() {
+  const taNameEl = document.getElementById('taName');
+  if (taNameEl && taNameEl.dataset.typing) {
+    taNameEl.textContent = taNameEl.dataset.original || load('ta_name', 'TA');
+    delete taNameEl.dataset.typing;
+  }
+}
 
 async function sendMessage() {
   const text = inputEl.value.trim();
@@ -176,7 +183,6 @@ async function sendMessage() {
   const emojiProb = load('emoji_prob', 10);
   const stickerProb = load('sticker_prob', 20);
 
-  // 立刻显示"对方正在输入中"
   showTyping();
 
   const firstDelay = (Math.min(dMin, dMax) + Math.random() * Math.abs(dMax - dMin)) * 1000;
@@ -195,7 +201,6 @@ async function sendMessage() {
       showTyping();
       await new Promise(r => setTimeout(r, 400));
     }
-
     let reply;
     const roll = Math.random() * 100;
     if (emojiCards.length > 0 && roll < emojiProb) {
@@ -207,14 +212,13 @@ async function sendMessage() {
     } else {
       reply = '（字卡库还是空的，点右上角添加一些吧）';
     }
-
     hideTyping();
     addMessage('ta', reply);
   }
 
   hideTyping();
   sendEl.disabled = false;
-    }
+}
 sendEl.addEventListener('click', sendMessage);
 inputEl.addEventListener('keydown', e => { if (e.key === 'Enter') sendMessage(); });
 
@@ -222,7 +226,6 @@ messages.forEach(m => addMessage(m.sender, m.content, false));
 
 /* ===== 字卡系统 ===== */
 const cardModal = document.getElementById('cardModal');
-document.getElementById('openCardBtn').onclick = () => { cardModal.classList.remove('hidden'); loadCards(); };
 document.getElementById('closeCardBtn').onclick = () => cardModal.classList.add('hidden');
 
 let currentCat = 'all';
@@ -250,7 +253,7 @@ function loadCards() {
   if (!list || !catsBox) return;
 
   const cats = new Set();
-  cards.forEach(c => { if (c.type === 'main' || !c.type) { if (c.category) cats.add(c.category); } });
+  cards.forEach(c => { if ((c.type === 'main' || !c.type) && c.category) cats.add(c.category); });
 
   catsBox.innerHTML = '';
   const allCat = document.createElement('div');
@@ -413,13 +416,40 @@ document.addEventListener('dblclick', function(e) {
   messagesEl.scrollTop = messagesEl.scrollHeight;
 });
 
-/* ===== 设置面板打开 ===== */
-const settingsModal = document.getElementById('settingsModal');
-document.getElementById('openSettingsBtn').onclick = () => {
-  settingsModal.classList.remove('hidden');
-};
+/* ===== 顶部菜单 ===== */
+(function() {
+  const menuPopup = document.getElementById('menuPopup');
+  const openMenuBtn = document.getElementById('openMenuBtn');
+  if (openMenuBtn && menuPopup) {
+    openMenuBtn.addEventListener('click', (e) => {
+      e.stopPropagation();
+      menuPopup.classList.toggle('show');
+    });
+    document.addEventListener('click', () => {
+      menuPopup.classList.remove('show');
+    });
+    menuPopup.addEventListener('click', (e) => e.stopPropagation());
+  }
+  const menuSettings = document.getElementById('menuSettings');
+  if (menuSettings) {
+    menuSettings.onclick = () => {
+      if (menuPopup) menuPopup.classList.remove('show');
+      const sm = document.getElementById('settingsModal');
+      if (sm) sm.classList.remove('hidden');
+    };
+  }
+  const menuCards = document.getElementById('menuCards');
+  if (menuCards) {
+    menuCards.onclick = () => {
+      if (menuPopup) menuPopup.classList.remove('show');
+      const cm = document.getElementById('cardModal');
+      if (cm) cm.classList.remove('hidden');
+      if (typeof loadCards === 'function') loadCards();
+    };
+  }
+})();
 </script>
 
 <script src="settings.js"></script>
 </body>
-  </html>
+      </html>
