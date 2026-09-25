@@ -143,7 +143,7 @@
     if (b) b.onclick = renderMain;
   }
 
-  // ===== 美化 =====
+  /* ===== 美化 ===== */
   function renderBeautify() {
     settingsBody.innerHTML = `
       <div class="sub-head">${backBtn()}美化</div>
@@ -267,7 +267,7 @@
     }
   }
 
-  // ===== 外观 =====
+  /* ===== 外观 ===== */
   function renderAppearance() {
     settingsBody.innerHTML = `
       <div class="sub-head">${backBtn()}外观</div>
@@ -409,7 +409,6 @@
       const toTa = document.getElementById('patToTaInput').value.trim();
       cfg.patToTa = toTa ? [toTa] : ['{我} 拍了拍 {TA}'];
       save('pat_to_ta', cfg.patToTa);
-
       const inputs = document.querySelectorAll('#patToMeList .pat-input');
       const list = [];
       inputs.forEach(inp => {
@@ -438,92 +437,91 @@
     });
   }
 
-  // ===== 聊天 =====
+  /* ===== 聊天 ===== */
   function renderChat() {
-  const replyMin = load('reply_min', 1);
-  const replyMax = load('reply_max', 1);
-  const delayMin = load('delay_min', 5);
-  const delayMax = load('delay_max', 15);
-  const emojiProb = load('emoji_prob', 10);
-  const stickerProb = load('sticker_prob', 20);
+    const replyMin = load('reply_min', 1);
+    const replyMax = load('reply_max', 1);
+    const delayMin = load('delay_min', 5);
+    const delayMax = load('delay_max', 15);
+    const emojiProb = load('emoji_prob', 10);
+    const stickerProb = load('sticker_prob', 20);
 
-  settingsBody.innerHTML = `
-    <div class="sub-head">${backBtn()}聊天</div>
+    settingsBody.innerHTML = `
+      <div class="sub-head">${backBtn()}聊天</div>
 
-    <div class="sec-title">回复条数</div>
-    <div class="input-row">
-      <span class="label">最少</span>
-      <input type="number" id="replyMinInput" value="${replyMin}" min="1" max="10">
-      <span class="label">条</span>
-    </div>
-    <div class="input-row">
-      <span class="label">最多</span>
-      <input type="number" id="replyMaxInput" value="${replyMax}" min="1" max="10">
-      <span class="label">条</span>
-    </div>
+      <div class="sec-title">回复条数</div>
+      <div class="input-row">
+        <span class="label">最少</span>
+        <input type="number" id="replyMinInput" value="${replyMin}" min="1" max="10">
+        <span class="label">条</span>
+      </div>
+      <div class="input-row">
+        <span class="label">最多</span>
+        <input type="number" id="replyMaxInput" value="${replyMax}" min="1" max="10">
+        <span class="label">条</span>
+      </div>
 
-    <div class="sec-title">回复延迟</div>
-    <div class="input-row">
-      <span class="label">最少</span>
-      <input type="number" id="delayMinInput" value="${delayMin}" min="0" max="300">
-      <span class="label">秒</span>
-    </div>
-    <div class="input-row">
-      <span class="label">最多</span>
-      <input type="number" id="delayMaxInput" value="${delayMax}" min="0" max="300">
-      <span class="label">秒</span>
-    </div>
+      <div class="sec-title">回复延迟</div>
+      <div class="input-row">
+        <span class="label">最少</span>
+        <input type="number" id="delayMinInput" value="${delayMin}" min="0" max="300">
+        <span class="label">秒</span>
+      </div>
+      <div class="input-row">
+        <span class="label">最多</span>
+        <input type="number" id="delayMaxInput" value="${delayMax}" min="0" max="300">
+        <span class="label">秒</span>
+      </div>
 
-    <div class="sec-title">额外概率</div>
-    <div class="input-row">
-      <span class="label">颜文字</span>
-      <input type="number" id="emojiProbInput" value="${emojiProb}" min="0" max="100">
-      <span class="label">%</span>
-    </div>
-    <div class="input-row">
-      <span class="label">表情包</span>
-      <input type="number" id="stickerProbInput" value="${stickerProb}" min="0" max="100">
-      <span class="label">%</span>
-    </div>
+      <div class="sec-title">额外概率</div>
+      <div class="input-row">
+        <span class="label">颜文字</span>
+        <input type="number" id="emojiProbInput" value="${emojiProb}" min="0" max="100">
+        <span class="label">%</span>
+      </div>
+      <div class="input-row">
+        <span class="label">表情包</span>
+        <input type="number" id="stickerProbInput" value="${stickerProb}" min="0" max="100">
+        <span class="label">%</span>
+      </div>
 
-    <button class="btn-primary" id="saveChatSettings">保存聊天设置</button>
+      <button class="btn-primary" id="saveChatSettings">保存聊天设置</button>
 
-    <div class="sec-title">清空数据</div>
-    <button class="btn-danger" id="clearMessages">清空聊天记录</button>
-    <button class="btn-danger" id="clearCards">清空所有字卡</button>
-  `;
-  bindBack();
+      <div class="sec-title">清空数据</div>
+      <button class="btn-danger" id="clearMessages">清空聊天记录</button>
+      <button class="btn-danger" id="clearCards">清空所有字卡</button>
+    `;
+    bindBack();
 
-  document.getElementById('saveChatSettings').onclick = () => {
-    const rmin = parseInt(document.getElementById('replyMinInput').value) || 1;
-    const rmax = parseInt(document.getElementById('replyMaxInput').value) || 1;
-    const dmin = parseInt(document.getElementById('delayMinInput').value) || 0;
-    const dmax = parseInt(document.getElementById('delayMaxInput').value) || 0;
-    const ep = parseInt(document.getElementById('emojiProbInput').value) || 0;
-    const sp = parseInt(document.getElementById('stickerProbInput').value) || 0;
+    document.getElementById('saveChatSettings').onclick = () => {
+      const rmin = parseInt(document.getElementById('replyMinInput').value) || 1;
+      const rmax = parseInt(document.getElementById('replyMaxInput').value) || 1;
+      const dmin = parseInt(document.getElementById('delayMinInput').value) || 0;
+      const dmax = parseInt(document.getElementById('delayMaxInput').value) || 0;
+      const ep = parseInt(document.getElementById('emojiProbInput').value) || 0;
+      const sp = parseInt(document.getElementById('stickerProbInput').value) || 0;
+      save('reply_min', Math.min(rmin, rmax));
+      save('reply_max', Math.max(rmin, rmax));
+      save('delay_min', Math.min(dmin, dmax));
+      save('delay_max', Math.max(dmin, dmax));
+      save('emoji_prob', Math.max(0, Math.min(100, ep)));
+      save('sticker_prob', Math.max(0, Math.min(100, sp)));
+      alert('已保存');
+    };
 
-    save('reply_min', Math.min(rmin, rmax));
-    save('reply_max', Math.max(rmin, rmax));
-    save('delay_min', Math.min(dmin, dmax));
-    save('delay_max', Math.max(dmin, dmax));
-    save('emoji_prob', Math.max(0, Math.min(100, ep)));
-    save('sticker_prob', Math.max(0, Math.min(100, sp)));
-    alert('已保存');
-  };
-
-  document.getElementById('clearMessages').onclick = () => {
-    if (confirm('确定清空聊天记录吗？删除后无法恢复。')) {
-      localStorage.removeItem('our_messages');
-      alert('已清空，刷新页面生效');
-    }
-  };
-  document.getElementById('clearCards').onclick = () => {
-    if (confirm('确定清空所有字卡吗？删除后无法恢复。')) {
-      localStorage.removeItem('our_cards');
-      alert('已清空，刷新页面生效');
-    }
-  };
-}
+    document.getElementById('clearMessages').onclick = () => {
+      if (confirm('确定清空聊天记录吗？删除后无法恢复。')) {
+        localStorage.removeItem('our_messages');
+        alert('已清空，刷新页面生效');
+      }
+    };
+    document.getElementById('clearCards').onclick = () => {
+      if (confirm('确定清空所有字卡吗？删除后无法恢复。')) {
+        localStorage.removeItem('our_cards');
+        alert('已清空，刷新页面生效');
+      }
+    };
+  }
 
   function renderMusic() {
     settingsBody.innerHTML = `<div class="sub-head">${backBtn()}音乐</div><p style="color:#999;padding:20px 0;">音乐功能正在开发中…</p>`;
@@ -538,7 +536,7 @@
     bindBack();
   }
 
-  // ===== 备份 =====
+  /* ===== 备份 ===== */
   function renderBackup() {
     settingsBody.innerHTML = `
       <div class="sub-head">${backBtn()}备份</div>
@@ -586,7 +584,7 @@
     };
   }
 
-  // ===== 关于 =====
+  /* ===== 关于 ===== */
   function renderAbout() {
     settingsBody.innerHTML = `
       <div class="sub-head">${backBtn()}关于</div>
