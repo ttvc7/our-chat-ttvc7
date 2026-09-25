@@ -551,18 +551,13 @@ document.addEventListener('dblclick', function(e) {
     const avatar = document.createElement('div');
     avatar.className = 'avatar';
     avatar.textContent = localStorage.getItem('my_name') ? JSON.parse(localStorage.getItem('my_name')) : '我';
-    const bubble = document.createElement('div');
-    bubble.className = 'bubble';
-    bubble.style.padding = '4px';
-    bubble.style.background = 'transparent';
     const img = document.createElement('img');
     img.src = url;
     img.style.maxWidth = '120px';
     img.style.maxHeight = '120px';
     img.style.borderRadius = '8px';
-    bubble.appendChild(img);
     row.appendChild(avatar);
-    row.appendChild(bubble);
+    row.appendChild(img);
     document.getElementById('messages').appendChild(row);
     document.getElementById('messages').scrollTop = document.getElementById('messages').scrollHeight;
 
