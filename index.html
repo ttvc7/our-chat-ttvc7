@@ -346,14 +346,56 @@ async function sendMessage() {
   inputEl.value = '';
   sendEl.disabled = true;
   addMessage('me', text);
-  showTyping();
-  const delay = MIN_DELAY + Math.random() * (MAX_DELAY - MIN_DELAY);
-  await new Promise(r => setTimeout(r, delay));
-  const reply = drawCard();
-  hideTyping();
-  addMessage('ta', reply);
+
+  // 读取聊天设置
+  const rMin = load('reply_min', 1);
+  const rMax = load('reply_max', 1);
+  const dMin = load('delay_min', 5);
+  const dMax = load('delay_max', 15);
+  const emojiProb = load('emoji_prob', 10);
+  const stickerProb = load('sticker_prob', 20);
+
+  // 先等第一段延迟
+  const firstDelay = (Math.min(dMin, dMax) + Math.random() * Math.abs(dMax - dMin)) * 1000;
+  await new Promise(r => setTimeout(r, firstDelay));
+
+  // 决定这次回几条
+  const count = Math.min(rMin, rMax) + Math.floor(Math.random() * (Math.abs(rMax - rMin) + 1));
+
+  // 分离出字卡 / 颜文字 / 表情包
+  const mainCards = cards.filter(c => (c.type || 'main') === 'main');
+  const emojiCards = cards.filter(c => c.type === 'emoji');
+  const stickerCards = cards.filter(c => c.type === 'sticker');
+
+  for (let i = 0; i < count; i++) {
+    if (i > 0) {
+      // 多条回复之间再等一下
+      const gap = 500 + Math.random() * 1500;
+      await new Promise(r => setTimeout(r, gap));
+    }
+
+    showTyping();
+    let reply;
+
+    // 先看是不是要插颜文字 / 表情包
+    const roll = Math.random() * 100;
+    if (emojiCards.length > 0 && roll < emojiProb) {
+      reply = emojiCards[Math.floor(Math.random() * emojiCards.length)].content;
+    } else if (stickerCards.length > 0 && roll < emojiProb + stickerProb) {
+      reply = stickerCards[Math.floor(Math.random() * stickerCards.length)].content;
+    } else if (mainCards.length > 0) {
+      reply = mainCards[Math.floor(Math.random() * mainCards.length)].content;
+    } else {
+      reply = '（字卡库还是空的，点右上角添加一些吧）';
+    }
+
+    await new Promise(r => setTimeout(r, 300 + Math.random() * 700));
+    hideTyping();
+    addMessage('ta', reply);
+  }
+
   sendEl.disabled = false;
-}
+  }
 sendEl.addEventListener('click', sendMessage);
 inputEl.addEventListener('keydown', e => { if (e.key === 'Enter') sendMessage(); });
 
@@ -468,12 +510,54 @@ document.getElementById('addCardBtn').onclick = () => {
     alert('请至少写一行内容');
     return;
   }
-  parsed.forEach(p => cards.push(p));
+  parsed.forEach(p => {
+    cards.push({ content: p.content, category: p.category, type: 'main' });
+  });
   save('our_cards', cards);
   input.value = '';
   loadCards();
 };
 
+document.getElementById('addEmojiBtn').onclick = () => {
+  const input = document.getElementById('emojiInput');
+  const text = input.value.trim();
+  if (!text) return;
+  const lines = text.split('\n').map(l => l.trim()).filter(l => l);
+  lines.forEach(l => {
+    cards.push({ content: l, category: '', type: 'emoji' });
+  });
+  save('our_cards', cards);
+  input.value = '';
+  loadEmojiList();
+};
+
+function loadEmojiList() {
+  const list = document.getElementById('emojiList');
+  if (!list) return;
+  const emojis = cards.map((c, idx) => ({ ...c, _idx: idx })).filter(c => c.type === 'emoji');
+  if (emojis.length === 0) {
+    list.innerHTML = '<div style="color:#999;font-size:13px;text-align:center;padding:20px 0;">还没有颜文字</div>';
+    return;
+  }
+  list.innerHTML = '';
+  emojis.forEach(card => {
+    const div = document.createElement('div');
+    div.className = 'card-item';
+    const s = document.createElement('div');
+    s.textContent = card.content;
+    s.style.flex = '1';
+    const btn = document.createElement('button');
+    btn.textContent = '×';
+    btn.onclick = () => {
+      cards.splice(card._idx, 1);
+      save('our_cards', cards);
+      loadEmojiList();
+    };
+    div.appendChild(s);
+    div.appendChild(btn);
+    list.appendChild(div);
+  });
+  }
 /* 字卡标签切换 */
 document.querySelectorAll('.card-tab').forEach(tab => {
   tab.onclick = () => {
