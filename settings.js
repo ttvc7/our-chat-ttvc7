@@ -483,6 +483,22 @@
         <input type="number" id="stickerProbInput" value="${stickerProb}" min="0" max="100">
         <span class="label">%</span>
       </div>
+      <div class="sec-title">转账反应（TA 收到你转账时）</div>
+<div class="input-row">
+  <span class="label">自动收款</span>
+  <input type="number" id="transRecvInput" value="60" min="0" max="100">
+  <span class="label">%</span>
+</div>
+<div class="input-row">
+  <span class="label">自动退还</span>
+  <input type="number" id="transRefInput" value="30" min="0" max="100">
+  <span class="label">%</span>
+</div>
+<div class="input-row">
+  <span class="label">不理（保持待收款）</span>
+  <input type="number" id="transIgnInput" value="10" min="0" max="100">
+  <span class="label">%</span>
+</div>
 
       <button class="btn-primary" id="saveChatSettings">保存聊天设置</button>
 
