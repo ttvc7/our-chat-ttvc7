@@ -384,6 +384,13 @@ function renderTransferFromHistory(m) {
 
   row.appendChild(avatar);
   row.appendChild(card);
+  card.onclick = () => {
+  if (window.openReceiveModal) {
+    const msgs = JSON.parse(localStorage.getItem('our_messages') || '[]');
+    const idx = msgs.findIndex(x => x.type === 'transfer' && x.t === m.t);
+    if (idx >= 0) window.openReceiveModal(idx);
+  }
+};
   document.getElementById('messages').appendChild(row);
 }
 
