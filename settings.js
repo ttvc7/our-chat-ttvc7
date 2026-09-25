@@ -34,7 +34,7 @@
 
   function applyAll() {
     const taNameEl = document.getElementById('taName');
-    if (taNameEl) taNameEl.textContent = cfg.taName;
+    if (taNameEl && !taNameEl.dataset.typing) taNameEl.textContent = cfg.taName;
 
     document.querySelectorAll('.bubble').forEach(b => {
       b.style.color = cfg.textColor;
@@ -97,7 +97,6 @@
     }
     s.textContent = `
       #send { background: ${color} !important; }
-      #openCardBtn { color: ${color} !important; }
       .card-tab.active { color: ${color} !important; background: ${color}22 !important; }
       .card-cat.active { background: ${color} !important; }
       .back { color: ${color} !important; }
@@ -143,7 +142,7 @@
     if (b) b.onclick = renderMain;
   }
 
-  /* ===== 美化 ===== */
+  /* 美化 */
   function renderBeautify() {
     settingsBody.innerHTML = `
       <div class="sub-head">${backBtn()}美化</div>
@@ -267,7 +266,7 @@
     }
   }
 
-  /* ===== 外观 ===== */
+  /* 外观 */
   function renderAppearance() {
     settingsBody.innerHTML = `
       <div class="sub-head">${backBtn()}外观</div>
@@ -437,7 +436,7 @@
     });
   }
 
-  /* ===== 聊天 ===== */
+  /* 聊天 */
   function renderChat() {
     const replyMin = load('reply_min', 1);
     const replyMax = load('reply_max', 1);
@@ -536,7 +535,6 @@
     bindBack();
   }
 
-  /* ===== 备份 ===== */
   function renderBackup() {
     settingsBody.innerHTML = `
       <div class="sub-head">${backBtn()}备份</div>
@@ -584,7 +582,6 @@
     };
   }
 
-  /* ===== 关于 ===== */
   function renderAbout() {
     settingsBody.innerHTML = `
       <div class="sub-head">${backBtn()}关于</div>
@@ -622,41 +619,13 @@
     reader.readAsDataURL(file);
   }
 
-  openBtn.onclick = () => { renderMain(); settingsModal.classList.remove('hidden'); };
-  closeBtn.onclick = () => settingsModal.classList.add('hidden');
-
   window.addEventListener('load', () => {
     applyAll();
     hookNewMessages();
-    // 顶部菜单
-const menuPopup = document.getElementById('menuPopup');
-const openMenuBtn = document.getElementById('openMenuBtn');
-if (openMenuBtn && menuPopup) {
-  openMenuBtn.onclick = (e) => {
-    e.stopPropagation();
-    menuPopup.classList.toggle('show');
-  };
-  document.addEventListener('click', () => {
-    menuPopup.classList.remove('show');
-  });
-}
-const menuSettings = document.getElementById('menuSettings');
-if (menuSettings) {
-  menuSettings.onclick = () => {
-    if (menuPopup) menuPopup.classList.remove('show');
-    const sm = document.getElementById('settingsModal');
-    if (sm) sm.classList.remove('hidden');
-  };
-}
-const menuCards = document.getElementById('menuCards');
-if (menuCards) {
-  menuCards.onclick = () => {
-    if (menuPopup) menuPopup.classList.remove('show');
-    const cm = document.getElementById('cardModal');
-    if (cm) cm.classList.remove('hidden');
-    if (typeof loadCards === 'function') loadCards();
-  };
-}
+
+    // 打开设置按钮（如果存在的话）
+    if (openBtn) openBtn.onclick = () => { renderMain(); settingsModal.classList.remove('hidden'); };
+    if (closeBtn) closeBtn.onclick = () => settingsModal.classList.add('hidden');
 
     const bubbleCss = localStorage.getItem('bubble_css');
     if (bubbleCss) {
@@ -682,6 +651,20 @@ if (menuCards) {
     const savedThemeColor = localStorage.getItem('theme_color');
     if (savedThemeColor) {
       applyThemeColor(JSON.parse(savedThemeColor));
+    }
+  });
+
+  // 兼容：如果菜单点“设置”打开设置面板，得先渲染主菜单
+  window.addEventListener('load', () => {
+    const menuSettings = document.getElementById('menuSettings');
+    if (menuSettings) {
+      // 菜单逻辑在 index.html 里，这里只保证设置面板打开时能显示主菜单
+      const observer = new MutationObserver(() => {
+        if (!settingsModal.classList.contains('hidden')) {
+          if (!settingsBody.innerHTML.trim()) renderMain();
+        }
+      });
+      observer.observe(settingsModal, { attributes: true, attributeFilter: ['class'] });
     }
   });
 
