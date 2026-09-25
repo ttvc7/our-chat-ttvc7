@@ -689,7 +689,17 @@ document.addEventListener('dblclick', function(e) {
     item.onclick = () => {
       const key = item.dataset.key;
       if (plusMenu) plusMenu.classList.add('hidden');
-      if (key === 'transfer') alert('转账功能开发中…');
+      if (key === 'transfer') {
+  const tm = document.getElementById('transferModal');
+  if (tm) {
+    const tn = document.getElementById('transferName');
+    const ta = document.getElementById('transferAvatar');
+    const tName = load('ta_name', 'TA');
+    if (tn) tn.textContent = tName;
+    if (ta) ta.textContent = tName;
+    tm.classList.remove('hidden');
+  }
+  }
       if (key === 'gift') alert('礼物功能开发中…');
       if (key === 'survey') alert('问卷功能开发中…');
       if (key === 'continue') alert('继续说功能开发中…');
