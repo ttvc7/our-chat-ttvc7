@@ -42,9 +42,31 @@
   </header>
   <div id="messages"></div>
   <footer class="chat-footer">
-    <input id="input" type="text" placeholder="输入消息…" autocomplete="off">
-    <button id="send">发送</button>
-  </footer>
+  <button class="footer-btn" id="voiceBtn" title="语音">
+    <svg viewBox="0 0 24 24" fill="none" stroke="#666" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+      <rect x="3" y="9" width="3" height="6" rx="1.5" fill="#666"></rect>
+      <path d="M9 5 Q9 12 9 19" stroke="#666" fill="none"></path>
+      <path d="M12 3 Q12 12 12 21" stroke="#666" fill="none"></path>
+      <path d="M15 5 Q15 12 15 19" stroke="#666" fill="none"></path>
+      <rect x="18" y="9" width="3" height="6" rx="1.5" fill="#666"></rect>
+    </svg>
+  </button>
+  <input id="input" type="text" placeholder="输入消息…" autocomplete="off">
+  <button class="footer-btn" id="emojiBtn" title="表情">
+    <svg viewBox="0 0 24 24" fill="none" stroke="#666" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+      <circle cx="12" cy="12" r="9"></circle>
+      <circle cx="9" cy="10" r="1" fill="#666"></circle>
+      <circle cx="15" cy="10" r="1" fill="#666"></circle>
+      <path d="M8.5 14.5 Q12 17 15.5 14.5"></path>
+    </svg>
+  </button>
+  <button class="footer-btn" id="plusBtn" title="更多">
+    <svg viewBox="0 0 24 24" fill="none" stroke="#666" stroke-width="2" stroke-linecap="round">
+      <circle cx="12" cy="12" r="9"></circle>
+      <path d="M12 8 V16 M8 12 H16"></path>
+    </svg>
+  </button>
+        </footer>
 </div>
 
 <!-- 顶部菜单 -->
