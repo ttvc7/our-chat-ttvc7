@@ -475,6 +475,147 @@ document.addEventListener('dblclick', function(e) {
     };
   }
 })();
+  /* ===== 表情面板 ===== */
+(function() {
+  const panel = document.getElementById('stickerPanel');
+  const body = document.getElementById('stickerBody');
+  const addBtn = document.getElementById('stickerAddBtn');
+  const upload = document.getElementById('stickerUpload');
+  const emojiBtn = document.getElementById('emojiBtn');
+  let currentTab = 'mine';
+
+  function loadStickers() {
+    try { return JSON.parse(localStorage.getItem('my_stickers') || '[]'); } catch(e) { return []; }
+  }
+  function loadTaStickers() {
+    try { return JSON.parse(localStorage.getItem('ta_stickers') || '[]'); } catch(e) { return []; }
+  }
+  function saveStickers(list) {
+    if (currentTab === 'mine') localStorage.setItem('my_stickers', JSON.stringify(list));
+    else localStorage.setItem('ta_stickers', JSON.stringify(list));
+  }
+
+  function render() {
+    const list = currentTab === 'mine' ? loadStickers() : loadTaStickers();
+    if (list.length === 0) {
+      body.innerHTML = `<div class="sticker-empty">还没有表情哦<br>点右上角"+ 添加"上传图片</div>`;
+      return;
+    }
+    body.innerHTML = '';
+    list.forEach((url, idx) => {
+      const div = document.createElement('div');
+      div.className = 'sticker-item';
+      div.style.backgroundImage = `url(${url})`;
+      const del = document.createElement('button');
+      del.className = 'sticker-del';
+      del.textContent = '×';
+      del.onclick = (e) => {
+        e.stopPropagation();
+        list.splice(idx, 1);
+        saveStickers(list);
+        render();
+      };
+      div.appendChild(del);
+      div.onclick = () => {
+        if (currentTab === 'mine') {
+          sendSticker(url);
+        } else {
+          alert('这是对方的表情，你只能添加/删除哦');
+        }
+      };
+      body.appendChild(div);
+    });
+  }
+
+  function compressImage(file, maxSize, cb) {
+    const reader = new FileReader();
+    reader.onload = (e) => {
+      const img = new Image();
+      img.onload = () => {
+        const canvas = document.createElement('canvas');
+        let w = img.width, h = img.height;
+        if (w > h) { if (w > maxSize) { h = h * maxSize / w; w = maxSize; } }
+        else { if (h > maxSize) { w = w * maxSize / h; h = maxSize; } }
+        canvas.width = w; canvas.height = h;
+        canvas.getContext('2d').drawImage(img, 0, 0, w, h);
+        cb(canvas.toDataURL('image/jpeg', 0.85));
+      };
+      img.src = e.target.result;
+    };
+    reader.readAsDataURL(file);
+  }
+
+  function sendSticker(url) {
+    const row = document.createElement('div');
+    row.className = 'msg-row me';
+    const avatar = document.createElement('div');
+    avatar.className = 'avatar';
+    avatar.textContent = localStorage.getItem('my_name') ? JSON.parse(localStorage.getItem('my_name')) : '我';
+    const bubble = document.createElement('div');
+    bubble.className = 'bubble';
+    bubble.style.padding = '4px';
+    bubble.style.background = 'transparent';
+    const img = document.createElement('img');
+    img.src = url;
+    img.style.maxWidth = '120px';
+    img.style.maxHeight = '120px';
+    img.style.borderRadius = '8px';
+    bubble.appendChild(img);
+    row.appendChild(avatar);
+    row.appendChild(bubble);
+    document.getElementById('messages').appendChild(row);
+    document.getElementById('messages').scrollTop = document.getElementById('messages').scrollHeight;
+
+    const msgs = JSON.parse(localStorage.getItem('our_messages') || '[]');
+    msgs.push({ sender: 'me', content: '[图片]', img: url, t: Date.now() });
+    localStorage.setItem('our_messages', JSON.stringify(msgs));
+  }
+
+  emojiBtn.onclick = () => {
+    if (panel.classList.contains('hidden')) {
+      panel.classList.remove('hidden');
+      render();
+    } else {
+      panel.classList.add('hidden');
+    }
+  };
+
+  addBtn.onclick = () => upload.click();
+
+  upload.onchange = (e) => {
+    const files = Array.from(e.target.files);
+    if (files.length === 0) return;
+    const list = currentTab === 'mine' ? loadStickers() : loadTaStickers();
+    let done = 0;
+    files.forEach(f => {
+      compressImage(f, 300, (url) => {
+        list.push(url);
+        done++;
+        if (done === files.length) {
+          saveStickers(list);
+          render();
+        }
+      });
+    });
+    upload.value = '';
+  };
+
+  document.querySelectorAll('.sticker-tab').forEach(tab => {
+    tab.onclick = () => {
+      document.querySelectorAll('.sticker-tab').forEach(t => t.classList.remove('active'));
+      tab.classList.add('active');
+      currentTab = tab.dataset.tab;
+      render();
+    };
+  });
+
+  // 点击面板外部关闭
+  document.addEventListener('click', (e) => {
+    if (panel.classList.contains('hidden')) return;
+    if (e.target.closest('#stickerPanel') || e.target.closest('#emojiBtn')) return;
+    panel.classList.add('hidden');
+  });
+})();
 </script>
 
 <script src="settings.js"></script>
