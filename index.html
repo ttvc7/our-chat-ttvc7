@@ -67,7 +67,8 @@
     </button>
   </footer>
 </div>
-  <!-- 表情面板 -->
+
+<!-- 表情面板 -->
 <div id="stickerPanel" class="sticker-panel hidden">
   <div class="sticker-head">
     <button class="sticker-tab active" data-tab="mine">我</button>
@@ -76,14 +77,15 @@
   </div>
   <div class="sticker-body" id="stickerBody"></div>
   <input type="file" id="stickerUpload" accept="image/*" multiple style="display:none;">
-                                        </div>
+</div>
 
 <!-- 顶部菜单 -->
 <div id="menuPopup">
   <div class="menu-item" id="menuSettings">设置</div>
   <div class="menu-item" id="menuCards">字卡库</div>
 </div>
-  <!-- 加号功能菜单 -->
+
+<!-- 加号功能菜单 -->
 <div id="plusMenu" class="plus-menu hidden">
   <div class="plus-grid">
     <div class="plus-item" data-key="transfer">
@@ -127,7 +129,8 @@
     </div>
   </div>
 </div>
-  <!-- 转账输入弹窗 -->
+
+<!-- 转账输入弹窗 -->
 <div id="transferModal" class="modal hidden">
   <div class="modal-box">
     <div class="modal-head">
@@ -148,7 +151,8 @@
     </div>
   </div>
 </div>
-  <!-- 收款/退还弹窗 -->
+
+<!-- 收款/退还弹窗 -->
 <div id="receiveModal" class="modal hidden">
   <div class="receive-box">
     <button class="receive-back" id="closeReceiveBtn">←</button>
@@ -180,20 +184,17 @@
         <div class="card-tab active" data-tab="main">主字卡</div>
         <div class="card-tab" data-tab="emoji">Emoji</div>
       </div>
-
       <div id="cardPanelMain">
         <textarea id="cardInput" placeholder="输入字卡内容…&#10;第一行写【分类名】就会自动归类，例如：&#10;【日常】"></textarea>
         <button id="addCardBtn">添加字卡</button>
         <div class="card-cats" id="cardCats"></div>
         <div id="cardList"></div>
       </div>
-
       <div id="cardPanelEmoji" style="display:none;">
         <textarea id="emojiInput" placeholder="输入颜文字，一行一个，例如：&#10;(｡･ω･｡)&#10;(^_^)&#10;>_<"></textarea>
         <button id="addEmojiBtn">添加颜文字</button>
         <div id="emojiList"></div>
       </div>
-
     </div>
   </div>
 </div>
@@ -207,9 +208,8 @@
     </div>
     <div class="modal-body"></div>
   </div>
-</div>
-
-<script>
+            </div>
+            <script>
 const MIN_DELAY = 900;
 const MAX_DELAY = 2200;
 
@@ -258,7 +258,6 @@ function addMessage(sender, content, store = true) {
   }
 }
 
-/* 正在输入：改顶部标题 */
 function showTyping() {
   const taNameEl = document.getElementById('taName');
   if (taNameEl && !taNameEl.dataset.typing) {
@@ -325,22 +324,15 @@ async function sendMessage() {
 }
 inputEl.addEventListener('keydown', e => { if (e.key === 'Enter') sendMessage(); });
 
-messages.forEach(m => {
-  if (m.type === 'transfer') {
-    renderTransferFromHistory(m);
-  } else {
-    addMessage(m.sender, m.content, false);
-  }
-});
-
-function renderTransferFromHistory(m) {
+/* ===== 渲染转账卡片（统一函数） ===== */
+function renderTransferCard(msg, container) {
+  const isMe = msg.sender === 'me';
   const row = document.createElement('div');
-  row.className = 'msg-row ' + (m.sender === 'me' ? 'me' : 'ta');
+  row.className = 'msg-row ' + (isMe ? 'me' : 'ta');
   row.style.maxWidth = '70%';
 
   const avatar = document.createElement('div');
   avatar.className = 'avatar';
-  const isMe = m.sender === 'me';
   const avatarUrl = isMe
     ? (localStorage.getItem('my_avatar') ? JSON.parse(localStorage.getItem('my_avatar')) : '')
     : (localStorage.getItem('ta_avatar') ? JSON.parse(localStorage.getItem('ta_avatar')) : '');
@@ -356,7 +348,7 @@ function renderTransferFromHistory(m) {
 
   const card = document.createElement('div');
   card.className = 'transfer-card';
-  const status = m.status || 'pending';
+  const status = msg.status || 'pending';
   if (status === 'received') card.classList.add('received');
   if (status === 'refunded') card.classList.add('refunded');
 
@@ -373,7 +365,7 @@ function renderTransferFromHistory(m) {
   const info = document.createElement('div');
   info.className = 'transfer-card-info';
   const statusText = status === 'received' ? '已收款' : (status === 'refunded' ? '已退还' : '待收款');
-  info.innerHTML = `<div class="tc-amount">¥${(m.amount || 0).toFixed(2)}</div><div class="tc-status">${statusText}</div>`;
+  info.innerHTML = `<div class="tc-amount">¥${(msg.amount || 0).toFixed(2)}</div><div class="tc-status">${statusText}</div>`;
 
   card.appendChild(icon);
   card.appendChild(info);
@@ -382,17 +374,189 @@ function renderTransferFromHistory(m) {
   label.textContent = '转账';
   card.appendChild(label);
 
+  card.onclick = () => {
+    if (!isMe && status === 'pending' && window.openReceiveModal) {
+      const allMsgs = JSON.parse(localStorage.getItem('our_messages') || '[]');
+      const idx = allMsgs.findIndex(x => x.type === 'transfer' && x.transferId === msg.transferId && x.sender === 'ta');
+      if (idx >= 0) window.openReceiveModal(idx);
+    }
+  };
+
   row.appendChild(avatar);
   row.appendChild(card);
-  card.onclick = () => {
-  if (window.openReceiveModal) {
-    const msgs = JSON.parse(localStorage.getItem('our_messages') || '[]');
-    const idx = msgs.findIndex(x => x.type === 'transfer' && x.t === m.t);
-    if (idx >= 0) window.openReceiveModal(idx);
-  }
-};
-  document.getElementById('messages').appendChild(row);
+  container.appendChild(row);
 }
+
+/* ===== 发转账 ===== */
+(function() {
+  const closeBtn = document.getElementById('closeTransferBtn');
+  const confirmBtn = document.getElementById('confirmTransferBtn');
+  const amountInput = document.getElementById('transferAmount');
+  const noteInput = document.getElementById('transferNote');
+  const modal = document.getElementById('transferModal');
+
+  if (closeBtn) closeBtn.onclick = () => modal.classList.add('hidden');
+
+  if (confirmBtn) confirmBtn.onclick = () => {
+    const amount = parseFloat(amountInput.value);
+    if (!amount || amount <= 0) { alert('请输入有效金额'); return; }
+    const note = noteInput.value.trim();
+    modal.classList.add('hidden');
+    amountInput.value = '';
+    noteInput.value = '';
+    makeTransfer(amount, note);
+  };
+
+  function makeTransfer(amount, note) {
+    const transferId = Date.now() + '_' + Math.random().toString(36).slice(2, 8);
+    const allMsgs = JSON.parse(localStorage.getItem('our_messages') || '[]');
+    allMsgs.push({
+      sender: 'me', type: 'transfer', transferId,
+      amount, note, status: 'pending', t: Date.now()
+    });
+    allMsgs.push({
+      sender: 'ta', type: 'transfer', transferId,
+      amount, note, status: 'pending', t: Date.now() + 1
+    });
+    localStorage.setItem('our_messages', JSON.stringify(allMsgs));
+
+    const empty = document.getElementById('messages');
+    empty.innerHTML = '';
+    allMsgs.forEach(m => {
+      if (m.type === 'transfer') renderTransferCard(m, empty);
+      else if (m.sender) addMessage(m.sender, m.content, false);
+    });
+    empty.scrollTop = empty.scrollHeight;
+
+    // TA 自动反应
+    setTimeout(() => {
+      const recv = load('trans_recv', 60);
+      const ref = load('trans_ref', 30);
+      const ign = load('trans_ign', 10);
+      const total = recv + ref + ign;
+      const r = Math.random() * total;
+      let newStatus = 'pending';
+      if (r < recv) newStatus = 'received';
+      else if (r < recv + ref) newStatus = 'refunded';
+
+      if (newStatus !== 'pending') {
+        const updated = JSON.parse(localStorage.getItem('our_messages') || '[]');
+        updated.forEach(m => {
+          if (m.type === 'transfer' && m.transferId === transferId) {
+            m.status = newStatus;
+          }
+        });
+        localStorage.setItem('our_messages', JSON.stringify(updated));
+
+        const box = document.getElementById('messages');
+        box.innerHTML = '';
+        updated.forEach(m => {
+          if (m.type === 'transfer') renderTransferCard(m, box);
+          else if (m.sender) addMessage(m.sender, m.content, false);
+        });
+        box.scrollTop = box.scrollHeight;
+      }
+    }, 2000 + Math.random() * 3000);
+  }
+})();
+              <script>
+/* ===== 收款/退还弹窗逻辑 ===== */
+(function() {
+  const receiveModal = document.getElementById('receiveModal');
+  const closeReceiveBtn = document.getElementById('closeReceiveBtn');
+  const receiveIcon = document.getElementById('receiveIcon');
+  const receiveTitle = document.getElementById('receiveTitle');
+  const receiveAmount = document.getElementById('receiveAmount');
+  const receiveTime = document.getElementById('receiveTime');
+  const receiveConfirmBtn = document.getElementById('receiveConfirmBtn');
+  const refundLink = document.getElementById('refundLink');
+
+  let currentTransferId = null;
+
+  window.openReceiveModal = function(msgIndex) {
+    const msgs = JSON.parse(localStorage.getItem('our_messages') || '[]');
+    const msg = msgs[msgIndex];
+    if (!msg || msg.type !== 'transfer') return;
+    currentTransferId = msg.transferId;
+
+    if (msg.status === 'pending') {
+      receiveIcon.textContent = '🕐';
+      receiveIcon.className = 'receive-icon blue';
+      receiveTitle.textContent = '请收款';
+      receiveConfirmBtn.textContent = '收款';
+      receiveConfirmBtn.style.background = '#07c160';
+    } else if (msg.status === 'received') {
+      receiveIcon.textContent = '✓';
+      receiveIcon.className = 'receive-icon white';
+      receiveTitle.textContent = '已收款';
+      receiveConfirmBtn.textContent = '完成';
+      receiveConfirmBtn.style.background = '#ccc';
+    } else {
+      receiveIcon.textContent = '↩';
+      receiveIcon.className = 'receive-icon yellow';
+      receiveTitle.textContent = '已退还';
+      receiveConfirmBtn.textContent = '完成';
+      receiveConfirmBtn.style.background = '#ccc';
+    }
+
+    receiveAmount.textContent = '¥' + (msg.amount || 0).toFixed(2);
+    receiveTime.textContent = new Date(msg.t || Date.now()).toLocaleString('zh-CN');
+    receiveModal.classList.remove('hidden');
+  };
+
+  closeReceiveBtn.onclick = () => receiveModal.classList.add('hidden');
+
+  receiveConfirmBtn.onclick = () => {
+    if (!currentTransferId) { receiveModal.classList.add('hidden'); return; }
+    const msgs = JSON.parse(localStorage.getItem('our_messages') || '[]');
+    const msg = msgs.find(m => m.type === 'transfer' && m.transferId === currentTransferId && m.sender === 'ta');
+    if (!msg || msg.status !== 'pending') { receiveModal.classList.add('hidden'); return; }
+
+    msgs.forEach(m => {
+      if (m.type === 'transfer' && m.transferId === currentTransferId) m.status = 'received';
+    });
+    localStorage.setItem('our_messages', JSON.stringify(msgs));
+    receiveModal.classList.add('hidden');
+    refreshAll();
+  };
+
+  refundLink.onclick = () => {
+    if (!currentTransferId) return;
+    const msgs = JSON.parse(localStorage.getItem('our_messages') || '[]');
+    const msg = msgs.find(m => m.type === 'transfer' && m.transferId === currentTransferId && m.sender === 'ta');
+    if (!msg || msg.status !== 'pending') return;
+    msgs.forEach(m => {
+      if (m.type === 'transfer' && m.transferId === currentTransferId) m.status = 'refunded';
+    });
+    localStorage.setItem('our_messages', JSON.stringify(msgs));
+    receiveModal.classList.add('hidden');
+    refreshAll();
+  };
+
+  function refreshAll() {
+    const box = document.getElementById('messages');
+    if (!box) return;
+    box.innerHTML = '';
+    const msgs = JSON.parse(localStorage.getItem('our_messages') || '[]');
+    msgs.forEach(m => {
+      if (m.type === 'transfer') renderTransferCard(m, box);
+      else if (m.sender) addMessage(m.sender, m.content, false);
+    });
+    box.scrollTop = box.scrollHeight;
+  }
+})();
+
+/* ===== 初始加载历史 ===== */
+(function() {
+  const box = document.getElementById('messages');
+  box.innerHTML = '';
+  const msgs = JSON.parse(localStorage.getItem('our_messages') || '[]');
+  msgs.forEach(m => {
+    if (m.type === 'transfer') renderTransferCard(m, box);
+    else if (m.sender) addMessage(m.sender, m.content, false);
+  });
+  box.scrollTop = box.scrollHeight;
+})();
 
 /* ===== 字卡系统 ===== */
 const cardModal = document.getElementById('cardModal');
@@ -544,7 +708,6 @@ document.getElementById('addEmojiBtn').onclick = () => {
   loadEmojiList();
 };
 
-/* 字卡标签切换 */
 document.querySelectorAll('.card-tab').forEach(tab => {
   tab.onclick = () => {
     document.querySelectorAll('.card-tab').forEach(t => t.classList.remove('active'));
@@ -552,13 +715,11 @@ document.querySelectorAll('.card-tab').forEach(tab => {
     const key = tab.dataset.tab;
     document.getElementById('cardPanelMain').style.display = key === 'main' ? '' : 'none';
     document.getElementById('cardPanelEmoji').style.display = key === 'emoji' ? '' : 'none';
-    document.getElementById('cardPanelPat').style.display = key === 'pat' ? '' : 'none';
-    document.getElementById('cardPanelSticker').style.display = key === 'sticker' ? '' : 'none';
     if (key === 'emoji') loadEmojiList();
   };
 });
 
-/* ===== 拍一拍：双击头像 ===== */
+/* ===== 拍一拍 ===== */
 document.addEventListener('dblclick', function(e) {
   const avatar = e.target.closest('.avatar');
   if (!avatar) return;
@@ -576,14 +737,12 @@ document.addEventListener('dblclick', function(e) {
   } else {
     template = patToTa[0];
   }
-
   let text = template.replace(/\{我\}/g, myName).replace(/\{TA\}/g, taName);
-
   const sys = document.createElement('div');
   sys.style.cssText = 'align-self:center;font-size:12px;color:#999;background:rgba(0,0,0,0.04);padding:4px 12px;border-radius:10px;';
   sys.textContent = text;
-  messagesEl.appendChild(sys);
-  messagesEl.scrollTop = messagesEl.scrollHeight;
+  document.getElementById('messages').appendChild(sys);
+  document.getElementById('messages').scrollTop = document.getElementById('messages').scrollHeight;
 });
 
 /* ===== 顶部菜单 ===== */
@@ -595,30 +754,64 @@ document.addEventListener('dblclick', function(e) {
       e.stopPropagation();
       menuPopup.classList.toggle('show');
     });
-    document.addEventListener('click', () => {
-      menuPopup.classList.remove('show');
-    });
+    document.addEventListener('click', () => menuPopup.classList.remove('show'));
     menuPopup.addEventListener('click', (e) => e.stopPropagation());
   }
-  const menuSettings = document.getElementById('menuSettings');
-  if (menuSettings) {
-    menuSettings.onclick = () => {
-      if (menuPopup) menuPopup.classList.remove('show');
-      const sm = document.getElementById('settingsModal');
-      if (sm) sm.classList.remove('hidden');
-    };
-  }
-  const menuCards = document.getElementById('menuCards');
-  if (menuCards) {
-    menuCards.onclick = () => {
-      if (menuPopup) menuPopup.classList.remove('show');
-      const cm = document.getElementById('cardModal');
-      if (cm) cm.classList.remove('hidden');
-      if (typeof loadCards === 'function') loadCards();
-    };
-  }
+  document.getElementById('menuSettings').onclick = () => {
+    menuPopup.classList.remove('show');
+    document.getElementById('settingsModal').classList.remove('hidden');
+  };
+  document.getElementById('menuCards').onclick = () => {
+    menuPopup.classList.remove('show');
+    document.getElementById('cardModal').classList.remove('hidden');
+    if (typeof loadCards === 'function') loadCards();
+  };
 })();
-  /* ===== 表情面板 ===== */
+
+/* ===== 加号菜单 ===== */
+(function() {
+  const plusMenu = document.getElementById('plusMenu');
+  const plusBtn = document.getElementById('plusBtn');
+  if (plusBtn && plusMenu) {
+    plusBtn.addEventListener('click', (e) => {
+      e.stopPropagation();
+      plusMenu.classList.toggle('hidden');
+    });
+    document.addEventListener('click', (e) => {
+      if (e.target.closest('#plusMenu') || e.target.closest('#plusBtn')) return;
+      plusMenu.classList.add('hidden');
+    });
+    plusMenu.addEventListener('click', (e) => e.stopPropagation());
+  }
+  document.querySelectorAll('.plus-item').forEach(item => {
+    item.onclick = () => {
+      const key = item.dataset.key;
+      if (plusMenu) plusMenu.classList.add('hidden');
+      if (key === 'transfer') {
+        const tm = document.getElementById('transferModal');
+        const tn = document.getElementById('transferName');
+        const taEl = document.getElementById('transferAvatar');
+        const tName = load('ta_name', 'TA');
+        const tAvatar = localStorage.getItem('ta_avatar') ? JSON.parse(localStorage.getItem('ta_avatar')) : '';
+        if (tn) tn.textContent = tName;
+        if (taEl) {
+          if (tAvatar) {
+            taEl.style.background = `url(${tAvatar}) center/cover no-repeat`;
+            taEl.textContent = '';
+          } else {
+            taEl.textContent = tName.charAt(0);
+          }
+        }
+        if (tm) tm.classList.remove('hidden');
+      }
+      if (key === 'gift') alert('礼物功能开发中…');
+      if (key === 'survey') alert('问卷功能开发中…');
+      if (key === 'continue') alert('继续说功能开发中…');
+    };
+  });
+})();
+
+/* ===== 表情面板 ===== */
 (function() {
   const panel = document.getElementById('stickerPanel');
   const body = document.getElementById('stickerBody');
@@ -662,6 +855,7 @@ document.addEventListener('dblclick', function(e) {
       div.onclick = () => {
         if (currentTab === 'mine') {
           sendSticker(url);
+          panel.classList.add('hidden');
         } else {
           alert('这是对方的表情，你只能添加/删除哦');
         }
@@ -747,290 +941,14 @@ document.addEventListener('dblclick', function(e) {
     };
   });
 
-  // 点击面板外部关闭
   document.addEventListener('click', (e) => {
     if (panel.classList.contains('hidden')) return;
     if (e.target.closest('#stickerPanel') || e.target.closest('#emojiBtn')) return;
     panel.classList.add('hidden');
   });
 })();
-/* ===== 加号菜单 ===== */
-(function() {
-  const plusMenu = document.getElementById('plusMenu');
-  const plusBtn = document.getElementById('plusBtn');
-
-  if (plusBtn && plusMenu) {
-    plusBtn.addEventListener('click', (e) => {
-      e.stopPropagation();
-      plusMenu.classList.toggle('hidden');
-    });
-    document.addEventListener('click', (e) => {
-      if (e.target.closest('#plusMenu') || e.target.closest('#plusBtn')) return;
-      plusMenu.classList.add('hidden');
-    });
-    plusMenu.addEventListener('click', (e) => e.stopPropagation());
-  }
-
-  document.querySelectorAll('.plus-item').forEach(item => {
-    item.onclick = () => {
-      const key = item.dataset.key;
-      if (plusMenu) plusMenu.classList.add('hidden');
-      if (key === 'transfer') {
-  const tm = document.getElementById('transferModal');
-  if (tm) {
-    const tn = document.getElementById('transferName');
-const taAvatarEl = document.getElementById('transferAvatar');
-const tName = load('ta_name', 'TA');
-const tAvatar = localStorage.getItem('ta_avatar') ? JSON.parse(localStorage.getItem('ta_avatar')) : '';
-if (tn) tn.textContent = tName;
-if (taAvatarEl) {
-  if (tAvatar) {
-    taAvatarEl.style.background = `url(${tAvatar}) center/cover no-repeat`;
-    taAvatarEl.textContent = '';
-  } else {
-    taAvatarEl.textContent = tName.charAt(0);
-  }
-  }
-    tm.classList.remove('hidden');
-  }
-  }
-      if (key === 'gift') alert('礼物功能开发中…');
-      if (key === 'survey') alert('问卷功能开发中…');
-      if (key === 'continue') alert('继续说功能开发中…');
-    };
-  });
-})();
-/* ===== 转账卡片（待收款版） ===== */
-(function() {
-  const closeBtn = document.getElementById('closeTransferBtn');
-  const confirmBtn = document.getElementById('confirmTransferBtn');
-  const amountInput = document.getElementById('transferAmount');
-  const noteInput = document.getElementById('transferNote');
-  const modal = document.getElementById('transferModal');
-
-  if (closeBtn) closeBtn.onclick = () => modal.classList.add('hidden');
-
-  if (confirmBtn) confirmBtn.onclick = () => {
-    const amount = parseFloat(amountInput.value);
-    if (!amount || amount <= 0) { alert('请输入有效金额'); return; }
-    const note = noteInput.value.trim();
-    modal.classList.add('hidden');
-    amountInput.value = '';
-    noteInput.value = '';
-    makeTransferCard(amount, note);
-  };
-
-  function makeTransferCard(amount, note) {
-  const row = document.createElement('div');
-  row.className = 'msg-row me';
-  row.style.maxWidth = '70%';
-
-  const avatar = document.createElement('div');
-  avatar.className = 'avatar';
-  const myAvatar = localStorage.getItem('my_avatar') ? JSON.parse(localStorage.getItem('my_avatar')) : '';
-  if (myAvatar) {
-    avatar.style.background = `url(${myAvatar}) center/cover no-repeat`;
-    avatar.textContent = '';
-  } else {
-    avatar.textContent = JSON.parse(localStorage.getItem('my_name') || '"我"');
-  }
-
-  const card = document.createElement('div');
-  card.className = 'transfer-card';
-
-  const icon = document.createElement('div');
-  icon.className = 'transfer-card-icon';
-  icon.innerHTML = '<svg viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 8 L14 8 M10 4 L14 8 L10 12"></path><path d="M20 16 L10 16 M14 12 L10 16 L14 20"></path></svg>';
-
-  const info = document.createElement('div');
-  info.className = 'transfer-card-info';
-  info.innerHTML = `<div class="tc-amount">¥${amount.toFixed(2)}</div><div class="tc-status">待收款</div>`;
-
-  card.appendChild(icon);
-  card.appendChild(info);
-
-  const label = document.createElement('div');
-  label.className = 'transfer-card-label';
-  label.textContent = '转账';
-  card.appendChild(label);
-
-  row.appendChild(avatar);
-  row.appendChild(card);
-    card.onclick = () => {
-  if (window.openReceiveModal) {
-    const msgs = JSON.parse(localStorage.getItem('our_messages') || '[]');
-    window.openReceiveModal(msgs.length - 1);
-  }
-};
-  document.getElementById('messages').appendChild(row);
-  document.getElementById('messages').scrollTop = document.getElementById('messages').scrollHeight;
-
-  const msgs = JSON.parse(localStorage.getItem('our_messages') || '[]');
-  const transferId = Date.now() + '_' + Math.random().toString(36).slice(2, 8);
-msgs.push({
-  sender: 'me',
-  type: 'transfer',
-  transferId,
-  amount,
-  note,
-  status: 'pending',
-  t: Date.now()
-});
-msgs.push({
-  sender: 'ta',
-  type: 'transfer',
-  transferId,
-  amount,
-  note,
-  status: 'pending',
-  t: Date.now() + 1
-});
-    localStorage.setItem('our_messages', JSON.stringify(allMsgs));
-    // 画 TA 那边（左）
-const taRow = document.createElement('div');
-taRow.className = 'msg-row ta';
-taRow.style.maxWidth = '70%';
-const taAvatar = document.createElement('div');
-taAvatar.className = 'avatar';
-const taAvatarUrl = localStorage.getItem('ta_avatar') ? JSON.parse(localStorage.getItem('ta_avatar')) : '';
-if (taAvatarUrl) {
-  taAvatar.style.background = `url(${taAvatarUrl}) center/cover no-repeat`;
-  taAvatar.textContent = '';
-} else {
-  const taName = load('ta_name', 'TA');
-  taAvatar.textContent = taName.charAt(0);
-}
-const taCard = document.createElement('div');
-taCard.className = 'transfer-card';
-taCard.innerHTML = card.innerHTML;
-taRow.appendChild(taAvatar);
-taRow.appendChild(taCard);
-document.getElementById('messages').appendChild(taRow);
-document.getElementById('messages').scrollTop = document.getElementById('messages').scrollHeight;
-    // TA 自动反应
-setTimeout(() => {
-  const recv = load('trans_recv', 60);
-  const ref = load('trans_ref', 30);
-  const ign = load('trans_ign', 10);
-  const total = recv + ref + ign;
-  const r = Math.random() * total;
-  let newStatus = 'pending';
-  if (r < recv) newStatus = 'received';
-  else if (r < recv + ref) newStatus = 'refunded';
-
-  if (newStatus !== 'pending') {
-    const allMsgs = JSON.parse(localStorage.getItem('our_messages') || '[]');
-    for (let i = allMsgs.length - 1; i >= 0; i--) {
-      if (allMsgs[i].type === 'transfer' && allMsgs[i].status === 'pending') {
-        allMsgs[i].status = newStatus;
-        break;
-      }
-    }
-    localStorage.setItem('our_messages', JSON.stringify(allMsgs));
-
-    const messagesEl = document.getElementById('messages');
-    messagesEl.innerHTML = '';
-    allMsgs.forEach(m => {
-      if (m.type === 'transfer') renderTransferFromHistory(m);
-      else if (m.sender) addMessage(m.sender, m.content, false);
-    });
-    messagesEl.scrollTop = messagesEl.scrollHeight;
-  }
-}, 2000 + Math.random() * 3000);
-
-    localStorage.setItem('our_messages', JSON.stringify(msgs));
-}
-})();
-  /* ===== 收款/退还全屏弹窗逻辑 ===== */
-(function() {
-  const receiveModal = document.getElementById('receiveModal');
-  const closeReceiveBtn = document.getElementById('closeReceiveBtn');
-  const receiveIcon = document.getElementById('receiveIcon');
-  const receiveTitle = document.getElementById('receiveTitle');
-  const receiveAmount = document.getElementById('receiveAmount');
-  const receiveTime = document.getElementById('receiveTime');
-  const receiveConfirmBtn = document.getElementById('receiveConfirmBtn');
-  const refundLink = document.getElementById('refundLink');
-
-  let currentMsgIndex = -1;
-
-  window.openReceiveModal = function(msgIndex) {
-    const msgs = JSON.parse(localStorage.getItem('our_messages') || '[]');
-    const msg = msgs[msgIndex];
-    if (!msg || msg.type !== 'transfer') return;
-    currentMsgIndex = msgIndex;
-
-    if (msg.status === 'pending') {
-      receiveIcon.textContent = '🕐';
-      receiveIcon.className = 'receive-icon blue';
-      receiveTitle.textContent = '请收款';
-      receiveConfirmBtn.textContent = '收款';
-      receiveConfirmBtn.style.background = '#07c160';
-    } else if (msg.status === 'received') {
-      receiveIcon.textContent = '✓';
-      receiveIcon.className = 'receive-icon white';
-      receiveTitle.textContent = '已收款';
-      receiveConfirmBtn.textContent = '完成';
-      receiveConfirmBtn.style.background = '#ccc';
-    } else {
-      receiveIcon.textContent = '↩';
-      receiveIcon.className = 'receive-icon yellow';
-      receiveTitle.textContent = '已退还';
-      receiveConfirmBtn.textContent = '完成';
-      receiveConfirmBtn.style.background = '#ccc';
-    }
-
-    receiveAmount.textContent = '¥' + (msg.amount || 0).toFixed(2);
-    receiveTime.textContent = new Date(msg.t || Date.now()).toLocaleString('zh-CN');
-    receiveModal.classList.remove('hidden');
-  };
-
-  closeReceiveBtn.onclick = () => receiveModal.classList.add('hidden');
-
-  receiveConfirmBtn.onclick = () => {
-    if (currentMsgIndex < 0) return;
-    const msgs = JSON.parse(localStorage.getItem('our_messages') || '[]');
-    const msg = msgs[currentMsgIndex];
-    if (!msg) return;
-
-    if (msg.status === 'pending') {
-      msg.status = 'received';
-      localStorage.setItem('our_messages', JSON.stringify(msgs));
-      receiveModal.classList.add('hidden');
-      refreshMessages();
-    } else {
-      receiveModal.classList.add('hidden');
-    }
-  };
-
-  refundLink.onclick = () => {
-    if (currentMsgIndex < 0) return;
-    const msgs = JSON.parse(localStorage.getItem('our_messages') || '[]');
-    const msg = msgs[currentMsgIndex];
-    if (!msg || msg.status !== 'pending') return;
-    msg.status = 'refunded';
-    localStorage.setItem('our_messages', JSON.stringify(msgs));
-    receiveModal.classList.add('hidden');
-    refreshMessages();
-  };
-
-  function refreshMessages() {
-    const messagesEl = document.getElementById('messages');
-    if (!messagesEl) return;
-    messagesEl.innerHTML = '';
-    const msgs = JSON.parse(localStorage.getItem('our_messages') || '[]');
-    msgs.forEach(m => {
-      if (m.type === 'transfer') {
-        renderTransferFromHistory(m);
-      } else if (m.sender) {
-        addMessage(m.sender, m.content, false);
-      }
-    });
-    messagesEl.scrollTop = messagesEl.scrollHeight;
-  }
-})();
 </script>
 
 <script src="settings.js"></script>
 </body>
-        </html>
+</html>
