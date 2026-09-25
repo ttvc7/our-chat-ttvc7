@@ -706,6 +706,66 @@ document.addEventListener('dblclick', function(e) {
     };
   });
 })();
+/* ===== 转账卡片（待收款版） ===== */
+(function() {
+  const closeBtn = document.getElementById('closeTransferBtn');
+  const confirmBtn = document.getElementById('confirmTransferBtn');
+  const amountInput = document.getElementById('transferAmount');
+  const noteInput = document.getElementById('transferNote');
+  const modal = document.getElementById('transferModal');
+
+  if (closeBtn) closeBtn.onclick = () => modal.classList.add('hidden');
+
+  if (confirmBtn) confirmBtn.onclick = () => {
+    const amount = parseFloat(amountInput.value);
+    if (!amount || amount <= 0) { alert('请输入有效金额'); return; }
+    const note = noteInput.value.trim();
+    modal.classList.add('hidden');
+    amountInput.value = '';
+    noteInput.value = '';
+    makeTransferCard(amount, note);
+  };
+
+  function makeTransferCard(amount, note) {
+    const row = document.createElement('div');
+    row.className = 'msg-row me';
+    row.style.maxWidth = '70%';
+
+    const avatar = document.createElement('div');
+    avatar.className = 'avatar';
+    avatar.textContent = JSON.parse(localStorage.getItem('my_name') || '"我"');
+
+    const card = document.createElement('div');
+    card.className = 'transfer-card';
+
+    const icon = document.createElement('div');
+    icon.className = 'transfer-card-icon';
+    icon.innerHTML = '<svg viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><path d="M8 12 L11 15 L16 9"/></svg>';
+    icon.querySelector('svg').setAttribute('stroke', '#fff');
+
+    const info = document.createElement('div');
+    info.className = 'transfer-card-info';
+    info.innerHTML = `<div class="tc-amount">¥${amount.toFixed(2)}</div><div class="tc-status">待收款</div>`;
+
+    card.appendChild(icon);
+    card.appendChild(info);
+
+    const label = document.createElement('div');
+    label.className = 'transfer-card-label';
+    label.textContent = '转账';
+
+    card.appendChild(label);
+
+    row.appendChild(avatar);
+    row.appendChild(card);
+    document.getElementById('messages').appendChild(row);
+    document.getElementById('messages').scrollTop = document.getElementById('messages').scrollHeight;
+
+    const msgs = JSON.parse(localStorage.getItem('our_messages') || '[]');
+    msgs.push({ sender: 'me', type: 'transfer', amount, note, status: 'pending', t: Date.now() });
+    localStorage.setItem('our_messages', JSON.stringify(msgs));
+  }
+})();
 </script>
 
 <script src="settings.js"></script>
