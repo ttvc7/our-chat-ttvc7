@@ -866,7 +866,25 @@ if (taAvatarEl) {
   document.getElementById('messages').scrollTop = document.getElementById('messages').scrollHeight;
 
   const msgs = JSON.parse(localStorage.getItem('our_messages') || '[]');
-  msgs.push({ sender: 'me', type: 'transfer', amount, note, status: 'pending', t: Date.now() });
+  const transferId = Date.now() + '_' + Math.random().toString(36).slice(2, 8);
+msgs.push({
+  sender: 'me',
+  type: 'transfer',
+  transferId,
+  amount,
+  note,
+  status: 'pending',
+  t: Date.now()
+});
+msgs.push({
+  sender: 'ta',
+  type: 'transfer',
+  transferId,
+  amount,
+  note,
+  status: 'pending',
+  t: Date.now() + 1
+});
     localStorage.setItem('our_messages', JSON.stringify(allMsgs));
     // TA 自动反应
 setTimeout(() => {
