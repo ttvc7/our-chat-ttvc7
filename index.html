@@ -171,6 +171,9 @@ async function sendMessage() {
   const emojiProb = load('emoji_prob', 10);
   const stickerProb = load('sticker_prob', 20);
 
+  // 立刻显示"对方正在输入中"
+  showTyping();
+
   const firstDelay = (Math.min(dMin, dMax) + Math.random() * Math.abs(dMax - dMin)) * 1000;
   await new Promise(r => setTimeout(r, firstDelay));
 
@@ -184,8 +187,10 @@ async function sendMessage() {
     if (i > 0) {
       const gap = 500 + Math.random() * 1500;
       await new Promise(r => setTimeout(r, gap));
+      showTyping();
+      await new Promise(r => setTimeout(r, 400));
     }
-    showTyping();
+
     let reply;
     const roll = Math.random() * 100;
     if (emojiCards.length > 0 && roll < emojiProb) {
@@ -197,13 +202,14 @@ async function sendMessage() {
     } else {
       reply = '（字卡库还是空的，点右上角添加一些吧）';
     }
-    await new Promise(r => setTimeout(r, 300 + Math.random() * 700));
+
     hideTyping();
     addMessage('ta', reply);
   }
 
+  hideTyping();
   sendEl.disabled = false;
-}
+    }
 sendEl.addEventListener('click', sendMessage);
 inputEl.addEventListener('keydown', e => { if (e.key === 'Enter') sendMessage(); });
 
