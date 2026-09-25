@@ -628,6 +628,35 @@
   window.addEventListener('load', () => {
     applyAll();
     hookNewMessages();
+    // 顶部菜单
+const menuPopup = document.getElementById('menuPopup');
+const openMenuBtn = document.getElementById('openMenuBtn');
+if (openMenuBtn && menuPopup) {
+  openMenuBtn.onclick = (e) => {
+    e.stopPropagation();
+    menuPopup.classList.toggle('show');
+  };
+  document.addEventListener('click', () => {
+    menuPopup.classList.remove('show');
+  });
+}
+const menuSettings = document.getElementById('menuSettings');
+if (menuSettings) {
+  menuSettings.onclick = () => {
+    if (menuPopup) menuPopup.classList.remove('show');
+    const sm = document.getElementById('settingsModal');
+    if (sm) sm.classList.remove('hidden');
+  };
+}
+const menuCards = document.getElementById('menuCards');
+if (menuCards) {
+  menuCards.onclick = () => {
+    if (menuPopup) menuPopup.classList.remove('show');
+    const cm = document.getElementById('cardModal');
+    if (cm) cm.classList.remove('hidden');
+    if (typeof loadCards === 'function') loadCards();
+  };
+}
 
     const bubbleCss = localStorage.getItem('bubble_css');
     if (bubbleCss) {
