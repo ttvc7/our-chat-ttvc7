@@ -521,6 +521,12 @@
       save('delay_max', Math.max(dmin, dmax));
       save('emoji_prob', Math.max(0, Math.min(100, ep)));
       save('sticker_prob', Math.max(0, Math.min(100, sp)));
+      const tr = parseInt(document.getElementById('transRecvInput').value) || 0;
+const tf = parseInt(document.getElementById('transRefInput').value) || 0;
+const ti = parseInt(document.getElementById('transIgnInput').value) || 0;
+save('trans_recv', Math.max(0, Math.min(100, tr)));
+save('trans_ref', Math.max(0, Math.min(100, tf)));
+save('trans_ign', Math.max(0, Math.min(100, ti)));
       alert('已保存');
     };
 
