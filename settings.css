@@ -510,3 +510,61 @@ body {
 .plus-item:active .plus-icon {
   background: #eee;
   }
+/* ===== 转账弹窗 ===== */
+.transfer-target {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 12px 0;
+  border-bottom: 1px solid #eee;
+  margin-bottom: 16px;
+}
+.transfer-avatar {
+  width: 44px;
+  height: 44px;
+  border-radius: 8px;
+  background: #e8a33d;
+  color: #fff;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 18px;
+  font-weight: 600;
+}
+.transfer-name {
+  font-size: 16px;
+  color: #333;
+  font-weight: 600;
+}
+.transfer-input-row {
+  display: flex;
+  align-items: center;
+  border-bottom: 1px solid #eee;
+  padding-bottom: 8px;
+  margin-bottom: 16px;
+}
+.transfer-yen {
+  font-size: 32px;
+  color: #333;
+  font-weight: 600;
+  margin-right: 8px;
+}
+#transferAmount {
+  flex: 1;
+  border: none;
+  outline: none;
+  font-size: 32px;
+  color: #333;
+  background: transparent;
+}
+.transfer-note {
+  width: 100%;
+  border: none;
+  border-bottom: 1px solid #eee;
+  padding: 8px 0;
+  font-size: 14px;
+  color: #666;
+  outline: none;
+  margin-bottom: 20px;
+  box-sizing: border-box;
+  }
