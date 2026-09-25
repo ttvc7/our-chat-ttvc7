@@ -886,6 +886,27 @@ msgs.push({
   t: Date.now() + 1
 });
     localStorage.setItem('our_messages', JSON.stringify(allMsgs));
+    // 画 TA 那边（左）
+const taRow = document.createElement('div');
+taRow.className = 'msg-row ta';
+taRow.style.maxWidth = '70%';
+const taAvatar = document.createElement('div');
+taAvatar.className = 'avatar';
+const taAvatarUrl = localStorage.getItem('ta_avatar') ? JSON.parse(localStorage.getItem('ta_avatar')) : '';
+if (taAvatarUrl) {
+  taAvatar.style.background = `url(${taAvatarUrl}) center/cover no-repeat`;
+  taAvatar.textContent = '';
+} else {
+  const taName = load('ta_name', 'TA');
+  taAvatar.textContent = taName.charAt(0);
+}
+const taCard = document.createElement('div');
+taCard.className = 'transfer-card';
+taCard.innerHTML = card.innerHTML;
+taRow.appendChild(taAvatar);
+taRow.appendChild(taCard);
+document.getElementById('messages').appendChild(taRow);
+document.getElementById('messages').scrollTop = document.getElementById('messages').scrollHeight;
     // TA 自动反应
 setTimeout(() => {
   const recv = load('trans_recv', 60);
