@@ -71,28 +71,16 @@ body {
   background: #f5f5f5; display: flex; flex-direction: column; overflow: hidden;
 }
 .chat-header {
-  height: 56px;
-  background: #f7f7f7;
+  height: 56px; background: #f7f7f7;
   border-bottom: 1px solid #e0e0e0;
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  padding: 0 16px;
-  flex-shrink: 0;
-  position: relative;
+  display: flex; align-items: center; justify-content: space-between;
+  padding: 0 16px; flex-shrink: 0; position: relative;
 }
 .chat-header #taName {
-  position: absolute;
-  left: 50%;
-  transform: translateX(-50%);
-  font-size: 17px;
-  font-weight: 600;
-  color: #111;
-  max-width: 60%;
-  text-align: center;
-  white-space: nowrap;
-  overflow: hidden;
-  text-overflow: ellipsis;
+  position: absolute; left: 50%; transform: translateX(-50%);
+  font-size: 17px; font-weight: 600; color: #111;
+  max-width: 60%; text-align: center;
+  white-space: nowrap; overflow: hidden; text-overflow: ellipsis;
 }
 .header-left { width: 24px; height: 24px; }
 .header-right { display: flex; align-items: center; gap: 14px; }
@@ -115,8 +103,8 @@ body {
   width: 38px; height: 38px; border-radius: 6px; flex-shrink: 0;
   display: flex; align-items: center; justify-content: center;
   font-size: 15px; font-weight: 600; color: #fff;
+  background: #576b95 center/cover no-repeat;
 }
-.msg-row.me .avatar { background: #576b95; }
 .msg-row.ta .avatar { background: #e8a33d; }
 .bubble {
   padding: 10px 14px; border-radius: 8px; font-size: 15px; line-height: 1.5;
@@ -124,67 +112,76 @@ body {
 }
 .msg-row.me .bubble { background: #95ec69; color: #111; }
 .msg-row.ta .bubble { background: #fff; color: #111; }
+
+/* 引用块 */
+.quote-block {
+  display: block;
+  padding: 6px 10px;
+  background: rgba(0,0,0,0.05);
+  border-left: 3px solid #ccc;
+  border-radius: 4px;
+  font-size: 12px;
+  color: #888;
+  margin-bottom: 6px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
 .typing { display: inline-flex; gap: 4px; padding: 4px 0; }
 .typing span { width: 6px; height: 6px; border-radius: 50%; background: #999; animation: blink 1.2s infinite; }
 .typing span:nth-child(2) { animation-delay: 0.2s; }
 .typing span:nth-child(3) { animation-delay: 0.4s; }
 @keyframes blink { 0%,60%,100% { opacity: .3 } 30% { opacity: 1 } }
 .chat-footer {
-  display: flex;
-  align-items: center;
-  padding: 8px 10px;
-  background: #f7f7f7;
-  border-top: 1px solid #e0e0e0;
-  gap: 6px;
-  flex-shrink: 0;
+  display: flex; align-items: center; padding: 8px 10px;
+  background: #f7f7f7; border-top: 1px solid #e0e0e0;
+  gap: 6px; flex-shrink: 0;
   padding-bottom: calc(8px + env(safe-area-inset-bottom, 0px));
 }
 .footer-btn {
-  background: none;
-  border: none;
-  padding: 4px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  cursor: pointer;
-  flex-shrink: 0;
+  background: none; border: none; padding: 4px;
+  display: flex; align-items: center; justify-content: center;
+  cursor: pointer; flex-shrink: 0;
 }
-.footer-btn svg {
-  width: 26px;
-  height: 26px;
-}
+.footer-btn svg { width: 26px; height: 26px; }
 #input {
-  flex: 1;
-  border: none;
-  border-radius: 8px;
-  padding: 10px 14px;
-  font-size: 15px;
-  outline: none;
-  background: #fff;
-  min-width: 0;
+  flex: 1; border: none; border-radius: 8px;
+  padding: 10px 14px; font-size: 15px; outline: none;
+  background: #fff; min-width: 0;
 }
 
 /* ===== 顶部菜单 ===== */
 #menuPopup {
-  position: absolute;
-  top: 56px;
-  right: 12px;
-  background: #fff;
-  border-radius: 10px;
+  position: absolute; top: 56px; right: 12px;
+  background: #fff; border-radius: 10px;
   box-shadow: 0 4px 16px rgba(0,0,0,0.15);
-  padding: 6px 0;
-  min-width: 130px;
-  z-index: 50;
+  padding: 6px 0; min-width: 130px; z-index: 50;
   display: none;
 }
 #menuPopup.show { display: block; }
 #menuPopup .menu-item {
-  padding: 10px 18px;
-  font-size: 15px;
-  color: #333;
-  cursor: pointer;
+  padding: 10px 18px; font-size: 15px; color: #333; cursor: pointer;
 }
 #menuPopup .menu-item:active { background: #f2f2f2; }
+
+/* ===== 加号菜单 ===== */
+.plus-menu {
+  position: fixed; bottom: 60px; left: 10px; right: 10px;
+  background: #fff; border-radius: 14px; padding: 16px;
+  box-shadow: 0 4px 20px rgba(0,0,0,0.15);
+  z-index: 90; transition: transform 0.25s ease, opacity 0.25s ease;
+}
+.plus-menu.hidden { transform: translateY(20px); opacity: 0; pointer-events: none; }
+.plus-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 12px; }
+.plus-item { display: flex; flex-direction: column; align-items: center; gap: 6px; cursor: pointer; }
+.plus-icon {
+  width: 52px; height: 52px; background: #f7f7f7;
+  border-radius: 12px; display: flex; align-items: center; justify-content: center;
+}
+.plus-icon svg { width: 26px; height: 26px; }
+.plus-label { font-size: 13px; color: #666; }
+.plus-item:active .plus-icon { background: #eee; }
 
 /* ===== 弹窗通用 ===== */
 .modal { position: fixed; inset: 0; background: rgba(0,0,0,.4); display: flex; align-items: center; justify-content: center; z-index: 99; }
@@ -202,6 +199,121 @@ body {
 .modal-head button { background: none; border: none; font-size: 22px; color: #999; }
 .modal-body { padding: 16px; overflow-y: auto; }
 
+/* ===== 转账弹窗 ===== */
+.transfer-target {
+  display: flex; align-items: center; gap: 12px;
+  padding: 12px 0; border-bottom: 1px solid #eee; margin-bottom: 16px;
+}
+.transfer-avatar {
+  width: 44px; height: 44px; border-radius: 8px;
+  background: #e8a33d; color: #fff;
+  display: flex; align-items: center; justify-content: center;
+  font-size: 18px; font-weight: 600;
+  background-size: cover; background-position: center;
+}
+.transfer-name { font-size: 16px; color: #333; font-weight: 600; }
+.transfer-input-row {
+  display: flex; align-items: center;
+  border-bottom: 1px solid #eee;
+  padding-bottom: 8px; margin-bottom: 16px;
+}
+.transfer-yen { font-size: 32px; color: #333; font-weight: 600; margin-right: 8px; }
+#transferAmount {
+  flex: 1; border: none; outline: none;
+  font-size: 32px; color: #333; background: transparent;
+}
+.transfer-note {
+  width: 100%; border: none; border-bottom: 1px solid #eee;
+  padding: 8px 0; font-size: 14px; color: #666;
+  outline: none; margin-bottom: 20px; box-sizing: border-box;
+}
+
+/* ===== 转账卡片 ===== */
+.transfer-card {
+  position: relative;
+  background: #FA9D3B;
+  color: #fff;
+  border-radius: 10px;
+  padding: 14px 16px 22px;
+  min-width: 200px;
+  display: flex; align-items: center; gap: 10px;
+}
+.msg-row.me .transfer-card::after {
+  content: "";
+  position: absolute;
+  top: 12px; right: -8px;
+  width: 0; height: 0;
+  border-top: 8px solid transparent;
+  border-bottom: 8px solid transparent;
+  border-left: 8px solid #FA9D3B;
+}
+.msg-row.ta .transfer-card::after {
+  content: "";
+  position: absolute;
+  top: 12px; left: -8px;
+  width: 0; height: 0;
+  border-top: 8px solid transparent;
+  border-bottom: 8px solid transparent;
+  border-right: 8px solid #FA9D3B;
+}
+.transfer-card.received { background: #FA9D3B; }
+.msg-row.me .transfer-card.received::after { border-left-color: #FA9D3B; }
+.msg-row.ta .transfer-card.received::after { border-right-color: #FA9D3B; }
+.transfer-card.refunded { background: #FAD7A0; }
+.msg-row.me .transfer-card.refunded::after { border-left-color: #FAD7A0; }
+.msg-row.ta .transfer-card.refunded::after { border-right-color: #FAD7A0; }
+
+.transfer-card-icon {
+  width: 38px; height: 38px; border-radius: 50%;
+  border: 2px solid #fff;
+  display: flex; align-items: center; justify-content: center;
+  flex-shrink: 0;
+}
+.transfer-card-icon svg { width: 22px; height: 22px; }
+.transfer-card-info { flex: 1; }
+.tc-amount { font-size: 18px; font-weight: 600; line-height: 1.2; }
+.tc-status { font-size: 13px; opacity: 0.9; margin-top: 2px; }
+.transfer-card-label {
+  position: absolute; bottom: 6px; left: 16px;
+  font-size: 11px; opacity: 0.8;
+}
+
+/* ===== 收款全屏弹窗 ===== */
+#receiveModal {
+  position: fixed; inset: 0; background: #fff; z-index: 200;
+  display: flex; align-items: stretch; justify-content: stretch;
+}
+#receiveModal.hidden { display: none; }
+.receive-box { width: 100%; height: 100%; display: flex; flex-direction: column; position: relative; }
+.receive-back {
+  position: absolute; top: 16px; left: 16px;
+  background: none; border: none; font-size: 24px;
+  color: #333; cursor: pointer; z-index: 10;
+}
+.receive-content {
+  flex: 1; display: flex; flex-direction: column;
+  align-items: center; padding: 100px 30px 40px;
+}
+.receive-icon { font-size: 56px; margin-bottom: 20px; }
+.receive-icon.blue { color: #1E9BFF; }
+.receive-icon.yellow { color: #F5A623; }
+.receive-icon.white { color: #07c160; }
+.receive-title { font-size: 16px; color: #666; margin-bottom: 24px; }
+.receive-amount { font-size: 40px; font-weight: 600; color: #333; margin-bottom: 40px; }
+.receive-line { width: 100%; height: 1px; background: #eee; margin: 8px 0; }
+.receive-time-row {
+  width: 100%; display: flex; justify-content: space-between;
+  font-size: 13px; color: #999; padding: 10px 0;
+}
+.receive-btn {
+  margin-top: 40px; width: 100%; max-width: 280px;
+  padding: 14px; background: #07c160; color: #fff;
+  border: none; border-radius: 8px;
+  font-size: 16px; font-weight: 500; cursor: pointer;
+}
+.receive-tip { margin-top: 20px; font-size: 12px; color: #999; }
+#refundLink { color: #1E9BFF; cursor: pointer; }
+
 /* ===== 设置面板 ===== */
 .settings-grid {
   display: grid; grid-template-columns: repeat(2, 1fr);
@@ -214,7 +326,6 @@ body {
 }
 .settings-item:active { background: #eee; }
 .settings-item .icon { font-size: 22px; display: block; margin-bottom: 6px; }
-
 .sub-head {
   display: flex; align-items: center; gap: 10px;
   margin-bottom: 18px; font-size: 16px; font-weight: 600; color: #333;
@@ -224,7 +335,6 @@ body {
   color: #07c160; cursor: pointer; padding: 4px 8px;
 }
 .sec-title { font-size: 14px; color: #999; margin: 18px 0 10px; }
-
 .opt-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 10px; }
 .opt-card {
   background: #f7f7f7; border-radius: 10px; padding: 16px 8px;
@@ -232,14 +342,12 @@ body {
   cursor: pointer; border: 2px solid transparent;
 }
 .opt-card.active { border-color: #d5c8dd; background: #faf7fc; }
-
 .color-row { display: flex; flex-wrap: wrap; gap: 10px; margin: 10px 0; }
 .color-dot {
   width: 36px; height: 36px; border-radius: 50%;
   cursor: pointer; border: 2px solid transparent;
 }
 .color-dot.active { border-color: #666; }
-
 .color-slider {
   width: 100%; height: 32px; border-radius: 8px;
   cursor: pointer; margin: 8px 0;
@@ -248,7 +356,6 @@ body {
     #00ff00, #00ff80, #00ffff, #0080ff,
     #0000ff, #8000ff, #ff00ff, #ff0080, #ff0000);
 }
-
 .input-row {
   display: flex; align-items: center; gap: 10px;
   padding: 12px 14px; background: #f7f7f7;
@@ -259,7 +366,6 @@ body {
   flex: 1; border: none; background: transparent;
   font-size: 15px; color: #222; outline: none;
 }
-
 .avatar-row {
   display: flex; align-items: center; gap: 12px;
   padding: 12px 14px; background: #f7f7f7;
@@ -270,14 +376,12 @@ body {
   width: 44px; height: 44px; border-radius: 8px;
   background: #ddd center/cover no-repeat; flex-shrink: 0;
 }
-
 .css-area {
   width: 100%; height: 100px;
   border: 1px solid #ddd; border-radius: 8px;
   padding: 10px; font-size: 13px; font-family: monospace;
   resize: none; outline: none; background: #fafafa; margin-bottom: 8px;
 }
-
 .btn-primary {
   width: 100%; padding: 12px; background: #07c160;
   color: #fff; border: none; border-radius: 8px;
@@ -293,7 +397,6 @@ body {
   color: #e74c3c; border: none; border-radius: 8px;
   font-size: 15px; margin-top: 8px; cursor: pointer;
 }
-
 .pat-item { display: flex; align-items: center; gap: 8px; margin-bottom: 8px; }
 .pat-item input {
   flex: 1; padding: 10px 12px; border: 1px solid #ddd;
@@ -303,7 +406,6 @@ body {
   background: none; border: none; color: #e74c3c;
   font-size: 18px; cursor: pointer; padding: 4px 8px;
 }
-
 .about-box {
   text-align: center; padding: 30px 10px; line-height: 2;
   color: #555; font-size: 14px; white-space: pre-wrap;
@@ -325,9 +427,7 @@ body {
   cursor: pointer; white-space: nowrap;
   border-radius: 8px; flex-shrink: 0; user-select: none;
 }
-.card-tab.active {
-  color: #07c160; background: #f0fdf4; font-weight: 600;
-}
+.card-tab.active { color: #07c160; background: #f0fdf4; font-weight: 600; }
 .card-cats { display: flex; flex-wrap: wrap; gap: 8px; margin: 12px 0; }
 .card-cat {
   padding: 5px 14px; border-radius: 14px;
@@ -335,7 +435,6 @@ body {
   cursor: pointer; user-select: none;
 }
 .card-cat.active { background: #07c160; color: #fff; }
-
 #cardInput, #emojiInput {
   width: 100%; height: 70px;
   border: 1px solid #ddd; border-radius: 8px;
@@ -359,359 +458,56 @@ body {
   background: none; border: none; color: #e74c3c;
   font-size: 18px; cursor: pointer; flex-shrink: 0;
 }
-
 #cardBox {
   width: 90%; max-width: 400px; max-height: 80vh;
   background: #fff; border-radius: 12px;
   display: flex; flex-direction: column; overflow: hidden;
-  }
+}
+
 /* ===== 表情面板 ===== */
 .sticker-panel {
-  position: fixed;
-  bottom: 0;
-  left: 0;
-  right: 0;
-  height: 66vh;
-  background: #f7f7f7;
+  position: fixed; bottom: 0; left: 0; right: 0;
+  height: 66vh; background: #f7f7f7;
   border-top: 1px solid #e0e0e0;
   border-radius: 16px 16px 0 0;
-  display: flex;
-  flex-direction: column;
-  z-index: 80;
-  box-shadow: 0 -4px 16px rgba(0,0,0,0.1);
-  transform: translateY(0);
-  transition: transform 0.25s ease;
+  display: flex; flex-direction: column;
+  z-index: 80; box-shadow: 0 -4px 16px rgba(0,0,0,0.1);
+  transform: translateY(0); transition: transform 0.25s ease;
 }
-.sticker-panel.hidden {
-  transform: translateY(100%);
-  pointer-events: none;
-}
+.sticker-panel.hidden { transform: translateY(100%); pointer-events: none; }
 .sticker-head {
-  display: flex;
-  align-items: center;
-  gap: 10px;
-  padding: 12px 16px;
-  border-bottom: 1px solid #e8e8e8;
+  display: flex; align-items: center; gap: 10px;
+  padding: 12px 16px; border-bottom: 1px solid #e8e8e8;
 }
 .sticker-tab {
-  background: none;
-  border: none;
-  font-size: 15px;
-  color: #999;
-  padding: 6px 14px;
-  border-radius: 16px;
-  cursor: pointer;
+  background: none; border: none; font-size: 15px; color: #999;
+  padding: 6px 14px; border-radius: 16px; cursor: pointer;
 }
-.sticker-tab.active {
-  color: #fff;
-  background: #d5c8b0;
-}
+.sticker-tab.active { color: #fff; background: #d5c8b0; }
 .sticker-add-btn {
-  margin-left: auto;
-  background: #e8e0d0;
-  color: #8a7a5c;
-  border: none;
-  padding: 6px 14px;
-  border-radius: 16px;
-  font-size: 14px;
-  cursor: pointer;
+  margin-left: auto; background: #e8e0d0; color: #8a7a5c;
+  border: none; padding: 6px 14px; border-radius: 16px;
+  font-size: 14px; cursor: pointer;
 }
 .sticker-body {
-  flex: 1;
-  overflow-y: auto;
-  padding: 12px;
-  display: grid;
-  grid-template-columns: repeat(4, 1fr);
-  gap: 8px;
-  align-content: start;
+  flex: 1; overflow-y: auto; padding: 12px;
+  display: grid; grid-template-columns: repeat(4, 1fr);
+  gap: 8px; align-content: start;
 }
 .sticker-item {
-  position: relative;
-  aspect-ratio: 1;
-  background: #fff;
-  border-radius: 8px;
-  background-size: cover;
-  background-position: center;
-  cursor: pointer;
+  position: relative; aspect-ratio: 1;
+  background: #fff; border-radius: 8px;
+  background-size: cover; background-position: center; cursor: pointer;
 }
 .sticker-item .sticker-del {
-  position: absolute;
-  top: -6px;
-  right: -6px;
-  width: 20px;
-  height: 20px;
-  border-radius: 50%;
-  background: #e74c3c;
-  color: #fff;
-  border: none;
-  font-size: 12px;
-  line-height: 1;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  cursor: pointer;
-  padding: 0;
+  position: absolute; top: -6px; right: -6px;
+  width: 20px; height: 20px; border-radius: 50%;
+  background: #e74c3c; color: #fff;
+  border: none; font-size: 12px; line-height: 1;
+  display: flex; align-items: center; justify-content: center;
+  cursor: pointer; padding: 0;
 }
 .sticker-empty {
-  grid-column: 1 / -1;
-  text-align: center;
-  color: #999;
-  font-size: 14px;
-  padding: 40px 20px;
-  line-height: 1.8;
-            }
-/* ===== 加号功能菜单 ===== */
-.plus-menu {
-  position: fixed;
-  bottom: 60px;
-  left: 10px;
-  right: 10px;
-  background: #fff;
-  border-radius: 14px;
-  padding: 16px;
-  box-shadow: 0 4px 20px rgba(0,0,0,0.15);
-  z-index: 90;
-  transition: transform 0.25s ease, opacity 0.25s ease;
-}
-.plus-menu.hidden {
-  transform: translateY(20px);
-  opacity: 0;
-  pointer-events: none;
-}
-.plus-grid {
-  display: grid;
-  grid-template-columns: repeat(4, 1fr);
-  gap: 12px;
-}
-.plus-item {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  gap: 6px;
-  cursor: pointer;
-}
-.plus-icon {
-  width: 52px;
-  height: 52px;
-  background: #f7f7f7;
-  border-radius: 12px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-}
-.plus-icon svg {
-  width: 26px;
-  height: 26px;
-}
-.plus-label {
-  font-size: 13px;
-  color: #666;
-}
-.plus-item:active .plus-icon {
-  background: #eee;
-  }
-/* ===== 转账弹窗 ===== */
-.transfer-target {
-  display: flex;
-  align-items: center;
-  gap: 12px;
-  padding: 12px 0;
-  border-bottom: 1px solid #eee;
-  margin-bottom: 16px;
-}
-.transfer-avatar {
-  width: 44px;
-  height: 44px;
-  border-radius: 8px;
-  background: #e8a33d;
-  color: #fff;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  font-size: 18px;
-  font-weight: 600;
-}
-.transfer-name {
-  font-size: 16px;
-  color: #333;
-  font-weight: 600;
-}
-.transfer-input-row {
-  display: flex;
-  align-items: center;
-  border-bottom: 1px solid #eee;
-  padding-bottom: 8px;
-  margin-bottom: 16px;
-}
-.transfer-yen {
-  font-size: 32px;
-  color: #333;
-  font-weight: 600;
-  margin-right: 8px;
-}
-#transferAmount {
-  flex: 1;
-  border: none;
-  outline: none;
-  font-size: 32px;
-  color: #333;
-  background: transparent;
-}
-.transfer-note {
-  width: 100%;
-  border: none;
-  border-bottom: 1px solid #eee;
-  padding: 8px 0;
-  font-size: 14px;
-  color: #666;
-  outline: none;
-  margin-bottom: 20px;
-  box-sizing: border-box;
-  }
-/* ===== 转账卡片 ===== */
-.transfer-card {
-  position: relative;
-  background: #FA9D3B;
-  color: #fff;
-  border-radius: 10px;
-  padding: 14px 16px 22px;
-  min-width: 180px;
-  display: flex;
-  align-items: center;
-  gap: 10px;
-}
-.transfer-card::after {
-  content: "";
-  position: absolute;
-  top: 12px;
-  right: -8px;
-  width: 0;
-  height: 0;
-  border-top: 8px solid transparent;
-  border-bottom: 8px solid transparent;
-  border-left: 8px solid #FA9D3B;
-}
-.transfer-card-icon {
-  width: 38px;
-  height: 38px;
-  border-radius: 50%;
-  border: 2px solid #fff;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  flex-shrink: 0;
-}
-.transfer-card-icon svg {
-  width: 22px;
-  height: 22px;
-}
-.transfer-card-info {
-  flex: 1;
-}
-.tc-amount {
-  font-size: 18px;
-  font-weight: 600;
-  line-height: 1.2;
-}
-.tc-status {
-  font-size: 13px;
-  opacity: 0.9;
-  margin-top: 2px;
-}
-.transfer-card-label {
-  position: absolute;
-  bottom: 6px;
-  left: 16px;
-  font-size: 11px;
-  opacity: 0.8;
-  }
-/* ===== 收款/退还全屏弹窗 ===== */
-#receiveModal {
-  position: fixed;
-  inset: 0;
-  background: #fff;
-  z-index: 200;
-  display: flex;
-  align-items: stretch;
-  justify-content: stretch;
-}
-#receiveModal.hidden { display: none; }
-.receive-box {
-  width: 100%;
-  height: 100%;
-  display: flex;
-  flex-direction: column;
-  position: relative;
-}
-.receive-back {
-  position: absolute;
-  top: 16px;
-  left: 16px;
-  background: none;
-  border: none;
-  font-size: 24px;
-  color: #333;
-  cursor: pointer;
-  z-index: 10;
-}
-.receive-content {
-  flex: 1;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  padding: 100px 30px 40px;
-}
-.receive-icon {
-  font-size: 56px;
-  margin-bottom: 20px;
-}
-.receive-icon.blue { color: #1E9BFF; }
-.receive-icon.yellow { color: #F5A623; }
-.receive-icon.white { color: #07c160; }
-.receive-title {
-  font-size: 16px;
-  color: #666;
-  margin-bottom: 24px;
-}
-.receive-amount {
-  font-size: 40px;
-  font-weight: 600;
-  color: #333;
-  margin-bottom: 40px;
-}
-.receive-line {
-  width: 100%;
-  height: 1px;
-  background: #eee;
-  margin: 8px 0;
-}
-.receive-time-row {
-  width: 100%;
-  display: flex;
-  justify-content: space-between;
-  font-size: 13px;
-  color: #999;
-  padding: 10px 0;
-}
-.receive-btn {
-  margin-top: 40px;
-  width: 100%;
-  max-width: 280px;
-  padding: 14px;
-  background: #07c160;
-  color: #fff;
-  border: none;
-  border-radius: 8px;
-  font-size: 16px;
-  font-weight: 500;
-  cursor: pointer;
-}
-.receive-tip {
-  margin-top: 20px;
-  font-size: 12px;
-  color: #999;
-}
-#refundLink {
-  color: #1E9BFF;
-  cursor: pointer;
-  }
+  grid-column: 1 / -1; text-align: center;
+  color: #999; font-size: 14px; padding: 40px 20px; line-height: 1.8;
+                       }
