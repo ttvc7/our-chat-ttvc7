@@ -849,6 +849,12 @@ if (taAvatarEl) {
 
   row.appendChild(avatar);
   row.appendChild(card);
+    card.onclick = () => {
+  if (window.openReceiveModal) {
+    const msgs = JSON.parse(localStorage.getItem('our_messages') || '[]');
+    window.openReceiveModal(msgs.length - 1);
+  }
+};
   document.getElementById('messages').appendChild(row);
   document.getElementById('messages').scrollTop = document.getElementById('messages').scrollHeight;
 
