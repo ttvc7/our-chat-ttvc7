@@ -753,10 +753,18 @@ document.addEventListener('dblclick', function(e) {
   const tm = document.getElementById('transferModal');
   if (tm) {
     const tn = document.getElementById('transferName');
-    const ta = document.getElementById('transferAvatar');
-    const tName = load('ta_name', 'TA');
-    if (tn) tn.textContent = tName;
-    if (ta) ta.textContent = tName;
+const taAvatarEl = document.getElementById('transferAvatar');
+const tName = load('ta_name', 'TA');
+const tAvatar = localStorage.getItem('ta_avatar') ? JSON.parse(localStorage.getItem('ta_avatar')) : '';
+if (tn) tn.textContent = tName;
+if (taAvatarEl) {
+  if (tAvatar) {
+    taAvatarEl.style.background = `url(${tAvatar}) center/cover no-repeat`;
+    taAvatarEl.textContent = '';
+  } else {
+    taAvatarEl.textContent = tName.charAt(0);
+  }
+  }
     tm.classList.remove('hidden');
   }
   }
