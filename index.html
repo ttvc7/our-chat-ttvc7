@@ -43,6 +43,10 @@
   <div class="menu-item" id="menuSettings">设置</div>
   <div class="menu-item" id="menuCards">字卡库</div>
   </div>
+  <div id="menuPopup">
+  <div class="menu-item" id="menuSettings">设置</div>
+  <div class="menu-item" id="menuCards">字卡库</div>
+  </div>
   <div id="messages"></div>
   <footer class="chat-footer">
     <input id="input" type="text" placeholder="输入消息…" autocomplete="off">
@@ -413,6 +417,26 @@ document.addEventListener('dblclick', function(e) {
   messagesEl.scrollTop = messagesEl.scrollHeight;
 });
 
+  /* ===== 顶部菜单 ===== */
+const menuPopup = document.getElementById('menuPopup');
+document.getElementById('openMenuBtn').onclick = (e) => {
+  e.stopPropagation();
+  menuPopup.classList.toggle('show');
+};
+document.addEventListener('click', () => {
+  if (menuPopup) menuPopup.classList.remove('show');
+});
+document.getElementById('menuSettings').onclick = () => {
+  menuPopup.classList.remove('show');
+  const sm = document.getElementById('settingsModal');
+  if (sm) sm.classList.remove('hidden');
+};
+document.getElementById('menuCards').onclick = () => {
+  menuPopup.classList.remove('show');
+  const cm = document.getElementById('cardModal');
+  if (cm) cm.classList.remove('hidden');
+  if (typeof loadCards === 'function') loadCards();
+};
 /* ===== 设置面板打开 ===== */
 const settingsModal = document.getElementById('settingsModal');
 document.getElementById('openSettingsBtn').onclick = () => {
