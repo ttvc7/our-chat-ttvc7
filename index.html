@@ -306,7 +306,67 @@ async function sendMessage() {
 }
 inputEl.addEventListener('keydown', e => { if (e.key === 'Enter') sendMessage(); });
 
-messages.forEach(m => addMessage(m.sender, m.content, false));
+messages.forEach(m => {
+  if (m.type === 'transfer') {
+    renderTransferFromHistory(m);
+  } else {
+    addMessage(m.sender, m.content, false);
+  }
+});
+
+function renderTransferFromHistory(m) {
+  const row = document.createElement('div');
+  row.className = 'msg-row ' + (m.sender === 'me' ? 'me' : 'ta');
+  row.style.maxWidth = '70%';
+
+  const avatar = document.createElement('div');
+  avatar.className = 'avatar';
+  const isMe = m.sender === 'me';
+  const avatarUrl = isMe
+    ? (localStorage.getItem('my_avatar') ? JSON.parse(localStorage.getItem('my_avatar')) : '')
+    : (localStorage.getItem('ta_avatar') ? JSON.parse(localStorage.getItem('ta_avatar')) : '');
+  if (avatarUrl) {
+    avatar.style.background = `url(${avatarUrl}) center/cover no-repeat`;
+    avatar.textContent = '';
+  } else {
+    const name = isMe
+      ? JSON.parse(localStorage.getItem('my_name') || '"我"')
+      : JSON.parse(localStorage.getItem('ta_name') || '"TA"');
+    avatar.textContent = name.charAt(0);
+  }
+
+  const card = document.createElement('div');
+  card.className = 'transfer-card';
+  const status = m.status || 'pending';
+  if (status === 'received') card.classList.add('received');
+  if (status === 'refunded') card.classList.add('refunded');
+
+  const icon = document.createElement('div');
+  icon.className = 'transfer-card-icon';
+  if (status === 'pending') {
+    icon.innerHTML = '<svg viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 8 L14 8 M10 4 L14 8 L10 12"></path><path d="M20 16 L10 16 M14 12 L10 16 L14 20"></path></svg>';
+  } else if (status === 'received') {
+    icon.innerHTML = '<svg viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12 L10 17 L19 7"></path></svg>';
+  } else {
+    icon.innerHTML = '<svg viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M19 12 A7 7 0 1 1 12 5"></path><path d="M12 5 L12 1 M12 5 L16 5"></path></svg>';
+  }
+
+  const info = document.createElement('div');
+  info.className = 'transfer-card-info';
+  const statusText = status === 'received' ? '已收款' : (status === 'refunded' ? '已退还' : '待收款');
+  info.innerHTML = `<div class="tc-amount">¥${(m.amount || 0).toFixed(2)}</div><div class="tc-status">${statusText}</div>`;
+
+  card.appendChild(icon);
+  card.appendChild(info);
+  const label = document.createElement('div');
+  label.className = 'transfer-card-label';
+  label.textContent = '转账';
+  card.appendChild(label);
+
+  row.appendChild(avatar);
+  row.appendChild(card);
+  document.getElementById('messages').appendChild(row);
+}
 
 /* ===== 字卡系统 ===== */
 const cardModal = document.getElementById('cardModal');
