@@ -647,6 +647,34 @@ document.addEventListener('dblclick', function(e) {
     panel.classList.add('hidden');
   });
 })();
+/* ===== 加号菜单 ===== */
+(function() {
+  const plusMenu = document.getElementById('plusMenu');
+  const plusBtn = document.getElementById('plusBtn');
+
+  if (plusBtn && plusMenu) {
+    plusBtn.addEventListener('click', (e) => {
+      e.stopPropagation();
+      plusMenu.classList.toggle('hidden');
+    });
+    document.addEventListener('click', (e) => {
+      if (e.target.closest('#plusMenu') || e.target.closest('#plusBtn')) return;
+      plusMenu.classList.add('hidden');
+    });
+    plusMenu.addEventListener('click', (e) => e.stopPropagation());
+  }
+
+  document.querySelectorAll('.plus-item').forEach(item => {
+    item.onclick = () => {
+      const key = item.dataset.key;
+      if (plusMenu) plusMenu.classList.add('hidden');
+      if (key === 'transfer') alert('转账功能开发中…');
+      if (key === 'gift') alert('礼物功能开发中…');
+      if (key === 'survey') alert('问卷功能开发中…');
+      if (key === 'continue') alert('继续说功能开发中…');
+    };
+  });
+})();
 </script>
 
 <script src="settings.js"></script>
