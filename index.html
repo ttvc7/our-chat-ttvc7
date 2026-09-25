@@ -867,7 +867,37 @@ if (taAvatarEl) {
 
   const msgs = JSON.parse(localStorage.getItem('our_messages') || '[]');
   msgs.push({ sender: 'me', type: 'transfer', amount, note, status: 'pending', t: Date.now() });
-  localStorage.setItem('our_messages', JSON.stringify(msgs));
+  // TA 自动反应
+setTimeout(() => {
+  const recv = load('trans_recv', 60);
+  const ref = load('trans_ref', 30);
+  const ign = load('trans_ign', 10);
+  const total = recv + ref + ign;
+  const r = Math.random() * total;
+  let newStatus = 'pending';
+  if (r < recv) newStatus = 'received';
+  else if (r < recv + ref) newStatus = 'refunded';
+
+  if (newStatus !== 'pending') {
+    const allMsgs = JSON.parse(localStorage.getItem('our_messages') || '[]');
+    for (let i = allMsgs.length - 1; i >= 0; i--) {
+      if (allMsgs[i].type === 'transfer' && allMsgs[i].status === 'pending') {
+        allMsgs[i].status = newStatus;
+        break;
+      }
+    }
+    localStorage.setItem('our_messages', JSON.stringify(allMsgs));
+
+    const messagesEl = document.getElementById('messages');
+    messagesEl.innerHTML = '';
+    allMsgs.forEach(m => {
+      if (m.type === 'transfer') renderTransferFromHistory(m);
+      else if (m.sender) addMessage(m.sender, m.content, false);
+    });
+    messagesEl.scrollTop = messagesEl.scrollHeight;
+  }
+}, 2000 + Math.random() * 3000);
+    localStorage.setItem('our_messages', JSON.stringify(msgs));
 }
 })();
   /* ===== 收款/退还全屏弹窗逻辑 ===== */
