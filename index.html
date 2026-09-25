@@ -878,7 +878,7 @@ document.querySelectorAll('.card-tab').forEach(tab => {
 /* ===== TA 主动发消息（定时） ===== */
 function scheduleAutoMessage() {
   const min = load('auto_msg_min', 1) * 60 * 1000;
-  const max = load('auto_msg_max', 5) * 60 * 1000;
+const max = load('auto_msg_max', 5) * 60 * 1000;
   const delay = min + Math.random() * (max - min);
   clearTimeout(autoMsgTimer);
   autoMsgTimer = setTimeout(async () => {
