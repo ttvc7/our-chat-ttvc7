@@ -151,7 +151,7 @@ function showTyping() {
   row.className = 'msg-row ta';
   row.id = 'typing';
   const ta = load('ta_name', 'TA');
-  row.innerHTML = '<div class="avatar">' + ta.charAt(0) + '</div><div class="bubble"><span class="typing"><span></span><span></span><span></span></span></div>';
+  row.innerHTML = '<div class="avatar">' + ta.charAt(0) + '</div><div class="bubble">对方正在输入中<span class="typing"><span></span><span></span><span></span></span></div>';
   messagesEl.appendChild(row);
   messagesEl.scrollTop = messagesEl.scrollHeight;
 }
