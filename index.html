@@ -127,6 +127,27 @@
     </div>
   </div>
 </div>
+  <!-- 转账输入弹窗 -->
+<div id="transferModal" class="modal hidden">
+  <div class="modal-box">
+    <div class="modal-head">
+      <span>转账</span>
+      <button id="closeTransferBtn">×</button>
+    </div>
+    <div class="modal-body">
+      <div class="transfer-target">
+        <div class="transfer-avatar" id="transferAvatar">TA</div>
+        <div class="transfer-name" id="transferName">TA</div>
+      </div>
+      <div class="transfer-input-row">
+        <span class="transfer-yen">¥</span>
+        <input type="number" id="transferAmount" placeholder="0.00" inputmode="decimal">
+      </div>
+      <input type="text" id="transferNote" placeholder="添加转账说明" class="transfer-note">
+      <button class="btn-primary" id="confirmTransferBtn">确认转账</button>
+    </div>
+  </div>
+</div>
 
 <!-- 字卡弹窗 -->
 <div id="cardModal" class="modal hidden">
