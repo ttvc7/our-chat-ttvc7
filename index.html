@@ -148,6 +148,25 @@
     </div>
   </div>
 </div>
+  <!-- 收款/退还弹窗 -->
+<div id="receiveModal" class="modal hidden">
+  <div class="receive-box">
+    <button class="receive-back" id="closeReceiveBtn">←</button>
+    <div class="receive-content">
+      <div class="receive-icon" id="receiveIcon">🕐</div>
+      <div class="receive-title" id="receiveTitle">请收款</div>
+      <div class="receive-amount" id="receiveAmount">¥1.00</div>
+      <div class="receive-line"></div>
+      <div class="receive-time-row">
+        <span>转账时间</span>
+        <span id="receiveTime">--</span>
+      </div>
+      <div class="receive-line"></div>
+      <button class="receive-btn" id="receiveConfirmBtn">收款</button>
+      <div class="receive-tip">1天内未确认，将退还给对方。<span id="refundLink">退还</span></div>
+    </div>
+  </div>
+</div>
 
 <!-- 字卡弹窗 -->
 <div id="cardModal" class="modal hidden">
