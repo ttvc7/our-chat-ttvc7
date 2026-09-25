@@ -857,6 +857,94 @@ if (taAvatarEl) {
   localStorage.setItem('our_messages', JSON.stringify(msgs));
 }
 })();
+  /* ===== 收款/退还全屏弹窗逻辑 ===== */
+(function() {
+  const receiveModal = document.getElementById('receiveModal');
+  const closeReceiveBtn = document.getElementById('closeReceiveBtn');
+  const receiveIcon = document.getElementById('receiveIcon');
+  const receiveTitle = document.getElementById('receiveTitle');
+  const receiveAmount = document.getElementById('receiveAmount');
+  const receiveTime = document.getElementById('receiveTime');
+  const receiveConfirmBtn = document.getElementById('receiveConfirmBtn');
+  const refundLink = document.getElementById('refundLink');
+
+  let currentMsgIndex = -1;
+
+  window.openReceiveModal = function(msgIndex) {
+    const msgs = JSON.parse(localStorage.getItem('our_messages') || '[]');
+    const msg = msgs[msgIndex];
+    if (!msg || msg.type !== 'transfer') return;
+    currentMsgIndex = msgIndex;
+
+    if (msg.status === 'pending') {
+      receiveIcon.textContent = '🕐';
+      receiveIcon.className = 'receive-icon blue';
+      receiveTitle.textContent = '请收款';
+      receiveConfirmBtn.textContent = '收款';
+      receiveConfirmBtn.style.background = '#07c160';
+    } else if (msg.status === 'received') {
+      receiveIcon.textContent = '✓';
+      receiveIcon.className = 'receive-icon white';
+      receiveTitle.textContent = '已收款';
+      receiveConfirmBtn.textContent = '完成';
+      receiveConfirmBtn.style.background = '#ccc';
+    } else {
+      receiveIcon.textContent = '↩';
+      receiveIcon.className = 'receive-icon yellow';
+      receiveTitle.textContent = '已退还';
+      receiveConfirmBtn.textContent = '完成';
+      receiveConfirmBtn.style.background = '#ccc';
+    }
+
+    receiveAmount.textContent = '¥' + (msg.amount || 0).toFixed(2);
+    receiveTime.textContent = new Date(msg.t || Date.now()).toLocaleString('zh-CN');
+    receiveModal.classList.remove('hidden');
+  };
+
+  closeReceiveBtn.onclick = () => receiveModal.classList.add('hidden');
+
+  receiveConfirmBtn.onclick = () => {
+    if (currentMsgIndex < 0) return;
+    const msgs = JSON.parse(localStorage.getItem('our_messages') || '[]');
+    const msg = msgs[currentMsgIndex];
+    if (!msg) return;
+
+    if (msg.status === 'pending') {
+      msg.status = 'received';
+      localStorage.setItem('our_messages', JSON.stringify(msgs));
+      receiveModal.classList.add('hidden');
+      refreshMessages();
+    } else {
+      receiveModal.classList.add('hidden');
+    }
+  };
+
+  refundLink.onclick = () => {
+    if (currentMsgIndex < 0) return;
+    const msgs = JSON.parse(localStorage.getItem('our_messages') || '[]');
+    const msg = msgs[currentMsgIndex];
+    if (!msg || msg.status !== 'pending') return;
+    msg.status = 'refunded';
+    localStorage.setItem('our_messages', JSON.stringify(msgs));
+    receiveModal.classList.add('hidden');
+    refreshMessages();
+  };
+
+  function refreshMessages() {
+    const messagesEl = document.getElementById('messages');
+    if (!messagesEl) return;
+    messagesEl.innerHTML = '';
+    const msgs = JSON.parse(localStorage.getItem('our_messages') || '[]');
+    msgs.forEach(m => {
+      if (m.type === 'transfer') {
+        renderTransferFromHistory(m);
+      } else if (m.sender) {
+        addMessage(m.sender, m.content, false);
+      }
+    });
+    messagesEl.scrollTop = messagesEl.scrollHeight;
+  }
+})();
 </script>
 
 <script src="settings.js"></script>
