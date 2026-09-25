@@ -130,20 +130,39 @@ body {
 .typing span:nth-child(3) { animation-delay: 0.4s; }
 @keyframes blink { 0%,60%,100% { opacity: .3 } 30% { opacity: 1 } }
 .chat-footer {
-  display: flex; padding: 8px 10px; background: #f7f7f7;
-  border-top: 1px solid #e0e0e0; gap: 8px; flex-shrink: 0;
+  display: flex;
+  align-items: center;
+  padding: 8px 10px;
+  background: #f7f7f7;
+  border-top: 1px solid #e0e0e0;
+  gap: 6px;
+  flex-shrink: 0;
   padding-bottom: calc(8px + env(safe-area-inset-bottom, 0px));
 }
+.footer-btn {
+  background: none;
+  border: none;
+  padding: 4px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  flex-shrink: 0;
+}
+.footer-btn svg {
+  width: 26px;
+  height: 26px;
+}
 #input {
-  flex: 1; border: 1px solid #ddd; border-radius: 8px;
-  padding: 10px 14px; font-size: 15px; outline: none; background: #fff;
+  flex: 1;
+  border: none;
+  border-radius: 8px;
+  padding: 10px 14px;
+  font-size: 15px;
+  outline: none;
+  background: #fff;
+  min-width: 0;
 }
-#send {
-  border: none; background: #07c160; color: #fff; padding: 0 20px;
-  border-radius: 8px; font-size: 15px; font-weight: 500;
-}
-#send:active { opacity: .7; }
-#send:disabled { opacity: .4; }
 
 /* ===== 顶部菜单 ===== */
 #menuPopup {
