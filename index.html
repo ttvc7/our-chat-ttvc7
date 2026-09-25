@@ -568,6 +568,7 @@ document.querySelectorAll('.card-tab').forEach(tab => {
     document.getElementById('cardPanelEmoji').style.display = key === 'emoji' ? '' : 'none';
     document.getElementById('cardPanelPat').style.display = key === 'pat' ? '' : 'none';
     document.getElementById('cardPanelSticker').style.display = key === 'sticker' ? '' : 'none';
+    if (key === 'emoji') loadEmojiList();
   };
 });
   /* ===== 设置面板 ===== */
