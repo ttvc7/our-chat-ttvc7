@@ -514,6 +514,7 @@ body {
 /* ===== 小猫气泡 ===== */
 .msg-row {
   align-items: flex-start !important;
+  gap: 4px !important;
 }
 .msg-row.me .bubble,
 .msg-row.ta .bubble {
@@ -521,23 +522,33 @@ body {
   overflow: visible !important;
   background: #ffffff !important;
   border: none !important;
-  box-shadow: 0 1px 3px rgba(0,0,0,0.04) !important;
-  border-radius: 14px !important;
+  box-shadow: none !important;
   padding: 10px 14px !important;
   color: #555 !important;
   font-size: 15px;
   max-width: 200px;
   word-break: break-word;
   white-space: pre-wrap;
-  margin: 0 16px !important;
   margin-top: 0 !important;
-  align-self: flex-start;
+}
+
+/* 我发的：右上、右下、左上圆角大；左下角小（朝头像） */
+.msg-row.me .bubble {
+  border-radius: 18px 18px 18px 4px !important;
+  margin-left: 4px !important;
+  margin-right: 6px !important;
+}
+/* 对方发的：左上、左下、右上圆角大；右下角小（朝头像） */
+.msg-row.ta .bubble {
+  border-radius: 18px 18px 4px 18px !important;
+  margin-right: 4px !important;
+  margin-left: 6px !important;
 }
 
 /* 去掉小尖角 */
 .bubble-tail { display: none !important; }
 
-/* 引用块：紧凑一点 */
+/* 引用块：跟文字紧一点 */
 .quote-block {
   display: block;
   padding: 4px 8px;
@@ -546,13 +557,13 @@ body {
   border-radius: 4px;
   font-size: 12px;
   color: #888;
-  margin: 0 0 4px 0 !important;
+  margin: 0 0 2px 0 !important;
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
 }
 
-/* 小奶泡：我发 → 左上；对方 → 右上，往下移一点 */
+/* 小奶泡：我发 → 左上；对方 → 右上 */
 .msg-row.me .bubble::before {
   content: "";
   position: absolute;
