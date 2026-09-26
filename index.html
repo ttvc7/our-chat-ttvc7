@@ -226,10 +226,16 @@ function addMessage(sender, content, quote, store) {
   const row = document.createElement('div');
   row.className = 'msg-row ' + (sender === 'me' ? 'me' : 'ta');
   const avatar = document.createElement('div');
-  avatar.className = 'avatar';
-  const my = load('my_name', '我');
-  const ta = load('ta_name', 'TA');
-  avatar.textContent = sender === 'me' ? my.charAt(0) : ta.charAt(0);
+avatar.className = 'avatar';
+const isMe2 = sender === 'me';
+const avatarUrl = isMe2 ? load('my_avatar', '') : load('ta_avatar', '');
+if (avatarUrl) {
+  avatar.style.background = `url(${avatarUrl}) center/cover no-repeat`;
+  avatar.textContent = '';
+} else {
+  const name = isMe2 ? load('my_name', '我') : load('ta_name', 'TA');
+  avatar.textContent = name.charAt(0);
+  }
   const bubble = document.createElement('div');
   bubble.className = 'bubble';
   const tail = document.createElement('span');
