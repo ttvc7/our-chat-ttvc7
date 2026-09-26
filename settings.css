@@ -526,10 +526,10 @@ body {
   max-width: 200px;
   word-break: break-word;
   white-space: pre-wrap;
-  margin: 12px 14px 6px 14px;
+  margin: 14px 14px 14px 14px;
 }
 
-/* 小奶泡装饰：我发 → 左上角；对方发 → 右上角 */
+/* 小奶泡：我发 → 左上；对方 → 右上 */
 .msg-row.me .bubble::before {
   content: "";
   position: absolute;
@@ -558,5 +558,34 @@ body {
   transform: scaleX(-1);
 }
 
-/* 去掉之前的小猫 / 横线 */
+/* 小猫：我发 → 左下；对方 → 右下 */
+.msg-row.me .bubble::after {
+  content: "";
+  position: absolute;
+  bottom: -14px;
+  left: -10px;
+  width: 38px;
+  height: 26px;
+  background-image: url('retouch_2026092610001759.png');
+  background-size: contain;
+  background-repeat: no-repeat;
+  pointer-events: none;
+  z-index: 3;
+}
+.msg-row.ta .bubble::after {
+  content: "";
+  position: absolute;
+  bottom: -14px;
+  right: -10px;
+  width: 38px;
+  height: 26px;
+  background-image: url('retouch_2026092610001759.png');
+  background-size: contain;
+  background-repeat: no-repeat;
+  pointer-events: none;
+  z-index: 3;
+  transform: scaleX(-1);
+}
+
+/* 去掉之前的多余装饰 */
 .cat-on-line { display: none !important; }
