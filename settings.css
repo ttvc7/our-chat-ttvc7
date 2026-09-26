@@ -516,17 +516,36 @@ body {
 .msg-row.ta .bubble {
   position: relative;
   overflow: visible !important;
-  background: #fefdfb !important;
-  border: 1px solid #ececec !important;
-  box-shadow: 0 1px 3px rgba(0,0,0,0.04) !important;
+  background: #fdfbf7 !important;
+  border: 1px solid #efece6 !important;
+  box-shadow: 0 2px 6px rgba(180,170,155,0.12) !important;
   border-radius: 16px !important;
   padding: 12px 16px !important;
-  color: #444 !important;
+  color: #555 !important;
   font-size: 15px;
   max-width: 200px;
   word-break: break-word;
   white-space: pre-wrap;
-  margin: 14px 14px 14px 14px;
+  margin: 14px 16px;
+}
+
+/* 气泡尖角，指向头像 */
+.msg-row.me .bubble .bubble-tail,
+.msg-row.ta .bubble .bubble-tail {
+  position: absolute;
+  top: 14px;
+  width: 0;
+  height: 0;
+  border-top: 7px solid transparent;
+  border-bottom: 7px solid transparent;
+}
+.msg-row.me .bubble .bubble-tail {
+  right: -7px;
+  border-left: 8px solid #fdfbf7;
+}
+.msg-row.ta .bubble .bubble-tail {
+  left: -7px;
+  border-right: 8px solid #fdfbf7;
 }
 
 /* 小奶泡：我发 → 左上；对方 → 右上 */
@@ -558,12 +577,12 @@ body {
   transform: scaleX(-1);
 }
 
-/* 小猫：我发 → 左下；对方 → 右下 */
+/* 小猫：我发 → 右下；对方 → 左下 */
 .msg-row.me .bubble::after {
   content: "";
   position: absolute;
-  bottom: -14px;
-  left: -10px;
+  bottom: -12px;
+  right: -10px;
   width: 38px;
   height: 26px;
   background-image: url('retouch_2026092610001759.png');
@@ -575,8 +594,8 @@ body {
 .msg-row.ta .bubble::after {
   content: "";
   position: absolute;
-  bottom: -14px;
-  right: -10px;
+  bottom: -12px;
+  left: -10px;
   width: 38px;
   height: 26px;
   background-image: url('retouch_2026092610001759.png');
@@ -587,5 +606,4 @@ body {
   transform: scaleX(-1);
 }
 
-/* 去掉之前的多余装饰 */
 .cat-on-line { display: none !important; }
