@@ -517,68 +517,46 @@ body {
   position: relative;
   overflow: visible !important;
   background: #fefdfb !important;
-  border: none !important;
-  box-shadow: 0 1px 2px rgba(0,0,0,0.03) !important;
-  border-radius: 14px !important;
-  padding: 10px 14px !important;
-  color: #555 !important;
+  border: 1px solid #ececec !important;
+  box-shadow: 0 1px 3px rgba(0,0,0,0.04) !important;
+  border-radius: 16px !important;
+  padding: 12px 16px !important;
+  color: #444 !important;
   font-size: 15px;
   max-width: 200px;
   word-break: break-word;
   white-space: pre-wrap;
-  margin-bottom: 14px;
+  margin: 12px 14px 6px 14px;
 }
 
-/* 底下一条横线（贴住气泡） */
-.msg-row.me .bubble::before,
-.msg-row.ta .bubble::before {
-  content: "";
-  position: absolute;
-  bottom: -1px;
-  height: 2px;
-  background: #b8b8b8;
-  border-radius: 2px;
-}
+/* 小奶泡装饰：我发 → 左上角；对方发 → 右上角 */
 .msg-row.me .bubble::before {
-  left: 8%;
-  right: 26px;
-}
-.msg-row.ta .bubble::before {
-  left: 26px;
-  right: 8%;
-}
-
-/* 横线末端的勾 */
-.msg-row.me .bubble::after,
-.msg-row.ta .bubble::after {
   content: "";
   position: absolute;
-  bottom: -6px;
-  width: 10px;
-  height: 10px;
-  border-left: 2px solid #b8b8b8;
-  border-bottom: 2px solid #b8b8b8;
-}
-.msg-row.me .bubble::after {
-  right: 18px;
-  transform: rotate(45deg);
-}
-.msg-row.ta .bubble::after {
-  left: 18px;
-  transform: rotate(-45deg);
-}
-
-/* 小猫装饰 */
-.cat-on-line {
-  position: absolute;
-  bottom: -14px;
-  width: 36px;
-  height: 24px;
-  background-image: url('retouch_2026092610001759.png');
+  top: -14px;
+  left: -10px;
+  width: 30px;
+  height: 22px;
+  background-image: url('retouch_2026092610053848.png');
   background-size: contain;
   background-repeat: no-repeat;
   pointer-events: none;
   z-index: 3;
 }
-.msg-row.me .cat-on-line { right: -4px; }
-.msg-row.ta .cat-on-line { left: -4px; transform: scaleX(-1); }
+.msg-row.ta .bubble::before {
+  content: "";
+  position: absolute;
+  top: -14px;
+  right: -10px;
+  width: 30px;
+  height: 22px;
+  background-image: url('retouch_2026092610053848.png');
+  background-size: contain;
+  background-repeat: no-repeat;
+  pointer-events: none;
+  z-index: 3;
+  transform: scaleX(-1);
+}
+
+/* 去掉之前的小猫 / 横线 */
+.cat-on-line { display: none !important; }
