@@ -232,6 +232,9 @@ function addMessage(sender, content, quote, store) {
   avatar.textContent = sender === 'me' ? my.charAt(0) : ta.charAt(0);
   const bubble = document.createElement('div');
   bubble.className = 'bubble';
+  const tail = document.createElement('span');
+tail.className = 'bubble-tail';
+bubble.appendChild(tail);
   if (quote) {
     const q = document.createElement('span');
     q.className = 'quote-block';
