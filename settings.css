@@ -515,65 +515,29 @@ body {
 .bubble {
   position: relative;
   overflow: visible !important;
-  background: #fefdfb !important;
-  border: 1px solid #e8e2d8;
-  box-shadow: 0 1px 3px rgba(0,0,0,0.05);
+  padding: 12px 18px !important;
+  border: none !important;
+  box-shadow: none !important;
+  border-radius: 16px !important;
+  background-color: #fefdfb !important;
+  background-image:
+    url('retouch_2026092610140803.png'),
+    url('retouch_2026092610084240.png'),
+    url('retouch_2026092610053848.png'),
+    url('retouch_2026092610043749.png');
+  background-position:
+    top left,
+    top right,
+    bottom left,
+    bottom right;
+  background-repeat: no-repeat, no-repeat, no-repeat, no-repeat;
+  background-size: 38px 26px, 42px 30px, 42px 30px, 38px 26px;
+  background-origin: border-box;
+  padding-top: 20px !important;
+  padding-bottom: 20px !important;
+  padding-left: 20px !important;
+  padding-right: 20px !important;
+  margin: 10px 12px !important;
+  color: #555 !important;
+  font-size: 15px;
 }
-
-/* 左上：小尾巴 */
-.msg-row.me .bubble::before {
-  content: "";
-  position: absolute;
-  top: -18px;
-  left: -14px;
-  width: 40px;
-  height: 28px;
-  background-image: url('retouch_2026092610140803.png');
-  background-size: contain;
-  background-repeat: no-repeat;
-  pointer-events: none;
-  z-index: 3;
-}
-
-/* 右上：猫猫 */
-.msg-row.me .bubble::after {
-  content: "";
-  position: absolute;
-  top: -18px;
-  right: -14px;
-  width: 44px;
-  height: 32px;
-  background-image: url('retouch_2026092610084240.png');
-  background-size: contain;
-  background-repeat: no-repeat;
-  pointer-events: none;
-  z-index: 3;
-}
-
-/* TA 的气泡：左下 + 右下 */
-.msg-row.ta .bubble::before {
-  content: "";
-  position: absolute;
-  bottom: -16px;
-  left: -14px;
-  width: 44px;
-  height: 32px;
-  background-image: url('retouch_2026092610053848.png');
-  background-size: contain;
-  background-repeat: no-repeat;
-  pointer-events: none;
-  z-index: 3;
-}
-.msg-row.ta .bubble::after {
-  content: "";
-  position: absolute;
-  bottom: -16px;
-  right: -14px;
-  width: 40px;
-  height: 28px;
-  background-image: url('retouch_2026092610043749.png');
-  background-size: contain;
-  background-repeat: no-repeat;
-  pointer-events: none;
-  z-index: 3;
-  }
