@@ -511,41 +511,41 @@ body {
   grid-column: 1 / -1; text-align: center;
   color: #999; font-size: 14px; padding: 40px 20px; line-height: 1.8;
                        }
-/* ===== 小猫气泡（新） ===== */
+/* ===== 小猫气泡 ===== */
 .msg-row.me .bubble,
 .msg-row.ta .bubble {
   position: relative;
   overflow: visible !important;
   background: #fefdfb !important;
   border: none !important;
-  box-shadow: none !important;
-  border-radius: 16px !important;
-  padding: 12px 18px !important;
+  box-shadow: 0 1px 2px rgba(0,0,0,0.03) !important;
+  border-radius: 14px !important;
+  padding: 10px 14px !important;
   color: #555 !important;
   font-size: 15px;
   max-width: 200px;
   word-break: break-word;
   white-space: pre-wrap;
-  margin-bottom: 20px;
+  margin-bottom: 14px;
 }
 
-/* 底下一条横线（带勾） */
+/* 底下一条横线（贴住气泡） */
 .msg-row.me .bubble::before,
 .msg-row.ta .bubble::before {
   content: "";
   position: absolute;
-  bottom: -8px;
+  bottom: -1px;
   height: 2px;
   background: #b8b8b8;
   border-radius: 2px;
 }
 .msg-row.me .bubble::before {
-  left: 10%;
-  right: 30px;
+  left: 8%;
+  right: 26px;
 }
 .msg-row.ta .bubble::before {
-  left: 30px;
-  right: 10%;
+  left: 26px;
+  right: 8%;
 }
 
 /* 横线末端的勾 */
@@ -553,32 +553,32 @@ body {
 .msg-row.ta .bubble::after {
   content: "";
   position: absolute;
-  bottom: -10px;
-  width: 12px;
-  height: 12px;
+  bottom: -6px;
+  width: 10px;
+  height: 10px;
   border-left: 2px solid #b8b8b8;
-  border-top: 2px solid #b8b8b8;
+  border-bottom: 2px solid #b8b8b8;
 }
 .msg-row.me .bubble::after {
-  right: 20px;
-  transform: rotate(-135deg);
-}
-.msg-row.ta .bubble::after {
-  left: 20px;
+  right: 18px;
   transform: rotate(45deg);
 }
+.msg-row.ta .bubble::after {
+  left: 18px;
+  transform: rotate(-45deg);
+}
 
-/* 小猫装饰：单独用一个 span，挂在横线末端 */
+/* 小猫装饰 */
 .cat-on-line {
   position: absolute;
-  bottom: -22px;
-  width: 60px;
-  height: 40px;
+  bottom: -14px;
+  width: 36px;
+  height: 24px;
   background-image: url('retouch_2026092610001759.png');
   background-size: contain;
   background-repeat: no-repeat;
   pointer-events: none;
   z-index: 3;
 }
-.msg-row.me .cat-on-line { right: -10px; }
-.msg-row.ta .cat-on-line { left: -10px; transform: scaleX(-1); }
+.msg-row.me .cat-on-line { right: -4px; }
+.msg-row.ta .cat-on-line { left: -4px; transform: scaleX(-1); }
