@@ -622,3 +622,27 @@ body {
 }
 
 .cat-on-line { display: none !important; }
+.card-tools {
+  display: flex;
+  gap: 8px;
+  margin: 10px 0;
+}
+#cardSearchInput {
+  flex: 1;
+  padding: 8px 12px;
+  border: 1px solid #ddd;
+  border-radius: 8px;
+  font-size: 14px;
+  outline: none;
+  background: #fff;
+}
+#dedupBtn {
+  padding: 8px 14px;
+  background: #f0f0f0;
+  color: #333;
+  border: none;
+  border-radius: 8px;
+  font-size: 14px;
+  cursor: pointer;
+  flex-shrink: 0;
+                    }
