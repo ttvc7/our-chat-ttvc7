@@ -180,11 +180,11 @@
         <textarea id="cardInput" placeholder="输入字卡内容…&#10;第一行写【分类名】就会自动归类，例如：&#10;【日常】"></textarea>
         <button id="addCardBtn">添加字卡</button>
         <div class="card-tools">
-  <input type="text" id="cardSearchInput" placeholder="搜索字卡…">
-  <button id="dedupBtn">去重</button>
-</div>
-<div class="card-cats" id="cardCats"></div>
-  <div id="cardList"></div>
+          <input type="text" id="cardSearchInput" placeholder="搜索字卡…">
+          <button id="dedupBtn">去重</button>
+        </div>
+        <div class="card-cats" id="cardCats"></div>
+        <div id="cardList"></div>
       </div>
       <div id="cardPanelEmoji" style="display:none;">
         <textarea id="emojiInput" placeholder="输入颜文字，一行一个"></textarea>
@@ -230,21 +230,18 @@ function addMessage(sender, content, quote, store) {
   const row = document.createElement('div');
   row.className = 'msg-row ' + (sender === 'me' ? 'me' : 'ta');
   const avatar = document.createElement('div');
-avatar.className = 'avatar';
-const isMe2 = sender === 'me';
-const avatarUrl = isMe2 ? load('my_avatar', '') : load('ta_avatar', '');
-if (avatarUrl) {
-  avatar.style.background = `url(${avatarUrl}) center/cover no-repeat`;
-  avatar.textContent = '';
-} else {
-  const name = isMe2 ? load('my_name', '我') : load('ta_name', 'TA');
-  avatar.textContent = name.charAt(0);
+  avatar.className = 'avatar';
+  const isMe = sender === 'me';
+  const avatarUrl = isMe ? load('my_avatar', '') : load('ta_avatar', '');
+  if (avatarUrl) {
+    avatar.style.background = `url(${avatarUrl}) center/cover no-repeat`;
+    avatar.textContent = '';
+  } else {
+    const name = isMe ? load('my_name', '我') : load('ta_name', 'TA');
+    avatar.textContent = name.charAt(0);
   }
   const bubble = document.createElement('div');
   bubble.className = 'bubble';
-  const tail = document.createElement('span');
-tail.className = 'bubble-tail';
-bubble.appendChild(tail);
   if (quote) {
     const q = document.createElement('span');
     q.className = 'quote-block';
@@ -252,9 +249,6 @@ bubble.appendChild(tail);
     bubble.appendChild(q);
   }
   bubble.appendChild(document.createTextNode(content));
-  const cat = document.createElement('span');
-cat.className = 'cat-on-line';
-bubble.appendChild(cat);
   row.appendChild(avatar);
   row.appendChild(bubble);
   messagesEl.appendChild(row);
@@ -271,9 +265,15 @@ function addImage(sender, url, store) {
   row.className = 'msg-row ' + (sender === 'me' ? 'me' : 'ta');
   const avatar = document.createElement('div');
   avatar.className = 'avatar';
-  const my = load('my_name', '我');
-  const ta = load('ta_name', 'TA');
-  avatar.textContent = sender === 'me' ? my.charAt(0) : ta.charAt(0);
+  const isMe = sender === 'me';
+  const avatarUrl = isMe ? load('my_avatar', '') : load('ta_avatar', '');
+  if (avatarUrl) {
+    avatar.style.background = `url(${avatarUrl}) center/cover no-repeat`;
+    avatar.textContent = '';
+  } else {
+    const name = isMe ? load('my_name', '我') : load('ta_name', 'TA');
+    avatar.textContent = name.charAt(0);
+  }
   const img = document.createElement('img');
   img.src = url;
   img.style.maxWidth = '120px';
@@ -360,7 +360,7 @@ async function sendMessage() {
 }
 inputEl.addEventListener('keydown', e => { if (e.key === 'Enter') sendMessage(); });
 
-/* ===== 转账卡片 ===== */
+/* ===== 转账 ===== */
 function renderTransferCard(m) {
   const isMe = m.sender === 'me';
   const row = document.createElement('div');
@@ -663,6 +663,7 @@ document.addEventListener('dblclick', function(e) {
 /* ===== 字卡系统 ===== */
 document.getElementById('closeCardBtn').onclick = () => document.getElementById('cardModal').classList.add('hidden');
 let currentCat = 'all';
+let currentSearch = '';
 
 function parseCards(text) {
   const lines = text.split('\n').map(l => l.trim()).filter(l => l);
@@ -676,23 +677,18 @@ function parseCards(text) {
   return result;
 }
 
-let currentSearch = '';
-
 function loadCards() {
   const list = document.getElementById('cardList');
   const catsBox = document.getElementById('cardCats');
   if (!list || !catsBox) return;
 
-  // 筛选出主字卡（类型为 main 或没有 type 的）
   let allMain = cards.map((c, idx) => ({ ...c, _idx: idx }))
     .filter(c => c.type === 'main' || !c.type);
 
-  // 搜索过滤
   if (currentSearch) {
     allMain = allMain.filter(c => (c.content || '').includes(currentSearch));
   }
 
-  // 分类
   const cats = new Set();
   allMain.forEach(c => { if (c.category) cats.add(c.category); });
 
@@ -717,7 +713,6 @@ function loadCards() {
     catsBox.appendChild(el);
   });
 
-  // 按分类再过滤
   let filtered = allMain;
   if (currentCat === '未分类') filtered = filtered.filter(c => !c.category);
   else if (currentCat !== 'all') filtered = filtered.filter(c => c.category === currentCat);
@@ -727,97 +722,6 @@ function loadCards() {
     return;
   }
 
-  list.innerHTML = '';
-  filtered.forEach(card => {
-    const div = document.createElement('div');
-    div.className = 'card-item';
-    const wrap = document.createElement('div');
-    wrap.style.flex = '1';
-    wrap.style.wordBreak = 'break-word';
-    const s = document.createElement('div');
-    s.textContent = card.content;
-    s.style.fontSize = '14px';
-    s.style.color = '#333';
-    wrap.appendChild(s);
-    if (card.category) {
-      const tag = document.createElement('span');
-      tag.textContent = card.category;
-      tag.style.cssText = 'display:inline-block;font-size:11px;color:#999;background:#f0f0f0;padding:2px 8px;border-radius:8px;margin-top:6px;';
-      wrap.appendChild(tag);
-    }
-    const btn = document.createElement('button');
-    btn.textContent = '×';
-    btn.onclick = () => { cards.splice(card._idx, 1); save('our_cards', cards); loadCards(); };
-    div.appendChild(wrap);
-    div.appendChild(btn);
-    list.appendChild(div);
-  });
-}
-
-// 搜索输入
-const cardSearchInput = document.getElementById('cardSearchInput');
-if (cardSearchInput) {
-  cardSearchInput.oninput = () => {
-    currentSearch = cardSearchInput.value.trim();
-    loadCards();
-  };
-}
-
-// 去重按钮
-const dedupBtn = document.getElementById('dedupBtn');
-if (dedupBtn) {
-  dedupBtn.onclick = () => {
-    const seen = new Set();
-    const newCards = [];
-    let removed = 0;
-    cards.forEach(c => {
-      const key = (c.type || 'main') + '|' + (c.category || '') + '|' + (c.content || '');
-      if (seen.has(key)) {
-        removed++;
-      } else {
-        seen.add(key);
-        newCards.push(c);
-      }
-    });
-    if (removed === 0) { alert('没有发现重复的字卡'); return; }
-    if (confirm('发现 ' + removed + ' 条重复字卡，确定删除吗？')) {
-      cards = newCards;
-      save('our_cards', cards);
-      loadCards();
-      alert('已删除 ' + removed + ' 条重复字卡');
-    }
-  };
-      }
-  const list = document.getElementById('cardList');
-  const catsBox = document.getElementById('cardCats');
-  if (!list || !catsBox) return;
-  const cats = new Set();
-  cards.forEach(c => { if ((c.type === 'main' || !c.type) && c.category) cats.add(c.category); });
-  catsBox.innerHTML = '';
-  const allCat = document.createElement('div');
-  allCat.className = 'card-cat' + (currentCat === 'all' ? ' active' : '');
-  allCat.textContent = '全部';
-  allCat.onclick = () => { currentCat = 'all'; loadCards(); };
-  catsBox.appendChild(allCat);
-  const noCat = document.createElement('div');
-  noCat.className = 'card-cat' + (currentCat === '未分类' ? ' active' : '');
-  noCat.textContent = '未分类';
-  noCat.onclick = () => { currentCat = '未分类'; loadCards(); };
-  catsBox.appendChild(noCat);
-  cats.forEach(cat => {
-    const el = document.createElement('div');
-    el.className = 'card-cat' + (currentCat === cat ? ' active' : '');
-    el.textContent = cat;
-    el.onclick = () => { currentCat = cat; loadCards(); };
-    catsBox.appendChild(el);
-  });
-  let filtered = cards.map((c, idx) => ({ ...c, _idx: idx })).filter(c => c.type === 'main' || !c.type);
-  if (currentCat === '未分类') filtered = filtered.filter(c => !c.category);
-  else if (currentCat !== 'all') filtered = filtered.filter(c => c.category === currentCat);
-  if (filtered.length === 0) {
-    list.innerHTML = '<div style="color:#999;font-size:13px;text-align:center;padding:20px 0;">还没有字卡，加一条试试</div>';
-    return;
-  }
   list.innerHTML = '';
   filtered.forEach(card => {
     const div = document.createElement('div');
@@ -902,6 +806,41 @@ document.querySelectorAll('.card-tab').forEach(tab => {
     if (key === 'emoji') loadEmojiList();
   };
 });
+
+// 搜索输入
+const cardSearchInput = document.getElementById('cardSearchInput');
+if (cardSearchInput) {
+  cardSearchInput.oninput = () => {
+    currentSearch = cardSearchInput.value.trim();
+    loadCards();
+  };
+}
+
+// 去重按钮
+const dedupBtn = document.getElementById('dedupBtn');
+if (dedupBtn) {
+  dedupBtn.onclick = () => {
+    const seen = new Set();
+    const newCards = [];
+    let removed = 0;
+    cards.forEach(c => {
+      const key = (c.type || 'main') + '|' + (c.category || '') + '|' + (c.content || '');
+      if (seen.has(key)) {
+        removed++;
+      } else {
+        seen.add(key);
+        newCards.push(c);
+      }
+    });
+    if (removed === 0) { alert('没有发现重复的字卡'); return; }
+    if (confirm('发现 ' + removed + ' 条重复字卡，确定删除吗？')) {
+      cards = newCards;
+      save('our_cards', cards);
+      loadCards();
+      alert('已删除 ' + removed + ' 条重复字卡');
+    }
+  };
+}
 
 /* ===== 表情面板 ===== */
 (function() {
@@ -1002,9 +941,11 @@ document.querySelectorAll('.card-tab').forEach(tab => {
 })();
 
 /* ===== TA 主动发消息（定时） ===== */
+let autoMsgTimer = null;
+
 function scheduleAutoMessage() {
   const min = load('auto_msg_min', 1) * 60 * 1000;
-const max = load('auto_msg_max', 5) * 60 * 1000;
+  const max = load('auto_msg_max', 5) * 60 * 1000;
   const delay = min + Math.random() * (max - min);
   clearTimeout(autoMsgTimer);
   autoMsgTimer = setTimeout(async () => {
