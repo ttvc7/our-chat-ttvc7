@@ -655,7 +655,7 @@ body {
   align-items: center;
   justify-content: center;
   gap: 12px;
-  padding: 30px 20px 20px;
+  padding: 70px 20px 20px;
 }
 .home-avatar {
   width: 70px; height: 70px;
@@ -670,8 +670,8 @@ body {
 .home-grid {
   display: grid;
   grid-template-columns: repeat(3, 1fr);
-  gap: 16px;
-  padding: 20px 24px;
+  gap: 18px;
+  padding: 30px 24px;
 }
 .home-item {
   display: flex;
@@ -693,12 +693,14 @@ body {
 .home-bottom {
   flex: 1;
   display: flex;
-  gap: 12px;
-  padding: 0 20px 20px;
+  gap: 14px;
+  padding: 0 20px 30px;
+  align-items: center;
   overflow: hidden;
 }
 .home-card {
-  width: 42%;
+  width: 45%;
+  height: 130px;
   background: #fff;
   border-radius: 14px;
   display: flex; align-items: center; justify-content: center;
@@ -706,6 +708,7 @@ body {
   cursor: pointer;
   box-shadow: 0 1px 4px rgba(0,0,0,0.05);
   position: relative;
+  flex-shrink: 0;
 }
 .home-card img { width: 100%; height: 100%; object-fit: cover; }
 .home-card-tip { color: #bbb; font-size: 14px; }
@@ -714,26 +717,27 @@ body {
   flex: 1;
   display: flex;
   flex-direction: column;
-  justify-content: center;
-  gap: 22px;
+  gap: 26px;
 }
 .home-talk-row {
   display: flex;
   align-items: center;
-  gap: 8px;
+  gap: 10px;
 }
-.home-talk-row.reverse { flex-direction: row-reverse; }
+.home-talk-row.reverse {
+  flex-direction: row;
+}
 .home-talk-avatar {
-  width: 40px; height: 40px;
+  width: 44px; height: 44px;
   border-radius: 50%;
   background: #ddd center/cover no-repeat;
   display: flex; align-items: center; justify-content: center;
-  font-size: 14px; color: #666;
+  font-size: 15px; color: #666;
   flex-shrink: 0;
 }
 .home-talk-line {
   flex: 1;
-  padding: 8px 12px;
+  padding: 6px 10px;
   border-bottom: 1px solid #ccc;
   font-size: 14px;
   color: #666;
@@ -742,6 +746,5 @@ body {
   word-break: break-word;
   text-align: center;
 }
-.home-talk-row.reverse .home-talk-line { text-align: center; }
 .home-talk-line .placeholder { color: #ccc; }
 .home-talk-line.filled { color: #333; border-bottom-color: #999; }
