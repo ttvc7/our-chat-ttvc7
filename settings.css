@@ -652,20 +652,40 @@ body {
 
 .home-top {
   display: flex;
-  align-items: center;
+  align-items: flex-start;
   justify-content: center;
-  gap: 12px;
+  gap: 14px;
   padding: 70px 20px 20px;
 }
+.home-avatar-wrap {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 6px;
+}
 .home-avatar {
-  width: 70px; height: 70px;
+  width: 68px; height: 68px;
   border-radius: 50%;
   background: #ddd center/cover no-repeat;
   display: flex; align-items: center; justify-content: center;
   font-size: 22px; color: #666;
   flex-shrink: 0;
 }
-.heartbeat { width: 130px; height: 50px; flex-shrink: 0; }
+.home-name {
+  font-size: 13px;
+  color: #666;
+  max-width: 80px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  text-align: center;
+}
+.heartbeat {
+  width: 120px;
+  height: 50px;
+  margin-top: 14px;
+  flex-shrink: 0;
+}
 
 .home-grid {
   display: grid;
@@ -699,10 +719,10 @@ body {
   overflow: hidden;
 }
 .home-card {
-  width: 45%;
-  height: 130px;
+  width: 120px;
+  height: 190px;
   background: #fff;
-  border-radius: 14px;
+  border-radius: 12px;
   display: flex; align-items: center; justify-content: center;
   overflow: hidden;
   cursor: pointer;
@@ -711,13 +731,13 @@ body {
   flex-shrink: 0;
 }
 .home-card img { width: 100%; height: 100%; object-fit: cover; }
-.home-card-tip { color: #bbb; font-size: 14px; }
+.home-card-tip { color: #bbb; font-size: 13px; text-align: center; }
 
 .home-talk {
   flex: 1;
   display: flex;
   flex-direction: column;
-  gap: 26px;
+  gap: 24px;
 }
 .home-talk-row {
   display: flex;
@@ -728,11 +748,11 @@ body {
   flex-direction: row;
 }
 .home-talk-avatar {
-  width: 44px; height: 44px;
+  width: 42px; height: 42px;
   border-radius: 50%;
   background: #ddd center/cover no-repeat;
   display: flex; align-items: center; justify-content: center;
-  font-size: 15px; color: #666;
+  font-size: 14px; color: #666;
   flex-shrink: 0;
 }
 .home-talk-line {
@@ -748,3 +768,29 @@ body {
 }
 .home-talk-line .placeholder { color: #ccc; }
 .home-talk-line.filled { color: #333; border-bottom-color: #999; }
+
+/* 小游戏弹窗 */
+.games-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 14px;
+  padding: 10px 0;
+}
+.game-card {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 8px;
+  padding: 18px;
+  background: #f7f7f7;
+  border-radius: 12px;
+  cursor: pointer;
+}
+.game-icon {
+  width: 50px; height: 50px;
+  background: #fff;
+  border-radius: 12px;
+  display: flex; align-items: center; justify-content: center;
+}
+.game-icon svg { width: 26px; height: 26px; }
+.game-name { font-size: 14px; color: #555; }
