@@ -25,16 +25,19 @@
 
 <div id="homePage" class="page">
   <div class="home-top">
-    <div class="home-avatar-wrap">
-      <div class="home-avatar" id="homeTaAvatar">TA</div>
-      <div class="home-name" id="homeTaName">TA</div>
-    </div>
-    <svg class="heartbeat" viewBox="0 0 200 60" preserveAspectRatio="none">
-      <polyline points="0,30 40,30 50,30 55,15 60,45 65,20 70,40 75,30 120,30 130,30 135,15 140,45 145,20 150,40 155,30 200,30" fill="none" stroke="#999" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
-    </svg>
-    <div class="home-avatar-wrap">
-      <div class="home-avatar" id="homeMyAvatar">我</div>
-      <div class="home-name" id="homeMyName">我</div>
+    <div class="home-time" id="homeTime">--:--</div>
+    <div class="home-avatars-row">
+      <div class="home-avatar-wrap">
+        <div class="home-avatar" id="homeTaAvatar">TA</div>
+        <div class="home-name" id="homeTaName">TA</div>
+      </div>
+      <svg class="heartbeat" viewBox="0 0 200 60" preserveAspectRatio="none">
+        <polyline points="0,30 40,30 50,30 55,15 60,45 65,20 70,40 75,30 120,30 130,30 135,15 140,45 145,20 150,40 155,30 200,30" fill="none" stroke="#999" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+      </svg>
+      <div class="home-avatar-wrap">
+        <div class="home-avatar" id="homeMyAvatar">我</div>
+        <div class="home-name" id="homeMyName">我</div>
+      </div>
     </div>
   </div>
 
@@ -163,7 +166,6 @@
 
 <div id="settingsModal" class="modal hidden"><div class="modal-box"><div class="modal-head"><span>设置</span><button id="closeSettingsBtn">×</button></div><div class="modal-body"></div></div></div>
 
-<!-- 小游戏面板 -->
 <div id="gamesModal" class="modal hidden">
   <div class="modal-box">
     <div class="modal-head"><span>小游戏</span><button id="closeGamesBtn">×</button></div>
@@ -832,7 +834,6 @@ function applyHomeAssets() {
   if (myNameEl) myNameEl.textContent = myName;
   if (taNameEl) taNameEl.textContent = taName;
 
-  // 底部对话头像
   const tmA = document.getElementById('talkMyAvatar');
   const ttA = document.getElementById('talkTaAvatar');
   if (tmA) {
@@ -843,6 +844,15 @@ function applyHomeAssets() {
     if (taUrl) { ttA.style.background = `url(${taUrl}) center/cover no-repeat`; ttA.textContent = ''; }
     else ttA.textContent = taName.charAt(0);
   }
+}
+
+function updateHomeTime() {
+  const el = document.getElementById('homeTime');
+  if (!el) return;
+  const now = new Date();
+  const h = String(now.getHours()).padStart(2, '0');
+  const m = String(now.getMinutes()).padStart(2, '0');
+  el.textContent = h + ':' + m;
 }
 
 document.querySelectorAll('.home-item').forEach(item => {
@@ -915,6 +925,8 @@ document.querySelectorAll('.game-card').forEach(card => {
 
 refreshMessages();
 applyHomeAssets();
+updateHomeTime();
+setInterval(updateHomeTime, 30000);
 (function() {
   const taNameEl = document.getElementById('taName');
   if (taNameEl) taNameEl.textContent = load('ta_name', 'TA');
