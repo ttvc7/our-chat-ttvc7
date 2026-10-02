@@ -833,7 +833,6 @@ function applyHomeAssets() {
   }
   if (myNameEl) myNameEl.textContent = myName;
   if (taNameEl) taNameEl.textContent = taName;
-
   const tmA = document.getElementById('talkMyAvatar');
   const ttA = document.getElementById('talkTaAvatar');
   if (tmA) {
@@ -846,14 +845,26 @@ function applyHomeAssets() {
   }
 }
 
+function applyHomeWallpaper() {
+  const wp = load('home_wallpaper', '');
+  const homePage = document.getElementById('homePage');
+  if (!homePage) return;
+  if (wp) {
+    homePage.style.background = wp.startsWith('linear') || wp.startsWith('#') ? wp : `url(${wp}) center/cover no-repeat`;
+  } else {
+    homePage.style.background = '#f5f5f5';
+  }
+}
+
 function updateHomeTime() {
   const el = document.getElementById('homeTime');
   if (!el) return;
-  const now = new Date();
-  const h = String(now.getHours()).padStart(2, '0');
-  const m = String(now.getMinutes()).padStart(2, '0');
-  el.textContent = h + ':' + m;
+  const d = new Date();
+  const hh = String(d.getHours()).padStart(2, '0');
+  const mm = String(d.getMinutes()).padStart(2, '0');
+  el.textContent = hh + ':' + mm;
 }
+setInterval(updateHomeTime, 30000);
 
 document.querySelectorAll('.home-item').forEach(item => {
   item.onclick = () => {
@@ -923,10 +934,13 @@ document.querySelectorAll('.game-card').forEach(card => {
   ta.onclick = () => openEdit(ta, 'home_talk_ta', '对方');
 })();
 
+/* 暴露给 settings.js 用 */
+window.applyHomeWallpaper = applyHomeWallpaper;
+
 refreshMessages();
 applyHomeAssets();
+applyHomeWallpaper();
 updateHomeTime();
-setInterval(updateHomeTime, 30000);
 (function() {
   const taNameEl = document.getElementById('taName');
   if (taNameEl) taNameEl.textContent = load('ta_name', 'TA');
