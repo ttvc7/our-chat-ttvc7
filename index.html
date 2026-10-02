@@ -25,12 +25,19 @@
 
 <div id="homePage" class="page">
   <div class="home-top">
-    <div class="home-avatar" id="homeTaAvatar">TA</div>
+    <div class="home-avatar-wrap">
+      <div class="home-avatar" id="homeTaAvatar">TA</div>
+      <div class="home-name" id="homeTaName">TA</div>
+    </div>
     <svg class="heartbeat" viewBox="0 0 200 60" preserveAspectRatio="none">
       <polyline points="0,30 40,30 50,30 55,15 60,45 65,20 70,40 75,30 120,30 130,30 135,15 140,45 145,20 150,40 155,30 200,30" fill="none" stroke="#999" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
     </svg>
-    <div class="home-avatar" id="homeMyAvatar">我</div>
+    <div class="home-avatar-wrap">
+      <div class="home-avatar" id="homeMyAvatar">我</div>
+      <div class="home-name" id="homeMyName">我</div>
+    </div>
   </div>
+
   <div class="home-grid">
     <div class="home-item" data-key="wechat">
       <div class="home-icon"><svg viewBox="0 0 24 24" fill="none" stroke="#666" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M20 12 C20 16.4 16 20 11 20 C10 20 9.1 19.9 8.2 19.7 L4 21 L5.2 17.5 C3.8 16.2 3 14.6 3 12 C3 7.6 7 4 12 4 C17 4 20 7.6 20 12 Z"></path></svg></div>
@@ -44,33 +51,34 @@
       <div class="home-icon"><svg viewBox="0 0 24 24" fill="none" stroke="#666" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="5" width="18" height="16" rx="2"></rect><path d="M3 9 H21 M8 3 V7 M16 3 V7"></path><path d="M12 13 L12 17 M10 15 L14 15"></path></svg></div>
       <div class="home-label">纪念日</div>
     </div>
-    <div class="home-item" data-key="puzzle">
-      <div class="home-icon"><svg viewBox="0 0 24 24" fill="none" stroke="#666" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="8" height="8" rx="1"></rect><rect x="13" y="3" width="8" height="8" rx="1"></rect><rect x="3" y="13" width="8" height="8" rx="1"></rect><rect x="13" y="13" width="8" height="8" rx="1"></rect></svg></div>
-      <div class="home-label">拼图</div>
+    <div class="home-item" data-key="games">
+      <div class="home-icon"><svg viewBox="0 0 24 24" fill="none" stroke="#666" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="7" width="18" height="10" rx="4"></rect><circle cx="8" cy="12" r="1.2" fill="#666"></circle><circle cx="16" cy="12" r="1.2" fill="#666"></circle><path d="M11 12 H13"></path></svg></div>
+      <div class="home-label">小游戏</div>
     </div>
-    <div class="home-item" data-key="memory">
-      <div class="home-icon"><svg viewBox="0 0 24 24" fill="none" stroke="#666" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="8" height="12" rx="1"></rect><rect x="13" y="3" width="8" height="12" rx="1"></rect><path d="M7 7 L7 7.01 M17 7 L17 7.01"></path></svg></div>
-      <div class="home-label">记忆翻牌</div>
+    <div class="home-item" data-key="taPhone">
+      <div class="home-icon"><svg viewBox="0 0 24 24" fill="none" stroke="#666" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><rect x="6" y="2" width="12" height="20" rx="3"></rect><path d="M11 18 H13"></path></svg></div>
+      <div class="home-label">TA的手机</div>
     </div>
     <div class="home-item" data-key="settings">
       <div class="home-icon"><svg viewBox="0 0 24 24" fill="none" stroke="#666" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="3"></circle><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1-2.83 2.83l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-4 0v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1 0-4h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 2.83-2.83l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 4 0v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 0 4h-.09a1.65 1.65 0 0 0-1.51 1z"></path></svg></div>
       <div class="home-label">设置</div>
     </div>
   </div>
+
   <div class="home-bottom">
     <div class="home-card" id="homeCard">
       <img id="homeCardImg" src="" alt="" style="display:none;">
       <div class="home-card-tip" id="homeCardTip">点我选图</div>
     </div>
     <div class="home-talk">
-  <div class="home-talk-row">
-    <div class="home-talk-avatar" id="talkTaAvatar">TA</div>
-    <div class="home-talk-line" data-who="ta" id="talkTa"><span class="placeholder">点我输入</span></div>
-  </div>
-  <div class="home-talk-row reverse">
-    <div class="home-talk-line" data-who="me" id="talkMine"><span class="placeholder">点我输入</span></div>
-    <div class="home-talk-avatar" id="talkMyAvatar">我</div>
-  </div>
+      <div class="home-talk-row">
+        <div class="home-talk-avatar" id="talkTaAvatar">TA</div>
+        <div class="home-talk-line" data-who="ta" id="talkTa"><span class="placeholder">点我输入</span></div>
+      </div>
+      <div class="home-talk-row reverse">
+        <div class="home-talk-line" data-who="me" id="talkMine"><span class="placeholder">点我输入</span></div>
+        <div class="home-talk-avatar" id="talkMyAvatar">我</div>
+      </div>
     </div>
   </div>
 </div>
@@ -155,8 +163,26 @@
 
 <div id="settingsModal" class="modal hidden"><div class="modal-box"><div class="modal-head"><span>设置</span><button id="closeSettingsBtn">×</button></div><div class="modal-body"></div></div></div>
 
-<script>
-  const messagesEl = document.getElementById('messages');
+<!-- 小游戏面板 -->
+<div id="gamesModal" class="modal hidden">
+  <div class="modal-box">
+    <div class="modal-head"><span>小游戏</span><button id="closeGamesBtn">×</button></div>
+    <div class="modal-body">
+      <div class="games-grid">
+        <div class="game-card" data-game="puzzle">
+          <div class="game-icon"><svg viewBox="0 0 24 24" fill="none" stroke="#666" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="8" height="8" rx="1"></rect><rect x="13" y="3" width="8" height="8" rx="1"></rect><rect x="3" y="13" width="8" height="8" rx="1"></rect><rect x="13" y="13" width="8" height="8" rx="1"></rect></svg></div>
+          <div class="game-name">拼图</div>
+        </div>
+        <div class="game-card" data-game="memory">
+          <div class="game-icon"><svg viewBox="0 0 24 24" fill="none" stroke="#666" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="8" height="12" rx="1"></rect><rect x="13" y="3" width="8" height="12" rx="1"></rect><path d="M7 7 L7 7.01 M17 7 L17 7.01"></path></svg></div>
+          <div class="game-name">记忆翻牌</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script>const messagesEl = document.getElementById('messages');
 const inputEl = document.getElementById('input');
 
 function load(key, def) {
@@ -456,8 +482,7 @@ document.getElementById('refundLink').onclick = () => {
   save('our_messages', msgs);
   receiveModal.classList.add('hidden');
   refreshMessages();
-};
-  document.addEventListener('dblclick', function(e) {
+};document.addEventListener('dblclick', function(e) {
   const avatar = e.target.closest('.avatar');
   if (!avatar) return;
   const row = avatar.closest('.msg-row');
@@ -789,17 +814,34 @@ function scheduleAutoMessage() {
   }, delay);
 }
 
-function applyHomeAvatars() {
+function applyHomeAssets() {
   const myA = document.getElementById('homeMyAvatar');
   const taA = document.getElementById('homeTaAvatar');
+  const myNameEl = document.getElementById('homeMyName');
+  const taNameEl = document.getElementById('homeTaName');
   const myUrl = load('my_avatar', ''), taUrl = load('ta_avatar', '');
+  const myName = load('my_name', '我'), taName = load('ta_name', 'TA');
   if (myA) {
     if (myUrl) { myA.style.background = `url(${myUrl}) center/cover no-repeat`; myA.textContent = ''; }
-    else myA.textContent = (load('my_name', '我')).charAt(0);
+    else myA.textContent = myName.charAt(0);
   }
   if (taA) {
     if (taUrl) { taA.style.background = `url(${taUrl}) center/cover no-repeat`; taA.textContent = ''; }
-    else taA.textContent = (load('ta_name', 'TA')).charAt(0);
+    else taA.textContent = taName.charAt(0);
+  }
+  if (myNameEl) myNameEl.textContent = myName;
+  if (taNameEl) taNameEl.textContent = taName;
+
+  // 底部对话头像
+  const tmA = document.getElementById('talkMyAvatar');
+  const ttA = document.getElementById('talkTaAvatar');
+  if (tmA) {
+    if (myUrl) { tmA.style.background = `url(${myUrl}) center/cover no-repeat`; tmA.textContent = ''; }
+    else tmA.textContent = myName.charAt(0);
+  }
+  if (ttA) {
+    if (taUrl) { ttA.style.background = `url(${taUrl}) center/cover no-repeat`; ttA.textContent = ''; }
+    else ttA.textContent = taName.charAt(0);
   }
 }
 
@@ -810,8 +852,17 @@ document.querySelectorAll('.home-item').forEach(item => {
     else if (key === 'settings') { document.getElementById('settingsModal').classList.remove('hidden'); }
     else if (key === 'moments') alert('朋友圈功能开发中…');
     else if (key === 'anniversary') alert('纪念日功能开发中…');
-    else if (key === 'puzzle') alert('拼图功能开发中…');
-    else if (key === 'memory') alert('记忆翻牌功能开发中…');
+    else if (key === 'games') { document.getElementById('gamesModal').classList.remove('hidden'); }
+    else if (key === 'taPhone') alert('TA的手机功能开发中…');
+  };
+});
+
+document.getElementById('closeGamesBtn').onclick = () => document.getElementById('gamesModal').classList.add('hidden');
+document.querySelectorAll('.game-card').forEach(card => {
+  card.onclick = () => {
+    const g = card.dataset.game;
+    if (g === 'puzzle') alert('拼图功能开发中…');
+    else if (g === 'memory') alert('记忆翻牌功能开发中…');
   };
 });
 
@@ -863,7 +914,7 @@ document.querySelectorAll('.home-item').forEach(item => {
 })();
 
 refreshMessages();
-applyHomeAvatars();
+applyHomeAssets();
 (function() {
   const taNameEl = document.getElementById('taName');
   if (taNameEl) taNameEl.textContent = load('ta_name', 'TA');
