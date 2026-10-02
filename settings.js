@@ -26,7 +26,8 @@
     chatBgImage: load('chat_bg_image', ''),
     taAvatarStyle: load('avatar_style_ta', ''),
     myAvatarStyle: load('avatar_style_my', ''),
-    themeColor: load('theme_color', '')
+    themeColor: load('theme_color', ''),
+    homeWallpaper: load('home_wallpaper', '')
   };
 
   function applyAll() {
@@ -76,7 +77,6 @@
       document.head.appendChild(s);
     }
     s.textContent = `
-      #send { background: ${color} !important; }
       .card-tab.active { color: ${color} !important; background: ${color}22 !important; }
       .card-cat.active { background: ${color} !important; }
       .back { color: ${color} !important; }
@@ -123,6 +123,18 @@
   function renderBeautify() {
     settingsBody.innerHTML = `
       <div class="sub-head">${backBtn()}美化</div>
+      <div class="sec-title">首页壁纸</div>
+      <div class="wallpaper-row">
+        <div class="wallpaper-dot" data-wp="#f5f5f5" style="background:#f5f5f5"></div>
+        <div class="wallpaper-dot" data-wp="linear-gradient(180deg,#ffe8ec 0%,#f8d7e3 100%)" style="background:linear-gradient(180deg,#ffe8ec,#f8d7e3)"></div>
+        <div class="wallpaper-dot" data-wp="linear-gradient(180deg,#e8f0ff 0%,#d7e4f8 100%)" style="background:linear-gradient(180deg,#e8f0ff,#d7e4f8)"></div>
+        <div class="wallpaper-dot" data-wp="linear-gradient(180deg,#e8fff2 0%,#c8f0dc 100%)" style="background:linear-gradient(180deg,#e8fff2,#c8f0dc)"></div>
+        <div class="wallpaper-dot" data-wp="linear-gradient(180deg,#f3e8ff 0%,#e0d0f5 100%)" style="background:linear-gradient(180deg,#f3e8ff,#e0d0f5)"></div>
+        <div class="wallpaper-dot" data-wp="linear-gradient(180deg,#fff4e0 0%,#f5e0c8 100%)" style="background:linear-gradient(180deg,#fff4e0,#f5e0c5)"></div>
+      </div>
+      <input type="file" id="wallpaperUpload" accept="image/*" style="display:none;">
+      <button class="btn-secondary" id="pickWallpaperBtn">从相册选首页壁纸</button>
+
       <div class="sec-title">聊天背景</div>
       <div class="color-row">
         <div class="color-dot" style="background:#f5f5f5" data-bg="#f5f5f5"></div>
@@ -132,7 +144,8 @@
         <div class="color-dot" style="background:#eef4ee" data-bg="#eef4ee"></div>
       </div>
       <input type="file" id="bgUpload" accept="image/*" style="display:none;">
-      <button class="btn-secondary" id="pickBgBtn">从相册选背景图</button>
+      <button class="btn-secondary" id="pickBgBtn">从相册选聊天背景</button>
+
       <div class="sec-title">气泡形状</div>
       <div class="opt-grid">
         <div class="opt-card" data-bubble="sharp">标准尖角</div>
@@ -158,6 +171,37 @@
   }
 
   function bindBeautify() {
+    // 首页壁纸
+    settingsBody.querySelectorAll('.wallpaper-dot').forEach(dot => {
+      dot.onclick = () => {
+        const wp = dot.dataset.wp;
+        const homePage = document.getElementById('homePage');
+        if (homePage) homePage.style.background = wp;
+        save('home_wallpaper', wp);
+        settingsBody.querySelectorAll('.wallpaper-dot').forEach(d => d.classList.remove('active'));
+        dot.classList.add('active');
+      };
+    });
+    const pickWpBtn = document.getElementById('pickWallpaperBtn');
+    const wpUpload = document.getElementById('wallpaperUpload');
+    if (pickWpBtn && wpUpload) {
+      pickWpBtn.onclick = () => wpUpload.click();
+      wpUpload.onchange = (e) => {
+        const file = e.target.files[0];
+        if (!file) return;
+        const reader = new FileReader();
+        reader.onload = (ev) => {
+          const url = ev.target.result;
+          const homePage = document.getElementById('homePage');
+          if (homePage) homePage.style.background = `url(${url}) center/cover no-repeat`;
+          save('home_wallpaper', url);
+        };
+        reader.readAsDataURL(file);
+        wpUpload.value = '';
+      };
+    }
+
+    // 聊天背景色
     settingsBody.querySelectorAll('.color-dot').forEach(dot => {
       dot.onclick = () => {
         const bg = dot.dataset.bg;
@@ -226,7 +270,7 @@
       <div class="sub-head">${backBtn()}外观</div>
       <div class="sec-title">文字 & 主题颜色</div>
       <input type="color" class="color-slider" id="textColorPicker" value="${cfg.textColor}">
-      <button class="btn-primary" id="applyTextColor">应用颜色（文字 + 按钮同步）</button>
+      <button class="btn-primary" id="applyTextColor">应用颜色</button>
       <div class="sec-title">主题 CSS（高级）</div>
       <textarea class="css-area" id="themeCssInput" placeholder="body { ... }"></textarea>
       <button class="btn-primary" id="applyThemeCss">应用主题 CSS</button>
@@ -299,6 +343,7 @@
           document.getElementById('myAvatarPreview').style.backgroundImage = `url(${url})`;
         }
         applyAll();
+        if (window.applyHomeAssets) window.applyHomeAssets();
       });
       avatarUpload.value = '';
     };
@@ -308,6 +353,7 @@
       cfg.taName = ta; cfg.myName = my;
       save('ta_name', ta); save('my_name', my);
       applyAll();
+      if (window.applyHomeAssets) window.applyHomeAssets();
       alert('已保存');
     };
     settingsBody.querySelectorAll('.opt-card').forEach(card => {
@@ -388,7 +434,7 @@
       <div class="sec-title">转账反应（TA 收到你转账时）</div>
       <div class="input-row"><span class="label">自动收款</span><input type="number" id="transRecvInput" value="${transRecv}" min="0" max="100"><span class="label">%</span></div>
       <div class="input-row"><span class="label">自动退还</span><input type="number" id="transRefInput" value="${transRef}" min="0" max="100"><span class="label">%</span></div>
-      <div class="input-row"><span class="label">不理（保持待收款）</span><input type="number" id="transIgnInput" value="${transIgn}" min="0" max="100"><span class="label">%</span></div>
+      <div class="input-row"><span class="label">不理</span><input type="number" id="transIgnInput" value="${transIgn}" min="0" max="100"><span class="label">%</span></div>
       <div class="sec-title">自动消息（TA 主动）</div>
       <div class="input-row"><span class="label">最短间隔</span><input type="number" id="autoMsgMinInput" value="${autoMsgMin}" min="1" max="120"><span class="label">分钟</span></div>
       <div class="input-row"><span class="label">最长间隔</span><input type="number" id="autoMsgMaxInput" value="${autoMsgMax}" min="1" max="120"><span class="label">分钟</span></div>
@@ -401,7 +447,6 @@
       <button class="btn-danger" id="clearCards">清空所有字卡</button>
     `;
     bindBack();
-
     document.getElementById('saveChatSettings').onclick = () => {
       const rmin = parseInt(document.getElementById('replyMinInput').value) || 1;
       const rmax = parseInt(document.getElementById('replyMaxInput').value) || 1;
@@ -418,7 +463,6 @@
       const atp = parseInt(document.getElementById('autoTransProbInput').value) || 0;
       const atm = parseInt(document.getElementById('autoTransMinInput').value) || 0;
       const atM = parseInt(document.getElementById('autoTransMaxInput').value) || 0;
-
       save('reply_min', Math.min(rmin, rmax));
       save('reply_max', Math.max(rmin, rmax));
       save('delay_min', Math.min(dmin, dmax));
@@ -437,7 +481,6 @@
       alert('已保存');
       if (typeof scheduleAutoMessage === 'function') scheduleAutoMessage();
     };
-
     document.getElementById('clearMessages').onclick = () => {
       if (confirm('确定清空聊天记录吗？')) {
         localStorage.removeItem('our_messages');
@@ -528,8 +571,7 @@
       img.onload = () => {
         const canvas = document.createElement('canvas');
         let w = img.width, h = img.height;
-        if (w > h) { if (w > maxSize) { h = h * maxSize / w; w = maxSize; } }
-        else { if (h > maxSize) { w = w * maxSize / h; h = maxSize; } }
+        if (w > h) { if (w > maxSize) { h = h * maxSize / w; w = maxSize; } } else { if (h > maxSize) { w = w * maxSize / h; h = maxSize; } }
         canvas.width = w; canvas.height = h;
         canvas.getContext('2d').drawImage(img, 0, 0, w, h);
         callback(canvas.toDataURL('image/jpeg', 0.85));
@@ -543,15 +585,12 @@
 
   window.addEventListener('load', () => {
     applyAll();
-
-    // 设置面板：每次打开时如果空白，就渲染主菜单
     const observer = new MutationObserver(() => {
       if (!settingsModal.classList.contains('hidden')) {
         if (!settingsBody.innerHTML.trim()) renderMain();
       }
     });
     observer.observe(settingsModal, { attributes: true, attributeFilter: ['class'] });
-
     const bubbleCss = localStorage.getItem('bubble_css');
     if (bubbleCss) {
       const s = document.createElement('style');
