@@ -26,8 +26,7 @@
     chatBgImage: load('chat_bg_image', ''),
     taAvatarStyle: load('avatar_style_ta', ''),
     myAvatarStyle: load('avatar_style_my', ''),
-    themeColor: load('theme_color', ''),
-    homeWallpaper: load('home_wallpaper', '')
+    themeColor: load('theme_color', '')
   };
 
   function applyAll() {
@@ -67,6 +66,7 @@
         avatar.style.borderRadius = radius;
       }
     });
+    if (typeof window.applyHomeAssets === 'function') window.applyHomeAssets();
   }
 
   function applyThemeColor(color) {
@@ -77,6 +77,7 @@
       document.head.appendChild(s);
     }
     s.textContent = `
+      #send { background: ${color} !important; }
       .card-tab.active { color: ${color} !important; background: ${color}22 !important; }
       .card-cat.active { background: ${color} !important; }
       .back { color: ${color} !important; }
@@ -88,14 +89,30 @@
   function renderMain() {
     settingsBody.innerHTML = `
       <div class="settings-grid">
-        <div class="settings-item" data-key="美化"><span class="icon">✨</span>美化</div>
-        <div class="settings-item" data-key="外观"><span class="icon">🎨</span>外观</div>
-        <div class="settings-item" data-key="聊天"><span class="icon">💬</span>聊天</div>
-        <div class="settings-item" data-key="音乐"><span class="icon">🎵</span>音乐</div>
-        <div class="settings-item" data-key="信箱"><span class="icon">✉️</span>信箱</div>
-        <div class="settings-item" data-key="陪伴"><span class="icon">💗</span>陪伴</div>
-        <div class="settings-item" data-key="备份"><span class="icon">💾</span>备份</div>
-        <div class="settings-item" data-key="关于"><span class="icon">ℹ️</span>关于</div>
+        <div class="settings-item" data-key="美化">
+          <span class="icon"><svg viewBox="0 0 24 24" fill="none" stroke="#666" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3 L13.5 8.5 L19 10 L13.5 11.5 L12 17 L10.5 11.5 L5 10 L10.5 8.5 Z"></path></svg></span>美化
+        </div>
+        <div class="settings-item" data-key="外观">
+          <span class="icon"><svg viewBox="0 0 24 24" fill="none" stroke="#666" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"></circle><circle cx="8.5" cy="9.5" r="1.2" fill="#666"></circle><circle cx="15.5" cy="9.5" r="1.2" fill="#666"></circle><circle cx="8.5" cy="15" r="1.2" fill="#666"></circle><circle cx="15.5" cy="15" r="1.2" fill="#666"></circle></svg></span>外观
+        </div>
+        <div class="settings-item" data-key="聊天">
+          <span class="icon"><svg viewBox="0 0 24 24" fill="none" stroke="#666" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M20 12 C20 16.4 16 20 11 20 C10 20 9.1 19.9 8.2 19.7 L4 21 L5.2 17.5 C3.8 16.2 3 14.6 3 12 C3 7.6 7 4 12 4 C17 4 20 7.6 20 12 Z"></path></svg></span>聊天
+        </div>
+        <div class="settings-item" data-key="音乐">
+          <span class="icon"><svg viewBox="0 0 24 24" fill="none" stroke="#666" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><circle cx="7" cy="17" r="2.5"></circle><circle cx="17" cy="15" r="2.5"></circle><path d="M9.5 17 V7 L19.5 5 V15"></path></svg></span>音乐
+        </div>
+        <div class="settings-item" data-key="信箱">
+          <span class="icon"><svg viewBox="0 0 24 24" fill="none" stroke="#666" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="6" width="18" height="13" rx="2"></rect><path d="M3 8 L12 14 L21 8"></path></svg></span>信箱
+        </div>
+        <div class="settings-item" data-key="陪伴">
+          <span class="icon"><svg viewBox="0 0 24 24" fill="none" stroke="#666" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M12 20 C12 20 4 14 4 9 C4 6.2 6.2 4 9 4 C10.5 4 11.5 4.7 12 5.5 C12.5 4.7 13.5 4 15 4 C17.8 4 20 6.2 20 9 C20 14 12 20 12 20 Z"></path></svg></span>陪伴
+        </div>
+        <div class="settings-item" data-key="备份">
+          <span class="icon"><svg viewBox="0 0 24 24" fill="none" stroke="#666" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M5 5 H15 L19 9 V19 H5 Z"></path><path d="M8 5 V10 H15 V5"></path><path d="M8 19 V14 H16 V19"></path></svg></span>备份
+        </div>
+        <div class="settings-item" data-key="关于">
+          <span class="icon"><svg viewBox="0 0 24 24" fill="none" stroke="#666" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"></circle><path d="M12 11 V16"></path><circle cx="12" cy="8" r="0.8" fill="#666"></circle></svg></span>关于
+        </div>
       </div>
     `;
     settingsBody.querySelectorAll('.settings-item').forEach(item => {
@@ -144,7 +161,7 @@
         <div class="color-dot" style="background:#eef4ee" data-bg="#eef4ee"></div>
       </div>
       <input type="file" id="bgUpload" accept="image/*" style="display:none;">
-      <button class="btn-secondary" id="pickBgBtn">从相册选聊天背景</button>
+      <button class="btn-secondary" id="pickBgBtn">从相册选背景图</button>
 
       <div class="sec-title">气泡形状</div>
       <div class="opt-grid">
@@ -153,15 +170,18 @@
         <div class="opt-card" data-bubble="pill">大圆角胶囊</div>
         <div class="opt-card" data-bubble="square">方形直角</div>
       </div>
+
       <div class="sec-title">字体大小</div>
       <div class="opt-grid">
         <div class="opt-card" data-font="14">小</div>
         <div class="opt-card" data-font="15">中</div>
         <div class="opt-card" data-font="17">大</div>
       </div>
+
       <div class="sec-title">气泡 CSS（高级）</div>
       <textarea class="css-area" id="bubbleCssInput" placeholder=".bubble { ... }"></textarea>
       <button class="btn-primary" id="applyBubbleCss">应用气泡 CSS</button>
+
       <div class="sec-title">字体 CSS（高级）</div>
       <textarea class="css-area" id="fontCssInput" placeholder=".bubble { font-family: ...; }"></textarea>
       <button class="btn-primary" id="applyFontCss">应用字体 CSS</button>
@@ -171,7 +191,6 @@
   }
 
   function bindBeautify() {
-    // 首页壁纸
     settingsBody.querySelectorAll('.wallpaper-dot').forEach(dot => {
       dot.onclick = () => {
         const wp = dot.dataset.wp;
@@ -200,8 +219,6 @@
         wpUpload.value = '';
       };
     }
-
-    // 聊天背景色
     settingsBody.querySelectorAll('.color-dot').forEach(dot => {
       dot.onclick = () => {
         const bg = dot.dataset.bg;
@@ -270,7 +287,7 @@
       <div class="sub-head">${backBtn()}外观</div>
       <div class="sec-title">文字 & 主题颜色</div>
       <input type="color" class="color-slider" id="textColorPicker" value="${cfg.textColor}">
-      <button class="btn-primary" id="applyTextColor">应用颜色</button>
+      <button class="btn-primary" id="applyTextColor">应用颜色（文字 + 按钮同步）</button>
       <div class="sec-title">主题 CSS（高级）</div>
       <textarea class="css-area" id="themeCssInput" placeholder="body { ... }"></textarea>
       <button class="btn-primary" id="applyThemeCss">应用主题 CSS</button>
@@ -343,7 +360,6 @@
           document.getElementById('myAvatarPreview').style.backgroundImage = `url(${url})`;
         }
         applyAll();
-        if (window.applyHomeAssets) window.applyHomeAssets();
       });
       avatarUpload.value = '';
     };
@@ -353,7 +369,6 @@
       cfg.taName = ta; cfg.myName = my;
       save('ta_name', ta); save('my_name', my);
       applyAll();
-      if (window.applyHomeAssets) window.applyHomeAssets();
       alert('已保存');
     };
     settingsBody.querySelectorAll('.opt-card').forEach(card => {
@@ -400,9 +415,7 @@
       };
       box.appendChild(div);
     });
-  }
-
-  function renderChat() {
+  }function renderChat() {
     const replyMin = load('reply_min', 1);
     const replyMax = load('reply_max', 1);
     const delayMin = load('delay_min', 5);
@@ -434,7 +447,7 @@
       <div class="sec-title">转账反应（TA 收到你转账时）</div>
       <div class="input-row"><span class="label">自动收款</span><input type="number" id="transRecvInput" value="${transRecv}" min="0" max="100"><span class="label">%</span></div>
       <div class="input-row"><span class="label">自动退还</span><input type="number" id="transRefInput" value="${transRef}" min="0" max="100"><span class="label">%</span></div>
-      <div class="input-row"><span class="label">不理</span><input type="number" id="transIgnInput" value="${transIgn}" min="0" max="100"><span class="label">%</span></div>
+      <div class="input-row"><span class="label">不理（保持待收款）</span><input type="number" id="transIgnInput" value="${transIgn}" min="0" max="100"><span class="label">%</span></div>
       <div class="sec-title">自动消息（TA 主动）</div>
       <div class="input-row"><span class="label">最短间隔</span><input type="number" id="autoMsgMinInput" value="${autoMsgMin}" min="1" max="120"><span class="label">分钟</span></div>
       <div class="input-row"><span class="label">最长间隔</span><input type="number" id="autoMsgMaxInput" value="${autoMsgMax}" min="1" max="120"><span class="label">分钟</span></div>
@@ -447,6 +460,7 @@
       <button class="btn-danger" id="clearCards">清空所有字卡</button>
     `;
     bindBack();
+
     document.getElementById('saveChatSettings').onclick = () => {
       const rmin = parseInt(document.getElementById('replyMinInput').value) || 1;
       const rmax = parseInt(document.getElementById('replyMaxInput').value) || 1;
@@ -463,6 +477,7 @@
       const atp = parseInt(document.getElementById('autoTransProbInput').value) || 0;
       const atm = parseInt(document.getElementById('autoTransMinInput').value) || 0;
       const atM = parseInt(document.getElementById('autoTransMaxInput').value) || 0;
+
       save('reply_min', Math.min(rmin, rmax));
       save('reply_max', Math.max(rmin, rmax));
       save('delay_min', Math.min(dmin, dmax));
@@ -481,6 +496,7 @@
       alert('已保存');
       if (typeof scheduleAutoMessage === 'function') scheduleAutoMessage();
     };
+
     document.getElementById('clearMessages').onclick = () => {
       if (confirm('确定清空聊天记录吗？')) {
         localStorage.removeItem('our_messages');
@@ -571,7 +587,8 @@
       img.onload = () => {
         const canvas = document.createElement('canvas');
         let w = img.width, h = img.height;
-        if (w > h) { if (w > maxSize) { h = h * maxSize / w; w = maxSize; } } else { if (h > maxSize) { w = w * maxSize / h; h = maxSize; } }
+        if (w > h) { if (w > maxSize) { h = h * maxSize / w; w = maxSize; } }
+        else { if (h > maxSize) { w = w * maxSize / h; h = maxSize; } }
         canvas.width = w; canvas.height = h;
         canvas.getContext('2d').drawImage(img, 0, 0, w, h);
         callback(canvas.toDataURL('image/jpeg', 0.85));
@@ -585,12 +602,14 @@
 
   window.addEventListener('load', () => {
     applyAll();
+
     const observer = new MutationObserver(() => {
       if (!settingsModal.classList.contains('hidden')) {
         if (!settingsBody.innerHTML.trim()) renderMain();
       }
     });
     observer.observe(settingsModal, { attributes: true, attributeFilter: ['class'] });
+
     const bubbleCss = localStorage.getItem('bubble_css');
     if (bubbleCss) {
       const s = document.createElement('style');
