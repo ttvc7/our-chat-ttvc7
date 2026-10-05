@@ -86,7 +86,30 @@
   </div>
 </div>
 
-<div id="chatPage" class="page hidden">
+<!-- 纪念日页面 -->
+<div id="annivPage" class="page hidden">
+  <header class="chat-header">
+    <div class="header-left">
+      <button class="header-btn" id="backFromAnnivBtn">
+        <svg viewBox="0 0 24 24" fill="none" stroke="#666" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M15 6 L9 12 L15 18"></path></svg>
+      </button>
+    </div>
+    <span>纪念日</span>
+    <div class="header-right"></div>
+  </header>
+  <div class="anniv-body">
+    <div class="anniv-main">
+      <div class="anniv-label">我们已经在一起</div>
+      <div class="anniv-days" id="annivDays">0</div>
+      <div class="anniv-label">天</div>
+      <button class="btn-secondary" id="editStartBtn" style="max-width:200px;margin-top:20px;">设置起始日期</button>
+    </div>
+    <div class="anniv-list-title">纪念日列表</div>
+    <div class="anniv-list" id="annivList"></div>
+    <button class="btn-primary" id="addAnnivBtn" style="margin-top:10px;">+ 添加纪念日</button>
+  </div>
+    </div>
+  <div id="chatPage" class="page hidden">
   <header class="chat-header">
     <div class="header-left">
       <button class="header-btn" id="backHomeBtn">
