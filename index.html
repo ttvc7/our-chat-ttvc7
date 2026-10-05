@@ -986,6 +986,80 @@ updateHomeTime();
   if (taNameEl) taNameEl.textContent = load('ta_name', 'TA');
 })();
 scheduleAutoMessage();
+/* ===== 纪念日逻辑 ===== */
+function loadAnnivList() {
+  try { return JSON.parse(localStorage.getItem('anniv_list') || '[]'); }
+  catch (e) { return []; }
+}
+function saveAnnivList(list) {
+  localStorage.setItem('anniv_list', JSON.stringify(list));
+}
+
+function renderAnniv() {
+  const start = localStorage.getItem('anniv_start') || '';
+  const daysEl = document.getElementById('annivDays');
+  if (start) {
+    const diff = Math.floor((Date.now() - new Date(start).getTime()) / 86400000);
+    daysEl.textContent = diff >= 0 ? diff : 0;
+  } else {
+    daysEl.textContent = '--';
+  }
+
+  const list = loadAnnivList();
+  const listEl = document.getElementById('annivList');
+  if (list.length === 0) {
+    listEl.innerHTML = '<div style="color:#999;font-size:13px;text-align:center;padding:20px;">还没有纪念日，点下面添加</div>';
+    return;
+  }
+  listEl.innerHTML = '';
+  list.forEach((item, idx) => {
+    const div = document.createElement('div');
+    div.className = 'anniv-item';
+    const now = new Date();
+    const target = new Date(now.getFullYear(), item.month - 1, item.day);
+    if (target < now) target.setFullYear(now.getFullYear() + 1);
+    const left = Math.ceil((target - now) / 86400000);
+    div.innerHTML = `
+      <div class="anniv-item-info">
+        <div class="anniv-item-name">${item.name}</div>
+        <div class="anniv-item-date">${item.month}月${item.day}日</div>
+      </div>
+      <div class="anniv-item-days">还有 ${left} 天</div>
+      <button class="anniv-item-del">×</button>
+    `;
+    div.querySelector('.anniv-item-del').onclick = () => {
+      list.splice(idx, 1);
+      saveAnnivList(list);
+      renderAnniv();
+    };
+    listEl.appendChild(div);
+  });
+}
+
+document.getElementById('backFromAnnivBtn').onclick = () => showPage('homePage');
+
+document.getElementById('editStartBtn').onclick = () => {
+  const current = localStorage.getItem('anniv_start') || '';
+  const v = prompt('输入在一起的起始日期（格式：2024-01-01）', current);
+  if (v === null) return;
+  const date = v.trim();
+  if (!/^\d{4}-\d{2}-\d{2}$/.test(date)) { alert('格式不对，应该是 2024-01-01 这样'); return; }
+  localStorage.setItem('anniv_start', date);
+  renderAnniv();
+};
+
+document.getElementById('addAnnivBtn').onclick = () => {
+  const name = prompt('纪念日名称（比如：我的生日）');
+  if (!name) return;
+  const dateStr = prompt('日期（格式：10-02）');
+  if (!dateStr) return;
+  const m = dateStr.match(/^(\d{1,2})-(\d{1,2})$/);
+  if (!m) { alert('格式不对，应该是 10-02 这样'); return; }
+  const list = loadAnnivList();
+  list.push({ name: name.trim(), month: parseInt(m[1]), day: parseInt(m[2]) });
+  saveAnnivList(list);
+  renderAnniv();
+};
 </script>
 
 <script src="settings.js"></script>
