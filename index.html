@@ -912,7 +912,7 @@ document.querySelectorAll('.home-item').forEach(item => {
     if (key === 'wechat') { showPage('chatPage'); refreshMessages(); }
     else if (key === 'settings') { document.getElementById('settingsModal').classList.remove('hidden'); }
     else if (key === 'moments') alert('朋友圈功能开发中…');
-    else if (key === 'anniversary') alert('纪念日功能开发中…');
+    else if (key === 'anniversary') { showPage('annivPage'); renderAnniv(); }
     else if (key === 'games') { document.getElementById('gamesModal').classList.remove('hidden'); }
     else if (key === 'taPhone') alert('TA的手机功能开发中…');
   };
