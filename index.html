@@ -552,7 +552,24 @@ document.getElementById('backHomeBtn').onclick = () => showPage('homePage');
       }
       if (key === 'gift') alert('礼物功能开发中…');
       if (key === 'survey') alert('问卷功能开发中…');
-      if (key === 'continue') alert('继续说功能开发中…');
+      if (key === 'continue') {
+  const rMin = load('reply_min', 1);
+  const rMax = load('reply_max', 1);
+  const count = Math.min(rMin, rMax) + Math.floor(Math.random() * (Math.abs(rMax - rMin) + 1));
+  (async () => {
+    for (let i = 0; i < count; i++) {
+      if (i > 0) {
+        await new Promise(r => setTimeout(r, 500 + Math.random() * 1500));
+      }
+      showTyping();
+      await new Promise(r => setTimeout(r, 800 + Math.random() * 1000));
+      const reply = drawCardText();
+      const quote = drawQuote();
+      hideTyping();
+      addMessage('ta', reply, quote, true);
+    }
+  })();
+  }
     };
   });
 })();
