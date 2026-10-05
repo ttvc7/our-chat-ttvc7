@@ -131,13 +131,21 @@ body {
   font-size: 14px; color: #666; flex-shrink: 0;
 }
 .home-talk-line {
-  flex: 1; padding: 6px 10px;
-  border-bottom: 1px dashed #bbb;
-  font-size: 14px; color: #666; cursor: pointer;
-  min-height: 20px; word-break: break-word; text-align: center;
+  flex: 1;
+  padding: 10px 14px;
+  background: rgba(255, 255, 255, 0.7);
+  border-radius: 14px;
+  box-shadow: 0 2px 6px rgba(0,0,0,0.06);
+  font-size: 14px;
+  color: #666;
+  cursor: pointer;
+  min-height: 20px;
+  word-break: break-word;
+  text-align: center;
+  border: none;
 }
-.home-talk-line .placeholder { color: #ccc; }
-.home-talk-line.filled { color: #333; border-bottom-color: #999; }
+.home-talk-line .placeholder { color: #bbb; }
+.home-talk-line.filled { color: #333; }
 
 /* 小游戏弹窗 */
 .games-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 14px; padding: 10px 0; }
