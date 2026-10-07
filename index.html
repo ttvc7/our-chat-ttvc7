@@ -1057,6 +1057,170 @@ updateHomeTime();
   if (taNameEl) taNameEl.textContent = load('ta_name', 'TA');
 })();
 scheduleAutoMessage();
+  /* ===== 商店 ===== */
+let shopItems = load('our_shop_items', []);
+let shopOrders = load('our_shop_orders', []);
+let editingShopId = null;
+let currentDetailId = null;
+let pendingShopImage = '';
+
+function saveShopItems() { save('our_shop_items', shopItems); }
+function saveShopOrders() { save('our_shop_orders', shopOrders); }
+
+function showShopPage() {
+  showPage('shopPage');
+  renderShopItems();
+  renderShopOrders();
+}
+
+function renderShopItems() {
+  const box = document.getElementById('shopItemsPanel');
+  if (!box) return;
+  if (shopItems.length === 0) {
+    box.innerHTML = '<div class="shop-empty">还没有商品，点右下角 + 添加一个吧</div>';
+    return;
+  }
+  box.innerHTML = '<div class="shop-item-grid"></div>';
+  const grid = box.firstElementChild;
+  shopItems.forEach(it => {
+    const card = document.createElement('div');
+    card.className = 'shop-item-card';
+    card.innerHTML = `
+      <img src="${it.img || ''}" alt="">
+      <div class="shop-item-name">${it.name || '未命名'}</div>
+      <div class="shop-item-price">¥${(it.price || 0)}</div>
+    `;
+    card.onclick = () => openShopDetail(it.id);
+    grid.appendChild(card);
+  });
+}
+
+function renderShopOrders() {
+  const box = document.getElementById('shopOrdersPanel');
+  if (!box) return;
+  if (shopOrders.length === 0) {
+    box.innerHTML = '<div class="shop-empty">还没有订单</div>';
+    return;
+  }
+  box.innerHTML = '';
+  shopOrders.slice().reverse().forEach(o => {
+    const div = document.createElement('div');
+    div.className = 'shop-order-item';
+    const dir = o.direction === 'me_to_ta' ? '我买给他的' : '他买给我的';
+    div.innerHTML = `
+      <img src="${o.img || ''}" alt="">
+      <div class="shop-order-info">
+        <div class="shop-order-title">${o.name || ''}</div>
+        <div class="shop-order-sub">${dir} · ¥${o.price || 0} · ${new Date(o.t).toLocaleString('zh-CN')}</div>
+      </div>
+    `;
+    box.appendChild(div);
+  });
+}
+
+function openShopEdit(item) {
+  editingShopId = item ? item.id : null;
+  pendingShopImage = item ? (item.img || '') : '';
+  document.getElementById('shopEditTitle').textContent = item ? '编辑商品' : '添加商品';
+  document.getElementById('shopNameInput').value = item ? (item.name || '') : '';
+  document.getElementById('shopPriceInput').value = item ? (item.price || '') : '';
+  document.getElementById('shopDescInput').value = item ? (item.desc || '') : '';
+  const img = document.getElementById('shopImgPreview');
+  const plus = document.getElementById('shopImgPlus');
+  if (pendingShopImage) { img.src = pendingShopImage; img.style.display = 'block'; plus.style.display = 'none'; }
+  else { img.style.display = 'none'; plus.style.display = 'block'; }
+  document.getElementById('shopEditModal').classList.remove('hidden');
+}
+function closeShopEdit() {
+  document.getElementById('shopEditModal').classList.add('hidden');
+}
+
+function openShopDetail(id) {
+  const it = shopItems.find(x => x.id === id);
+  if (!it) return;
+  currentDetailId = id;
+  document.getElementById('detailImg').src = it.img || '';
+  document.getElementById('detailName').textContent = it.name || '未命名';
+  document.getElementById('detailPrice').textContent = '¥' + (it.price || 0);
+  document.getElementById('detailDesc').textContent = it.desc || '（暂无介绍）';
+  document.getElementById('shopDetailModal').classList.remove('hidden');
+}
+function closeShopDetail() {
+  document.getElementById('shopDetailModal').classList.add('hidden');
+}
+
+function buyForTa(it) {
+  const taName = load('ta_name', 'TA');
+  addShopCard('me', `我给${taName}赠送了商品`, it.name, it.img, '已接收', false);
+  addSystemTip('对方已收下');
+  shopOrders.push({
+    id: Date.now() + '_' + Math.random().toString(36).slice(2, 8),
+    direction: 'me_to_ta', itemId: it.id, name: it.name,
+    price: it.price, img: it.img, t: Date.now()
+  });
+  saveShopOrders();
+  renderShopOrders();
+}
+
+function helpPay(it) {
+  const taName = load('ta_name', 'TA');
+  const orderId = Date.now() + '_pay_' + Math.random().toString(36).slice(2, 8);
+  const cardId = orderId + '_mine';
+  addShopCard('me', `我希望你帮付¥${it.price}`, it.name, it.img, '待付款', false, cardId);
+  setTimeout(() => {
+    addShopCard('ta', `我给${taName}赠送了商品`, it.name, it.img, '已接收', false);
+    addSystemTip('对方已收下');
+    const el = document.querySelector(`[data-shop-card="${cardId}"] .shop-card-status .tag`);
+    if (el) el.textContent = '已付款';
+    shopOrders.push({
+      id: orderId, direction: 'ta_to_me', itemId: it.id, name: it.name,
+      price: it.price, img: it.img, t: Date.now()
+    });
+    saveShopOrders();
+    renderShopOrders();
+  }, 5000 + Math.random() * 1000);
+}
+
+function addShopCard(sender, title, sub, img, status, store, cardId) {
+  const row = document.createElement('div');
+  row.className = 'msg-row ' + (sender === 'me' ? 'me' : 'ta');
+  if (cardId) row.dataset.shopCard = cardId;
+  const avatar = document.createElement('div');
+  avatar.className = 'avatar';
+  const isMe = sender === 'me';
+  const avatarUrl = isMe ? load('my_avatar', '') : load('ta_avatar', '');
+  if (avatarUrl) { avatar.style.background = `url(${avatarUrl}) center/cover no-repeat`; avatar.textContent = ''; }
+  else { const name = isMe ? load('my_name', '我') : load('ta_name', 'TA'); avatar.textContent = name.charAt(0); }
+  const card = document.createElement('div');
+  card.className = 'shop-card';
+  card.innerHTML = `
+    <div class="shop-card-top">
+      <img src="${img || ''}" alt="">
+      <div style="flex:1;">
+        <div class="shop-card-title">${title}</div>
+        <div class="shop-card-sub">${sub || ''}</div>
+      </div>
+    </div>
+    <div class="shop-card-line"></div>
+    <div class="shop-card-status"><span class="tag">${status}</span></div>
+  `;
+  row.appendChild(avatar); row.appendChild(card);
+  messagesEl.appendChild(row);
+  messagesEl.scrollTop = messagesEl.scrollHeight;
+  if (store !== false) {
+    const msgs = load('our_messages', []);
+    msgs.push({ type: 'shopcard', sender, title, sub, img, status, cardId, t: Date.now() });
+    save('our_messages', msgs);
+  }
+}
+
+function addSystemTip(text) {
+  const sys = document.createElement('div');
+  sys.style.cssText = 'align-self:center;font-size:12px;color:#999;background:rgba(0,0,0,0.04);padding:4px 12px;border-radius:10px;';
+  sys.textContent = text;
+  messagesEl.appendChild(sys);
+  messagesEl.scrollTop = messagesEl.scrollHeight;
+      }
 /* ===== 纪念日逻辑 ===== */
 function loadAnnivList() {
   try { return JSON.parse(localStorage.getItem('anniv_list') || '[]'); }
