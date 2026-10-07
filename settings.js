@@ -493,6 +493,12 @@
       save('auto_trans_prob', Math.max(0, Math.min(100, atp)));
       save('auto_trans_min', Math.min(atm, atM));
       save('auto_trans_max', Math.max(atm, atM));
+      const giftProb = parseInt(document.getElementById('giftProbInput').value) || 0;
+const giftMin = parseInt(document.getElementById('giftMinInput').value) || 1;
+const giftMax = parseInt(document.getElementById('giftMaxInput').value) || 5;
+save('gift_prob', Math.max(0, Math.min(100, giftProb)));
+save('gift_min', Math.min(giftMin, giftMax));
+save('gift_max', Math.max(giftMin, giftMax));
       alert('已保存');
       if (typeof scheduleAutoMessage === 'function') scheduleAutoMessage();
     };
