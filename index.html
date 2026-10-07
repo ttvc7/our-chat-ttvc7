@@ -84,8 +84,8 @@
       </div>
     </div>
   </div>
-        </div>
-        <!-- 纪念日页面 -->
+    </div>
+    <!-- 纪念日页面 -->
 <div id="annivPage" class="page hidden">
   <header class="chat-header">
     <div class="header-left">
@@ -155,7 +155,7 @@
   <div class="lp-item" data-act="del">删除</div>
 </div>
 
-<!-- ===== 商店页 ===== -->
+<!-- 商店页 -->
 <div id="shopPage" class="page hidden">
   <header class="chat-header">
     <div class="header-left">
@@ -175,7 +175,7 @@
   <button class="shop-fab" id="shopAddBtn">+</button>
 </div>
 
-<!-- 添加 / 编辑商品弹窗 -->
+<!-- 添加/编辑商品弹窗 -->
 <div id="shopEditModal" class="modal hidden">
   <div class="shop-edit-sheet">
     <div class="shop-edit-head">
@@ -225,8 +225,8 @@
       </div>
     </div>
   </div>
-    </div>
-    <div id="stickerPanel" class="sticker-panel hidden">
+        </div>
+        <div id="stickerPanel" class="sticker-panel hidden">
   <div class="sticker-head">
     <button class="sticker-tab active" data-tab="mine">我</button>
     <button class="sticker-tab" data-tab="ta">对方</button>
@@ -336,7 +336,7 @@ function showPage(id) {
   }
 }
 
-/* ===== 时间戳工具 ===== */
+/* ===== 时间戳 ===== */
 function formatTime(t) {
   const d = new Date(t);
   const fmt = load('time_format', '24hm');
@@ -352,47 +352,37 @@ function formatTime(t) {
   return `${pad(h24)}:${pad(m)}`;
 }
 
-function applyTimePos(el) {
+function applyTimePos(row) {
   const pos = load('time_pos', 'right-bottom');
-  el.classList.remove('tp-lb', 'tp-rb', 'tp-lt', 'tp-rt', 'tp-avatar');
-  el.classList.add('tp-' + ({
-    'left-bottom': 'lb',
-    'right-bottom': 'rb',
-    'left-top': 'lt',
-    'right-top': 'rt',
-    'avatar': 'avatar'
-  }[pos] || 'rb'));
+  const cls = {
+    'left-bottom': 'tp-lb',
+    'right-bottom': 'tp-rb',
+    'left-top': 'tp-lt',
+    'right-top': 'tp-rt',
+    'avatar': 'tp-avatar'
+  }[pos] || 'tp-rb';
+  row.classList.remove('tp-lb', 'tp-rb', 'tp-lt', 'tp-rt', 'tp-avatar');
+  row.classList.add(cls);
 }
 
-function isFirstToday(t) {
-  const lastDay = load('last_msg_day', '');
-  const d = new Date(t);
-  const dayKey = `${d.getFullYear()}-${d.getMonth() + 1}-${d.getDate()}`;
-  if (dayKey !== lastDay) {
-    save('last_msg_day', dayKey);
-    return dayKey;
+function isNewDay() {
+  const last = load('last_msg_day', '');
+  const d = new Date();
+  const key = `${d.getFullYear()}-${d.getMonth() + 1}-${d.getDate()}`;
+  if (key !== last) {
+    save('last_msg_day', key);
+    return true;
   }
-  return null;
+  return false;
 }
 
-function addDateDivider(t) {
+function addDateDividerEl(t) {
   const d = new Date(t);
   const div = document.createElement('div');
   div.className = 'date-divider';
   div.textContent = `${d.getMonth() + 1}月${d.getDate()}日 ${formatTime(t)}`;
   messagesEl.appendChild(div);
-  messagesEl.scrollTop = messagesEl.scrollHeight;
-  const msgs = load('our_messages', []);
-  msgs.push({ type: 'datedivider', text: div.textContent, t });
-  save('our_messages', msgs);
 }
-  setTimeout(() => {
-  const loading = document.getElementById('loading');
-  if (loading) {
-    loading.classList.add('fade-out');
-    setTimeout(() => loading.remove(), 700);
-  }
-}, 2000);
 
 function buildAvatar(sender) {
   const avatar = document.createElement('div');
@@ -408,6 +398,13 @@ function buildAvatar(sender) {
   }
   return avatar;
 }
+  setTimeout(() => {
+  const loading = document.getElementById('loading');
+  if (loading) {
+    loading.classList.add('fade-out');
+    setTimeout(() => loading.remove(), 700);
+  }
+}, 2000);
 
 function addMessage(sender, content, quote, store, msgId) {
   const row = document.createElement('div');
@@ -425,53 +422,61 @@ function addMessage(sender, content, quote, store, msgId) {
   }
   bubble.appendChild(document.createTextNode(content));
 
-  // 时间标
   const time = document.createElement('div');
   time.className = 'msg-time';
   time.textContent = formatTime(Date.now());
-  applyTimePos(time);
 
-  // 已读标
-  const readMark = document.createElement('div');
-  readMark.className = 'read-mark';
+  applyTimePos(row);
+  row.appendChild(avatar);
+  row.appendChild(bubble);
+  row.appendChild(time);
+
+  // 已读标（只给我发的消息）
   if (sender === 'me' && load('read_receipt', true)) {
-    const style = load('read_style', 'icon');
-    if (style === 'icon') {
+    const readMark = document.createElement('div');
+    readMark.className = 'read-mark unread';
+    const rs = load('read_style', 'icon');
+    if (rs === 'icon') {
       readMark.innerHTML = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M2 13 L7 18 L15 8"></path><path d="M9 13 L12 16 L20 6"></path></svg>';
     } else {
       readMark.textContent = '未读';
     }
-    readMark.classList.add('unread');
-  } else {
-    readMark.style.display = 'none';
+    row.appendChild(readMark);
   }
 
-  row.appendChild(avatar);
-  row.appendChild(bubble);
-  row.appendChild(time);
-  row.appendChild(readMark);
   messagesEl.appendChild(row);
   messagesEl.scrollTop = messagesEl.scrollHeight;
 
+  // 时间只显示这一条
+  messagesEl.querySelectorAll('.msg-row.show-time').forEach(r => r.classList.remove('show-time'));
+  row.classList.add('show-time');
+
   if (store !== false) {
     const msgs = load('our_messages', []);
-    const dayKey = isFirstToday(Date.now());
-    if (dayKey) {
-      msgs.push({ type: 'datedivider', text: `${new Date().getMonth() + 1}月${new Date().getDate()}日 ${formatTime(Date.now())}`, t: Date.now() - 1 });
-      addDateDividerEl(Date.now() - 1);
+    if (isNewDay()) {
+      const div = { type: 'datedivider', text: `${new Date().getMonth() + 1}月${new Date().getDate()}日 ${formatTime(Date.now())}`, t: Date.now() - 1 };
+      msgs.push(div);
+      const dividerEl = document.createElement('div');
+      dividerEl.className = 'date-divider';
+      dividerEl.textContent = div.text;
+      messagesEl.insertBefore(dividerEl, row);
     }
     const m = { type: 'text', sender, content, quote: quote || '', t: Date.now(), msgId: row.dataset.msgId, read: false };
     msgs.push(m);
     save('our_messages', msgs);
+
     if (sender === 'me' && load('read_receipt', true)) {
       setTimeout(() => {
+        if (load('read_no_reply', false)) return;
         const all = load('our_messages', []);
         const x = all.find(y => y.msgId === m.msgId);
         if (x) { x.read = true; save('our_messages', all); }
         const el = document.querySelector(`[data-msg-id="${m.msgId}"] .read-mark`);
         if (el) {
           el.classList.remove('unread');
-          if (load('read_style', 'icon') === 'icon') {
+          el.classList.add('read');
+          const rs2 = load('read_style', 'icon');
+          if (rs2 === 'icon') {
             el.innerHTML = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M2 13 L7 18 L15 8"></path><path d="M9 13 L12 16 L20 6"></path></svg>';
           } else {
             el.textContent = '已读';
@@ -482,27 +487,33 @@ function addMessage(sender, content, quote, store, msgId) {
   }
 }
 
-function addDateDividerEl(t) {
-  const d = new Date(t);
-  const div = document.createElement('div');
-  div.className = 'date-divider';
-  div.textContent = `${d.getMonth() + 1}月${d.getDate()}日 ${formatTime(t)}`;
-  messagesEl.appendChild(div);
-}
-
 function addImage(sender, url, store) {
   const row = document.createElement('div');
   row.className = 'msg-row ' + (sender === 'me' ? 'me' : 'ta');
   row.dataset.msgId = Date.now() + '_' + Math.random().toString(36).slice(2, 8);
-  row.appendChild(buildAvatar(sender));
+
+  const avatar = buildAvatar(sender);
   const img = document.createElement('img');
   img.src = url;
   img.style.maxWidth = '120px';
   img.style.maxHeight = '120px';
   img.style.borderRadius = '8px';
+
+  const time = document.createElement('div');
+  time.className = 'msg-time';
+  time.textContent = formatTime(Date.now());
+
+  applyTimePos(row);
+  row.appendChild(avatar);
   row.appendChild(img);
+  row.appendChild(time);
+
   messagesEl.appendChild(row);
   messagesEl.scrollTop = messagesEl.scrollHeight;
+
+  messagesEl.querySelectorAll('.msg-row.show-time').forEach(r => r.classList.remove('show-time'));
+  row.classList.add('show-time');
+
   if (store !== false) {
     const msgs = load('our_messages', []);
     msgs.push({ type: 'image', sender, url, t: Date.now(), msgId: row.dataset.msgId });
@@ -555,7 +566,10 @@ async function sendMessage() {
   inputEl.value = '';
   const q = quoteTarget;
   quoteTarget = null;
+  inputEl.placeholder = '输入消息…';
+  inputEl.classList.remove('quoting');
   addMessage('me', text, q || '', true);
+
   const rMin = load('reply_min', 1);
   const rMax = load('reply_max', 1);
   const dMin = load('delay_min', 5);
@@ -578,7 +592,8 @@ async function sendMessage() {
   hideTyping();
 }
 inputEl.addEventListener('keydown', e => { if (e.key === 'Enter') sendMessage(); });
-  function renderTransferCard(m) {
+  /* ===== 转账卡片 ===== */
+function renderTransferCard(m) {
   const isMe = m.sender === 'me';
   const row = document.createElement('div');
   row.className = 'msg-row ' + (isMe ? 'me' : 'ta');
@@ -604,7 +619,15 @@ inputEl.addEventListener('keydown', e => { if (e.key === 'Enter') sendMessage();
   label.textContent = '转账';
   card.appendChild(label);
   card.onclick = () => openReceiveModal(m.transferId);
-  row.appendChild(avatar); row.appendChild(card);
+
+  const time = document.createElement('div');
+  time.className = 'msg-time';
+  time.textContent = formatTime(m.t || Date.now());
+
+  applyTimePos(row);
+  row.appendChild(avatar);
+  row.appendChild(card);
+  row.appendChild(time);
   messagesEl.appendChild(row);
   messagesEl.scrollTop = messagesEl.scrollHeight;
 }
@@ -643,35 +666,31 @@ function makeTaTransferCard(amount, note) {
   renderTransferCard({ type: 'transfer', from: 'ta', sender: 'ta', transferId, amount, note, status: 'pending', t, msgId });
 }
 
+/* ===== 刷新 ===== */
 function refreshMessages() {
   messagesEl.innerHTML = '';
   const msgs = load('our_messages', []);
-  let lastMsgId = null;
-  msgs.forEach((m, idx) => {
-    const next = msgs[idx + 1];
+  msgs.forEach(m => {
     if (m.type === 'transfer') renderTransferCard(m);
     else if (m.type === 'image') addImage(m.sender, m.url, false);
     else if (m.type === 'text') addMessage(m.sender, m.content, m.quote, false, m.msgId);
     else if (m.type === 'shopcard') renderShopCard(m);
     else if (m.type === 'systemtip') addSystemTip(m.text, false);
     else if (m.type === 'datedivider') addDateDividerEl(m.t);
-    if (m.type === 'text' || m.type === 'image' || m.type === 'shopcard' || m.type === 'transfer') {
-      lastMsgId = m.msgId;
-    }
   });
-  // 只为最后一条显示时间
-  const allTimes = messagesEl.querySelectorAll('.msg-time');
-  allTimes.forEach(el => { el.style.display = 'none'; });
-  if (lastMsgId) {
-    const lastRow = messagesEl.querySelector(`[data-msg-id="${lastMsgId}"]`);
-    if (lastRow) {
-      const t = lastRow.querySelector('.msg-time');
-      if (t) { t.style.display = ''; t.textContent = formatTime(Date.now()); applyTimePos(t); }
+  const rows = messagesEl.querySelectorAll('.msg-row');
+  rows.forEach(r => r.classList.remove('show-time'));
+  for (let i = rows.length - 1; i >= 0; i--) {
+    const r = rows[i];
+    if (r.querySelector('.bubble') || r.querySelector('.shop-card') || r.querySelector('.transfer-card')) {
+      r.classList.add('show-time');
+      break;
     }
   }
   messagesEl.scrollTop = messagesEl.scrollHeight;
 }
 
+/* ===== 收款 ===== */
 let currentTransferId = null;
 function openReceiveModal(transferId) {
   const msgs = load('our_messages', []);
@@ -739,7 +758,7 @@ document.getElementById('refundLink').onclick = () => {
   refreshMessages();
 };
 
-/* 拍一拍 */
+/* ===== 拍一拍 ===== */
 document.addEventListener('dblclick', function(e) {
   const avatar = e.target.closest('.avatar');
   if (!avatar) return;
@@ -761,20 +780,27 @@ document.addEventListener('dblclick', function(e) {
 let longPressTarget = null;
 let longPressTimer = null;
 
+function startLongPress(target) {
+  longPressTarget = target;
+  const menu = document.getElementById('longPressMenu');
+  menu.classList.remove('hidden');
+  const bubble = target.querySelector('.bubble, .shop-card, .transfer-card') || target;
+  const rect = bubble.getBoundingClientRect();
+  const menuW = 240;
+  let left = rect.left;
+  if (left + menuW > window.innerWidth) left = window.innerWidth - menuW - 10;
+  menu.style.left = left + 'px';
+  menu.style.top = (rect.bottom + 6) + 'px';
+}
+
 document.addEventListener('touchstart', (e) => {
   const bubble = e.target.closest('.bubble, .shop-card, .transfer-card');
   if (!bubble) return;
   const row = bubble.closest('.msg-row');
   if (!row) return;
-  longPressTimer = setTimeout(() => {
-    longPressTarget = row;
-    const menu = document.getElementById('longPressMenu');
-    menu.classList.remove('hidden');
-    const rect = bubble.getBoundingClientRect();
-    menu.style.left = Math.min(rect.left, window.innerWidth - 240) + 'px';
-    menu.style.top = (rect.bottom + 6) + 'px';
-  }, 500);
-});
+  clearTimeout(longPressTimer);
+  longPressTimer = setTimeout(() => startLongPress(row), 500);
+}, { passive: true });
 
 document.addEventListener('touchend', () => clearTimeout(longPressTimer));
 document.addEventListener('touchmove', () => clearTimeout(longPressTimer));
@@ -785,16 +811,11 @@ document.addEventListener('mousedown', (e) => {
   if (!bubble) return;
   const row = bubble.closest('.msg-row');
   if (!row) return;
-  longPressTimer = setTimeout(() => {
-    longPressTarget = row;
-    const menu = document.getElementById('longPressMenu');
-    menu.classList.remove('hidden');
-    const rect = bubble.getBoundingClientRect();
-    menu.style.left = Math.min(rect.left, window.innerWidth - 240) + 'px';
-    menu.style.top = (rect.bottom + 6) + 'px';
-  }, 500);
+  clearTimeout(longPressTimer);
+  longPressTimer = setTimeout(() => startLongPress(row), 500);
 });
 document.addEventListener('mouseup', () => clearTimeout(longPressTimer));
+
 document.addEventListener('click', (e) => {
   if (e.target.closest('#longPressMenu')) return;
   document.getElementById('longPressMenu').classList.add('hidden');
@@ -822,17 +843,16 @@ document.querySelectorAll('#longPressMenu .lp-item').forEach(item => {
       if (!m) return;
       if (m.type === 'text') {
         quoteTarget = (m.sender === 'me' ? '我：' : 'TA：') + m.content;
-        inputEl.focus();
-        inputEl.placeholder = '引用：' + m.content;
       } else if (m.type === 'shopcard') {
         quoteTarget = m.title;
-        inputEl.focus();
-        inputEl.placeholder = '引用：' + m.title;
       } else if (m.type === 'transfer') {
         quoteTarget = '转账 ¥' + m.amount;
-        inputEl.focus();
-        inputEl.placeholder = '引用：转账 ¥' + m.amount;
+      } else {
+        return;
       }
+      inputEl.focus();
+      inputEl.placeholder = '引用：' + (m.content || m.title || ('转账 ¥' + m.amount));
+      inputEl.classList.add('quoting');
     }
     if (act === 'fav') {
       if (!m) return;
@@ -851,7 +871,7 @@ document.querySelectorAll('#longPressMenu .lp-item').forEach(item => {
     }
   };
 });
-
+  /* ===== 商店卡片 ===== */
 function renderShopCard(m) {
   const row = document.createElement('div');
   row.className = 'msg-row ' + (m.sender === 'me' ? 'me' : 'ta');
@@ -884,11 +904,19 @@ function renderShopCard(m) {
       }
     };
   }
-  row.appendChild(avatar); row.appendChild(card);
+  const time = document.createElement('div');
+  time.className = 'msg-time';
+  time.textContent = formatTime(m.t || Date.now());
+
+  applyTimePos(row);
+  row.appendChild(avatar);
+  row.appendChild(card);
+  row.appendChild(time);
   messagesEl.appendChild(row);
   messagesEl.scrollTop = messagesEl.scrollHeight;
-  }
-  function addSystemTip(text, store) {
+}
+
+function addSystemTip(text, store) {
   const sys = document.createElement('div');
   sys.className = 'system-tip';
   sys.style.cssText = 'align-self:center;font-size:12px;color:#999;background:rgba(0,0,0,0.04);padding:4px 12px;border-radius:10px;';
@@ -1139,8 +1167,8 @@ if (dedupBtn) {
       alert('已删除 ' + removed + ' 条重复字卡');
     }
   };
-}
-
+  }
+  /* ===== 表情面板 ===== */
 (function() {
   const panel = document.getElementById('stickerPanel');
   const body = document.getElementById('stickerBody');
@@ -1212,6 +1240,7 @@ if (dedupBtn) {
   });
 })();
 
+/* ===== 自动消息 ===== */
 let autoMsgTimer = null;
 function scheduleAutoMessage() {
   const min = load('auto_msg_min', 1) * 60 * 1000;
@@ -1246,6 +1275,7 @@ function scheduleAutoMessage() {
   }, delay);
 }
 
+/* ===== 首页资产 ===== */
 function applyHomeAssets() {
   const myA = document.getElementById('homeMyAvatar');
   const taA = document.getElementById('homeTaAvatar');
@@ -1365,6 +1395,7 @@ document.querySelectorAll('.game-card').forEach(card => {
 })();
 
 window.applyHomeWallpaper = applyHomeWallpaper;
+window.renderFavList = renderFavList;
 
 refreshMessages();
 applyHomeAssets();
@@ -1375,7 +1406,8 @@ updateHomeTime();
   if (taNameEl) taNameEl.textContent = load('ta_name', 'TA');
 })();
 scheduleAutoMessage();
-  /* ===== 商店 ===== */
+
+/* ===== 商店 ===== */
 let shopItems = load('our_shop_items', []);
 let shopOrders = load('our_shop_orders', []);
 let editingShopId = null;
@@ -1617,9 +1649,6 @@ document.getElementById('detailDeleteBtn').onclick = () => {
 };
 
 /* ===== 收藏 / 搜索 ===== */
-document.getElementById('closeFavBtn').onclick = () => document.getElementById('favModal').classList.add('hidden');
-document.getElementById('closeSearchBtn').onclick = () => document.getElementById('searchModal').classList.add('hidden');
-
 function renderFavList() {
   const body = document.getElementById('favBody');
   if (!body) return;
@@ -1632,9 +1661,10 @@ function renderFavList() {
   favs.slice().reverse().forEach((f, i) => {
     const div = document.createElement('div');
     div.className = 'card-item';
-    div.innerHTML = `<div style="flex:1;word-break:break-word;">${f.text}</div><button data-i="${favs.length - 1 - i}">×</button>`;
+    const realIdx = favs.length - 1 - i;
+    div.innerHTML = `<div style="flex:1;word-break:break-word;">${f.text}</div><button>×</button>`;
     div.querySelector('button').onclick = () => {
-      favs.splice(favs.length - 1 - i, 1);
+      favs.splice(realIdx, 1);
       save('our_favorites', favs);
       renderFavList();
     };
@@ -1645,8 +1675,8 @@ function renderFavList() {
 function renderSearchList(kw) {
   const box = document.getElementById('searchResult');
   if (!box) return;
-  const msgs = load('our_messages', []).filter(m => m.type === 'text' && m.content && m.content.includes(kw));
   if (!kw) { box.innerHTML = ''; return; }
+  const msgs = load('our_messages', []).filter(m => m.type === 'text' && m.content && m.content.includes(kw));
   if (msgs.length === 0) { box.innerHTML = '<div style="color:#999;text-align:center;padding:20px;">没找到</div>'; return; }
   box.innerHTML = '';
   msgs.slice().reverse().forEach(m => {
@@ -1657,10 +1687,12 @@ function renderSearchList(kw) {
   });
 }
 
+document.getElementById('closeFavBtn').onclick = () => document.getElementById('favModal').classList.add('hidden');
+document.getElementById('closeSearchBtn').onclick = () => document.getElementById('searchModal').classList.add('hidden');
 const searchInp = document.getElementById('searchInput');
 if (searchInp) searchInp.oninput = () => renderSearchList(searchInp.value.trim());
 
-/* ===== 纪念日逻辑 ===== */
+/* ===== 纪念日 ===== */
 function loadAnnivList() {
   try { return JSON.parse(localStorage.getItem('anniv_list') || '[]'); }
   catch (e) { return []; }
