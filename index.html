@@ -520,7 +520,7 @@ function refreshMessages() {
     if (m.type === 'transfer') renderTransferCard(m);
     else if (m.type === 'image') addImage(m.sender, m.url, false);
     else if (m.type === 'text') addMessage(m.sender, m.content, m.quote, false);
-    else if (m.type === 'shopcard') renderShopCard(m);
+    else if (m.type === 'systemtip') addSystemTip(m.text, false);
   });
   messagesEl.scrollTop = messagesEl.scrollHeight;
 }
