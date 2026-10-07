@@ -554,8 +554,9 @@ body {
 .shop-card-status { text-align: right; font-size: 12px; color: #555; }
 .shop-card-status .tag { display: inline-block; background: #f0f0f0; border-radius: 10px; padding: 3px 12px; color: #666; }
 
-/* ===== 时间标 + 已读标（绝对定位，不会乱飘） ===== */
-.msg-row { position: relative; padding-bottom: 22px; }
+/* ===== 时间标 + 已读标 ===== */
+.msg-row { position: relative; padding-bottom: 26px; }
+
 .msg-time {
   position: absolute;
   bottom: 4px;
@@ -565,15 +566,11 @@ body {
   display: none;
 }
 .msg-row.show-time .msg-time { display: block; }
-.msg-row.tp-lb .msg-time { left: 46px; text-align: left; }
-.msg-row.tp-rb .msg-time { right: 46px; text-align: right; }
-.msg-row.tp-lt .msg-time { left: 46px; top: 2px; bottom: auto; text-align: left; }
-.msg-row.tp-rt .msg-time { right: 46px; top: 2px; bottom: auto; text-align: right; }
-.msg-row.tp-avatar .msg-time { left: 0; width: 38px; text-align: center; }
+
 .read-mark {
   position: absolute;
   bottom: 4px;
-  font-size: 11px;
+  font-size: 10px;
   color: #bbb;
   display: flex;
   align-items: center;
@@ -583,6 +580,15 @@ body {
 .read-mark svg { width: 14px; height: 14px; }
 .read-mark.unread { color: #bbb; }
 .read-mark.read { color: #7a7a7a; }
+
+/* 时间紧贴已读：我发的，时间在已读左边；对方发的，时间在已读右边 */
+.msg-row.me .msg-time { right: 24px; text-align: right; }
+.msg-row.ta .msg-time { left: 24px; text-align: left; }
+
+/* 如果时间位置设置改成了上面，也让它紧贴已读 */
+.msg-row.tp-lt .msg-time { left: 24px; top: 2px; bottom: auto; text-align: left; }
+.msg-row.tp-rt .msg-time { right: 24px; top: 2px; bottom: auto; text-align: right; }
+.msg-row.tp-avatar .msg-time { left: 0; width: 38px; text-align: center; }
 
 /* ===== 日期分割 ===== */
 .date-divider {
