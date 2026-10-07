@@ -706,15 +706,28 @@ function refreshMessages() {
     else if (m.type === 'systemtip') addSystemTip(m.text, false);
     else if (m.type === 'datedivider') addDateDividerEl(m.t);
   });
-  const rows = messagesEl.querySelectorAll('.msg-row');
-  rows.forEach(r => r.classList.remove('show-time'));
-  for (let i = rows.length - 1; i >= 0; i--) {
-    const r = rows[i];
-    if (r.querySelector('.bubble') || r.querySelector('.shop-card') || r.querySelector('.transfer-card')) {
-      r.classList.add('show-time');
-      break;
+  // 已读状态还原
+  document.querySelectorAll('.msg-row.me .read-mark').forEach(el => {
+    const row = el.closest('.msg-row');
+    const m = msgs.find(x => x.msgId === row.dataset.msgId);
+    if (m && m.read) {
+      el.classList.remove('unread');
+      el.classList.add('read');
+      const rs = load('read_style', 'icon');
+      if (rs === 'icon') {
+        el.innerHTML = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M2 13 L7 18 L15 8"></path><path d="M9 13 L12 16 L20 6"></path></svg>';
+      } else {
+        el.textContent = '已读';
+      }
+    } else {
+      el.classList.add('unread');
+      el.classList.remove('read');
+      const rs = load('read_style', 'icon');
+      if (rs === 'icon') el.innerHTML = '';
+      else el.textContent = '未读';
     }
-  }
+  });
+  finalizeBatchTime();
   messagesEl.scrollTop = messagesEl.scrollHeight;
 }
 
