@@ -618,6 +618,7 @@ async function sendMessage() {
     addMessage('ta', reply, quote, true);
   }
   hideTyping();
+  markAllRead();
 }
 inputEl.addEventListener('keydown', e => { if (e.key === 'Enter') sendMessage(); });
   /* ===== 转账卡片 ===== */
