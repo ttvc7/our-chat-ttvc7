@@ -1197,7 +1197,7 @@ function buyForTa(it) {
     if (m) { m.status = '已接收'; save('our_messages', all); }
     const el = document.querySelector(`[data-shop-card="${cardId}"] .shop-card-status .tag`);
     if (el) el.textContent = '已接收';
-    addSystemTip('对方已收下');
+    addSystemTip('对方已收下', true);
   }, 3000 + Math.random() * 2000);
 }
 
@@ -1216,7 +1216,7 @@ function helpPay(it) {
     if (m) { m.status = '已付款'; save('our_messages', all); }
     const el = document.querySelector(`[data-shop-card="${cardId}"] .shop-card-status .tag`);
     if (el) el.textContent = '已付款';
-    addSystemTip('对方已付款');
+    addSystemTip('对方已付款', true);
     shopOrders.push({
       id: cardId, direction: 'ta_to_me', itemId: it.id, name: it.name,
       price: it.price, img: it.img, t: Date.now()
@@ -1274,7 +1274,7 @@ function renderShopCard(m) {
         const all = load('our_messages', []);
         const x = all.find(y => y.cardId === m.cardId);
         if (x) { x.status = '已接收'; save('our_messages', all); }
-        addSystemTip('我已收下');
+        addSystemTip('我已收下', true);
       }
     };
   }
