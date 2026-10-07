@@ -437,7 +437,7 @@ function addMessage(sender, content, quote, store, msgId) {
     readMark.className = 'read-mark unread';
     const rs = load('read_style', 'icon');
     if (rs === 'icon') {
-      readMark.innerHTML = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M2 13 L7 18 L15 8"></path><path d="M9 13 L12 16 L20 6"></path></svg>';
+      readMark.innerHTML = ''; // 未读时不显示双√
     } else {
       readMark.textContent = '未读';
     }
@@ -446,10 +446,6 @@ function addMessage(sender, content, quote, store, msgId) {
 
   messagesEl.appendChild(row);
   messagesEl.scrollTop = messagesEl.scrollHeight;
-
-  // 时间只显示这一条
-  messagesEl.querySelectorAll('.msg-row.show-time').forEach(r => r.classList.remove('show-time'));
-  row.classList.add('show-time');
 
   if (store !== false) {
     const msgs = load('our_messages', []);
@@ -461,30 +457,62 @@ function addMessage(sender, content, quote, store, msgId) {
       dividerEl.textContent = div.text;
       messagesEl.insertBefore(dividerEl, row);
     }
-    const m = { type: 'text', sender, content, quote: quote || '', t: Date.now(), msgId: row.dataset.msgId, read: false };
+    const m = { type: 'text', sender, content, quote: quote || '', t: Date.now(), msgId: row.dataset.msgId, read: false, batchId: getBatchId() };
     msgs.push(m);
     save('our_messages', msgs);
 
     if (sender === 'me' && load('read_receipt', true)) {
+      // 等 2 秒后变已读（模拟对方看了）
       setTimeout(() => {
-        if (load('read_no_reply', false)) return;
-        const all = load('our_messages', []);
-        const x = all.find(y => y.msgId === m.msgId);
-        if (x) { x.read = true; save('our_messages', all); }
-        const el = document.querySelector(`[data-msg-id="${m.msgId}"] .read-mark`);
-        if (el) {
-          el.classList.remove('unread');
-          el.classList.add('read');
-          const rs2 = load('read_style', 'icon');
-          if (rs2 === 'icon') {
-            el.innerHTML = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M2 13 L7 18 L15 8"></path><path d="M9 13 L12 16 L20 6"></path></svg>';
-          } else {
-            el.textContent = '已读';
-          }
-        }
+        markAllRead();
       }, 2000);
     }
   }
+
+  // 显示时间：同一批的最后一条显示，前面的隐藏
+  finalizeBatchTime();
+}
+
+function getBatchId() {
+  const now = Date.now();
+  const last = load('last_batch', { id: now, t: now });
+  if (now - last.t > 60 * 1000) {
+    save('last_batch', { id: now, t: now });
+    return now;
+  }
+  save('last_batch', { id: last.id, t: now });
+  return last.id;
+}
+
+function finalizeBatchTime() {
+  const msgs = load('our_messages', []);
+  // 找每个 batchId 的最后一条
+  const lastOfBatch = {};
+  msgs.forEach(m => {
+    if (m.batchId) lastOfBatch[m.batchId] = m.msgId;
+  });
+  messagesEl.querySelectorAll('.msg-row.show-time').forEach(r => r.classList.remove('show-time'));
+  messagesEl.querySelectorAll('.msg-row').forEach(r => {
+    const id = r.dataset.msgId;
+    if (id && lastOfBatch[id]) r.classList.add('show-time');
+  });
+}
+
+function markAllRead() {
+  if (!load('read_receipt', true)) return;
+  const all = load('our_messages', []);
+  all.forEach(m => { if (m.sender === 'me' && m.type === 'text') m.read = true; });
+  save('our_messages', all);
+  document.querySelectorAll('.msg-row.me .read-mark').forEach(el => {
+    el.classList.remove('unread');
+    el.classList.add('read');
+    const rs = load('read_style', 'icon');
+    if (rs === 'icon') {
+      el.innerHTML = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M2 13 L7 18 L15 8"></path><path d="M9 13 L12 16 L20 6"></path></svg>';
+    } else {
+      el.textContent = '已读';
+    }
+  });
 }
 
 function addImage(sender, url, store) {
