@@ -1283,13 +1283,19 @@ function renderShopCard(m) {
   messagesEl.scrollTop = messagesEl.scrollHeight;
 }
 
-function addSystemTip(text) {
+function addSystemTip(text, store) {
   const sys = document.createElement('div');
+  sys.className = 'system-tip';
   sys.style.cssText = 'align-self:center;font-size:12px;color:#999;background:rgba(0,0,0,0.04);padding:4px 12px;border-radius:10px;';
   sys.textContent = text;
   messagesEl.appendChild(sys);
   messagesEl.scrollTop = messagesEl.scrollHeight;
   setTimeout(() => { messagesEl.scrollTop = messagesEl.scrollHeight; }, 50);
+  if (store !== false) {
+    const msgs = load('our_messages', []);
+    msgs.push({ type: 'systemtip', text, t: Date.now() });
+    save('our_messages', msgs);
+  }
 }
 
 document.getElementById('backFromShopBtn').onclick = () => showPage('chatPage');
