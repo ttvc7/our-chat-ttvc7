@@ -1046,7 +1046,85 @@ document.querySelectorAll('.game-card').forEach(card => {
   ta.onclick = () => openEdit(ta, 'home_talk_ta', '对方');
 })();
 
-/* 暴露给 settings.js 用 */
+/* ===== 商店 UI 绑定 ===== */
+document.getElementById('backFromShopBtn').onclick = () => showPage('homePage');
+document.getElementById('shopAddBtn').onclick = () => openShopEdit(null);
+document.getElementById('closeShopEditBtn').onclick = closeShopEdit;
+document.getElementById('closeShopDetailBtn').onclick = closeShopDetail;
+
+document.querySelectorAll('.shop-tab').forEach(tab => {
+  tab.onclick = () => {
+    document.querySelectorAll('.shop-tab').forEach(t => t.classList.remove('active'));
+    tab.classList.add('active');
+    const k = tab.dataset.tab;
+    document.getElementById('shopItemsPanel').classList.toggle('hidden', k !== 'items');
+    document.getElementById('shopOrdersPanel').classList.toggle('hidden', k !== 'orders');
+    document.getElementById('shopAddBtn').style.display = k === 'items' ? '' : 'none';
+    if (k === 'orders') renderShopOrders();
+    else renderShopItems();
+  };
+});
+
+document.getElementById('shopImgPicker').onclick = () => document.getElementById('shopImgUpload').click();
+document.getElementById('shopImgUpload').onchange = (e) => {
+  const f = e.target.files[0];
+  if (!f) return;
+  const reader = new FileReader();
+  reader.onload = (ev) => {
+    pendingShopImage = ev.target.result;
+    const img = document.getElementById('shopImgPreview');
+    img.src = pendingShopImage; img.style.display = 'block';
+    document.getElementById('shopImgPlus').style.display = 'none';
+  };
+  reader.readAsDataURL(f);
+  e.target.value = '';
+};
+
+document.getElementById('shopSaveBtn').onclick = () => {
+  const name = document.getElementById('shopNameInput').value.trim();
+  const price = parseFloat(document.getElementById('shopPriceInput').value) || 0;
+  const desc = document.getElementById('shopDescInput').value.trim();
+  if (!name) { alert('请输入商品名称'); return; }
+  if (editingShopId) {
+    const it = shopItems.find(x => x.id === editingShopId);
+    if (it) { it.name = name; it.price = price; it.desc = desc; it.img = pendingShopImage; }
+  } else {
+    shopItems.push({
+      id: Date.now() + '_' + Math.random().toString(36).slice(2, 8),
+      name, price, desc, img: pendingShopImage, t: Date.now()
+    });
+  }
+  saveShopItems();
+  closeShopEdit();
+  renderShopItems();
+};
+
+document.getElementById('detailBuyBtn').onclick = () => {
+  const it = shopItems.find(x => x.id === currentDetailId);
+  if (!it) return;
+  closeShopDetail();
+  buyForTa(it);
+};
+document.getElementById('detailHelpPayBtn').onclick = () => {
+  const it = shopItems.find(x => x.id === currentDetailId);
+  if (!it) return;
+  closeShopDetail();
+  helpPay(it);
+};
+document.getElementById('detailEditBtn').onclick = () => {
+  const it = shopItems.find(x => x.id === currentDetailId);
+  if (!it) return;
+  closeShopDetail();
+  openShopEdit(it);
+};
+document.getElementById('detailDeleteBtn').onclick = () => {
+  if (!confirm('确定删除这个商品吗？')) return;
+  shopItems = shopItems.filter(x => x.id !== currentDetailId);
+  saveShopItems();
+  closeShopDetail();
+  renderShopItems();
+};
+  /* 暴露给 settings.js 用 */
 window.applyHomeWallpaper = applyHomeWallpaper;
 
 refreshMessages();
