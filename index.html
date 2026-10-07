@@ -84,7 +84,8 @@
       </div>
     </div>
   </div>
-  </div><!-- 纪念日页面 -->
+  </div>
+  <!-- 纪念日页面 -->
 <div id="annivPage" class="page hidden">
   <header class="chat-header">
     <div class="header-left">
@@ -277,7 +278,8 @@
       </div>
     </div>
   </div>
-  </div><script>
+      </div>
+      <script>
 const messagesEl = document.getElementById('messages');
 const inputEl = document.getElementById('input');
 
@@ -617,7 +619,8 @@ document.addEventListener('dblclick', function(e) {
   };
 })();
 
-document.getElementById('backHomeBtn').onclick = () => showPage('homePage');(function() {
+document.getElementById('backHomeBtn').onclick = () => showPage('homePage');
+        (function() {
   const plusMenu = document.getElementById('plusMenu');
   const plusBtn = document.getElementById('plusBtn');
   if (plusBtn && plusMenu) {
@@ -1056,7 +1059,8 @@ updateHomeTime();
   const taNameEl = document.getElementById('taName');
   if (taNameEl) taNameEl.textContent = load('ta_name', 'TA');
 })();
-scheduleAutoMessage();/* ===== 商店 ===== */
+scheduleAutoMessage();
+        /* ===== 商店 ===== */
 let shopItems = load('our_shop_items', []);
 let shopOrders = load('our_shop_orders', []);
 let editingShopId = null;
