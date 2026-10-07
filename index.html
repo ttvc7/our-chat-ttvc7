@@ -1230,29 +1230,30 @@ function closeShopDetail() {
 
 function buyForTa(it) {
   const taName = load('ta_name', 'TA');
-  addShopCard('me', `我给${taName}赠送了商品`, it.name, it.img, '已接收', false);
-  addSystemTip('对方已收下');
+  const cardId = Date.now() + '_buy_' + Math.random().toString(36).slice(2, 8);
+  addShopCard('me', `我给${taName}赠送了商品`, it.name, it.img, '接收', false, cardId);
   shopOrders.push({
-    id: Date.now() + '_' + Math.random().toString(36).slice(2, 8),
-    direction: 'me_to_ta', itemId: it.id, name: it.name,
+    id: cardId, direction: 'me_to_ta', itemId: it.id, name: it.name,
     price: it.price, img: it.img, t: Date.now()
   });
   saveShopOrders();
   renderShopOrders();
+  setTimeout(() => {
+    const el = document.querySelector(`[data-shop-card="${cardId}"] .shop-card-status .tag`);
+    if (el) el.textContent = '已接收';
+    addSystemTip('对方已收下');
+  }, 3000 + Math.random() * 2000);
 }
 
 function helpPay(it) {
-  const taName = load('ta_name', 'TA');
-  const orderId = Date.now() + '_pay_' + Math.random().toString(36).slice(2, 8);
-  const cardId = orderId + '_mine';
-  addShopCard('me', `我希望你帮付¥${it.price}`, it.name, it.img, '待付款', false, cardId);
+  const cardId = Date.now() + '_pay_' + Math.random().toString(36).slice(2, 8);
+  addShopCard('me', `我希望你帮付¥${it.price}`, it.name, it.img, '未付款', false, cardId);
   setTimeout(() => {
-    addShopCard('ta', `我给${taName}赠送了商品`, it.name, it.img, '已接收', false);
-    addSystemTip('对方已收下');
     const el = document.querySelector(`[data-shop-card="${cardId}"] .shop-card-status .tag`);
     if (el) el.textContent = '已付款';
+    addSystemTip('对方已付款');
     shopOrders.push({
-      id: orderId, direction: 'ta_to_me', itemId: it.id, name: it.name,
+      id: cardId, direction: 'ta_to_me', itemId: it.id, name: it.name,
       price: it.price, img: it.img, t: Date.now()
     });
     saveShopOrders();
@@ -1260,7 +1261,19 @@ function helpPay(it) {
   }, 5000 + Math.random() * 1000);
 }
 
-function addShopCard(sender, title, sub, img, status, store, cardId) {
+function taSendGift(it) {
+  const taName = load('ta_name', 'TA');
+  const cardId = Date.now() + '_tagift_' + Math.random().toString(36).slice(2, 8);
+  addShopCard('ta', `${taName}给我赠送了商品`, it.name, it.img, '接收', true, cardId);
+  shopOrders.push({
+    id: cardId, direction: 'ta_to_me', itemId: it.id, name: it.name,
+    price: it.price, img: it.img, t: Date.now()
+  });
+  saveShopOrders();
+  renderShopOrders();
+}
+
+function addShopCard(sender, title, sub, img, status, clickable, cardId) {
   const row = document.createElement('div');
   row.className = 'msg-row ' + (sender === 'me' ? 'me' : 'ta');
   if (cardId) row.dataset.shopCard = cardId;
@@ -1283,12 +1296,22 @@ function addShopCard(sender, title, sub, img, status, store, cardId) {
     <div class="shop-card-line"></div>
     <div class="shop-card-status"><span class="tag">${status}</span></div>
   `;
+  if (clickable) {
+    card.style.cursor = 'pointer';
+    card.onclick = () => {
+      const tag = card.querySelector('.tag');
+      if (tag && tag.textContent === '接收') {
+        tag.textContent = '已接收';
+        addSystemTip('我已收下');
+      }
+    };
+  }
   row.appendChild(avatar); row.appendChild(card);
   messagesEl.appendChild(row);
   messagesEl.scrollTop = messagesEl.scrollHeight;
-  if (store !== false) {
+  if (clickable === false || clickable === true) {
     const msgs = load('our_messages', []);
-    msgs.push({ type: 'shopcard', sender, title, sub, img, status, cardId, t: Date.now() });
+    msgs.push({ type: 'shopcard', sender, title, sub, img, status, cardId, clickable, t: Date.now() });
     save('our_messages', msgs);
   }
 }
@@ -1299,7 +1322,7 @@ function addSystemTip(text) {
   sys.textContent = text;
   messagesEl.appendChild(sys);
   messagesEl.scrollTop = messagesEl.scrollHeight;
-      }
+  }
 /* ===== 纪念日逻辑 ===== */
 function loadAnnivList() {
   try { return JSON.parse(localStorage.getItem('anniv_list') || '[]'); }
