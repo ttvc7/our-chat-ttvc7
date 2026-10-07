@@ -454,6 +454,10 @@
       <div class="input-row"><span class="label">TA 转账概率</span><input type="number" id="autoTransProbInput" value="${autoTransProb}" min="0" max="100"><span class="label">%</span></div>
       <div class="input-row"><span class="label">转账金额最少</span><input type="number" id="autoTransMinInput" value="${autoTransMin}" min="0"><span class="label">元</span></div>
       <div class="input-row"><span class="label">转账金额最多</span><input type="number" id="autoTransMaxInput" value="${autoTransMax}" min="0"><span class="label">元</span></div>
+      <div class="sec-title">TA 送礼反应</div>
+<div class="input-row"><span class="label">送礼概率</span><input type="number" id="giftProbInput" value="${load('gift_prob', 0)}" min="0" max="100"><span class="label">%</span></div>
+<div class="input-row"><span class="label">最短间隔</span><input type="number" id="giftMinInput" value="${load('gift_min', 1)}" min="1" max="120"><span class="label">分钟</span></div>
+<div class="input-row"><span class="label">最长间隔</span><input type="number" id="giftMaxInput" value="${load('gift_max', 5)}" min="1" max="120"><span class="label">分钟</span></div>
       <button class="btn-primary" id="saveChatSettings">保存聊天设置</button>
       <div class="sec-title">清空数据</div>
       <button class="btn-danger" id="clearMessages">清空聊天记录</button>
