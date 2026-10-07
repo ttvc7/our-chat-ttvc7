@@ -638,3 +638,48 @@ body {
   display: inline-block; background: #f0f0f0; border-radius: 10px;
   padding: 3px 12px; color: #666;
                   }
+/* ===== 长按菜单 ===== */
+.long-press-menu {
+  position: fixed; z-index: 300;
+  display: flex; gap: 4px;
+  background: #333; border-radius: 10px; padding: 6px;
+  box-shadow: 0 4px 20px rgba(0,0,0,0.3);
+}
+.long-press-menu.hidden { display: none; }
+.long-press-menu .lp-item {
+  color: #fff; font-size: 13px; padding: 8px 12px;
+  border-radius: 6px; cursor: pointer; white-space: nowrap;
+}
+.long-press-menu .lp-item:active { background: #555; }
+
+/* ===== 时间标 ===== */
+.msg-time {
+  font-size: 10px; color: #aaa;
+  margin-top: 2px; text-align: center;
+  width: 100%;
+}
+.msg-row { position: relative; flex-wrap: wrap; }
+.msg-row .msg-time { flex-basis: 100%; }
+.tp-lb .msg-time { text-align: left; }
+.tp-rb .msg-time { text-align: right; }
+.tp-lt .msg-time { order: -1; }
+.tp-rt .msg-time { order: -1; text-align: right; }
+.tp-avatar .msg-time { text-align: center; }
+
+/* 日期分割 */
+.date-divider {
+  align-self: center;
+  font-size: 12px; color: #999;
+  background: rgba(0,0,0,0.04);
+  padding: 4px 12px; border-radius: 10px;
+  margin: 6px 0;
+}
+
+/* 已读标 */
+.read-mark {
+  font-size: 11px; color: #999;
+  align-self: flex-end; margin-left: 4px;
+}
+.msg-row.me .read-mark { order: 3; }
+.read-mark svg { width: 14px; height: 14px; vertical-align: middle; }
+.read-mark.unread { color: #bbb; }
