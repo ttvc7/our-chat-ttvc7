@@ -84,9 +84,7 @@
       </div>
     </div>
   </div>
-</div>
-
-<!-- 纪念日页面 -->
+  </div><!-- 纪念日页面 -->
 <div id="annivPage" class="page hidden">
   <header class="chat-header">
     <div class="header-left">
@@ -108,8 +106,10 @@
     <div class="anniv-list" id="annivList"></div>
     <button class="btn-primary" id="addAnnivBtn" style="margin-top:10px;">+ 添加纪念日</button>
   </div>
-    </div>
-  <div id="chatPage" class="page hidden">
+</div>
+
+<!-- 聊天页 -->
+<div id="chatPage" class="page hidden">
   <header class="chat-header">
     <div class="header-left">
       <button class="header-btn" id="backHomeBtn">
@@ -145,7 +145,8 @@
     <div class="plus-item" data-key="continue"><div class="plus-icon"><svg viewBox="0 0 24 24" fill="none" stroke="#333" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 12 A8 8 0 1 1 12 20"></path><path d="M4 12 L2 9 M4 12 L7 10"></path></svg></div><div class="plus-label">继续说</div></div>
   </div>
 </div>
-  <!-- ===== 商店页 ===== -->
+
+<!-- ===== 商店页 ===== -->
 <div id="shopPage" class="page hidden">
   <header class="chat-header">
     <div class="header-left">
@@ -215,7 +216,7 @@
       </div>
     </div>
   </div>
-  </div>
+</div>
 
 <div id="stickerPanel" class="sticker-panel hidden">
   <div class="sticker-head">
@@ -276,9 +277,8 @@
       </div>
     </div>
   </div>
-</div>
-
-<script>const messagesEl = document.getElementById('messages');
+  </div><script>
+const messagesEl = document.getElementById('messages');
 const inputEl = document.getElementById('input');
 
 function load(key, def) {
@@ -509,7 +509,7 @@ function refreshMessages() {
     if (m.type === 'transfer') renderTransferCard(m);
     else if (m.type === 'image') addImage(m.sender, m.url, false);
     else if (m.type === 'text') addMessage(m.sender, m.content, m.quote, false);
-else if (m.type === 'shopcard') addShopCard(m.sender, m.title, m.sub, m.img, m.status, m.clickable, m.cardId);
+    else if (m.type === 'shopcard') renderShopCard(m);
   });
   messagesEl.scrollTop = messagesEl.scrollHeight;
 }
@@ -579,7 +579,9 @@ document.getElementById('refundLink').onclick = () => {
   save('our_messages', msgs);
   receiveModal.classList.add('hidden');
   refreshMessages();
-};document.addEventListener('dblclick', function(e) {
+};
+
+document.addEventListener('dblclick', function(e) {
   const avatar = e.target.closest('.avatar');
   if (!avatar) return;
   const row = avatar.closest('.msg-row');
@@ -615,9 +617,7 @@ document.getElementById('refundLink').onclick = () => {
   };
 })();
 
-document.getElementById('backHomeBtn').onclick = () => showPage('homePage');
-
-(function() {
+document.getElementById('backHomeBtn').onclick = () => showPage('homePage');(function() {
   const plusMenu = document.getElementById('plusMenu');
   const plusBtn = document.getElementById('plusBtn');
   if (plusBtn && plusMenu) {
@@ -648,23 +648,23 @@ document.getElementById('backHomeBtn').onclick = () => showPage('homePage');
       if (key === 'gift') showShopPage();
       if (key === 'survey') alert('问卷功能开发中…');
       if (key === 'continue') {
-  const rMin = load('reply_min', 1);
-  const rMax = load('reply_max', 1);
-  const count = Math.min(rMin, rMax) + Math.floor(Math.random() * (Math.abs(rMax - rMin) + 1));
-  (async () => {
-    for (let i = 0; i < count; i++) {
-      if (i > 0) {
-        await new Promise(r => setTimeout(r, 500 + Math.random() * 1500));
+        const rMin = load('reply_min', 1);
+        const rMax = load('reply_max', 1);
+        const count = Math.min(rMin, rMax) + Math.floor(Math.random() * (Math.abs(rMax - rMin) + 1));
+        (async () => {
+          for (let i = 0; i < count; i++) {
+            if (i > 0) {
+              await new Promise(r => setTimeout(r, 500 + Math.random() * 1500));
+            }
+            showTyping();
+            await new Promise(r => setTimeout(r, 800 + Math.random() * 1000));
+            const reply = drawCardText();
+            const quote = drawQuote();
+            hideTyping();
+            addMessage('ta', reply, quote, true);
+          }
+        })();
       }
-      showTyping();
-      await new Promise(r => setTimeout(r, 800 + Math.random() * 1000));
-      const reply = drawCardText();
-      const quote = drawQuote();
-      hideTyping();
-      addMessage('ta', reply, quote, true);
-    }
-  })();
-  }
     };
   });
 })();
@@ -1046,85 +1046,6 @@ document.querySelectorAll('.game-card').forEach(card => {
   ta.onclick = () => openEdit(ta, 'home_talk_ta', '对方');
 })();
 
-/* ===== 商店 UI 绑定 ===== */
-document.getElementById('backFromShopBtn').onclick = () => showPage('homePage');
-document.getElementById('shopAddBtn').onclick = () => openShopEdit(null);
-document.getElementById('closeShopEditBtn').onclick = closeShopEdit;
-document.getElementById('closeShopDetailBtn').onclick = closeShopDetail;
-
-document.querySelectorAll('.shop-tab').forEach(tab => {
-  tab.onclick = () => {
-    document.querySelectorAll('.shop-tab').forEach(t => t.classList.remove('active'));
-    tab.classList.add('active');
-    const k = tab.dataset.tab;
-    document.getElementById('shopItemsPanel').classList.toggle('hidden', k !== 'items');
-    document.getElementById('shopOrdersPanel').classList.toggle('hidden', k !== 'orders');
-    document.getElementById('shopAddBtn').style.display = k === 'items' ? '' : 'none';
-    if (k === 'orders') renderShopOrders();
-    else renderShopItems();
-  };
-});
-
-document.getElementById('shopImgPicker').onclick = () => document.getElementById('shopImgUpload').click();
-document.getElementById('shopImgUpload').onchange = (e) => {
-  const f = e.target.files[0];
-  if (!f) return;
-  const reader = new FileReader();
-  reader.onload = (ev) => {
-    pendingShopImage = ev.target.result;
-    const img = document.getElementById('shopImgPreview');
-    img.src = pendingShopImage; img.style.display = 'block';
-    document.getElementById('shopImgPlus').style.display = 'none';
-  };
-  reader.readAsDataURL(f);
-  e.target.value = '';
-};
-
-document.getElementById('shopSaveBtn').onclick = () => {
-  const name = document.getElementById('shopNameInput').value.trim();
-  const price = parseFloat(document.getElementById('shopPriceInput').value) || 0;
-  const desc = document.getElementById('shopDescInput').value.trim();
-  if (!name) { alert('请输入商品名称'); return; }
-  if (editingShopId) {
-    const it = shopItems.find(x => x.id === editingShopId);
-    if (it) { it.name = name; it.price = price; it.desc = desc; it.img = pendingShopImage; }
-  } else {
-    shopItems.push({
-      id: Date.now() + '_' + Math.random().toString(36).slice(2, 8),
-      name, price, desc, img: pendingShopImage, t: Date.now()
-    });
-  }
-  saveShopItems();
-  closeShopEdit();
-  renderShopItems();
-};
-
-document.getElementById('detailBuyBtn').onclick = () => {
-  const it = shopItems.find(x => x.id === currentDetailId);
-  if (!it) return;
-  closeShopDetail();
-  buyForTa(it);
-};
-document.getElementById('detailHelpPayBtn').onclick = () => {
-  const it = shopItems.find(x => x.id === currentDetailId);
-  if (!it) return;
-  closeShopDetail();
-  helpPay(it);
-};
-document.getElementById('detailEditBtn').onclick = () => {
-  const it = shopItems.find(x => x.id === currentDetailId);
-  if (!it) return;
-  closeShopDetail();
-  openShopEdit(it);
-};
-document.getElementById('detailDeleteBtn').onclick = () => {
-  if (!confirm('确定删除这个商品吗？')) return;
-  shopItems = shopItems.filter(x => x.id !== currentDetailId);
-  saveShopItems();
-  closeShopDetail();
-  renderShopItems();
-};
-  /* 暴露给 settings.js 用 */
 window.applyHomeWallpaper = applyHomeWallpaper;
 
 refreshMessages();
@@ -1135,8 +1056,7 @@ updateHomeTime();
   const taNameEl = document.getElementById('taName');
   if (taNameEl) taNameEl.textContent = load('ta_name', 'TA');
 })();
-scheduleAutoMessage();
-  /* ===== 商店 ===== */
+scheduleAutoMessage();/* ===== 商店 ===== */
 let shopItems = load('our_shop_items', []);
 let shopOrders = load('our_shop_orders', []);
 let editingShopId = null;
@@ -1150,6 +1070,11 @@ function showShopPage() {
   showPage('shopPage');
   renderShopItems();
   renderShopOrders();
+  document.querySelectorAll('.shop-tab').forEach(t => t.classList.remove('active'));
+  document.querySelector('.shop-tab[data-tab="items"]').classList.add('active');
+  document.getElementById('shopItemsPanel').classList.remove('hidden');
+  document.getElementById('shopOrdersPanel').classList.add('hidden');
+  document.getElementById('shopAddBtn').style.display = '';
 }
 
 function renderShopItems() {
@@ -1231,14 +1156,20 @@ function closeShopDetail() {
 function buyForTa(it) {
   const taName = load('ta_name', 'TA');
   const cardId = Date.now() + '_buy_' + Math.random().toString(36).slice(2, 8);
-  addShopCard('me', `我给${taName}赠送了商品`, it.name, it.img, '接收', false, cardId);
+  const msg = { type: 'shopcard', sender: 'me', title: `我给${taName}赠送了商品`, sub: it.name, img: it.img, status: '接收', cardId, t: Date.now() };
+  const msgs = load('our_messages', []);
+  msgs.push(msg);
+  save('our_messages', msgs);
+  renderShopCard(msg);
   shopOrders.push({
     id: cardId, direction: 'me_to_ta', itemId: it.id, name: it.name,
     price: it.price, img: it.img, t: Date.now()
   });
   saveShopOrders();
-  renderShopOrders();
   setTimeout(() => {
+    const all = load('our_messages', []);
+    const m = all.find(x => x.cardId === cardId);
+    if (m) { m.status = '已接收'; save('our_messages', all); }
     const el = document.querySelector(`[data-shop-card="${cardId}"] .shop-card-status .tag`);
     if (el) el.textContent = '已接收';
     addSystemTip('对方已收下');
@@ -1247,8 +1178,15 @@ function buyForTa(it) {
 
 function helpPay(it) {
   const cardId = Date.now() + '_pay_' + Math.random().toString(36).slice(2, 8);
-  addShopCard('me', `我希望你帮付¥${it.price}`, it.name, it.img, '未付款', false, cardId);
+  const msg = { type: 'shopcard', sender: 'me', title: `我希望你帮付¥${it.price}`, sub: it.name, img: it.img, status: '未付款', cardId, t: Date.now() };
+  const msgs = load('our_messages', []);
+  msgs.push(msg);
+  save('our_messages', msgs);
+  renderShopCard(msg);
   setTimeout(() => {
+    const all = load('our_messages', []);
+    const m = all.find(x => x.cardId === cardId);
+    if (m) { m.status = '已付款'; save('our_messages', all); }
     const el = document.querySelector(`[data-shop-card="${cardId}"] .shop-card-status .tag`);
     if (el) el.textContent = '已付款';
     addSystemTip('对方已付款');
@@ -1257,29 +1195,31 @@ function helpPay(it) {
       price: it.price, img: it.img, t: Date.now()
     });
     saveShopOrders();
-    renderShopOrders();
   }, 5000 + Math.random() * 1000);
 }
 
 function taSendGift(it) {
   const taName = load('ta_name', 'TA');
   const cardId = Date.now() + '_tagift_' + Math.random().toString(36).slice(2, 8);
-  addShopCard('ta', `${taName}给我赠送了商品`, it.name, it.img, '接收', true, cardId);
+  const msg = { type: 'shopcard', sender: 'ta', title: `${taName}给我赠送了商品`, sub: it.name, img: it.img, status: '接收', cardId, clickable: true, t: Date.now() };
+  const msgs = load('our_messages', []);
+  msgs.push(msg);
+  save('our_messages', msgs);
+  renderShopCard(msg);
   shopOrders.push({
     id: cardId, direction: 'ta_to_me', itemId: it.id, name: it.name,
     price: it.price, img: it.img, t: Date.now()
   });
   saveShopOrders();
-  renderShopOrders();
 }
 
-function addShopCard(sender, title, sub, img, status, clickable, cardId) {
+function renderShopCard(m) {
   const row = document.createElement('div');
-  row.className = 'msg-row ' + (sender === 'me' ? 'me' : 'ta');
-  if (cardId) row.dataset.shopCard = cardId;
+  row.className = 'msg-row ' + (m.sender === 'me' ? 'me' : 'ta');
+  if (m.cardId) row.dataset.shopCard = m.cardId;
   const avatar = document.createElement('div');
   avatar.className = 'avatar';
-  const isMe = sender === 'me';
+  const isMe = m.sender === 'me';
   const avatarUrl = isMe ? load('my_avatar', '') : load('ta_avatar', '');
   if (avatarUrl) { avatar.style.background = `url(${avatarUrl}) center/cover no-repeat`; avatar.textContent = ''; }
   else { const name = isMe ? load('my_name', '我') : load('ta_name', 'TA'); avatar.textContent = name.charAt(0); }
@@ -1287,21 +1227,24 @@ function addShopCard(sender, title, sub, img, status, clickable, cardId) {
   card.className = 'shop-card';
   card.innerHTML = `
     <div class="shop-card-top">
-      <img src="${img || ''}" alt="">
+      <img src="${m.img || ''}" alt="">
       <div style="flex:1;">
-        <div class="shop-card-title">${title}</div>
-        <div class="shop-card-sub">${sub || ''}</div>
+        <div class="shop-card-title">${m.title}</div>
+        <div class="shop-card-sub">${m.sub || ''}</div>
       </div>
     </div>
     <div class="shop-card-line"></div>
-    <div class="shop-card-status"><span class="tag">${status}</span></div>
+    <div class="shop-card-status"><span class="tag">${m.status}</span></div>
   `;
-  if (clickable) {
+  if (m.clickable) {
     card.style.cursor = 'pointer';
     card.onclick = () => {
       const tag = card.querySelector('.tag');
       if (tag && tag.textContent === '接收') {
         tag.textContent = '已接收';
+        const all = load('our_messages', []);
+        const x = all.find(y => y.cardId === m.cardId);
+        if (x) { x.status = '已接收'; save('our_messages', all); }
         addSystemTip('我已收下');
       }
     };
@@ -1309,11 +1252,6 @@ function addShopCard(sender, title, sub, img, status, clickable, cardId) {
   row.appendChild(avatar); row.appendChild(card);
   messagesEl.appendChild(row);
   messagesEl.scrollTop = messagesEl.scrollHeight;
-  if (clickable === false || clickable === true) {
-    const msgs = load('our_messages', []);
-    msgs.push({ type: 'shopcard', sender, title, sub, img, status, cardId, clickable, t: Date.now() });
-    save('our_messages', msgs);
-  }
 }
 
 function addSystemTip(text) {
@@ -1322,7 +1260,86 @@ function addSystemTip(text) {
   sys.textContent = text;
   messagesEl.appendChild(sys);
   messagesEl.scrollTop = messagesEl.scrollHeight;
+}
+
+document.getElementById('backFromShopBtn').onclick = () => showPage('chatPage');
+document.getElementById('shopAddBtn').onclick = () => openShopEdit(null);
+document.getElementById('closeShopEditBtn').onclick = closeShopEdit;
+document.getElementById('closeShopDetailBtn').onclick = closeShopDetail;
+
+document.querySelectorAll('.shop-tab').forEach(tab => {
+  tab.onclick = () => {
+    document.querySelectorAll('.shop-tab').forEach(t => t.classList.remove('active'));
+    tab.classList.add('active');
+    const k = tab.dataset.tab;
+    document.getElementById('shopItemsPanel').classList.toggle('hidden', k !== 'items');
+    document.getElementById('shopOrdersPanel').classList.toggle('hidden', k !== 'orders');
+    document.getElementById('shopAddBtn').style.display = k === 'items' ? '' : 'none';
+    if (k === 'orders') renderShopOrders();
+    else renderShopItems();
+  };
+});
+
+document.getElementById('shopImgPicker').onclick = () => document.getElementById('shopImgUpload').click();
+document.getElementById('shopImgUpload').onchange = (e) => {
+  const f = e.target.files[0];
+  if (!f) return;
+  const reader = new FileReader();
+  reader.onload = (ev) => {
+    pendingShopImage = ev.target.result;
+    const img = document.getElementById('shopImgPreview');
+    img.src = pendingShopImage; img.style.display = 'block';
+    document.getElementById('shopImgPlus').style.display = 'none';
+  };
+  reader.readAsDataURL(f);
+  e.target.value = '';
+};
+
+document.getElementById('shopSaveBtn').onclick = () => {
+  const name = document.getElementById('shopNameInput').value.trim();
+  const price = parseFloat(document.getElementById('shopPriceInput').value) || 0;
+  const desc = document.getElementById('shopDescInput').value.trim();
+  if (!name) { alert('请输入商品名称'); return; }
+  if (editingShopId) {
+    const it = shopItems.find(x => x.id === editingShopId);
+    if (it) { it.name = name; it.price = price; it.desc = desc; it.img = pendingShopImage; }
+  } else {
+    shopItems.push({
+      id: Date.now() + '_' + Math.random().toString(36).slice(2, 8),
+      name, price, desc, img: pendingShopImage, t: Date.now()
+    });
   }
+  saveShopItems();
+  closeShopEdit();
+  renderShopItems();
+};
+
+document.getElementById('detailBuyBtn').onclick = () => {
+  const it = shopItems.find(x => x.id === currentDetailId);
+  if (!it) return;
+  closeShopDetail();
+  buyForTa(it);
+};
+document.getElementById('detailHelpPayBtn').onclick = () => {
+  const it = shopItems.find(x => x.id === currentDetailId);
+  if (!it) return;
+  closeShopDetail();
+  helpPay(it);
+};
+document.getElementById('detailEditBtn').onclick = () => {
+  const it = shopItems.find(x => x.id === currentDetailId);
+  if (!it) return;
+  closeShopDetail();
+  openShopEdit(it);
+};
+document.getElementById('detailDeleteBtn').onclick = () => {
+  if (!confirm('确定删除这个商品吗？')) return;
+  shopItems = shopItems.filter(x => x.id !== currentDetailId);
+  saveShopItems();
+  closeShopDetail();
+  renderShopItems();
+};
+
 /* ===== 纪念日逻辑 ===== */
 function loadAnnivList() {
   try { return JSON.parse(localStorage.getItem('anniv_list') || '[]'); }
