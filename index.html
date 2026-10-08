@@ -84,8 +84,8 @@
       </div>
     </div>
   </div>
-    </div>
-    <!-- 纪念日页面 -->
+        </div>
+        <!-- 纪念日页面 -->
 <div id="annivPage" class="page hidden">
   <header class="chat-header">
     <div class="header-left">
@@ -320,6 +320,7 @@ function save(key, val) {
 
 let cards = load('our_cards', []);
 let quoteTarget = null;
+let lastBatch = { sender: null, batchId: 0, t: 0 };
 
 function showPage(id) {
   document.querySelectorAll('.page').forEach(p => p.classList.add('hidden'));
@@ -365,6 +366,18 @@ function applyTimePos(row) {
   row.classList.add(cls);
 }
 
+/* 给新消息分配 batchId：
+   规则：同一发件人，1 分钟内连续发，用同一个 batchId；否则新开一个 batch */
+function getBatchId(sender) {
+  const now = Date.now();
+  if (lastBatch.sender === sender && (now - lastBatch.t) < 60 * 1000) {
+    lastBatch.t = now;
+    return lastBatch.batchId;
+  }
+  lastBatch = { sender, batchId: now, t: now };
+  return now;
+}
+
 function isNewDay() {
   const last = load('last_msg_day', '');
   const d = new Date();
@@ -406,7 +419,7 @@ function buildAvatar(sender) {
   }
 }, 2000);
 
-function addMessage(sender, content, quote, store, msgId) {
+function addMessage(sender, content, quote, store, msgId, batchId) {
   const row = document.createElement('div');
   row.className = 'msg-row ' + (sender === 'me' ? 'me' : 'ta');
   row.dataset.msgId = msgId || (Date.now() + '_' + Math.random().toString(36).slice(2, 8));
@@ -457,62 +470,14 @@ function addMessage(sender, content, quote, store, msgId) {
       dividerEl.textContent = div.text;
       messagesEl.insertBefore(dividerEl, row);
     }
-    const m = { type: 'text', sender, content, quote: quote || '', t: Date.now(), msgId: row.dataset.msgId, read: false, batchId: getBatchId() };
+    const bid = batchId || getBatchId(sender);
+    const m = { type: 'text', sender, content, quote: quote || '', t: Date.now(), msgId: row.dataset.msgId, read: false, batchId: bid };
     msgs.push(m);
     save('our_messages', msgs);
-
-    if (sender === 'me' && load('read_receipt', true)) {
-      // 等 2 秒后变已读（模拟对方看了）
-      setTimeout(() => {
-        markAllRead();
-      }, 2000);
-    }
   }
 
-  // 显示时间：同一批的最后一条显示，前面的隐藏
+  // 重新计算显示时间：同一 batch 只有最后一条显示
   finalizeBatchTime();
-}
-
-function getBatchId() {
-  const now = Date.now();
-  const last = load('last_batch', { id: now, t: now });
-  if (now - last.t > 60 * 1000) {
-    save('last_batch', { id: now, t: now });
-    return now;
-  }
-  save('last_batch', { id: last.id, t: now });
-  return last.id;
-}
-
-function finalizeBatchTime() {
-  const msgs = load('our_messages', []);
-  // 找每个 batchId 的最后一条
-  const lastOfBatch = {};
-  msgs.forEach(m => {
-    if (m.batchId) lastOfBatch[m.batchId] = m.msgId;
-  });
-  messagesEl.querySelectorAll('.msg-row.show-time').forEach(r => r.classList.remove('show-time'));
-  messagesEl.querySelectorAll('.msg-row').forEach(r => {
-    const id = r.dataset.msgId;
-    if (id && lastOfBatch[id]) r.classList.add('show-time');
-  });
-}
-
-function markAllRead() {
-  if (!load('read_receipt', true)) return;
-  const all = load('our_messages', []);
-  all.forEach(m => { if (m.sender === 'me' && m.type === 'text') m.read = true; });
-  save('our_messages', all);
-  document.querySelectorAll('.msg-row.me .read-mark').forEach(el => {
-    el.classList.remove('unread');
-    el.classList.add('read');
-    const rs = load('read_style', 'icon');
-    if (rs === 'icon') {
-      el.innerHTML = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M2 13 L7 18 L15 8"></path><path d="M9 13 L12 16 L20 6"></path></svg>';
-    } else {
-      el.textContent = '已读';
-    }
-  });
 }
 
 function addImage(sender, url, store) {
@@ -539,14 +504,14 @@ function addImage(sender, url, store) {
   messagesEl.appendChild(row);
   messagesEl.scrollTop = messagesEl.scrollHeight;
 
-  messagesEl.querySelectorAll('.msg-row.show-time').forEach(r => r.classList.remove('show-time'));
-  row.classList.add('show-time');
-
   if (store !== false) {
     const msgs = load('our_messages', []);
-    msgs.push({ type: 'image', sender, url, t: Date.now(), msgId: row.dataset.msgId });
+    const bid = getBatchId(sender);
+    msgs.push({ type: 'image', sender, url, t: Date.now(), msgId: row.dataset.msgId, batchId: bid });
     save('our_messages', msgs);
   }
+
+  finalizeBatchTime();
 }
 
 function showTyping() {
@@ -555,6 +520,7 @@ function showTyping() {
     taNameEl.dataset.original = taNameEl.textContent;
     taNameEl.dataset.typing = '1';
     taNameEl.textContent = '对方正在输入中…';
+    markAllRead();
   }
 }
 function hideTyping() {
@@ -605,6 +571,15 @@ async function sendMessage() {
   showTyping();
   const firstDelay = (Math.min(dMin, dMax) + Math.random() * Math.abs(dMax - dMin)) * 1000;
   await new Promise(r => setTimeout(r, firstDelay));
+
+  // 已读不回：可能这次不回
+  if (load('read_no_reply', false)) {
+    if (Math.random() < 0.5) {
+      hideTyping();
+      return;
+    }
+  }
+
   const count = Math.min(rMin, rMax) + Math.floor(Math.random() * (Math.abs(rMax - rMin) + 1));
   for (let i = 0; i < count; i++) {
     if (i > 0) {
@@ -618,9 +593,47 @@ async function sendMessage() {
     addMessage('ta', reply, quote, true);
   }
   hideTyping();
-  markAllRead();
 }
 inputEl.addEventListener('keydown', e => { if (e.key === 'Enter') sendMessage(); });
+
+/* ===== 按 batch 显示时间 ===== */
+function finalizeBatchTime() {
+  const msgs = load('our_messages', []);
+  // 计算每个 batchId 最后一条的 msgId
+  const lastOfBatch = {};
+  msgs.forEach(m => {
+    if (m.batchId && (m.type === 'text' || m.type === 'image' || m.type === 'shopcard' || m.type === 'transfer')) {
+      lastOfBatch[m.batchId] = m.msgId;
+    }
+  });
+  // 遍历所有行，show-time 只给 batch 最后一条
+  messagesEl.querySelectorAll('.msg-row').forEach(r => {
+    const id = r.dataset.msgId;
+    if (id && lastOfBatch[id]) r.classList.add('show-time');
+    else r.classList.remove('show-time');
+  });
+}
+
+/* ===== 已读 ===== */
+function markAllRead() {
+  if (!load('read_receipt', true)) return;
+  const all = load('our_messages', []);
+  let changed = false;
+  all.forEach(m => {
+    if (m.sender === 'me' && m.type === 'text' && !m.read) { m.read = true; changed = true; }
+  });
+  if (changed) save('our_messages', all);
+  document.querySelectorAll('.msg-row.me .read-mark').forEach(el => {
+    el.classList.remove('unread');
+    el.classList.add('read');
+    const rs = load('read_style', 'icon');
+    if (rs === 'icon') {
+      el.innerHTML = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M2 13 L7 18 L15 8"></path><path d="M9 13 L12 16 L20 6"></path></svg>';
+    } else {
+      el.textContent = '已读';
+    }
+  });
+  }
   /* ===== 转账卡片 ===== */
 function renderTransferCard(m) {
   const isMe = m.sender === 'me';
@@ -665,11 +678,12 @@ function makeTransferCard(amount, note) {
   const transferId = Date.now() + '_' + Math.random().toString(36).slice(2, 8);
   const t = Date.now();
   const msgId = Date.now() + '_' + Math.random().toString(36).slice(2, 8);
+  const bid = getBatchId('me');
   const msgs = load('our_messages', []);
-  msgs.push({ type: 'transfer', from: 'me', sender: 'me', transferId, amount, note, status: 'pending', t, msgId });
-  msgs.push({ type: 'transfer', from: 'me', sender: 'ta', transferId, amount, note, status: 'pending', t: t + 1, msgId: msgId + '_ta' });
+  msgs.push({ type: 'transfer', from: 'me', sender: 'me', transferId, amount, note, status: 'pending', t, msgId, batchId: bid });
+  msgs.push({ type: 'transfer', from: 'me', sender: 'ta', transferId, amount, note, status: 'pending', t: t + 1, msgId: msgId + '_ta', batchId: bid + 1 });
   save('our_messages', msgs);
-  renderTransferCard({ type: 'transfer', from: 'me', sender: 'me', transferId, amount, note, status: 'pending', t, msgId });
+  renderTransferCard({ type: 'transfer', from: 'me', sender: 'me', transferId, amount, note, status: 'pending', t, msgId, batchId: bid });
   setTimeout(() => {
     const recv = load('trans_recv', 60), ref = load('trans_ref', 30), ign = load('trans_ign', 10);
     const total = recv + ref + ign;
@@ -689,10 +703,11 @@ function makeTaTransferCard(amount, note) {
   const transferId = Date.now() + '_ta_' + Math.random().toString(36).slice(2, 8);
   const t = Date.now();
   const msgId = Date.now() + '_' + Math.random().toString(36).slice(2, 8);
+  const bid = getBatchId('ta');
   const msgs = load('our_messages', []);
-  msgs.push({ type: 'transfer', from: 'ta', sender: 'ta', transferId, amount, note, status: 'pending', t, msgId });
+  msgs.push({ type: 'transfer', from: 'ta', sender: 'ta', transferId, amount, note, status: 'pending', t, msgId, batchId: bid });
   save('our_messages', msgs);
-  renderTransferCard({ type: 'transfer', from: 'ta', sender: 'ta', transferId, amount, note, status: 'pending', t, msgId });
+  renderTransferCard({ type: 'transfer', from: 'ta', sender: 'ta', transferId, amount, note, status: 'pending', t, msgId, batchId: bid });
 }
 
 /* ===== 刷新 ===== */
@@ -702,19 +717,20 @@ function refreshMessages() {
   msgs.forEach(m => {
     if (m.type === 'transfer') renderTransferCard(m);
     else if (m.type === 'image') addImage(m.sender, m.url, false);
-    else if (m.type === 'text') addMessage(m.sender, m.content, m.quote, false, m.msgId);
+    else if (m.type === 'text') addMessage(m.sender, m.content, m.quote, false, m.msgId, m.batchId);
     else if (m.type === 'shopcard') renderShopCard(m);
     else if (m.type === 'systemtip') addSystemTip(m.text, false);
     else if (m.type === 'datedivider') addDateDividerEl(m.t);
   });
+
   // 已读状态还原
   document.querySelectorAll('.msg-row.me .read-mark').forEach(el => {
     const row = el.closest('.msg-row');
     const m = msgs.find(x => x.msgId === row.dataset.msgId);
+    const rs = load('read_style', 'icon');
     if (m && m.read) {
       el.classList.remove('unread');
       el.classList.add('read');
-      const rs = load('read_style', 'icon');
       if (rs === 'icon') {
         el.innerHTML = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M2 13 L7 18 L15 8"></path><path d="M9 13 L12 16 L20 6"></path></svg>';
       } else {
@@ -723,11 +739,11 @@ function refreshMessages() {
     } else {
       el.classList.add('unread');
       el.classList.remove('read');
-      const rs = load('read_style', 'icon');
       if (rs === 'icon') el.innerHTML = '';
       else el.textContent = '未读';
     }
   });
+
   finalizeBatchTime();
   messagesEl.scrollTop = messagesEl.scrollHeight;
 }
@@ -817,8 +833,7 @@ document.addEventListener('dblclick', function(e) {
   messagesEl.appendChild(sys);
   messagesEl.scrollTop = messagesEl.scrollHeight;
 });
-
-/* ===== 长按菜单 ===== */
+  /* ===== 长按菜单 ===== */
 let longPressTarget = null;
 let longPressTimer = null;
 
@@ -913,7 +928,8 @@ document.querySelectorAll('#longPressMenu .lp-item').forEach(item => {
     }
   };
 });
-  /* ===== 商店卡片 ===== */
+
+/* ===== 商店卡片 ===== */
 function renderShopCard(m) {
   const row = document.createElement('div');
   row.className = 'msg-row ' + (m.sender === 'me' ? 'me' : 'ta');
@@ -1549,7 +1565,8 @@ function closeShopDetail() {
 function buyForTa(it) {
   const taName = load('ta_name', 'TA');
   const cardId = Date.now() + '_buy_' + Math.random().toString(36).slice(2, 8);
-  const msg = { type: 'shopcard', sender: 'me', title: `我给${taName}赠送了商品`, sub: it.name, img: it.img, status: '接收', cardId, t: Date.now() };
+  const bid = getBatchId('me');
+  const msg = { type: 'shopcard', sender: 'me', title: `我给${taName}赠送了商品`, sub: it.name, img: it.img, status: '接收', cardId, t: Date.now(), batchId: bid };
   const msgs = load('our_messages', []);
   msgs.push(msg);
   save('our_messages', msgs);
@@ -1573,7 +1590,8 @@ function buyForTa(it) {
 
 function helpPay(it) {
   const cardId = Date.now() + '_pay_' + Math.random().toString(36).slice(2, 8);
-  const msg = { type: 'shopcard', sender: 'me', title: `我希望你帮付¥${it.price}`, sub: it.name, img: it.img, status: '未付款', cardId, t: Date.now() };
+  const bid = getBatchId('me');
+  const msg = { type: 'shopcard', sender: 'me', title: `我希望你帮付¥${it.price}`, sub: it.name, img: it.img, status: '未付款', cardId, t: Date.now(), batchId: bid };
   const msgs = load('our_messages', []);
   msgs.push(msg);
   save('our_messages', msgs);
@@ -1598,7 +1616,8 @@ function helpPay(it) {
 function taSendGift(it) {
   const taName = load('ta_name', 'TA');
   const cardId = Date.now() + '_tagift_' + Math.random().toString(36).slice(2, 8);
-  const msg = { type: 'shopcard', sender: 'ta', title: `${taName}给我赠送了商品`, sub: it.name, img: it.img, status: '接收', cardId, clickable: true, t: Date.now() };
+  const bid = getBatchId('ta');
+  const msg = { type: 'shopcard', sender: 'ta', title: `${taName}给我赠送了商品`, sub: it.name, img: it.img, status: '接收', cardId, clickable: true, t: Date.now(), batchId: bid };
   const msgs = load('our_messages', []);
   msgs.push(msg);
   save('our_messages', msgs);
