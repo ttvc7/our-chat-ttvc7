@@ -581,27 +581,21 @@ body {
 .read-mark.unread { color: #bbb; }
 .read-mark.read { color: #7a7a7a; }
 
-/* 时间紧贴已读：我发的在已读左边，对方发的在已读右边 */
+/* 时间默认位置：我发的时间在已读左边；对方发的时间在已读右边 */
 .msg-row.me .msg-time { right: 24px; text-align: right; }
 .msg-row.ta .msg-time { left: 24px; text-align: left; }
 
-/* 时间位置：由我发的决定，对方的与之相反 */
-/* 左下角：我左下 / 他右下 */
-.msg-row.tp-lb .msg-time { left: 46px; text-align: left; }
-.msg-row.tp-lb.ta .msg-time { left: auto; right: 24px; text-align: right; }
-/* 右下角：我右下 / 他左下 */
-.msg-row.tp-rb .msg-time { right: 24px; text-align: right; }
-.msg-row.tp-rb.ta .msg-time { right: auto; left: 24px; text-align: left; }
-/* 左上角：我左上 / 他右上 */
-.msg-row.tp-lt .msg-time { left: 46px; top: 2px; bottom: auto; text-align: left; }
-.msg-row.tp-lt.ta .msg-time { left: auto; right: 24px; text-align: right; }
-/* 右上角：我右上 / 他左上 */
-.msg-row.tp-rt .msg-time { right: 24px; top: 2px; bottom: auto; text-align: right; }
-.msg-row.tp-rt.ta .msg-time { right: auto; left: 24px; text-align: left; }
-/* 头像下面 */
-.msg-row.tp-avatar.me .msg-time { left: 0; width: 38px; text-align: center; right: auto; }
-.msg-row.tp-avatar.ta .msg-time { left: 0; width: 38px; text-align: center; right: auto; }
-
+/* 时间位置设置：我发的和对方发的相反 */
+.msg-row.tp-lb.me .msg-time { left: 46px; right: auto; text-align: left; }
+.msg-row.tp-lb.ta .msg-time { right: 24px; left: auto; text-align: right; }
+.msg-row.tp-rb.me .msg-time { right: 24px; left: auto; text-align: right; }
+.msg-row.tp-rb.ta .msg-time { left: 24px; right: auto; text-align: left; }
+.msg-row.tp-lt.me .msg-time { left: 46px; right: auto; top: 2px; bottom: auto; text-align: left; }
+.msg-row.tp-lt.ta .msg-time { right: 24px; left: auto; top: 2px; bottom: auto; text-align: right; }
+.msg-row.tp-rt.me .msg-time { right: 24px; left: auto; top: 2px; bottom: auto; text-align: right; }
+.msg-row.tp-rt.ta .msg-time { left: 24px; right: auto; top: 2px; bottom: auto; text-align: left; }
+.msg-row.tp-avatar.me .msg-time { left: 0; right: auto; width: 38px; text-align: center; }
+.msg-row.tp-avatar.ta .msg-time { left: 0; right: auto; width: 38px; text-align: center; }
 /* ===== 日期分割 ===== */
 .date-divider {
   align-self: center;
