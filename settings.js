@@ -90,30 +90,14 @@
   function renderMain() {
     settingsBody.innerHTML = `
       <div class="settings-grid">
-        <div class="settings-item" data-key="美化">
-          <span class="icon"><svg viewBox="0 0 24 24" fill="none" stroke="#666" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3 L13.5 8.5 L19 10 L13.5 11.5 L12 17 L10.5 11.5 L5 10 L10.5 8.5 Z"></path></svg></span>美化
-        </div>
-        <div class="settings-item" data-key="外观">
-          <span class="icon"><svg viewBox="0 0 24 24" fill="none" stroke="#666" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"></circle><circle cx="8.5" cy="9.5" r="1.2" fill="#666"></circle><circle cx="15.5" cy="9.5" r="1.2" fill="#666"></circle><circle cx="8.5" cy="15" r="1.2" fill="#666"></circle><circle cx="15.5" cy="15" r="1.2" fill="#666"></circle></svg></span>外观
-        </div>
-        <div class="settings-item" data-key="聊天">
-          <span class="icon"><svg viewBox="0 0 24 24" fill="none" stroke="#666" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M20 12 C20 16.4 16 20 11 20 C10 20 9.1 19.9 8.2 19.7 L4 21 L5.2 17.5 C3.8 16.2 3 14.6 3 12 C3 7.6 7 4 12 4 C17 4 20 7.6 20 12 Z"></path></svg></span>聊天
-        </div>
-        <div class="settings-item" data-key="音乐">
-          <span class="icon"><svg viewBox="0 0 24 24" fill="none" stroke="#666" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><circle cx="7" cy="17" r="2.5"></circle><circle cx="17" cy="15" r="2.5"></circle><path d="M9.5 17 V7 L19.5 5 V15"></path></svg></span>音乐
-        </div>
-        <div class="settings-item" data-key="信箱">
-          <span class="icon"><svg viewBox="0 0 24 24" fill="none" stroke="#666" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="6" width="18" height="13" rx="2"></rect><path d="M3 8 L12 14 L21 8"></path></svg></span>信箱
-        </div>
-        <div class="settings-item" data-key="陪伴">
-          <span class="icon"><svg viewBox="0 0 24 24" fill="none" stroke="#666" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M12 20 C12 20 4 14 4 9 C4 6.2 6.2 4 9 4 C10.5 4 11.5 4.7 12 5.5 C12.5 4.7 13.5 4 15 4 C17.8 4 20 6.2 20 9 C20 14 12 20 12 20 Z"></path></svg></span>陪伴
-        </div>
-        <div class="settings-item" data-key="备份">
-          <span class="icon"><svg viewBox="0 0 24 24" fill="none" stroke="#666" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M5 5 H15 L19 9 V19 H5 Z"></path><path d="M8 5 V10 H15 V5"></path><path d="M8 19 V14 H16 V19"></path></svg></span>备份
-        </div>
-        <div class="settings-item" data-key="关于">
-          <span class="icon"><svg viewBox="0 0 24 24" fill="none" stroke="#666" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"></circle><path d="M12 11 V16"></path><circle cx="12" cy="8" r="0.8" fill="#666"></circle></svg></span>关于
-        </div>
+        <div class="settings-item" data-key="美化"><span class="icon"><svg viewBox="0 0 24 24" fill="none" stroke="#666" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3 L13.5 8.5 L19 10 L13.5 11.5 L12 17 L10.5 11.5 L5 10 L10.5 8.5 Z"></path></svg></span>美化</div>
+        <div class="settings-item" data-key="外观"><span class="icon"><svg viewBox="0 0 24 24" fill="none" stroke="#666" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"></circle><circle cx="8.5" cy="9.5" r="1.2" fill="#666"></circle><circle cx="15.5" cy="9.5" r="1.2" fill="#666"></circle><circle cx="8.5" cy="15" r="1.2" fill="#666"></circle><circle cx="15.5" cy="15" r="1.2" fill="#666"></circle></svg></span>外观</div>
+        <div class="settings-item" data-key="聊天"><span class="icon"><svg viewBox="0 0 24 24" fill="none" stroke="#666" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M20 12 C20 16.4 16 20 11 20 C10 20 9.1 19.9 8.2 19.7 L4 21 L5.2 17.5 C3.8 16.2 3 14.6 3 12 C3 7.6 7 4 12 4 C17 4 20 7.6 20 12 Z"></path></svg></span>聊天</div>
+        <div class="settings-item" data-key="音乐"><span class="icon"><svg viewBox="0 0 24 24" fill="none" stroke="#666" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><circle cx="7" cy="17" r="2.5"></circle><circle cx="17" cy="15" r="2.5"></circle><path d="M9.5 17 V7 L19.5 5 V15"></path></svg></span>音乐</div>
+        <div class="settings-item" data-key="信箱"><span class="icon"><svg viewBox="0 0 24 24" fill="none" stroke="#666" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="6" width="18" height="13" rx="2"></rect><path d="M3 8 L12 14 L21 8"></path></svg></span>信箱</div>
+        <div class="settings-item" data-key="陪伴"><span class="icon"><svg viewBox="0 0 24 24" fill="none" stroke="#666" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M12 20 C12 20 4 14 4 9 C4 6.2 6.2 4 9 4 C10.5 4 11.5 4.7 12 5.5 C12.5 4.7 13.5 4 15 4 C17.8 4 20 6.2 20 9 C20 14 12 20 12 20 Z"></path></svg></span>陪伴</div>
+        <div class="settings-item" data-key="备份"><span class="icon"><svg viewBox="0 0 24 24" fill="none" stroke="#666" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M5 5 H15 L19 9 V19 H5 Z"></path><path d="M8 5 V10 H15 V5"></path><path d="M8 19 V14 H16 V19"></path></svg></span>备份</div>
+        <div class="settings-item" data-key="关于"><span class="icon"><svg viewBox="0 0 24 24" fill="none" stroke="#666" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"></circle><path d="M12 11 V16"></path><circle cx="12" cy="8" r="0.8" fill="#666"></circle></svg></span>关于</div>
       </div>
     `;
     settingsBody.querySelectorAll('.settings-item').forEach(item => {
@@ -152,7 +136,6 @@
       </div>
       <input type="file" id="wallpaperUpload" accept="image/*" style="display:none;">
       <button class="btn-secondary" id="pickWallpaperBtn">从相册选首页壁纸</button>
-
       <div class="sec-title">聊天背景</div>
       <div class="color-row">
         <div class="color-dot" style="background:#f5f5f5" data-bg="#f5f5f5"></div>
@@ -163,7 +146,6 @@
       </div>
       <input type="file" id="bgUpload" accept="image/*" style="display:none;">
       <button class="btn-secondary" id="pickBgBtn">从相册选背景图</button>
-
       <div class="sec-title">气泡形状</div>
       <div class="opt-grid">
         <div class="opt-card" data-bubble="sharp">标准尖角</div>
@@ -171,18 +153,15 @@
         <div class="opt-card" data-bubble="pill">大圆角胶囊</div>
         <div class="opt-card" data-bubble="square">方形直角</div>
       </div>
-
       <div class="sec-title">字体大小</div>
       <div class="opt-grid">
         <div class="opt-card" data-font="14">小</div>
         <div class="opt-card" data-font="15">中</div>
         <div class="opt-card" data-font="17">大</div>
       </div>
-
       <div class="sec-title">气泡 CSS（高级）</div>
       <textarea class="css-area" id="bubbleCssInput" placeholder=".bubble { ... }"></textarea>
       <button class="btn-primary" id="applyBubbleCss">应用气泡 CSS</button>
-
       <div class="sec-title">字体 CSS（高级）</div>
       <textarea class="css-area" id="fontCssInput" placeholder=".bubble { font-family: ...; }"></textarea>
       <button class="btn-primary" id="applyFontCss">应用字体 CSS</button>
@@ -281,7 +260,7 @@
         save('font_css', css);
       };
     }
-}
+    }
   function renderAppearance() {
     const tf = load('time_format', '24hm');
     const tp = load('time_pos', 'right-bottom');
@@ -293,7 +272,6 @@
       <div class="sec-title">主题 CSS（高级）</div>
       <textarea class="css-area" id="themeCssInput" placeholder="body { ... }"></textarea>
       <button class="btn-primary" id="applyThemeCss">应用主题 CSS</button>
-
       <div class="sec-title">时间戳格式</div>
       <div class="opt-grid">
         <div class="opt-card ${tf === '24hm' ? 'active' : ''}" data-tf="24hm">14:05</div>
@@ -302,7 +280,6 @@
         <div class="opt-card ${tf === '12hms' ? 'active' : ''}" data-tf="12hms">2:05:30 PM</div>
         <div class="opt-card ${tf === 'off' ? 'active' : ''}" data-tf="off">关闭时间戳</div>
       </div>
-
       <div class="sec-title">时间戳位置</div>
       <div class="opt-grid">
         <div class="opt-card ${tp === 'left-bottom' ? 'active' : ''}" data-tp="left-bottom">左下角</div>
@@ -311,7 +288,6 @@
         <div class="opt-card ${tp === 'left-top' ? 'active' : ''}" data-tp="left-top">左上角</div>
         <div class="opt-card ${tp === 'avatar' ? 'active' : ''}" data-tp="avatar">头像下面</div>
       </div>
-
       <div class="sec-title">头像</div>
       <div class="avatar-row" id="taAvatarRow">
         <div class="avatar-preview" id="taAvatarPreview" style="${cfg.taAvatar ? `background-image:url(${cfg.taAvatar})` : ''}"></div>
@@ -483,7 +459,6 @@
         <label style="margin-left:8px;"><input type="radio" name="readStyle" value="text" ${readStyle === 'text' ? 'checked' : ''}> 文字</label>
       </div>
       <div class="input-row"><span class="label">已读不回</span><input type="checkbox" id="readNoReplyInput" ${readNoReply ? 'checked' : ''}></div>
-
       <div class="sec-title">回复条数</div>
       <div class="input-row"><span class="label">最少</span><input type="number" id="replyMinInput" value="${replyMin}" min="1" max="10"><span class="label">条</span></div>
       <div class="input-row"><span class="label">最多</span><input type="number" id="replyMaxInput" value="${replyMax}" min="1" max="10"><span class="label">条</span></div>
@@ -507,7 +482,6 @@
       <div class="input-row"><span class="label">送礼概率</span><input type="number" id="giftProbInput" value="${giftProb}" min="0" max="100"><span class="label">%</span></div>
       <div class="input-row"><span class="label">最短间隔</span><input type="number" id="giftMinInput" value="${giftMin}" min="1" max="120"><span class="label">分钟</span></div>
       <div class="input-row"><span class="label">最长间隔</span><input type="number" id="giftMaxInput" value="${giftMax}" min="1" max="120"><span class="label">分钟</span></div>
-
       <button class="btn-primary" id="saveChatSettings">保存聊天设置</button>
       <div class="sec-title">收藏 & 搜索</div>
       <button class="btn-secondary" id="openFavBtn">打开收藏夹</button>
@@ -560,7 +534,6 @@
       save('read_no_reply', document.getElementById('readNoReplyInput').checked);
       const rs = document.querySelector('input[name="readStyle"]:checked');
       save('read_style', rs ? rs.value : 'icon');
-
       alert('已保存');
       if (typeof scheduleAutoMessage === 'function') scheduleAutoMessage();
     };
@@ -677,7 +650,6 @@
 
   window.addEventListener('load', () => {
     applyAll();
-
     const observer = new MutationObserver(() => {
       if (!settingsModal.classList.contains('hidden')) {
         if (!settingsBody.innerHTML.trim()) renderMain();
