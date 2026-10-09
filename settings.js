@@ -261,7 +261,7 @@
         save('font_css', css);
       };
     }
-}
+  }
   function renderAppearance() {
     settingsBody.innerHTML = `
       <div class="sub-head">${backBtn()}外观</div>
