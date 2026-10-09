@@ -1577,10 +1577,11 @@ function renderVoiceList() {
   const body = document.getElementById('stickerBody');
   const emojiBtn = document.getElementById('emojiBtn');
   let currentTab = 'mine';
+
   function render() {
     const list = currentTab === 'mine' ? load('my_stickers', []) : load('ta_stickers', []);
     if (list.length === 0) {
-      body.innerHTML = `<div class="sticker-empty">还没有表情哦<br>去「字卡库 → 表情包」里添加</div>`;
+      body.innerHTML = `<div class="sticker-empty" style="grid-column:1/-1;text-align:center;color:#999;font-size:13px;padding:40px 20px;line-height:1.8;">还没有表情哦<br>去「字卡库 → 表情包」里添加</div>`;
       return;
     }
     body.innerHTML = '';
@@ -1588,23 +1589,34 @@ function renderVoiceList() {
       const div = document.createElement('div');
       div.className = 'sticker-item';
       div.style.backgroundImage = `url(${url})`;
-      div.onclick = () => { if (currentTab === 'mine') addImage('me', url); };
+      div.onclick = () => {
+        if (currentTab === 'mine') addImage('me', url);
+      };
       body.appendChild(div);
     });
   }
+
   emojiBtn.onclick = (e) => {
     e.stopPropagation();
-    if (panel.classList.contains('hidden')) { panel.classList.remove('hidden'); render(); }
-    else panel.classList.add('hidden');
+    e.preventDefault();
+    if (panel.classList.contains('hidden')) {
+      panel.classList.remove('hidden');
+      render();
+    } else {
+      panel.classList.add('hidden');
+    }
   };
+
   document.querySelectorAll('.sticker-tab').forEach(tab => {
-    tab.onclick = () => {
+    tab.onclick = (e) => {
+      e.stopPropagation();
       document.querySelectorAll('.sticker-tab').forEach(t => t.classList.remove('active'));
       tab.classList.add('active');
       currentTab = tab.dataset.tab;
       render();
     };
   });
+
   document.addEventListener('click', (e) => {
     if (panel.classList.contains('hidden')) return;
     if (e.target.closest('#stickerPanel') || e.target.closest('#emojiBtn')) return;
