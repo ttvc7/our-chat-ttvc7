@@ -1886,14 +1886,54 @@ function renderSearchList(kw) {
   if (!kw) { box.innerHTML = ''; return; }
   const msgs = load('our_messages', []).filter(m => m.type === 'text' && m.content && m.content.includes(kw));
   if (msgs.length === 0) { box.innerHTML = '<div style="color:#999;text-align:center;padding:20px;">没找到</div>'; return; }
+  // 按日期分组
+  const groups = {};
+  msgs.forEach(m => {
+    const d = new Date(m.t);
+    const key = `${d.getFullYear()}-${d.getMonth() + 1}-${d.getDate()}`;
+    if (!groups[key]) groups[key] = [];
+    groups[key].push(m);
+  });
+  const keys = Object.keys(groups).sort((a, b) => {
+    const [ay, am, ad] = a.split('-').map(Number);
+    const [by, bm, bd] = b.split('-').map(Number);
+    return new Date(by, bm - 1, bd) - new Date(ay, am - 1, ad);
+  });
   box.innerHTML = '';
-  msgs.slice().reverse().forEach(m => {
-    const div = document.createElement('div');
-    div.className = 'card-item';
-    div.innerHTML = `<div style="flex:1;word-break:break-word;">${m.content}</div>`;
-    box.appendChild(div);
+  keys.forEach(k => {
+    const [y, mo, da] = k.split('-').map(Number);
+    const group = document.createElement('div');
+    group.className = 'search-date-group';
+    const title = document.createElement('div');
+    title.className = 'search-date-title';
+    title.textContent = `${mo}月${da}日`;
+    group.appendChild(title);
+    groups[k].slice().reverse().forEach(m => {
+      const div = document.createElement('div');
+      div.className = 'search-msg-item';
+      const d = new Date(m.t);
+      const hh = String(d.getHours()).padStart(2, '0');
+      const mm = String(d.getMinutes()).padStart(2, '0');
+      const who = m.sender === 'me' ? '我' : load('ta_name', 'TA');
+      div.innerHTML = `<span class="search-msg-time">${hh}:${mm} ${who}：</span>${m.content}`;
+      div.onclick = () => jumpToMessage(m.msgId);
+      group.appendChild(div);
+    });
+    box.appendChild(group);
   });
 }
+
+function jumpToMessage(msgId) {
+  document.getElementById('searchModal').classList.add('hidden');
+  showPage('chatPage');
+  setTimeout(() => {
+    const row = document.querySelector(`.msg-row[data-msg-id="${msgId}"]`);
+    if (!row) return;
+    row.scrollIntoView({ behavior: 'smooth', block: 'center' });
+    row.classList.add('jump-highlight');
+    setTimeout(() => row.classList.remove('jump-highlight'), 2000);
+  }, 200);
+  }
 document.getElementById('closeFavBtn').onclick = () => document.getElementById('favModal').classList.add('hidden');
 document.getElementById('closeSearchBtn').onclick = () => document.getElementById('searchModal').classList.add('hidden');
 const searchInp = document.getElementById('searchInput');
