@@ -84,7 +84,7 @@
       .btn-primary { background: ${color} !important; }
       .sub-head .back { color: ${color} !important; }
       .shop-save-btn { background: ${color} !important; }
-      .survey-header-btn { color: ${color} !important; }
+      .survey-header-btn.dark { color: ${color} !important; }
     `;
   }
 
@@ -261,7 +261,7 @@
         save('font_css', css);
       };
     }
-                  }
+}
   function renderAppearance() {
     settingsBody.innerHTML = `
       <div class="sub-head">${backBtn()}外观</div>
