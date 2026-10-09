@@ -1500,36 +1500,39 @@ function bindVoiceTab() {
   const importBox = document.getElementById('voiceImportBox');
   const upload = document.getElementById('voiceUpload');
   importBox.onclick = () => upload.click();
-  upload.onchange = (e) => {
+  upload.onchange = async (e) => {
     const files = Array.from(e.target.files);
     if (files.length === 0) return;
-    const list = load('our_voices', []);
-    let done = 0;
-    files.forEach(f => {
-      if (f.size > 30 * 1024 * 1024) { alert(f.name + ' 超过30MB，已跳过'); done++; if (done === files.length) finish(); return; }
-      const reader = new FileReader();
-      reader.onload = (ev) => {
-        const data = ev.target.result;
-        const audio = new Audio(data);
-        audio.onloadedmetadata = () => {
-          const dur = isFinite(audio.duration) ? Math.round(audio.duration) : 0;
-          list.push({ id: Date.now() + '_' + Math.random().toString(36).slice(2, 6), name: f.name, data, duration: dur + '"' });
-          done++;
-          if (done === files.length) finish();
-        };
-        audio.onerror = () => {
-          alert(f.name + ' 无法读取，已跳过');
-          done++;
-          if (done === files.length) finish();
-        };
-      };
-      reader.readAsDataURL(f);
-    });
-    function finish() { save('our_voices', list); renderVoiceList(); }
     upload.value = '';
+    for (const f of files) {
+      if (f.size > 30 * 1024 * 1024) { alert(f.name + ' 超过30MB，已跳过'); continue; }
+      try {
+        const buf = await f.arrayBuffer();
+        const blob = new Blob([buf], { type: f.type || 'audio/mpeg' });
+        let duration = '0"';
+        await new Promise((resolve) => {
+          const url = URL.createObjectURL(blob);
+          const audio = new Audio(url);
+          audio.onloadedmetadata = () => {
+            if (isFinite(audio.duration)) duration = Math.round(audio.duration) + '"';
+            URL.revokeObjectURL(url);
+            resolve();
+          };
+          audio.onerror = () => { URL.revokeObjectURL(url); resolve(); };
+        });
+        const id = Date.now() + '_' + Math.random().toString(36).slice(2, 6);
+        await idbPut('voices', { id, name: f.name, blob, duration });
+        const meta = load('our_voices_meta', []);
+        meta.push({ id, name: f.name, duration });
+        save('our_voices_meta', meta);
+      } catch (err) {
+        alert(f.name + ' 读取失败：' + err.message);
+      }
+    }
+    renderVoiceList();
   };
   renderVoiceList();
-}
+  }
 
 function renderVoiceList() {
   const listBox = document.getElementById('voiceList');
