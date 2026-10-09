@@ -1469,19 +1469,22 @@ function bindStickerTab() {
   renderLibStickerGrid();
   addBtn.onclick = () => upload.click();
   upload.onchange = (e) => {
-    const files = Array.from(e.target.files);
-    if (files.length === 0) return;
-    const key = currentStickerSubTab === 'mine' ? 'my_stickers' : 'ta_stickers';
-    const list = load(key, []);
-    let done = 0;
-    files.forEach(f => {
-      compressImage(f, 300, (url) => {
-        list.push(url); done++;
-        if (done === files.length) { save(key, list); renderLibStickerGrid(); }
-      });
+  const files = Array.from(e.target.files);
+  if (files.length === 0) return;
+  const key = currentStickerSubTab === 'mine' ? 'my_stickers' : 'ta_stickers';
+  const list = load(key, []);
+  let done = 0;
+  files.forEach(f => {
+    compressImage(f, 300, (url) => {
+      list.push(url); done++;
+      if (done === files.length) {
+        save(key, list);
+        renderLibStickerGrid();
+      }
     });
-    upload.value = '';
-  };
+  });
+  upload.value = '';
+};
 }
 
 function compressImage(file, maxSize, cb) {
