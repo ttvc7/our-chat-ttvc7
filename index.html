@@ -84,8 +84,8 @@
       </div>
     </div>
   </div>
-  </div>
-  <!-- 纪念日页面 -->
+</div>
+<!-- 纪念日页面 -->
 <div id="annivPage" class="page hidden">
   <header class="chat-header">
     <div class="header-left">
@@ -203,8 +203,8 @@
       <div class="mail-read-date" id="mailReadDate">--</div>
     </div>
   </div>
-    </div>
-    <!-- 问卷列表页 -->
+</div>
+<!-- 问卷列表页 -->
 <div id="surveyListPage" class="page hidden">
   <header class="chat-header">
     <div class="header-left">
@@ -327,7 +327,7 @@
       </div>
     </div>
   </div>
-          </div>
+</div>
 <!-- 字卡库（新） -->
 <div id="cardModal" class="modal hidden">
   <div class="modal-box" id="cardBox">
@@ -516,7 +516,7 @@ function buildAvatar(sender) {
   }
   return avatar;
 }
-    </script>
+  </script>
   setTimeout(() => {
   const loading = document.getElementById('loading');
   if (loading) {
@@ -775,7 +775,7 @@ function markAllRead() {
     }
   });
 }
-    /* ===== 转账卡片 ===== */
+/* ===== 转账卡片 ===== */
 function renderTransferCard(m) {
   const isMe = m.sender === 'me';
   const row = document.createElement('div');
@@ -959,7 +959,7 @@ document.addEventListener('dblclick', function(e) {
   messagesEl.appendChild(sys);
   messagesEl.scrollTop = messagesEl.scrollHeight;
 });
-      /* ===== 长按菜单 ===== */
+/* ===== 长按菜单 ===== */
 let longPressTarget = null;
 let longPressTimer = null;
 
@@ -1214,7 +1214,7 @@ document.getElementById('backHomeBtn').onclick = () => showPage('homePage');
     makeTransferCard(amount, note);
   };
 })();
-      /* ===== 字卡库（新） ===== */
+/* ===== 字卡库（新） ===== */
 document.getElementById('closeCardBtn').onclick = () => document.getElementById('cardModal').classList.add('hidden');
 
 let currentCardTab = 'main';
@@ -1410,7 +1410,203 @@ function bindPatTab() {
     alert('已保存');
   };
 }
-    /* ----- 表情包 ----- */
+ /* ===== 字卡库（新） ===== */
+document.getElementById('closeCardBtn').onclick = () => document.getElementById('cardModal').classList.add('hidden');
+
+let currentCardTab = 'main';
+let currentCat = 'all';
+let currentSearch = '';
+let currentStickerSubTab = 'mine';
+
+function openCardTab(tab) {
+  currentCardTab = tab;
+  document.querySelectorAll('#cardTabs .card-tab').forEach(t => t.classList.toggle('active', t.dataset.tab === tab));
+  const body = document.getElementById('cardBody');
+  body.innerHTML = '';
+  const tplId = 'tpl-' + tab;
+  const tpl = document.getElementById(tplId);
+  if (!tpl) return;
+  body.appendChild(tpl.content.cloneNode(true));
+
+  if (tab === 'main') { currentCat = 'all'; currentSearch = ''; bindMainTab(); loadCards(); }
+  if (tab === 'emoji') bindEmojiTab();
+  if (tab === 'pat') bindPatTab();
+  if (tab === 'sticker') bindStickerTab();
+  if (tab === 'voice') bindVoiceTab();
+}
+
+document.querySelectorAll('#cardTabs .card-tab').forEach(btn => {
+  btn.onclick = () => openCardTab(btn.dataset.tab);
+});
+
+/* ----- 主字卡 ----- */
+function parseCards(text) {
+  const lines = text.split('\n').map(l => l.trim()).filter(l => l);
+  if (lines.length === 0) return [];
+  let category = '', startIdx = 0;
+  const m = lines[0].match(/^【(.+?)】$/);
+  if (m) { category = m[1].trim(); startIdx = 1; }
+  const result = [];
+  for (let i = startIdx; i < lines.length; i++) result.push({ content: lines[i], category });
+  return result;
+}
+
+function bindMainTab() {
+  document.getElementById('addCardBtn').onclick = () => {
+    const input = document.getElementById('cardInput');
+    const text = input.value.trim();
+    if (!text) return;
+    const parsed = parseCards(text);
+    if (parsed.length === 0) { alert('请至少写一行内容'); return; }
+    parsed.forEach(p => cards.push({ content: p.content, category: p.category, type: 'main' }));
+    save('our_cards', cards);
+    input.value = '';
+    loadCards();
+  };
+  const searchInput = document.getElementById('cardSearchInput');
+  searchInput.oninput = () => { currentSearch = searchInput.value.trim(); loadCards(); };
+  document.getElementById('dedupBtn').onclick = () => {
+    const seen = new Set();
+    const newCards = [];
+    let removed = 0;
+    cards.forEach(c => {
+      const key = (c.type || 'main') + '|' + (c.category || '') + '|' + (c.content || '');
+      if (seen.has(key)) removed++;
+      else { seen.add(key); newCards.push(c); }
+    });
+    if (removed === 0) { alert('没有发现重复的字卡'); return; }
+    if (confirm('发现 ' + removed + ' 条重复字卡，确定删除吗？')) {
+      cards = newCards; save('our_cards', cards); loadCards();
+      alert('已删除 ' + removed + ' 条重复字卡');
+    }
+  };
+}
+
+function loadCards() {
+  const list = document.getElementById('cardList');
+  const catsBox = document.getElementById('cardCats');
+  if (!list || !catsBox) return;
+  let allMain = cards.map((c, idx) => ({ ...c, _idx: idx })).filter(c => c.type === 'main' || !c.type);
+  if (currentSearch) allMain = allMain.filter(c => (c.content || '').includes(currentSearch));
+  const cats = new Set();
+  allMain.forEach(c => { if (c.category) cats.add(c.category); });
+  catsBox.innerHTML = '';
+  const allCat = document.createElement('button');
+  allCat.className = 'card-cat' + (currentCat === 'all' ? ' active' : '');
+  allCat.textContent = '全部';
+  allCat.onclick = () => { currentCat = 'all'; loadCards(); };
+  catsBox.appendChild(allCat);
+  const noCat = document.createElement('button');
+  noCat.className = 'card-cat' + (currentCat === '未分类' ? ' active' : '');
+  noCat.textContent = '未分类';
+  noCat.onclick = () => { currentCat = '未分类'; loadCards(); };
+  catsBox.appendChild(noCat);
+  cats.forEach(cat => {
+    const el = document.createElement('button');
+    el.className = 'card-cat' + (currentCat === cat ? ' active' : '');
+    el.textContent = cat;
+    el.onclick = () => { currentCat = cat; loadCards(); };
+    catsBox.appendChild(el);
+  });
+  let filtered = allMain;
+  if (currentCat === '未分类') filtered = filtered.filter(c => !c.category);
+  else if (currentCat !== 'all') filtered = filtered.filter(c => c.category === currentCat);
+  if (filtered.length === 0) {
+    list.innerHTML = '<div style="color:#999;font-size:13px;text-align:center;padding:20px 0;">还没有字卡，加一条试试</div>';
+    return;
+  }
+  list.innerHTML = '';
+  filtered.forEach(card => {
+    const div = document.createElement('div');
+    div.className = 'card-item';
+    const wrap = document.createElement('div');
+    wrap.style.flex = '1'; wrap.style.wordBreak = 'break-word';
+    const s = document.createElement('div');
+    s.textContent = card.content; s.style.fontSize = '14px'; s.style.color = '#333';
+    wrap.appendChild(s);
+    if (card.category) {
+      const tag = document.createElement('span');
+      tag.textContent = card.category;
+      tag.style.cssText = 'display:inline-block;font-size:11px;color:#999;background:#f0f0f0;padding:2px 8px;border-radius:8px;margin-top:6px;';
+      wrap.appendChild(tag);
+    }
+    const btn = document.createElement('button');
+    btn.textContent = '×';
+    btn.onclick = () => { cards.splice(card._idx, 1); save('our_cards', cards); loadCards(); };
+    div.appendChild(wrap); div.appendChild(btn);
+    list.appendChild(div);
+  });
+}
+
+/* ----- Emoji ----- */
+function bindEmojiTab() {
+  const input = document.getElementById('emojiInput');
+  document.getElementById('addEmojiBtn').onclick = () => {
+    const text = input.value.trim();
+    if (!text) return;
+    const lines = text.split('\n').map(l => l.trim()).filter(l => l);
+    lines.forEach(l => cards.push({ content: l, category: '', type: 'emoji' }));
+    save('our_cards', cards);
+    input.value = '';
+    loadEmojiList();
+  };
+  loadEmojiList();
+}
+
+function loadEmojiList() {
+  const list = document.getElementById('emojiList');
+  if (!list) return;
+  const emojis = cards.map((c, idx) => ({ ...c, _idx: idx })).filter(c => c.type === 'emoji');
+  if (emojis.length === 0) { list.innerHTML = '<div style="color:#999;font-size:13px;text-align:center;padding:20px 0;">还没有颜文字</div>'; return; }
+  list.innerHTML = '';
+  emojis.forEach(card => {
+    const div = document.createElement('div');
+    div.className = 'card-item';
+    const s = document.createElement('div');
+    s.textContent = card.content; s.style.flex = '1';
+    const btn = document.createElement('button');
+    btn.textContent = '×';
+    btn.onclick = () => { cards.splice(card._idx, 1); save('our_cards', cards); loadEmojiList(); };
+    div.appendChild(s); div.appendChild(btn);
+    list.appendChild(div);
+  });
+}
+
+/* ----- 拍一拍 ----- */
+function bindPatTab() {
+  const patToTa = load('pat_to_ta', ['{我} 拍了拍 {TA}']);
+  const patToMe = load('pat_to_me', ['{TA} 拍了拍 {我}']);
+  document.getElementById('patToTaInput').value = patToTa[0] || '';
+  const listBox = document.getElementById('patToMeList');
+  function renderPatList() {
+    listBox.innerHTML = '';
+    patToMe.forEach((text, idx) => {
+      const div = document.createElement('div');
+      div.className = 'pat-item';
+      div.innerHTML = `<input type="text" class="pat-input" value="${text}"><button class="remove">×</button>`;
+      div.querySelector('.remove').onclick = () => {
+        patToMe.splice(idx, 1);
+        renderPatList();
+      };
+      listBox.appendChild(div);
+    });
+  }
+  renderPatList();
+  document.getElementById('addPatBtn').onclick = () => {
+    patToMe.push('');
+    renderPatList();
+  };
+  document.getElementById('savePatBtn').onclick = () => {
+    const toTa = document.getElementById('patToTaInput').value.trim();
+    save('pat_to_ta', toTa ? [toTa] : ['{我} 拍了拍 {TA}']);
+    const inputs = document.querySelectorAll('#patToMeList .pat-input');
+    const list = [];
+    inputs.forEach(inp => { if (inp.value.trim()) list.push(inp.value.trim()); });
+    save('pat_to_me', list.length ? list : ['{TA} 拍了拍 {我}']);
+    alert('已保存');
+  };
+}
+ /* ----- 表情包 ----- */
 function bindStickerTab() {
   const grid = document.getElementById('stickerGridLib');
   const addBtn = document.getElementById('stickerAddBtnLib');
@@ -1644,7 +1840,7 @@ function scheduleAutoMessage() {
     scheduleAutoMessage();
   }, delay);
 }
-      /* ===== 首页资产 ===== */
+/* ===== 首页资产 ===== */
 function applyHomeAssets() {
   const myA = document.getElementById('homeMyAvatar');
   const taA = document.getElementById('homeTaAvatar');
@@ -1993,7 +2189,7 @@ document.getElementById('addAnnivBtn').onclick = () => {
   list.push({ name: name.trim(), month: parseInt(m[1]), day: parseInt(m[2]) });
   saveAnnivList(list); renderAnniv();
 };
-      /* ===== 问卷 ===== */
+/* ===== 问卷 ===== */
 let surveyQuestions = [];
 let currentSurveyType = 'single';
 function showSurveyListPage() { showPage('surveyListPage'); renderSurveyList(); }
@@ -2273,4 +2469,5 @@ scheduleAutoMail();
 
 <script src="settings.js"></script>
 </body>
-                           </html>
+  </html>      
+      
