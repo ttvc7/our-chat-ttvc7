@@ -743,7 +743,7 @@ function drawQuote() {
 
 function tryTaVoiceReply() {
   const voiceProb = load('voice_prob', 0);
-  const voices = load('our_voices', []);
+  const voices = load('our_voices_meta', []);
   if (voices.length === 0) return false;
   if (Math.random() * 100 >= voiceProb) return false;
   const v = voices[Math.floor(Math.random() * voices.length)];
