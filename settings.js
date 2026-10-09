@@ -84,6 +84,7 @@
       .btn-primary { background: ${color} !important; }
       .sub-head .back { color: ${color} !important; }
       .shop-save-btn { background: ${color} !important; }
+      .survey-header-btn { color: ${color} !important; }
     `;
   }
 
@@ -260,7 +261,7 @@
         save('font_css', css);
       };
     }
-    }
+                  }
   function renderAppearance() {
     settingsBody.innerHTML = `
       <div class="sub-head">${backBtn()}外观</div>
@@ -270,7 +271,6 @@
       <div class="sec-title">主题 CSS（高级）</div>
       <textarea class="css-area" id="themeCssInput" placeholder="body { ... }"></textarea>
       <button class="btn-primary" id="applyThemeCss">应用主题 CSS</button>
-
       <div class="sec-title">头像</div>
       <div class="avatar-row" id="taAvatarRow">
         <div class="avatar-preview" id="taAvatarPreview" style="${cfg.taAvatar ? `background-image:url(${cfg.taAvatar})` : ''}"></div>
