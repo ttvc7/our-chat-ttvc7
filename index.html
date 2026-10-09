@@ -1582,7 +1582,13 @@ function renderVoiceList() {
   let currentTab = 'mine';
 
   function render() {
-    const list = currentTab === 'mine' ? load('my_stickers', []) : load('ta_stickers', []);
+    let list;
+if (currentTab === 'mine') {
+  list = load('our_stickers', []);
+  if (list.length === 0) list = load('my_stickers', []);
+} else {
+  list = load('ta_stickers', []);
+}
     if (list.length === 0) {
       body.innerHTML = `<div class="sticker-empty" style="grid-column:1/-1;text-align:center;color:#999;font-size:13px;padding:40px 20px;line-height:1.8;">还没有表情哦<br>去「字卡库 → 表情包」里添加</div>`;
       return;
