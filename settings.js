@@ -197,7 +197,7 @@
     panel.querySelector('#clearCards').onclick = () => {
       if (confirm('确定清空所有字卡吗？')) { localStorage.removeItem('our_cards'); alert('已清空，刷新页面生效'); }
     };
- }
+                      }
   /* ===== 外观 Tab ===== */
   function renderAppearanceTab(panel) {
     panel.innerHTML = `
