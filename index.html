@@ -1538,7 +1538,7 @@ function renderVoiceList() {
   const listBox = document.getElementById('voiceList');
   const countEl = document.getElementById('voiceCount');
   if (!listBox) return;
-  const list = load('our_voices', []);
+  const list = load('our_voices_meta', []);
   countEl.textContent = '共 ' + list.length + ' 条语音字卡 · 对方回复时选一条';
   listBox.innerHTML = '';
   if (list.length === 0) {
@@ -1554,16 +1554,17 @@ function renderVoiceList() {
     const div = document.createElement('div');
     div.className = 'voice-item';
     div.innerHTML = `<span class="name">🎵 ${v.name}</span><span class="dur">${v.duration}</span><button class="del">×</button>`;
-    div.querySelector('.del').onclick = () => {
-      const arr = load('our_voices', []);
-      const i = arr.findIndex(x => x.id === v.id);
-      if (i >= 0) arr.splice(i, 1);
-      save('our_voices', arr);
+    div.querySelector('.del').onclick = async () => {
+      await idbDelete('voices', v.id);
+      const meta = load('our_voices_meta', []);
+      const i = meta.findIndex(x => x.id === v.id);
+      if (i >= 0) meta.splice(i, 1);
+      save('our_voices_meta', meta);
       renderVoiceList();
     };
     listBox.appendChild(div);
   });
-}
+                                          }
 
 /* ===== 聊天页表情面板 ===== */
 (function() {
