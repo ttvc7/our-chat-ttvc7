@@ -1443,7 +1443,7 @@ function bindStickerTab() {
     };
   });
   function renderLibStickerGrid() {
-    const list = currentStickerSubTab === 'mine' ? load('my_stickers', []) : load('ta_stickers', []);
+    const list = currentStickerSubTab === 'mine' ? load('our_stickers', []) : load('ta_stickers', []);
     grid.innerHTML = '';
     if (list.length === 0) {
       grid.innerHTML = '<div style="grid-column:1/-1;text-align:center;color:#999;padding:40px 0;font-size:13px;">还没有表情</div>';
@@ -1456,7 +1456,7 @@ function bindStickerTab() {
       const del = document.createElement('button');
       del.className = 'sticker-del'; del.textContent = '×';
       del.onclick = () => {
-        const key = currentStickerSubTab === 'mine' ? 'my_stickers' : 'ta_stickers';
+        const key = currentStickerSubTab === 'mine' ? 'our_stickers' : 'ta_stickers';
         const arr = load(key, []);
         arr.splice(idx, 1);
         save(key, arr);
@@ -1471,7 +1471,7 @@ function bindStickerTab() {
   upload.onchange = (e) => {
   const files = Array.from(e.target.files);
   if (files.length === 0) return;
-  const key = currentStickerSubTab === 'mine' ? 'my_stickers' : 'ta_stickers';
+  const key = currentStickerSubTab === 'mine' ? 'our_stickers' : 'ta_stickers';
   const list = load(key, []);
   let done = 0;
   files.forEach(f => {
