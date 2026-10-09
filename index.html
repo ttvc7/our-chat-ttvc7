@@ -84,8 +84,8 @@
       </div>
     </div>
   </div>
-</div>
-<!-- 纪念日页面 -->
+        </div>
+ <!-- 纪念日页面 -->
 <div id="annivPage" class="page hidden">
   <header class="chat-header">
     <div class="header-left">
@@ -199,14 +199,14 @@
   </div>
 </div>
 
-<!-- 问卷详情弹窗 -->
+<!-- 问卷详情/答题弹窗 -->
 <div id="surveyAnswerModal" class="modal hidden">
   <div class="modal-box">
     <div class="modal-head"><span id="surveyAnswerTitle">问卷</span><button id="closeSurveyAnswerBtn">×</button></div>
     <div class="modal-body" id="surveyAnswerBody"></div>
   </div>
-          </div>
-<!-- 商店页 -->
+  </div>
+  <!-- 商店页 -->
 <div id="shopPage" class="page hidden">
   <header class="chat-header">
     <div class="header-left">
@@ -226,6 +226,7 @@
   <button class="shop-fab" id="shopAddBtn">+</button>
 </div>
 
+<!-- 添加/编辑商品弹窗 -->
 <div id="shopEditModal" class="modal hidden">
   <div class="shop-edit-sheet">
     <div class="shop-edit-head">
@@ -250,6 +251,7 @@
   </div>
 </div>
 
+<!-- 商品详情弹窗 -->
 <div id="shopDetailModal" class="modal hidden">
   <div class="shop-detail-sheet">
     <div class="shop-edit-head">
@@ -420,8 +422,6 @@ function buildAvatar(sender) {
   }
   return avatar;
 }
-  </script>
-  <script>
 setTimeout(() => {
   const loading = document.getElementById('loading');
   if (loading) {
@@ -457,8 +457,11 @@ function addMessage(sender, content, quote, store, msgId) {
     const readMark = document.createElement('div');
     readMark.className = 'read-mark unread';
     const rs = load('read_style', 'icon');
-    if (rs === 'icon') readMark.innerHTML = '';
-    else readMark.textContent = '未读';
+    if (rs === 'icon') {
+      readMark.innerHTML = '';
+    } else {
+      readMark.textContent = '未读';
+    }
     bubble.appendChild(readMark);
   }
 
@@ -486,16 +489,19 @@ function addImage(sender, url, store) {
   const row = document.createElement('div');
   row.className = 'msg-row ' + (sender === 'me' ? 'me' : 'ta');
   row.dataset.msgId = Date.now() + '_' + Math.random().toString(36).slice(2, 8);
+
   const avatar = buildAvatar(sender);
   const img = document.createElement('img');
   img.src = url;
   img.style.maxWidth = '120px';
   img.style.maxHeight = '120px';
   img.style.borderRadius = '8px';
+
   row.appendChild(avatar);
   row.appendChild(img);
   messagesEl.appendChild(row);
   messagesEl.scrollTop = messagesEl.scrollHeight;
+
   if (store !== false) {
     const msgs = load('our_messages', []);
     msgs.push({ type: 'image', sender, url, t: Date.now(), msgId: row.dataset.msgId });
@@ -562,7 +568,10 @@ async function sendMessage() {
   await new Promise(r => setTimeout(r, firstDelay));
 
   if (load('read_no_reply', false)) {
-    if (Math.random() < 0.5) { hideTyping(); return; }
+    if (Math.random() < 0.5) {
+      hideTyping();
+      return;
+    }
   }
 
   const count = Math.min(rMin, rMax) + Math.floor(Math.random() * (Math.abs(rMax - rMin) + 1));
@@ -600,9 +609,8 @@ function markAllRead() {
       el.textContent = '已读';
     }
   });
-}
-  </script>
-  <script>
+  }
+  /* ===== 转账卡片 ===== */
 function renderTransferCard(m) {
   const isMe = m.sender === 'me';
   const row = document.createElement('div');
@@ -669,6 +677,7 @@ function makeTaTransferCard(amount, note) {
   renderTransferCard({ type: 'transfer', from: 'ta', sender: 'ta', transferId, amount, note, status: 'pending', t, msgId });
 }
 
+/* ===== 刷新 ===== */
 function refreshMessages() {
   messagesEl.innerHTML = '';
   const msgs = load('our_messages', []);
@@ -703,6 +712,7 @@ function refreshMessages() {
   messagesEl.scrollTop = messagesEl.scrollHeight;
 }
 
+/* ===== 收款 ===== */
 let currentTransferId = null;
 function openReceiveModal(transferId) {
   const msgs = load('our_messages', []);
@@ -786,9 +796,10 @@ document.addEventListener('dblclick', function(e) {
   messagesEl.appendChild(sys);
   messagesEl.scrollTop = messagesEl.scrollHeight;
 });
-
+  /* ===== 长按菜单 ===== */
 let longPressTarget = null;
 let longPressTimer = null;
+
 function startLongPress(target) {
   longPressTarget = target;
   const menu = document.getElementById('longPressMenu');
@@ -801,6 +812,7 @@ function startLongPress(target) {
   menu.style.left = left + 'px';
   menu.style.top = (rect.bottom + 6) + 'px';
 }
+
 document.addEventListener('touchstart', (e) => {
   const bubble = e.target.closest('.bubble, .shop-card, .transfer-card');
   if (!bubble) return;
@@ -809,8 +821,10 @@ document.addEventListener('touchstart', (e) => {
   clearTimeout(longPressTimer);
   longPressTimer = setTimeout(() => startLongPress(row), 500);
 }, { passive: true });
+
 document.addEventListener('touchend', () => clearTimeout(longPressTimer));
 document.addEventListener('touchmove', () => clearTimeout(longPressTimer));
+
 document.addEventListener('mousedown', (e) => {
   if ('ontouchstart' in window) return;
   const bubble = e.target.closest('.bubble, .shop-card, .transfer-card');
@@ -821,10 +835,12 @@ document.addEventListener('mousedown', (e) => {
   longPressTimer = setTimeout(() => startLongPress(row), 500);
 });
 document.addEventListener('mouseup', () => clearTimeout(longPressTimer));
+
 document.addEventListener('click', (e) => {
   if (e.target.closest('#longPressMenu')) return;
   document.getElementById('longPressMenu').classList.add('hidden');
 });
+
 document.querySelectorAll('#longPressMenu .lp-item').forEach(item => {
   item.onclick = () => {
     const act = item.dataset.act;
@@ -834,6 +850,7 @@ document.querySelectorAll('#longPressMenu .lp-item').forEach(item => {
     const idx = msgs.findIndex(m => m.msgId === msgId);
     const m = idx >= 0 ? msgs[idx] : null;
     document.getElementById('longPressMenu').classList.add('hidden');
+
     if (act === 'copy') {
       let text = '';
       if (m && m.type === 'text') text = m.content;
@@ -844,10 +861,15 @@ document.querySelectorAll('#longPressMenu .lp-item').forEach(item => {
     }
     if (act === 'quote') {
       if (!m) return;
-      if (m.type === 'text') quoteTarget = (m.sender === 'me' ? '我：' : 'TA：') + m.content;
-      else if (m.type === 'shopcard') quoteTarget = m.title;
-      else if (m.type === 'transfer') quoteTarget = '转账 ¥' + m.amount;
-      else return;
+      if (m.type === 'text') {
+        quoteTarget = (m.sender === 'me' ? '我：' : 'TA：') + m.content;
+      } else if (m.type === 'shopcard') {
+        quoteTarget = m.title;
+      } else if (m.type === 'transfer') {
+        quoteTarget = '转账 ¥' + m.amount;
+      } else {
+        return;
+      }
       inputEl.focus();
       inputEl.placeholder = '引用：' + (m.content || m.title || ('转账 ¥' + m.amount));
       inputEl.classList.add('quoting');
@@ -869,8 +891,8 @@ document.querySelectorAll('#longPressMenu .lp-item').forEach(item => {
     }
   };
 });
-  </script>
-  <script>
+
+/* ===== 商店卡片 ===== */
 function renderShopCard(m) {
   const row = document.createElement('div');
   row.className = 'msg-row ' + (m.sender === 'me' ? 'me' : 'ta');
@@ -926,6 +948,7 @@ function addSystemTip(text, store) {
 
 document.getElementById('backHomeBtn').onclick = () => showPage('homePage');
 
+/* ===== 加号菜单 ===== */
 (function() {
   const plusMenu = document.getElementById('plusMenu');
   const plusBtn = document.getElementById('plusBtn');
@@ -962,7 +985,9 @@ document.getElementById('backHomeBtn').onclick = () => showPage('homePage');
         const count = Math.min(rMin, rMax) + Math.floor(Math.random() * (Math.abs(rMax - rMin) + 1));
         (async () => {
           for (let i = 0; i < count; i++) {
-            if (i > 0) await new Promise(r => setTimeout(r, 500 + Math.random() * 1500));
+            if (i > 0) {
+              await new Promise(r => setTimeout(r, 500 + Math.random() * 1500));
+            }
             showTyping();
             await new Promise(r => setTimeout(r, 800 + Math.random() * 1000));
             const reply = drawCardText();
@@ -1157,10 +1182,8 @@ if (dedupBtn) {
       alert('已删除 ' + removed + ' 条重复字卡');
     }
   };
-}
-  </script>
-  <script>
-/* ===== 表情面板 ===== */
+  }
+  /* ===== 表情面板 ===== */
 (function() {
   const panel = document.getElementById('stickerPanel');
   const body = document.getElementById('stickerBody');
@@ -1172,7 +1195,7 @@ if (dedupBtn) {
   function setList(list) { if (currentTab === 'mine') save('my_stickers', list); else save('ta_stickers', list); }
   function render() {
     const list = getList();
-    if (list.length === 0) { body.innerHTML = '<div class="sticker-empty">还没有表情哦<br>点右上角"+ 添加"上传图片</div>'; return; }
+    if (list.length === 0) { body.innerHTML = `<div class="sticker-empty">还没有表情哦<br>点右上角"+ 添加"上传图片</div>`; return; }
     body.innerHTML = '';
     list.forEach((url, idx) => {
       const div = document.createElement('div');
@@ -1301,15 +1324,20 @@ function applyHomeWallpaper() {
   const wp = load('home_wallpaper', '');
   const homePage = document.getElementById('homePage');
   if (!homePage) return;
-  if (wp) homePage.style.background = wp.startsWith('linear') || wp.startsWith('#') ? wp : `url(${wp}) center/cover no-repeat`;
-  else homePage.style.background = '#f5f5f5';
+  if (wp) {
+    homePage.style.background = wp.startsWith('linear') || wp.startsWith('#') ? wp : `url(${wp}) center/cover no-repeat`;
+  } else {
+    homePage.style.background = '#f5f5f5';
+  }
 }
 
 function updateHomeTime() {
   const el = document.getElementById('homeTime');
   if (!el) return;
   const d = new Date();
-  el.textContent = String(d.getHours()).padStart(2, '0') + ':' + String(d.getMinutes()).padStart(2, '0');
+  const hh = String(d.getHours()).padStart(2, '0');
+  const mm = String(d.getMinutes()).padStart(2, '0');
+  el.textContent = hh + ':' + mm;
 }
 setInterval(updateHomeTime, 30000);
 
@@ -1395,6 +1423,690 @@ updateHomeTime();
   if (taNameEl) taNameEl.textContent = load('ta_name', 'TA');
 })();
 scheduleAutoMessage();
+  /* ===== 商店 ===== */
+let shopItems = load('our_shop_items', []);
+let shopOrders = load('our_shop_orders', []);
+let editingShopId = null;
+let currentDetailId = null;
+let pendingShopImage = '';
+
+function saveShopItems() { save('our_shop_items', shopItems); }
+function saveShopOrders() { save('our_shop_orders', shopOrders); }
+
+function showShopPage() {
+  showPage('shopPage');
+  renderShopItems();
+  renderShopOrders();
+  document.querySelectorAll('.shop-tab').forEach(t => t.classList.remove('active'));
+  document.querySelector('.shop-tab[data-tab="items"]').classList.add('active');
+  document.getElementById('shopItemsPanel').classList.remove('hidden');
+  document.getElementById('shopOrdersPanel').classList.add('hidden');
+  document.getElementById('shopAddBtn').style.display = '';
+}
+
+function renderShopItems() {
+  const box = document.getElementById('shopItemsPanel');
+  if (!box) return;
+  if (shopItems.length === 0) {
+    box.innerHTML = '<div class="shop-empty">还没有商品，点右下角 + 添加一个吧</div>';
+    return;
+  }
+  box.innerHTML = '<div class="shop-item-grid"></div>';
+  const grid = box.firstElementChild;
+  shopItems.forEach(it => {
+    const card = document.createElement('div');
+    card.className = 'shop-item-card';
+    card.innerHTML = `
+      <img src="${it.img || ''}" alt="">
+      <div class="shop-item-name">${it.name || '未命名'}</div>
+      <div class="shop-item-price">¥${(it.price || 0)}</div>
+    `;
+    card.onclick = () => openShopDetail(it.id);
+    grid.appendChild(card);
+  });
+}
+
+function renderShopOrders() {
+  const box = document.getElementById('shopOrdersPanel');
+  if (!box) return;
+  if (shopOrders.length === 0) {
+    box.innerHTML = '<div class="shop-empty">还没有订单</div>';
+    return;
+  }
+  box.innerHTML = '';
+  shopOrders.slice().reverse().forEach(o => {
+    const div = document.createElement('div');
+    div.className = 'shop-order-item';
+    const dir = o.direction === 'me_to_ta' ? '我买给他的' : '他买给我的';
+    div.innerHTML = `
+      <img src="${o.img || ''}" alt="">
+      <div class="shop-order-info">
+        <div class="shop-order-title">${o.name || ''}</div>
+        <div class="shop-order-sub">${dir} · ¥${o.price || 0} · ${new Date(o.t).toLocaleString('zh-CN')}</div>
+      </div>
+    `;
+    box.appendChild(div);
+  });
+}
+
+function openShopEdit(item) {
+  editingShopId = item ? item.id : null;
+  pendingShopImage = item ? (item.img || '') : '';
+  document.getElementById('shopEditTitle').textContent = item ? '编辑商品' : '添加商品';
+  document.getElementById('shopNameInput').value = item ? (item.name || '') : '';
+  document.getElementById('shopPriceInput').value = item ? (item.price || '') : '';
+  document.getElementById('shopDescInput').value = item ? (item.desc || '') : '';
+  const img = document.getElementById('shopImgPreview');
+  const plus = document.getElementById('shopImgPlus');
+  if (pendingShopImage) { img.src = pendingShopImage; img.style.display = 'block'; plus.style.display = 'none'; }
+  else { img.style.display = 'none'; plus.style.display = 'block'; }
+  document.getElementById('shopEditModal').classList.remove('hidden');
+}
+function closeShopEdit() {
+  document.getElementById('shopEditModal').classList.add('hidden');
+}
+
+function openShopDetail(id) {
+  const it = shopItems.find(x => x.id === id);
+  if (!it) return;
+  currentDetailId = id;
+  document.getElementById('detailImg').src = it.img || '';
+  document.getElementById('detailName').textContent = it.name || '未命名';
+  document.getElementById('detailPrice').textContent = '¥' + (it.price || 0);
+  document.getElementById('detailDesc').textContent = it.desc || '（暂无介绍）';
+  document.getElementById('shopDetailModal').classList.remove('hidden');
+}
+function closeShopDetail() {
+  document.getElementById('shopDetailModal').classList.add('hidden');
+}
+
+function buyForTa(it) {
+  const taName = load('ta_name', 'TA');
+  const cardId = Date.now() + '_buy_' + Math.random().toString(36).slice(2, 8);
+  const msg = { type: 'shopcard', sender: 'me', title: `我给${taName}赠送了商品`, sub: it.name, img: it.img, status: '接收', cardId, t: Date.now() };
+  const msgs = load('our_messages', []);
+  msgs.push(msg);
+  save('our_messages', msgs);
+  renderShopCard(msg);
+  messagesEl.scrollTop = messagesEl.scrollHeight;
+  setTimeout(() => { messagesEl.scrollTop = messagesEl.scrollHeight; }, 50);
+  shopOrders.push({
+    id: cardId, direction: 'me_to_ta', itemId: it.id, name: it.name,
+    price: it.price, img: it.img, t: Date.now()
+  });
+  saveShopOrders();
+  setTimeout(() => {
+    const all = load('our_messages', []);
+    const m = all.find(x => x.cardId === cardId);
+    if (m) { m.status = '已接收'; save('our_messages', all); }
+    const el = document.querySelector(`[data-shop-card="${cardId}"] .shop-card-status .tag`);
+    if (el) el.textContent = '已接收';
+    addSystemTip('对方已收下', true);
+  }, 3000 + Math.random() * 2000);
+}
+
+function helpPay(it) {
+  const cardId = Date.now() + '_pay_' + Math.random().toString(36).slice(2, 8);
+  const msg = { type: 'shopcard', sender: 'me', title: `我希望你帮付¥${it.price}`, sub: it.name, img: it.img, status: '未付款', cardId, t: Date.now() };
+  const msgs = load('our_messages', []);
+  msgs.push(msg);
+  save('our_messages', msgs);
+  renderShopCard(msg);
+  messagesEl.scrollTop = messagesEl.scrollHeight;
+  setTimeout(() => { messagesEl.scrollTop = messagesEl.scrollHeight; }, 50);
+  setTimeout(() => {
+    const all = load('our_messages', []);
+    const m = all.find(x => x.cardId === cardId);
+    if (m) { m.status = '已付款'; save('our_messages', all); }
+    const el = document.querySelector(`[data-shop-card="${cardId}"] .shop-card-status .tag`);
+    if (el) el.textContent = '已付款';
+    addSystemTip('对方已付款', true);
+    shopOrders.push({
+      id: cardId, direction: 'ta_to_me', itemId: it.id, name: it.name,
+      price: it.price, img: it.img, t: Date.now()
+    });
+    saveShopOrders();
+  }, 5000 + Math.random() * 1000);
+}
+
+function taSendGift(it) {
+  const taName = load('ta_name', 'TA');
+  const cardId = Date.now() + '_tagift_' + Math.random().toString(36).slice(2, 8);
+  const msg = { type: 'shopcard', sender: 'ta', title: `${taName}给我赠送了商品`, sub: it.name, img: it.img, status: '接收', cardId, clickable: true, t: Date.now() };
+  const msgs = load('our_messages', []);
+  msgs.push(msg);
+  save('our_messages', msgs);
+  renderShopCard(msg);
+  messagesEl.scrollTop = messagesEl.scrollHeight;
+  setTimeout(() => { messagesEl.scrollTop = messagesEl.scrollHeight; }, 50);
+  shopOrders.push({
+    id: cardId, direction: 'ta_to_me', itemId: it.id, name: it.name,
+    price: it.price, img: it.img, t: Date.now()
+  });
+  saveShopOrders();
+}
+
+document.getElementById('backFromShopBtn').onclick = () => showPage('chatPage');
+document.getElementById('shopAddBtn').onclick = () => openShopEdit(null);
+document.getElementById('closeShopEditBtn').onclick = closeShopEdit;
+document.getElementById('closeShopDetailBtn').onclick = closeShopDetail;
+
+document.querySelectorAll('.shop-tab').forEach(tab => {
+  tab.onclick = () => {
+    document.querySelectorAll('.shop-tab').forEach(t => t.classList.remove('active'));
+    tab.classList.add('active');
+    const k = tab.dataset.tab;
+    document.getElementById('shopItemsPanel').classList.toggle('hidden', k !== 'items');
+    document.getElementById('shopOrdersPanel').classList.toggle('hidden', k !== 'orders');
+    document.getElementById('shopAddBtn').style.display = k === 'items' ? '' : 'none';
+    if (k === 'orders') renderShopOrders();
+    else renderShopItems();
+  };
+});
+
+document.getElementById('shopImgPicker').onclick = () => document.getElementById('shopImgUpload').click();
+document.getElementById('shopImgUpload').onchange = (e) => {
+  const f = e.target.files[0];
+  if (!f) return;
+  const reader = new FileReader();
+  reader.onload = (ev) => {
+    pendingShopImage = ev.target.result;
+    const img = document.getElementById('shopImgPreview');
+    img.src = pendingShopImage; img.style.display = 'block';
+    document.getElementById('shopImgPlus').style.display = 'none';
+  };
+  reader.readAsDataURL(f);
+  e.target.value = '';
+};
+
+document.getElementById('shopSaveBtn').onclick = () => {
+  const name = document.getElementById('shopNameInput').value.trim();
+  const price = parseFloat(document.getElementById('shopPriceInput').value) || 0;
+  const desc = document.getElementById('shopDescInput').value.trim();
+  if (!name) { alert('请输入商品名称'); return; }
+  if (editingShopId) {
+    const it = shopItems.find(x => x.id === editingShopId);
+    if (it) { it.name = name; it.price = price; it.desc = desc; it.img = pendingShopImage; }
+  } else {
+    shopItems.push({
+      id: Date.now() + '_' + Math.random().toString(36).slice(2, 8),
+      name, price, desc, img: pendingShopImage, t: Date.now()
+    });
+  }
+  saveShopItems();
+  closeShopEdit();
+  renderShopItems();
+};
+
+document.getElementById('detailBuyBtn').onclick = () => {
+  const it = shopItems.find(x => x.id === currentDetailId);
+  if (!it) return;
+  closeShopDetail();
+  buyForTa(it);
+};
+document.getElementById('detailHelpPayBtn').onclick = () => {
+  const it = shopItems.find(x => x.id === currentDetailId);
+  if (!it) return;
+  closeShopDetail();
+  helpPay(it);
+};
+document.getElementById('detailEditBtn').onclick = () => {
+  const it = shopItems.find(x => x.id === currentDetailId);
+  if (!it) return;
+  closeShopDetail();
+  openShopEdit(it);
+};
+document.getElementById('detailDeleteBtn').onclick = () => {
+  if (!confirm('确定删除这个商品吗？')) return;
+  shopItems = shopItems.filter(x => x.id !== currentDetailId);
+  saveShopItems();
+  closeShopDetail();
+  renderShopItems();
+};
+
+/* ===== 收藏 / 搜索 ===== */
+function renderFavList() {
+  const body = document.getElementById('favBody');
+  if (!body) return;
+  const favs = load('our_favorites', []);
+  if (favs.length === 0) {
+    body.innerHTML = '<div style="text-align:center;color:#999;padding:40px 0;">收藏夹空空如也</div>';
+    return;
+  }
+  body.innerHTML = '';
+  favs.slice().reverse().forEach((f, i) => {
+    const div = document.createElement('div');
+    div.className = 'card-item';
+    const realIdx = favs.length - 1 - i;
+    div.innerHTML = `<div style="flex:1;word-break:break-word;">${f.text}</div><button>×</button>`;
+    div.querySelector('button').onclick = () => {
+      favs.splice(realIdx, 1);
+      save('our_favorites', favs);
+      renderFavList();
+    };
+    body.appendChild(div);
+  });
+}
+
+function renderSearchList(kw) {
+  const box = document.getElementById('searchResult');
+  if (!box) return;
+  if (!kw) { box.innerHTML = ''; return; }
+  const msgs = load('our_messages', []).filter(m => m.type === 'text' && m.content && m.content.includes(kw));
+  if (msgs.length === 0) { box.innerHTML = '<div style="color:#999;text-align:center;padding:20px;">没找到</div>'; return; }
+  box.innerHTML = '';
+  msgs.slice().reverse().forEach(m => {
+    const div = document.createElement('div');
+    div.className = 'card-item';
+    div.innerHTML = `<div style="flex:1;word-break:break-word;">${m.content}</div>`;
+    box.appendChild(div);
+  });
+}
+
+document.getElementById('closeFavBtn').onclick = () => document.getElementById('favModal').classList.add('hidden');
+document.getElementById('closeSearchBtn').onclick = () => document.getElementById('searchModal').classList.add('hidden');
+const searchInp = document.getElementById('searchInput');
+if (searchInp) searchInp.oninput = () => renderSearchList(searchInp.value.trim());
+
+/* ===== 纪念日 ===== */
+function loadAnnivList() {
+  try { return JSON.parse(localStorage.getItem('anniv_list') || '[]'); }
+  catch (e) { return []; }
+}
+function saveAnnivList(list) {
+  localStorage.setItem('anniv_list', JSON.stringify(list));
+}
+
+function renderAnniv() {
+  const start = localStorage.getItem('anniv_start') || '';
+  const daysEl = document.getElementById('annivDays');
+  if (start) {
+    const diff = Math.floor((Date.now() - new Date(start).getTime()) / 86400000);
+    daysEl.textContent = diff >= 0 ? diff : 0;
+  } else {
+    daysEl.textContent = '--';
+  }
+  const list = loadAnnivList();
+  const listEl = document.getElementById('annivList');
+  if (list.length === 0) {
+    listEl.innerHTML = '<div style="color:#999;font-size:13px;text-align:center;padding:20px;">还没有纪念日，点下面添加</div>';
+    return;
+  }
+  listEl.innerHTML = '';
+  list.forEach((item, idx) => {
+    const div = document.createElement('div');
+    div.className = 'anniv-item';
+    const now = new Date();
+    const target = new Date(now.getFullYear(), item.month - 1, item.day);
+    if (target < now) target.setFullYear(now.getFullYear() + 1);
+    const left = Math.ceil((target - now) / 86400000);
+    div.innerHTML = `
+      <div class="anniv-item-info">
+        <div class="anniv-item-name">${item.name}</div>
+        <div class="anniv-item-date">${item.month}月${item.day}日</div>
+      </div>
+      <div class="anniv-item-days">还有 ${left} 天</div>
+      <button class="anniv-item-del">×</button>
+    `;
+    div.querySelector('.anniv-item-del').onclick = () => {
+      list.splice(idx, 1);
+      saveAnnivList(list);
+      renderAnniv();
+    };
+    listEl.appendChild(div);
+  });
+}
+
+document.getElementById('backFromAnnivBtn').onclick = () => showPage('homePage');
+
+document.getElementById('editStartBtn').onclick = () => {
+  const current = localStorage.getItem('anniv_start') || '';
+  const v = prompt('输入在一起的起始日期（格式：2024-01-01）', current);
+  if (v === null) return;
+  const date = v.trim();
+  if (!/^\d{4}-\d{2}-\d{2}$/.test(date)) { alert('格式不对，应该是 2024-01-01 这样'); return; }
+  localStorage.setItem('anniv_start', date);
+  renderAnniv();
+};
+
+document.getElementById('addAnnivBtn').onclick = () => {
+  const name = prompt('纪念日名称（比如：我的生日）');
+  if (!name) return;
+  const dateStr = prompt('日期（格式：10-02）');
+  if (!dateStr) return;
+  const m = dateStr.match(/^(\d{1,2})-(\d{1,2})$/);
+  if (!m) { alert('格式不对，应该是 10-02 这样'); return; }
+  const list = loadAnnivList();
+  list.push({ name: name.trim(), month: parseInt(m[1]), day: parseInt(m[2]) });
+  saveAnnivList(list);
+  renderAnniv();
+};
+
+/* ===== 问卷 ===== */
+let surveyQuestions = [];
+let currentSurveyType = 'single';
+
+function showSurveyListPage() {
+  showPage('surveyListPage');
+  renderSurveyList();
+}
+
+function renderSurveyList() {
+  const box = document.getElementById('surveyListBody');
+  if (!box) return;
+  const surveys = load('our_surveys', []);
+  if (surveys.length === 0) {
+    box.innerHTML = '<div class="shop-empty">暂无问卷<br>点击右上角 + 新建问卷</div>';
+    return;
+  }
+  box.innerHTML = '';
+  surveys.slice().reverse().forEach(s => {
+    const div = document.createElement('div');
+    div.className = 'survey-item';
+    const dateStr = new Date(s.t).toLocaleString('zh-CN', { month: '2-digit', day: '2-digit', hour: '2-digit', minute: '2-digit' });
+    const answered = s.answered;
+    div.innerHTML = `
+      <div class="survey-item-title">${s.title || '未命名问卷'}</div>
+      <div class="survey-item-meta">我创建的 · ${s.questions.length} 个问题 · ${dateStr}</div>
+      <div class="survey-item-status ${answered ? '' : 'unanswered'}">${answered ? '✓ 已回答' : '○ 未回答'}</div>
+    `;
+    div.onclick = () => openSurveyAnswer(s.id);
+    box.appendChild(div);
+  });
+}
+
+function renderSurveyQuestions() {
+  const box = document.getElementById('surveyQuestions');
+  if (!box) return;
+  box.innerHTML = '';
+  surveyQuestions.forEach((q, qi) => {
+    const block = document.createElement('div');
+    block.className = 'survey-q-block';
+    const isYesNo = currentSurveyType === 'yesno';
+    let optsHtml = '';
+    if (isYesNo) {
+      optsHtml = `
+        <div class="survey-opt-row"><span class="survey-opt-key">A</span><input type="text" class="survey-opt-input" value="是" disabled></div>
+        <div class="survey-opt-row"><span class="survey-opt-key">B</span><input type="text" class="survey-opt-input" value="否" disabled></div>
+      `;
+    } else {
+      optsHtml = q.options.map((opt, oi) => `
+        <div class="survey-opt-row">
+          <span class="survey-opt-key">${String.fromCharCode(65 + oi)}</span>
+          <input type="text" class="survey-opt-input" value="${opt}" data-qi="${qi}" data-oi="${oi}">
+          <button class="survey-opt-del" data-qi="${qi}" data-oi="${oi}">×</button>
+        </div>
+      `).join('');
+    }
+    block.innerHTML = `
+      <div class="survey-q-row">
+        <span class="survey-q-label">问题 ${qi + 1}</span>
+        <input type="text" class="survey-q-input" value="${q.title}" placeholder="请输入问题" data-qi="${qi}">
+      </div>
+      <div class="survey-opts" data-qi="${qi}">${optsHtml}</div>
+      ${isYesNo ? '' : `<div class="survey-add-opt" data-qi="${qi}">+ 添加选项</div>`}
+    `;
+    box.appendChild(block);
+  });
+  box.querySelectorAll('.survey-q-input').forEach(inp => {
+    inp.oninput = () => {
+      const qi = parseInt(inp.dataset.qi);
+      surveyQuestions[qi].title = inp.value;
+    };
+  });
+  box.querySelectorAll('.survey-opt-input').forEach(inp => {
+    inp.oninput = () => {
+      const qi = parseInt(inp.dataset.qi);
+      const oi = parseInt(inp.dataset.oi);
+      surveyQuestions[qi].options[oi] = inp.value;
+    };
+  });
+  box.querySelectorAll('.survey-opt-del').forEach(btn => {
+    btn.onclick = () => {
+      const qi = parseInt(btn.dataset.qi);
+      const oi = parseInt(btn.dataset.oi);
+      if (surveyQuestions[qi].options.length <= 2) { alert('至少保留 2 个选项'); return; }
+      surveyQuestions[qi].options.splice(oi, 1);
+      renderSurveyQuestions();
+    };
+  });
+  box.querySelectorAll('.survey-add-opt').forEach(el => {
+    el.onclick = () => {
+      const qi = parseInt(el.dataset.qi);
+      surveyQuestions[qi].options.push('');
+      renderSurveyQuestions();
+    };
+  });
+}
+
+function resetSurveyNew() {
+  currentSurveyType = 'single';
+  surveyQuestions = [{ title: '', options: ['', ''], optionsByType: { custom: ['', ''], yesno: ['是', '否'] } }];
+  document.getElementById('surveyTitleInput').value = '';
+  document.querySelectorAll('.survey-type-btn').forEach(b => b.classList.toggle('active', b.dataset.type === 'single'));
+  document.getElementById('surveyTypeTip').textContent = '单选：对方回答时只会选中一个选项';
+  renderSurveyQuestions();
+}
+
+document.querySelectorAll('.survey-type-btn').forEach(btn => {
+  btn.onclick = () => {
+    const newType = btn.dataset.type;
+    const oldType = currentSurveyType;
+    if (newType === oldType) return;
+
+    surveyQuestions.forEach(q => {
+      if (!q.optionsByType) q.optionsByType = {};
+      if (oldType === 'yesno') {
+        q.optionsByType.yesno = ['是', '否'];
+      } else {
+        q.optionsByType.custom = q.options.slice();
+      }
+    });
+
+    currentSurveyType = newType;
+    document.querySelectorAll('.survey-type-btn').forEach(b => b.classList.remove('active'));
+    btn.classList.add('active');
+
+    const tip = document.getElementById('surveyTypeTip');
+    if (newType === 'single') tip.textContent = '单选：对方回答时只会选中一个选项';
+    if (newType === 'multi') tip.textContent = '多选：对方回答时会从你填写的选项中随机选中多项';
+    if (newType === 'yesno') tip.textContent = '是否：只需填写问题，选项固定为「是 / 否」';
+
+    surveyQuestions.forEach(q => {
+      if (!q.optionsByType) q.optionsByType = {};
+      if (newType === 'yesno') {
+        q.options = ['是', '否'];
+      } else {
+        if (q.optionsByType.custom && q.optionsByType.custom.length >= 2) {
+          q.options = q.optionsByType.custom.slice();
+        } else {
+          q.options = ['', ''];
+        }
+      }
+    });
+
+    renderSurveyQuestions();
+  };
+});
+
+document.getElementById('backFromSurveyListBtn').onclick = () => showPage('chatPage');
+document.getElementById('surveyNewBtn').onclick = () => {
+  resetSurveyNew();
+  showPage('surveyNewPage');
+};
+document.getElementById('surveyCancelBtn').onclick = () => showPage('surveyListPage');
+document.getElementById('surveyAddQBtn').onclick = () => {
+  surveyQuestions.push({ title: '', options: currentSurveyType === 'yesno' ? ['是', '否'] : ['', ''], optionsByType: { custom: ['', ''], yesno: ['是', '否'] } });
+  renderSurveyQuestions();
+};
+
+document.getElementById('surveySendBtn').onclick = () => {
+  const title = document.getElementById('surveyTitleInput').value.trim();
+  if (!title) { alert('请输入问卷标题'); return; }
+  for (let i = 0; i < surveyQuestions.length; i++) {
+    if (!surveyQuestions[i].title.trim()) { alert('问题 ' + (i + 1) + ' 还没有填写'); return; }
+    if (currentSurveyType !== 'yesno') {
+      for (let j = 0; j < surveyQuestions[i].options.length; j++) {
+        if (!surveyQuestions[i].options[j].trim()) { alert('问题 ' + (i + 1) + ' 的选项 ' + String.fromCharCode(65 + j) + ' 没有填写'); return; }
+      }
+    }
+  }
+  const surveys = load('our_surveys', []);
+  const survey = {
+    id: Date.now() + '_' + Math.random().toString(36).slice(2, 8),
+    title,
+    type: currentSurveyType,
+    questions: surveyQuestions.map(q => ({ title: q.title, options: q.options.slice() })),
+    t: Date.now(),
+    answered: false
+  };
+  surveys.push(survey);
+  save('our_surveys', surveys);
+  sendSurveyToChat(survey);
+  showPage('chatPage');
+};
+
+function sendSurveyToChat(survey) {
+  const taName = load('ta_name', 'TA');
+  const cardId = survey.id + '_card';
+  const msg = {
+    type: 'surveycard',
+    sender: 'me',
+    surveyId: survey.id,
+    title: `邀请${taName}回答问卷`,
+    sub: `问题：${survey.questions[0].title}`,
+    count: survey.questions.length,
+    status: '未回答',
+    cardId,
+    t: Date.now()
+  };
+  const msgs = load('our_messages', []);
+  msgs.push(msg);
+  save('our_messages', msgs);
+  renderSurveyCard(msg);
+  messagesEl.scrollTop = messagesEl.scrollHeight;
+  setTimeout(() => { messagesEl.scrollTop = messagesEl.scrollHeight; }, 50);
+  setTimeout(() => { autoAnswerSurvey(survey.id); }, 2000 + Math.random() * 1000);
+}
+
+function autoAnswerSurvey(surveyId) {
+  const surveys = load('our_surveys', []);
+  const s = surveys.find(x => x.id === surveyId);
+  if (!s || s.answered) return;
+  const answers = [];
+  s.questions.forEach(q => {
+    if (s.type === 'single') {
+      answers.push([Math.floor(Math.random() * q.options.length)]);
+    } else if (s.type === 'multi') {
+      const n = q.options.length;
+      if (n <= 2) {
+        answers.push(q.options.map((_, i) => i));
+      } else {
+        const cnt = 2 + Math.floor(Math.random() * 2);
+        const idxs = [];
+        while (idxs.length < cnt) {
+          const r = Math.floor(Math.random() * n);
+          if (!idxs.includes(r)) idxs.push(r);
+        }
+        idxs.sort((a, b) => a - b);
+        answers.push(idxs);
+      }
+    } else {
+      answers.push([Math.floor(Math.random() * 2)]);
+    }
+  });
+  const mainCards = cards.filter(c => (c.type || 'main') === 'main');
+  const note = mainCards.length > 0 ? mainCards[Math.floor(Math.random() * mainCards.length)].content : '';
+  s.answered = true;
+  s.answers = answers;
+  s.note = note;
+  s.answeredAt = Date.now();
+  save('our_surveys', surveys);
+
+  const all = load('our_messages', []);
+  const myCard = all.find(m => m.type === 'surveycard' && m.surveyId === surveyId && m.sender === 'me');
+  if (myCard) myCard.status = '已回答';
+  const taCard = {
+    type: 'surveycard',
+    sender: 'ta',
+    surveyId: surveyId,
+    title: '我回答了问卷',
+    sub: `问题：${s.questions[0].title}`,
+    count: s.questions.length,
+    status: '已回答',
+    cardId: 'ta_' + surveyId + '_' + Math.random().toString(36).slice(2, 6),
+    t: Date.now()
+  };
+  all.push(taCard);
+  save('our_messages', all);
+  refreshMessages();
+}
+
+function renderSurveyCard(m) {
+  const row = document.createElement('div');
+  row.className = 'msg-row ' + (m.sender === 'me' ? 'me' : 'ta');
+  row.dataset.msgId = m.cardId;
+  const avatar = buildAvatar(m.sender);
+  const card = document.createElement('div');
+  card.className = 'survey-card-msg';
+  card.dataset.surveyId = m.surveyId;
+  card.innerHTML = `
+    <div class="survey-card-msg-top">
+      <div class="survey-card-msg-icon"><svg viewBox="0 0 24 24" fill="none" stroke="#666" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="4" y="4" width="16" height="18" rx="2"></rect><path d="M9 4 V7 H15 V4"></path><path d="M8 12 H16 M8 16 H14"></path></svg></div>
+      <div style="flex:1;">
+        <div class="survey-card-msg-title">${m.title}</div>
+        <div class="survey-card-msg-sub">${m.sub || ''}</div>
+      </div>
+    </div>
+    <div class="survey-card-msg-line"></div>
+    <div class="survey-card-msg-foot">
+      <span>${m.count}个问题</span>
+      <span class="tag">${m.status}</span>
+    </div>
+  `;
+  card.style.cursor = 'pointer';
+  card.onclick = () => openSurveyAnswer(m.surveyId);
+  row.appendChild(avatar);
+  row.appendChild(card);
+  messagesEl.appendChild(row);
+  messagesEl.scrollTop = messagesEl.scrollHeight;
+}
+
+function openSurveyAnswer(surveyId) {
+  const surveys = load('our_surveys', []);
+  const s = surveys.find(x => x.id === surveyId);
+  if (!s) return;
+  const modal = document.getElementById('surveyAnswerModal');
+  const titleEl = document.getElementById('surveyAnswerTitle');
+  const body = document.getElementById('surveyAnswerBody');
+  titleEl.textContent = s.title;
+  body.innerHTML = '';
+  s.questions.forEach((q, qi) => {
+    const block = document.createElement('div');
+    block.className = 'survey-answer-q';
+    const qTitle = document.createElement('div');
+    qTitle.className = 'survey-answer-q-title';
+    qTitle.textContent = (qi + 1) + '. ' + q.title;
+    block.appendChild(qTitle);
+    const selected = s.answers ? (s.answers[qi] || []) : [];
+    q.options.forEach((opt, oi) => {
+      const div = document.createElement('div');
+      div.className = 'survey-answer-opt' + (selected.includes(oi) ? ' selected' : '');
+      div.innerHTML = `<div class="bullet"></div><div>${String.fromCharCode(65 + oi)}. ${opt}</div>`;
+      block.appendChild(div);
+    });
+    body.appendChild(block);
+  });
+  if (s.note) {
+    const noteBox = document.createElement('div');
+    noteBox.className = 'survey-note-box';
+    noteBox.innerHTML = `<div class="label">备注</div>${s.note}`;
+    body.appendChild(noteBox);
+  }
+  modal.classList.remove('hidden');
+}
+
+document.getElementById('closeSurveyAnswerBtn').onclick = () => document.getElementById('surveyAnswerModal').classList.add('hidden');
 </script>
 
 <script src="settings.js"></script>
