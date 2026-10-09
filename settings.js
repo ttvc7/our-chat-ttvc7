@@ -262,8 +262,6 @@
     }
     }
   function renderAppearance() {
-    const tf = load('time_format', '24hm');
-    const tp = load('time_pos', 'right-bottom');
     settingsBody.innerHTML = `
       <div class="sub-head">${backBtn()}外观</div>
       <div class="sec-title">文字 & 主题颜色</div>
@@ -272,22 +270,7 @@
       <div class="sec-title">主题 CSS（高级）</div>
       <textarea class="css-area" id="themeCssInput" placeholder="body { ... }"></textarea>
       <button class="btn-primary" id="applyThemeCss">应用主题 CSS</button>
-      <div class="sec-title">时间戳格式</div>
-      <div class="opt-grid">
-        <div class="opt-card ${tf === '24hm' ? 'active' : ''}" data-tf="24hm">14:05</div>
-        <div class="opt-card ${tf === '24hms' ? 'active' : ''}" data-tf="24hms">14:05:30</div>
-        <div class="opt-card ${tf === '12hm' ? 'active' : ''}" data-tf="12hm">2:05 PM</div>
-        <div class="opt-card ${tf === '12hms' ? 'active' : ''}" data-tf="12hms">2:05:30 PM</div>
-        <div class="opt-card ${tf === 'off' ? 'active' : ''}" data-tf="off">关闭时间戳</div>
-      </div>
-      <div class="sec-title">时间戳位置</div>
-      <div class="opt-grid">
-        <div class="opt-card ${tp === 'left-bottom' ? 'active' : ''}" data-tp="left-bottom">左下角</div>
-        <div class="opt-card ${tp === 'right-bottom' ? 'active' : ''}" data-tp="right-bottom">右下角</div>
-        <div class="opt-card ${tp === 'right-top' ? 'active' : ''}" data-tp="right-top">右上角</div>
-        <div class="opt-card ${tp === 'left-top' ? 'active' : ''}" data-tp="left-top">左上角</div>
-        <div class="opt-card ${tp === 'avatar' ? 'active' : ''}" data-tp="avatar">头像下面</div>
-      </div>
+
       <div class="sec-title">头像</div>
       <div class="avatar-row" id="taAvatarRow">
         <div class="avatar-preview" id="taAvatarPreview" style="${cfg.taAvatar ? `background-image:url(${cfg.taAvatar})` : ''}"></div>
@@ -343,16 +326,6 @@
     }
     settingsBody.querySelectorAll('.opt-card').forEach(card => {
       card.onclick = () => {
-        if (card.dataset.tf) {
-          save('time_format', card.dataset.tf);
-          card.parentElement.querySelectorAll('.opt-card').forEach(c => c.classList.remove('active'));
-          card.classList.add('active');
-        }
-        if (card.dataset.tp) {
-          save('time_pos', card.dataset.tp);
-          card.parentElement.querySelectorAll('.opt-card').forEach(c => c.classList.remove('active'));
-          card.classList.add('active');
-        }
         if (card.dataset.avatar) {
           const style = card.dataset.avatar;
           cfg.taAvatarStyle = style; cfg.myAvatarStyle = style;
