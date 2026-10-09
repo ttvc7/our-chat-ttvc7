@@ -84,8 +84,8 @@
       </div>
     </div>
   </div>
-</div>
-<!-- 纪念日页面 -->
+          </div>
+          <!-- 纪念日页面 -->
 <div id="annivPage" class="page hidden">
   <header class="chat-header">
     <div class="header-left">
@@ -203,8 +203,8 @@
       <div class="mail-read-date" id="mailReadDate">--</div>
     </div>
   </div>
-</div>
-<!-- 问卷列表页 -->
+  </div>
+  <!-- 问卷列表页 -->
 <div id="surveyListPage" class="page hidden">
   <header class="chat-header">
     <div class="header-left">
@@ -327,8 +327,8 @@
       </div>
     </div>
   </div>
-</div>
-<!-- 字卡库（新） -->
+  </div>
+  <!-- 字卡库（新） -->
 <div id="cardModal" class="modal hidden">
   <div class="modal-box" id="cardBox">
     <div class="card-topbar">
@@ -346,7 +346,6 @@
   </div>
 </div>
 
-<!-- 字卡库 - 主字卡 面板（模板放JS里） -->
 <template id="tpl-main">
   <textarea id="cardInput" placeholder="输入字卡内容…（支持【分类】换行分隔）"></textarea>
   <button id="addCardBtn">添加字卡</button>
@@ -358,14 +357,12 @@
   <div id="cardList"></div>
 </template>
 
-<!-- 字卡库 - Emoji 面板 -->
 <template id="tpl-emoji">
   <textarea id="emojiInput" placeholder="输入颜文字，一行一个"></textarea>
   <button id="addEmojiBtn">添加颜文字</button>
   <div id="emojiList"></div>
 </template>
 
-<!-- 字卡库 - 拍一拍 面板 -->
 <template id="tpl-pat">
   <div class="sec-title">我拍他</div>
   <div class="pat-item"><input type="text" id="patToTaInput"></div>
@@ -375,7 +372,6 @@
   <button class="btn-primary" id="savePatBtn">保存</button>
 </template>
 
-<!-- 字卡库 - 表情包 面板 -->
 <template id="tpl-sticker">
   <div class="sticker-tabs-sub">
     <button class="sticker-sub-tab active" data-tab="mine">我</button>
@@ -386,7 +382,6 @@
   <div class="sticker-grid-lib" id="stickerGridLib" style="margin-top:12px;"></div>
 </template>
 
-<!-- 字卡库 - 语音 面板 -->
 <template id="tpl-voice">
   <div class="voice-import-box" id="voiceImportBox">
     <div class="voice-import-icon"><svg viewBox="0 0 24 24" fill="none" stroke="#666" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3 V15"></path><path d="M8 7 V11"></path><path d="M16 7 V11"></path><rect x="9" y="15" width="6" height="6" rx="3"></rect></svg></div>
@@ -400,7 +395,7 @@
   <div id="voiceList"></div>
 </template>
 
-<!-- 聊天页表情面板（保留，只读+发送） -->
+<!-- 聊天页表情面板 -->
 <div id="stickerPanel" class="sticker-panel hidden">
   <div class="sticker-head">
     <button class="sticker-tab active" data-tab="mine">我</button>
@@ -479,8 +474,7 @@ function showPage(id) {
     }, 50);
   }
 }
-
-function todayKey() {
+  function todayKey() {
   const d = new Date();
   return `${d.getFullYear()}-${d.getMonth() + 1}-${d.getDate()}`;
 }
@@ -516,7 +510,8 @@ function buildAvatar(sender) {
   }
   return avatar;
 }
-  setTimeout(() => {
+
+setTimeout(() => {
   const loading = document.getElementById('loading');
   if (loading) {
     loading.classList.add('fade-out');
@@ -655,9 +650,7 @@ function playVoice(bubbleEl, voiceId) {
     currentAudio = null;
     currentAudioEl = null;
   };
-  currentAudio.play().catch(() => {
-    bubbleEl.classList.remove('playing');
-  });
+  currentAudio.play().catch(() => { bubbleEl.classList.remove('playing'); });
 }
 
 function showTyping() {
@@ -700,7 +693,6 @@ function drawQuote() {
   return '你：' + pick.content;
 }
 
-/* TA 回复时，判断是否用语音 */
 function tryTaVoiceReply() {
   const voiceProb = load('voice_prob', 0);
   const voices = load('our_voices', []);
@@ -709,9 +701,8 @@ function tryTaVoiceReply() {
   const v = voices[Math.floor(Math.random() * voices.length)];
   addVoiceMessage('ta', v.id, v.name, v.duration, true);
   return true;
-}
-
-async function sendMessage() {
+  }
+  async function sendMessage() {
   const text = inputEl.value.trim();
   if (!text) return;
   inputEl.value = '';
@@ -730,10 +721,7 @@ async function sendMessage() {
   await new Promise(r => setTimeout(r, firstDelay));
 
   if (load('read_no_reply', false)) {
-    if (Math.random() < 0.5) {
-      hideTyping();
-      return;
-    }
+    if (Math.random() < 0.5) { hideTyping(); return; }
   }
 
   const count = Math.min(rMin, rMax) + Math.floor(Math.random() * (Math.abs(rMax - rMin) + 1));
@@ -774,6 +762,7 @@ function markAllRead() {
     }
   });
 }
+
 /* ===== 转账卡片 ===== */
 function renderTransferCard(m) {
   const isMe = m.sender === 'me';
@@ -841,7 +830,6 @@ function makeTaTransferCard(amount, note) {
   renderTransferCard({ type: 'transfer', from: 'ta', sender: 'ta', transferId, amount, note, status: 'pending', t, msgId });
 }
 
-/* ===== 刷新 ===== */
 function refreshMessages() {
   messagesEl.innerHTML = '';
   const msgs = load('our_messages', []);
@@ -874,7 +862,6 @@ function refreshMessages() {
   messagesEl.scrollTop = messagesEl.scrollHeight;
 }
 
-/* ===== 收款 ===== */
 let currentTransferId = null;
 function openReceiveModal(transferId) {
   const msgs = load('our_messages', []);
@@ -958,7 +945,7 @@ document.addEventListener('dblclick', function(e) {
   messagesEl.appendChild(sys);
   messagesEl.scrollTop = messagesEl.scrollHeight;
 });
-/* ===== 长按菜单 ===== */
+  /* ===== 长按菜单 ===== */
 let longPressTarget = null;
 let longPressTimer = null;
 
@@ -983,10 +970,8 @@ document.addEventListener('touchstart', (e) => {
   clearTimeout(longPressTimer);
   longPressTimer = setTimeout(() => startLongPress(row), 500);
 }, { passive: true });
-
 document.addEventListener('touchend', () => clearTimeout(longPressTimer));
 document.addEventListener('touchmove', () => clearTimeout(longPressTimer));
-
 document.addEventListener('mousedown', (e) => {
   if ('ontouchstart' in window) return;
   const bubble = e.target.closest('.bubble, .shop-card, .transfer-card, .voice-bubble');
@@ -997,7 +982,6 @@ document.addEventListener('mousedown', (e) => {
   longPressTimer = setTimeout(() => startLongPress(row), 500);
 });
 document.addEventListener('mouseup', () => clearTimeout(longPressTimer));
-
 document.addEventListener('click', (e) => {
   if (e.target.closest('#longPressMenu')) return;
   document.getElementById('longPressMenu').classList.add('hidden');
@@ -1013,7 +997,6 @@ document.querySelectorAll('#longPressMenu .lp-item').forEach(item => {
     const m = idx >= 0 ? msgs[idx] : null;
     document.getElementById('longPressMenu').classList.add('hidden');
 
-    // 语音条只给 引用 / 删除
     if (m && m.type === 'voice') {
       if (act === 'quote') {
         quoteTarget = '语音 ' + (m.duration || '');
@@ -1125,7 +1108,6 @@ function addSystemTip(text, store) {
 
 document.getElementById('backHomeBtn').onclick = () => showPage('homePage');
 
-/* ===== 加号菜单 ===== */
 (function() {
   const plusMenu = document.getElementById('plusMenu');
   const plusBtn = document.getElementById('plusBtn');
@@ -1213,7 +1195,7 @@ document.getElementById('backHomeBtn').onclick = () => showPage('homePage');
     makeTransferCard(amount, note);
   };
 })();
-/* ===== 字卡库（新） ===== */
+  /* ===== 字卡库 ===== */
 document.getElementById('closeCardBtn').onclick = () => document.getElementById('cardModal').classList.add('hidden');
 
 let currentCardTab = 'main';
@@ -1230,19 +1212,16 @@ function openCardTab(tab) {
   const tpl = document.getElementById(tplId);
   if (!tpl) return;
   body.appendChild(tpl.content.cloneNode(true));
-
   if (tab === 'main') { currentCat = 'all'; currentSearch = ''; bindMainTab(); loadCards(); }
   if (tab === 'emoji') bindEmojiTab();
   if (tab === 'pat') bindPatTab();
   if (tab === 'sticker') bindStickerTab();
   if (tab === 'voice') bindVoiceTab();
 }
-
 document.querySelectorAll('#cardTabs .card-tab').forEach(btn => {
   btn.onclick = () => openCardTab(btn.dataset.tab);
 });
 
-/* ----- 主字卡 ----- */
 function parseCards(text) {
   const lines = text.split('\n').map(l => l.trim()).filter(l => l);
   if (lines.length === 0) return [];
@@ -1341,7 +1320,6 @@ function loadCards() {
   });
 }
 
-/* ----- Emoji ----- */
 function bindEmojiTab() {
   const input = document.getElementById('emojiInput');
   document.getElementById('addEmojiBtn').onclick = () => {
@@ -1375,7 +1353,6 @@ function loadEmojiList() {
   });
 }
 
-/* ----- 拍一拍 ----- */
 function bindPatTab() {
   const patToTa = load('pat_to_ta', ['{我} 拍了拍 {TA}']);
   const patToMe = load('pat_to_me', ['{TA} 拍了拍 {我}']);
@@ -1387,18 +1364,12 @@ function bindPatTab() {
       const div = document.createElement('div');
       div.className = 'pat-item';
       div.innerHTML = `<input type="text" class="pat-input" value="${text}"><button class="remove">×</button>`;
-      div.querySelector('.remove').onclick = () => {
-        patToMe.splice(idx, 1);
-        renderPatList();
-      };
+      div.querySelector('.remove').onclick = () => { patToMe.splice(idx, 1); renderPatList(); };
       listBox.appendChild(div);
     });
   }
   renderPatList();
-  document.getElementById('addPatBtn').onclick = () => {
-    patToMe.push('');
-    renderPatList();
-  };
+  document.getElementById('addPatBtn').onclick = () => { patToMe.push(''); renderPatList(); };
   document.getElementById('savePatBtn').onclick = () => {
     const toTa = document.getElementById('patToTaInput').value.trim();
     save('pat_to_ta', toTa ? [toTa] : ['{我} 拍了拍 {TA}']);
@@ -1409,203 +1380,7 @@ function bindPatTab() {
     alert('已保存');
   };
 }
- /* ===== 字卡库（新） ===== */
-document.getElementById('closeCardBtn').onclick = () => document.getElementById('cardModal').classList.add('hidden');
 
-let currentCardTab = 'main';
-let currentCat = 'all';
-let currentSearch = '';
-let currentStickerSubTab = 'mine';
-
-function openCardTab(tab) {
-  currentCardTab = tab;
-  document.querySelectorAll('#cardTabs .card-tab').forEach(t => t.classList.toggle('active', t.dataset.tab === tab));
-  const body = document.getElementById('cardBody');
-  body.innerHTML = '';
-  const tplId = 'tpl-' + tab;
-  const tpl = document.getElementById(tplId);
-  if (!tpl) return;
-  body.appendChild(tpl.content.cloneNode(true));
-
-  if (tab === 'main') { currentCat = 'all'; currentSearch = ''; bindMainTab(); loadCards(); }
-  if (tab === 'emoji') bindEmojiTab();
-  if (tab === 'pat') bindPatTab();
-  if (tab === 'sticker') bindStickerTab();
-  if (tab === 'voice') bindVoiceTab();
-}
-
-document.querySelectorAll('#cardTabs .card-tab').forEach(btn => {
-  btn.onclick = () => openCardTab(btn.dataset.tab);
-});
-
-/* ----- 主字卡 ----- */
-function parseCards(text) {
-  const lines = text.split('\n').map(l => l.trim()).filter(l => l);
-  if (lines.length === 0) return [];
-  let category = '', startIdx = 0;
-  const m = lines[0].match(/^【(.+?)】$/);
-  if (m) { category = m[1].trim(); startIdx = 1; }
-  const result = [];
-  for (let i = startIdx; i < lines.length; i++) result.push({ content: lines[i], category });
-  return result;
-}
-
-function bindMainTab() {
-  document.getElementById('addCardBtn').onclick = () => {
-    const input = document.getElementById('cardInput');
-    const text = input.value.trim();
-    if (!text) return;
-    const parsed = parseCards(text);
-    if (parsed.length === 0) { alert('请至少写一行内容'); return; }
-    parsed.forEach(p => cards.push({ content: p.content, category: p.category, type: 'main' }));
-    save('our_cards', cards);
-    input.value = '';
-    loadCards();
-  };
-  const searchInput = document.getElementById('cardSearchInput');
-  searchInput.oninput = () => { currentSearch = searchInput.value.trim(); loadCards(); };
-  document.getElementById('dedupBtn').onclick = () => {
-    const seen = new Set();
-    const newCards = [];
-    let removed = 0;
-    cards.forEach(c => {
-      const key = (c.type || 'main') + '|' + (c.category || '') + '|' + (c.content || '');
-      if (seen.has(key)) removed++;
-      else { seen.add(key); newCards.push(c); }
-    });
-    if (removed === 0) { alert('没有发现重复的字卡'); return; }
-    if (confirm('发现 ' + removed + ' 条重复字卡，确定删除吗？')) {
-      cards = newCards; save('our_cards', cards); loadCards();
-      alert('已删除 ' + removed + ' 条重复字卡');
-    }
-  };
-}
-
-function loadCards() {
-  const list = document.getElementById('cardList');
-  const catsBox = document.getElementById('cardCats');
-  if (!list || !catsBox) return;
-  let allMain = cards.map((c, idx) => ({ ...c, _idx: idx })).filter(c => c.type === 'main' || !c.type);
-  if (currentSearch) allMain = allMain.filter(c => (c.content || '').includes(currentSearch));
-  const cats = new Set();
-  allMain.forEach(c => { if (c.category) cats.add(c.category); });
-  catsBox.innerHTML = '';
-  const allCat = document.createElement('button');
-  allCat.className = 'card-cat' + (currentCat === 'all' ? ' active' : '');
-  allCat.textContent = '全部';
-  allCat.onclick = () => { currentCat = 'all'; loadCards(); };
-  catsBox.appendChild(allCat);
-  const noCat = document.createElement('button');
-  noCat.className = 'card-cat' + (currentCat === '未分类' ? ' active' : '');
-  noCat.textContent = '未分类';
-  noCat.onclick = () => { currentCat = '未分类'; loadCards(); };
-  catsBox.appendChild(noCat);
-  cats.forEach(cat => {
-    const el = document.createElement('button');
-    el.className = 'card-cat' + (currentCat === cat ? ' active' : '');
-    el.textContent = cat;
-    el.onclick = () => { currentCat = cat; loadCards(); };
-    catsBox.appendChild(el);
-  });
-  let filtered = allMain;
-  if (currentCat === '未分类') filtered = filtered.filter(c => !c.category);
-  else if (currentCat !== 'all') filtered = filtered.filter(c => c.category === currentCat);
-  if (filtered.length === 0) {
-    list.innerHTML = '<div style="color:#999;font-size:13px;text-align:center;padding:20px 0;">还没有字卡，加一条试试</div>';
-    return;
-  }
-  list.innerHTML = '';
-  filtered.forEach(card => {
-    const div = document.createElement('div');
-    div.className = 'card-item';
-    const wrap = document.createElement('div');
-    wrap.style.flex = '1'; wrap.style.wordBreak = 'break-word';
-    const s = document.createElement('div');
-    s.textContent = card.content; s.style.fontSize = '14px'; s.style.color = '#333';
-    wrap.appendChild(s);
-    if (card.category) {
-      const tag = document.createElement('span');
-      tag.textContent = card.category;
-      tag.style.cssText = 'display:inline-block;font-size:11px;color:#999;background:#f0f0f0;padding:2px 8px;border-radius:8px;margin-top:6px;';
-      wrap.appendChild(tag);
-    }
-    const btn = document.createElement('button');
-    btn.textContent = '×';
-    btn.onclick = () => { cards.splice(card._idx, 1); save('our_cards', cards); loadCards(); };
-    div.appendChild(wrap); div.appendChild(btn);
-    list.appendChild(div);
-  });
-}
-
-/* ----- Emoji ----- */
-function bindEmojiTab() {
-  const input = document.getElementById('emojiInput');
-  document.getElementById('addEmojiBtn').onclick = () => {
-    const text = input.value.trim();
-    if (!text) return;
-    const lines = text.split('\n').map(l => l.trim()).filter(l => l);
-    lines.forEach(l => cards.push({ content: l, category: '', type: 'emoji' }));
-    save('our_cards', cards);
-    input.value = '';
-    loadEmojiList();
-  };
-  loadEmojiList();
-}
-
-function loadEmojiList() {
-  const list = document.getElementById('emojiList');
-  if (!list) return;
-  const emojis = cards.map((c, idx) => ({ ...c, _idx: idx })).filter(c => c.type === 'emoji');
-  if (emojis.length === 0) { list.innerHTML = '<div style="color:#999;font-size:13px;text-align:center;padding:20px 0;">还没有颜文字</div>'; return; }
-  list.innerHTML = '';
-  emojis.forEach(card => {
-    const div = document.createElement('div');
-    div.className = 'card-item';
-    const s = document.createElement('div');
-    s.textContent = card.content; s.style.flex = '1';
-    const btn = document.createElement('button');
-    btn.textContent = '×';
-    btn.onclick = () => { cards.splice(card._idx, 1); save('our_cards', cards); loadEmojiList(); };
-    div.appendChild(s); div.appendChild(btn);
-    list.appendChild(div);
-  });
-}
-
-/* ----- 拍一拍 ----- */
-function bindPatTab() {
-  const patToTa = load('pat_to_ta', ['{我} 拍了拍 {TA}']);
-  const patToMe = load('pat_to_me', ['{TA} 拍了拍 {我}']);
-  document.getElementById('patToTaInput').value = patToTa[0] || '';
-  const listBox = document.getElementById('patToMeList');
-  function renderPatList() {
-    listBox.innerHTML = '';
-    patToMe.forEach((text, idx) => {
-      const div = document.createElement('div');
-      div.className = 'pat-item';
-      div.innerHTML = `<input type="text" class="pat-input" value="${text}"><button class="remove">×</button>`;
-      div.querySelector('.remove').onclick = () => {
-        patToMe.splice(idx, 1);
-        renderPatList();
-      };
-      listBox.appendChild(div);
-    });
-  }
-  renderPatList();
-  document.getElementById('addPatBtn').onclick = () => {
-    patToMe.push('');
-    renderPatList();
-  };
-  document.getElementById('savePatBtn').onclick = () => {
-    const toTa = document.getElementById('patToTaInput').value.trim();
-    save('pat_to_ta', toTa ? [toTa] : ['{我} 拍了拍 {TA}']);
-    const inputs = document.querySelectorAll('#patToMeList .pat-input');
-    const list = [];
-    inputs.forEach(inp => { if (inp.value.trim()) list.push(inp.value.trim()); });
-    save('pat_to_me', list.length ? list : ['{TA} 拍了拍 {我}']);
-    alert('已保存');
-  };
-}
- /* ----- 表情包 ----- */
 function bindStickerTab() {
   const grid = document.getElementById('stickerGridLib');
   const addBtn = document.getElementById('stickerAddBtnLib');
@@ -1678,7 +1453,6 @@ function compressImage(file, maxSize, cb) {
   reader.readAsDataURL(file);
 }
 
-/* ----- 语音 ----- */
 function bindVoiceTab() {
   const importBox = document.getElementById('voiceImportBox');
   const upload = document.getElementById('voiceUpload');
@@ -1696,12 +1470,7 @@ function bindVoiceTab() {
         const audio = new Audio(data);
         audio.onloadedmetadata = () => {
           const dur = isFinite(audio.duration) ? Math.round(audio.duration) : 0;
-          list.push({
-            id: Date.now() + '_' + Math.random().toString(36).slice(2, 6),
-            name: f.name,
-            data,
-            duration: dur + '"'
-          });
+          list.push({ id: Date.now() + '_' + Math.random().toString(36).slice(2, 6), name: f.name, data, duration: dur + '"' });
           done++;
           if (done === files.length) finish();
         };
@@ -1713,10 +1482,7 @@ function bindVoiceTab() {
       };
       reader.readAsDataURL(f);
     });
-    function finish() {
-      save('our_voices', list);
-      renderVoiceList();
-    }
+    function finish() { save('our_voices', list); renderVoiceList(); }
     upload.value = '';
   };
   renderVoiceList();
@@ -1741,11 +1507,7 @@ function renderVoiceList() {
   list.forEach(v => {
     const div = document.createElement('div');
     div.className = 'voice-item';
-    div.innerHTML = `
-      <span class="name">🎵 ${v.name}</span>
-      <span class="dur">${v.duration}</span>
-      <button class="del">×</button>
-    `;
+    div.innerHTML = `<span class="name">🎵 ${v.name}</span><span class="dur">${v.duration}</span><button class="del">×</button>`;
     div.querySelector('.del').onclick = () => {
       const arr = load('our_voices', []);
       const i = arr.findIndex(x => x.id === v.id);
@@ -1757,17 +1519,16 @@ function renderVoiceList() {
   });
 }
 
-/* ===== 聊天页表情面板（只读+发送） ===== */
+/* ===== 聊天页表情面板 ===== */
 (function() {
   const panel = document.getElementById('stickerPanel');
   const body = document.getElementById('stickerBody');
   const emojiBtn = document.getElementById('emojiBtn');
   let currentTab = 'mine';
-
   function render() {
     const list = currentTab === 'mine' ? load('my_stickers', []) : load('ta_stickers', []);
     if (list.length === 0) {
-      body.innerHTML = `<div class="sticker-empty" style="grid-column:1/-1;text-align:center;color:#999;font-size:13px;padding:40px 20px;line-height:1.8;">还没有表情哦<br>去「字卡库 → 表情包」里添加</div>`;
+      body.innerHTML = `<div class="sticker-empty">还没有表情哦<br>去「字卡库 → 表情包」里添加</div>`;
       return;
     }
     body.innerHTML = '';
@@ -1775,14 +1536,10 @@ function renderVoiceList() {
       const div = document.createElement('div');
       div.className = 'sticker-item';
       div.style.backgroundImage = `url(${url})`;
-      div.onclick = () => {
-        if (currentTab === 'mine') addImage('me', url);
-        // TA 的点了没反应
-      };
+      div.onclick = () => { if (currentTab === 'mine') addImage('me', url); };
       body.appendChild(div);
     });
   }
-
   emojiBtn.onclick = (e) => {
     e.stopPropagation();
     if (panel.classList.contains('hidden')) { panel.classList.remove('hidden'); render(); }
@@ -1802,8 +1559,7 @@ function renderVoiceList() {
     panel.classList.add('hidden');
   });
 })();
-
-/* ===== 自动消息 ===== */
+  /* ===== 自动消息 ===== */
 let autoMsgTimer = null;
 function scheduleAutoMessage() {
   const min = load('auto_msg_min', 1) * 60 * 1000;
@@ -1839,7 +1595,7 @@ function scheduleAutoMessage() {
     scheduleAutoMessage();
   }, delay);
 }
-/* ===== 首页资产 ===== */
+
 function applyHomeAssets() {
   const myA = document.getElementById('homeMyAvatar');
   const taA = document.getElementById('homeTaAvatar');
@@ -1856,7 +1612,6 @@ function applyHomeAssets() {
   if (tmA) { if (myUrl) { tmA.style.background = `url(${myUrl}) center/cover no-repeat`; tmA.textContent = ''; } else tmA.textContent = myName.charAt(0); }
   if (ttA) { if (taUrl) { ttA.style.background = `url(${taUrl}) center/cover no-repeat`; ttA.textContent = ''; } else ttA.textContent = taName.charAt(0); }
 }
-
 function applyHomeWallpaper() {
   const wp = load('home_wallpaper', '');
   const homePage = document.getElementById('homePage');
@@ -1864,7 +1619,6 @@ function applyHomeWallpaper() {
   if (wp) homePage.style.background = wp.startsWith('linear') || wp.startsWith('#') ? wp : `url(${wp}) center/cover no-repeat`;
   else homePage.style.background = '#f5f5f5';
 }
-
 function updateHomeTime() {
   const el = document.getElementById('homeTime');
   if (!el) return;
@@ -2018,8 +1772,7 @@ function openShopDetail(id) {
   document.getElementById('shopDetailModal').classList.remove('hidden');
 }
 function closeShopDetail() { document.getElementById('shopDetailModal').classList.add('hidden'); }
-
-function buyForTa(it) {
+  function buyForTa(it) {
   const taName = load('ta_name', 'TA');
   const cardId = Date.now() + '_buy_' + Math.random().toString(36).slice(2, 8);
   const msg = { type: 'shopcard', sender: 'me', title: `我给${taName}赠送了商品`, sub: it.name, img: it.img, status: '接收', cardId, t: Date.now() };
@@ -2188,6 +1941,7 @@ document.getElementById('addAnnivBtn').onclick = () => {
   list.push({ name: name.trim(), month: parseInt(m[1]), day: parseInt(m[2]) });
   saveAnnivList(list); renderAnniv();
 };
+
 /* ===== 问卷 ===== */
 let surveyQuestions = [];
 let currentSurveyType = 'single';
@@ -2410,11 +2164,7 @@ function openMailRead(mailId) {
   const mails = load('our_mails', []);
   const m = mails.find(x => x.id === mailId);
   if (!m) return;
-  if (m.direction === 'received' && !m.read) {
-    m.read = true;
-    save('our_mails', mails);
-    renderMailList();
-  }
+  if (m.direction === 'received' && !m.read) { m.read = true; save('our_mails', mails); renderMailList(); }
   const from = m.direction === 'sent' ? '我寄给 ' + load('ta_name', 'TA') : load('ta_name', 'TA') + ' 寄给我';
   document.getElementById('mailReadFrom').textContent = from;
   document.getElementById('mailReadTitle').textContent = m.title || '（无题）';
@@ -2443,8 +2193,6 @@ document.getElementById('mailSendBtn').onclick = () => {
   document.querySelectorAll('.mail-tab').forEach(t => t.classList.toggle('active', t.dataset.tab === 'sent'));
   renderMailList();
 };
-
-/* TA 自动写信 */
 let autoMailTimer = null;
 function scheduleAutoMail() {
   const min = load('mail_auto_min', 3) * 60 * 60 * 1000;
@@ -2468,5 +2216,4 @@ scheduleAutoMail();
 
 <script src="settings.js"></script>
 </body>
-  </html>      
-      
+</html>
