@@ -1581,23 +1581,27 @@ function renderVoiceList() {
   const emojiBtn = document.getElementById('emojiBtn');
   let currentTab = 'mine';
 
+  function getList() {
+    if (currentTab === 'mine') {
+      let l = load('our_stickers', []);
+      if (l.length === 0) l = load('my_stickers', []);
+      return l;
+    } else {
+      return load('ta_stickers', []);
+    }
+  }
+
   function render() {
-    let list;
-if (currentTab === 'mine') {
-  list = load('our_stickers', []);
-  if (list.length === 0) list = load('my_stickers', []);
-} else {
-  list = load('ta_stickers', []);
-}
+    const list = getList();
     if (list.length === 0) {
-      body.innerHTML = `<div class="sticker-empty" style="grid-column:1/-1;text-align:center;color:#999;font-size:13px;padding:40px 20px;line-height:1.8;">还没有表情哦<br>去「字卡库 → 表情包」里添加</div>`;
+      body.innerHTML = '<div class="sticker-empty" style="grid-column:1/-1;text-align:center;color:#999;font-size:13px;padding:40px 20px;line-height:1.8;">还没有表情哦<br>去「字卡库 → 表情包」里添加</div>';
       return;
     }
     body.innerHTML = '';
     list.forEach(url => {
       const div = document.createElement('div');
       div.className = 'sticker-item';
-      div.style.backgroundImage = `url(${url})`;
+      div.style.backgroundImage = 'url(' + url + ')';
       div.onclick = () => {
         if (currentTab === 'mine') addImage('me', url);
       };
