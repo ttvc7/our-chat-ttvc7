@@ -84,8 +84,8 @@
       </div>
     </div>
   </div>
-        </div>
-        <!-- 纪念日页面 -->
+  </div>
+  <!-- 纪念日页面 -->
 <div id="annivPage" class="page hidden">
   <header class="chat-header">
     <div class="header-left">
@@ -320,7 +320,6 @@ function save(key, val) {
 
 let cards = load('our_cards', []);
 let quoteTarget = null;
-let lastBatch = { sender: null, batchId: 0, t: 0 };
 
 function showPage(id) {
   document.querySelectorAll('.page').forEach(p => p.classList.add('hidden'));
@@ -337,64 +336,28 @@ function showPage(id) {
   }
 }
 
-/* ===== 时间戳 ===== */
-function formatTime(t) {
-  const d = new Date(t);
-  const fmt = load('time_format', '24hm');
-  if (fmt === 'off') return '';
-  const h24 = d.getHours(), m = d.getMinutes(), s = d.getSeconds();
-  const h12 = h24 % 12 === 0 ? 12 : h24 % 12;
-  const ampm = h24 < 12 ? 'AM' : 'PM';
-  const pad = n => String(n).padStart(2, '0');
-  if (fmt === '24hm') return `${pad(h24)}:${pad(m)}`;
-  if (fmt === '24hms') return `${pad(h24)}:${pad(m)}:${pad(s)}`;
-  if (fmt === '12hm') return `${h12}:${pad(m)} ${ampm}`;
-  if (fmt === '12hms') return `${h12}:${pad(m)}:${pad(s)} ${ampm}`;
-  return `${pad(h24)}:${pad(m)}`;
-}
-
-function applyTimePos(row) {
-  const pos = load('time_pos', 'right-bottom');
-  const cls = {
-    'left-bottom': 'tp-lb',
-    'right-bottom': 'tp-rb',
-    'left-top': 'tp-lt',
-    'right-top': 'tp-rt',
-    'avatar': 'tp-avatar'
-  }[pos] || 'tp-rb';
-  row.classList.remove('tp-lb', 'tp-rb', 'tp-lt', 'tp-rt', 'tp-avatar');
-  row.classList.add(cls);
-}
-
-/* 给新消息分配 batchId：
-   规则：同一发件人，1 分钟内连续发，用同一个 batchId；否则新开一个 batch */
-function getBatchId(sender) {
-  const now = Date.now();
-  if (lastBatch.sender === sender && (now - lastBatch.t) < 60 * 1000) {
-    lastBatch.t = now;
-    return lastBatch.batchId;
-  }
-  lastBatch = { sender, batchId: now, t: now };
-  return now;
-}
-
-function isNewDay() {
-  const last = load('last_msg_day', '');
+/* ===== 日期工具 ===== */
+function todayKey() {
   const d = new Date();
-  const key = `${d.getFullYear()}-${d.getMonth() + 1}-${d.getDate()}`;
+  return `${d.getFullYear()}-${d.getMonth() + 1}-${d.getDate()}`;
+}
+
+function formatDateFull(t) {
+  const d = new Date(t);
+  const hh = String(d.getHours()).padStart(2, '0');
+  const mm = String(d.getMinutes()).padStart(2, '0');
+  return `${d.getMonth() + 1}月${d.getDate()}日 ${hh}:${mm}`;
+}
+
+/* 检查今天是否第一次发消息，是则插入日期标 */
+function ensureDateDivider() {
+  const last = load('last_msg_day', '');
+  const key = todayKey();
   if (key !== last) {
     save('last_msg_day', key);
     return true;
   }
   return false;
-}
-
-function addDateDividerEl(t) {
-  const d = new Date(t);
-  const div = document.createElement('div');
-  div.className = 'date-divider';
-  div.textContent = `${d.getMonth() + 1}月${d.getDate()}日 ${formatTime(t)}`;
-  messagesEl.appendChild(div);
 }
 
 function buildAvatar(sender) {
@@ -419,7 +382,14 @@ function buildAvatar(sender) {
   }
 }, 2000);
 
-function addMessage(sender, content, quote, store, msgId, batchId) {
+function addDateDivider(t) {
+  const div = document.createElement('div');
+  div.className = 'date-divider';
+  div.textContent = formatDateFull(t);
+  messagesEl.appendChild(div);
+}
+
+function addMessage(sender, content, quote, store, msgId) {
   const row = document.createElement('div');
   row.className = 'msg-row ' + (sender === 'me' ? 'me' : 'ta');
   row.dataset.msgId = msgId || (Date.now() + '_' + Math.random().toString(36).slice(2, 8));
@@ -435,49 +405,37 @@ function addMessage(sender, content, quote, store, msgId, batchId) {
   }
   bubble.appendChild(document.createTextNode(content));
 
-  const time = document.createElement('div');
-  time.className = 'msg-time';
-  time.textContent = formatTime(Date.now());
-
-  applyTimePos(row);
-  row.appendChild(avatar);
-  row.appendChild(bubble);
-  row.appendChild(time);
-
-  // 已读标（只给我发的消息）
+  // 已读标：挂在气泡里（气泡的相对定位下）
   if (sender === 'me' && load('read_receipt', true)) {
     const readMark = document.createElement('div');
     readMark.className = 'read-mark unread';
     const rs = load('read_style', 'icon');
     if (rs === 'icon') {
-      readMark.innerHTML = ''; // 未读时不显示双√
+      readMark.innerHTML = '';
     } else {
       readMark.textContent = '未读';
     }
-    row.appendChild(readMark);
+    bubble.appendChild(readMark);
   }
 
+  row.appendChild(avatar);
+  row.appendChild(bubble);
   messagesEl.appendChild(row);
   messagesEl.scrollTop = messagesEl.scrollHeight;
 
   if (store !== false) {
     const msgs = load('our_messages', []);
-    if (isNewDay()) {
-      const div = { type: 'datedivider', text: `${new Date().getMonth() + 1}月${new Date().getDate()}日 ${formatTime(Date.now())}`, t: Date.now() - 1 };
+    if (ensureDateDivider()) {
+      const div = { type: 'datedivider', text: formatDateFull(Date.now()), t: Date.now() - 1 };
       msgs.push(div);
       const dividerEl = document.createElement('div');
       dividerEl.className = 'date-divider';
       dividerEl.textContent = div.text;
       messagesEl.insertBefore(dividerEl, row);
     }
-    const bid = batchId || getBatchId(sender);
-    const m = { type: 'text', sender, content, quote: quote || '', t: Date.now(), msgId: row.dataset.msgId, read: false, batchId: bid };
-    msgs.push(m);
+    msgs.push({ type: 'text', sender, content, quote: quote || '', t: Date.now(), msgId: row.dataset.msgId, read: false });
     save('our_messages', msgs);
   }
-
-  // 重新计算显示时间：同一 batch 只有最后一条显示
-  finalizeBatchTime();
 }
 
 function addImage(sender, url, store) {
@@ -492,26 +450,16 @@ function addImage(sender, url, store) {
   img.style.maxHeight = '120px';
   img.style.borderRadius = '8px';
 
-  const time = document.createElement('div');
-  time.className = 'msg-time';
-  time.textContent = formatTime(Date.now());
-
-  applyTimePos(row);
   row.appendChild(avatar);
   row.appendChild(img);
-  row.appendChild(time);
-
   messagesEl.appendChild(row);
   messagesEl.scrollTop = messagesEl.scrollHeight;
 
   if (store !== false) {
     const msgs = load('our_messages', []);
-    const bid = getBatchId(sender);
-    msgs.push({ type: 'image', sender, url, t: Date.now(), msgId: row.dataset.msgId, batchId: bid });
+    msgs.push({ type: 'image', sender, url, t: Date.now(), msgId: row.dataset.msgId });
     save('our_messages', msgs);
   }
-
-  finalizeBatchTime();
 }
 
 function showTyping() {
@@ -596,24 +544,6 @@ async function sendMessage() {
 }
 inputEl.addEventListener('keydown', e => { if (e.key === 'Enter') sendMessage(); });
 
-/* ===== 按 batch 显示时间 ===== */
-function finalizeBatchTime() {
-  const msgs = load('our_messages', []);
-  // 计算每个 batchId 最后一条的 msgId
-  const lastOfBatch = {};
-  msgs.forEach(m => {
-    if (m.batchId && (m.type === 'text' || m.type === 'image' || m.type === 'shopcard' || m.type === 'transfer')) {
-      lastOfBatch[m.batchId] = m.msgId;
-    }
-  });
-  // 遍历所有行，show-time 只给 batch 最后一条
-  messagesEl.querySelectorAll('.msg-row').forEach(r => {
-    const id = r.dataset.msgId;
-    if (id && lastOfBatch[id]) r.classList.add('show-time');
-    else r.classList.remove('show-time');
-  });
-}
-
 /* ===== 已读 ===== */
 function markAllRead() {
   if (!load('read_receipt', true)) return;
@@ -623,10 +553,10 @@ function markAllRead() {
     if (m.sender === 'me' && m.type === 'text' && !m.read) { m.read = true; changed = true; }
   });
   if (changed) save('our_messages', all);
-  document.querySelectorAll('.msg-row.me .read-mark').forEach(el => {
+  const rs = load('read_style', 'icon');
+  document.querySelectorAll('.msg-row.me .bubble .read-mark').forEach(el => {
     el.classList.remove('unread');
     el.classList.add('read');
-    const rs = load('read_style', 'icon');
     if (rs === 'icon') {
       el.innerHTML = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M2 13 L7 18 L15 8"></path><path d="M9 13 L12 16 L20 6"></path></svg>';
     } else {
@@ -661,15 +591,8 @@ function renderTransferCard(m) {
   label.textContent = '转账';
   card.appendChild(label);
   card.onclick = () => openReceiveModal(m.transferId);
-
-  const time = document.createElement('div');
-  time.className = 'msg-time';
-  time.textContent = formatTime(m.t || Date.now());
-
-  applyTimePos(row);
   row.appendChild(avatar);
   row.appendChild(card);
-  row.appendChild(time);
   messagesEl.appendChild(row);
   messagesEl.scrollTop = messagesEl.scrollHeight;
 }
@@ -678,12 +601,11 @@ function makeTransferCard(amount, note) {
   const transferId = Date.now() + '_' + Math.random().toString(36).slice(2, 8);
   const t = Date.now();
   const msgId = Date.now() + '_' + Math.random().toString(36).slice(2, 8);
-  const bid = getBatchId('me');
   const msgs = load('our_messages', []);
-  msgs.push({ type: 'transfer', from: 'me', sender: 'me', transferId, amount, note, status: 'pending', t, msgId, batchId: bid });
-  msgs.push({ type: 'transfer', from: 'me', sender: 'ta', transferId, amount, note, status: 'pending', t: t + 1, msgId: msgId + '_ta', batchId: bid + 1 });
+  msgs.push({ type: 'transfer', from: 'me', sender: 'me', transferId, amount, note, status: 'pending', t, msgId });
+  msgs.push({ type: 'transfer', from: 'me', sender: 'ta', transferId, amount, note, status: 'pending', t: t + 1, msgId: msgId + '_ta' });
   save('our_messages', msgs);
-  renderTransferCard({ type: 'transfer', from: 'me', sender: 'me', transferId, amount, note, status: 'pending', t, msgId, batchId: bid });
+  renderTransferCard({ type: 'transfer', from: 'me', sender: 'me', transferId, amount, note, status: 'pending', t, msgId });
   setTimeout(() => {
     const recv = load('trans_recv', 60), ref = load('trans_ref', 30), ign = load('trans_ign', 10);
     const total = recv + ref + ign;
@@ -703,11 +625,10 @@ function makeTaTransferCard(amount, note) {
   const transferId = Date.now() + '_ta_' + Math.random().toString(36).slice(2, 8);
   const t = Date.now();
   const msgId = Date.now() + '_' + Math.random().toString(36).slice(2, 8);
-  const bid = getBatchId('ta');
   const msgs = load('our_messages', []);
-  msgs.push({ type: 'transfer', from: 'ta', sender: 'ta', transferId, amount, note, status: 'pending', t, msgId, batchId: bid });
+  msgs.push({ type: 'transfer', from: 'ta', sender: 'ta', transferId, amount, note, status: 'pending', t, msgId });
   save('our_messages', msgs);
-  renderTransferCard({ type: 'transfer', from: 'ta', sender: 'ta', transferId, amount, note, status: 'pending', t, msgId, batchId: bid });
+  renderTransferCard({ type: 'transfer', from: 'ta', sender: 'ta', transferId, amount, note, status: 'pending', t, msgId });
 }
 
 /* ===== 刷新 ===== */
@@ -717,17 +638,16 @@ function refreshMessages() {
   msgs.forEach(m => {
     if (m.type === 'transfer') renderTransferCard(m);
     else if (m.type === 'image') addImage(m.sender, m.url, false);
-    else if (m.type === 'text') addMessage(m.sender, m.content, m.quote, false, m.msgId, m.batchId);
+    else if (m.type === 'text') addMessage(m.sender, m.content, m.quote, false, m.msgId);
     else if (m.type === 'shopcard') renderShopCard(m);
     else if (m.type === 'systemtip') addSystemTip(m.text, false);
-    else if (m.type === 'datedivider') addDateDividerEl(m.t);
+    else if (m.type === 'datedivider') addDateDivider(m.t);
   });
-
-  // 已读状态还原
-  document.querySelectorAll('.msg-row.me .read-mark').forEach(el => {
+  // 还原已读状态
+  const rs = load('read_style', 'icon');
+  document.querySelectorAll('.msg-row.me .bubble .read-mark').forEach(el => {
     const row = el.closest('.msg-row');
     const m = msgs.find(x => x.msgId === row.dataset.msgId);
-    const rs = load('read_style', 'icon');
     if (m && m.read) {
       el.classList.remove('unread');
       el.classList.add('read');
@@ -743,8 +663,6 @@ function refreshMessages() {
       else el.textContent = '未读';
     }
   });
-
-  finalizeBatchTime();
   messagesEl.scrollTop = messagesEl.scrollHeight;
 }
 
@@ -833,7 +751,8 @@ document.addEventListener('dblclick', function(e) {
   messagesEl.appendChild(sys);
   messagesEl.scrollTop = messagesEl.scrollHeight;
 });
-  /* ===== 长按菜单 ===== */
+
+/* ===== 长按菜单 ===== */
 let longPressTarget = null;
 let longPressTimer = null;
 
@@ -928,8 +847,7 @@ document.querySelectorAll('#longPressMenu .lp-item').forEach(item => {
     }
   };
 });
-
-/* ===== 商店卡片 ===== */
+  /* ===== 商店卡片 ===== */
 function renderShopCard(m) {
   const row = document.createElement('div');
   row.className = 'msg-row ' + (m.sender === 'me' ? 'me' : 'ta');
@@ -962,14 +880,8 @@ function renderShopCard(m) {
       }
     };
   }
-  const time = document.createElement('div');
-  time.className = 'msg-time';
-  time.textContent = formatTime(m.t || Date.now());
-
-  applyTimePos(row);
   row.appendChild(avatar);
   row.appendChild(card);
-  row.appendChild(time);
   messagesEl.appendChild(row);
   messagesEl.scrollTop = messagesEl.scrollHeight;
 }
@@ -1225,7 +1137,7 @@ if (dedupBtn) {
       alert('已删除 ' + removed + ' 条重复字卡');
     }
   };
-  }
+        }
   /* ===== 表情面板 ===== */
 (function() {
   const panel = document.getElementById('stickerPanel');
@@ -1565,8 +1477,7 @@ function closeShopDetail() {
 function buyForTa(it) {
   const taName = load('ta_name', 'TA');
   const cardId = Date.now() + '_buy_' + Math.random().toString(36).slice(2, 8);
-  const bid = getBatchId('me');
-  const msg = { type: 'shopcard', sender: 'me', title: `我给${taName}赠送了商品`, sub: it.name, img: it.img, status: '接收', cardId, t: Date.now(), batchId: bid };
+  const msg = { type: 'shopcard', sender: 'me', title: `我给${taName}赠送了商品`, sub: it.name, img: it.img, status: '接收', cardId, t: Date.now() };
   const msgs = load('our_messages', []);
   msgs.push(msg);
   save('our_messages', msgs);
@@ -1590,8 +1501,7 @@ function buyForTa(it) {
 
 function helpPay(it) {
   const cardId = Date.now() + '_pay_' + Math.random().toString(36).slice(2, 8);
-  const bid = getBatchId('me');
-  const msg = { type: 'shopcard', sender: 'me', title: `我希望你帮付¥${it.price}`, sub: it.name, img: it.img, status: '未付款', cardId, t: Date.now(), batchId: bid };
+  const msg = { type: 'shopcard', sender: 'me', title: `我希望你帮付¥${it.price}`, sub: it.name, img: it.img, status: '未付款', cardId, t: Date.now() };
   const msgs = load('our_messages', []);
   msgs.push(msg);
   save('our_messages', msgs);
@@ -1616,8 +1526,7 @@ function helpPay(it) {
 function taSendGift(it) {
   const taName = load('ta_name', 'TA');
   const cardId = Date.now() + '_tagift_' + Math.random().toString(36).slice(2, 8);
-  const bid = getBatchId('ta');
-  const msg = { type: 'shopcard', sender: 'ta', title: `${taName}给我赠送了商品`, sub: it.name, img: it.img, status: '接收', cardId, clickable: true, t: Date.now(), batchId: bid };
+  const msg = { type: 'shopcard', sender: 'ta', title: `${taName}给我赠送了商品`, sub: it.name, img: it.img, status: '接收', cardId, clickable: true, t: Date.now() };
   const msgs = load('our_messages', []);
   msgs.push(msg);
   save('our_messages', msgs);
