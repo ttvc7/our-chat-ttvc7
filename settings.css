@@ -565,7 +565,7 @@ body {
   white-space: nowrap;
   display: none;
 }
-.msg-row.show-time .msg-time { display: block; }
+.msg-row.show-time .msg-time { display: block !important; }
 
 .read-mark {
   position: absolute;
@@ -581,7 +581,7 @@ body {
 .read-mark.unread { color: #bbb; }
 .read-mark.read { color: #7a7a7a; }
 
-/* 时间默认位置：我发的时间在已读左边；对方发的时间在已读右边 */
+/* 时间默认位置：我发的在已读左边；对方发的在已读右边 */
 .msg-row.me .msg-time { right: 24px; text-align: right; }
 .msg-row.ta .msg-time { left: 24px; text-align: left; }
 
