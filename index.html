@@ -671,30 +671,35 @@ function addVoiceMessage(sender, voiceId, name, duration, store) {
 
 let currentAudio = null;
 let currentAudioEl = null;
+let currentAudioUrl = null;
 
-function playVoice(bubbleEl, voiceId) {
-  const list = load('our_voices', []);
-  const v = list.find(x => x.id === voiceId);
-  if (!v) return;
+async function playVoice(bubbleEl, voiceId) {
+  const rec = await idbGet('voices', voiceId);
+  if (!rec) return;
   if (currentAudio) {
     currentAudio.pause();
     if (currentAudioEl) currentAudioEl.classList.remove('playing');
+    if (currentAudioUrl) URL.revokeObjectURL(currentAudioUrl);
     if (currentAudioEl === bubbleEl) {
       currentAudio = null;
       currentAudioEl = null;
+      currentAudioUrl = null;
       return;
     }
   }
-  currentAudio = new Audio(v.data);
+  currentAudioUrl = URL.createObjectURL(rec.blob);
+  currentAudio = new Audio(currentAudioUrl);
   currentAudioEl = bubbleEl;
   bubbleEl.classList.add('playing');
   currentAudio.onended = () => {
     bubbleEl.classList.remove('playing');
+    if (currentAudioUrl) URL.revokeObjectURL(currentAudioUrl);
     currentAudio = null;
     currentAudioEl = null;
+    currentAudioUrl = null;
   };
   currentAudio.play().catch(() => { bubbleEl.classList.remove('playing'); });
-}
+  }
 
 function showTyping() {
   const taNameEl = document.getElementById('taName');
