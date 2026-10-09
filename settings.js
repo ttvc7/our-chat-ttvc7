@@ -96,7 +96,6 @@
     if (tab === 'other') return renderOtherTab(panel);
   }
 
-  /* ===== 聊天 Tab ===== */
   function renderChatTab(panel) {
     const replyMin = load('reply_min', 1), replyMax = load('reply_max', 1);
     const delayMin = load('delay_min', 5), delayMax = load('delay_max', 15);
@@ -197,8 +196,7 @@
     panel.querySelector('#clearCards').onclick = () => {
       if (confirm('确定清空所有字卡吗？')) { localStorage.removeItem('our_cards'); alert('已清空，刷新页面生效'); }
     };
-                      }
-  /* ===== 外观 Tab ===== */
+        }
   function renderAppearanceTab(panel) {
     panel.innerHTML = `
       <div class="set-card">
@@ -407,7 +405,6 @@
     };
   }
 
-  /* ===== 功能 Tab ===== */
   function renderFeatureTab(panel) {
     const mailOn = load('mail_auto_on', false);
     const mailMin = load('mail_auto_min', 3);
@@ -448,7 +445,6 @@
     };
   }
 
-  /* ===== 其他 Tab ===== */
   function renderOtherTab(panel) {
     panel.innerHTML = `
       <div class="set-card">
