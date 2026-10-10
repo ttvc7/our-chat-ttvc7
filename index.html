@@ -2572,8 +2572,50 @@ function initMomentsPage() {
   updateBellDot();
 }
 
+let momentListMode = false;
+
 function renderMomentsList() {
   const label = document.getElementById('momentDateLabel');
+  const box = document.getElementById('momentBody');
+
+  // ===== 列表模式：显示对方全部动态，按日期分组 =====
+  if (momentListMode) {
+    label.textContent = 'TA 的全部动态';
+    const all = load('our_moments', []);
+    const taList = all.filter(m => m.sender === 'ta');
+    if (taList.length === 0) {
+      box.innerHTML = '<div class="moment-empty">对方还没有动态~</div>';
+      return;
+    }
+    // 按日期分组
+    const groups = {};
+    taList.forEach(m => {
+      const d = new Date(m.t);
+      const key = `${d.getFullYear()}-${d.getMonth() + 1}-${d.getDate()}`;
+      if (!groups[key]) groups[key] = [];
+      groups[key].push(m);
+    });
+    // 日期倒序
+    const keys = Object.keys(groups).sort((a, b) => {
+      const [ay, am, ad] = a.split('-').map(Number);
+      const [by, bm, bd] = b.split('-').map(Number);
+      return new Date(by, bm - 1, bd) - new Date(ay, am - 1, ad);
+    });
+    box.innerHTML = '';
+    keys.forEach(k => {
+      const [y, mo, da] = k.split('-').map(Number);
+      const groupTitle = document.createElement('div');
+      groupTitle.className = 'moment-date-group';
+      groupTitle.textContent = `${mo}月${da}日`;
+      box.appendChild(groupTitle);
+      groups[k].slice().reverse().forEach(m => {
+        box.appendChild(renderMomentCard(m));
+      });
+    });
+    return;
+  }
+
+  // ===== 默认模式：当天动态（我 + 对方） =====
   const today = new Date(); today.setHours(0, 0, 0, 0);
   const diff = Math.round((today - currentMomentDate) / 86400000);
   if (diff === 0) label.textContent = '今天';
@@ -2581,7 +2623,6 @@ function renderMomentsList() {
   else if (diff === 2) label.textContent = '前天';
   else label.textContent = `${currentMomentDate.getMonth() + 1}月${currentMomentDate.getDate()}日`;
 
-  const box = document.getElementById('momentBody');
   const key = dateKeyOf(currentMomentDate);
   const all = load('our_moments', []);
   const list = all.filter(m => {
@@ -2596,9 +2637,7 @@ function renderMomentsList() {
   list.slice().reverse().forEach(m => {
     box.appendChild(renderMomentCard(m));
   });
-}
-
-function renderMomentCard(m) {
+      }
   const card = document.createElement('div');
   card.className = 'moment-card';
   card.dataset.mid = m.id;
