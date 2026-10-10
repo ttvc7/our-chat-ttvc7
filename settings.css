@@ -1,9 +1,8 @@
-/* ===== 全局 ===== */
+/* ★★★ css 段 1 开始 ★★★ */
 * { margin: 0; padding: 0; box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
 html, body { height: 100%; overflow: hidden; }
 body { font-family: -apple-system, BlinkMacSystemFont, "Helvetica Neue", Arial, sans-serif; background: #f5f5f5; }
 
-/* ===== 加载页 ===== */
 #loading { position: fixed; inset: 0; background: linear-gradient(180deg, #ffffff 0%, #f7f7f7 50%, #ececec 100%); display: flex; flex-direction: column; align-items: center; justify-content: center; z-index: 999; transition: opacity 0.7s ease; overflow: hidden; }
 #loading.fade-out { opacity: 0; pointer-events: none; }
 .sparkle { position: absolute; width: 6px; height: 6px; border-radius: 50%; background: rgba(255, 255, 255, 0.9); box-shadow: 0 0 12px rgba(255, 255, 255, 1); animation: float 7s ease-in-out infinite, glow 3s ease-in-out infinite; }
@@ -34,11 +33,9 @@ body { font-family: -apple-system, BlinkMacSystemFont, "Helvetica Neue", Arial, 
 .wave span:nth-child(9) { height: 12px; animation-delay: 0.8s; }
 @keyframes waveMove { 0%, 100% { transform: scaleY(0.4); opacity: 0.5; } 50% { transform: scaleY(1); opacity: 1; } }
 
-/* ===== 页面 ===== */
 .page { position: absolute; inset: 0; display: flex; flex-direction: column; background: transparent; }
 .page.hidden { display: none; }
 
-/* ===== 主页 ===== */
 #homePage { background: #f5f5f5; transition: background 0.3s; }
 .home-top { display: flex; flex-direction: column; align-items: center; padding: 60px 20px 20px; }
 .home-time { font-size: 42px; font-weight: 300; color: #444; letter-spacing: 2px; margin-bottom: 26px; }
@@ -73,7 +70,8 @@ body { font-family: -apple-system, BlinkMacSystemFont, "Helvetica Neue", Arial, 
 .wallpaper-row { display: flex; flex-wrap: wrap; gap: 10px; margin: 10px 0; }
 .wallpaper-dot { width: 44px; height: 44px; border-radius: 10px; cursor: pointer; border: 2px solid transparent; }
 .wallpaper-dot.active { border-color: #666; }
-/* ===== 聊天界面 ===== */
+/* ★★★ css 段 1 结束 ★★★ */
+/* ★★★ css 段 2 开始 ★★★ */
 .chat-header { height: 56px; background: #f7f7f7; border-bottom: 1px solid #e0e0e0; display: flex; align-items: center; justify-content: space-between; padding: 0 16px; flex-shrink: 0; position: relative; }
 .chat-header #taName { position: absolute; left: 50%; transform: translateX(-50%); font-size: 17px; font-weight: 600; color: #111; max-width: 60%; text-align: center; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
 .header-left { width: 24px; height: 24px; display: flex; align-items: center; }
@@ -92,7 +90,6 @@ body { font-family: -apple-system, BlinkMacSystemFont, "Helvetica Neue", Arial, 
 .msg-row.ta .bubble { background: #fff; color: #111; }
 .quote-block { display: block; padding: 4px 8px; background: rgba(0,0,0,0.04); border-left: 3px solid #ccc; border-radius: 4px; font-size: 12px; color: #888; margin: 0 0 3px 0; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
 
-/* ===== 已读标 ===== */
 .read-mark { position: absolute; bottom: -18px; font-size: 11px; color: #bbb; display: flex; align-items: center; white-space: nowrap; line-height: 1; }
 .msg-row.me .read-mark { right: 0; }
 .msg-row.ta .read-mark { left: 0; }
@@ -100,23 +97,19 @@ body { font-family: -apple-system, BlinkMacSystemFont, "Helvetica Neue", Arial, 
 .read-mark.unread { color: #bbb; }
 .read-mark.read { color: #7a7a7a; }
 
-/* ===== 日期分割 ===== */
 .date-divider { align-self: center; font-size: 12px; color: #999; background: rgba(0,0,0,0.04); padding: 4px 12px; border-radius: 10px; margin: 6px 0; }
 
-/* ===== 底部输入栏 ===== */
 .chat-footer { display: flex; align-items: center; padding: 8px 10px; background: #f7f7f7; border-top: 1px solid #e0e0e0; gap: 6px; flex-shrink: 0; padding-bottom: calc(8px + env(safe-area-inset-bottom, 0px)); }
 .footer-btn { background: none; border: none; padding: 4px; display: flex; align-items: center; justify-content: center; cursor: pointer; flex-shrink: 0; }
 .footer-btn svg { width: 26px; height: 26px; }
 #input { flex: 1; border: none; border-radius: 8px; padding: 10px 14px; font-size: 15px; outline: none; background: #fff; min-width: 0; }
 .send-btn svg { stroke: #222; }
 
-/* ===== 顶部菜单 ===== */
 #menuPopup { position: absolute; top: 56px; right: 12px; background: #fff; border-radius: 10px; box-shadow: 0 4px 16px rgba(0,0,0,0.15); padding: 6px 0; min-width: 130px; z-index: 50; display: none; }
 #menuPopup.show { display: block; }
 #menuPopup .menu-item { padding: 10px 18px; font-size: 15px; color: #333; cursor: pointer; }
 #menuPopup .menu-item:active { background: #f2f2f2; }
 
-/* ===== 加号菜单 ===== */
 .plus-menu { position: fixed; bottom: 60px; left: 10px; right: 10px; background: #fff; border-radius: 14px; padding: 16px; box-shadow: 0 4px 20px rgba(0,0,0,0.15); z-index: 90; transition: transform 0.25s ease, opacity 0.25s ease; }
 .plus-menu.hidden { transform: translateY(20px); opacity: 0; pointer-events: none; }
 .plus-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 12px; }
@@ -126,7 +119,6 @@ body { font-family: -apple-system, BlinkMacSystemFont, "Helvetica Neue", Arial, 
 .plus-label { font-size: 13px; color: #666; }
 .plus-item:active .plus-icon { background: #eee; }
 
-/* ===== 弹窗通用 ===== */
 .modal { position: fixed; inset: 0; background: rgba(0,0,0,.4); display: flex; align-items: center; justify-content: center; z-index: 99; }
 .modal.hidden { display: none; }
 .modal-box { width: 90%; max-width: 400px; max-height: 80vh; background: #fff; border-radius: 12px; display: flex; flex-direction: column; overflow: hidden; }
@@ -134,7 +126,6 @@ body { font-family: -apple-system, BlinkMacSystemFont, "Helvetica Neue", Arial, 
 .modal-head button { background: none; border: none; font-size: 22px; color: #999; }
 .modal-body { padding: 16px; overflow-y: auto; }
 
-/* ===== 转账 ===== */
 .transfer-target { display: flex; align-items: center; gap: 12px; padding: 12px 0; border-bottom: 1px solid #eee; margin-bottom: 16px; }
 .transfer-avatar { width: 44px; height: 44px; border-radius: 8px; background: #e8a33d; color: #fff; display: flex; align-items: center; justify-content: center; font-size: 18px; font-weight: 600; background-size: cover; background-position: center; }
 .transfer-name { font-size: 16px; color: #333; font-weight: 600; }
@@ -157,7 +148,8 @@ body { font-family: -apple-system, BlinkMacSystemFont, "Helvetica Neue", Arial, 
 .tc-amount { font-size: 18px; font-weight: 600; line-height: 1.2; }
 .tc-status { font-size: 13px; opacity: 0.9; margin-top: 2px; }
 .transfer-card-label { position: absolute; bottom: 6px; left: 16px; font-size: 11px; opacity: 0.8; }
-/* ===== 收款全屏 ===== */
+/* ★★★ css 段 2 结束 ★★★ */
+/* ★★★ css 段 3 开始 ★★★ */
 #receiveModal { position: fixed; inset: 0; background: #fff; z-index: 200; display: flex; align-items: stretch; justify-content: stretch; }
 #receiveModal.hidden { display: none; }
 .receive-box { width: 100%; height: 100%; display: flex; flex-direction: column; position: relative; }
@@ -175,7 +167,6 @@ body { font-family: -apple-system, BlinkMacSystemFont, "Helvetica Neue", Arial, 
 .receive-tip { margin-top: 20px; font-size: 12px; color: #999; }
 #refundLink { color: #1E9BFF; cursor: pointer; }
 
-/* ===== 设置面板 ===== */
 .settings-tabs { display: flex; border-bottom: 1px solid #eee; background: #fff; position: sticky; top: 0; z-index: 5; padding: 0 4px; overflow-x: auto; }
 .settings-tab { flex-shrink: 0; padding: 14px 18px; font-size: 15px; color: #999; cursor: pointer; border-bottom: 2px solid transparent; white-space: nowrap; }
 .settings-tab.active { color: #111; font-weight: 600; border-bottom-color: #111; }
@@ -218,7 +209,8 @@ body { font-family: -apple-system, BlinkMacSystemFont, "Helvetica Neue", Arial, 
 .about-box { text-align: center; padding: 30px 10px; line-height: 2; color: #555; font-size: 14px; white-space: pre-wrap; }
 .about-box .title { font-size: 24px; font-weight: 600; color: #333; letter-spacing: 3px; margin-bottom: 20px; }
 .about-box .divider { color: #ccc; margin: 16px 0; }
-/* ===== 字卡库（新版：只保留 主字卡 / Emoji / 拍一拍 / 语音） ===== */
+/* ★★★ css 段 3 结束 ★★★ */
+/* ★★★ css 段 4 开始 ★★★ */
 #cardBox { width: 94%; max-width: 420px; max-height: 85vh; background: #fff; border-radius: 14px; display: flex; flex-direction: column; overflow: hidden; }
 .card-topbar { display: flex; align-items: center; justify-content: space-between; padding: 16px 18px 12px; border-bottom: 1px solid #f0f0f0; }
 .card-topbar .title { font-size: 17px; font-weight: 600; color: #111; }
@@ -238,7 +230,6 @@ body { font-family: -apple-system, BlinkMacSystemFont, "Helvetica Neue", Arial, 
 #cardSearchInput { flex: 1; padding: 9px 12px; border: 1px solid #eee; border-radius: 10px; font-size: 14px; outline: none; background: #fafafa; }
 #dedupBtn { padding: 9px 14px; background: #f0f0f0; color: #333; border: none; border-radius: 10px; font-size: 14px; cursor: pointer; flex-shrink: 0; }
 
-/* ===== 语音字卡 ===== */
 .voice-import-box { background: #fff; border-radius: 12px; padding: 16px; margin-bottom: 14px; box-shadow: 0 1px 3px rgba(0,0,0,0.03); border: 1px solid #f0f0f0; display: flex; align-items: center; gap: 12px; cursor: pointer; }
 .voice-import-icon { width: 44px; height: 44px; border-radius: 10px; background: #f0f0f0; display: flex; align-items: center; justify-content: center; flex-shrink: 0; }
 .voice-import-icon svg { width: 24px; height: 24px; stroke: #666; }
@@ -254,7 +245,6 @@ body { font-family: -apple-system, BlinkMacSystemFont, "Helvetica Neue", Arial, 
 .voice-empty svg { width: 40px; height: 40px; stroke: #ddd; display: block; margin: 0 auto 10px; }
 .voice-empty .text { font-size: 13px; color: #bbb; }
 
-/* ===== 聊天中的语音条 ===== */
 .voice-bubble { background: #f0f0f0; border-radius: 10px; padding: 10px 14px; display: flex; align-items: center; gap: 10px; min-width: 130px; max-width: 200px; cursor: pointer; color: #333; position: relative; }
 .voice-bubble .play-btn { width: 24px; height: 24px; border-radius: 50%; background: #fff; display: flex; align-items: center; justify-content: center; flex-shrink: 0; }
 .voice-bubble .play-btn svg { width: 12px; height: 12px; fill: #666; }
@@ -271,7 +261,6 @@ body { font-family: -apple-system, BlinkMacSystemFont, "Helvetica Neue", Arial, 
 .voice-bubble.playing .waves span:nth-child(5) { animation-delay: 0.4s; }
 @keyframes voiceWave { 0%, 100% { transform: scaleY(0.5); } 50% { transform: scaleY(1.3); } }
 
-/* ===== 信箱 ===== */
 .mail-tabs { display: flex; gap: 10px; padding: 14px 16px 8px; }
 .mail-tab { flex: 1; padding: 12px; text-align: center; font-size: 15px; border-radius: 10px; background: #fff; color: #666; border: 1px solid #eee; cursor: pointer; }
 .mail-tab.active { background: #222; color: #fff; border-color: #222; }
@@ -297,9 +286,126 @@ body { font-family: -apple-system, BlinkMacSystemFont, "Helvetica Neue", Arial, 
 .mail-read-content { font-size: 15px; color: #333; line-height: 1.8; white-space: pre-wrap; word-break: break-word; }
 .mail-read-date { font-size: 12px; color: #aaa; margin-top: 18px; text-align: right; }
 
-/* ===== 长按菜单 ===== */
 .long-press-menu { position: fixed; z-index: 300; display: flex; gap: 4px; background: #333; border-radius: 10px; padding: 6px; box-shadow: 0 4px 20px rgba(0,0,0,0.3); }
 .long-press-menu.hidden { display: none; }
 .long-press-menu .lp-item { color: #fff; font-size: 13px; padding: 8px 12px; border-radius: 6px; cursor: pointer; white-space: nowrap; }
 .long-press-menu .lp-item:active { background: #555; }
 #input.quoting { background: #fff8e1; }
+
+.shop-tabs { display: flex; background: #fff; border-bottom: 1px solid #eee; }
+.shop-tab { flex: 1; text-align: center; padding: 14px 0; font-size: 15px; color: #666; cursor: pointer; border-bottom: 2px solid transparent; }
+.shop-tab.active { color: #111; font-weight: 600; border-bottom-color: #111; }
+.shop-body { flex: 1; overflow-y: auto; padding: 16px; background: #f5f5f5; }
+.shop-body.hidden { display: none; }
+.shop-fab { position: fixed; right: 20px; bottom: 30px; width: 56px; height: 56px; border-radius: 50%; background: #1a1a1a; color: #fff; border: none; font-size: 30px; line-height: 1; box-shadow: 0 4px 16px rgba(0,0,0,0.25); cursor: pointer; z-index: 30; }
+.shop-item-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 12px; }
+.shop-item-card { background: #fff; border-radius: 14px; overflow: hidden; cursor: pointer; box-shadow: 0 1px 4px rgba(0,0,0,0.05); }
+.shop-item-card img { width: 100%; height: 120px; object-fit: cover; display: block; background: #eee; }
+.shop-item-name { font-size: 14px; color: #333; padding: 8px 10px 2px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.shop-item-price { font-size: 14px; color: #e74c3c; padding: 0 10px 10px; font-weight: 600; }
+.shop-empty { text-align: center; color: #999; font-size: 14px; padding: 60px 20px; line-height: 1.8; }
+.shop-order-item { background: #fff; border-radius: 12px; padding: 12px; display: flex; gap: 10px; align-items: center; margin-bottom: 10px; }
+.shop-order-item img { width: 48px; height: 48px; border-radius: 8px; object-fit: cover; background: #eee; }
+.shop-order-info { flex: 1; }
+.shop-order-title { font-size: 14px; color: #333; }
+.shop-order-sub { font-size: 12px; color: #999; margin-top: 2px; }
+.shop-edit-sheet, .shop-detail-sheet { position: absolute; left: 0; right: 0; bottom: 0; background: #fff; border-radius: 20px 20px 0 0; max-height: 92vh; display: flex; flex-direction: column; overflow: hidden; }
+.shop-edit-head { padding: 18px 20px 10px; font-size: 18px; font-weight: 600; color: #111; display: flex; justify-content: space-between; align-items: center; }
+.shop-edit-head button { width: 32px; height: 32px; border-radius: 50%; background: #f0f0f0; border: none; font-size: 18px; color: #666; cursor: pointer; }
+.shop-edit-body, .shop-detail-body { padding: 10px 20px 30px; overflow-y: auto; }
+.shop-field-label { font-size: 13px; color: #888; margin: 12px 0 8px; }
+.shop-img-picker { width: 100px; height: 100px; border-radius: 12px; border: 1.5px dashed #ccc; background: #fafafa; display: flex; align-items: center; justify-content: center; font-size: 30px; color: #bbb; cursor: pointer; overflow: hidden; }
+.shop-img-picker img { width: 100%; height: 100%; object-fit: cover; }
+.shop-input, .shop-textarea { width: 100%; border: none; background: #f5f5f5; border-radius: 12px; padding: 14px 16px; font-size: 15px; outline: none; color: #222; font-family: inherit; box-sizing: border-box; }
+.shop-textarea { min-height: 90px; resize: none; }
+.shop-save-btn { width: 100%; margin-top: 22px; padding: 15px; background: #222; color: #fff; border: none; border-radius: 14px; font-size: 16px; font-weight: 600; cursor: pointer; }
+.shop-detail-img { width: 120px; height: 120px; border-radius: 14px; object-fit: cover; display: block; margin: 10px auto 14px; background: #eee; }
+.shop-detail-name { text-align: center; font-size: 20px; font-weight: 600; color: #111; }
+.shop-detail-price { text-align: center; font-size: 18px; color: #e74c3c; font-weight: 600; margin: 8px 0 16px; }
+.shop-detail-desc-box { background: #f5f5f5; border-radius: 14px; padding: 14px 16px; margin-bottom: 18px; }
+.shop-detail-desc-label { font-size: 12px; color: #888; margin-bottom: 6px; }
+#detailDesc { font-size: 14px; color: #333; line-height: 1.5; }
+.shop-detail-actions { display: flex; gap: 12px; margin-bottom: 12px; }
+.shop-btn-outline, .shop-btn-dark { flex: 1; padding: 14px; border-radius: 14px; font-size: 15px; cursor: pointer; border: 1.5px solid #ddd; background: #fff; color: #333; }
+.shop-btn-dark { background: #1a1a1a; color: #fff; border-color: #1a1a1a; }
+.shop-btn-outline.danger { color: #e74c3c; border-color: #f0c8c8; }
+
+.shop-card { background: #fff; border-radius: 12px; padding: 12px; min-width: 220px; box-shadow: 0 1px 3px rgba(0,0,0,0.06); border: 1px solid #eee; }
+.shop-card-top { display: flex; gap: 10px; align-items: flex-start; }
+.shop-card-top img { width: 44px; height: 44px; border-radius: 8px; object-fit: cover; background: #eee; flex-shrink: 0; }
+.shop-card-title { font-size: 14px; color: #111; font-weight: 600; line-height: 1.3; }
+.shop-card-sub { font-size: 12px; color: #888; margin-top: 4px; }
+.shop-card-line { height: 1px; background: #f0f0f0; margin: 10px 0; }
+.shop-card-status { text-align: right; font-size: 12px; color: #555; }
+.shop-card-status .tag { display: inline-block; background: #f0f0f0; border-radius: 10px; padding: 3px 12px; color: #666; }
+
+.search-date-group { margin-bottom: 16px; }
+.search-date-title { font-size: 13px; color: #999; padding: 6px 4px 8px; border-bottom: 1px solid #f0f0f0; margin-bottom: 6px; }
+.search-msg-item { padding: 10px 12px; background: #f7f7f7; border-radius: 10px; margin-bottom: 6px; font-size: 14px; color: #333; cursor: pointer; word-break: break-word; line-height: 1.5; }
+.search-msg-item:active { background: #eee; }
+.search-msg-time { font-size: 11px; color: #999; margin-right: 8px; }
+.msg-row.jump-highlight .bubble,
+.msg-row.jump-highlight .voice-bubble,
+.msg-row.jump-highlight .shop-card,
+.msg-row.jump-highlight .transfer-card { background: #d9d9d9 !important; transition: background 0.3s; }
+
+.anniv-body { flex: 1; overflow-y: auto; padding: 20px; }
+.anniv-main { display: flex; flex-direction: column; align-items: center; padding: 40px 20px; background: #fff; border-radius: 16px; box-shadow: 0 1px 4px rgba(0,0,0,0.05); margin-bottom: 24px; }
+.anniv-label { font-size: 14px; color: #999; margin-bottom: 8px; }
+.anniv-days { font-size: 56px; font-weight: 300; color: #444; letter-spacing: 2px; }
+.anniv-list-title { font-size: 14px; color: #999; margin-bottom: 12px; }
+.anniv-list { display: flex; flex-direction: column; gap: 10px; }
+.anniv-item { background: #fff; border-radius: 12px; padding: 14px 16px; display: flex; justify-content: space-between; align-items: center; box-shadow: 0 1px 4px rgba(0,0,0,0.05); }
+.anniv-item-info { flex: 1; }
+.anniv-item-name { font-size: 15px; color: #333; margin-bottom: 4px; }
+.anniv-item-date { font-size: 13px; color: #999; }
+.anniv-item-days { font-size: 15px; color: #e8a33d; font-weight: 600; }
+.anniv-item-del { background: none; border: none; color: #e74c3c; font-size: 18px; cursor: pointer; margin-left: 10px; }
+
+.survey-item { background: #fff; border-radius: 14px; padding: 16px; margin-bottom: 12px; cursor: pointer; box-shadow: 0 1px 4px rgba(0,0,0,0.05); }
+.survey-item-title { font-size: 16px; font-weight: 600; color: #222; margin-bottom: 6px; }
+.survey-item-meta { font-size: 12px; color: #999; margin-bottom: 6px; }
+.survey-item-status { font-size: 13px; color: #222; }
+.survey-item-status.unanswered { color: #f5a623; }
+
+.survey-new-body { flex: 1; overflow-y: auto; padding: 16px; background: #f5f5f5; }
+.survey-card { background: #fff; border-radius: 14px; padding: 16px; margin-bottom: 12px; }
+.survey-title-input { width: 100%; border: 1px solid #eee; border-radius: 10px; padding: 12px 14px; font-size: 15px; outline: none; background: #fafafa; box-sizing: border-box; }
+.survey-type-row { display: flex; gap: 8px; margin-top: 14px; align-items: center; flex-wrap: wrap; }
+.survey-type-label { font-size: 14px; color: #666; flex-shrink: 0; margin-right: 4px; }
+.survey-type-btn { padding: 8px 18px; border-radius: 20px; border: 1.5px solid #ddd; background: #fff; font-size: 14px; color: #666; cursor: pointer; }
+.survey-type-btn.active { border-color: #222; color: #222; font-weight: 600; }
+.survey-type-tip { font-size: 12px; color: #999; margin-top: 10px; }
+.survey-q-block { background: #fff; border-radius: 14px; padding: 16px; margin-bottom: 12px; }
+.survey-q-row { display: flex; align-items: center; gap: 10px; margin-bottom: 10px; }
+.survey-q-label { font-size: 14px; color: #333; flex-shrink: 0; }
+.survey-q-input { flex: 1; border: 1px solid #eee; border-radius: 10px; padding: 10px 14px; font-size: 14px; outline: none; background: #fafafa; min-width: 0; }
+.survey-opt-row { display: flex; align-items: center; gap: 10px; margin-bottom: 8px; padding-left: 40px; }
+.survey-opt-key { font-size: 14px; color: #666; width: 16px; flex-shrink: 0; }
+.survey-opt-input { flex: 1; border: 1px solid #eee; border-radius: 10px; padding: 10px 14px; font-size: 14px; outline: none; background: #fafafa; min-width: 0; }
+.survey-opt-del { background: none; border: none; color: #ccc; font-size: 20px; cursor: pointer; padding: 0 6px; flex-shrink: 0; }
+.survey-opt-del:active { color: #e74c3c; }
+.survey-add-opt { padding: 8px 0 4px 40px; font-size: 14px; color: #666; cursor: pointer; }
+.survey-add-q { width: 100%; padding: 12px; background: #fff; border: none; border-radius: 14px; font-size: 15px; color: #666; cursor: pointer; box-shadow: 0 1px 4px rgba(0,0,0,0.05); margin-bottom: 20px; }
+.survey-header-btn { background: none; border: none; font-size: 16px; color: #333; cursor: pointer; padding: 4px 8px; white-space: nowrap; }
+.survey-header-btn.dark { color: #222; font-weight: 600; }
+
+.survey-answer-modal .modal-box { max-width: 420px; }
+.survey-answer-q { margin-bottom: 18px; }
+.survey-answer-q-title { font-size: 15px; color: #222; margin-bottom: 10px; }
+.survey-answer-opt { display: flex; align-items: center; gap: 10px; padding: 10px 12px; background: #f7f7f7; border-radius: 10px; margin-bottom: 8px; font-size: 14px; color: #333; }
+.survey-answer-opt .bullet { width: 16px; height: 16px; border-radius: 50%; border: 2px solid #bbb; flex-shrink: 0; }
+.survey-answer-opt.selected .bullet { background: #222; border-color: #222; }
+.survey-note-box { background: #f7f7f7; border-radius: 10px; padding: 12px 14px; font-size: 13px; color: #666; margin-top: 8px; }
+.survey-note-box .label { color: #999; font-size: 12px; margin-bottom: 4px; }
+
+.survey-card-msg { background: #fff; border-radius: 12px; padding: 12px; min-width: 240px; box-shadow: 0 1px 3px rgba(0,0,0,0.06); border: 1px solid #eee; display: flex; flex-direction: column; gap: 8px; }
+.survey-card-msg-top { display: flex; gap: 10px; align-items: flex-start; }
+.survey-card-msg-icon { width: 38px; height: 38px; border-radius: 8px; background: #f0f0f0; display: flex; align-items: center; justify-content: center; flex-shrink: 0; }
+.survey-card-msg-icon svg { width: 22px; height: 22px; stroke: #666; }
+.survey-card-msg-title { font-size: 14px; color: #111; font-weight: 600; line-height: 1.3; }
+.survey-card-msg-sub { font-size: 12px; color: #888; margin-top: 4px; }
+.survey-card-msg-line { height: 1px; background: #f0f0f0; }
+.survey-card-msg-foot { display: flex; justify-content: space-between; align-items: center; font-size: 12px; color: #999; }
+.survey-card-msg-foot .tag { display: inline-block; background: #f0f0f0; border-radius: 10px; padding: 3px 12px; color: #666; }
+/* ★★★ css 段 4 结束 ★★★ */
