@@ -84,8 +84,8 @@
       </div>
     </div>
   </div>
-          </div>
-          <!-- 纪念日页面 -->
+</div>
+<!-- 纪念日页面 -->
 <div id="annivPage" class="page hidden">
   <header class="chat-header">
     <div class="header-left">
@@ -203,8 +203,8 @@
       <div class="mail-read-date" id="mailReadDate">--</div>
     </div>
   </div>
-  </div>
-  <!-- 问卷列表页 -->
+</div>
+<!-- 问卷列表页 -->
 <div id="surveyListPage" class="page hidden">
   <header class="chat-header">
     <div class="header-left">
@@ -339,7 +339,6 @@
       <button class="card-tab active" data-tab="main">主字卡</button>
       <button class="card-tab" data-tab="emoji">Emoji</button>
       <button class="card-tab" data-tab="pat">拍一拍</button>
-      <button class="card-tab" data-tab="sticker">表情包</button>
       <button class="card-tab" data-tab="voice">语音</button>
     </div>
     <div class="card-body" id="cardBody"></div>
@@ -372,16 +371,6 @@
   <button class="btn-primary" id="savePatBtn">保存</button>
 </template>
 
-<template id="tpl-sticker">
-  <div class="sticker-tabs-sub">
-    <button class="sticker-sub-tab active" data-tab="mine">我</button>
-    <button class="sticker-sub-tab" data-tab="ta">对方</button>
-  </div>
-  <button class="btn-primary" id="stickerAddBtnLib">+ 添加图片</button>
-  <input type="file" id="stickerUploadLib" accept="image/*" multiple style="display:none;">
-  <div class="sticker-grid-lib" id="stickerGridLib" style="margin-top:12px;"></div>
-</template>
-
 <template id="tpl-voice">
   <div class="voice-import-box" id="voiceImportBox">
     <div class="voice-import-icon"><svg viewBox="0 0 24 24" fill="none" stroke="#666" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3 V15"></path><path d="M8 7 V11"></path><path d="M16 7 V11"></path><rect x="9" y="15" width="6" height="6" rx="3"></rect></svg></div>
@@ -395,13 +384,14 @@
   <div id="voiceList"></div>
 </template>
 
-<!-- 聊天页表情面板 -->
+<!-- 聊天页表情面板（新的，1/3 高，带添加按钮） -->
 <div id="stickerPanel" class="sticker-panel hidden">
   <div class="sticker-head">
     <button class="sticker-tab active" data-tab="mine">我</button>
     <button class="sticker-tab" data-tab="ta">对方</button>
+    <button class="sticker-add-btn" id="stickerAddBtn2">+ 添加</button>
   </div>
-  <div class="sticker-body" id="stickerBody"></div>
+  <div class="sticker-body" id="stickerBody2"></div>
 </div>
 
 <div id="transferModal" class="modal hidden"><div class="modal-box"><div class="modal-head"><span>转账</span><button id="closeTransferBtn">×</button></div><div class="modal-body"><div class="transfer-target"><div class="transfer-avatar" id="transferAvatar">TA</div><div class="transfer-name" id="transferName">TA</div></div><div class="transfer-input-row"><span class="transfer-yen">¥</span><input type="number" id="transferAmount" placeholder="0.00" inputmode="decimal"></div><input type="text" id="transferNote" placeholder="添加转账说明" class="transfer-note"><button class="btn-primary" id="confirmTransferBtn">确认转账</button></div></div></div>
@@ -443,7 +433,7 @@
       <div id="searchResult" style="margin-top:12px;"></div>
     </div>
   </div>
-  </div>
+</div>
 
 <script>
 /* ===== IndexedDB 封装 ===== */
@@ -488,8 +478,9 @@ async function idbDelete(store, key) {
     tx.oncomplete = () => resolve();
     tx.onerror = (e) => reject(e);
   });
-  }
-  const messagesEl = document.getElementById('messages');
+}
+
+const messagesEl = document.getElementById('messages');
 const inputEl = document.getElementById('input');
 
 function load(key, def) {
@@ -517,7 +508,8 @@ function showPage(id) {
     }, 50);
   }
 }
-  function todayKey() {
+    </script>
+function todayKey() {
   const d = new Date();
   return `${d.getFullYear()}-${d.getMonth() + 1}-${d.getDate()}`;
 }
@@ -699,7 +691,7 @@ async function playVoice(bubbleEl, voiceId) {
     currentAudioUrl = null;
   };
   currentAudio.play().catch(() => { bubbleEl.classList.remove('playing'); });
-  }
+}
 
 function showTyping() {
   const taNameEl = document.getElementById('taName');
@@ -717,8 +709,7 @@ function hideTyping() {
     delete taNameEl.dataset.typing;
   }
 }
-
-function drawCardText() {
+ function drawCardText() {
   const mainCards = cards.filter(c => (c.type || 'main') === 'main');
   const emojiCards = cards.filter(c => c.type === 'emoji');
   const emojiProb = load('emoji_prob', 10);
@@ -749,8 +740,9 @@ function tryTaVoiceReply() {
   const v = voices[Math.floor(Math.random() * voices.length)];
   addVoiceMessage('ta', v.id, v.name, v.duration, true);
   return true;
-  }
-  async function sendMessage() {
+}
+
+async function sendMessage() {
   const text = inputEl.value.trim();
   if (!text) return;
   inputEl.value = '';
@@ -1243,13 +1235,12 @@ document.getElementById('backHomeBtn').onclick = () => showPage('homePage');
     makeTransferCard(amount, note);
   };
 })();
-  /* ===== 字卡库 ===== */
+    /* ===== 字卡库 ===== */
 document.getElementById('closeCardBtn').onclick = () => document.getElementById('cardModal').classList.add('hidden');
 
 let currentCardTab = 'main';
 let currentCat = 'all';
 let currentSearch = '';
-let currentStickerSubTab = 'mine';
 
 function openCardTab(tab) {
   currentCardTab = tab;
@@ -1263,7 +1254,6 @@ function openCardTab(tab) {
   if (tab === 'main') { currentCat = 'all'; currentSearch = ''; bindMainTab(); loadCards(); }
   if (tab === 'emoji') bindEmojiTab();
   if (tab === 'pat') bindPatTab();
-  if (tab === 'sticker') bindStickerTab();
   if (tab === 'voice') bindVoiceTab();
 }
 document.querySelectorAll('#cardTabs .card-tab').forEach(btn => {
@@ -1429,81 +1419,6 @@ function bindPatTab() {
   };
 }
 
-function bindStickerTab() {
-  const grid = document.getElementById('stickerGridLib');
-  const addBtn = document.getElementById('stickerAddBtnLib');
-  const upload = document.getElementById('stickerUploadLib');
-  document.querySelectorAll('.sticker-sub-tab').forEach(t => {
-    t.classList.toggle('active', t.dataset.tab === currentStickerSubTab);
-    t.onclick = () => {
-      currentStickerSubTab = t.dataset.tab;
-      document.querySelectorAll('.sticker-sub-tab').forEach(x => x.classList.remove('active'));
-      t.classList.add('active');
-      renderLibStickerGrid();
-    };
-  });
-  function renderLibStickerGrid() {
-    const list = currentStickerSubTab === 'mine' ? load('our_stickers', []) : load('ta_stickers', []);
-    grid.innerHTML = '';
-    if (list.length === 0) {
-      grid.innerHTML = '<div style="grid-column:1/-1;text-align:center;color:#999;padding:40px 0;font-size:13px;">还没有表情</div>';
-      return;
-    }
-    list.forEach((url, idx) => {
-      const div = document.createElement('div');
-      div.className = 'sticker-item';
-      div.style.backgroundImage = `url(${url})`;
-      const del = document.createElement('button');
-      del.className = 'sticker-del'; del.textContent = '×';
-      del.onclick = () => {
-        const key = currentStickerSubTab === 'mine' ? 'our_stickers' : 'ta_stickers';
-        const arr = load(key, []);
-        arr.splice(idx, 1);
-        save(key, arr);
-        renderLibStickerGrid();
-      };
-      div.appendChild(del);
-      grid.appendChild(div);
-    });
-  }
-  renderLibStickerGrid();
-  addBtn.onclick = () => upload.click();
-  upload.onchange = (e) => {
-  const files = Array.from(e.target.files);
-  if (files.length === 0) return;
-  const key = currentStickerSubTab === 'mine' ? 'our_stickers' : 'ta_stickers';
-  const list = load(key, []);
-  let done = 0;
-  files.forEach(f => {
-    compressImage(f, 300, (url) => {
-      list.push(url); done++;
-      if (done === files.length) {
-        save(key, list);
-        renderLibStickerGrid();
-      }
-    });
-  });
-  upload.value = '';
-};
-}
-
-function compressImage(file, maxSize, cb) {
-  const reader = new FileReader();
-  reader.onload = (e) => {
-    const img = new Image();
-    img.onload = () => {
-      const canvas = document.createElement('canvas');
-      let w = img.width, h = img.height;
-      if (w > h) { if (w > maxSize) { h = h * maxSize / w; w = maxSize; } } else { if (h > maxSize) { w = w * maxSize / h; h = maxSize; } }
-      canvas.width = w; canvas.height = h;
-      canvas.getContext('2d').drawImage(img, 0, 0, w, h);
-      cb(canvas.toDataURL('image/jpeg', 0.85));
-    };
-    img.src = e.target.result;
-  };
-  reader.readAsDataURL(file);
-}
-
 function bindVoiceTab() {
   const importBox = document.getElementById('voiceImportBox');
   const upload = document.getElementById('voiceUpload');
@@ -1540,7 +1455,7 @@ function bindVoiceTab() {
     renderVoiceList();
   };
   renderVoiceList();
-  }
+}
 
 function renderVoiceList() {
   const listBox = document.getElementById('voiceList');
@@ -1572,36 +1487,52 @@ function renderVoiceList() {
     };
     listBox.appendChild(div);
   });
-  }
+}
 
-/* ===== 聊天页表情面板 ===== */
+/* ===== 聊天页表情面板（1/3 高，可添加删除） ===== */
 (function() {
   const panel = document.getElementById('stickerPanel');
-  const body = document.getElementById('stickerBody');
+  const body = document.getElementById('stickerBody2');
   const emojiBtn = document.getElementById('emojiBtn');
+  const addBtn = document.getElementById('stickerAddBtn2');
+  const upload = document.createElement('input');
+  upload.type = 'file';
+  upload.accept = 'image/*';
+  upload.multiple = true;
+  upload.style.display = 'none';
+  document.body.appendChild(upload);
   let currentTab = 'mine';
 
   function getList() {
-    if (currentTab === 'mine') {
-      let l = load('our_stickers', []);
-      if (l.length === 0) l = load('my_stickers', []);
-      return l;
-    } else {
-      return load('ta_stickers', []);
-    }
+    return currentTab === 'mine' ? load('my_stickers', []) : load('ta_stickers', []);
+  }
+  function setList(list) {
+    if (currentTab === 'mine') save('my_stickers', list);
+    else save('ta_stickers', list);
   }
 
   function render() {
     const list = getList();
     if (list.length === 0) {
-      body.innerHTML = '<div class="sticker-empty" style="grid-column:1/-1;text-align:center;color:#999;font-size:13px;padding:40px 20px;line-height:1.8;">还没有表情哦<br>去「字卡库 → 表情包」里添加</div>';
+      body.innerHTML = '<div style="grid-column:1/-1;text-align:center;color:#999;font-size:13px;padding:40px 20px;line-height:1.8;">还没有表情哦<br>点右上角"+ 添加"上传图片</div>';
       return;
     }
     body.innerHTML = '';
-    list.forEach(url => {
+    list.forEach((url, idx) => {
       const div = document.createElement('div');
       div.className = 'sticker-item';
       div.style.backgroundImage = 'url(' + url + ')';
+      const del = document.createElement('button');
+      del.className = 'sticker-del';
+      del.textContent = '×';
+      del.onclick = (e) => {
+        e.stopPropagation();
+        const l = getList();
+        l.splice(idx, 1);
+        setList(l);
+        render();
+      };
+      div.appendChild(del);
       div.onclick = () => {
         if (currentTab === 'mine') addImage('me', url);
       };
@@ -1620,6 +1551,26 @@ function renderVoiceList() {
     }
   };
 
+  addBtn.onclick = (e) => {
+    e.stopPropagation();
+    upload.click();
+  };
+
+  upload.onchange = (e) => {
+    const files = Array.from(e.target.files);
+    if (files.length === 0) return;
+    const list = getList();
+    let done = 0;
+    files.forEach(f => {
+      compressImage(f, 300, (url) => {
+        list.push(url);
+        done++;
+        if (done === files.length) { setList(list); render(); }
+      });
+    });
+    upload.value = '';
+  };
+
   document.querySelectorAll('.sticker-tab').forEach(tab => {
     tab.onclick = (e) => {
       e.stopPropagation();
@@ -1636,7 +1587,24 @@ function renderVoiceList() {
     panel.classList.add('hidden');
   });
 })();
-  /* ===== 自动消息 ===== */
+
+function compressImage(file, maxSize, cb) {
+  const reader = new FileReader();
+  reader.onload = (e) => {
+    const img = new Image();
+    img.onload = () => {
+      const canvas = document.createElement('canvas');
+      let w = img.width, h = img.height;
+      if (w > h) { if (w > maxSize) { h = h * maxSize / w; w = maxSize; } } else { if (h > maxSize) { w = w * maxSize / h; h = maxSize; } }
+      canvas.width = w; canvas.height = h;
+      canvas.getContext('2d').drawImage(img, 0, 0, w, h);
+      cb(canvas.toDataURL('image/jpeg', 0.85));
+    };
+    img.src = e.target.result;
+  };
+  reader.readAsDataURL(file);
+}
+/* ===== 自动消息 ===== */
 let autoMsgTimer = null;
 function scheduleAutoMessage() {
   const min = load('auto_msg_min', 1) * 60 * 1000;
@@ -1779,8 +1747,7 @@ applyHomeWallpaper();
 updateHomeTime();
 (function() { const t = document.getElementById('taName'); if (t) t.textContent = load('ta_name', 'TA'); })();
 scheduleAutoMessage();
-
-/* ===== 商店 ===== */
+  /* ===== 商店 ===== */
 let shopItems = load('our_shop_items', []);
 let shopOrders = load('our_shop_orders', []);
 let editingShopId = null;
@@ -1849,7 +1816,8 @@ function openShopDetail(id) {
   document.getElementById('shopDetailModal').classList.remove('hidden');
 }
 function closeShopDetail() { document.getElementById('shopDetailModal').classList.add('hidden'); }
-  function buyForTa(it) {
+
+function buyForTa(it) {
   const taName = load('ta_name', 'TA');
   const cardId = Date.now() + '_buy_' + Math.random().toString(36).slice(2, 8);
   const msg = { type: 'shopcard', sender: 'me', title: `我给${taName}赠送了商品`, sub: it.name, img: it.img, status: '接收', cardId, t: Date.now() };
@@ -1963,7 +1931,6 @@ function renderSearchList(kw) {
   if (!kw) { box.innerHTML = ''; return; }
   const msgs = load('our_messages', []).filter(m => m.type === 'text' && m.content && m.content.includes(kw));
   if (msgs.length === 0) { box.innerHTML = '<div style="color:#999;text-align:center;padding:20px;">没找到</div>'; return; }
-  // 按日期分组
   const groups = {};
   msgs.forEach(m => {
     const d = new Date(m.t);
@@ -1999,7 +1966,6 @@ function renderSearchList(kw) {
     box.appendChild(group);
   });
 }
-
 function jumpToMessage(msgId) {
   document.getElementById('searchModal').classList.add('hidden');
   showPage('chatPage');
@@ -2010,13 +1976,12 @@ function jumpToMessage(msgId) {
     row.classList.add('jump-highlight');
     setTimeout(() => row.classList.remove('jump-highlight'), 2000);
   }, 200);
-  }
+}
 document.getElementById('closeFavBtn').onclick = () => document.getElementById('favModal').classList.add('hidden');
 document.getElementById('closeSearchBtn').onclick = () => document.getElementById('searchModal').classList.add('hidden');
 const searchInp = document.getElementById('searchInput');
 if (searchInp) searchInp.oninput = () => renderSearchList(searchInp.value.trim());
-
-/* ===== 纪念日 ===== */
+ /* ===== 纪念日 ===== */
 function loadAnnivList() { try { return JSON.parse(localStorage.getItem('anniv_list') || '[]'); } catch (e) { return []; } }
 function saveAnnivList(list) { localStorage.setItem('anniv_list', JSON.stringify(list)); }
 function renderAnniv() {
@@ -2333,4 +2298,4 @@ scheduleAutoMail();
 
 <script src="settings.js"></script>
 </body>
-</html>
+</html>     
