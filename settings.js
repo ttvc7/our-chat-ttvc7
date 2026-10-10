@@ -1,5 +1,4 @@
 /* ★★★ settings 段 1 开始 ★★★ */
-/* ===== 设置面板（横排 4 Tab） ===== */
 (function() {
   const settingsModal = document.getElementById('settingsModal');
   const settingsBody = document.querySelector('#settingsModal .modal-body');
