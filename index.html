@@ -661,6 +661,7 @@ function addVoiceMessage(sender, voiceId, name, duration, store) {
   }
 }
 
+/* ★★★ 语音播放 段 开始 ★★★ */
 let currentAudio = null;
 let currentAudioEl = null;
 let currentAudioUrl = null;
@@ -668,30 +669,49 @@ let currentAudioUrl = null;
 async function playVoice(bubbleEl, voiceId) {
   const rec = await idbGet('voices', voiceId);
   if (!rec) return;
+
+  // 点同一条：暂停
+  if (currentAudioEl === bubbleEl && currentAudio) {
+    currentAudio.pause();
+    if (currentAudioUrl) URL.revokeObjectURL(currentAudioUrl);
+    bubbleEl.classList.remove('playing');
+    bubbleEl.querySelector('.play-btn').innerHTML = '<svg viewBox="0 0 24 24"><path d="M8 5 V19 L19 12 Z"></path></svg>';
+    currentAudio = null;
+    currentAudioEl = null;
+    currentAudioUrl = null;
+    return;
+  }
+
+  // 点另一条：先停旧的
   if (currentAudio) {
     currentAudio.pause();
-    if (currentAudioEl) currentAudioEl.classList.remove('playing');
-    if (currentAudioUrl) URL.revokeObjectURL(currentAudioUrl);
-    if (currentAudioEl === bubbleEl) {
-      currentAudio = null;
-      currentAudioEl = null;
-      currentAudioUrl = null;
-      return;
+    if (currentAudioEl) {
+      currentAudioEl.classList.remove('playing');
+      currentAudioEl.querySelector('.play-btn').innerHTML = '<svg viewBox="0 0 24 24"><path d="M8 5 V19 L19 12 Z"></path></svg>';
     }
+    if (currentAudioUrl) URL.revokeObjectURL(currentAudioUrl);
   }
+
   currentAudioUrl = URL.createObjectURL(rec.blob);
   currentAudio = new Audio(currentAudioUrl);
   currentAudioEl = bubbleEl;
   bubbleEl.classList.add('playing');
+  bubbleEl.querySelector('.play-btn').innerHTML = '<svg viewBox="0 0 24 24"><path d="M7 5 H10 V19 H7 Z"></path><path d="M14 5 H17 V19 H14 Z"></path></svg>';
+
   currentAudio.onended = () => {
     bubbleEl.classList.remove('playing');
+    bubbleEl.querySelector('.play-btn').innerHTML = '<svg viewBox="0 0 24 24"><path d="M8 5 V19 L19 12 Z"></path></svg>';
     if (currentAudioUrl) URL.revokeObjectURL(currentAudioUrl);
     currentAudio = null;
     currentAudioEl = null;
     currentAudioUrl = null;
   };
-  currentAudio.play().catch(() => { bubbleEl.classList.remove('playing'); });
+  currentAudio.play().catch(() => {
+    bubbleEl.classList.remove('playing');
+    bubbleEl.querySelector('.play-btn').innerHTML = '<svg viewBox="0 0 24 24"><path d="M8 5 V19 L19 12 Z"></path></svg>';
+  });
 }
+/* ★★★ 语音播放 段 结束 ★★★ */
 </script>
 <!-- ★★★ index 段 6 结束 ★★★ -->
 <!-- ★★★ index 段 7 开始 ★★★ -->
