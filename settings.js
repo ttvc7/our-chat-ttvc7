@@ -1,3 +1,4 @@
+/* ★★★ settings 段 1 开始 ★★★ */
 /* ===== 设置面板（横排 4 Tab） ===== */
 (function() {
   const settingsModal = document.getElementById('settingsModal');
@@ -196,7 +197,9 @@
     panel.querySelector('#clearCards').onclick = () => {
       if (confirm('确定清空所有字卡吗？')) { localStorage.removeItem('our_cards'); alert('已清空，刷新页面生效'); }
     };
-        }
+  }
+/* ★★★ settings 段 1 结束 ★★★ */
+ /* ★★★ settings 段 2 开始 ★★★ */
   function renderAppearanceTab(panel) {
     panel.innerHTML = `
       <div class="set-card">
@@ -470,7 +473,7 @@
         cards: JSON.parse(localStorage.getItem('our_cards') || '[]'),
         mails: JSON.parse(localStorage.getItem('our_mails') || '[]'),
         surveys: JSON.parse(localStorage.getItem('our_surveys') || '[]'),
-        voices: JSON.parse(localStorage.getItem('our_voices') || '[]'),
+        voices: JSON.parse(localStorage.getItem('our_voices_meta') || '[]'),
         taName: cfg.taName, myName: cfg.myName
       };
       let text = '=== ttvc7 备份 ===\n';
@@ -496,7 +499,7 @@
         if (data.cards) localStorage.setItem('our_cards', JSON.stringify(data.cards));
         if (data.mails) localStorage.setItem('our_mails', JSON.stringify(data.mails));
         if (data.surveys) localStorage.setItem('our_surveys', JSON.stringify(data.surveys));
-        if (data.voices) localStorage.setItem('our_voices', JSON.stringify(data.voices));
+        if (data.voices) localStorage.setItem('our_voices_meta', JSON.stringify(data.voices));
         if (data.taName) localStorage.setItem('ta_name', JSON.stringify(data.taName));
         if (data.myName) localStorage.setItem('my_name', JSON.stringify(data.myName));
         alert('导入成功，刷新页面生效');
@@ -538,3 +541,4 @@
   });
 
 })();
+/* ★★★ settings 段 2 结束 ★★★ */
