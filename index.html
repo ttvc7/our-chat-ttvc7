@@ -97,7 +97,15 @@
       </button>
     </div>
     <span>朋友圈</span>
-    <div class="header-right"></div>
+    <div class="header-right moment-top-icons">
+      <button id="momentBellBtn">
+        <svg viewBox="0 0 24 24" fill="none" stroke="#333" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M18 8 A6 6 0 0 0 6 8 C6 15 4 17 4 17 H20 C20 17 18 15 18 8"></path><path d="M10 20 A2 2 0 0 0 14 20"></path></svg>
+        <span class="red-dot" id="momentBellRedDot"></span>
+      </button>
+      <button id="momentTrashBtn">
+        <svg viewBox="0 0 24 24" fill="none" stroke="#333" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M4 6 H20"></path><path d="M9 6 V4 H15 V6"></path><path d="M6 6 L7 20 H17 L18 6"></path></svg>
+      </button>
+    </div>
   </header>
   <div class="moment-header" id="momentHeader">
     <div class="bg-actions"><button id="momentChangeBgBtn">换背景</button></div>
@@ -129,6 +137,33 @@
         <div class="add-img" id="momentAddImgBtn">+</div>
       </div>
       <input type="file" id="momentImgUpload" accept="image/*" style="display:none;">
+    </div>
+  </div>
+</div>
+
+<!-- ===== 朋友圈通知面板 ===== -->
+<div id="momentNotifyModal" class="modal hidden">
+  <div class="modal-box">
+    <div class="modal-head"><span>通知提醒</span><button id="closeMomentNotifyBtn">×</button></div>
+    <div class="modal-body"><div id="momentNotifyBody" class="notify-list"></div></div>
+  </div>
+</div>
+
+<!-- ===== 删除朋友圈动态面板 ===== -->
+<div id="momentTrashModal" class="modal hidden">
+  <div class="modal-box">
+    <div class="modal-head"><span>删除朋友圈动态</span><button id="closeMomentTrashBtn">×</button></div>
+    <div class="modal-body">
+      <p style="font-size:13px;color:#999;margin-bottom:12px;">删除后无法恢复。</p>
+      <div class="moment-del-options" id="momentDelOptions">
+        <button data-type="all">全部删除</button>
+        <button data-type="mine">仅我的动态</button>
+        <button data-type="ta">对方动态</button>
+      </div>
+      <div class="moment-del-actions">
+        <button class="cancel" id="momentDelCancel">取消</button>
+        <button class="ok" id="momentDelOk">确定</button>
+      </div>
     </div>
   </div>
 </div>
@@ -410,8 +445,7 @@
     </div>
   </div>
 </div>
-<!-- ★★★ index 段 3 结束 ★★★ -->
-<!-- ★★★ index 段 4 开始 ★★★ -->
+
 <!-- ===== 字卡库弹窗 ===== -->
 <div id="cardModal" class="modal hidden">
   <div class="modal-box" id="cardBox">
@@ -525,8 +559,8 @@
     </div>
   </div>
 </div>
-<!-- ★★★ index 段 4 结束 ★★★ -->
-<!-- ★★★ index 段 5 开始 ★★★ -->
+<!-- ★★★ index 段 3 结束 ★★★ -->
+<!-- ★★★ index 段 4 开始 ★★★ -->
 <script>
 /* ===== IndexedDB 封装 ===== */
 let _idb = null;
@@ -637,10 +671,7 @@ function buildAvatar(sender) {
   }
   return avatar;
 }
-</script>
-<!-- ★★★ index 段 5 结束 ★★★ -->
-<!-- ★★★ index 段 6 开始 ★★★ -->
-<script>
+
 setTimeout(() => {
   const loading = document.getElementById('loading');
   if (loading) {
@@ -724,7 +755,10 @@ function addImage(sender, url, store) {
     save('our_messages', msgs);
   }
 }
-
+</script>
+<!-- ★★★ index 段 4 结束 ★★★ -->
+<!-- ★★★ index 段 5 开始 ★★★ -->
+<script>
 /* ===== 语音消息 ===== */
 function addVoiceMessage(sender, voiceId, name, duration, store) {
   const row = document.createElement('div');
@@ -764,7 +798,6 @@ async function playVoice(bubbleEl, voiceId) {
   const rec = await idbGet('voices', voiceId);
   if (!rec) return;
 
-  // 点同一条：暂停
   if (currentAudioEl === bubbleEl && currentAudio) {
     currentAudio.pause();
     if (currentAudioUrl) URL.revokeObjectURL(currentAudioUrl);
@@ -776,7 +809,6 @@ async function playVoice(bubbleEl, voiceId) {
     return;
   }
 
-  // 点另一条：先停旧的
   if (currentAudio) {
     currentAudio.pause();
     if (currentAudioEl) {
@@ -805,10 +837,7 @@ async function playVoice(bubbleEl, voiceId) {
     bubbleEl.querySelector('.play-btn').innerHTML = '<svg viewBox="0 0 24 24"><path d="M8 5 V19 L19 12 Z"></path></svg>';
   });
 }
-</script>
-<!-- ★★★ index 段 6 结束 ★★★ -->
-<!-- ★★★ index 段 7 开始 ★★★ -->
-<script>
+
 function showTyping() {
   const taNameEl = document.getElementById('taName');
   if (taNameEl && !taNameEl.dataset.typing) {
@@ -919,7 +948,10 @@ function markAllRead() {
     }
   });
 }
-
+</script>
+<!-- ★★★ index 段 5 结束 ★★★ -->
+<!-- ★★★ index 段 6 开始 ★★★ -->
+<script>
 /* ===== 转账卡片 ===== */
 function renderTransferCard(m) {
   const isMe = m.sender === 'me';
@@ -952,10 +984,7 @@ function renderTransferCard(m) {
   messagesEl.appendChild(row);
   messagesEl.scrollTop = messagesEl.scrollHeight;
 }
-</script>
-<!-- ★★★ index 段 7 结束 ★★★ -->
-<!-- ★★★ index 段 8 开始 ★★★ -->
-<script>
+
 function makeTransferCard(amount, note) {
   const transferId = Date.now() + '_' + Math.random().toString(36).slice(2, 8);
   const t = Date.now();
@@ -1105,10 +1134,7 @@ document.addEventListener('dblclick', function(e) {
   messagesEl.appendChild(sys);
   messagesEl.scrollTop = messagesEl.scrollHeight;
 });
-</script>
-<!-- ★★★ index 段 8 结束 ★★★ -->
-<!-- ★★★ index 段 9 开始 ★★★ -->
-<script>
+
 /* ===== 长按菜单 ===== */
 let longPressTarget = null;
 let longPressTimer = null;
@@ -1216,8 +1242,8 @@ document.querySelectorAll('#longPressMenu .lp-item').forEach(item => {
   };
 });
 </script>
-<!-- ★★★ index 段 9 结束 ★★★ -->
-<!-- ★★★ index 段 10 开始 ★★★ -->
+<!-- ★★★ index 段 6 结束 ★★★ -->
+<!-- ★★★ index 段 7 开始 ★★★ -->
 <script>
 /* ===== 商店卡片 ===== */
 function renderShopCard(m) {
@@ -1430,10 +1456,7 @@ function bindMainTab() {
     }
   };
 }
-</script>
-<!-- ★★★ index 段 10 结束 ★★★ -->
-<!-- ★★★ index 段 11 开始 ★★★ -->
-<script>
+
 function loadCards() {
   const list = document.getElementById('cardList');
   const catsBox = document.getElementById('cardCats');
@@ -1489,7 +1512,10 @@ function loadCards() {
     list.appendChild(div);
   });
 }
-
+</script>
+<!-- ★★★ index 段 7 结束 ★★★ -->
+<!-- ★★★ index 段 8 开始 ★★★ -->
+<script>
 function bindEmojiTab() {
   const input = document.getElementById('emojiInput');
   document.getElementById('addEmojiBtn').onclick = () => {
@@ -1620,10 +1646,7 @@ function renderVoiceList() {
     listBox.appendChild(div);
   });
 }
-</script>
-<!-- ★★★ index 段 11 结束 ★★★ -->
-<!-- ★★★ index 段 12 开始 ★★★ -->
-<script>
+
 /* ===== 聊天页表情面板 ===== */
 (function() {
   const panel = document.getElementById('stickerPanel');
@@ -1731,7 +1754,10 @@ function compressImage(file, maxSize, cb) {
   };
   reader.readAsDataURL(file);
 }
-
+</script>
+<!-- ★★★ index 段 8 结束 ★★★ -->
+<!-- ★★★ index 段 9 开始 ★★★ -->
+<script>
 /* ===== 自动消息 ===== */
 let autoMsgTimer = null;
 function scheduleAutoMessage() {
@@ -1822,11 +1848,8 @@ document.querySelectorAll('.game-card').forEach(card => {
     else if (g === 'memory') alert('记忆翻牌功能开发中…');
   };
 });
-</script>
-<!-- ★★★ index 段 12 结束 ★★★ -->
-<!-- ★★★ index 段 13 开始 ★★★ -->
-<script>
-/* ===== 首页卡片 / 对话输入 ===== */
+
+/* 首页卡片 / 对话输入 */
 (function() {
   const cardEl = document.getElementById('homeCard');
   const img = document.getElementById('homeCardImg');
@@ -1950,7 +1973,10 @@ function openShopDetail(id) {
   document.getElementById('shopDetailModal').classList.remove('hidden');
 }
 function closeShopDetail() { document.getElementById('shopDetailModal').classList.add('hidden'); }
-
+</script>
+<!-- ★★★ index 段 9 结束 ★★★ -->
+<!-- ★★★ index 段 10 开始 ★★★ -->
+<script>
 function buyForTa(it) {
   const taName = load('ta_name', 'TA');
   const cardId = Date.now() + '_buy_' + Math.random().toString(36).slice(2, 8);
@@ -2042,10 +2068,7 @@ document.getElementById('detailDeleteBtn').onclick = () => {
   shopItems = shopItems.filter(x => x.id !== currentDetailId);
   saveShopItems(); closeShopDetail(); renderShopItems();
 };
-</script>
-<!-- ★★★ index 段 13 结束 ★★★ -->
-<!-- ★★★ index 段 14 开始 ★★★ -->
-<script>
+
 /* ===== 收藏 / 搜索 ===== */
 function renderFavList() {
   const body = document.getElementById('favBody');
@@ -2152,10 +2175,8 @@ document.getElementById('backFromAnnivBtn').onclick = () => showPage('homePage')
 /* ===== 纪念日日期滚轮 ===== */
 let annivPickerMode = 'start';
 let annivPickerY = 2024, annivPickerM = 1, annivPickerD = 1;
-
 function pad2(n) { return String(n).padStart(2, '0'); }
 function daysInMonth(y, m) { return new Date(y, m, 0).getDate(); }
-
 function renderAnnivPicker() {
   const maxD = daysInMonth(annivPickerY, annivPickerM);
   if (annivPickerD > maxD) annivPickerD = maxD;
@@ -2169,7 +2190,6 @@ function renderAnnivPicker() {
   document.getElementById('annivDayTop').textContent = pad2(annivPickerD === 1 ? maxD : annivPickerD - 1);
   document.getElementById('annivDayBot').textContent = pad2(annivPickerD === maxD ? 1 : annivPickerD + 1);
 }
-
 function openAnnivPicker(mode, defVal) {
   annivPickerMode = mode;
   if (defVal) {
@@ -2187,7 +2207,6 @@ function openAnnivPicker(mode, defVal) {
 }
 function closeAnnivPicker() { document.getElementById('annivDatePicker').classList.add('hidden'); }
 
-/* 滚轮滑动 */
 (function() {
   function bindCol(elId, fn) {
     const el = document.getElementById(elId).parentElement;
@@ -2220,9 +2239,7 @@ function closeAnnivPicker() { document.getElementById('annivDatePicker').classLi
   });
 })();
 
-document.getElementById('editStartBtn').onclick = () => {
-  openAnnivPicker('start', localStorage.getItem('anniv_start') || '');
-};
+document.getElementById('editStartBtn').onclick = () => { openAnnivPicker('start', localStorage.getItem('anniv_start') || ''); };
 document.getElementById('annivDateCancel').onclick = closeAnnivPicker;
 document.getElementById('annivDateOk').onclick = () => {
   const dateStr = `${annivPickerY}-${pad2(annivPickerM)}-${pad2(annivPickerD)}`;
@@ -2238,7 +2255,6 @@ document.getElementById('annivDateOk').onclick = () => {
   }
   closeAnnivPicker();
 };
-
 document.getElementById('addAnnivBtn').onclick = () => {
   const name = prompt('纪念日名称（比如：我的生日）');
   if (!name) return;
@@ -2246,8 +2262,8 @@ document.getElementById('addAnnivBtn').onclick = () => {
   openAnnivPicker('add', '');
 };
 </script>
-<!-- ★★★ index 段 14 结束 ★★★ -->
-<!-- ★★★ index 段 15 开始 ★★★ -->
+<!-- ★★★ index 段 10 结束 ★★★ -->
+<!-- ★★★ index 段 11 开始 ★★★ -->
 <script>
 /* ===== 问卷 ===== */
 let surveyQuestions = [];
@@ -2432,8 +2448,8 @@ function openSurveyAnswer(surveyId) {
 }
 document.getElementById('closeSurveyAnswerBtn').onclick = () => document.getElementById('surveyAnswerModal').classList.add('hidden');
 </script>
-<!-- ★★★ index 段 15 结束 ★★★ -->
-<!-- ★★★ index 段 16 开始 ★★★ -->
+<!-- ★★★ index 段 11 结束 ★★★ -->
+<!-- ★★★ index 段 12 开始 ★★★ -->
 <script>
 /* ===== 信箱 ===== */
 let currentMailTab = 'sent';
@@ -2532,7 +2548,6 @@ function dateKeyOf(d) {
 }
 
 function initMomentsPage() {
-  // 头像 + 昵称
   const myAvatar = document.getElementById('momentMyAvatar');
   const myName = document.getElementById('momentMyName');
   const url = load('my_avatar', '');
@@ -2542,7 +2557,6 @@ function initMomentsPage() {
     else myAvatar.textContent = name.charAt(0);
   }
   if (myName) myName.textContent = name;
-  // 背景
   const bg = load('moment_bg', '');
   const header = document.getElementById('momentHeader');
   if (bg) {
@@ -2553,6 +2567,7 @@ function initMomentsPage() {
   currentMomentDate = new Date();
   currentMomentDate.setHours(0, 0, 0, 0);
   renderMomentsList();
+  updateBellDot();
 }
 
 function renderMomentsList() {
@@ -2713,8 +2728,8 @@ document.getElementById('momentChangeBgBtn').onclick = () => {
   up.click();
 };
 </script>
-<!-- ★★★ index 段 16 结束 ★★★ -->
-<!-- ★★★ index 段 17 开始 ★★★ -->
+<!-- ★★★ index 段 12 结束 ★★★ -->
+<!-- ★★★ index 段 13 开始 ★★★ -->
 <script>
 /* ===== 朋友圈发动态 ===== */
 let momentPostImgs = [];
@@ -2727,9 +2742,6 @@ document.getElementById('momentAddBtn').onclick = () => {
 };
 document.getElementById('momentPostCancel').onclick = () => {
   document.getElementById('momentPostModal').classList.add('hidden');
-};
-document.getElementById('momentAddImgBtn').onclick = () => {
-  document.getElementById('momentImgUpload').click();
 };
 document.getElementById('momentImgUpload').onchange = (e) => {
   const files = Array.from(e.target.files);
@@ -2784,6 +2796,74 @@ document.getElementById('momentPostSend').onclick = () => {
   renderMomentsList();
 };
 
+/* ===== 铃铛通知 ===== */
+function loadMomentNotifies() { return load('our_moment_notifies', []); }
+function saveMomentNotifies(list) { save('our_moment_notifies', list); }
+function updateBellDot() {
+  const list = loadMomentNotifies();
+  const hasUnread = list.some(n => !n.read);
+  const btn = document.getElementById('momentBellBtn');
+  if (btn) btn.classList.toggle('has-new', hasUnread);
+}
+document.getElementById('momentBellBtn').onclick = () => {
+  const list = loadMomentNotifies();
+  // 打开后全部标记已读
+  list.forEach(n => n.read = true);
+  saveMomentNotifies(list);
+  updateBellDot();
+  // 渲染
+  const body = document.getElementById('momentNotifyBody');
+  if (list.length === 0) {
+    body.innerHTML = '<div class="notify-empty">还没有通知</div>';
+  } else {
+    body.innerHTML = '';
+    list.slice().reverse().forEach(n => {
+      const div = document.createElement('div');
+      div.className = 'notify-item';
+      const taAvatar = load('ta_avatar', '');
+      const taName = load('ta_name', 'TA');
+      const d = new Date(n.t);
+      const dateStr = `${d.getMonth() + 1}月${d.getDate()}日 ${pad2(d.getHours())}:${pad2(d.getMinutes())}`;
+      div.innerHTML = `
+        <div class="a" ${taAvatar ? `style="background-image:url(${taAvatar})"` : ''}>${taAvatar ? '' : taName.charAt(0)}</div>
+        <div class="info">
+          <div class="t">${n.text}</div>
+          <div class="d">${dateStr}</div>
+        </div>
+      `;
+      body.appendChild(div);
+    });
+  }
+  document.getElementById('momentNotifyModal').classList.remove('hidden');
+};
+document.getElementById('closeMomentNotifyBtn').onclick = () => document.getElementById('momentNotifyModal').classList.add('hidden');
+
+/* ===== 删除朋友圈动态 ===== */
+let momentDelType = 'all';
+document.getElementById('momentTrashBtn').onclick = () => {
+  momentDelType = 'all';
+  document.querySelectorAll('#momentDelOptions button').forEach(b => b.classList.toggle('active', b.dataset.type === 'all'));
+  document.getElementById('momentTrashModal').classList.remove('hidden');
+};
+document.querySelectorAll('#momentDelOptions button').forEach(btn => {
+  btn.onclick = () => {
+    momentDelType = btn.dataset.type;
+    document.querySelectorAll('#momentDelOptions button').forEach(b => b.classList.remove('active'));
+    btn.classList.add('active');
+  };
+});
+document.getElementById('closeMomentTrashBtn').onclick = () => document.getElementById('momentTrashModal').classList.add('hidden');
+document.getElementById('momentDelCancel').onclick = () => document.getElementById('momentTrashModal').classList.add('hidden');
+document.getElementById('momentDelOk').onclick = () => {
+  let all = load('our_moments', []);
+  if (momentDelType === 'all') all = [];
+  else if (momentDelType === 'mine') all = all.filter(m => m.sender !== 'me');
+  else if (momentDelType === 'ta') all = all.filter(m => m.sender !== 'ta');
+  save('our_moments', all);
+  document.getElementById('momentTrashModal').classList.add('hidden');
+  renderMomentsList();
+};
+
 /* ===== 对方自动发朋友圈 ===== */
 let autoMomentTimer = null;
 function scheduleAutoMoment() {
@@ -2798,7 +2878,6 @@ function scheduleAutoMoment() {
     const mainCards = cards.filter(c => (c.type || 'main') === 'main');
     const text = mainCards.length > 0 ? mainCards[Math.floor(Math.random() * mainCards.length)].content : '今天也想你。';
     let imgs = [];
-    // 30% 概率从表情包里抽一张
     if (Math.random() < 0.3) {
       const stickers = load('ta_stickers', []);
       if (stickers.length > 0) {
@@ -2816,7 +2895,12 @@ function scheduleAutoMoment() {
       comments: []
     });
     save('our_moments', all);
-    // 如果正在看朋友圈，刷新一下
+    // 记一条通知
+    const notifies = loadMomentNotifies();
+    const taName = load('ta_name', 'TA');
+    notifies.push({ text: taName + ' 发布了一条新动态', t: Date.now(), read: false });
+    saveMomentNotifies(notifies);
+    updateBellDot();
     const page = document.getElementById('momentsPage');
     if (page && !page.classList.contains('hidden')) {
       renderMomentsList();
@@ -2825,56 +2909,9 @@ function scheduleAutoMoment() {
   }, delay);
 }
 scheduleAutoMoment();
-
-/* ===== 笑脸按钮兜底 ===== */
-(function() {
-  var eb = document.getElementById('emojiBtn');
-  var sp = document.getElementById('stickerPanel');
-  if (!eb || !sp) return;
-  eb.addEventListener('click', function(e) {
-    e.stopPropagation();
-    e.preventDefault();
-    if (sp.classList.contains('hidden')) {
-      sp.classList.remove('hidden');
-      var body = document.getElementById('stickerBody');
-      var curTab = document.querySelector('.sticker-tab.active');
-      var tabName = curTab ? curTab.dataset.tab : 'mine';
-      var key = tabName === 'mine' ? 'my_stickers' : 'ta_stickers';
-      var list = load(key, []);
-      body.innerHTML = '';
-      if (list.length === 0) {
-        body.innerHTML = '<div class="sticker-empty" style="grid-column:1/-1;text-align:center;color:#999;font-size:13px;padding:40px 20px;line-height:1.8;">还没有表情哦<br>点右上角「+ 添加」上传图片</div>';
-      } else {
-        list.forEach(function(url, idx) {
-          var div = document.createElement('div');
-          div.className = 'sticker-item';
-          div.style.backgroundImage = 'url(' + url + ')';
-          var del = document.createElement('button');
-          del.className = 'sticker-del';
-          del.textContent = '×';
-          del.onclick = function(ev) {
-            ev.stopPropagation();
-            var arr = load(key, []);
-            arr.splice(idx, 1);
-            save(key, arr);
-            eb.click();
-            eb.click();
-          };
-          div.appendChild(del);
-          div.onclick = function() {
-            if (tabName === 'mine') addImage('me', url);
-          };
-          body.appendChild(div);
-        });
-      }
-    } else {
-      sp.classList.add('hidden');
-    }
-  });
-})();
 </script>
 
 <script src="settings.js"></script>
 </body>
 </html>
-<!-- ★★★ index 段 17 结束 ★★★ -->  
+<!-- ★★★ index 段 13 结束 ★★★ -->  
