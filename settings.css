@@ -483,3 +483,35 @@ body { font-family: -apple-system, BlinkMacSystemFont, "Helvetica Neue", Arial, 
 .card-tools { display: flex; gap: 8px; margin: 10px 0; }
 #cardSearchInput { flex: 1; padding: 9px 12px; border: 1px solid #eee; border-radius: 10px; font-size: 14px; outline: none; background: #fafafa; }
 #dedupBtn { padding: 9px 14px; background: #f0f0f0; color: #333; border: none; border-radius: 10px; font-size: 14px; cursor: pointer; flex-shrink: 0; }
+/* ===== 语音字卡 ===== */
+.voice-import-box { background: #fff; border-radius: 12px; padding: 16px; margin-bottom: 14px; box-shadow: 0 1px 3px rgba(0,0,0,0.03); border: 1px solid #f0f0f0; display: flex; align-items: center; gap: 12px; cursor: pointer; }
+.voice-import-icon { width: 44px; height: 44px; border-radius: 10px; background: #f0f0f0; display: flex; align-items: center; justify-content: center; flex-shrink: 0; }
+.voice-import-icon svg { width: 24px; height: 24px; stroke: #666; }
+.voice-import-text { flex: 1; }
+.voice-import-title { font-size: 15px; color: #111; font-weight: 600; }
+.voice-import-sub { font-size: 12px; color: #999; margin-top: 4px; line-height: 1.4; }
+.voice-count { text-align: center; font-size: 12px; color: #999; margin: 10px 0 14px; }
+.voice-item { display: flex; align-items: center; gap: 10px; padding: 12px 14px; background: #f7f7f7; border-radius: 10px; margin-bottom: 8px; }
+.voice-item .name { flex: 1; font-size: 13px; color: #333; word-break: break-all; }
+.voice-item .dur { font-size: 12px; color: #999; }
+.voice-item .del { background: none; border: none; color: #e74c3c; font-size: 18px; cursor: pointer; padding: 0 4px; }
+.voice-empty { text-align: center; padding: 50px 20px; color: #ccc; }
+.voice-empty svg { width: 40px; height: 40px; stroke: #ddd; display: block; margin: 0 auto 10px; }
+.voice-empty .text { font-size: 13px; color: #bbb; }
+.voice-bubble { background: #f0f0f0; border-radius: 10px; padding: 10px 14px; display: flex; align-items: center; gap: 10px; min-width: 130px; max-width: 200px; cursor: pointer; color: #333; position: relative; }
+.voice-bubble .play-btn { width: 24px; height: 24px; border-radius: 50%; background: #fff; display: flex; align-items: center; justify-content: center; flex-shrink: 0; }
+.voice-bubble .play-btn svg { width: 12px; height: 12px; fill: #666; }
+.voice-bubble .waves { flex: 1; display: flex; align-items: center; justify-content: space-between; gap: 3px; height: 18px; }
+.voice-bubble .waves span { display: block; width: 2px; height: 6px; background: #bbb; border-radius: 2px; transform-origin: center; }
+.voice-bubble.playing .waves span { background: #888; animation: voiceWave 1s ease-in-out infinite; }
+.voice-bubble.playing .waves span:nth-child(1) { animation-delay: 0s; }
+.voice-bubble.playing .waves span:nth-child(2) { animation-delay: 0.1s; }
+.voice-bubble.playing .waves span:nth-child(3) { animation-delay: 0.2s; }
+.voice-bubble.playing .waves span:nth-child(4) { animation-delay: 0.3s; }
+.voice-bubble.playing .waves span:nth-child(5) { animation-delay: 0.4s; }
+.voice-bubble.playing .waves span:nth-child(6) { animation-delay: 0.5s; }
+.voice-bubble.playing .waves span:nth-child(7) { animation-delay: 0.6s; }
+.voice-bubble.playing .waves span:nth-child(8) { animation-delay: 0.7s; }
+.voice-bubble.playing .waves span:nth-child(9) { animation-delay: 0.8s; }
+@keyframes voiceWave { 0%, 100% { height: 6px; } 50% { height: 16px; } }
+.voice-bubble .duration { font-size: 12px; color: #666; flex-shrink: 0; }
