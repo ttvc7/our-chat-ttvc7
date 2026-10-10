@@ -1791,6 +1791,23 @@ applyHomeWallpaper();
 updateHomeTime();
 (function() { const t = document.getElementById('taName'); if (t) t.textContent = load('ta_name', 'TA'); })();
 scheduleAutoMessage();
+/* ★★★ 笑脸按钮 兜底 开始 ★★★ */
+(function() {
+  var eb = document.getElementById('emojiBtn');
+  var sp = document.getElementById('stickerPanel');
+  if (!eb || !sp) return;
+  eb.onclick = function(e) {
+    e.stopPropagation();
+    e.preventDefault();
+    if (sp.classList.contains('hidden')) {
+      sp.classList.remove('hidden');
+      if (typeof window.renderStickerPanel === 'function') window.renderStickerPanel();
+    } else {
+      sp.classList.add('hidden');
+    }
+  };
+})();
+/* ★★★ 笑脸按钮 兜底 结束 ★★★ */  
 </script>
 <!-- ★★★ index 段 13 结束 ★★★ -->
 <!-- ★★★ index 段 14 开始 ★★★ -->
