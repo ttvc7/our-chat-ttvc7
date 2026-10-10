@@ -1,3 +1,4 @@
+<!-- ★★★ index 段 1 开始 ★★★ -->
 <!DOCTYPE html>
 <html lang="zh-CN">
 <head>
@@ -85,7 +86,8 @@
     </div>
   </div>
 </div>
-<!-- 纪念日页面 -->
+<!-- ★★★ index 段 1 结束 ★★★ -->
+<!-- ★★★ index 段 2 开始 ★★★ -->
 <div id="annivPage" class="page hidden">
   <header class="chat-header">
     <div class="header-left">
@@ -109,7 +111,6 @@
   </div>
 </div>
 
-<!-- 聊天页 -->
 <div id="chatPage" class="page hidden">
   <header class="chat-header">
     <div class="header-left">
@@ -154,7 +155,6 @@
   <div class="lp-item" data-act="del">删除</div>
 </div>
 
-<!-- 信箱页 -->
 <div id="mailPage" class="page hidden">
   <header class="chat-header">
     <div class="header-left">
@@ -173,7 +173,6 @@
   <button class="mail-fab" id="mailWriteBtn">+</button>
 </div>
 
-<!-- 写信页 -->
 <div id="mailWritePage" class="page hidden">
   <header class="chat-header">
     <div class="header-left">
@@ -192,7 +191,6 @@
   </div>
 </div>
 
-<!-- 看信弹窗 -->
 <div id="mailReadModal" class="modal hidden mail-read-modal">
   <div class="modal-box">
     <div class="modal-head"><span>信件</span><button id="closeMailReadBtn">×</button></div>
@@ -204,7 +202,8 @@
     </div>
   </div>
 </div>
-<!-- 问卷列表页 -->
+<!-- ★★★ index 段 2 结束 ★★★ -->
+<!-- ★★★ index 段 3 开始 ★★★ -->
 <div id="surveyListPage" class="page hidden">
   <header class="chat-header">
     <div class="header-left">
@@ -222,7 +221,6 @@
   <div class="shop-body" id="surveyListBody"></div>
 </div>
 
-<!-- 新建问卷页 -->
 <div id="surveyNewPage" class="page hidden">
   <header class="chat-header">
     <div class="header-left">
@@ -249,7 +247,6 @@
   </div>
 </div>
 
-<!-- 问卷详情弹窗 -->
 <div id="surveyAnswerModal" class="modal hidden">
   <div class="modal-box">
     <div class="modal-head"><span id="surveyAnswerTitle">问卷</span><button id="closeSurveyAnswerBtn">×</button></div>
@@ -257,7 +254,6 @@
   </div>
 </div>
 
-<!-- 商店页 -->
 <div id="shopPage" class="page hidden">
   <header class="chat-header">
     <div class="header-left">
@@ -277,7 +273,6 @@
   <button class="shop-fab" id="shopAddBtn">+</button>
 </div>
 
-<!-- 添加/编辑商品弹窗 -->
 <div id="shopEditModal" class="modal hidden">
   <div class="shop-edit-sheet">
     <div class="shop-edit-head">
@@ -302,7 +297,6 @@
   </div>
 </div>
 
-<!-- 商品详情弹窗 -->
 <div id="shopDetailModal" class="modal hidden">
   <div class="shop-detail-sheet">
     <div class="shop-edit-head">
@@ -327,8 +321,9 @@
       </div>
     </div>
   </div>
-  </div>
-  <!-- 字卡库（新） -->
+</div>
+<!-- ★★★ index 段 3 结束 ★★★ -->
+<!-- ★★★ index 段 4 开始 ★★★ -->
 <div id="cardModal" class="modal hidden">
   <div class="modal-box" id="cardBox">
     <div class="card-topbar">
@@ -384,14 +379,15 @@
   <div id="voiceList"></div>
 </template>
 
-<!-- 聊天页表情面板（新的，1/3 高，带添加按钮） -->
+<!-- 聊天页表情面板（添加/删除/发送） -->
 <div id="stickerPanel" class="sticker-panel hidden">
   <div class="sticker-head">
     <button class="sticker-tab active" data-tab="mine">我</button>
     <button class="sticker-tab" data-tab="ta">对方</button>
-    <button class="sticker-add-btn" id="stickerAddBtn2">+ 添加</button>
+    <button class="sticker-add-btn" id="stickerAddBtnChat">+ 添加</button>
   </div>
-  <div class="sticker-body" id="stickerBody2"></div>
+  <div class="sticker-body" id="stickerBody"></div>
+  <input type="file" id="stickerUploadChat" accept="image/*" multiple style="display:none;">
 </div>
 
 <div id="transferModal" class="modal hidden"><div class="modal-box"><div class="modal-head"><span>转账</span><button id="closeTransferBtn">×</button></div><div class="modal-body"><div class="transfer-target"><div class="transfer-avatar" id="transferAvatar">TA</div><div class="transfer-name" id="transferName">TA</div></div><div class="transfer-input-row"><span class="transfer-yen">¥</span><input type="number" id="transferAmount" placeholder="0.00" inputmode="decimal"></div><input type="text" id="transferNote" placeholder="添加转账说明" class="transfer-note"><button class="btn-primary" id="confirmTransferBtn">确认转账</button></div></div></div>
@@ -434,7 +430,8 @@
     </div>
   </div>
 </div>
-
+<!-- ★★★ index 段 4 结束 ★★★ -->
+<!-- ★★★ index 段 5 开始 ★★★ -->
 <script>
 /* ===== IndexedDB 封装 ===== */
 let _idb = null;
@@ -508,7 +505,7 @@ function showPage(id) {
     }, 50);
   }
 }
-    </script>
+
 function todayKey() {
   const d = new Date();
   return `${d.getFullYear()}-${d.getMonth() + 1}-${d.getDate()}`;
@@ -545,7 +542,10 @@ function buildAvatar(sender) {
   }
   return avatar;
 }
-
+</script>
+<!-- ★★★ index 段 5 结束 ★★★ -->
+<!-- ★★★ index 段 6 开始 ★★★ -->
+<script>
 setTimeout(() => {
   const loading = document.getElementById('loading');
   if (loading) {
@@ -692,7 +692,10 @@ async function playVoice(bubbleEl, voiceId) {
   };
   currentAudio.play().catch(() => { bubbleEl.classList.remove('playing'); });
 }
-
+</script>
+<!-- ★★★ index 段 6 结束 ★★★ -->
+<!-- ★★★ index 段 7 开始 ★★★ -->
+<script>
 function showTyping() {
   const taNameEl = document.getElementById('taName');
   if (taNameEl && !taNameEl.dataset.typing) {
@@ -709,7 +712,8 @@ function hideTyping() {
     delete taNameEl.dataset.typing;
   }
 }
- function drawCardText() {
+
+function drawCardText() {
   const mainCards = cards.filter(c => (c.type || 'main') === 'main');
   const emojiCards = cards.filter(c => c.type === 'emoji');
   const emojiProb = load('emoji_prob', 10);
@@ -802,7 +806,10 @@ function markAllRead() {
     }
   });
 }
-
+</script>
+<!-- ★★★ index 段 7 结束 ★★★ -->
+<!-- ★★★ index 段 8 开始 ★★★ -->
+<script>
 /* ===== 转账卡片 ===== */
 function renderTransferCard(m) {
   const isMe = m.sender === 'me';
@@ -901,7 +908,11 @@ function refreshMessages() {
   });
   messagesEl.scrollTop = messagesEl.scrollHeight;
 }
-
+</script>
+<!-- ★★★ index 段 8 结束 ★★★ -->
+<!-- ★★★ index 段 9 开始 ★★★ -->
+<script>
+/* ===== 收款 ===== */
 let currentTransferId = null;
 function openReceiveModal(transferId) {
   const msgs = load('our_messages', []);
@@ -985,7 +996,8 @@ document.addEventListener('dblclick', function(e) {
   messagesEl.appendChild(sys);
   messagesEl.scrollTop = messagesEl.scrollHeight;
 });
-  /* ===== 长按菜单 ===== */
+
+/* ===== 长按菜单 ===== */
 let longPressTarget = null;
 let longPressTimer = null;
 
@@ -1091,7 +1103,10 @@ document.querySelectorAll('#longPressMenu .lp-item').forEach(item => {
     }
   };
 });
-
+</script>
+<!-- ★★★ index 段 9 结束 ★★★ -->
+<!-- ★★★ index 段 10 开始 ★★★ -->
+<script>
 /* ===== 商店卡片 ===== */
 function renderShopCard(m) {
   const row = document.createElement('div');
@@ -1148,6 +1163,7 @@ function addSystemTip(text, store) {
 
 document.getElementById('backHomeBtn').onclick = () => showPage('homePage');
 
+/* ===== 加号菜单 ===== */
 (function() {
   const plusMenu = document.getElementById('plusMenu');
   const plusBtn = document.getElementById('plusBtn');
@@ -1235,7 +1251,11 @@ document.getElementById('backHomeBtn').onclick = () => showPage('homePage');
     makeTransferCard(amount, note);
   };
 })();
-    /* ===== 字卡库 ===== */
+</script>
+<!-- ★★★ index 段 10 结束 ★★★ -->
+<!-- ★★★ index 段 11 开始 ★★★ -->
+<script>
+/* ===== 字卡库 ===== */
 document.getElementById('closeCardBtn').onclick = () => document.getElementById('cardModal').classList.add('hidden');
 
 let currentCardTab = 'main';
@@ -1418,7 +1438,11 @@ function bindPatTab() {
     alert('已保存');
   };
 }
-
+</script>
+<!-- ★★★ index 段 11 结束 ★★★ -->
+<!-- ★★★ index 段 12 开始 ★★★ -->
+<script>
+/* ===== 语音字卡 ===== */
 function bindVoiceTab() {
   const importBox = document.getElementById('voiceImportBox');
   const upload = document.getElementById('voiceUpload');
@@ -1489,35 +1513,24 @@ function renderVoiceList() {
   });
 }
 
-/* ===== 聊天页表情面板（1/3 高，可添加删除） ===== */
+/* ===== 聊天页表情面板（添加/删除/发送） ===== */
 (function() {
   const panel = document.getElementById('stickerPanel');
-  const body = document.getElementById('stickerBody2');
+  const body = document.getElementById('stickerBody');
   const emojiBtn = document.getElementById('emojiBtn');
-  const addBtn = document.getElementById('stickerAddBtn2');
-  const upload = document.createElement('input');
-  upload.type = 'file';
-  upload.accept = 'image/*';
-  upload.multiple = true;
-  upload.style.display = 'none';
-  document.body.appendChild(upload);
+  const addBtn = document.getElementById('stickerAddBtnChat');
+  const upload = document.getElementById('stickerUploadChat');
   let currentTab = 'mine';
 
-  function getList() {
-    return currentTab === 'mine' ? load('my_stickers', []) : load('ta_stickers', []);
-  }
-  function setList(list) {
-    if (currentTab === 'mine') save('my_stickers', list);
-    else save('ta_stickers', list);
-  }
+  function key() { return currentTab === 'mine' ? 'my_stickers' : 'ta_stickers'; }
 
   function render() {
-    const list = getList();
+    const list = load(key(), []);
+    body.innerHTML = '';
     if (list.length === 0) {
-      body.innerHTML = '<div style="grid-column:1/-1;text-align:center;color:#999;font-size:13px;padding:40px 20px;line-height:1.8;">还没有表情哦<br>点右上角"+ 添加"上传图片</div>';
+      body.innerHTML = '<div class="sticker-empty" style="grid-column:1/-1;text-align:center;color:#999;font-size:13px;padding:40px 20px;line-height:1.8;">还没有表情哦<br>点右上角「+ 添加」上传图片</div>';
       return;
     }
-    body.innerHTML = '';
     list.forEach((url, idx) => {
       const div = document.createElement('div');
       div.className = 'sticker-item';
@@ -1527,9 +1540,9 @@ function renderVoiceList() {
       del.textContent = '×';
       del.onclick = (e) => {
         e.stopPropagation();
-        const l = getList();
-        l.splice(idx, 1);
-        setList(l);
+        const arr = load(key(), []);
+        arr.splice(idx, 1);
+        save(key(), arr);
         render();
       };
       div.appendChild(del);
@@ -1559,13 +1572,16 @@ function renderVoiceList() {
   upload.onchange = (e) => {
     const files = Array.from(e.target.files);
     if (files.length === 0) return;
-    const list = getList();
+    const list = load(key(), []);
     let done = 0;
     files.forEach(f => {
       compressImage(f, 300, (url) => {
         list.push(url);
         done++;
-        if (done === files.length) { setList(list); render(); }
+        if (done === files.length) {
+          save(key(), list);
+          render();
+        }
       });
     });
     upload.value = '';
@@ -1604,6 +1620,10 @@ function compressImage(file, maxSize, cb) {
   };
   reader.readAsDataURL(file);
 }
+</script>
+<!-- ★★★ index 段 12 结束 ★★★ -->
+<!-- ★★★ index 段 13 开始 ★★★ -->
+<script>
 /* ===== 自动消息 ===== */
 let autoMsgTimer = null;
 function scheduleAutoMessage() {
@@ -1641,6 +1661,7 @@ function scheduleAutoMessage() {
   }, delay);
 }
 
+/* ===== 首页 ===== */
 function applyHomeAssets() {
   const myA = document.getElementById('homeMyAvatar');
   const taA = document.getElementById('homeTaAvatar');
@@ -1747,7 +1768,11 @@ applyHomeWallpaper();
 updateHomeTime();
 (function() { const t = document.getElementById('taName'); if (t) t.textContent = load('ta_name', 'TA'); })();
 scheduleAutoMessage();
-  /* ===== 商店 ===== */
+</script>
+<!-- ★★★ index 段 13 结束 ★★★ -->
+<!-- ★★★ index 段 14 开始 ★★★ -->
+<script>
+/* ===== 商店 ===== */
 let shopItems = load('our_shop_items', []);
 let shopOrders = load('our_shop_orders', []);
 let editingShopId = null;
@@ -1908,7 +1933,10 @@ document.getElementById('detailDeleteBtn').onclick = () => {
   shopItems = shopItems.filter(x => x.id !== currentDetailId);
   saveShopItems(); closeShopDetail(); renderShopItems();
 };
-
+</script>
+<!-- ★★★ index 段 14 结束 ★★★ -->
+<!-- ★★★ index 段 15 开始 ★★★ -->
+<script>
 /* ===== 收藏 / 搜索 ===== */
 function renderFavList() {
   const body = document.getElementById('favBody');
@@ -1966,6 +1994,7 @@ function renderSearchList(kw) {
     box.appendChild(group);
   });
 }
+
 function jumpToMessage(msgId) {
   document.getElementById('searchModal').classList.add('hidden');
   showPage('chatPage');
@@ -1977,11 +2006,13 @@ function jumpToMessage(msgId) {
     setTimeout(() => row.classList.remove('jump-highlight'), 2000);
   }, 200);
 }
+
 document.getElementById('closeFavBtn').onclick = () => document.getElementById('favModal').classList.add('hidden');
 document.getElementById('closeSearchBtn').onclick = () => document.getElementById('searchModal').classList.add('hidden');
 const searchInp = document.getElementById('searchInput');
 if (searchInp) searchInp.oninput = () => renderSearchList(searchInp.value.trim());
- /* ===== 纪念日 ===== */
+
+/* ===== 纪念日 ===== */
 function loadAnnivList() { try { return JSON.parse(localStorage.getItem('anniv_list') || '[]'); } catch (e) { return []; } }
 function saveAnnivList(list) { localStorage.setItem('anniv_list', JSON.stringify(list)); }
 function renderAnniv() {
@@ -2023,7 +2054,10 @@ document.getElementById('addAnnivBtn').onclick = () => {
   list.push({ name: name.trim(), month: parseInt(m[1]), day: parseInt(m[2]) });
   saveAnnivList(list); renderAnniv();
 };
-
+</script>
+<!-- ★★★ index 段 15 结束 ★★★ -->
+<!-- ★★★ index 段 16 开始 ★★★ -->
+<script>
 /* ===== 问卷 ===== */
 let surveyQuestions = [];
 let currentSurveyType = 'single';
@@ -2298,4 +2332,5 @@ scheduleAutoMail();
 
 <script src="settings.js"></script>
 </body>
-</html>     
+</html>
+<!-- ★★★ index 段 16 结束 ★★★ -->  
