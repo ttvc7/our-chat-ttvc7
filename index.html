@@ -2550,6 +2550,8 @@ function dateKeyOf(d) {
 }
 
 function initMomentsPage() {
+  momentListMode = false;
+document.getElementById('momentListBtn').classList.remove('active');
   const myAvatar = document.getElementById('momentMyAvatar');
   const myName = document.getElementById('momentMyName');
   const url = load('my_avatar', '');
