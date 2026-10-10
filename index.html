@@ -24,6 +24,7 @@
   </div>
 </div>
 
+<!-- ===== 主页 ===== -->
 <div id="homePage" class="page">
   <div class="home-top">
     <div class="home-time" id="homeTime">--:--</div>
@@ -86,8 +87,54 @@
     </div>
   </div>
 </div>
+
+<!-- ===== 朋友圈页 ===== -->
+<div id="momentsPage" class="page hidden">
+  <header class="chat-header">
+    <div class="header-left">
+      <button class="header-btn" id="backFromMomentsBtn">
+        <svg viewBox="0 0 24 24" fill="none" stroke="#666" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M15 6 L9 12 L15 18"></path></svg>
+      </button>
+    </div>
+    <span>朋友圈</span>
+    <div class="header-right"></div>
+  </header>
+  <div class="moment-header" id="momentHeader">
+    <div class="bg-actions"><button id="momentChangeBgBtn">换背景</button></div>
+    <div class="avatar-block">
+      <div class="avatar-img" id="momentMyAvatar">我</div>
+      <div class="avatar-name" id="momentMyName">我</div>
+    </div>
+  </div>
+  <div class="moment-timeline">
+    <button id="momentPrevBtn">‹ 前一天</button>
+    <div class="date-label" id="momentDateLabel">今天</div>
+    <button id="momentNextBtn">后一天 ›</button>
+  </div>
+  <div class="moment-body" id="momentBody"></div>
+  <button class="moment-fab" id="momentAddBtn">+</button>
+</div>
+
+<!-- ===== 发朋友圈弹窗 ===== -->
+<div id="momentPostModal" class="modal hidden">
+  <div class="moment-post-sheet">
+    <div class="moment-post-head">
+      <button id="momentPostCancel">取消</button>
+      <span>发表动态</span>
+      <button class="primary" id="momentPostSend">发表</button>
+    </div>
+    <div class="moment-post-body">
+      <textarea id="momentPostText" placeholder="这一刻的想法…"></textarea>
+      <div class="moment-post-imgs" id="momentPostImgs">
+        <div class="add-img" id="momentAddImgBtn">+</div>
+      </div>
+      <input type="file" id="momentImgUpload" accept="image/*" style="display:none;">
+    </div>
+  </div>
+</div>
 <!-- ★★★ index 段 1 结束 ★★★ -->
 <!-- ★★★ index 段 2 开始 ★★★ -->
+<!-- ===== 纪念日页 ===== -->
 <div id="annivPage" class="page hidden">
   <header class="chat-header">
     <div class="header-left">
@@ -111,6 +158,38 @@
   </div>
 </div>
 
+<!-- ===== 纪念日日期滚轮 ===== -->
+<div id="annivDatePicker" class="anniv-date-picker hidden">
+  <div class="anniv-date-box">
+    <div class="anniv-date-title" id="annivDateTitle">设置起始日期</div>
+    <div class="anniv-date-row">
+      <div class="anniv-date-col">
+        <div class="top" id="annivYearTop">--</div>
+        <div class="cur" id="annivYearCur">2024</div>
+        <div class="bottom" id="annivYearBot">--</div>
+        <div class="anniv-date-label">年</div>
+      </div>
+      <div class="anniv-date-col">
+        <div class="top" id="annivMonthTop">--</div>
+        <div class="cur" id="annivMonthCur">01</div>
+        <div class="bottom" id="annivMonthBot">--</div>
+        <div class="anniv-date-label">月</div>
+      </div>
+      <div class="anniv-date-col">
+        <div class="top" id="annivDayTop">--</div>
+        <div class="cur" id="annivDayCur">01</div>
+        <div class="bottom" id="annivDayBot">--</div>
+        <div class="anniv-date-label">日</div>
+      </div>
+    </div>
+    <div class="anniv-date-actions">
+      <button class="cancel" id="annivDateCancel">取消</button>
+      <button class="ok" id="annivDateOk">确定</button>
+    </div>
+  </div>
+</div>
+
+<!-- ===== 聊天页 ===== -->
 <div id="chatPage" class="page hidden">
   <header class="chat-header">
     <div class="header-left">
@@ -155,6 +234,7 @@
   <div class="lp-item" data-act="del">删除</div>
 </div>
 
+<!-- ===== 信箱页 ===== -->
 <div id="mailPage" class="page hidden">
   <header class="chat-header">
     <div class="header-left">
@@ -173,6 +253,7 @@
   <button class="mail-fab" id="mailWriteBtn">+</button>
 </div>
 
+<!-- ===== 写信页 ===== -->
 <div id="mailWritePage" class="page hidden">
   <header class="chat-header">
     <div class="header-left">
@@ -191,6 +272,7 @@
   </div>
 </div>
 
+<!-- ===== 看信弹窗 ===== -->
 <div id="mailReadModal" class="modal hidden mail-read-modal">
   <div class="modal-box">
     <div class="modal-head"><span>信件</span><button id="closeMailReadBtn">×</button></div>
@@ -204,6 +286,7 @@
 </div>
 <!-- ★★★ index 段 2 结束 ★★★ -->
 <!-- ★★★ index 段 3 开始 ★★★ -->
+<!-- ===== 问卷列表页 ===== -->
 <div id="surveyListPage" class="page hidden">
   <header class="chat-header">
     <div class="header-left">
@@ -221,6 +304,7 @@
   <div class="shop-body" id="surveyListBody"></div>
 </div>
 
+<!-- ===== 新建问卷页 ===== -->
 <div id="surveyNewPage" class="page hidden">
   <header class="chat-header">
     <div class="header-left">
@@ -247,6 +331,7 @@
   </div>
 </div>
 
+<!-- ===== 问卷详情弹窗 ===== -->
 <div id="surveyAnswerModal" class="modal hidden">
   <div class="modal-box">
     <div class="modal-head"><span id="surveyAnswerTitle">问卷</span><button id="closeSurveyAnswerBtn">×</button></div>
@@ -254,6 +339,7 @@
   </div>
 </div>
 
+<!-- ===== 商店页 ===== -->
 <div id="shopPage" class="page hidden">
   <header class="chat-header">
     <div class="header-left">
@@ -273,6 +359,7 @@
   <button class="shop-fab" id="shopAddBtn">+</button>
 </div>
 
+<!-- ===== 添加/编辑商品弹窗 ===== -->
 <div id="shopEditModal" class="modal hidden">
   <div class="shop-edit-sheet">
     <div class="shop-edit-head">
@@ -297,6 +384,7 @@
   </div>
 </div>
 
+<!-- ===== 商品详情弹窗 ===== -->
 <div id="shopDetailModal" class="modal hidden">
   <div class="shop-detail-sheet">
     <div class="shop-edit-head">
@@ -324,6 +412,7 @@
 </div>
 <!-- ★★★ index 段 3 结束 ★★★ -->
 <!-- ★★★ index 段 4 开始 ★★★ -->
+<!-- ===== 字卡库弹窗 ===== -->
 <div id="cardModal" class="modal hidden">
   <div class="modal-box" id="cardBox">
     <div class="card-topbar">
@@ -379,7 +468,7 @@
   <div id="voiceList"></div>
 </template>
 
-<!-- 聊天页表情面板（添加/删除/发送） -->
+<!-- ===== 聊天页表情面板 ===== -->
 <div id="stickerPanel" class="sticker-panel hidden">
   <div class="sticker-head">
     <button class="sticker-tab active" data-tab="mine">我</button>
@@ -390,12 +479,16 @@
   <input type="file" id="stickerUploadChat" accept="image/*" multiple style="display:none;">
 </div>
 
+<!-- ===== 转账弹窗 ===== -->
 <div id="transferModal" class="modal hidden"><div class="modal-box"><div class="modal-head"><span>转账</span><button id="closeTransferBtn">×</button></div><div class="modal-body"><div class="transfer-target"><div class="transfer-avatar" id="transferAvatar">TA</div><div class="transfer-name" id="transferName">TA</div></div><div class="transfer-input-row"><span class="transfer-yen">¥</span><input type="number" id="transferAmount" placeholder="0.00" inputmode="decimal"></div><input type="text" id="transferNote" placeholder="添加转账说明" class="transfer-note"><button class="btn-primary" id="confirmTransferBtn">确认转账</button></div></div></div>
 
+<!-- ===== 收款全屏 ===== -->
 <div id="receiveModal" class="modal hidden"><div class="receive-box"><button class="receive-back" id="closeReceiveBtn">←</button><div class="receive-content"><div class="receive-icon" id="receiveIcon">🕐</div><div class="receive-title" id="receiveTitle">请收款</div><div class="receive-amount" id="receiveAmount">¥1.00</div><div class="receive-line"></div><div class="receive-time-row"><span>转账时间</span><span id="receiveTime">--</span></div><div class="receive-line"></div><button class="receive-btn" id="receiveConfirmBtn">收款</button><div class="receive-tip" id="receiveTip">1天内未确认，将退还给对方。<span id="refundLink">退还</span></div></div></div></div>
 
+<!-- ===== 设置弹窗 ===== -->
 <div id="settingsModal" class="modal hidden"><div class="modal-box"><div class="modal-head"><span>设置</span><button id="closeSettingsBtn">×</button></div><div class="modal-body" style="padding:0;"></div></div></div>
 
+<!-- ===== 小游戏弹窗 ===== -->
 <div id="gamesModal" class="modal hidden">
   <div class="modal-box">
     <div class="modal-head"><span>小游戏</span><button id="closeGamesBtn">×</button></div>
@@ -414,6 +507,7 @@
   </div>
 </div>
 
+<!-- ===== 收藏夹弹窗 ===== -->
 <div id="favModal" class="modal hidden">
   <div class="modal-box">
     <div class="modal-head"><span>收藏夹</span><button id="closeFavBtn">×</button></div>
@@ -421,6 +515,7 @@
   </div>
 </div>
 
+<!-- ===== 搜索聊天弹窗 ===== -->
 <div id="searchModal" class="modal hidden">
   <div class="modal-box">
     <div class="modal-head"><span>搜索聊天</span><button id="closeSearchBtn">×</button></div>
@@ -661,7 +756,6 @@ function addVoiceMessage(sender, voiceId, name, duration, store) {
   }
 }
 
-/* ★★★ 语音播放 段 开始 ★★★ */
 let currentAudio = null;
 let currentAudioEl = null;
 let currentAudioUrl = null;
@@ -711,7 +805,6 @@ async function playVoice(bubbleEl, voiceId) {
     bubbleEl.querySelector('.play-btn').innerHTML = '<svg viewBox="0 0 24 24"><path d="M8 5 V19 L19 12 Z"></path></svg>';
   });
 }
-/* ★★★ 语音播放 段 结束 ★★★ */
 </script>
 <!-- ★★★ index 段 6 结束 ★★★ -->
 <!-- ★★★ index 段 7 开始 ★★★ -->
@@ -826,10 +919,7 @@ function markAllRead() {
     }
   });
 }
-</script>
-<!-- ★★★ index 段 7 结束 ★★★ -->
-<!-- ★★★ index 段 8 开始 ★★★ -->
-<script>
+
 /* ===== 转账卡片 ===== */
 function renderTransferCard(m) {
   const isMe = m.sender === 'me';
@@ -862,7 +952,10 @@ function renderTransferCard(m) {
   messagesEl.appendChild(row);
   messagesEl.scrollTop = messagesEl.scrollHeight;
 }
-
+</script>
+<!-- ★★★ index 段 7 结束 ★★★ -->
+<!-- ★★★ index 段 8 开始 ★★★ -->
+<script>
 function makeTransferCard(amount, note) {
   const transferId = Date.now() + '_' + Math.random().toString(36).slice(2, 8);
   const t = Date.now();
@@ -928,11 +1021,7 @@ function refreshMessages() {
   });
   messagesEl.scrollTop = messagesEl.scrollHeight;
 }
-</script>
-<!-- ★★★ index 段 8 结束 ★★★ -->
-<!-- ★★★ index 段 9 开始 ★★★ -->
-<script>
-/* ===== 收款 ===== */
+
 let currentTransferId = null;
 function openReceiveModal(transferId) {
   const msgs = load('our_messages', []);
@@ -1016,7 +1105,10 @@ document.addEventListener('dblclick', function(e) {
   messagesEl.appendChild(sys);
   messagesEl.scrollTop = messagesEl.scrollHeight;
 });
-
+</script>
+<!-- ★★★ index 段 8 结束 ★★★ -->
+<!-- ★★★ index 段 9 开始 ★★★ -->
+<script>
 /* ===== 长按菜单 ===== */
 let longPressTarget = null;
 let longPressTimer = null;
@@ -1271,10 +1363,7 @@ document.getElementById('backHomeBtn').onclick = () => showPage('homePage');
     makeTransferCard(amount, note);
   };
 })();
-</script>
-<!-- ★★★ index 段 10 结束 ★★★ -->
-<!-- ★★★ index 段 11 开始 ★★★ -->
-<script>
+
 /* ===== 字卡库 ===== */
 document.getElementById('closeCardBtn').onclick = () => document.getElementById('cardModal').classList.add('hidden');
 
@@ -1341,7 +1430,10 @@ function bindMainTab() {
     }
   };
 }
-
+</script>
+<!-- ★★★ index 段 10 结束 ★★★ -->
+<!-- ★★★ index 段 11 开始 ★★★ -->
+<script>
 function loadCards() {
   const list = document.getElementById('cardList');
   const catsBox = document.getElementById('cardCats');
@@ -1458,11 +1550,7 @@ function bindPatTab() {
     alert('已保存');
   };
 }
-</script>
-<!-- ★★★ index 段 11 结束 ★★★ -->
-<!-- ★★★ index 段 12 开始 ★★★ -->
-<script>
-/* ===== 语音字卡 ===== */
+
 function bindVoiceTab() {
   const importBox = document.getElementById('voiceImportBox');
   const upload = document.getElementById('voiceUpload');
@@ -1532,8 +1620,11 @@ function renderVoiceList() {
     listBox.appendChild(div);
   });
 }
-
-/* ★★★ 聊天页表情面板 段 开始 ★★★ */
+</script>
+<!-- ★★★ index 段 11 结束 ★★★ -->
+<!-- ★★★ index 段 12 开始 ★★★ -->
+<script>
+/* ===== 聊天页表情面板 ===== */
 (function() {
   const panel = document.getElementById('stickerPanel');
   const body = document.getElementById('stickerBody');
@@ -1623,7 +1714,6 @@ function renderVoiceList() {
     panel.classList.add('hidden');
   });
 })();
-/* ★★★ 聊天页表情面板 段 结束 ★★★ */
 
 function compressImage(file, maxSize, cb) {
   const reader = new FileReader();
@@ -1641,10 +1731,7 @@ function compressImage(file, maxSize, cb) {
   };
   reader.readAsDataURL(file);
 }
-</script>
-<!-- ★★★ index 段 12 结束 ★★★ -->
-<!-- ★★★ index 段 13 开始 ★★★ -->
-<script>
+
 /* ===== 自动消息 ===== */
 let autoMsgTimer = null;
 function scheduleAutoMessage() {
@@ -1720,7 +1807,7 @@ document.querySelectorAll('.home-item').forEach(item => {
     const key = item.dataset.key;
     if (key === 'wechat') showPage('chatPage');
     else if (key === 'settings') document.getElementById('settingsModal').classList.remove('hidden');
-    else if (key === 'moments') alert('朋友圈功能开发中…');
+    else if (key === 'moments') { showPage('momentsPage'); initMomentsPage(); }
     else if (key === 'anniversary') { showPage('annivPage'); renderAnniv(); }
     else if (key === 'games') document.getElementById('gamesModal').classList.remove('hidden');
     else if (key === 'mail') showMailPage();
@@ -1735,7 +1822,11 @@ document.querySelectorAll('.game-card').forEach(card => {
     else if (g === 'memory') alert('记忆翻牌功能开发中…');
   };
 });
-
+</script>
+<!-- ★★★ index 段 12 结束 ★★★ -->
+<!-- ★★★ index 段 13 开始 ★★★ -->
+<script>
+/* ===== 首页卡片 / 对话输入 ===== */
 (function() {
   const cardEl = document.getElementById('homeCard');
   const img = document.getElementById('homeCardImg');
@@ -1783,35 +1874,13 @@ window.applyHomeWallpaper = applyHomeWallpaper;
 window.renderFavList = renderFavList;
 window.refreshMessages = refreshMessages;
 window.openCardTab = openCardTab;
-  document.addEventListener('DOMContentLoaded', updateHomeTime);
 
 refreshMessages();
 applyHomeAssets();
 applyHomeWallpaper();
-updateHomeTime();
 (function() { const t = document.getElementById('taName'); if (t) t.textContent = load('ta_name', 'TA'); })();
 scheduleAutoMessage();
-/* ★★★ 笑脸按钮 兜底 开始 ★★★ */
-(function() {
-  var eb = document.getElementById('emojiBtn');
-  var sp = document.getElementById('stickerPanel');
-  if (!eb || !sp) return;
-  eb.onclick = function(e) {
-    e.stopPropagation();
-    e.preventDefault();
-    if (sp.classList.contains('hidden')) {
-      sp.classList.remove('hidden');
-      if (typeof window.renderStickerPanel === 'function') window.renderStickerPanel();
-    } else {
-      sp.classList.add('hidden');
-    }
-  };
-})();
-/* ★★★ 笑脸按钮 兜底 结束 ★★★ */  
-</script>
-<!-- ★★★ index 段 13 结束 ★★★ -->
-<!-- ★★★ index 段 14 开始 ★★★ -->
-<script>
+
 /* ===== 商店 ===== */
 let shopItems = load('our_shop_items', []);
 let shopOrders = load('our_shop_orders', []);
@@ -1974,8 +2043,8 @@ document.getElementById('detailDeleteBtn').onclick = () => {
   saveShopItems(); closeShopDetail(); renderShopItems();
 };
 </script>
-<!-- ★★★ index 段 14 结束 ★★★ -->
-<!-- ★★★ index 段 15 开始 ★★★ -->
+<!-- ★★★ index 段 13 结束 ★★★ -->
+<!-- ★★★ index 段 14 开始 ★★★ -->
 <script>
 /* ===== 收藏 / 搜索 ===== */
 function renderFavList() {
@@ -2079,24 +2148,106 @@ function renderAnniv() {
   });
 }
 document.getElementById('backFromAnnivBtn').onclick = () => showPage('homePage');
+
+/* ===== 纪念日日期滚轮 ===== */
+let annivPickerMode = 'start';
+let annivPickerY = 2024, annivPickerM = 1, annivPickerD = 1;
+
+function pad2(n) { return String(n).padStart(2, '0'); }
+function daysInMonth(y, m) { return new Date(y, m, 0).getDate(); }
+
+function renderAnnivPicker() {
+  const maxD = daysInMonth(annivPickerY, annivPickerM);
+  if (annivPickerD > maxD) annivPickerD = maxD;
+  document.getElementById('annivYearCur').textContent = annivPickerY;
+  document.getElementById('annivYearTop').textContent = annivPickerY - 1;
+  document.getElementById('annivYearBot').textContent = annivPickerY + 1;
+  document.getElementById('annivMonthCur').textContent = pad2(annivPickerM);
+  document.getElementById('annivMonthTop').textContent = pad2(annivPickerM === 1 ? 12 : annivPickerM - 1);
+  document.getElementById('annivMonthBot').textContent = pad2(annivPickerM === 12 ? 1 : annivPickerM + 1);
+  document.getElementById('annivDayCur').textContent = pad2(annivPickerD);
+  document.getElementById('annivDayTop').textContent = pad2(annivPickerD === 1 ? maxD : annivPickerD - 1);
+  document.getElementById('annivDayBot').textContent = pad2(annivPickerD === maxD ? 1 : annivPickerD + 1);
+}
+
+function openAnnivPicker(mode, defVal) {
+  annivPickerMode = mode;
+  if (defVal) {
+    const m = defVal.match(/^(\d{4})-(\d{1,2})-(\d{1,2})$/);
+    if (m) { annivPickerY = parseInt(m[1]); annivPickerM = parseInt(m[2]); annivPickerD = parseInt(m[3]); }
+  } else {
+    const d = new Date();
+    annivPickerY = d.getFullYear();
+    annivPickerM = d.getMonth() + 1;
+    annivPickerD = d.getDate();
+  }
+  document.getElementById('annivDateTitle').textContent = mode === 'start' ? '设置起始日期' : '添加纪念日';
+  renderAnnivPicker();
+  document.getElementById('annivDatePicker').classList.remove('hidden');
+}
+function closeAnnivPicker() { document.getElementById('annivDatePicker').classList.add('hidden'); }
+
+/* 滚轮滑动 */
+(function() {
+  function bindCol(elId, fn) {
+    const el = document.getElementById(elId).parentElement;
+    let startY = 0;
+    function onStart(e) { startY = (e.touches ? e.touches[0].clientY : e.clientY); }
+    function onEnd(e) {
+      const endY = (e.changedTouches ? e.changedTouches[0].clientY : e.clientY);
+      const dy = endY - startY;
+      if (Math.abs(dy) < 12) return;
+      fn(dy > 0 ? -1 : 1);
+    }
+    el.addEventListener('touchstart', onStart, { passive: true });
+    el.addEventListener('touchend', onEnd);
+    el.addEventListener('mousedown', onStart);
+    el.addEventListener('mouseup', onEnd);
+  }
+  bindCol('annivYearCur', (dir) => { annivPickerY += dir; renderAnnivPicker(); });
+  bindCol('annivMonthCur', (dir) => {
+    annivPickerM += dir;
+    if (annivPickerM > 12) { annivPickerM = 1; annivPickerY += 1; }
+    if (annivPickerM < 1) { annivPickerM = 12; annivPickerY -= 1; }
+    renderAnnivPicker();
+  });
+  bindCol('annivDayCur', (dir) => {
+    const maxD = daysInMonth(annivPickerY, annivPickerM);
+    annivPickerD += dir;
+    if (annivPickerD > maxD) { annivPickerD = 1; }
+    if (annivPickerD < 1) { annivPickerD = maxD; }
+    renderAnnivPicker();
+  });
+})();
+
 document.getElementById('editStartBtn').onclick = () => {
-  const v = prompt('输入在一起的起始日期（格式：2024-01-01）', localStorage.getItem('anniv_start') || '');
-  if (v === null) return;
-  if (!/^\d{4}-\d{2}-\d{2}$/.test(v.trim())) { alert('格式不对，应该是 2024-01-01 这样'); return; }
-  localStorage.setItem('anniv_start', v.trim()); renderAnniv();
+  openAnnivPicker('start', localStorage.getItem('anniv_start') || '');
 };
+document.getElementById('annivDateCancel').onclick = closeAnnivPicker;
+document.getElementById('annivDateOk').onclick = () => {
+  const dateStr = `${annivPickerY}-${pad2(annivPickerM)}-${pad2(annivPickerD)}`;
+  if (annivPickerMode === 'start') {
+    localStorage.setItem('anniv_start', dateStr);
+    renderAnniv();
+  } else {
+    const name = window._pendingAnnivName || '纪念日';
+    const list = loadAnnivList();
+    list.push({ name: name, month: annivPickerM, day: annivPickerD });
+    saveAnnivList(list);
+    renderAnniv();
+  }
+  closeAnnivPicker();
+};
+
 document.getElementById('addAnnivBtn').onclick = () => {
-  const name = prompt('纪念日名称（比如：我的生日）'); if (!name) return;
-  const dateStr = prompt('日期（格式：10-02）'); if (!dateStr) return;
-  const m = dateStr.match(/^(\d{1,2})-(\d{1,2})$/);
-  if (!m) { alert('格式不对，应该是 10-02 这样'); return; }
-  const list = loadAnnivList();
-  list.push({ name: name.trim(), month: parseInt(m[1]), day: parseInt(m[2]) });
-  saveAnnivList(list); renderAnniv();
+  const name = prompt('纪念日名称（比如：我的生日）');
+  if (!name) return;
+  window._pendingAnnivName = name.trim();
+  openAnnivPicker('add', '');
 };
 </script>
-<!-- ★★★ index 段 15 结束 ★★★ -->
-<!-- ★★★ index 段 16 开始 ★★★ -->
+<!-- ★★★ index 段 14 结束 ★★★ -->
+<!-- ★★★ index 段 15 开始 ★★★ -->
 <script>
 /* ===== 问卷 ===== */
 let surveyQuestions = [];
@@ -2280,7 +2431,10 @@ function openSurveyAnswer(surveyId) {
   modal.classList.remove('hidden');
 }
 document.getElementById('closeSurveyAnswerBtn').onclick = () => document.getElementById('surveyAnswerModal').classList.add('hidden');
-
+</script>
+<!-- ★★★ index 段 15 结束 ★★★ -->
+<!-- ★★★ index 段 16 开始 ★★★ -->
+<script>
 /* ===== 信箱 ===== */
 let currentMailTab = 'sent';
 function showMailPage() {
@@ -2368,9 +2522,359 @@ function scheduleAutoMail() {
   }, delay);
 }
 scheduleAutoMail();
+
+/* ===== 朋友圈 ===== */
+let currentMomentDate = new Date();
+currentMomentDate.setHours(0, 0, 0, 0);
+
+function dateKeyOf(d) {
+  return `${d.getFullYear()}-${d.getMonth() + 1}-${d.getDate()}`;
+}
+
+function initMomentsPage() {
+  // 头像 + 昵称
+  const myAvatar = document.getElementById('momentMyAvatar');
+  const myName = document.getElementById('momentMyName');
+  const url = load('my_avatar', '');
+  const name = load('my_name', '我');
+  if (myAvatar) {
+    if (url) { myAvatar.style.background = `url(${url}) center/cover no-repeat`; myAvatar.textContent = ''; }
+    else myAvatar.textContent = name.charAt(0);
+  }
+  if (myName) myName.textContent = name;
+  // 背景
+  const bg = load('moment_bg', '');
+  const header = document.getElementById('momentHeader');
+  if (bg) {
+    header.style.background = `url(${bg}) center/cover no-repeat`;
+  } else {
+    header.style.background = 'linear-gradient(135deg, #e8f0ff 0%, #d7e4f8 100%)';
+  }
+  currentMomentDate = new Date();
+  currentMomentDate.setHours(0, 0, 0, 0);
+  renderMomentsList();
+}
+
+function renderMomentsList() {
+  const label = document.getElementById('momentDateLabel');
+  const today = new Date(); today.setHours(0, 0, 0, 0);
+  const diff = Math.round((today - currentMomentDate) / 86400000);
+  if (diff === 0) label.textContent = '今天';
+  else if (diff === 1) label.textContent = '昨天';
+  else if (diff === 2) label.textContent = '前天';
+  else label.textContent = `${currentMomentDate.getMonth() + 1}月${currentMomentDate.getDate()}日`;
+
+  const box = document.getElementById('momentBody');
+  const key = dateKeyOf(currentMomentDate);
+  const all = load('our_moments', []);
+  const list = all.filter(m => {
+    const d = new Date(m.t);
+    return dateKeyOf(d) === key;
+  });
+  if (list.length === 0) {
+    box.innerHTML = '<div class="moment-empty">还没有动态，点右下角加号发一条吧~</div>';
+    return;
+  }
+  box.innerHTML = '';
+  list.slice().reverse().forEach(m => {
+    box.appendChild(renderMomentCard(m));
+  });
+}
+
+function renderMomentCard(m) {
+  const card = document.createElement('div');
+  card.className = 'moment-card';
+  card.dataset.mid = m.id;
+
+  const isMe = m.sender === 'me';
+  const avatarUrl = isMe ? load('my_avatar', '') : load('ta_avatar', '');
+  const name = isMe ? load('my_name', '我') : load('ta_name', 'TA');
+  const a = document.createElement('div');
+  a.className = 'head';
+  const aImg = document.createElement('div');
+  aImg.className = 'a';
+  if (avatarUrl) { aImg.style.background = `url(${avatarUrl}) center/cover no-repeat`; }
+  else aImg.textContent = name.charAt(0);
+  const who = document.createElement('div');
+  who.className = 'who';
+  const d = new Date(m.t);
+  const dateStr = `${d.getMonth() + 1}月${d.getDate()}日 ${pad2(d.getHours())}:${pad2(d.getMinutes())}`;
+  who.innerHTML = `<div class="name">${name}</div><div class="time">${dateStr}</div>`;
+  a.appendChild(aImg); a.appendChild(who);
+  if (isMe) {
+    const del = document.createElement('button');
+    del.className = 'del-btn';
+    del.textContent = '×';
+    del.onclick = () => {
+      if (!confirm('删除这条动态？')) return;
+      const all = load('our_moments', []);
+      const i = all.findIndex(x => x.id === m.id);
+      if (i >= 0) all.splice(i, 1);
+      save('our_moments', all);
+      renderMomentsList();
+    };
+    a.appendChild(del);
+  }
+  card.appendChild(a);
+
+  if (m.text) {
+    const t = document.createElement('div');
+    t.className = 'text';
+    t.textContent = m.text;
+    card.appendChild(t);
+  }
+
+  if (m.imgs && m.imgs.length > 0) {
+    const imgsBox = document.createElement('div');
+    imgsBox.className = 'imgs' + (m.imgs.length === 1 ? ' single' : '');
+    m.imgs.forEach(url => {
+      const img = document.createElement('img');
+      img.src = url;
+      imgsBox.appendChild(img);
+    });
+    card.appendChild(imgsBox);
+  }
+
+  const acts = document.createElement('div');
+  acts.className = 'actions';
+  const liked = (m.likes || []).includes('me');
+  acts.innerHTML = `
+    <button class="like-btn ${liked ? 'liked' : ''}">♡ 赞</button>
+    <button class="comment-btn">💬 评论</button>
+  `;
+  acts.querySelector('.like-btn').onclick = () => {
+    const all = load('our_moments', []);
+    const x = all.find(y => y.id === m.id);
+    if (!x) return;
+    if (!x.likes) x.likes = [];
+    const i = x.likes.indexOf('me');
+    if (i >= 0) x.likes.splice(i, 1);
+    else x.likes.push('me');
+    save('our_moments', all);
+    renderMomentsList();
+  };
+  acts.querySelector('.comment-btn').onclick = () => {
+    const v = prompt('说点什么：');
+    if (!v || !v.trim()) return;
+    const all = load('our_moments', []);
+    const x = all.find(y => y.id === m.id);
+    if (!x) return;
+    if (!x.comments) x.comments = [];
+    x.comments.push({ who: 'me', text: v.trim(), t: Date.now() });
+    save('our_moments', all);
+    renderMomentsList();
+  };
+  card.appendChild(acts);
+
+  if (m.likes && m.likes.length > 0) {
+    const likesBox = document.createElement('div');
+    likesBox.className = 'likes';
+    const names = m.likes.map(w => w === 'me' ? load('my_name', '我') : load('ta_name', 'TA')).join('、');
+    likesBox.textContent = '♡ ' + names;
+    card.appendChild(likesBox);
+  }
+
+  if (m.comments && m.comments.length > 0) {
+    const cmts = document.createElement('div');
+    cmts.className = 'comments';
+    m.comments.forEach(c => {
+      const div = document.createElement('div');
+      div.className = 'c';
+      const wname = c.who === 'me' ? load('my_name', '我') : load('ta_name', 'TA');
+      div.innerHTML = `<span class="who">${wname}：</span>${c.text}`;
+      cmts.appendChild(div);
+    });
+    card.appendChild(cmts);
+  }
+
+  return card;
+}
+
+document.getElementById('backFromMomentsBtn').onclick = () => showPage('homePage');
+document.getElementById('momentPrevBtn').onclick = () => {
+  currentMomentDate.setDate(currentMomentDate.getDate() - 1);
+  renderMomentsList();
+};
+document.getElementById('momentNextBtn').onclick = () => {
+  currentMomentDate.setDate(currentMomentDate.getDate() + 1);
+  renderMomentsList();
+};
+document.getElementById('momentChangeBgBtn').onclick = () => {
+  const up = document.createElement('input');
+  up.type = 'file'; up.accept = 'image/*';
+  up.onchange = (e) => {
+    const f = e.target.files[0]; if (!f) return;
+    compressImage(f, 800, (url) => {
+      save('moment_bg', url);
+      const header = document.getElementById('momentHeader');
+      header.style.background = `url(${url}) center/cover no-repeat`;
+    });
+  };
+  up.click();
+};
+</script>
+<!-- ★★★ index 段 16 结束 ★★★ -->
+<!-- ★★★ index 段 17 开始 ★★★ -->
+<script>
+/* ===== 朋友圈发动态 ===== */
+let momentPostImgs = [];
+
+document.getElementById('momentAddBtn').onclick = () => {
+  momentPostImgs = [];
+  document.getElementById('momentPostText').value = '';
+  renderMomentPostImgs();
+  document.getElementById('momentPostModal').classList.remove('hidden');
+};
+document.getElementById('momentPostCancel').onclick = () => {
+  document.getElementById('momentPostModal').classList.add('hidden');
+};
+document.getElementById('momentAddImgBtn').onclick = () => {
+  document.getElementById('momentImgUpload').click();
+};
+document.getElementById('momentImgUpload').onchange = (e) => {
+  const files = Array.from(e.target.files);
+  if (files.length === 0) return;
+  let done = 0;
+  files.forEach(f => {
+    compressImage(f, 800, (url) => {
+      momentPostImgs.push(url);
+      done++;
+      if (done === files.length) renderMomentPostImgs();
+    });
+  });
+  e.target.value = '';
+};
+function renderMomentPostImgs() {
+  const box = document.getElementById('momentPostImgs');
+  box.innerHTML = '';
+  momentPostImgs.forEach((url, i) => {
+    const d = document.createElement('div');
+    d.className = 'img-box';
+    d.innerHTML = `<img src="${url}"><button class="del">×</button>`;
+    d.querySelector('.del').onclick = () => {
+      momentPostImgs.splice(i, 1);
+      renderMomentPostImgs();
+    };
+    box.appendChild(d);
+  });
+  const add = document.createElement('div');
+  add.className = 'add-img';
+  add.id = 'momentAddImgBtn';
+  add.textContent = '+';
+  add.onclick = () => document.getElementById('momentImgUpload').click();
+  box.appendChild(add);
+}
+document.getElementById('momentPostSend').onclick = () => {
+  const text = document.getElementById('momentPostText').value.trim();
+  if (!text && momentPostImgs.length === 0) { alert('写点什么或选张图吧'); return; }
+  const all = load('our_moments', []);
+  all.push({
+    id: Date.now() + '_' + Math.random().toString(36).slice(2, 6),
+    sender: 'me',
+    text: text,
+    imgs: momentPostImgs.slice(),
+    t: Date.now(),
+    likes: [],
+    comments: []
+  });
+  save('our_moments', all);
+  document.getElementById('momentPostModal').classList.add('hidden');
+  currentMomentDate = new Date();
+  currentMomentDate.setHours(0, 0, 0, 0);
+  renderMomentsList();
+};
+
+/* ===== 对方自动发朋友圈 ===== */
+let autoMomentTimer = null;
+function scheduleAutoMoment() {
+  const enabled = load('moment_auto_on', false);
+  const min = load('moment_auto_min', 30) * 60 * 1000;
+  const max = load('moment_auto_max', 60) * 60 * 1000;
+  clearTimeout(autoMomentTimer);
+  if (!enabled) return;
+  const delay = min + Math.random() * (max - min);
+  autoMomentTimer = setTimeout(() => {
+    if (!load('moment_auto_on', false)) return;
+    const mainCards = cards.filter(c => (c.type || 'main') === 'main');
+    const text = mainCards.length > 0 ? mainCards[Math.floor(Math.random() * mainCards.length)].content : '今天也想你。';
+    let imgs = [];
+    // 30% 概率从表情包里抽一张
+    if (Math.random() < 0.3) {
+      const stickers = load('ta_stickers', []);
+      if (stickers.length > 0) {
+        imgs.push(stickers[Math.floor(Math.random() * stickers.length)]);
+      }
+    }
+    const all = load('our_moments', []);
+    all.push({
+      id: Date.now() + '_' + Math.random().toString(36).slice(2, 6),
+      sender: 'ta',
+      text: text,
+      imgs: imgs,
+      t: Date.now(),
+      likes: [],
+      comments: []
+    });
+    save('our_moments', all);
+    // 如果正在看朋友圈，刷新一下
+    const page = document.getElementById('momentsPage');
+    if (page && !page.classList.contains('hidden')) {
+      renderMomentsList();
+    }
+    scheduleAutoMoment();
+  }, delay);
+}
+scheduleAutoMoment();
+
+/* ===== 笑脸按钮兜底 ===== */
+(function() {
+  var eb = document.getElementById('emojiBtn');
+  var sp = document.getElementById('stickerPanel');
+  if (!eb || !sp) return;
+  eb.addEventListener('click', function(e) {
+    e.stopPropagation();
+    e.preventDefault();
+    if (sp.classList.contains('hidden')) {
+      sp.classList.remove('hidden');
+      var body = document.getElementById('stickerBody');
+      var curTab = document.querySelector('.sticker-tab.active');
+      var tabName = curTab ? curTab.dataset.tab : 'mine';
+      var key = tabName === 'mine' ? 'my_stickers' : 'ta_stickers';
+      var list = load(key, []);
+      body.innerHTML = '';
+      if (list.length === 0) {
+        body.innerHTML = '<div class="sticker-empty" style="grid-column:1/-1;text-align:center;color:#999;font-size:13px;padding:40px 20px;line-height:1.8;">还没有表情哦<br>点右上角「+ 添加」上传图片</div>';
+      } else {
+        list.forEach(function(url, idx) {
+          var div = document.createElement('div');
+          div.className = 'sticker-item';
+          div.style.backgroundImage = 'url(' + url + ')';
+          var del = document.createElement('button');
+          del.className = 'sticker-del';
+          del.textContent = '×';
+          del.onclick = function(ev) {
+            ev.stopPropagation();
+            var arr = load(key, []);
+            arr.splice(idx, 1);
+            save(key, arr);
+            eb.click();
+            eb.click();
+          };
+          div.appendChild(del);
+          div.onclick = function() {
+            if (tabName === 'mine') addImage('me', url);
+          };
+          body.appendChild(div);
+        });
+      }
+    } else {
+      sp.classList.add('hidden');
+    }
+  });
+})();
 </script>
 
 <script src="settings.js"></script>
 </body>
 </html>
-<!-- ★★★ index 段 16 结束 ★★★ -->  
+<!-- ★★★ index 段 17 结束 ★★★ -->  
