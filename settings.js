@@ -199,7 +199,7 @@
     };
   }
 /* ★★★ settings 段 1 结束 ★★★ */
- /* ★★★ settings 段 2 开始 ★★★ */
+/* ★★★ settings 段 2 开始 ★★★ */
   function renderAppearanceTab(panel) {
     panel.innerHTML = `
       <div class="set-card">
@@ -412,12 +412,21 @@
     const mailOn = load('mail_auto_on', false);
     const mailMin = load('mail_auto_min', 3);
     const mailMax = load('mail_auto_max', 6);
+    const momentOn = load('moment_auto_on', false);
+    const momentMin = load('moment_auto_min', 30);
+    const momentMax = load('moment_auto_max', 60);
     panel.innerHTML = `
       <div class="set-card">
         <div class="set-card-title">信箱</div>
         <div class="set-row"><span class="label">对方主动写信</span><input type="checkbox" id="mailAutoOn" ${mailOn ? 'checked' : ''}></div>
         <div class="set-row"><span class="label">最短间隔（小时）</span><input type="number" id="mailAutoMin" value="${mailMin}" min="1" max="48"></div>
         <div class="set-row"><span class="label">最长间隔（小时）</span><input type="number" id="mailAutoMax" value="${mailMax}" min="1" max="48"></div>
+      </div>
+      <div class="set-card">
+        <div class="set-card-title">对方主动发朋友圈</div>
+        <div class="set-row"><span class="label">自动发朋友圈</span><input type="checkbox" id="momentAutoOn" ${momentOn ? 'checked' : ''}></div>
+        <div class="set-row"><span class="label">最短间隔（分钟）</span><input type="number" id="momentAutoMin" value="${momentMin}" min="1" max="600"></div>
+        <div class="set-row"><span class="label">最长间隔（分钟）</span><input type="number" id="momentAutoMax" value="${momentMax}" min="1" max="600"></div>
       </div>
       <button class="set-btn" id="saveFeatureSettings">保存</button>
       <div class="set-card">
@@ -437,6 +446,11 @@
       const mx = parseInt(panel.querySelector('#mailAutoMax').value) || 6;
       save('mail_auto_min', Math.min(mn, mx));
       save('mail_auto_max', Math.max(mn, mx));
+      save('moment_auto_on', panel.querySelector('#momentAutoOn').checked);
+      const mmn = parseInt(panel.querySelector('#momentAutoMin').value) || 30;
+      const mmx = parseInt(panel.querySelector('#momentAutoMax').value) || 60;
+      save('moment_auto_min', Math.min(mmn, mmx));
+      save('moment_auto_max', Math.max(mmn, mmx));
       alert('已保存');
     };
     panel.querySelector('#openFavBtn').onclick = () => {
@@ -473,6 +487,7 @@
         cards: JSON.parse(localStorage.getItem('our_cards') || '[]'),
         mails: JSON.parse(localStorage.getItem('our_mails') || '[]'),
         surveys: JSON.parse(localStorage.getItem('our_surveys') || '[]'),
+        moments: JSON.parse(localStorage.getItem('our_moments') || '[]'),
         voices: JSON.parse(localStorage.getItem('our_voices_meta') || '[]'),
         taName: cfg.taName, myName: cfg.myName
       };
@@ -499,6 +514,7 @@
         if (data.cards) localStorage.setItem('our_cards', JSON.stringify(data.cards));
         if (data.mails) localStorage.setItem('our_mails', JSON.stringify(data.mails));
         if (data.surveys) localStorage.setItem('our_surveys', JSON.stringify(data.surveys));
+        if (data.moments) localStorage.setItem('our_moments', JSON.stringify(data.moments));
         if (data.voices) localStorage.setItem('our_voices_meta', JSON.stringify(data.voices));
         if (data.taName) localStorage.setItem('ta_name', JSON.stringify(data.taName));
         if (data.myName) localStorage.setItem('my_name', JSON.stringify(data.myName));
@@ -541,4 +557,4 @@
   });
 
 })();
-/* ★★★ settings 段 2 结束 ★★★ */
+/* ★★★ settings 段 2 结束 ★★★ */ 
