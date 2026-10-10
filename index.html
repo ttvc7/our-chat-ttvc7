@@ -2746,13 +2746,15 @@ function renderMomentsList() {
   return card;
 }
 
-document.getElementById('backFromMomentsBtn').onclick = () => showPage('homePage');
-document.getElementById('momentPrevBtn').onclick = () => {
-  currentMomentDate.setDate(currentMomentDate.getDate() - 1);
-  renderMomentsList();
+document.getElementById('backFromMomentsBtn').onclick = () => {
+  momentListMode = false;
+  document.getElementById('momentListBtn').classList.remove('active');
+  showPage('homePage');
 };
-document.getElementById('momentNextBtn').onclick = () => {
-  currentMomentDate.setDate(currentMomentDate.getDate() + 1);
+
+document.getElementById('momentListBtn').onclick = () => {
+  momentListMode = !momentListMode;
+  document.getElementById('momentListBtn').classList.toggle('active', momentListMode);
   renderMomentsList();
 };
 document.getElementById('momentChangeBgBtn').onclick = () => {
