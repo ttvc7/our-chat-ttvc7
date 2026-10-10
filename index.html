@@ -105,20 +105,22 @@
       <button id="momentTrashBtn">
         <svg viewBox="0 0 24 24" fill="none" stroke="#333" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M4 6 H20"></path><path d="M9 6 V4 H15 V6"></path><path d="M6 6 L7 20 H17 L18 6"></path></svg>
       </button>
+      <button id="momentListBtn">
+        <svg viewBox="0 0 24 24" fill="none" stroke="#333" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M4 6 H20"></path><path d="M4 12 H20"></path><path d="M4 18 H20"></path></svg>
+      </button>
     </div>
   </header>
   <div class="moment-header" id="momentHeader">
     <div class="bg-actions"><button id="momentChangeBgBtn">换背景</button></div>
     <div class="avatar-block">
-      <div class="avatar-img" id="momentMyAvatar">我</div>
       <div class="avatar-name" id="momentMyName">我</div>
+      <div class="avatar-img" id="momentMyAvatar">我</div>
     </div>
   </div>
   <div class="moment-timeline">
-    <button id="momentPrevBtn">‹ 前一天</button>
     <div class="date-label" id="momentDateLabel">今天</div>
-    <button id="momentNextBtn">后一天 ›</button>
   </div>
+  <div class="moment-hr"></div>
   <div class="moment-body" id="momentBody"></div>
   <button class="moment-fab" id="momentAddBtn">+</button>
 </div>
