@@ -208,7 +208,7 @@
           <div class="wallpaper-dot" data-wp="linear-gradient(180deg,#e8f0ff 0%,#d7e4f8 100%)" style="background:linear-gradient(180deg,#e8f0ff,#d7e4f8)"></div>
           <div class="wallpaper-dot" data-wp="linear-gradient(180deg,#e8fff2 0%,#c8f0dc 100%)" style="background:linear-gradient(180deg,#e8fff2,#c8f0dc)"></div>
           <div class="wallpaper-dot" data-wp="linear-gradient(180deg,#f3e8ff 0%,#e0d0f5 100%)" style="background:linear-gradient(180deg,#f3e8ff,#e0d0f5)"></div>
-          <div class="wallpaper-dot" data-wp="linear-gradient(180deg,#fff4e0 0%,#f5e0c8 100%)" style="background:linear-gradient(180deg,#fff4e0,#f5e0c5)"></div>
+          <div class="wallpaper-dot" data-wp="linear-gradient(180deg,#fff4e0 0%,#f5e0c5 100%)" style="background:linear-gradient(180deg,#fff4e0,#f5e0c5)"></div>
         </div>
         <button class="btn-secondary" id="pickWallpaperBtn" style="margin:8px 0;">从相册选首页壁纸</button>
         <input type="file" id="wallpaperUpload" accept="image/*" style="display:none;">
@@ -432,11 +432,6 @@
         <div class="set-row" id="openFavBtn" style="cursor:pointer;">打开收藏夹</div>
         <div class="set-row" id="openSearchBtn" style="cursor:pointer;">搜索聊天记录</div>
       </div>
-      <div class="set-card">
-        <div class="set-card-title">音乐 / 陪伴</div>
-        <div class="set-row"><span class="label">音乐</span><span class="value">开发中</span></div>
-        <div class="set-row"><span class="label">陪伴</span><span class="value">开发中</span></div>
-      </div>
     `;
     panel.querySelector('#saveFeatureSettings').onclick = () => {
       save('mail_auto_on', panel.querySelector('#mailAutoOn').checked);
@@ -459,7 +454,7 @@
       document.getElementById('searchModal').classList.remove('hidden');
     };
   }
-
+/* ★★★ settings 段 2 结束 ★★★ *//* ★★★ settings 段 3 开始 ★★★ */
   function renderOtherTab(panel) {
     panel.innerHTML = `
       <div class="set-card">
@@ -487,6 +482,11 @@
         surveys: JSON.parse(localStorage.getItem('our_surveys') || '[]'),
         moments: JSON.parse(localStorage.getItem('our_moments') || '[]'),
         voices: JSON.parse(localStorage.getItem('our_voices_meta') || '[]'),
+        shopItems: JSON.parse(localStorage.getItem('our_shop_items') || '[]'),
+        shopOrders: JSON.parse(localStorage.getItem('our_shop_orders') || '[]'),
+        favorites: JSON.parse(localStorage.getItem('our_favorites') || '[]'),
+        annivList: JSON.parse(localStorage.getItem('anniv_list') || '[]'),
+        annivStart: localStorage.getItem('anniv_start') || '',
         taName: cfg.taName, myName: cfg.myName
       };
       let text = '=== ttvc7 备份 ===\n';
@@ -514,6 +514,11 @@
         if (data.surveys) localStorage.setItem('our_surveys', JSON.stringify(data.surveys));
         if (data.moments) localStorage.setItem('our_moments', JSON.stringify(data.moments));
         if (data.voices) localStorage.setItem('our_voices_meta', JSON.stringify(data.voices));
+        if (data.shopItems) localStorage.setItem('our_shop_items', JSON.stringify(data.shopItems));
+        if (data.shopOrders) localStorage.setItem('our_shop_orders', JSON.stringify(data.shopOrders));
+        if (data.favorites) localStorage.setItem('our_favorites', JSON.stringify(data.favorites));
+        if (data.annivList) localStorage.setItem('anniv_list', JSON.stringify(data.annivList));
+        if (data.annivStart) localStorage.setItem('anniv_start', data.annivStart);
         if (data.taName) localStorage.setItem('ta_name', JSON.stringify(data.taName));
         if (data.myName) localStorage.setItem('my_name', JSON.stringify(data.myName));
         alert('导入成功，刷新页面生效');
@@ -555,4 +560,4 @@
   });
 
 })();
-/* ★★★ settings 段 2 结束 ★★★ */
+/* ★★★ settings 段 3 结束 ★★★ */
