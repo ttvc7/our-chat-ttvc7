@@ -105,22 +105,20 @@
       <button id="momentTrashBtn">
         <svg viewBox="0 0 24 24" fill="none" stroke="#333" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M4 6 H20"></path><path d="M9 6 V4 H15 V6"></path><path d="M6 6 L7 20 H17 L18 6"></path></svg>
       </button>
-      <button id="momentListBtn">
-        <svg viewBox="0 0 24 24" fill="none" stroke="#333" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M4 6 H20"></path><path d="M4 12 H20"></path><path d="M4 18 H20"></path></svg>
-      </button>
     </div>
   </header>
   <div class="moment-header" id="momentHeader">
     <div class="bg-actions"><button id="momentChangeBgBtn">换背景</button></div>
     <div class="avatar-block">
-      <div class="avatar-name" id="momentMyName">我</div>
       <div class="avatar-img" id="momentMyAvatar">我</div>
+      <div class="avatar-name" id="momentMyName">我</div>
     </div>
   </div>
   <div class="moment-timeline">
+    <button id="momentPrevBtn">‹ 前一天</button>
     <div class="date-label" id="momentDateLabel">今天</div>
+    <button id="momentNextBtn">后一天 ›</button>
   </div>
-  <div class="moment-hr"></div>
   <div class="moment-body" id="momentBody"></div>
   <button class="moment-fab" id="momentAddBtn">+</button>
 </div>
@@ -169,8 +167,7 @@
     </div>
   </div>
 </div>
-<!-- ★★★ index 段 1 结束 ★★★ -->
-<!-- ★★★ index 段 2 开始 ★★★ -->
+<!-- ★★★ index 段 1 结束 ★★★ --><!-- ★★★ index 段 2 开始 ★★★ -->
 <!-- ===== 纪念日页 ===== -->
 <div id="annivPage" class="page hidden">
   <header class="chat-header">
@@ -321,8 +318,7 @@
     </div>
   </div>
 </div>
-<!-- ★★★ index 段 2 结束 ★★★ -->
-<!-- ★★★ index 段 3 开始 ★★★ -->
+<!-- ★★★ index 段 2 结束 ★★★ --><!-- ★★★ index 段 3 开始 ★★★ -->
 <!-- ===== 问卷列表页 ===== -->
 <div id="surveyListPage" class="page hidden">
   <header class="chat-header">
@@ -561,8 +557,7 @@
     </div>
   </div>
 </div>
-<!-- ★★★ index 段 3 结束 ★★★ -->
-<!-- ★★★ index 段 4 开始 ★★★ -->
+<!-- ★★★ index 段 3 结束 ★★★ --><!-- ★★★ index 段 4 开始 ★★★ -->
 <script>
 /* ===== IndexedDB 封装 ===== */
 let _idb = null;
@@ -758,8 +753,7 @@ function addImage(sender, url, store) {
   }
 }
 </script>
-<!-- ★★★ index 段 4 结束 ★★★ -->
-<!-- ★★★ index 段 5 开始 ★★★ -->
+<!-- ★★★ index 段 4 结束 ★★★ --><!-- ★★★ index 段 5 开始 ★★★ -->
 <script>
 /* ===== 语音消息 ===== */
 function addVoiceMessage(sender, voiceId, name, duration, store) {
@@ -951,8 +945,7 @@ function markAllRead() {
   });
 }
 </script>
-<!-- ★★★ index 段 5 结束 ★★★ -->
-<!-- ★★★ index 段 6 开始 ★★★ -->
+<!-- ★★★ index 段 5 结束 ★★★ --><!-- ★★★ index 段 6 开始 ★★★ -->
 <script>
 /* ===== 转账卡片 ===== */
 function renderTransferCard(m) {
@@ -1244,8 +1237,7 @@ document.querySelectorAll('#longPressMenu .lp-item').forEach(item => {
   };
 });
 </script>
-<!-- ★★★ index 段 6 结束 ★★★ -->
-<!-- ★★★ index 段 7 开始 ★★★ -->
+<!-- ★★★ index 段 6 结束 ★★★ --><!-- ★★★ index 段 7 开始 ★★★ -->
 <script>
 /* ===== 商店卡片 ===== */
 function renderShopCard(m) {
@@ -1515,8 +1507,7 @@ function loadCards() {
   });
 }
 </script>
-<!-- ★★★ index 段 7 结束 ★★★ -->
-<!-- ★★★ index 段 8 开始 ★★★ -->
+<!-- ★★★ index 段 7 结束 ★★★ --><!-- ★★★ index 段 8 开始 ★★★ -->
 <script>
 function bindEmojiTab() {
   const input = document.getElementById('emojiInput');
@@ -1757,8 +1748,7 @@ function compressImage(file, maxSize, cb) {
   reader.readAsDataURL(file);
 }
 </script>
-<!-- ★★★ index 段 8 结束 ★★★ -->
-<!-- ★★★ index 段 9 开始 ★★★ -->
+<!-- ★★★ index 段 8 结束 ★★★ --><!-- ★★★ index 段 9 开始 ★★★ -->
 <script>
 /* ===== 自动消息 ===== */
 let autoMsgTimer = null;
@@ -1976,8 +1966,7 @@ function openShopDetail(id) {
 }
 function closeShopDetail() { document.getElementById('shopDetailModal').classList.add('hidden'); }
 </script>
-<!-- ★★★ index 段 9 结束 ★★★ -->
-<!-- ★★★ index 段 10 开始 ★★★ -->
+<!-- ★★★ index 段 9 结束 ★★★ --><!-- ★★★ index 段 10 开始 ★★★ -->
 <script>
 function buyForTa(it) {
   const taName = load('ta_name', 'TA');
@@ -2264,8 +2253,7 @@ document.getElementById('addAnnivBtn').onclick = () => {
   openAnnivPicker('add', '');
 };
 </script>
-<!-- ★★★ index 段 10 结束 ★★★ -->
-<!-- ★★★ index 段 11 开始 ★★★ -->
+<!-- ★★★ index 段 10 结束 ★★★ --><!-- ★★★ index 段 11 开始 ★★★ -->
 <script>
 /* ===== 问卷 ===== */
 let surveyQuestions = [];
@@ -2450,8 +2438,7 @@ function openSurveyAnswer(surveyId) {
 }
 document.getElementById('closeSurveyAnswerBtn').onclick = () => document.getElementById('surveyAnswerModal').classList.add('hidden');
 </script>
-<!-- ★★★ index 段 11 结束 ★★★ -->
-<!-- ★★★ index 段 12 开始 ★★★ -->
+<!-- ★★★ index 段 11 结束 ★★★ --><!-- ★★★ index 段 12 开始 ★★★ -->
 <script>
 /* ===== 信箱 ===== */
 let currentMailTab = 'sent';
@@ -2550,8 +2537,6 @@ function dateKeyOf(d) {
 }
 
 function initMomentsPage() {
-  momentListMode = false;
-document.getElementById('momentListBtn').classList.remove('active');
   const myAvatar = document.getElementById('momentMyAvatar');
   const myName = document.getElementById('momentMyName');
   const url = load('my_avatar', '');
@@ -2574,50 +2559,8 @@ document.getElementById('momentListBtn').classList.remove('active');
   updateBellDot();
 }
 
-let momentListMode = false;
-
 function renderMomentsList() {
   const label = document.getElementById('momentDateLabel');
-  const box = document.getElementById('momentBody');
-
-  // ===== 列表模式：显示对方全部动态，按日期分组 =====
-  if (momentListMode) {
-    label.textContent = 'TA 的全部动态';
-    const all = load('our_moments', []);
-    const taList = all.filter(m => m.sender === 'ta');
-    if (taList.length === 0) {
-      box.innerHTML = '<div class="moment-empty">对方还没有动态~</div>';
-      return;
-    }
-    // 按日期分组
-    const groups = {};
-    taList.forEach(m => {
-      const d = new Date(m.t);
-      const key = `${d.getFullYear()}-${d.getMonth() + 1}-${d.getDate()}`;
-      if (!groups[key]) groups[key] = [];
-      groups[key].push(m);
-    });
-    // 日期倒序
-    const keys = Object.keys(groups).sort((a, b) => {
-      const [ay, am, ad] = a.split('-').map(Number);
-      const [by, bm, bd] = b.split('-').map(Number);
-      return new Date(by, bm - 1, bd) - new Date(ay, am - 1, ad);
-    });
-    box.innerHTML = '';
-    keys.forEach(k => {
-      const [y, mo, da] = k.split('-').map(Number);
-      const groupTitle = document.createElement('div');
-      groupTitle.className = 'moment-date-group';
-      groupTitle.textContent = `${mo}月${da}日`;
-      box.appendChild(groupTitle);
-      groups[k].slice().reverse().forEach(m => {
-        box.appendChild(renderMomentCard(m));
-      });
-    });
-    return;
-  }
-
-  // ===== 默认模式：当天动态（我 + 对方） =====
   const today = new Date(); today.setHours(0, 0, 0, 0);
   const diff = Math.round((today - currentMomentDate) / 86400000);
   if (diff === 0) label.textContent = '今天';
@@ -2625,6 +2568,7 @@ function renderMomentsList() {
   else if (diff === 2) label.textContent = '前天';
   else label.textContent = `${currentMomentDate.getMonth() + 1}月${currentMomentDate.getDate()}日`;
 
+  const box = document.getElementById('momentBody');
   const key = dateKeyOf(currentMomentDate);
   const all = load('our_moments', []);
   const list = all.filter(m => {
@@ -2639,7 +2583,9 @@ function renderMomentsList() {
   list.slice().reverse().forEach(m => {
     box.appendChild(renderMomentCard(m));
   });
-      }
+}
+
+function renderMomentCard(m) {
   const card = document.createElement('div');
   card.className = 'moment-card';
   card.dataset.mid = m.id;
@@ -2748,15 +2694,13 @@ function renderMomentsList() {
   return card;
 }
 
-document.getElementById('backFromMomentsBtn').onclick = () => {
-  momentListMode = false;
-  document.getElementById('momentListBtn').classList.remove('active');
-  showPage('homePage');
+document.getElementById('backFromMomentsBtn').onclick = () => showPage('homePage');
+document.getElementById('momentPrevBtn').onclick = () => {
+  currentMomentDate.setDate(currentMomentDate.getDate() - 1);
+  renderMomentsList();
 };
-
-document.getElementById('momentListBtn').onclick = () => {
-  momentListMode = !momentListMode;
-  document.getElementById('momentListBtn').classList.toggle('active', momentListMode);
+document.getElementById('momentNextBtn').onclick = () => {
+  currentMomentDate.setDate(currentMomentDate.getDate() + 1);
   renderMomentsList();
 };
 document.getElementById('momentChangeBgBtn').onclick = () => {
@@ -2773,8 +2717,7 @@ document.getElementById('momentChangeBgBtn').onclick = () => {
   up.click();
 };
 </script>
-<!-- ★★★ index 段 12 结束 ★★★ -->
-<!-- ★★★ index 段 13 开始 ★★★ -->
+<!-- ★★★ index 段 12 结束 ★★★ --><!-- ★★★ index 段 13 开始 ★★★ -->
 <script>
 /* ===== 朋友圈发动态 ===== */
 let momentPostImgs = [];
@@ -2959,4 +2902,4 @@ scheduleAutoMoment();
 <script src="settings.js"></script>
 </body>
 </html>
-<!-- ★★★ index 段 13 结束 ★★★ -->  
+<!-- ★★★ index 段 13 结束 ★★★ -->
