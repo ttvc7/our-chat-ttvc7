@@ -487,6 +487,7 @@
         favorites: JSON.parse(localStorage.getItem('our_favorites') || '[]'),
         annivList: JSON.parse(localStorage.getItem('anniv_list') || '[]'),
         annivStart: localStorage.getItem('anniv_start') || '',
+        todayState: JSON.parse(localStorage.getItem('home_today_state') || 'null'),
         taName: cfg.taName, myName: cfg.myName
       };
       let text = '=== ttvc7 备份 ===\n';
@@ -519,6 +520,7 @@
         if (data.favorites) localStorage.setItem('our_favorites', JSON.stringify(data.favorites));
         if (data.annivList) localStorage.setItem('anniv_list', JSON.stringify(data.annivList));
         if (data.annivStart) localStorage.setItem('anniv_start', data.annivStart);
+        if (data.todayState) localStorage.setItem('home_today_state', JSON.stringify(data.todayState));
         if (data.taName) localStorage.setItem('ta_name', JSON.stringify(data.taName));
         if (data.myName) localStorage.setItem('my_name', JSON.stringify(data.myName));
         alert('导入成功，刷新页面生效');
