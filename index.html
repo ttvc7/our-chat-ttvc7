@@ -73,6 +73,19 @@
             </div>
           </div>
         </div>
+
+        <div class="home-today-card">
+          <div class="today-row" id="todayMyRow">
+            <div class="text"><span class="name" id="todayMyName">我</span> 想 <span class="name" id="todayTaName1">TA</span></div>
+            <div class="num"><span id="todayMyNum">0</span> 次</div>
+            <div class="plus-one" id="todayMyPlus">+1</div>
+          </div>
+          <div class="today-row" id="todayTaRow">
+            <div class="text"><span class="name" id="todayTaName2">TA</span> 想 <span class="name" id="todayMyName2">我</span></div>
+            <div class="num"><span id="todayTaNum">0</span> 次</div>
+            <div class="plus-one" id="todayTaPlus">+1</div>
+          </div>
+        </div>
       </div>
 
       <!-- 第二页 -->
@@ -109,11 +122,11 @@
             <div class="anniv-num" id="homeAnnivNum">0</div>
           </div>
           <div class="home-store-play">
-            <div class="sp-item store" data-key="shop">
+            <div class="sp-item" data-key="shop">
               <svg viewBox="0 0 24 24" fill="none" stroke="#555" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M4 7 L20 7 L20 20 L4 20 Z"></path><path d="M4 7 L5 4 L19 4 L20 7"></path><path d="M9 11 L15 11"></path></svg>
               <div class="sp-label">商店</div>
             </div>
-            <div class="sp-item play" data-key="companion">
+            <div class="sp-item" data-key="companion">
               <svg viewBox="0 0 24 24" fill="none" stroke="#555" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M20.8 4.6 a5.5 5.5 0 0 0 -7.8 0 L12 5.7 l-1 -1.1 a5.5 5.5 0 0 0 -7.8 7.8 l1.1 1 L12 21 l7.7 -7.6 1.1 -1 a5.5 5.5 0 0 0 0 -7.8 Z"></path></svg>
               <div class="sp-label">陪伴</div>
             </div>
@@ -2009,6 +2022,16 @@ function applyHomeAssets() {
   const pma = document.getElementById('playerMyAvatar');
   if (pta) { if (taUrl) { pta.style.background = `url(${taUrl}) center/cover no-repeat`; pta.textContent = ''; } else { pta.style.background = '#e5e5e5'; pta.textContent = taName.charAt(0); } }
   if (pma) { if (myUrl) { pma.style.background = `url(${myUrl}) center/cover no-repeat`; pma.textContent = ''; } else { pma.style.background = '#e5e5e5'; pma.textContent = myName.charAt(0); } }
+
+  // 今日状态里的名字
+  const t1 = document.getElementById('todayMyName');
+  const t2 = document.getElementById('todayTaName1');
+  const t3 = document.getElementById('todayTaName2');
+  const t4 = document.getElementById('todayMyName2');
+  if (t1) t1.textContent = myName;
+  if (t2) t2.textContent = taName;
+  if (t3) t3.textContent = taName;
+  if (t4) t4.textContent = myName;
 }
 function applyHomeWallpaper() {
   const wp = load('home_wallpaper', '');
@@ -2053,6 +2076,93 @@ function updateHomeTime() {
 }
 setInterval(updateHomeTime, 30000);
 updateHomeTime();
+
+/* ===== 今日状态 ===== */
+let todayMyCount = 0;
+let todayTaCount = 0;
+let todayDateKey = '';
+let taAutoTimer = null;
+
+function getTodayKeyStr() {
+  const d = new Date();
+  return `${d.getFullYear()}-${d.getMonth() + 1}-${d.getDate()}`;
+}
+
+function loadTodayState() {
+  const saved = load('home_today_state', null);
+  const today = getTodayKeyStr();
+  if (saved && saved.date === today) {
+    todayMyCount = saved.my || 0;
+    todayTaCount = saved.ta || 0;
+  } else {
+    todayMyCount = 0;
+    todayTaCount = 0;
+  }
+  todayDateKey = today;
+  updateTodayUI();
+}
+function saveTodayState() {
+  save('home_today_state', { date: todayDateKey, my: todayMyCount, ta: todayTaCount });
+}
+function updateTodayUI() {
+  const myNum = document.getElementById('todayMyNum');
+  const taNum = document.getElementById('todayTaNum');
+  if (myNum) myNum.textContent = todayMyCount;
+  if (taNum) taNum.textContent = todayTaCount;
+}
+function checkTodayReset() {
+  const today = getTodayKeyStr();
+  if (today !== todayDateKey) {
+    todayDateKey = today;
+    todayMyCount = 0;
+    todayTaCount = 0;
+    saveTodayState();
+    updateTodayUI();
+  }
+}
+function showPlusOne(which) {
+  const el = which === 'my' ? document.getElementById('todayMyPlus') : document.getElementById('todayTaPlus');
+  if (!el) return;
+  el.classList.remove('show');
+  void el.offsetWidth;
+  el.classList.add('show');
+}
+
+/* 我点自己的那行 +1 */
+document.getElementById('todayMyRow').onclick = () => {
+  checkTodayReset();
+  todayMyCount++;
+  saveTodayState();
+  updateTodayUI();
+  showPlusOne('my');
+};
+
+/* 对方随机涨：每次页面活跃时检查一下 */
+function maybeTaGrow() {
+  checkTodayReset();
+  // 每次调用有 40% 概率涨 1 次，最多不超过 100
+  if (todayTaCount >= 100) return;
+  if (Math.random() < 0.4) {
+    todayTaCount++;
+    saveTodayState();
+    updateTodayUI();
+    showPlusOne('ta');
+  }
+}
+function startTaAutoGrow() {
+  if (taAutoTimer) clearInterval(taAutoTimer);
+  // 每 20~40 秒检查一次
+  taAutoTimer = setInterval(() => {
+    if (document.hidden) return;
+    maybeTaGrow();
+  }, 25000);
+}
+
+loadTodayState();
+startTaAutoGrow();
+
+/* 跨 0 点归零（每分钟检查） */
+setInterval(checkTodayReset, 60000);
 
 /* 第一页快捷入口 */
 document.querySelectorAll('.home-grid-2x2 .home-item').forEach(item => {
@@ -3583,7 +3693,6 @@ async function playMusic(id) {
     showPage('musicPlayerPage');
     updatePlayerAvatars();
     if (musicAudio.paused) {
-      // 不自动播放，只显示
       updatePlayIcons(false);
       document.getElementById('musicDisc').classList.remove('spinning');
     } else {
