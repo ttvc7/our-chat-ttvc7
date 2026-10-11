@@ -26,68 +26,114 @@
 
 <!-- ===== 主页 ===== -->
 <div id="homePage" class="page">
-  <div class="home-top">
-    <div class="home-time" id="homeTime">--:--</div>
-    <div class="home-avatars-row">
-      <div class="home-avatar-wrap">
-        <div class="home-avatar" id="homeTaAvatar">TA</div>
-        <div class="home-name" id="homeTaName">TA</div>
+  <div class="home-pages-wrap">
+    <div class="home-pages-track" id="homeTrack">
+
+      <!-- 第一页 -->
+      <div class="home-page-item page1">
+        <div class="home-time-card" id="homeTime">--:--</div>
+
+        <div class="home-avatars-pair">
+          <div class="avatar-wrap">
+            <div class="avatar-circle" id="homeTaAvatar">TA</div>
+            <div class="avatar-name" id="homeTaName">TA</div>
+          </div>
+          <div class="avatar-wrap">
+            <div class="avatar-circle" id="homeMyAvatar">我</div>
+            <div class="avatar-name" id="homeMyName">我</div>
+          </div>
+        </div>
+
+        <div class="home-quote" id="homeQuote">
+          <div class="home-quote-box" id="homeQuoteBox">双击输入寄语</div>
+          <div class="home-quote-text" id="homeQuoteText"></div>
+        </div>
+
+        <div class="home-row-2">
+          <div class="home-card-small" id="homeCard">
+            <img id="homeCardImg" src="" alt="" style="display:none;">
+            <div class="tip" id="homeCardTip">点我选图</div>
+          </div>
+          <div class="home-grid-2x2">
+            <div class="home-item" data-key="wechat">
+              <div class="home-icon"><svg viewBox="0 0 24 24" fill="none" stroke="#555" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M20 12 C20 16.4 16 20 11 20 C10 20 9.1 19.9 8.2 19.7 L4 21 L5.2 17.5 C3.8 16.2 3 14.6 3 12 C3 7.6 7 4 12 4 C17 4 20 7.6 20 12 Z"></path></svg></div>
+              <div class="home-label">微信</div>
+            </div>
+            <div class="home-item" data-key="moments">
+              <div class="home-icon"><svg viewBox="0 0 24 24" fill="none" stroke="#555" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="4"></circle><circle cx="12" cy="12" r="9"></circle></svg></div>
+              <div class="home-label">朋友圈</div>
+            </div>
+            <div class="home-item" data-key="music">
+              <div class="home-icon"><svg viewBox="0 0 24 24" fill="none" stroke="#555" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M9 18 V5 L21 3 V16"></path><circle cx="6" cy="18" r="3"></circle><circle cx="18" cy="16" r="3"></circle></svg></div>
+              <div class="home-label">音乐</div>
+            </div>
+            <div class="home-item" data-key="mail">
+              <div class="home-icon"><svg viewBox="0 0 24 24" fill="none" stroke="#555" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="6" width="18" height="13" rx="2"></rect><path d="M3 8 L12 14 L21 8"></path></svg></div>
+              <div class="home-label">信箱</div>
+            </div>
+          </div>
+        </div>
       </div>
-      <svg class="heartbeat" viewBox="0 0 200 60" preserveAspectRatio="none">
-        <polyline points="0,30 40,30 50,30 55,15 60,45 65,20 70,40 75,30 120,30 130,30 135,15 140,45 145,20 150,40 155,30 200,30" fill="none" stroke="#999" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
-      </svg>
-      <div class="home-avatar-wrap">
-        <div class="home-avatar" id="homeMyAvatar">我</div>
-        <div class="home-name" id="homeMyName">我</div>
+
+      <!-- 第二页 -->
+      <div class="home-page-item page2">
+        <div class="home-big-card" id="homeBigCard"></div>
+
+        <div class="home-talk-2">
+          <div class="home-talk-row2">
+            <div class="home-talk-avatar2" id="talkTaAvatar2">TA</div>
+            <div class="home-talk-line2" id="talkTa2"><span class="placeholder">点我输入</span></div>
+          </div>
+          <div class="home-talk-row2 reverse">
+            <div class="home-talk-line2" id="talkMine2"><span class="placeholder">点我输入</span></div>
+            <div class="home-talk-avatar2" id="talkMyAvatar2">我</div>
+          </div>
+        </div>
+
+        <div class="home-row-bottom2">
+          <div class="home-anniv-card" id="homeAnnivCard">
+            <div class="anniv-title">纪念日</div>
+            <div class="anniv-num" id="homeAnnivNum">0</div>
+          </div>
+          <div class="home-store-play">
+            <div class="sp-item store" data-key="shop">
+              <svg viewBox="0 0 24 24" fill="none" stroke="#555" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M4 7 L20 7 L20 20 L4 20 Z"></path><path d="M4 7 L5 4 L19 4 L20 7"></path><path d="M9 11 L15 11"></path></svg>
+              <div class="sp-label">商店</div>
+            </div>
+            <div class="sp-item play" data-key="companion">
+              <svg viewBox="0 0 24 24" fill="none" stroke="#555" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M20.8 4.6 a5.5 5.5 0 0 0 -7.8 0 L12 5.7 l-1 -1.1 a5.5 5.5 0 0 0 -7.8 7.8 l1.1 1 L12 21 l7.7 -7.6 1.1 -1 a5.5 5.5 0 0 0 0 -7.8 Z"></path></svg>
+              <div class="sp-label">陪伴</div>
+            </div>
+          </div>
+        </div>
       </div>
+
     </div>
   </div>
 
-  <div class="home-grid">
-    <div class="home-item" data-key="wechat">
-      <div class="home-icon"><svg viewBox="0 0 24 24" fill="none" stroke="#666" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M20 12 C20 16.4 16 20 11 20 C10 20 9.1 19.9 8.2 19.7 L4 21 L5.2 17.5 C3.8 16.2 3 14.6 3 12 C3 7.6 7 4 12 4 C17 4 20 7.6 20 12 Z"></path></svg></div>
-      <div class="home-label">微信</div>
+  <!-- 底部固定栏 -->
+  <div class="home-bottom-bar">
+    <div class="home-dots">
+      <div class="dot-item active" data-page="0"></div>
+      <div class="dot-item" data-page="1"></div>
     </div>
-    <div class="home-item" data-key="moments">
-      <div class="home-icon"><svg viewBox="0 0 24 24" fill="none" stroke="#666" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="4"></circle><circle cx="12" cy="12" r="9"></circle></svg></div>
-      <div class="home-label">朋友圈</div>
-    </div>
-    <div class="home-item" data-key="anniversary">
-      <div class="home-icon"><svg viewBox="0 0 24 24" fill="none" stroke="#666" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="5" width="18" height="16" rx="2"></rect><path d="M3 9 H21 M8 3 V7 M16 3 V7"></path><path d="M12 13 L12 17 M10 15 L14 15"></path></svg></div>
-      <div class="home-label">纪念日</div>
-    </div>
-    <div class="home-item" data-key="games">
-      <div class="home-icon"><svg viewBox="0 0 24 24" fill="none" stroke="#666" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="7" width="18" height="10" rx="4"></rect><circle cx="8" cy="12" r="1.2" fill="#666"></circle><circle cx="16" cy="12" r="1.2" fill="#666"></circle><path d="M11 12 H13"></path></svg></div>
-      <div class="home-label">小游戏</div>
-    </div>
-    <div class="home-item" data-key="mail">
-      <div class="home-icon"><svg viewBox="0 0 24 24" fill="none" stroke="#666" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="6" width="18" height="13" rx="2"></rect><path d="M3 8 L12 14 L21 8"></path></svg></div>
-      <div class="home-label">信箱</div>
-    </div>
-    <div class="home-item" data-key="settings">
-      <div class="home-icon"><svg viewBox="0 0 24 24" fill="none" stroke="#666" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="3"></circle><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1-2.83 2.83l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-4 0v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1 0-4h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 2.83-2.83l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 4 0v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 0 4h-.09a1.65 1.65 0 0 0-1.51 1z"></path></svg></div>
-      <div class="home-label">设置</div>
-    </div>
-  </div>
-
-  <div class="home-bottom">
-    <div class="home-card" id="homeCard">
-      <img id="homeCardImg" src="" alt="" style="display:none;">
-      <div class="home-card-tip" id="homeCardTip">点我选图</div>
-    </div>
-    <div class="home-talk">
-      <div class="home-talk-row">
-        <div class="home-talk-avatar" id="talkTaAvatar">TA</div>
-        <div class="home-talk-line" data-who="ta" id="talkTa"><span class="placeholder">点我输入</span></div>
+    <div class="home-tabs-bottom">
+      <div class="tab-btn" data-key="settings">
+        <svg viewBox="0 0 24 24" fill="none" stroke="#555" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="3"></circle><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1-2.83 2.83l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-4 0v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1 0-4h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 2.83-2.83l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 4 0v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 0 4h-.09a1.65 1.65 0 0 0-1.51 1z"></path></svg>
+        <div class="tab-label">设置</div>
       </div>
-      <div class="home-talk-row reverse">
-        <div class="home-talk-line" data-who="me" id="talkMine"><span class="placeholder">点我输入</span></div>
-        <div class="home-talk-avatar" id="talkMyAvatar">我</div>
+      <div class="tab-btn" data-key="anniversary">
+        <svg viewBox="0 0 24 24" fill="none" stroke="#555" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="5" width="18" height="16" rx="2"></rect><path d="M3 9 H21 M8 3 V7 M16 3 V7"></path><path d="M12 13 L12 17 M10 15 L14 15"></path></svg>
+        <div class="tab-label">纪念日</div>
+      </div>
+      <div class="tab-btn" data-key="cards">
+        <svg viewBox="0 0 24 24" fill="none" stroke="#555" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><rect x="4" y="4" width="16" height="16" rx="2"></rect><path d="M8 9 H16 M8 13 H14 M8 17 H12"></path></svg>
+        <div class="tab-label">字卡库</div>
       </div>
     </div>
   </div>
 </div>
-
+<!-- ★★★ index 段 1 结束 ★★★ --><!-- ★★★ index 段 2 开始 ★★★ -->
 <!-- ===== 朋友圈页 ===== -->
 <div id="momentsPage" class="page hidden">
   <header class="chat-header">
@@ -170,7 +216,7 @@
     </div>
   </div>
 </div>
-<!-- ★★★ index 段 1 结束 ★★★ --><!-- ★★★ index 段 2 开始 ★★★ -->
+
 <!-- ===== 纪念日页 ===== -->
 <div id="annivPage" class="page hidden">
   <header class="chat-header">
@@ -270,7 +316,7 @@
   <div class="lp-item" data-act="fav">收藏</div>
   <div class="lp-item" data-act="del">删除</div>
 </div>
-
+<!-- ★★★ index 段 2 结束 ★★★ --><!-- ★★★ index 段 3 开始 ★★★ -->
 <!-- ===== 信箱页 ===== -->
 <div id="mailPage" class="page hidden">
   <header class="chat-header">
@@ -290,7 +336,6 @@
   <button class="mail-fab" id="mailWriteBtn">+</button>
 </div>
 
-<!-- ===== 写信页 ===== -->
 <div id="mailWritePage" class="page hidden">
   <header class="chat-header">
     <div class="header-left">
@@ -309,7 +354,6 @@
   </div>
 </div>
 
-<!-- ===== 看信弹窗 ===== -->
 <div id="mailReadModal" class="modal hidden mail-read-modal">
   <div class="modal-box">
     <div class="modal-head"><span>信件</span><button id="closeMailReadBtn">×</button></div>
@@ -321,7 +365,7 @@
     </div>
   </div>
 </div>
-<!-- ★★★ index 段 2 结束 ★★★ --><!-- ★★★ index 段 3 开始 ★★★ -->
+
 <!-- ===== 问卷列表页 ===== -->
 <div id="surveyListPage" class="page hidden">
   <header class="chat-header">
@@ -367,7 +411,6 @@
   </div>
 </div>
 
-<!-- ===== 问卷详情弹窗 ===== -->
 <div id="surveyAnswerModal" class="modal hidden">
   <div class="modal-box">
     <div class="modal-head"><span id="surveyAnswerTitle">问卷</span><button id="closeSurveyAnswerBtn">×</button></div>
@@ -447,6 +490,16 @@
   </div>
 </div>
 
+<!-- ===== 陪伴页（占位） ===== -->
+<div id="companionModal" class="modal hidden">
+  <div class="modal-box">
+    <div class="modal-head"><span>陪伴</span><button id="closeCompanionBtn">×</button></div>
+    <div class="modal-body">
+      <div class="companion-empty">陪伴功能开发中…</div>
+    </div>
+  </div>
+</div>
+<!-- ★★★ index 段 3 结束 ★★★ --><!-- ★★★ index 段 4 开始 ★★★ -->
 <!-- ===== 字卡库弹窗 ===== -->
 <div id="cardModal" class="modal hidden">
   <div class="modal-box" id="cardBox">
@@ -523,25 +576,6 @@
 <!-- ===== 设置弹窗 ===== -->
 <div id="settingsModal" class="modal hidden"><div class="modal-box"><div class="modal-head"><span>设置</span><button id="closeSettingsBtn">×</button></div><div class="modal-body" style="padding:0;"></div></div></div>
 
-<!-- ===== 小游戏弹窗 ===== -->
-<div id="gamesModal" class="modal hidden">
-  <div class="modal-box">
-    <div class="modal-head"><span>小游戏</span><button id="closeGamesBtn">×</button></div>
-    <div class="modal-body">
-      <div class="games-grid">
-        <div class="game-card" data-game="puzzle">
-          <div class="game-icon"><svg viewBox="0 0 24 24" fill="none" stroke="#666" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="8" height="8" rx="1"></rect><rect x="13" y="3" width="8" height="8" rx="1"></rect><rect x="3" y="13" width="8" height="8" rx="1"></rect><rect x="13" y="13" width="8" height="8" rx="1"></rect></svg></div>
-          <div class="game-name">拼图</div>
-        </div>
-        <div class="game-card" data-game="memory">
-          <div class="game-icon"><svg viewBox="0 0 24 24" fill="none" stroke="#666" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="8" height="12" rx="1"></rect><rect x="13" y="3" width="8" height="12" rx="1"></rect><path d="M7 7 L7 7.01 M17 7 L17 7.01"></path></svg></div>
-          <div class="game-name">记忆翻牌</div>
-        </div>
-      </div>
-    </div>
-  </div>
-</div>
-
 <!-- ===== 收藏夹弹窗 ===== -->
 <div id="favModal" class="modal hidden">
   <div class="modal-box">
@@ -560,7 +594,153 @@
     </div>
   </div>
 </div>
-<!-- ★★★ index 段 3 结束 ★★★ --><!-- ★★★ index 段 4 开始 ★★★ -->
+
+<!-- ===== 音乐库页 ===== -->
+<div id="musicLibraryPage" class="page hidden">
+  <header class="chat-header">
+    <div class="header-left">
+      <button class="header-btn" id="backFromMusicBtn">
+        <svg viewBox="0 0 24 24" fill="none" stroke="#666" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M15 6 L9 12 L15 18"></path></svg>
+      </button>
+    </div>
+    <span>音乐</span>
+    <div class="header-right"></div>
+  </header>
+  <div class="music-float-toggle">
+    <span class="label">悬浮播放小框</span>
+    <div class="switch on" id="musicFloatSwitch"></div>
+  </div>
+  <div class="music-tabs">
+    <button class="music-tab active" data-tab="mine">我的音乐库</button>
+    <button class="music-tab" data-tab="playlist">歌单</button>
+    <button class="music-tab" data-tab="fav">我的收藏</button>
+  </div>
+  <div class="music-body" id="musicBody"></div>
+</div>
+
+<!-- ===== 音乐输入弹窗（上传/链接） ===== -->
+<div id="musicInputModal" class="modal hidden music-input-modal">
+  <div class="modal-box">
+    <div class="modal-head"><span id="musicInputTitle">链接添加</span><button id="closeMusicInputBtn">×</button></div>
+    <div class="modal-body">
+      <div class="music-input-field">
+        <span class="label">歌名</span>
+        <input type="text" id="musicNameInput" placeholder="必填">
+      </div>
+      <div class="music-input-field">
+        <span class="label">歌手</span>
+        <input type="text" id="musicArtistInput" placeholder="可空">
+      </div>
+      <div class="music-input-field" id="musicUrlField">
+        <span class="label">音乐链接</span>
+        <input type="text" id="musicUrlInput" placeholder="mp3 直链">
+      </div>
+      <button class="music-input-save" id="musicInputSave">保存</button>
+    </div>
+  </div>
+</div>
+
+<!-- ===== 全屏播放器 ===== -->
+<div id="musicPlayerPage" class="page hidden">
+  <div class="music-player-top">
+    <button class="header-btn" id="musicBackBtn">
+      <svg viewBox="0 0 24 24" fill="none" stroke="#222" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M15 6 L9 12 L15 18"></path></svg>
+    </button>
+    <button class="header-btn" id="musicPlusBtn">
+      <svg viewBox="0 0 24 24" fill="none" stroke="#222" stroke-width="2.2" stroke-linecap="round"><path d="M12 5 V19 M5 12 H19"></path></svg>
+    </button>
+  </div>
+  <div class="music-player-body">
+    <div class="music-player-avatars">
+      <div class="avatar-wrap">
+        <div class="avatar-circle" id="playerTaAvatar">TA</div>
+      </div>
+      <div class="avatar-wrap">
+        <div class="avatar-circle" id="playerMyAvatar">我</div>
+      </div>
+    </div>
+    <div class="music-player-together" id="musicTogetherText">TA就在你的身边，一起听了 0 分钟</div>
+    <div class="music-disc-wrap">
+      <div class="music-disc" id="musicDisc">
+        <div class="disc-ring"></div>
+        <div class="disc-ring r2"></div>
+        <div class="disc-ring r3"></div>
+        <div class="cover" id="musicDiscCover"></div>
+      </div>
+    </div>
+    <div class="music-title-line" id="musicTitleLine">未播放</div>
+    <div class="music-lyric-line" id="musicLyricLine">—</div>
+    <div class="music-progress">
+      <span class="time" id="musicTimeCur">00:00</span>
+      <div class="bar-wrap" id="musicBarWrap">
+        <div class="bar-fill" id="musicBarFill"></div>
+        <div class="bar-dot" id="musicBarDot"></div>
+      </div>
+      <span class="time" id="musicTimeTotal">00:00</span>
+    </div>
+    <div class="music-controls">
+      <button class="ctrl" id="musicLoopBtn">
+        <svg viewBox="0 0 24 24" fill="none" stroke="#333" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M17 2 L21 6 L17 10"></path><path d="M3 11 V9 a4 4 0 0 1 4 -4 H21"></path><path d="M7 22 L3 18 L7 14"></path><path d="M21 13 V15 a4 4 0 0 1 -4 4 H3"></path></svg>
+      </button>
+      <button class="ctrl" id="musicPrevBtn">
+        <svg viewBox="0 0 24 24" fill="none" stroke="#333" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M19 20 L9 12 L19 4 Z"></path><path d="M5 4 V20"></path></svg>
+      </button>
+      <button class="play-big" id="musicPlayBtn">
+        <svg viewBox="0 0 24 24" id="musicPlayIcon"><path d="M8 5 V19 L19 12 Z"></path></svg>
+      </button>
+      <button class="ctrl" id="musicNextBtn">
+        <svg viewBox="0 0 24 24" fill="none" stroke="#333" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M5 4 L15 12 L5 20 Z"></path><path d="M19 4 V20"></path></svg>
+      </button>
+      <button class="ctrl" id="musicListBtn">
+        <svg viewBox="0 0 24 24" fill="none" stroke="#333" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M4 7 H20"></path><path d="M4 12 H20"></path><path d="M4 17 H20"></path></svg>
+      </button>
+    </div>
+  </div>
+</div>
+
+<!-- ===== 悬浮小圆唱片 ===== -->
+<div id="floatDisc" class="hidden">
+  <div class="float-disc-inner">
+    <div class="float-cover" id="floatCover"></div>
+  </div>
+</div>
+
+<!-- ===== 悬浮展开卡片 ===== -->
+<div id="floatCard" class="hidden">
+  <div class="float-card-top">
+    <button class="camera-btn" id="floatCameraBtn">
+      <svg viewBox="0 0 24 24" fill="none" stroke="#666" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M4 8 H7 L9 5 H15 L17 8 H20 V19 H4 Z"></path><circle cx="12" cy="13" r="3.5"></circle></svg>
+    </button>
+    <button class="up-btn" id="floatUpBtn">
+      <svg viewBox="0 0 24 24" fill="none" stroke="#666" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M6 15 L12 9 L18 15"></path></svg>
+    </button>
+  </div>
+  <div class="float-card-title" id="floatTitle">未播放</div>
+  <div class="float-card-sub" id="floatSub">—</div>
+  <div class="float-card-progress">
+    <div class="fill" id="floatFill"></div>
+  </div>
+  <div class="float-card-controls">
+    <button class="ctrl" id="floatLoopBtn">
+      <svg viewBox="0 0 24 24" fill="none" stroke="#999" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M17 2 L21 6 L17 10"></path><path d="M3 11 V9 a4 4 0 0 1 4 -4 H21"></path><path d="M7 22 L3 18 L7 14"></path><path d="M21 13 V15 a4 4 0 0 1 -4 4 H3"></path></svg>
+    </button>
+    <button class="ctrl" id="floatPrevBtn">
+      <svg viewBox="0 0 24 24" fill="none" stroke="#999" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M19 20 L9 12 L19 4 Z"></path><path d="M5 4 V20"></path></svg>
+    </button>
+    <button class="play-big" id="floatPlayBtn">
+      <svg viewBox="0 0 24 24" id="floatPlayIcon"><path d="M8 5 V19 L19 12 Z"></path></svg>
+    </button>
+    <button class="ctrl" id="floatNextBtn">
+      <svg viewBox="0 0 24 24" fill="none" stroke="#999" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M5 4 L15 12 L5 20 Z"></path><path d="M19 4 V20"></path></svg>
+    </button>
+    <button class="ctrl" id="floatListBtn">
+      <svg viewBox="0 0 24 24" fill="none" stroke="#999" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M4 7 H20"></path><path d="M4 12 H20"></path><path d="M4 17 H20"></path></svg>
+    </button>
+  </div>
+</div>
+
+<input type="file" id="floatCoverUpload" accept="image/*" style="display:none;">
+<!-- ★★★ index 段 4 结束 ★★★ --><!-- ★★★ index 段 5 开始 ★★★ -->
 <script>
 /* ===== IndexedDB 封装 ===== */
 let _idb = null;
@@ -570,9 +750,8 @@ function openIDB() {
     const req = indexedDB.open('ourchat_db', 1);
     req.onupgradeneeded = (e) => {
       const db = e.target.result;
-      if (!db.objectStoreNames.contains('voices')) {
-        db.createObjectStore('voices', { keyPath: 'id' });
-      }
+      if (!db.objectStoreNames.contains('voices')) db.createObjectStore('voices', { keyPath: 'id' });
+      if (!db.objectStoreNames.contains('music')) db.createObjectStore('music', { keyPath: 'id' });
     };
     req.onsuccess = (e) => { _idb = e.target.result; resolve(_idb); };
     req.onerror = (e) => reject(e);
@@ -593,6 +772,15 @@ async function idbGet(store, key) {
     const tx = db.transaction(store, 'readonly');
     const req = tx.objectStore(store).get(key);
     req.onsuccess = () => resolve(req.result);
+    req.onerror = (e) => reject(e);
+  });
+}
+async function idbGetAll(store) {
+  const db = await openIDB();
+  return new Promise((resolve, reject) => {
+    const tx = db.transaction(store, 'readonly');
+    const req = tx.objectStore(store).getAll();
+    req.onsuccess = () => resolve(req.result || []);
     req.onerror = (e) => reject(e);
   });
 }
@@ -756,7 +944,7 @@ function addImage(sender, url, store) {
   }
 }
 </script>
-<!-- ★★★ index 段 4 结束 ★★★ --><!-- ★★★ index 段 5 开始 ★★★ -->
+<!-- ★★★ index 段 5 结束 ★★★ --><!-- ★★★ index 段 6 开始 ★★★ -->
 <script>
 /* ===== 语音消息 ===== */
 function addVoiceMessage(sender, voiceId, name, duration, store) {
@@ -948,7 +1136,7 @@ function markAllRead() {
   });
 }
 </script>
-<!-- ★★★ index 段 5 结束 ★★★ --><!-- ★★★ index 段 6 开始 ★★★ -->
+<!-- ★★★ index 段 6 结束 ★★★ --><!-- ★★★ index 段 7 开始 ★★★ -->
 <script>
 /* ===== 转账卡片 ===== */
 function renderTransferCard(m) {
@@ -1240,7 +1428,7 @@ document.querySelectorAll('#longPressMenu .lp-item').forEach(item => {
   };
 });
 </script>
-<!-- ★★★ index 段 6 结束 ★★★ --><!-- ★★★ index 段 7 开始 ★★★ -->
+<!-- ★★★ index 段 7 结束 ★★★ --><!-- ★★★ index 段 8 开始 ★★★ -->
 <script>
 /* ===== 商店卡片 ===== */
 function renderShopCard(m) {
@@ -1510,7 +1698,7 @@ function loadCards() {
   });
 }
 </script>
-<!-- ★★★ index 段 7 结束 ★★★ --><!-- ★★★ index 段 8 开始 ★★★ -->
+<!-- ★★★ index 段 8 结束 ★★★ --><!-- ★★★ index 段 9 开始 ★★★ -->
 <script>
 function bindEmojiTab() {
   const input = document.getElementById('emojiInput');
@@ -1751,7 +1939,7 @@ function compressImage(file, maxSize, cb) {
   reader.readAsDataURL(file);
 }
 </script>
-<!-- ★★★ index 段 8 结束 ★★★ --><!-- ★★★ index 段 9 开始 ★★★ -->
+<!-- ★★★ index 段 9 结束 ★★★ --><!-- ★★★ index 段 10 开始 ★★★ -->
 <script>
 /* ===== 自动消息 ===== */
 let autoMsgTimer = null;
@@ -1790,7 +1978,7 @@ function scheduleAutoMessage() {
   }, delay);
 }
 
-/* ===== 首页 ===== */
+/* ===== 主页 ===== */
 function applyHomeAssets() {
   const myA = document.getElementById('homeMyAvatar');
   const taA = document.getElementById('homeTaAvatar');
@@ -1802,10 +1990,16 @@ function applyHomeAssets() {
   if (taA) { if (taUrl) { taA.style.background = `url(${taUrl}) center/cover no-repeat`; taA.textContent = ''; } else taA.textContent = taName.charAt(0); }
   if (myNameEl) myNameEl.textContent = myName;
   if (taNameEl) taNameEl.textContent = taName;
-  const tmA = document.getElementById('talkMyAvatar');
-  const ttA = document.getElementById('talkTaAvatar');
-  if (tmA) { if (myUrl) { tmA.style.background = `url(${myUrl}) center/cover no-repeat`; tmA.textContent = ''; } else tmA.textContent = myName.charAt(0); }
-  if (ttA) { if (taUrl) { ttA.style.background = `url(${taUrl}) center/cover no-repeat`; ttA.textContent = ''; } else ttA.textContent = taName.charAt(0); }
+
+  const tma2 = document.getElementById('talkMyAvatar2');
+  const tta2 = document.getElementById('talkTaAvatar2');
+  if (tma2) { if (myUrl) { tma2.style.background = `url(${myUrl}) center/cover no-repeat`; tma2.textContent = ''; } else tma2.textContent = myName.charAt(0); }
+  if (tta2) { if (taUrl) { tta2.style.background = `url(${taUrl}) center/cover no-repeat`; tta2.textContent = ''; } else tta2.textContent = taName.charAt(0); }
+
+  const pta = document.getElementById('playerTaAvatar');
+  const pma = document.getElementById('playerMyAvatar');
+  if (pta) { if (taUrl) { pta.style.background = `url(${taUrl}) center/cover no-repeat`; pta.textContent = ''; } else pta.textContent = taName.charAt(0); }
+  if (pma) { if (myUrl) { pma.style.background = `url(${myUrl}) center/cover no-repeat`; pma.textContent = ''; } else pma.textContent = myName.charAt(0); }
 }
 function applyHomeWallpaper() {
   const wp = load('home_wallpaper', '');
@@ -1813,6 +2007,28 @@ function applyHomeWallpaper() {
   if (!homePage) return;
   if (wp) homePage.style.background = wp.startsWith('linear') || wp.startsWith('#') ? wp : `url(${wp}) center/cover no-repeat`;
   else homePage.style.background = '#f5f5f5';
+}
+function applyHomeBigCard() {
+  const big = document.getElementById('homeBigCard');
+  if (!big) return;
+  const bg = load('home_big_card', '');
+  if (bg) big.style.background = `url(${bg}) center/cover no-repeat`;
+  else big.style.background = 'linear-gradient(135deg, #e8f0ff 0%, #d7e4f8 100%)';
+}
+function applyHomeQuote() {
+  const q = load('home_quote', '');
+  const box = document.getElementById('homeQuoteBox');
+  const txt = document.getElementById('homeQuoteText');
+  const wrap = document.getElementById('homeQuote');
+  if (q) {
+    wrap.classList.add('filled');
+    txt.textContent = q;
+    box.textContent = '双击输入寄语';
+  } else {
+    wrap.classList.remove('filled');
+    box.textContent = '双击输入寄语';
+    txt.textContent = '';
+  }
 }
 function updateHomeTime() {
   const el = document.getElementById('homeTime');
@@ -1823,28 +2039,77 @@ function updateHomeTime() {
 setInterval(updateHomeTime, 30000);
 updateHomeTime();
 
-document.querySelectorAll('.home-item').forEach(item => {
+/* 第一页快捷入口 */
+document.querySelectorAll('.home-grid-2x2 .home-item').forEach(item => {
   item.onclick = () => {
     const key = item.dataset.key;
     if (key === 'wechat') showPage('chatPage');
-    else if (key === 'settings') document.getElementById('settingsModal').classList.remove('hidden');
     else if (key === 'moments') { showPage('momentsPage'); initMomentsPage(); }
-    else if (key === 'anniversary') { showPage('annivPage'); renderAnniv(); }
-    else if (key === 'games') document.getElementById('gamesModal').classList.remove('hidden');
+    else if (key === 'music') showMusicLibrary();
     else if (key === 'mail') showMailPage();
   };
 });
 
-document.getElementById('closeGamesBtn').onclick = () => document.getElementById('gamesModal').classList.add('hidden');
-document.querySelectorAll('.game-card').forEach(card => {
-  card.onclick = () => {
-    const g = card.dataset.game;
-    if (g === 'puzzle') alert('拼图功能开发中…');
-    else if (g === 'memory') alert('记忆翻牌功能开发中…');
+/* 第二页商店 / 陪伴 */
+document.querySelectorAll('.home-store-play .sp-item').forEach(item => {
+  item.onclick = () => {
+    const key = item.dataset.key;
+    if (key === 'shop') showShopPage();
+    else if (key === 'companion') document.getElementById('companionModal').classList.remove('hidden');
+  };
+});
+document.getElementById('closeCompanionBtn').onclick = () => document.getElementById('companionModal').classList.add('hidden');
+
+/* 第二页纪念日小卡 */
+document.getElementById('homeAnnivCard').onclick = () => { showPage('annivPage'); renderAnniv(); };
+
+/* 底部固定栏 */
+document.querySelectorAll('.home-tabs-bottom .tab-btn').forEach(btn => {
+  btn.onclick = () => {
+    const key = btn.dataset.key;
+    if (key === 'settings') document.getElementById('settingsModal').classList.remove('hidden');
+    else if (key === 'anniversary') { showPage('annivPage'); renderAnniv(); }
+    else if (key === 'cards') {
+      document.getElementById('cardModal').classList.remove('hidden');
+      if (typeof window.openCardTab === 'function') window.openCardTab('main');
+    }
   };
 });
 
-/* 首页卡片 / 对话输入 */
+/* 翻页 */
+let homeCurrentPage = 0;
+const homeTrack = document.getElementById('homeTrack');
+const homeDots = document.querySelectorAll('.home-dots .dot-item');
+let touchStartX = 0, touchStartY = 0, touchSwiping = false;
+
+function setHomePage(page) {
+  homeCurrentPage = page;
+  homeTrack.style.transform = `translateX(-${page * 50}%)`;
+  homeDots.forEach((d, i) => d.classList.toggle('active', i === page));
+}
+
+(function() {
+  const wrap = document.querySelector('.home-pages-wrap');
+  wrap.addEventListener('touchstart', (e) => {
+    touchStartX = e.touches[0].clientX;
+    touchStartY = e.touches[0].clientY;
+    touchSwiping = false;
+  }, { passive: true });
+  wrap.addEventListener('touchmove', (e) => {
+    const dx = e.touches[0].clientX - touchStartX;
+    const dy = e.touches[0].clientY - touchStartY;
+    if (!touchSwiping && Math.abs(dx) > Math.abs(dy) && Math.abs(dx) > 10) touchSwiping = true;
+  }, { passive: true });
+  wrap.addEventListener('touchend', (e) => {
+    if (!touchSwiping) return;
+    const dx = e.changedTouches[0].clientX - touchStartX;
+    if (dx < -50 && homeCurrentPage === 0) setHomePage(1);
+    else if (dx > 50 && homeCurrentPage === 1) setHomePage(0);
+  });
+  homeDots.forEach((d, i) => d.onclick = () => setHomePage(i));
+})();
+
+/* 首页卡片 / 大卡片选图 */
 (function() {
   const cardEl = document.getElementById('homeCard');
   const img = document.getElementById('homeCardImg');
@@ -1870,11 +2135,51 @@ document.querySelectorAll('.game-card').forEach(card => {
 })();
 
 (function() {
-  const mine = document.getElementById('talkMine');
-  const ta = document.getElementById('talkTa');
+  const big = document.getElementById('homeBigCard');
+  if (!big) return;
+  const upload = document.createElement('input');
+  upload.type = 'file'; upload.accept = 'image/*'; upload.style.display = 'none';
+  document.body.appendChild(upload);
+  big.onclick = () => upload.click();
+  upload.onchange = (e) => {
+    const file = e.target.files[0];
+    if (!file) return;
+    compressImage(file, 800, (url) => {
+      save('home_big_card', url);
+      big.style.background = `url(${url}) center/cover no-repeat`;
+    });
+    upload.value = '';
+  };
+})();
+
+/* 首页寄语（双击） */
+(function() {
+  const box = document.getElementById('homeQuoteBox');
+  const txt = document.getElementById('homeQuoteText');
+  const wrap = document.getElementById('homeQuote');
+  box.ondblclick = () => {
+    const cur = load('home_quote', '');
+    const v = prompt('输入寄语：', cur);
+    if (v === null) return;
+    save('home_quote', v.trim());
+    applyHomeQuote();
+  };
+  txt.ondblclick = () => {
+    const cur = load('home_quote', '');
+    const v = prompt('输入寄语：', cur);
+    if (v === null) return;
+    save('home_quote', v.trim());
+    applyHomeQuote();
+  };
+})();
+
+/* 第二页对话气泡（单击） */
+(function() {
+  const mine = document.getElementById('talkMine2');
+  const ta = document.getElementById('talkTa2');
   function renderLine(el, text) {
-    if (text) { el.textContent = text; el.classList.add('filled'); }
-    else { el.innerHTML = '<span class="placeholder">点我输入</span>'; el.classList.remove('filled'); }
+    if (text) { el.textContent = text; }
+    else { el.innerHTML = '<span class="placeholder">点我输入</span>'; }
   }
   renderLine(mine, load('home_talk_mine', ''));
   renderLine(ta, load('home_talk_ta', ''));
@@ -1888,14 +2193,29 @@ document.querySelectorAll('.game-card').forEach(card => {
   ta.onclick = () => openEdit(ta, 'home_talk_ta', '对方');
 })();
 
+/* 纪念日小卡数字同步 */
+function updateHomeAnnivNum() {
+  const el = document.getElementById('homeAnnivNum');
+  if (!el) return;
+  const start = localStorage.getItem('anniv_start') || '';
+  if (start) {
+    const diff = Math.floor((Date.now() - new Date(start).getTime()) / 86400000);
+    el.textContent = diff >= 0 ? diff : 0;
+  } else el.textContent = '0';
+}
+updateHomeAnnivNum();
+
 window.applyHomeWallpaper = applyHomeWallpaper;
 window.renderFavList = renderFavList;
 window.refreshMessages = refreshMessages;
 window.openCardTab = openCardTab;
+window.updateHomeAnnivNum = updateHomeAnnivNum;
 
 refreshMessages();
 applyHomeAssets();
 applyHomeWallpaper();
+applyHomeBigCard();
+applyHomeQuote();
 (function() { const t = document.getElementById('taName'); if (t) t.textContent = load('ta_name', 'TA'); })();
 scheduleAutoMessage();
 
@@ -1969,7 +2289,7 @@ function openShopDetail(id) {
 }
 function closeShopDetail() { document.getElementById('shopDetailModal').classList.add('hidden'); }
 </script>
-<!-- ★★★ index 段 9 结束 ★★★ --><!-- ★★★ index 段 10 开始 ★★★ -->
+<!-- ★★★ index 段 10 结束 ★★★ --><!-- ★★★ index 段 11 开始 ★★★ -->
 <script>
 function buyForTa(it) {
   const taName = load('ta_name', 'TA');
@@ -2014,7 +2334,7 @@ function taSendGift(it) {
   saveShopOrders();
 }
 
-document.getElementById('backFromShopBtn').onclick = () => showPage('chatPage');
+document.getElementById('backFromShopBtn').onclick = () => showPage('homePage');
 document.getElementById('shopAddBtn').onclick = () => openShopEdit(null);
 document.getElementById('closeShopEditBtn').onclick = closeShopEdit;
 document.getElementById('closeShopDetailBtn').onclick = closeShopDetail;
@@ -2150,7 +2470,7 @@ function renderAnniv() {
   } else daysEl.textContent = '--';
   const list = loadAnnivList();
   const listEl = document.getElementById('annivList');
-  if (list.length === 0) { listEl.innerHTML = '<div style="color:#999;font-size:13px;text-align:center;padding:20px;">还没有纪念日，点下面添加</div>'; return; }
+  if (list.length === 0) { listEl.innerHTML = '<div style="color:#999;font-size:13px;text-align:center;padding:20px;">还没有纪念日，点下面添加</div>'; updateHomeAnnivNum(); return; }
   listEl.innerHTML = '';
   list.forEach((item, idx) => {
     const div = document.createElement('div');
@@ -2163,10 +2483,10 @@ function renderAnniv() {
     div.querySelector('.anniv-item-del').onclick = () => { list.splice(idx, 1); saveAnnivList(list); renderAnniv(); };
     listEl.appendChild(div);
   });
+  updateHomeAnnivNum();
 }
 document.getElementById('backFromAnnivBtn').onclick = () => showPage('homePage');
 
-/* ===== 纪念日日期滚轮 ===== */
 let annivPickerMode = 'start';
 let annivPickerY = 2024, annivPickerM = 1, annivPickerD = 1;
 function pad2(n) { return String(n).padStart(2, '0'); }
@@ -2256,7 +2576,7 @@ document.getElementById('addAnnivBtn').onclick = () => {
   openAnnivPicker('add', '');
 };
 </script>
-<!-- ★★★ index 段 10 结束 ★★★ --><!-- ★★★ index 段 11 开始 ★★★ -->
+<!-- ★★★ index 段 11 结束 ★★★ --><!-- ★★★ index 段 12 开始 ★★★ -->
 <script>
 /* ===== 问卷 ===== */
 let surveyQuestions = [];
@@ -2440,9 +2760,7 @@ function openSurveyAnswer(surveyId) {
   modal.classList.remove('hidden');
 }
 document.getElementById('closeSurveyAnswerBtn').onclick = () => document.getElementById('surveyAnswerModal').classList.add('hidden');
-</script>
-<!-- ★★★ index 段 11 结束 ★★★ --><!-- ★★★ index 段 12 开始 ★★★ -->
-<script>
+
 /* ===== 信箱 ===== */
 let currentMailTab = 'sent';
 function showMailPage() {
@@ -2530,9 +2848,11 @@ function scheduleAutoMail() {
   }, delay);
 }
 scheduleAutoMail();
-
+</script>
+<!-- ★★★ index 段 12 结束 ★★★ --><!-- ★★★ index 段 13 开始 ★★★ -->
+<script>
 /* ===== 朋友圈 ===== */
-let momentListMode = 'all';  // 'all' 或 'ta'
+let momentListMode = 'all';
 let currentVisibleDate = '';
 
 function initMomentsPage() {
@@ -2581,9 +2901,7 @@ function renderMomentsList() {
   let list = all.slice();
   if (momentListMode === 'ta') list = list.filter(m => m.sender === 'ta');
 
-  // 全部清空时
   const allEmpty = all.length === 0;
-  // 列表模式且对方无动态
   if (momentListMode === 'ta' && list.length === 0) {
     box.innerHTML = '<div class="moment-ta-empty">对方还没有发动态哦</div>';
     const dt = document.getElementById('momentDividerText');
@@ -2591,7 +2909,6 @@ function renderMomentsList() {
     currentVisibleDate = '';
     return;
   }
-  // 默认模式但双方都无动态
   if (momentListMode === 'all' && allEmpty) {
     box.innerHTML = '';
     const dt = document.getElementById('momentDividerText');
@@ -2600,10 +2917,7 @@ function renderMomentsList() {
     return;
   }
 
-  // 按时间倒序
   list.sort((a, b) => b.t - a.t);
-
-  // 每条动态记录自己的日期 key（用于滚动时更新横线文字）
   box.innerHTML = '';
   list.forEach(m => {
     const card = renderMomentCard(m);
@@ -2611,13 +2925,11 @@ function renderMomentsList() {
     box.appendChild(card);
   });
 
-  // 初始化横线文字 = 顶部第一条动态的日期
   const firstKey = dateKeyOf(new Date(list[0].t));
   currentVisibleDate = firstKey;
   const dt = document.getElementById('momentDividerText');
   if (dt) dt.textContent = formatDividerDate(new Date(list[0].t));
 
-  // 绑定滚动监听
   bindMomentScroll();
 }
 
@@ -2782,9 +3094,7 @@ document.getElementById('momentChangeBgBtn').onclick = () => {
   };
   up.click();
 };
-</script>
-<!-- ★★★ index 段 12 结束 ★★★ --><!-- ★★★ index 段 13 开始 ★★★ -->
-<script>
+
 /* ===== 朋友圈发动态 ===== */
 let momentPostImgs = [];
 
@@ -2845,7 +3155,6 @@ document.getElementById('momentPostSend').onclick = () => {
   });
   save('our_moments', all);
   document.getElementById('momentPostModal').classList.add('hidden');
-  // 发布后自动切回全部模式并滚到顶部
   momentListMode = 'all';
   const listBtn = document.getElementById('momentListBtn');
   if (listBtn) listBtn.classList.remove('active');
@@ -2965,8 +3274,546 @@ function scheduleAutoMoment() {
 }
 scheduleAutoMoment();
 </script>
+<!-- ★★★ index 段 13 结束 ★★★ --><!-- ★★★ index 段 14 开始 ★★★ -->
+<script>
+/* ===== 音乐库 ===== */
+let musicList = [];
+let musicCurrentId = null;
+let musicAudio = null;
+let musicLoopMode = 'list';
+let musicBatchMode = false;
+let musicCurrentTab = 'mine';
+let musicFloatEnabled = true;
 
+function showMusicLibrary() {
+  showPage('musicLibraryPage');
+  musicCurrentTab = 'mine';
+  document.querySelectorAll('.music-tab').forEach(t => t.classList.toggle('active', t.dataset.tab === 'mine'));
+  loadMusicFromIDB();
+}
+function saveMusicMeta() {
+  save('our_music_meta', musicList.map(m => ({ id: m.id, name: m.name, artist: m.artist, type: m.type, url: m.url, cover: m.cover, duration: m.duration, fav: m.fav || false })));
+}
+function loadMusicFromIDB() {
+  const meta = load('our_music_meta', []);
+  musicList = meta.map(m => ({ ...m, fav: m.fav || false }));
+  renderMusicList();
+}
+function renderMusicList() {
+  const box = document.getElementById('musicBody');
+  if (!box) return;
+  const floatOn = document.getElementById('musicFloatSwitch');
+  if (floatOn) floatOn.classList.toggle('on', musicFloatEnabled);
+  let html = '';
+  if (musicCurrentTab === 'mine') {
+    html += '<div class="music-actions">';
+    html += '<button class="music-action-btn" id="musicUploadBtn"><svg viewBox="0 0 24 24" fill="none" stroke="#333" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 4 V16 M6 10 L12 4 L18 10"></path><path d="M5 20 H19"></path></svg>上传音乐</button>';
+    html += '<button class="music-action-btn" id="musicLinkBtn"><svg viewBox="0 0 24 24" fill="none" stroke="#333" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10 14 a4 4 0 0 0 5.7 0 l2.6 -2.6 a4 4 0 0 0 -5.7 -5.7 L11 7"></path><path d="M14 10 a4 4 0 0 0 -5.7 0 l-2.6 2.6 a4 4 0 0 0 5.7 5.7 L13 17"></path></svg>链接添加</button>';
+    html += '<button class="music-action-btn" id="musicBatchImportBtn"><svg viewBox="0 0 24 24" fill="none" stroke="#333" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="4" y="4" width="16" height="16" rx="2"></rect><path d="M9 9 H15 M9 13 H15 M9 17 H13"></path></svg>批量导入</button>';
+    html += '<button class="music-action-btn" id="musicBatchManageBtn"><svg viewBox="0 0 24 24" fill="none" stroke="#333" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="7" height="7"></rect><rect x="14" y="3" width="7" height="7"></rect><rect x="3" y="14" width="7" height="7"></rect><rect x="14" y="14" width="7" height="7"></rect></svg>批量管理</button>';
+    html += '</div>';
+    html += '<button class="music-clean-btn" id="musicCleanBtn"><svg viewBox="0 0 24 24" fill="none" stroke="#333" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M13 2 L4 13 H12 L11 22 L20 11 H12 Z"></path></svg>清理会员歌曲</button>';
+    html += '<div class="music-sub-tabs">';
+    html += '<button class="music-sub-tab active" data-sub="all">全部音乐 ' + musicList.length + '</button>';
+    html += '<button class="music-sub-tab" data-sub="fav">我的收藏 ' + musicList.filter(m => m.fav).length + '</button>';
+    html += '</div>';
+    if (musicBatchMode) {
+      html += '<div class="music-batch-bar"><button id="musicBatchCancel">取消</button><button class="danger" id="musicBatchDelete">删除选中</button></div>';
+    }
+    html += '<div class="music-list" id="musicListBox"></div>';
+  } else if (musicCurrentTab === 'playlist') {
+    html += '<div class="music-empty">歌单功能开发中<br>（先做音乐库和播放）</div>';
+  } else if (musicCurrentTab === 'fav') {
+    const favs = musicList.filter(m => m.fav);
+    if (favs.length === 0) html += '<div class="music-empty">还没有收藏的歌</div>';
+    else {
+      html += '<div class="music-list">';
+      favs.forEach(m => html += musicItemHTML(m));
+      html += '</div>';
+    }
+  }
+  box.innerHTML = html;
+  if (musicCurrentTab === 'mine') renderMusicItems('all');
+  if (musicCurrentTab === 'fav') bindMusicItems();
+  bindMusicActions();
+}
+
+function musicItemHTML(m) {
+  const artist = m.artist || '未知歌手';
+  const dur = m.duration || '';
+  return `<div class="music-item" data-id="${m.id}">
+    <div class="checkbox"></div>
+    <div class="cover" ${m.cover ? `style="background-image:url(${m.cover})"` : ''}>${m.cover ? '' : '♪'}</div>
+    <div class="info">
+      <div class="title">${m.name || '未命名'}</div>
+      <div class="sub">${artist}${m.type === 'link' ? ' · 网络' : ''}</div>
+    </div>
+    <div class="dur">${dur}</div>
+    <button class="more">⋯</button>
+  </div>`;
+}
+function renderMusicItems(sub) {
+  const box = document.getElementById('musicListBox');
+  if (!box) return;
+  let list = musicList;
+  if (sub === 'fav') list = list.filter(m => m.fav);
+  if (list.length === 0) {
+    box.innerHTML = '<div class="music-empty">歌单为空，请先导入</div>';
+    return;
+  }
+  box.innerHTML = list.map(m => musicItemHTML(m)).join('');
+  bindMusicItems();
+}
+function bindMusicItems() {
+  document.querySelectorAll('.music-item').forEach(item => {
+    const id = item.dataset.id;
+    item.onclick = (e) => {
+      if (e.target.closest('.more')) return;
+      if (musicBatchMode) {
+        item.classList.toggle('checked');
+        return;
+      }
+      playMusic(id);
+    };
+    const moreBtn = item.querySelector('.more');
+    if (moreBtn) {
+      moreBtn.onclick = (e) => {
+        e.stopPropagation();
+        showMusicItemMenu(id);
+      };
+    }
+    if (musicBatchMode) item.classList.add('batch-mode');
+  });
+}
+function showMusicItemMenu(id) {
+  const m = musicList.find(x => x.id === id);
+  if (!m) return;
+  const choices = ['收藏 / 取消收藏', '删除'];
+  const pick = prompt('输入数字：\n1. ' + (m.fav ? '取消收藏' : '收藏') + '\n2. 删除', '1');
+  if (pick === '1') {
+    m.fav = !m.fav;
+    saveMusicMeta();
+    renderMusicList();
+  } else if (pick === '2') {
+    if (!confirm('确定删除这首歌？')) return;
+    musicList = musicList.filter(x => x.id !== id);
+    idbDelete('music', id).catch(() => {});
+    saveMusicMeta();
+    if (musicCurrentId === id) stopMusic();
+    renderMusicList();
+  }
+}
+function bindMusicActions() {
+  const uploadBtn = document.getElementById('musicUploadBtn');
+  const linkBtn = document.getElementById('musicLinkBtn');
+  const batchImportBtn = document.getElementById('musicBatchImportBtn');
+  const batchManageBtn = document.getElementById('musicBatchManageBtn');
+  const cleanBtn = document.getElementById('musicCleanBtn');
+  const batchCancel = document.getElementById('musicBatchCancel');
+  const batchDelete = document.getElementById('musicBatchDelete');
+  const floatSwitch = document.getElementById('musicFloatSwitch');
+
+  if (uploadBtn) uploadBtn.onclick = uploadMusicFile;
+  if (linkBtn) linkBtn.onclick = () => openMusicInputModal('link');
+  if (batchImportBtn) batchImportBtn.onclick = uploadMusicFiles;
+  if (batchManageBtn) batchManageBtn.onclick = () => {
+    musicBatchMode = !musicBatchMode;
+    renderMusicList();
+  };
+  if (batchCancel) batchCancel.onclick = () => { musicBatchMode = false; renderMusicList(); };
+  if (batchDelete) batchDelete.onclick = () => {
+    const checked = document.querySelectorAll('.music-item.checked');
+    if (checked.length === 0) { alert('没有选中'); return; }
+    if (!confirm('删除选中的 ' + checked.length + ' 首？')) return;
+    const ids = Array.from(checked).map(el => el.dataset.id);
+    ids.forEach(id => idbDelete('music', id).catch(() => {}));
+    musicList = musicList.filter(m => !ids.includes(m.id));
+    saveMusicMeta();
+    musicBatchMode = false;
+    renderMusicList();
+  };
+  if (cleanBtn) cleanBtn.onclick = () => {
+    const bad = musicList.filter(m => m.type === 'link');
+    if (bad.length === 0) { alert('没有会员歌曲'); return; }
+    if (!confirm('删除全部 ' + bad.length + ' 首链接歌曲？')) return;
+    bad.forEach(m => idbDelete('music', m.id).catch(() => {}));
+    musicList = musicList.filter(m => m.type !== 'link');
+    saveMusicMeta();
+    renderMusicList();
+  };
+  if (floatSwitch) floatSwitch.onclick = () => {
+    musicFloatEnabled = !musicFloatEnabled;
+    floatSwitch.classList.toggle('on', musicFloatEnabled);
+    if (!musicFloatEnabled) hideFloatDisc();
+    else if (musicCurrentId && musicAudio && !musicAudio.paused) showFloatDisc();
+  };
+  document.querySelectorAll('.music-sub-tab').forEach(tab => {
+    tab.onclick = () => {
+      document.querySelectorAll('.music-sub-tab').forEach(t => t.classList.remove('active'));
+      tab.classList.add('active');
+      const sub = tab.dataset.sub;
+      renderMusicList();
+      if (musicCurrentTab === 'mine') renderMusicItems(sub);
+    };
+  });
+  document.querySelectorAll('.music-tab').forEach(tab => {
+    tab.onclick = () => {
+      document.querySelectorAll('.music-tab').forEach(t => t.classList.remove('active'));
+      tab.classList.add('active');
+      musicCurrentTab = tab.dataset.tab;
+      renderMusicList();
+    };
+  });
+}
+document.getElementById('backFromMusicBtn').onclick = () => {
+  showPage('homePage');
+  if (musicCurrentId && musicAudio && !musicAudio.paused && musicFloatEnabled) showFloatDisc();
+};
+
+/* 上传本地音乐 */
+function uploadMusicFile() {
+  const up = document.createElement('input');
+  up.type = 'file'; up.accept = 'audio/*';
+  up.onchange = async (e) => {
+    const f = e.target.files[0]; if (!f) return;
+    await addMusicFromFile(f);
+    saveMusicMeta();
+    renderMusicList();
+  };
+  up.click();
+}
+function uploadMusicFiles() {
+  const up = document.createElement('input');
+  up.type = 'file'; up.accept = 'audio/*'; up.multiple = true;
+  up.onchange = async (e) => {
+    const files = Array.from(e.target.files);
+    for (const f of files) await addMusicFromFile(f);
+    saveMusicMeta();
+    renderMusicList();
+  };
+  up.click();
+}
+async function addMusicFromFile(f) {
+  const id = Date.now() + '_' + Math.random().toString(36).slice(2, 6);
+  const buf = await f.arrayBuffer();
+  const blob = new Blob([buf], { type: f.type || 'audio/mpeg' });
+  let duration = '';
+  await new Promise((resolve) => {
+    const url = URL.createObjectURL(blob);
+    const audio = new Audio(url);
+    audio.onloadedmetadata = () => {
+      if (isFinite(audio.duration)) duration = fmtTime(Math.round(audio.duration));
+      URL.revokeObjectURL(url);
+      resolve();
+    };
+    audio.onerror = () => { URL.revokeObjectURL(url); resolve(); };
+  });
+  await idbPut('music', { id, blob });
+  const name = f.name.replace(/\.[^.]+$/, '');
+  musicList.push({ id, name, artist: '', type: 'local', duration });
+}
+
+/* 链接添加 */
+let musicInputMode = 'link';
+function openMusicInputModal(mode) {
+  musicInputMode = mode;
+  document.getElementById('musicInputTitle').textContent = '链接添加';
+  document.getElementById('musicNameInput').value = '';
+  document.getElementById('musicArtistInput').value = '';
+  document.getElementById('musicUrlInput').value = '';
+  document.getElementById('musicUrlField').style.display = '';
+  document.getElementById('musicInputModal').classList.remove('hidden');
+}
+document.getElementById('closeMusicInputBtn').onclick = () => document.getElementById('musicInputModal').classList.add('hidden');
+document.getElementById('musicInputSave').onclick = () => {
+  const name = document.getElementById('musicNameInput').value.trim();
+  const artist = document.getElementById('musicArtistInput').value.trim();
+  const url = document.getElementById('musicUrlInput').value.trim();
+  if (!name) { alert('请填歌名'); return; }
+  if (musicInputMode === 'link' && !url) { alert('请填音乐链接'); return; }
+  const id = Date.now() + '_' + Math.random().toString(36).slice(2, 6);
+  musicList.push({ id, name, artist, type: 'link', url, duration: '' });
+  saveMusicMeta();
+  document.getElementById('musicInputModal').classList.add('hidden');
+  renderMusicList();
+};
+
+function fmtTime(s) {
+  s = Math.floor(s || 0);
+  const m = Math.floor(s / 60);
+  const ss = s % 60;
+  return String(m).padStart(2, '0') + ':' + String(ss).padStart(2, '0');
+}
+</script>
+<!-- ★★★ index 段 14 结束 ★★★ --><!-- ★★★ index 段 15 开始 ★★★ -->
+<script>
+/* ===== 音乐播放器 ===== */
+async function playMusic(id) {
+  const m = musicList.find(x => x.id === id);
+  if (!m) return;
+  musicCurrentId = id;
+
+  let src = '';
+  if (m.type === 'link') src = m.url;
+  else {
+    const rec = await idbGet('music', id);
+    if (!rec || !rec.blob) { alert('音频文件丢失'); return; }
+    src = URL.createObjectURL(rec.blob);
+  }
+
+  if (musicAudio) { musicAudio.pause(); musicAudio = null; }
+  musicAudio = new Audio(src);
+  musicAudio.loop = false;
+
+  musicAudio.onloadedmetadata = () => {
+    const total = musicAudio.duration;
+    document.getElementById('musicTimeTotal').textContent = fmtTime(total);
+  };
+  musicAudio.ontimeupdate = () => {
+    const cur = musicAudio.currentTime;
+    const total = musicAudio.duration || 0;
+    document.getElementById('musicTimeCur').textContent = fmtTime(cur);
+    const pct = total > 0 ? (cur / total) * 100 : 0;
+    document.getElementById('musicBarFill').style.width = pct + '%';
+    document.getElementById('musicBarDot').style.left = pct + '%';
+    document.getElementById('floatFill').style.width = pct + '%';
+  };
+  musicAudio.onended = () => {
+    if (musicLoopMode === 'one') { musicAudio.currentTime = 0; musicAudio.play(); return; }
+    playNext();
+  };
+
+  document.getElementById('musicTitleLine').textContent = m.name + (m.artist ? ' - ' + m.artist : '');
+  document.getElementById('musicLyricLine').textContent = '—';
+  document.getElementById('musicDiscCover').style.background = m.cover ? `url(${m.cover}) center/cover no-repeat` : '#333';
+  document.getElementById('floatTitle').textContent = m.name;
+  document.getElementById('floatSub').textContent = m.artist || '未知歌手';
+  document.getElementById('floatCover').style.background = m.cover ? `url(${m.cover}) center/cover no-repeat` : '#333';
+
+  showPage('musicPlayerPage');
+  updatePlayerAvatars();
+  await musicAudio.play();
+  updatePlayIcons(true);
+  document.getElementById('musicDisc').classList.add('spinning');
+  const fd = document.getElementById('floatDisc');
+  fd.classList.add('spinning');
+  updateTogetherTime();
+  startTogetherTimer();
+}
+
+function updatePlayerAvatars() {
+  const taUrl = load('ta_avatar', '');
+  const myUrl = load('my_avatar', '');
+  const taName = load('ta_name', 'TA');
+  const myName = load('my_name', '我');
+  const pta = document.getElementById('playerTaAvatar');
+  const pma = document.getElementById('playerMyAvatar');
+  if (pta) { if (taUrl) { pta.style.background = `url(${taUrl}) center/cover no-repeat`; pta.textContent = ''; } else pta.textContent = taName.charAt(0); }
+  if (pma) { if (myUrl) { pma.style.background = `url(${myUrl}) center/cover no-repeat`; pma.textContent = ''; } else pma.textContent = myName.charAt(0); }
+}
+
+function updatePlayIcons(playing) {
+  const playSvg = '<svg viewBox="0 0 24 24"><path d="M8 5 V19 L19 12 Z"></path></svg>';
+  const pauseSvg = '<svg viewBox="0 0 24 24"><path d="M7 5 H10 V19 H7 Z"></path><path d="M14 5 H17 V19 H14 Z"></path></svg>';
+  document.getElementById('musicPlayIcon').outerHTML = playing ? pauseSvg.replace('<svg ', '<svg id="musicPlayIcon" ') : playSvg.replace('<svg ', '<svg id="musicPlayIcon" ');
+  document.getElementById('floatPlayIcon').outerHTML = playing ? pauseSvg.replace('<svg ', '<svg id="floatPlayIcon" ') : playSvg.replace('<svg ', '<svg id="floatPlayIcon" ');
+}
+
+function stopMusic() {
+  if (musicAudio) { musicAudio.pause(); musicAudio = null; }
+  musicCurrentId = null;
+  document.getElementById('musicDisc').classList.remove('spinning');
+  document.getElementById('floatDisc').classList.remove('spinning');
+  hideFloatDisc();
+  stopTogetherTimer();
+}
+
+function playNext() {
+  if (musicList.length === 0) return;
+  const idx = musicList.findIndex(m => m.id === musicCurrentId);
+  let next;
+  if (musicLoopMode === 'shuffle') next = musicList[Math.floor(Math.random() * musicList.length)];
+  else next = musicList[(idx + 1) % musicList.length];
+  playMusic(next.id);
+}
+function playPrev() {
+  if (musicList.length === 0) return;
+  const idx = musicList.findIndex(m => m.id === musicCurrentId);
+  let prev = musicList[(idx - 1 + musicList.length) % musicList.length];
+  playMusic(prev.id);
+}
+function togglePlay() {
+  if (!musicAudio) return;
+  if (musicAudio.paused) {
+    musicAudio.play();
+    updatePlayIcons(true);
+    document.getElementById('musicDisc').classList.add('spinning');
+    document.getElementById('floatDisc').classList.add('spinning');
+    startTogetherTimer();
+  } else {
+    musicAudio.pause();
+    updatePlayIcons(false);
+    document.getElementById('musicDisc').classList.remove('spinning');
+    document.getElementById('floatDisc').classList.remove('spinning');
+    stopTogetherTimer();
+  }
+}
+function toggleLoop() {
+  const modes = ['list', 'one', 'shuffle'];
+  const i = modes.indexOf(musicLoopMode);
+  musicLoopMode = modes[(i + 1) % modes.length];
+  const btn = document.getElementById('musicLoopBtn');
+  const fbtn = document.getElementById('floatLoopBtn');
+  if (musicLoopMode === 'one') { btn.classList.add('active'); fbtn.classList.add('active'); }
+  else if (musicLoopMode === 'shuffle') { btn.classList.add('active'); fbtn.classList.add('active'); }
+  else { btn.classList.remove('active'); fbtn.classList.remove('active'); }
+}
+
+document.getElementById('musicBackBtn').onclick = () => {
+  showPage('homePage');
+  if (musicAudio && !musicAudio.paused && musicFloatEnabled) showFloatDisc();
+};
+document.getElementById('musicPlusBtn').onclick = () => {
+  showPage('musicLibraryPage');
+  loadMusicFromIDB();
+};
+document.getElementById('musicPlayBtn').onclick = togglePlay;
+document.getElementById('musicPrevBtn').onclick = playPrev;
+document.getElementById('musicNextBtn').onclick = playNext;
+document.getElementById('musicLoopBtn').onclick = toggleLoop;
+document.getElementById('musicListBtn').onclick = () => {
+  showPage('musicLibraryPage');
+  loadMusicFromIDB();
+  if (musicAudio && !musicAudio.paused && musicFloatEnabled) showFloatDisc();
+};
+
+/* 进度条拖动 */
+(function() {
+  const wrap = document.getElementById('musicBarWrap');
+  if (!wrap) return;
+  wrap.addEventListener('click', (e) => {
+    if (!musicAudio || !musicAudio.duration) return;
+    const rect = wrap.getBoundingClientRect();
+    const pct = Math.max(0, Math.min(1, (e.clientX - rect.left) / rect.width));
+    musicAudio.currentTime = pct * musicAudio.duration;
+  });
+})();
+
+/* 一起听计时 */
+let togetherStartTime = 0;
+let togetherTimer = null;
+function startTogetherTimer() {
+  if (!togetherStartTime) togetherStartTime = Date.now();
+  stopTogetherTimer();
+  togetherTimer = setInterval(updateTogetherTime, 30000);
+  updateTogetherTime();
+}
+function stopTogetherTimer() {
+  if (togetherTimer) clearInterval(togetherTimer);
+  togetherTimer = null;
+}
+function updateTogetherTime() {
+  if (!togetherStartTime) return;
+  const mins = Math.floor((Date.now() - togetherStartTime) / 60000);
+  document.getElementById('musicTogetherText').textContent = 'TA就在你的身边，一起听了 ' + mins + ' 分钟';
+}
+
+/* ===== 悬浮小圆唱片 ===== */
+function showFloatDisc() {
+  const disc = document.getElementById('floatDisc');
+  if (!disc) return;
+  const savedX = load('float_disc_x', null);
+  const savedY = load('float_disc_y', null);
+  if (savedX !== null && savedY !== null) {
+    disc.style.left = savedX + 'px';
+    disc.style.top = savedY + 'px';
+  } else {
+    disc.style.left = (window.innerWidth - 84) + 'px';
+    disc.style.top = (window.innerHeight - 180) + 'px';
+  }
+  disc.classList.remove('hidden');
+}
+function hideFloatDisc() {
+  document.getElementById('floatDisc').classList.add('hidden');
+  document.getElementById('floatCard').classList.add('hidden');
+}
+
+/* 拖动 + 点击 */
+(function() {
+  const disc = document.getElementById('floatDisc');
+  let startX = 0, startY = 0, startLeft = 0, startTop = 0, moved = false, touching = false;
+
+  function onStart(e) {
+    const p = e.touches ? e.touches[0] : e;
+    touching = true;
+    moved = false;
+    startX = p.clientX; startY = p.clientY;
+    startLeft = parseInt(disc.style.left || 0, 10);
+    startTop = parseInt(disc.style.top || 0, 10);
+  }
+  function onMove(e) {
+    if (!touching) return;
+    const p = e.touches ? e.touches[0] : e;
+    const dx = p.clientX - startX;
+    const dy = p.clientY - startY;
+    if (Math.abs(dx) > 4 || Math.abs(dy) > 4) moved = true;
+    if (!moved) return;
+    let nx = startLeft + dx;
+    let ny = startTop + dy;
+    nx = Math.max(0, Math.min(window.innerWidth - 64, nx));
+    ny = Math.max(0, Math.min(window.innerHeight - 64, ny));
+    disc.style.left = nx + 'px';
+    disc.style.top = ny + 'px';
+  }
+  function onEnd() {
+    if (touching && moved) {
+      save('float_disc_x', parseInt(disc.style.left, 10));
+      save('float_disc_y', parseInt(disc.style.top, 10));
+    } else if (touching && !moved) {
+      openFloatCard();
+    }
+    touching = false;
+  }
+  disc.addEventListener('touchstart', onStart, { passive: true });
+  disc.addEventListener('touchmove', onMove, { passive: true });
+  disc.addEventListener('touchend', onEnd);
+  disc.addEventListener('mousedown', onStart);
+  document.addEventListener('mousemove', onMove);
+  document.addEventListener('mouseup', onEnd);
+})();
+
+function openFloatCard() {
+  const card = document.getElementById('floatCard');
+  card.classList.remove('hidden');
+}
+document.getElementById('floatUpBtn').onclick = () => document.getElementById('floatCard').classList.add('hidden');
+document.getElementById('floatPlayBtn').onclick = togglePlay;
+document.getElementById('floatPrevBtn').onclick = playPrev;
+document.getElementById('floatNextBtn').onclick = playNext;
+document.getElementById('floatLoopBtn').onclick = toggleLoop;
+document.getElementById('floatListBtn').onclick = () => {
+  hideFloatDisc();
+  showPage('musicLibraryPage');
+  loadMusicFromIDB();
+};
+
+/* 换封面 */
+document.getElementById('floatCameraBtn').onclick = () => {
+  document.getElementById('floatCoverUpload').click();
+};
+document.getElementById('floatCoverUpload').onchange = (e) => {
+  const f = e.target.files[0]; if (!f) return;
+  compressImage(f, 400, (url) => {
+    const m = musicList.find(x => x.id === musicCurrentId);
+    if (m) { m.cover = url; saveMusicMeta(); }
+    document.getElementById('floatCover').style.background = `url(${url}) center/cover no-repeat`;
+    document.getElementById('musicDiscCover').style.background = `url(${url}) center/cover no-repeat`;
+  });
+  e.target.value = '';
+};
+</script>
+<!-- ★★★ index 段 15 结束 ★★★ --><!-- ★★★ index 段 16 开始 ★★★ -->
 <script src="settings.js"></script>
 </body>
 </html>
-<!-- ★★★ index 段 13 结束 ★★★ -->
+<!-- ★★★ index 段 16 结束 ★★★ -->
