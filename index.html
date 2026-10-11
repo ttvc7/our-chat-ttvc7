@@ -105,19 +105,22 @@
       <button id="momentTrashBtn">
         <svg viewBox="0 0 24 24" fill="none" stroke="#333" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M4 6 H20"></path><path d="M9 6 V4 H15 V6"></path><path d="M6 6 L7 20 H17 L18 6"></path></svg>
       </button>
+      <button id="momentListBtn" title="只看对方动态">
+        <svg viewBox="0 0 24 24" fill="none" stroke="#333" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 7 H20"></path><path d="M4 12 H20"></path><path d="M4 17 H20"></path></svg>
+      </button>
     </div>
   </header>
   <div class="moment-header" id="momentHeader">
-    <div class="bg-actions"><button id="momentChangeBgBtn">换背景</button></div>
     <div class="avatar-block">
-      <div class="avatar-img" id="momentMyAvatar">我</div>
       <div class="avatar-name" id="momentMyName">我</div>
+      <div class="avatar-img" id="momentMyAvatar">我</div>
     </div>
   </div>
-  <div class="moment-timeline">
-    <button id="momentPrevBtn">‹ 前一天</button>
-    <div class="date-label" id="momentDateLabel">今天</div>
-    <button id="momentNextBtn">后一天 ›</button>
+  <div class="moment-bg-tools">
+    <button id="momentChangeBgBtn">换背景</button>
+  </div>
+  <div class="moment-divider">
+    <span class="divider-text" id="momentDividerText">今天</span>
   </div>
   <div class="moment-body" id="momentBody"></div>
   <button class="moment-fab" id="momentAddBtn">+</button>
@@ -2529,12 +2532,8 @@ function scheduleAutoMail() {
 scheduleAutoMail();
 
 /* ===== 朋友圈 ===== */
-let currentMomentDate = new Date();
-currentMomentDate.setHours(0, 0, 0, 0);
-
-function dateKeyOf(d) {
-  return `${d.getFullYear()}-${d.getMonth() + 1}-${d.getDate()}`;
-}
+let momentListMode = 'all';  // 'all' 或 'ta'
+let currentVisibleDate = '';
 
 function initMomentsPage() {
   const myAvatar = document.getElementById('momentMyAvatar');
@@ -2553,36 +2552,98 @@ function initMomentsPage() {
   } else {
     header.style.background = 'linear-gradient(135deg, #e8f0ff 0%, #d7e4f8 100%)';
   }
-  currentMomentDate = new Date();
-  currentMomentDate.setHours(0, 0, 0, 0);
+  momentListMode = 'all';
+  const listBtn = document.getElementById('momentListBtn');
+  if (listBtn) listBtn.classList.remove('active');
+  currentVisibleDate = '';
   renderMomentsList();
   updateBellDot();
 }
 
-function renderMomentsList() {
-  const label = document.getElementById('momentDateLabel');
-  const today = new Date(); today.setHours(0, 0, 0, 0);
-  const diff = Math.round((today - currentMomentDate) / 86400000);
-  if (diff === 0) label.textContent = '今天';
-  else if (diff === 1) label.textContent = '昨天';
-  else if (diff === 2) label.textContent = '前天';
-  else label.textContent = `${currentMomentDate.getMonth() + 1}月${currentMomentDate.getDate()}日`;
+function dateKeyOf(d) {
+  return `${d.getFullYear()}-${d.getMonth() + 1}-${d.getDate()}`;
+}
 
+function formatDividerDate(d) {
+  const today = new Date(); today.setHours(0, 0, 0, 0);
+  const target = new Date(d); target.setHours(0, 0, 0, 0);
+  const diff = Math.round((today - target) / 86400000);
+  if (diff === 0) return '今天';
+  if (diff === 1) return '昨天';
+  if (diff === 2) return '前天';
+  return `${d.getMonth() + 1}月${d.getDate()}日`;
+}
+
+function renderMomentsList() {
   const box = document.getElementById('momentBody');
-  const key = dateKeyOf(currentMomentDate);
+  if (!box) return;
   const all = load('our_moments', []);
-  const list = all.filter(m => {
-    const d = new Date(m.t);
-    return dateKeyOf(d) === key;
-  });
-  if (list.length === 0) {
-    box.innerHTML = '<div class="moment-empty">还没有动态，点右下角加号发一条吧~</div>';
+  let list = all.slice();
+  if (momentListMode === 'ta') list = list.filter(m => m.sender === 'ta');
+
+  // 全部清空时
+  const allEmpty = all.length === 0;
+  // 列表模式且对方无动态
+  if (momentListMode === 'ta' && list.length === 0) {
+    box.innerHTML = '<div class="moment-ta-empty">对方还没有发动态哦</div>';
+    const dt = document.getElementById('momentDividerText');
+    if (dt) dt.textContent = '今天';
+    currentVisibleDate = '';
     return;
   }
+  // 默认模式但双方都无动态
+  if (momentListMode === 'all' && allEmpty) {
+    box.innerHTML = '';
+    const dt = document.getElementById('momentDividerText');
+    if (dt) dt.textContent = '今天';
+    currentVisibleDate = '';
+    return;
+  }
+
+  // 按时间倒序
+  list.sort((a, b) => b.t - a.t);
+
+  // 每条动态记录自己的日期 key（用于滚动时更新横线文字）
   box.innerHTML = '';
-  list.slice().reverse().forEach(m => {
-    box.appendChild(renderMomentCard(m));
+  list.forEach(m => {
+    const card = renderMomentCard(m);
+    card.dataset.dateKey = dateKeyOf(new Date(m.t));
+    box.appendChild(card);
   });
+
+  // 初始化横线文字 = 顶部第一条动态的日期
+  const firstKey = dateKeyOf(new Date(list[0].t));
+  currentVisibleDate = firstKey;
+  const dt = document.getElementById('momentDividerText');
+  if (dt) dt.textContent = formatDividerDate(new Date(list[0].t));
+
+  // 绑定滚动监听
+  bindMomentScroll();
+}
+
+function bindMomentScroll() {
+  const box = document.getElementById('momentBody');
+  if (!box) return;
+  box.onscroll = () => {
+    const cards = box.querySelectorAll('.moment-card');
+    if (cards.length === 0) return;
+    const boxTop = box.getBoundingClientRect().top;
+    let visibleKey = '';
+    for (let i = 0; i < cards.length; i++) {
+      const r = cards[i].getBoundingClientRect();
+      if (r.bottom > boxTop + 2) {
+        visibleKey = cards[i].dataset.dateKey;
+        break;
+      }
+    }
+    if (!visibleKey) visibleKey = cards[cards.length - 1].dataset.dateKey;
+    if (visibleKey && visibleKey !== currentVisibleDate) {
+      currentVisibleDate = visibleKey;
+      const [y, mo, da] = visibleKey.split('-').map(Number);
+      const dt = document.getElementById('momentDividerText');
+      if (dt) dt.textContent = formatDividerDate(new Date(y, mo - 1, da));
+    }
+  };
 }
 
 function renderMomentCard(m) {
@@ -2695,13 +2756,18 @@ function renderMomentCard(m) {
 }
 
 document.getElementById('backFromMomentsBtn').onclick = () => showPage('homePage');
-document.getElementById('momentPrevBtn').onclick = () => {
-  currentMomentDate.setDate(currentMomentDate.getDate() - 1);
+document.getElementById('momentListBtn').onclick = () => {
+  const btn = document.getElementById('momentListBtn');
+  if (momentListMode === 'all') {
+    momentListMode = 'ta';
+    btn.classList.add('active');
+  } else {
+    momentListMode = 'all';
+    btn.classList.remove('active');
+  }
   renderMomentsList();
-};
-document.getElementById('momentNextBtn').onclick = () => {
-  currentMomentDate.setDate(currentMomentDate.getDate() + 1);
-  renderMomentsList();
+  const box = document.getElementById('momentBody');
+  if (box) box.scrollTop = 0;
 };
 document.getElementById('momentChangeBgBtn').onclick = () => {
   const up = document.createElement('input');
@@ -2779,9 +2845,13 @@ document.getElementById('momentPostSend').onclick = () => {
   });
   save('our_moments', all);
   document.getElementById('momentPostModal').classList.add('hidden');
-  currentMomentDate = new Date();
-  currentMomentDate.setHours(0, 0, 0, 0);
+  // 发布后自动切回全部模式并滚到顶部
+  momentListMode = 'all';
+  const listBtn = document.getElementById('momentListBtn');
+  if (listBtn) listBtn.classList.remove('active');
   renderMomentsList();
+  const box = document.getElementById('momentBody');
+  if (box) box.scrollTop = 0;
 };
 
 /* ===== 铃铛通知 ===== */
@@ -2795,11 +2865,9 @@ function updateBellDot() {
 }
 document.getElementById('momentBellBtn').onclick = () => {
   const list = loadMomentNotifies();
-  // 打开后全部标记已读
   list.forEach(n => n.read = true);
   saveMomentNotifies(list);
   updateBellDot();
-  // 渲染
   const body = document.getElementById('momentNotifyBody');
   if (list.length === 0) {
     body.innerHTML = '<div class="notify-empty">还没有通知</div>';
@@ -2883,7 +2951,6 @@ function scheduleAutoMoment() {
       comments: []
     });
     save('our_moments', all);
-    // 记一条通知
     const notifies = loadMomentNotifies();
     const taName = load('ta_name', 'TA');
     notifies.push({ text: taName + ' 发布了一条新动态', t: Date.now(), read: false });
