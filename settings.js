@@ -197,8 +197,7 @@
       if (confirm('确定清空所有字卡吗？')) { localStorage.removeItem('our_cards'); alert('已清空，刷新页面生效'); }
     };
   }
-/* ★★★ settings 段 1 结束 ★★★ */
-/* ★★★ settings 段 2 开始 ★★★ */
+/* ★★★ settings 段 1 结束 ★★★ *//* ★★★ settings 段 2 开始 ★★★ */
   function renderAppearanceTab(panel) {
     panel.innerHTML = `
       <div class="set-card">
@@ -556,4 +555,4 @@
   });
 
 })();
-/* ★★★ settings 段 2 结束 ★★★ */ 
+/* ★★★ settings 段 2 结束 ★★★ */
