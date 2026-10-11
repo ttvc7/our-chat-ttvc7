@@ -79,6 +79,19 @@
       <div class="home-page-item page2">
         <div class="home-big-card" id="homeBigCard"></div>
 
+        <div class="home-heartbeat-card">
+          <div class="hb-row">
+            <div class="hb-avatar" id="hbTaAvatar">TA</div>
+            <div class="hb-wave">
+              <svg viewBox="0 0 200 40" preserveAspectRatio="none">
+                <polyline points="0,20 30,20 45,20 55,8 65,32 75,12 85,28 95,20 130,20 145,20 155,8 165,32 175,12 185,28 200,20"/>
+              </svg>
+            </div>
+            <div class="hb-avatar" id="hbMyAvatar">我</div>
+          </div>
+          <div class="hb-text" id="hbText">双击输入卡片文字</div>
+        </div>
+
         <div class="home-talk-2">
           <div class="home-talk-row2">
             <div class="home-talk-avatar2" id="talkTaAvatar2">TA</div>
@@ -618,7 +631,7 @@
   <div class="music-body" id="musicBody"></div>
 </div>
 
-<!-- ===== 音乐输入弹窗（上传/链接） ===== -->
+<!-- ===== 音乐输入弹窗 ===== -->
 <div id="musicInputModal" class="modal hidden music-input-modal">
   <div class="modal-box">
     <div class="modal-head"><span id="musicInputTitle">链接添加</span><button id="closeMusicInputBtn">×</button></div>
@@ -772,15 +785,6 @@ async function idbGet(store, key) {
     const tx = db.transaction(store, 'readonly');
     const req = tx.objectStore(store).get(key);
     req.onsuccess = () => resolve(req.result);
-    req.onerror = (e) => reject(e);
-  });
-}
-async function idbGetAll(store) {
-  const db = await openIDB();
-  return new Promise((resolve, reject) => {
-    const tx = db.transaction(store, 'readonly');
-    const req = tx.objectStore(store).getAll();
-    req.onsuccess = () => resolve(req.result || []);
     req.onerror = (e) => reject(e);
   });
 }
@@ -1986,20 +1990,25 @@ function applyHomeAssets() {
   const taNameEl = document.getElementById('homeTaName');
   const myUrl = load('my_avatar', ''), taUrl = load('ta_avatar', '');
   const myName = load('my_name', '我'), taName = load('ta_name', 'TA');
-  if (myA) { if (myUrl) { myA.style.background = `url(${myUrl}) center/cover no-repeat`; myA.textContent = ''; } else myA.textContent = myName.charAt(0); }
-  if (taA) { if (taUrl) { taA.style.background = `url(${taUrl}) center/cover no-repeat`; taA.textContent = ''; } else taA.textContent = taName.charAt(0); }
+  if (myA) { if (myUrl) { myA.style.background = `url(${myUrl}) center/cover no-repeat`; myA.textContent = ''; } else { myA.style.background = '#e5e5e5'; myA.textContent = myName.charAt(0); } }
+  if (taA) { if (taUrl) { taA.style.background = `url(${taUrl}) center/cover no-repeat`; taA.textContent = ''; } else { taA.style.background = '#e5e5e5'; taA.textContent = taName.charAt(0); } }
   if (myNameEl) myNameEl.textContent = myName;
   if (taNameEl) taNameEl.textContent = taName;
 
   const tma2 = document.getElementById('talkMyAvatar2');
   const tta2 = document.getElementById('talkTaAvatar2');
-  if (tma2) { if (myUrl) { tma2.style.background = `url(${myUrl}) center/cover no-repeat`; tma2.textContent = ''; } else tma2.textContent = myName.charAt(0); }
-  if (tta2) { if (taUrl) { tta2.style.background = `url(${taUrl}) center/cover no-repeat`; tta2.textContent = ''; } else tta2.textContent = taName.charAt(0); }
+  if (tma2) { if (myUrl) { tma2.style.background = `url(${myUrl}) center/cover no-repeat`; tma2.textContent = ''; } else { tma2.style.background = '#e5e5e5'; tma2.textContent = myName.charAt(0); } }
+  if (tta2) { if (taUrl) { tta2.style.background = `url(${taUrl}) center/cover no-repeat`; tta2.textContent = ''; } else { tta2.style.background = '#e5e5e5'; tta2.textContent = taName.charAt(0); } }
+
+  const hbTa = document.getElementById('hbTaAvatar');
+  const hbMy = document.getElementById('hbMyAvatar');
+  if (hbTa) { if (taUrl) { hbTa.style.background = `url(${taUrl}) center/cover no-repeat`; hbTa.textContent = ''; } else { hbTa.style.background = '#e5e5e5'; hbTa.textContent = taName.charAt(0); } }
+  if (hbMy) { if (myUrl) { hbMy.style.background = `url(${myUrl}) center/cover no-repeat`; hbMy.textContent = ''; } else { hbMy.style.background = '#e5e5e5'; hbMy.textContent = myName.charAt(0); } }
 
   const pta = document.getElementById('playerTaAvatar');
   const pma = document.getElementById('playerMyAvatar');
-  if (pta) { if (taUrl) { pta.style.background = `url(${taUrl}) center/cover no-repeat`; pta.textContent = ''; } else pta.textContent = taName.charAt(0); }
-  if (pma) { if (myUrl) { pma.style.background = `url(${myUrl}) center/cover no-repeat`; pma.textContent = ''; } else pma.textContent = myName.charAt(0); }
+  if (pta) { if (taUrl) { pta.style.background = `url(${taUrl}) center/cover no-repeat`; pta.textContent = ''; } else { pta.style.background = '#e5e5e5'; pta.textContent = taName.charAt(0); } }
+  if (pma) { if (myUrl) { pma.style.background = `url(${myUrl}) center/cover no-repeat`; pma.textContent = ''; } else { pma.style.background = '#e5e5e5'; pma.textContent = myName.charAt(0); } }
 }
 function applyHomeWallpaper() {
   const wp = load('home_wallpaper', '');
@@ -2023,12 +2032,18 @@ function applyHomeQuote() {
   if (q) {
     wrap.classList.add('filled');
     txt.textContent = q;
-    box.textContent = '双击输入寄语';
   } else {
     wrap.classList.remove('filled');
     box.textContent = '双击输入寄语';
     txt.textContent = '';
   }
+}
+function applyHbText() {
+  const v = load('home_hb_text', '');
+  const el = document.getElementById('hbText');
+  if (!el) return;
+  if (v) { el.textContent = v; el.classList.add('filled'); }
+  else { el.textContent = '双击输入卡片文字'; el.classList.remove('filled'); }
 }
 function updateHomeTime() {
   const el = document.getElementById('homeTime');
@@ -2109,7 +2124,7 @@ function setHomePage(page) {
   homeDots.forEach((d, i) => d.onclick = () => setHomePage(i));
 })();
 
-/* 首页卡片 / 大卡片选图 */
+/* 首页小卡选图 */
 (function() {
   const cardEl = document.getElementById('homeCard');
   const img = document.getElementById('homeCardImg');
@@ -2134,6 +2149,7 @@ function setHomePage(page) {
   };
 })();
 
+/* 首页大卡片选图 */
 (function() {
   const big = document.getElementById('homeBigCard');
   if (!big) return;
@@ -2156,7 +2172,6 @@ function setHomePage(page) {
 (function() {
   const box = document.getElementById('homeQuoteBox');
   const txt = document.getElementById('homeQuoteText');
-  const wrap = document.getElementById('homeQuote');
   box.ondblclick = () => {
     const cur = load('home_quote', '');
     const v = prompt('输入寄语：', cur);
@@ -2170,6 +2185,18 @@ function setHomePage(page) {
     if (v === null) return;
     save('home_quote', v.trim());
     applyHomeQuote();
+  };
+})();
+
+/* 首页卡片文字（双击） */
+(function() {
+  const el = document.getElementById('hbText');
+  el.ondblclick = () => {
+    const cur = load('home_hb_text', '');
+    const v = prompt('输入卡片文字：', cur);
+    if (v === null) return;
+    save('home_hb_text', v.trim());
+    applyHbText();
   };
 })();
 
@@ -2216,6 +2243,7 @@ applyHomeAssets();
 applyHomeWallpaper();
 applyHomeBigCard();
 applyHomeQuote();
+applyHbText();
 (function() { const t = document.getElementById('taName'); if (t) t.textContent = load('ta_name', 'TA'); })();
 scheduleAutoMessage();
 
@@ -3388,7 +3416,6 @@ function bindMusicItems() {
 function showMusicItemMenu(id) {
   const m = musicList.find(x => x.id === id);
   if (!m) return;
-  const choices = ['收藏 / 取消收藏', '删除'];
   const pick = prompt('输入数字：\n1. ' + (m.fav ? '取消收藏' : '收藏') + '\n2. 删除', '1');
   if (pick === '1') {
     m.fav = !m.fav;
@@ -3452,8 +3479,7 @@ function bindMusicActions() {
       document.querySelectorAll('.music-sub-tab').forEach(t => t.classList.remove('active'));
       tab.classList.add('active');
       const sub = tab.dataset.sub;
-      renderMusicList();
-      if (musicCurrentTab === 'mine') renderMusicItems(sub);
+      renderMusicItems(sub);
     };
   });
   document.querySelectorAll('.music-tab').forEach(tab => {
@@ -3551,6 +3577,22 @@ function fmtTime(s) {
 async function playMusic(id) {
   const m = musicList.find(x => x.id === id);
   if (!m) return;
+
+  // 如果是同一首歌，保留进度，不重头播
+  if (musicCurrentId === id && musicAudio) {
+    showPage('musicPlayerPage');
+    updatePlayerAvatars();
+    if (musicAudio.paused) {
+      // 不自动播放，只显示
+      updatePlayIcons(false);
+      document.getElementById('musicDisc').classList.remove('spinning');
+    } else {
+      updatePlayIcons(true);
+      document.getElementById('musicDisc').classList.add('spinning');
+    }
+    return;
+  }
+
   musicCurrentId = id;
 
   let src = '';
@@ -3563,7 +3605,6 @@ async function playMusic(id) {
 
   if (musicAudio) { musicAudio.pause(); musicAudio = null; }
   musicAudio = new Audio(src);
-  musicAudio.loop = false;
 
   musicAudio.onloadedmetadata = () => {
     const total = musicAudio.duration;
@@ -3608,15 +3649,19 @@ function updatePlayerAvatars() {
   const myName = load('my_name', '我');
   const pta = document.getElementById('playerTaAvatar');
   const pma = document.getElementById('playerMyAvatar');
-  if (pta) { if (taUrl) { pta.style.background = `url(${taUrl}) center/cover no-repeat`; pta.textContent = ''; } else pta.textContent = taName.charAt(0); }
-  if (pma) { if (myUrl) { pma.style.background = `url(${myUrl}) center/cover no-repeat`; pma.textContent = ''; } else pma.textContent = myName.charAt(0); }
+  if (pta) { if (taUrl) { pta.style.background = `url(${taUrl}) center/cover no-repeat`; pta.textContent = ''; } else { pta.style.background = '#e5e5e5'; pta.textContent = taName.charAt(0); } }
+  if (pma) { if (myUrl) { pma.style.background = `url(${myUrl}) center/cover no-repeat`; pma.textContent = ''; } else { pma.style.background = '#e5e5e5'; pma.textContent = myName.charAt(0); } }
 }
 
 function updatePlayIcons(playing) {
-  const playSvg = '<svg viewBox="0 0 24 24"><path d="M8 5 V19 L19 12 Z"></path></svg>';
-  const pauseSvg = '<svg viewBox="0 0 24 24"><path d="M7 5 H10 V19 H7 Z"></path><path d="M14 5 H17 V19 H14 Z"></path></svg>';
-  document.getElementById('musicPlayIcon').outerHTML = playing ? pauseSvg.replace('<svg ', '<svg id="musicPlayIcon" ') : playSvg.replace('<svg ', '<svg id="musicPlayIcon" ');
-  document.getElementById('floatPlayIcon').outerHTML = playing ? pauseSvg.replace('<svg ', '<svg id="floatPlayIcon" ') : playSvg.replace('<svg ', '<svg id="floatPlayIcon" ');
+  const playSvg = '<svg viewBox="0 0 24 24" id="musicPlayIcon"><path d="M8 5 V19 L19 12 Z"></path></svg>';
+  const pauseSvg = '<svg viewBox="0 0 24 24" id="musicPlayIcon"><path d="M7 5 H10 V19 H7 Z"></path><path d="M14 5 H17 V19 H14 Z"></path></svg>';
+  const fplaySvg = '<svg viewBox="0 0 24 24" id="floatPlayIcon"><path d="M8 5 V19 L19 12 Z"></path></svg>';
+  const fpauseSvg = '<svg viewBox="0 0 24 24" id="floatPlayIcon"><path d="M7 5 H10 V19 H7 Z"></path><path d="M14 5 H17 V19 H14 Z"></path></svg>';
+  const mp = document.getElementById('musicPlayBtn');
+  const fp = document.getElementById('floatPlayBtn');
+  if (mp) mp.innerHTML = playing ? pauseSvg : playSvg;
+  if (fp) fp.innerHTML = playing ? fpauseSvg : fplaySvg;
 }
 
 function stopMusic() {
