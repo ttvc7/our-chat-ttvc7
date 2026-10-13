@@ -81,11 +81,11 @@
         <div class="home-today-title">今日状态</div>
         <div class="home-today-row">
           <div class="home-today-bubble" id="todayTaBubble">
-            <div class="line"><span id="todayTaName2">TA</span> 想起 <span id="todayMyName2">我</span> <span class="num" id="todayTaNum">0</span> 次</div>
+            <div class="line"><span id="todayTaName2">TA</span><span>想起</span><span id="todayMyName2">我</span><span class="num" id="todayTaNum">0</span><span>次</span></div>
             <div class="plus-one" id="todayTaPlus">+1</div>
           </div>
           <div class="home-today-bubble" id="todayMyBubble">
-            <div class="line"><span id="todayMyName">我</span> 想起 <span id="todayTaName1">TA</span> <span class="num" id="todayMyNum">0</span> 次</div>
+            <div class="line"><span id="todayMyName">我</span><span>想起</span><span id="todayTaName1">TA</span><span class="num" id="todayMyNum">0</span><span>次</span></div>
             <div class="plus-one" id="todayMyPlus">+1</div>
           </div>
         </div>
@@ -2011,7 +2011,7 @@ function scheduleAutoMessage() {
   }, delay);
 }
 
-/* ===== 主页 ===== */
+/* ===== 主页资产应用 ===== */
 function applyHomeAssets() {
   const myA = document.getElementById('homeMyAvatar');
   const taA = document.getElementById('homeTaAvatar');
@@ -2060,14 +2060,8 @@ function applyHomeQuote() {
   const box = document.getElementById('homeQuoteBox');
   const txt = document.getElementById('homeQuoteText');
   const wrap = document.getElementById('homeQuote');
-  if (q) {
-    wrap.classList.add('filled');
-    txt.textContent = q;
-  } else {
-    wrap.classList.remove('filled');
-    box.textContent = '双击输入寄语';
-    txt.textContent = '';
-  }
+  if (q) { wrap.classList.add('filled'); txt.textContent = q; }
+  else { wrap.classList.remove('filled'); box.textContent = '双击输入寄语'; txt.textContent = ''; }
 }
 function applyHbText() {
   const v = load('home_hb_text', '');
@@ -2100,6 +2094,13 @@ function applyPage2Images() {
   if (c) { if (cv) { c.style.background = `url(${cv}) center/cover no-repeat`; c.textContent = ''; } else { c.style.background = '#fff'; c.textContent = '点此选图'; } }
   if (s) { if (sv) { s.innerHTML = `<img src="${sv}">`; } else { s.innerHTML = '点此选图'; } }
 }
+function applyHomeCard() {
+  const img = document.getElementById('homeCardImg');
+  const tip = document.getElementById('homeCardTip');
+  if (!img) return;
+  const saved = load('home_card_img', '');
+  if (saved) { img.src = saved; img.style.display = 'block'; if (tip) tip.style.display = 'none'; }
+}
 function updateHomeTime() {
   const el = document.getElementById('homeTime');
   if (!el) return;
@@ -2124,9 +2125,7 @@ function loadTodayState() {
   if (saved && saved.date === today) {
     todayMyCount = saved.my || 0;
     todayTaCount = saved.ta || 0;
-  } else {
-    todayMyCount = 0; todayTaCount = 0;
-  }
+  } else { todayMyCount = 0; todayTaCount = 0; }
   todayDateKey = today;
   updateTodayUI();
 }
@@ -2142,8 +2141,7 @@ function updateTodayUI() {
 function checkTodayReset() {
   const today = getTodayKeyStr();
   if (today !== todayDateKey) {
-    todayDateKey = today;
-    todayMyCount = 0; todayTaCount = 0;
+    todayDateKey = today; todayMyCount = 0; todayTaCount = 0;
     saveTodayState(); updateTodayUI();
   }
 }
@@ -2180,14 +2178,14 @@ setInterval(checkTodayReset, 60000);
 
 /* ===== 今日心情 ===== */
 const MOODS = ['😊','😢','😡','😴','🥰','😐','🤔','😭','😍','😅','😳','🥺'];
-let moodData = load('home_mood_data', {});  // { '2026-10-13': {me:'😊', ta:'🥰'} }
+let moodData = load('home_mood_data', {});
 function getMoodKey() { return getTodayKeyStr(); }
 function renderMoodWeek() {
   const box = document.getElementById('moodWeek');
   if (!box) return;
   box.innerHTML = '';
   const now = new Date();
-  const today = now.getDay();  // 0=周日
+  const today = now.getDay();
   const monday = new Date(now);
   const diff = (today === 0 ? -6 : 1 - today);
   monday.setDate(now.getDate() + diff);
@@ -2203,9 +2201,7 @@ function renderMoodWeek() {
     let html = `<div class="day-label">${weekNames[i]}</div>`;
     html += `<div class="mood-icon${rec.me ? ' has' : ''}">${rec.me || ''}</div>`;
     dayEl.innerHTML = html;
-    if (isToday) {
-      dayEl.onclick = openMoodPicker;
-    }
+    if (isToday) dayEl.onclick = openMoodPicker;
     box.appendChild(dayEl);
   }
   const taBox = document.getElementById('moodTaBox');
@@ -2241,7 +2237,6 @@ function openMoodPicker() {
   modal.classList.remove('hidden');
 }
 document.getElementById('closeMoodPickerBtn').onclick = () => document.getElementById('moodPickerModal').classList.add('hidden');
-/* TA 心情偶尔自己出现 */
 function maybeTaMood() {
   const key = getMoodKey();
   if (!moodData[key]) moodData[key] = {};
@@ -2254,7 +2249,8 @@ function maybeTaMood() {
 }
 setInterval(() => { if (!document.hidden) maybeTaMood(); }, 60000);
 renderMoodWeek();
-
+/* ★★★ index 段 10 结束 ★★★ */<!-- ★★★ index 段 11 开始 ★★★ -->
+<script>
 /* ===== 第一页快捷入口 ===== */
 document.querySelectorAll('.home-grid-2x2 .home-item').forEach(item => {
   item.onclick = () => {
@@ -2462,6 +2458,7 @@ applyHbText();
 applySideBubbles();
 applyMiniTalks();
 applyPage2Images();
+applyHomeCard();
 (function() { const t = document.getElementById('taName'); if (t) t.textContent = load('ta_name', 'TA'); })();
 scheduleAutoMessage();
 
@@ -2535,7 +2532,7 @@ function openShopDetail(id) {
 }
 function closeShopDetail() { document.getElementById('shopDetailModal').classList.add('hidden'); }
 </script>
-<!-- ★★★ index 段 10 结束 ★★★ --><!-- ★★★ index 段 11 开始 ★★★ -->
+<!-- ★★★ index 段 11 结束 ★★★ --><!-- ★★★ index 段 12 开始 ★★★ -->
 <script>
 function buyForTa(it) {
   const taName = load('ta_name', 'TA');
@@ -2822,7 +2819,7 @@ document.getElementById('addAnnivBtn').onclick = () => {
   openAnnivPicker('add', '');
 };
 </script>
-<!-- ★★★ index 段 11 结束 ★★★ --><!-- ★★★ index 段 12 开始 ★★★ -->
+<!-- ★★★ index 段 12 结束 ★★★ --><!-- ★★★ index 段 13 开始 ★★★ -->
 <script>
 /* ===== 问卷 ===== */
 let surveyQuestions = [];
@@ -3095,7 +3092,7 @@ function scheduleAutoMail() {
 }
 scheduleAutoMail();
 </script>
-<!-- ★★★ index 段 12 结束 ★★★ --><!-- ★★★ index 段 13 开始 ★★★ -->
+<!-- ★★★ index 段 13 结束 ★★★ --><!-- ★★★ index 段 14 开始 ★★★ -->
 <script>
 /* ===== 朋友圈 ===== */
 let momentListMode = 'all';
@@ -3505,7 +3502,7 @@ function scheduleAutoMoment() {
 }
 scheduleAutoMoment();
 </script>
-<!-- ★★★ index 段 13 结束 ★★★ --><!-- ★★★ index 段 14 开始 ★★★ -->
+<!-- ★★★ index 段 14 结束 ★★★ --><!-- ★★★ index 段 15 开始 ★★★ -->
 <script>
 /* ===== 音乐库 ===== */
 let musicList = [];
@@ -3772,28 +3769,20 @@ function fmtTime(s) {
   return String(m).padStart(2, '0') + ':' + String(ss).padStart(2, '0');
 }
 </script>
-<!-- ★★★ index 段 14 结束 ★★★ --><!-- ★★★ index 段 15 开始 ★★★ -->
+<!-- ★★★ index 段 15 结束 ★★★ --><!-- ★★★ index 段 16 开始 ★★★ -->
 <script>
 /* ===== 音乐播放器 ===== */
 async function playMusic(id) {
   const m = musicList.find(x => x.id === id);
   if (!m) return;
-
   if (musicCurrentId === id && musicAudio) {
     showPage('musicPlayerPage');
     updatePlayerAvatars();
-    if (musicAudio.paused) {
-      updatePlayIcons(false);
-      document.getElementById('musicDisc').classList.remove('spinning');
-    } else {
-      updatePlayIcons(true);
-      document.getElementById('musicDisc').classList.add('spinning');
-    }
+    if (musicAudio.paused) { updatePlayIcons(false); document.getElementById('musicDisc').classList.remove('spinning'); }
+    else { updatePlayIcons(true); document.getElementById('musicDisc').classList.add('spinning'); }
     return;
   }
-
   musicCurrentId = id;
-
   let src = '';
   if (m.type === 'link') src = m.url;
   else {
@@ -3801,14 +3790,9 @@ async function playMusic(id) {
     if (!rec || !rec.blob) { alert('音频文件丢失'); return; }
     src = URL.createObjectURL(rec.blob);
   }
-
   if (musicAudio) { musicAudio.pause(); musicAudio = null; }
   musicAudio = new Audio(src);
-
-  musicAudio.onloadedmetadata = () => {
-    const total = musicAudio.duration;
-    document.getElementById('musicTimeTotal').textContent = fmtTime(total);
-  };
+  musicAudio.onloadedmetadata = () => { document.getElementById('musicTimeTotal').textContent = fmtTime(musicAudio.duration); };
   musicAudio.ontimeupdate = () => {
     const cur = musicAudio.currentTime;
     const total = musicAudio.duration || 0;
@@ -3822,21 +3806,18 @@ async function playMusic(id) {
     if (musicLoopMode === 'one') { musicAudio.currentTime = 0; musicAudio.play(); return; }
     playNext();
   };
-
   document.getElementById('musicTitleLine').textContent = m.name + (m.artist ? ' - ' + m.artist : '');
   document.getElementById('musicLyricLine').textContent = '—';
   document.getElementById('musicDiscCover').style.background = m.cover ? `url(${m.cover}) center/cover no-repeat` : '#333';
   document.getElementById('floatTitle').textContent = m.name;
   document.getElementById('floatSub').textContent = m.artist || '未知歌手';
   document.getElementById('floatCover').style.background = m.cover ? `url(${m.cover}) center/cover no-repeat` : '#333';
-
   showPage('musicPlayerPage');
   updatePlayerAvatars();
   await musicAudio.play();
   updatePlayIcons(true);
   document.getElementById('musicDisc').classList.add('spinning');
-  const fd = document.getElementById('floatDisc');
-  fd.classList.add('spinning');
+  document.getElementById('floatDisc').classList.add('spinning');
   updateTogetherTime();
   startTogetherTimer();
 }
@@ -3871,7 +3852,6 @@ function stopMusic() {
   hideFloatDisc();
   stopTogetherTimer();
 }
-
 function playNext() {
   if (musicList.length === 0) return;
   const idx = musicList.findIndex(m => m.id === musicCurrentId);
@@ -3912,24 +3892,16 @@ function toggleLoop() {
   else if (musicLoopMode === 'shuffle') { btn.classList.add('active'); fbtn.classList.add('active'); }
   else { btn.classList.remove('active'); fbtn.classList.remove('active'); }
 }
-
 document.getElementById('musicBackBtn').onclick = () => {
   showPage('homePage');
   if (musicAudio && !musicAudio.paused && musicFloatEnabled) showFloatDisc();
 };
-document.getElementById('musicPlusBtn').onclick = () => {
-  showPage('musicLibraryPage');
-  loadMusicFromIDB();
-};
+document.getElementById('musicPlusBtn').onclick = () => { showPage('musicLibraryPage'); loadMusicFromIDB(); };
 document.getElementById('musicPlayBtn').onclick = togglePlay;
 document.getElementById('musicPrevBtn').onclick = playPrev;
 document.getElementById('musicNextBtn').onclick = playNext;
 document.getElementById('musicLoopBtn').onclick = toggleLoop;
-document.getElementById('musicListBtn').onclick = () => {
-  showPage('musicLibraryPage');
-  loadMusicFromIDB();
-  if (musicAudio && !musicAudio.paused && musicFloatEnabled) showFloatDisc();
-};
+document.getElementById('musicListBtn').onclick = () => { showPage('musicLibraryPage'); loadMusicFromIDB(); if (musicAudio && !musicAudio.paused && musicFloatEnabled) showFloatDisc(); };
 
 (function() {
   const wrap = document.getElementById('musicBarWrap');
@@ -3950,10 +3922,7 @@ function startTogetherTimer() {
   togetherTimer = setInterval(updateTogetherTime, 30000);
   updateTogetherTime();
 }
-function stopTogetherTimer() {
-  if (togetherTimer) clearInterval(togetherTimer);
-  togetherTimer = null;
-}
+function stopTogetherTimer() { if (togetherTimer) clearInterval(togetherTimer); togetherTimer = null; }
 function updateTogetherTime() {
   if (!togetherStartTime) return;
   const mins = Math.floor((Date.now() - togetherStartTime) / 60000);
@@ -3966,13 +3935,8 @@ function showFloatDisc() {
   if (!disc) return;
   const savedX = load('float_disc_x', null);
   const savedY = load('float_disc_y', null);
-  if (savedX !== null && savedY !== null) {
-    disc.style.left = savedX + 'px';
-    disc.style.top = savedY + 'px';
-  } else {
-    disc.style.left = (window.innerWidth - 84) + 'px';
-    disc.style.top = (window.innerHeight - 180) + 'px';
-  }
+  if (savedX !== null && savedY !== null) { disc.style.left = savedX + 'px'; disc.style.top = savedY + 'px'; }
+  else { disc.style.left = (window.innerWidth - 84) + 'px'; disc.style.top = (window.innerHeight - 180) + 'px'; }
   disc.classList.remove('hidden');
 }
 function hideFloatDisc() {
@@ -3980,15 +3944,12 @@ function hideFloatDisc() {
   document.getElementById('floatCard').classList.add('hidden');
 }
 
-/* 拖动 + 点击（点击后：唱片区隐藏，卡片区显示） */
 (function() {
   const disc = document.getElementById('floatDisc');
   let startX = 0, startY = 0, startLeft = 0, startTop = 0, moved = false, touching = false;
-
   function onStart(e) {
     const p = e.touches ? e.touches[0] : e;
-    touching = true;
-    moved = false;
+    touching = true; moved = false;
     startX = p.clientX; startY = p.clientY;
     startLeft = parseInt(disc.style.left || 0, 10);
     startTop = parseInt(disc.style.top || 0, 10);
@@ -4024,12 +3985,10 @@ function hideFloatDisc() {
   document.addEventListener('mouseup', onEnd);
 })();
 
-/* 打开迷你卡片：隐藏唱片区，显示卡片区 */
 function openFloatCard() {
   document.getElementById('floatDisc').classList.add('hidden');
   document.getElementById('floatCard').classList.remove('hidden');
 }
-/* 点 ∧：隐藏卡片区，恢复唱片区 */
 document.getElementById('floatUpBtn').onclick = () => {
   document.getElementById('floatCard').classList.add('hidden');
   document.getElementById('floatDisc').classList.remove('hidden');
@@ -4038,16 +3997,8 @@ document.getElementById('floatPlayBtn').onclick = togglePlay;
 document.getElementById('floatPrevBtn').onclick = playPrev;
 document.getElementById('floatNextBtn').onclick = playNext;
 document.getElementById('floatLoopBtn').onclick = toggleLoop;
-document.getElementById('floatListBtn').onclick = () => {
-  hideFloatDisc();
-  showPage('musicLibraryPage');
-  loadMusicFromIDB();
-};
-
-/* 换封面 */
-document.getElementById('floatCameraBtn').onclick = () => {
-  document.getElementById('floatCoverUpload').click();
-};
+document.getElementById('floatListBtn').onclick = () => { hideFloatDisc(); showPage('musicLibraryPage'); loadMusicFromIDB(); };
+document.getElementById('floatCameraBtn').onclick = () => { document.getElementById('floatCoverUpload').click(); };
 document.getElementById('floatCoverUpload').onchange = (e) => {
   const f = e.target.files[0]; if (!f) return;
   compressImage(f, 400, (url) => {
@@ -4059,8 +4010,8 @@ document.getElementById('floatCoverUpload').onchange = (e) => {
   e.target.value = '';
 };
 </script>
-<!-- ★★★ index 段 15 结束 ★★★ --><!-- ★★★ index 段 16 开始 ★★★ -->
+<!-- ★★★ index 段 16 结束 ★★★ --><!-- ★★★ index 段 17 开始 ★★★ -->
 <script src="settings.js"></script>
 </body>
 </html>
-<!-- ★★★ index 段 16 结束 ★★★ -->
+<!-- ★★★ index 段 17 结束 ★★★ -->
