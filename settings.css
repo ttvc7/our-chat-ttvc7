@@ -40,28 +40,28 @@ body { font-family: -apple-system, BlinkMacSystemFont, "Helvetica Neue", Arial, 
 #homePage { background: #f5f5f5; display: flex; flex-direction: column; overflow: hidden; }
 .home-pages-wrap { flex: 1; position: relative; overflow: hidden; }
 .home-pages-track { display: flex; width: 200%; height: 100%; transition: transform 0.32s cubic-bezier(0.25, 0.8, 0.25, 1); }
-.home-page-item { width: 50%; height: 100%; flex-shrink: 0; overflow-y: auto; padding: 36px 22px 24px; display: flex; flex-direction: column; }
+.home-page-item { width: 50%; height: 100%; flex-shrink: 0; overflow-y: auto; padding: 24px 22px 16px; display: flex; flex-direction: column; }
 
 /* 第一页 */
-.home-time-card { display: block; padding: 0 0 4px; background: transparent; font-size: 48px; font-weight: 300; color: #444; letter-spacing: 3px; margin-bottom: 20px; flex-shrink: 0; }
+.home-time-card { display: block; padding: 0 0 4px; background: transparent; font-size: 46px; font-weight: 300; color: #444; letter-spacing: 3px; margin-bottom: 14px; flex-shrink: 0; }
 
-.home-avatars-row3 { display: flex; align-items: center; justify-content: space-between; gap: 8px; margin-bottom: 20px; flex-shrink: 0; }
-.home-avatars-row3 .side-bubble { flex: 0 0 auto; max-width: 110px; min-width: 60px; padding: 9px 13px; background: #fff; border-radius: 14px; font-size: 12px; color: #aaa; cursor: pointer; text-align: center; word-break: break-word; min-height: 18px; }
+.home-avatars-row3 { display: flex; align-items: center; justify-content: center; gap: 4px; margin-bottom: 16px; flex-shrink: 0; position: relative; }
+.home-avatars-row3 .side-bubble { flex: 0 0 auto; max-width: 90px; min-width: 44px; padding: 6px 10px; background: #fff; border-radius: 12px; font-size: 11px; color: #aaa; cursor: pointer; text-align: center; word-break: break-word; min-height: 14px; }
 .home-avatars-row3 .side-bubble.filled { color: #333; }
 .home-avatars-pair2 { display: flex; align-items: flex-start; justify-content: center; flex-shrink: 0; }
-.home-avatars-pair2 .avatar-wrap { display: flex; flex-direction: column; align-items: center; }
+.home-avatars-pair2 .avatar-wrap { display: flex; flex-direction: column; align-items: center; position: relative; }
 .home-avatars-pair2 .avatar-wrap:first-child { margin-right: -14px; z-index: 2; }
 .home-avatars-pair2 .avatar-wrap:last-child { z-index: 1; }
 .home-avatars-pair2 .avatar-circle { width: 68px; height: 68px; border-radius: 50%; background: #e5e5e5 center/cover no-repeat; display: flex; align-items: center; justify-content: center; font-size: 20px; color: #999; border: 3px solid #fff; }
 .home-avatars-pair2 .avatar-name { font-size: 13px; color: #666; margin-top: 4px; }
 
-.home-quote { text-align: center; margin: 0 0 24px; flex-shrink: 0; }
+.home-quote { text-align: center; margin: 0 0 20px; flex-shrink: 0; }
 .home-quote-box { display: inline-block; min-width: 200px; padding: 11px 20px; background: #fff; border-radius: 14px; font-size: 14px; color: #aaa; cursor: pointer; }
 .home-quote-text { display: none; font-size: 15px; color: #333; font-weight: 500; }
 .home-quote.filled .home-quote-box { display: none; }
 .home-quote.filled .home-quote-text { display: inline-block; }
 
-.home-row-2 { display: flex; gap: 16px; align-items: flex-start; margin-bottom: 24px; flex-shrink: 0; }
+.home-row-2 { display: flex; gap: 16px; align-items: flex-start; margin-bottom: 20px; flex-shrink: 0; }
 .home-card-small { width: 130px; height: 190px; background: #fff; border-radius: 16px; display: flex; align-items: center; justify-content: center; overflow: hidden; cursor: pointer; flex-shrink: 0; }
 .home-card-small img { width: 100%; height: 100%; object-fit: cover; }
 .home-card-small .tip { color: #bbb; font-size: 13px; text-align: center; }
@@ -82,23 +82,23 @@ body { font-family: -apple-system, BlinkMacSystemFont, "Helvetica Neue", Arial, 
 @keyframes plusOne { 0% { opacity: 0; transform: translateY(6px); } 30% { opacity: 1; transform: translateY(0); } 100% { opacity: 0; transform: translateY(-10px); } }
 
 /* 第二页 */
-.page2-top-row { display: flex; gap: 12px; align-items: flex-start; margin-bottom: 24px; flex-shrink: 0; }
+.page2-top-row { display: flex; gap: 12px; align-items: flex-start; margin-bottom: 18px; flex-shrink: 0; }
 .page2-circle-img { width: 88px; height: 88px; border-radius: 50%; background: #fff center/cover no-repeat; display: flex; align-items: center; justify-content: center; color: #bbb; font-size: 12px; cursor: pointer; flex-shrink: 0; overflow: hidden; text-align: center; }
 .page2-circle-img img { width: 100%; height: 100%; object-fit: cover; }
 .page2-card-small { flex: 1; height: 88px; background: #fff; border-radius: 14px; display: flex; align-items: center; justify-content: center; overflow: hidden; cursor: pointer; color: #bbb; font-size: 13px; }
 .page2-card-small img { width: 100%; height: 100%; object-fit: cover; }
 
-.home-heartbeat-card { width: 100%; background: transparent; padding: 4px 8px 8px; margin-bottom: 24px; flex-shrink: 0; }
+.home-heartbeat-card { width: 100%; background: transparent; padding: 4px 8px 6px; margin-bottom: 16px; flex-shrink: 0; }
 .home-heartbeat-card .hb-row { display: flex; align-items: center; justify-content: space-between; gap: 8px; }
 .home-heartbeat-card .hb-avatar { width: 68px; height: 68px; border-radius: 50%; background: #e5e5e5 center/cover no-repeat; display: flex; align-items: center; justify-content: center; font-size: 20px; color: #999; flex-shrink: 0; }
 .home-heartbeat-card .hb-wave { flex: 1; height: 40px; display: flex; align-items: center; justify-content: center; }
 .home-heartbeat-card .hb-wave svg { width: 100%; height: 32px; }
 .home-heartbeat-card .hb-wave polyline { fill: none; stroke: #f4c2ce; stroke-width: 2; stroke-linecap: round; stroke-linejoin: round; }
-.home-heartbeat-card .hb-text { text-align: center; margin-top: 16px; font-size: 15px; color: #aaa; cursor: pointer; min-height: 22px; }
+.home-heartbeat-card .hb-text { text-align: center; margin-top: 14px; font-size: 15px; color: #aaa; cursor: pointer; min-height: 22px; }
 .home-heartbeat-card .hb-text.filled { color: #333; }
 
 /* 第二页：今日心情小条 */
-.home-mood-card { background: rgba(255,255,255,0.75); border-radius: 16px; padding: 14px 14px 16px; margin-bottom: 24px; flex-shrink: 0; }
+.home-mood-card { background: rgba(255,255,255,0.75); border-radius: 16px; padding: 14px 14px 16px; margin-bottom: 20px; flex-shrink: 0; }
 .home-mood-card .mood-title { font-size: 13px; color: #888; margin-bottom: 10px; }
 .home-mood-card .mood-week { display: flex; justify-content: space-between; gap: 4px; }
 .home-mood-card .mood-day { flex: 1; display: flex; flex-direction: column; align-items: center; gap: 6px; cursor: default; }
@@ -108,7 +108,7 @@ body { font-family: -apple-system, BlinkMacSystemFont, "Helvetica Neue", Arial, 
 .home-mood-card .mood-day .mood-icon { width: 28px; height: 28px; border-radius: 50%; background: #f0f0f0; display: flex; align-items: center; justify-content: center; font-size: 16px; }
 .home-mood-card .mood-day.today .mood-icon { border: 1.5px dashed #e8a33d; }
 .home-mood-card .mood-day .mood-icon.has { background: #fff; border: none; }
-.home-mood-card .mood-ta { margin-top: 14px; display: flex; justify-content: center; }
+.home-mood-card .mood-ta { margin-top: 12px; display: flex; justify-content: center; }
 .home-mood-card .mood-ta .mood-icon { width: 28px; height: 28px; border-radius: 50%; background: #fff; display: flex; align-items: center; justify-content: center; font-size: 16px; }
 
 #moodPickerModal .modal-box { max-width: 320px; }
@@ -116,22 +116,22 @@ body { font-family: -apple-system, BlinkMacSystemFont, "Helvetica Neue", Arial, 
 .mood-picker-item { aspect-ratio: 1; border-radius: 12px; background: #f5f5f5; display: flex; align-items: center; justify-content: center; font-size: 24px; cursor: pointer; }
 .mood-picker-item:active { background: #e8e8e8; }
 
-/* 第二页：纪念日 + 商店/陪伴（上下） + 两行对话 */
-.home-row-bottom2 { display: flex; gap: 16px; margin-top: auto; align-items: flex-start; flex-shrink: 0; }
-.home-anniv-card { width: 130px; height: 130px; background: #fff; border-radius: 18px; box-shadow: 0 2px 10px rgba(0,0,0,0.1); display: flex; flex-direction: column; align-items: center; justify-content: center; padding: 14px 8px; cursor: pointer; flex-shrink: 0; }
-.home-anniv-card .anniv-title { font-size: 13px; color: #888; margin-bottom: 6px; }
-.home-anniv-card .anniv-num { font-size: 42px; font-weight: 600; color: #222; line-height: 1; }
+/* 第二页：底部（纪念日 + 商店/陪伴 + 两行对话） */
+.home-row-bottom2 { display: flex; gap: 12px; align-items: flex-start; flex-shrink: 0; }
+.home-anniv-card { width: 120px; height: 120px; background: #fff; border-radius: 18px; box-shadow: 0 2px 10px rgba(0,0,0,0.1); display: flex; flex-direction: column; align-items: center; justify-content: center; padding: 12px 8px; cursor: pointer; flex-shrink: 0; }
+.home-anniv-card .anniv-title { font-size: 13px; color: #888; margin-bottom: 4px; }
+.home-anniv-card .anniv-num { font-size: 38px; font-weight: 600; color: #222; line-height: 1; }
 .home-anniv-card .anniv-sub { font-size: 11px; color: #aaa; margin-top: 4px; }
 
-.home-right-col { flex: 1; display: flex; flex-direction: column; gap: 12px; }
+.home-right-col { flex: 1; display: flex; flex-direction: column; gap: 10px; }
 .home-shop-line { display: flex; align-items: center; gap: 8px; }
 .home-companion-line { display: flex; align-items: center; gap: 8px; }
-.home-store-label { display: flex; flex-direction: column; align-items: center; gap: 2px; cursor: pointer; flex-shrink: 0; }
-.home-store-label svg { width: 24px; height: 24px; stroke: #555; }
-.home-store-label span { font-size: 12px; color: #555; }
+.home-store-label { display: flex; flex-direction: column; align-items: center; gap: 2px; cursor: pointer; flex-shrink: 0; width: 44px; }
+.home-store-label svg { width: 22px; height: 22px; stroke: #555; }
+.home-store-label span { font-size: 11px; color: #555; }
 .home-mini-talk { flex: 1; padding: 8px 12px; background: #fff; border-radius: 14px; font-size: 12px; color: #333; cursor: pointer; text-align: center; min-height: 16px; word-break: break-word; }
 .home-mini-talk .placeholder { color: #bbb; }
-.home-mini-avatar { width: 32px; height: 32px; border-radius: 50%; background: #e5e5e5 center/cover no-repeat; display: flex; align-items: center; justify-content: center; font-size: 12px; color: #999; flex-shrink: 0; }
+.home-mini-avatar { width: 30px; height: 30px; border-radius: 50%; background: #e5e5e5 center/cover no-repeat; display: flex; align-items: center; justify-content: center; font-size: 12px; color: #999; flex-shrink: 0; }
 
 /* 底部固定栏 */
 .home-bottom-bar { flex-shrink: 0; background: #fff; border-radius: 18px 18px 0 0; margin: 0 6px; padding-bottom: 6px; }
