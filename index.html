@@ -33,15 +33,19 @@
       <div class="home-page-item page1">
         <div class="home-time-card" id="homeTime">--:--</div>
 
-        <div class="home-avatars-pair">
-          <div class="avatar-wrap">
-            <div class="avatar-circle" id="homeTaAvatar">TA</div>
-            <div class="avatar-name" id="homeTaName">TA</div>
+        <div class="home-avatars-row3">
+          <div class="side-bubble" id="talkLeftBubble">点击可输入</div>
+          <div class="home-avatars-pair2">
+            <div class="avatar-wrap">
+              <div class="avatar-circle" id="homeTaAvatar">TA</div>
+              <div class="avatar-name" id="homeTaName">TA</div>
+            </div>
+            <div class="avatar-wrap">
+              <div class="avatar-circle" id="homeMyAvatar">我</div>
+              <div class="avatar-name" id="homeMyName">我</div>
+            </div>
           </div>
-          <div class="avatar-wrap">
-            <div class="avatar-circle" id="homeMyAvatar">我</div>
-            <div class="avatar-name" id="homeMyName">我</div>
-          </div>
+          <div class="side-bubble" id="talkRightBubble">点击可输入</div>
         </div>
 
         <div class="home-quote" id="homeQuote">
@@ -74,23 +78,25 @@
           </div>
         </div>
 
-        <div class="home-today-card">
-          <div class="today-row" id="todayMyRow">
-            <div class="text"><span class="name" id="todayMyName">我</span> 想 <span class="name" id="todayTaName1">TA</span></div>
-            <div class="num"><span id="todayMyNum">0</span> 次</div>
-            <div class="plus-one" id="todayMyPlus">+1</div>
-          </div>
-          <div class="today-row" id="todayTaRow">
-            <div class="text"><span class="name" id="todayTaName2">TA</span> 想 <span class="name" id="todayMyName2">我</span></div>
-            <div class="num"><span id="todayTaNum">0</span> 次</div>
+        <div class="home-today-title">今日状态</div>
+        <div class="home-today-row">
+          <div class="home-today-bubble" id="todayTaBubble">
+            <div class="line"><span id="todayTaName2">TA</span> 想起 <span id="todayMyName2">我</span> <span class="num" id="todayTaNum">0</span> 次</div>
             <div class="plus-one" id="todayTaPlus">+1</div>
+          </div>
+          <div class="home-today-bubble" id="todayMyBubble">
+            <div class="line"><span id="todayMyName">我</span> 想起 <span id="todayTaName1">TA</span> <span class="num" id="todayMyNum">0</span> 次</div>
+            <div class="plus-one" id="todayMyPlus">+1</div>
           </div>
         </div>
       </div>
 
       <!-- 第二页 -->
       <div class="home-page-item page2">
-        <div class="home-big-card" id="homeBigCard"></div>
+        <div class="page2-top-row">
+          <div class="page2-circle-img" id="page2CircleImg">点此选图</div>
+          <div class="page2-card-small" id="page2CardSmall">点此选图</div>
+        </div>
 
         <div class="home-heartbeat-card">
           <div class="hb-row">
@@ -105,30 +111,34 @@
           <div class="hb-text" id="hbText">双击输入卡片文字</div>
         </div>
 
-        <div class="home-talk-2">
-          <div class="home-talk-row2">
-            <div class="home-talk-avatar2" id="talkTaAvatar2">TA</div>
-            <div class="home-talk-line2" id="talkTa2"><span class="placeholder">点我输入</span></div>
-          </div>
-          <div class="home-talk-row2 reverse">
-            <div class="home-talk-line2" id="talkMine2"><span class="placeholder">点我输入</span></div>
-            <div class="home-talk-avatar2" id="talkMyAvatar2">我</div>
-          </div>
+        <div class="home-mood-card">
+          <div class="mood-title">今日心情</div>
+          <div class="mood-week" id="moodWeek"></div>
+          <div class="mood-ta" id="moodTaBox"></div>
         </div>
 
         <div class="home-row-bottom2">
           <div class="home-anniv-card" id="homeAnnivCard">
             <div class="anniv-title">纪念日</div>
             <div class="anniv-num" id="homeAnnivNum">0</div>
+            <div class="anniv-sub">在一起</div>
           </div>
-          <div class="home-store-play">
-            <div class="sp-item" data-key="shop">
-              <svg viewBox="0 0 24 24" fill="none" stroke="#555" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M4 7 L20 7 L20 20 L4 20 Z"></path><path d="M4 7 L5 4 L19 4 L20 7"></path><path d="M9 11 L15 11"></path></svg>
-              <div class="sp-label">商店</div>
+          <div class="home-right-col">
+            <div class="home-shop-line">
+              <div class="home-store-label" id="homeShopLabel">
+                <svg viewBox="0 0 24 24" fill="none" stroke="#555" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M4 7 L20 7 L20 20 L4 20 Z"></path><path d="M4 7 L5 4 L19 4 L20 7"></path><path d="M9 11 L15 11"></path></svg>
+                <span>商店</span>
+              </div>
+              <div class="home-mini-avatar" id="miniAvatarMy">我</div>
+              <div class="home-mini-talk" id="miniTalkMine"><span class="placeholder">点击输入</span></div>
             </div>
-            <div class="sp-item" data-key="companion">
-              <svg viewBox="0 0 24 24" fill="none" stroke="#555" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M20.8 4.6 a5.5 5.5 0 0 0 -7.8 0 L12 5.7 l-1 -1.1 a5.5 5.5 0 0 0 -7.8 7.8 l1.1 1 L12 21 l7.7 -7.6 1.1 -1 a5.5 5.5 0 0 0 0 -7.8 Z"></path></svg>
-              <div class="sp-label">陪伴</div>
+            <div class="home-companion-line">
+              <div class="home-mini-talk" id="miniTalkTa"><span class="placeholder">点击输入</span></div>
+              <div class="home-mini-avatar" id="miniAvatarTa">TA</div>
+              <div class="home-store-label" id="homeCompanionLabel">
+                <svg viewBox="0 0 24 24" fill="none" stroke="#555" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M20.8 4.6 a5.5 5.5 0 0 0 -7.8 0 L12 5.7 l-1 -1.1 a5.5 5.5 0 0 0 -7.8 7.8 l1.1 1 L12 21 l7.7 -7.6 1.1 -1 a5.5 5.5 0 0 0 0 -7.8 Z"></path></svg>
+                <span>陪伴</span>
+              </div>
             </div>
           </div>
         </div>
@@ -148,14 +158,20 @@
         <svg viewBox="0 0 24 24" fill="none" stroke="#555" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="3"></circle><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1-2.83 2.83l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-4 0v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1 0-4h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 2.83-2.83l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 4 0v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 0 4h-.09a1.65 1.65 0 0 0-1.51 1z"></path></svg>
         <div class="tab-label">设置</div>
       </div>
-      <div class="tab-btn" data-key="anniversary">
-        <svg viewBox="0 0 24 24" fill="none" stroke="#555" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="5" width="18" height="16" rx="2"></rect><path d="M3 9 H21 M8 3 V7 M16 3 V7"></path><path d="M12 13 L12 17 M10 15 L14 15"></path></svg>
-        <div class="tab-label">纪念日</div>
-      </div>
       <div class="tab-btn" data-key="cards">
         <svg viewBox="0 0 24 24" fill="none" stroke="#555" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><rect x="4" y="4" width="16" height="16" rx="2"></rect><path d="M8 9 H16 M8 13 H14 M8 17 H12"></path></svg>
         <div class="tab-label">字卡库</div>
       </div>
+    </div>
+  </div>
+</div>
+
+<!-- ===== 心情选择弹窗 ===== -->
+<div id="moodPickerModal" class="modal hidden">
+  <div class="modal-box">
+    <div class="modal-head"><span>选一个心情</span><button id="closeMoodPickerBtn">×</button></div>
+    <div class="modal-body">
+      <div class="mood-picker-grid" id="moodPickerGrid"></div>
     </div>
   </div>
 </div>
@@ -2008,11 +2024,6 @@ function applyHomeAssets() {
   if (myNameEl) myNameEl.textContent = myName;
   if (taNameEl) taNameEl.textContent = taName;
 
-  const tma2 = document.getElementById('talkMyAvatar2');
-  const tta2 = document.getElementById('talkTaAvatar2');
-  if (tma2) { if (myUrl) { tma2.style.background = `url(${myUrl}) center/cover no-repeat`; tma2.textContent = ''; } else { tma2.style.background = '#e5e5e5'; tma2.textContent = myName.charAt(0); } }
-  if (tta2) { if (taUrl) { tta2.style.background = `url(${taUrl}) center/cover no-repeat`; tta2.textContent = ''; } else { tta2.style.background = '#e5e5e5'; tta2.textContent = taName.charAt(0); } }
-
   const hbTa = document.getElementById('hbTaAvatar');
   const hbMy = document.getElementById('hbMyAvatar');
   if (hbTa) { if (taUrl) { hbTa.style.background = `url(${taUrl}) center/cover no-repeat`; hbTa.textContent = ''; } else { hbTa.style.background = '#e5e5e5'; hbTa.textContent = taName.charAt(0); } }
@@ -2023,7 +2034,6 @@ function applyHomeAssets() {
   if (pta) { if (taUrl) { pta.style.background = `url(${taUrl}) center/cover no-repeat`; pta.textContent = ''; } else { pta.style.background = '#e5e5e5'; pta.textContent = taName.charAt(0); } }
   if (pma) { if (myUrl) { pma.style.background = `url(${myUrl}) center/cover no-repeat`; pma.textContent = ''; } else { pma.style.background = '#e5e5e5'; pma.textContent = myName.charAt(0); } }
 
-  // 今日状态里的名字
   const t1 = document.getElementById('todayMyName');
   const t2 = document.getElementById('todayTaName1');
   const t3 = document.getElementById('todayTaName2');
@@ -2032,6 +2042,11 @@ function applyHomeAssets() {
   if (t2) t2.textContent = taName;
   if (t3) t3.textContent = taName;
   if (t4) t4.textContent = myName;
+
+  const mA = document.getElementById('miniAvatarMy');
+  const tA = document.getElementById('miniAvatarTa');
+  if (mA) { if (myUrl) { mA.style.background = `url(${myUrl}) center/cover no-repeat`; mA.textContent = ''; } else { mA.style.background = '#e5e5e5'; mA.textContent = myName.charAt(0); } }
+  if (tA) { if (taUrl) { tA.style.background = `url(${taUrl}) center/cover no-repeat`; tA.textContent = ''; } else { tA.style.background = '#e5e5e5'; tA.textContent = taName.charAt(0); } }
 }
 function applyHomeWallpaper() {
   const wp = load('home_wallpaper', '');
@@ -2039,13 +2054,6 @@ function applyHomeWallpaper() {
   if (!homePage) return;
   if (wp) homePage.style.background = wp.startsWith('linear') || wp.startsWith('#') ? wp : `url(${wp}) center/cover no-repeat`;
   else homePage.style.background = '#f5f5f5';
-}
-function applyHomeBigCard() {
-  const big = document.getElementById('homeBigCard');
-  if (!big) return;
-  const bg = load('home_big_card', '');
-  if (bg) big.style.background = `url(${bg}) center/cover no-repeat`;
-  else big.style.background = 'linear-gradient(135deg, #e8f0ff 0%, #d7e4f8 100%)';
 }
 function applyHomeQuote() {
   const q = load('home_quote', '');
@@ -2068,6 +2076,30 @@ function applyHbText() {
   if (v) { el.textContent = v; el.classList.add('filled'); }
   else { el.textContent = '双击输入卡片文字'; el.classList.remove('filled'); }
 }
+function applySideBubbles() {
+  const l = document.getElementById('talkLeftBubble');
+  const r = document.getElementById('talkRightBubble');
+  const lv = load('home_talk_left', '');
+  const rv = load('home_talk_right', '');
+  if (l) { if (lv) { l.textContent = lv; l.classList.add('filled'); } else { l.textContent = '点击可输入'; l.classList.remove('filled'); } }
+  if (r) { if (rv) { r.textContent = rv; r.classList.add('filled'); } else { r.textContent = '点击可输入'; r.classList.remove('filled'); } }
+}
+function applyMiniTalks() {
+  const m = document.getElementById('miniTalkMine');
+  const t = document.getElementById('miniTalkTa');
+  const mv = load('home_mini_mine', '');
+  const tv = load('home_mini_ta', '');
+  if (m) { if (mv) m.textContent = mv; else m.innerHTML = '<span class="placeholder">点击输入</span>'; }
+  if (t) { if (tv) t.textContent = tv; else t.innerHTML = '<span class="placeholder">点击输入</span>'; }
+}
+function applyPage2Images() {
+  const c = document.getElementById('page2CircleImg');
+  const s = document.getElementById('page2CardSmall');
+  const cv = load('home_page2_circle', '');
+  const sv = load('home_page2_card', '');
+  if (c) { if (cv) { c.style.background = `url(${cv}) center/cover no-repeat`; c.textContent = ''; } else { c.style.background = '#fff'; c.textContent = '点此选图'; } }
+  if (s) { if (sv) { s.innerHTML = `<img src="${sv}">`; } else { s.innerHTML = '点此选图'; } }
+}
 function updateHomeTime() {
   const el = document.getElementById('homeTime');
   if (!el) return;
@@ -2082,12 +2114,10 @@ let todayMyCount = 0;
 let todayTaCount = 0;
 let todayDateKey = '';
 let taAutoTimer = null;
-
 function getTodayKeyStr() {
   const d = new Date();
   return `${d.getFullYear()}-${d.getMonth() + 1}-${d.getDate()}`;
 }
-
 function loadTodayState() {
   const saved = load('home_today_state', null);
   const today = getTodayKeyStr();
@@ -2095,8 +2125,7 @@ function loadTodayState() {
     todayMyCount = saved.my || 0;
     todayTaCount = saved.ta || 0;
   } else {
-    todayMyCount = 0;
-    todayTaCount = 0;
+    todayMyCount = 0; todayTaCount = 0;
   }
   todayDateKey = today;
   updateTodayUI();
@@ -2105,19 +2134,17 @@ function saveTodayState() {
   save('home_today_state', { date: todayDateKey, my: todayMyCount, ta: todayTaCount });
 }
 function updateTodayUI() {
-  const myNum = document.getElementById('todayMyNum');
-  const taNum = document.getElementById('todayTaNum');
-  if (myNum) myNum.textContent = todayMyCount;
-  if (taNum) taNum.textContent = todayTaCount;
+  const mn = document.getElementById('todayMyNum');
+  const tn = document.getElementById('todayTaNum');
+  if (mn) mn.textContent = todayMyCount;
+  if (tn) tn.textContent = todayTaCount;
 }
 function checkTodayReset() {
   const today = getTodayKeyStr();
   if (today !== todayDateKey) {
     todayDateKey = today;
-    todayMyCount = 0;
-    todayTaCount = 0;
-    saveTodayState();
-    updateTodayUI();
+    todayMyCount = 0; todayTaCount = 0;
+    saveTodayState(); updateTodayUI();
   }
 }
 function showPlusOne(which) {
@@ -2127,44 +2154,108 @@ function showPlusOne(which) {
   void el.offsetWidth;
   el.classList.add('show');
 }
-
-/* 我点自己的那行 +1 */
-document.getElementById('todayMyRow').onclick = () => {
+document.getElementById('todayMyBubble').onclick = () => {
   checkTodayReset();
   todayMyCount++;
-  saveTodayState();
-  updateTodayUI();
-  showPlusOne('my');
+  saveTodayState(); updateTodayUI(); showPlusOne('my');
 };
-
-/* 对方随机涨：每次页面活跃时检查一下 */
 function maybeTaGrow() {
   checkTodayReset();
-  // 每次调用有 40% 概率涨 1 次，最多不超过 100
   if (todayTaCount >= 100) return;
   if (Math.random() < 0.4) {
     todayTaCount++;
-    saveTodayState();
-    updateTodayUI();
-    showPlusOne('ta');
+    saveTodayState(); updateTodayUI(); showPlusOne('ta');
   }
 }
 function startTaAutoGrow() {
   if (taAutoTimer) clearInterval(taAutoTimer);
-  // 每 20~40 秒检查一次
   taAutoTimer = setInterval(() => {
     if (document.hidden) return;
     maybeTaGrow();
   }, 25000);
 }
-
 loadTodayState();
 startTaAutoGrow();
-
-/* 跨 0 点归零（每分钟检查） */
 setInterval(checkTodayReset, 60000);
 
-/* 第一页快捷入口 */
+/* ===== 今日心情 ===== */
+const MOODS = ['😊','😢','😡','😴','🥰','😐','🤔','😭','😍','😅','😳','🥺'];
+let moodData = load('home_mood_data', {});  // { '2026-10-13': {me:'😊', ta:'🥰'} }
+function getMoodKey() { return getTodayKeyStr(); }
+function renderMoodWeek() {
+  const box = document.getElementById('moodWeek');
+  if (!box) return;
+  box.innerHTML = '';
+  const now = new Date();
+  const today = now.getDay();  // 0=周日
+  const monday = new Date(now);
+  const diff = (today === 0 ? -6 : 1 - today);
+  monday.setDate(now.getDate() + diff);
+  for (let i = 0; i < 7; i++) {
+    const d = new Date(monday);
+    d.setDate(monday.getDate() + i);
+    const key = `${d.getFullYear()}-${d.getMonth() + 1}-${d.getDate()}`;
+    const isToday = key === getMoodKey();
+    const rec = moodData[key] || {};
+    const dayEl = document.createElement('div');
+    dayEl.className = 'mood-day' + (isToday ? ' today' : '');
+    const weekNames = ['一','二','三','四','五','六','日'];
+    let html = `<div class="day-label">${weekNames[i]}</div>`;
+    html += `<div class="mood-icon${rec.me ? ' has' : ''}">${rec.me || ''}</div>`;
+    dayEl.innerHTML = html;
+    if (isToday) {
+      dayEl.onclick = openMoodPicker;
+    }
+    box.appendChild(dayEl);
+  }
+  const taBox = document.getElementById('moodTaBox');
+  if (taBox) {
+    taBox.innerHTML = '';
+    const rec = moodData[getMoodKey()] || {};
+    if (rec.ta) {
+      const el = document.createElement('div');
+      el.className = 'mood-icon';
+      el.textContent = rec.ta;
+      taBox.appendChild(el);
+    }
+  }
+}
+function openMoodPicker() {
+  const modal = document.getElementById('moodPickerModal');
+  const grid = document.getElementById('moodPickerGrid');
+  grid.innerHTML = '';
+  MOODS.forEach(m => {
+    const el = document.createElement('div');
+    el.className = 'mood-picker-item';
+    el.textContent = m;
+    el.onclick = () => {
+      const key = getMoodKey();
+      if (!moodData[key]) moodData[key] = {};
+      moodData[key].me = m;
+      save('home_mood_data', moodData);
+      modal.classList.add('hidden');
+      renderMoodWeek();
+    };
+    grid.appendChild(el);
+  });
+  modal.classList.remove('hidden');
+}
+document.getElementById('closeMoodPickerBtn').onclick = () => document.getElementById('moodPickerModal').classList.add('hidden');
+/* TA 心情偶尔自己出现 */
+function maybeTaMood() {
+  const key = getMoodKey();
+  if (!moodData[key]) moodData[key] = {};
+  if (moodData[key].ta) return;
+  if (Math.random() < 0.25) {
+    moodData[key].ta = MOODS[Math.floor(Math.random() * MOODS.length)];
+    save('home_mood_data', moodData);
+    renderMoodWeek();
+  }
+}
+setInterval(() => { if (!document.hidden) maybeTaMood(); }, 60000);
+renderMoodWeek();
+
+/* ===== 第一页快捷入口 ===== */
 document.querySelectorAll('.home-grid-2x2 .home-item').forEach(item => {
   item.onclick = () => {
     const key = item.dataset.key;
@@ -2176,13 +2267,8 @@ document.querySelectorAll('.home-grid-2x2 .home-item').forEach(item => {
 });
 
 /* 第二页商店 / 陪伴 */
-document.querySelectorAll('.home-store-play .sp-item').forEach(item => {
-  item.onclick = () => {
-    const key = item.dataset.key;
-    if (key === 'shop') showShopPage();
-    else if (key === 'companion') document.getElementById('companionModal').classList.remove('hidden');
-  };
-});
+document.getElementById('homeShopLabel').onclick = () => showShopPage();
+document.getElementById('homeCompanionLabel').onclick = () => document.getElementById('companionModal').classList.remove('hidden');
 document.getElementById('closeCompanionBtn').onclick = () => document.getElementById('companionModal').classList.add('hidden');
 
 /* 第二页纪念日小卡 */
@@ -2193,7 +2279,6 @@ document.querySelectorAll('.home-tabs-bottom .tab-btn').forEach(btn => {
   btn.onclick = () => {
     const key = btn.dataset.key;
     if (key === 'settings') document.getElementById('settingsModal').classList.remove('hidden');
-    else if (key === 'anniversary') { showPage('annivPage'); renderAnniv(); }
     else if (key === 'cards') {
       document.getElementById('cardModal').classList.remove('hidden');
       if (typeof window.openCardTab === 'function') window.openCardTab('main');
@@ -2206,13 +2291,11 @@ let homeCurrentPage = 0;
 const homeTrack = document.getElementById('homeTrack');
 const homeDots = document.querySelectorAll('.home-dots .dot-item');
 let touchStartX = 0, touchStartY = 0, touchSwiping = false;
-
 function setHomePage(page) {
   homeCurrentPage = page;
   homeTrack.style.transform = `translateX(-${page * 50}%)`;
   homeDots.forEach((d, i) => d.classList.toggle('active', i === page));
 }
-
 (function() {
   const wrap = document.querySelector('.home-pages-wrap');
   wrap.addEventListener('touchstart', (e) => {
@@ -2259,22 +2342,38 @@ function setHomePage(page) {
   };
 })();
 
-/* 首页大卡片选图 */
+/* 第二页圆形图 / 小卡选图 */
 (function() {
-  const big = document.getElementById('homeBigCard');
-  if (!big) return;
-  const upload = document.createElement('input');
-  upload.type = 'file'; upload.accept = 'image/*'; upload.style.display = 'none';
-  document.body.appendChild(upload);
-  big.onclick = () => upload.click();
-  upload.onchange = (e) => {
-    const file = e.target.files[0];
-    if (!file) return;
-    compressImage(file, 800, (url) => {
-      save('home_big_card', url);
-      big.style.background = `url(${url}) center/cover no-repeat`;
-    });
-    upload.value = '';
+  const circle = document.getElementById('page2CircleImg');
+  const card = document.getElementById('page2CardSmall');
+  const up1 = document.createElement('input');
+  up1.type = 'file'; up1.accept = 'image/*'; up1.style.display = 'none';
+  document.body.appendChild(up1);
+  circle.onclick = () => up1.click();
+  up1.onchange = (e) => {
+    const f = e.target.files[0]; if (!f) return;
+    const r = new FileReader();
+    r.onload = (ev) => {
+      const url = ev.target.result;
+      circle.style.background = `url(${url}) center/cover no-repeat`;
+      circle.textContent = '';
+      save('home_page2_circle', url);
+    };
+    r.readAsDataURL(f); up1.value = '';
+  };
+  const up2 = document.createElement('input');
+  up2.type = 'file'; up2.accept = 'image/*'; up2.style.display = 'none';
+  document.body.appendChild(up2);
+  card.onclick = () => up2.click();
+  up2.onchange = (e) => {
+    const f = e.target.files[0]; if (!f) return;
+    const r = new FileReader();
+    r.onload = (ev) => {
+      const url = ev.target.result;
+      card.innerHTML = `<img src="${url}">`;
+      save('home_page2_card', url);
+    };
+    r.readAsDataURL(f); up2.value = '';
   };
 })();
 
@@ -2282,23 +2381,18 @@ function setHomePage(page) {
 (function() {
   const box = document.getElementById('homeQuoteBox');
   const txt = document.getElementById('homeQuoteText');
-  box.ondblclick = () => {
+  function edit() {
     const cur = load('home_quote', '');
     const v = prompt('输入寄语：', cur);
     if (v === null) return;
     save('home_quote', v.trim());
     applyHomeQuote();
-  };
-  txt.ondblclick = () => {
-    const cur = load('home_quote', '');
-    const v = prompt('输入寄语：', cur);
-    if (v === null) return;
-    save('home_quote', v.trim());
-    applyHomeQuote();
-  };
+  }
+  box.ondblclick = edit;
+  txt.ondblclick = edit;
 })();
 
-/* 首页卡片文字（双击） */
+/* 卡片文字（双击） */
 (function() {
   const el = document.getElementById('hbText');
   el.ondblclick = () => {
@@ -2310,27 +2404,39 @@ function setHomePage(page) {
   };
 })();
 
-/* 第二页对话气泡（单击） */
-(function() {
-  const mine = document.getElementById('talkMine2');
-  const ta = document.getElementById('talkTa2');
-  function renderLine(el, text) {
-    if (text) { el.textContent = text; }
-    else { el.innerHTML = '<span class="placeholder">点我输入</span>'; }
-  }
-  renderLine(mine, load('home_talk_mine', ''));
-  renderLine(ta, load('home_talk_ta', ''));
-  function openEdit(el, key, label) {
-    const v = prompt('输入' + label + '说的话：', load(key, ''));
-    if (v === null) return;
-    save(key, v.trim());
-    renderLine(el, v.trim());
-  }
-  mine.onclick = () => openEdit(mine, 'home_talk_mine', '我');
-  ta.onclick = () => openEdit(ta, 'home_talk_ta', '对方');
-})();
+/* 头像左右小气泡（点击） */
+document.getElementById('talkLeftBubble').onclick = () => {
+  const cur = load('home_talk_left', '');
+  const v = prompt('输入左边说的话：', cur);
+  if (v === null) return;
+  save('home_talk_left', v.trim());
+  applySideBubbles();
+};
+document.getElementById('talkRightBubble').onclick = () => {
+  const cur = load('home_talk_right', '');
+  const v = prompt('输入右边说的话：', cur);
+  if (v === null) return;
+  save('home_talk_right', v.trim());
+  applySideBubbles();
+};
 
-/* 纪念日小卡数字同步 */
+/* 第二页两行对话（点击） */
+document.getElementById('miniTalkMine').onclick = () => {
+  const cur = load('home_mini_mine', '');
+  const v = prompt('输入我说的话：', cur);
+  if (v === null) return;
+  save('home_mini_mine', v.trim());
+  applyMiniTalks();
+};
+document.getElementById('miniTalkTa').onclick = () => {
+  const cur = load('home_mini_ta', '');
+  const v = prompt('输入对方说的话：', cur);
+  if (v === null) return;
+  save('home_mini_ta', v.trim());
+  applyMiniTalks();
+};
+
+/* 纪念日小卡数字 */
 function updateHomeAnnivNum() {
   const el = document.getElementById('homeAnnivNum');
   if (!el) return;
@@ -2351,9 +2457,11 @@ window.updateHomeAnnivNum = updateHomeAnnivNum;
 refreshMessages();
 applyHomeAssets();
 applyHomeWallpaper();
-applyHomeBigCard();
 applyHomeQuote();
 applyHbText();
+applySideBubbles();
+applyMiniTalks();
+applyPage2Images();
 (function() { const t = document.getElementById('taName'); if (t) t.textContent = load('ta_name', 'TA'); })();
 scheduleAutoMessage();
 
@@ -3038,7 +3146,6 @@ function renderMomentsList() {
   const all = load('our_moments', []);
   let list = all.slice();
   if (momentListMode === 'ta') list = list.filter(m => m.sender === 'ta');
-
   const allEmpty = all.length === 0;
   if (momentListMode === 'ta' && list.length === 0) {
     box.innerHTML = '<div class="moment-ta-empty">对方还没有发动态哦</div>';
@@ -3054,7 +3161,6 @@ function renderMomentsList() {
     currentVisibleDate = '';
     return;
   }
-
   list.sort((a, b) => b.t - a.t);
   box.innerHTML = '';
   list.forEach(m => {
@@ -3062,12 +3168,10 @@ function renderMomentsList() {
     card.dataset.dateKey = dateKeyOf(new Date(m.t));
     box.appendChild(card);
   });
-
   const firstKey = dateKeyOf(new Date(list[0].t));
   currentVisibleDate = firstKey;
   const dt = document.getElementById('momentDividerText');
   if (dt) dt.textContent = formatDividerDate(new Date(list[0].t));
-
   bindMomentScroll();
 }
 
@@ -3100,7 +3204,6 @@ function renderMomentCard(m) {
   const card = document.createElement('div');
   card.className = 'moment-card';
   card.dataset.mid = m.id;
-
   const isMe = m.sender === 'me';
   const avatarUrl = isMe ? load('my_avatar', '') : load('ta_avatar', '');
   const name = isMe ? load('my_name', '我') : load('ta_name', 'TA');
@@ -3131,14 +3234,12 @@ function renderMomentCard(m) {
     a.appendChild(del);
   }
   card.appendChild(a);
-
   if (m.text) {
     const t = document.createElement('div');
     t.className = 'text';
     t.textContent = m.text;
     card.appendChild(t);
   }
-
   if (m.imgs && m.imgs.length > 0) {
     const imgsBox = document.createElement('div');
     imgsBox.className = 'imgs' + (m.imgs.length === 1 ? ' single' : '');
@@ -3149,14 +3250,10 @@ function renderMomentCard(m) {
     });
     card.appendChild(imgsBox);
   }
-
   const acts = document.createElement('div');
   acts.className = 'actions';
   const liked = (m.likes || []).includes('me');
-  acts.innerHTML = `
-    <button class="like-btn ${liked ? 'liked' : ''}">♡ 赞</button>
-    <button class="comment-btn">💬 评论</button>
-  `;
+  acts.innerHTML = `<button class="like-btn ${liked ? 'liked' : ''}">♡ 赞</button><button class="comment-btn">💬 评论</button>`;
   acts.querySelector('.like-btn').onclick = () => {
     const all = load('our_moments', []);
     const x = all.find(y => y.id === m.id);
@@ -3180,7 +3277,6 @@ function renderMomentCard(m) {
     renderMomentsList();
   };
   card.appendChild(acts);
-
   if (m.likes && m.likes.length > 0) {
     const likesBox = document.createElement('div');
     likesBox.className = 'likes';
@@ -3188,7 +3284,6 @@ function renderMomentCard(m) {
     likesBox.textContent = '♡ ' + names;
     card.appendChild(likesBox);
   }
-
   if (m.comments && m.comments.length > 0) {
     const cmts = document.createElement('div');
     cmts.className = 'comments';
@@ -3201,7 +3296,6 @@ function renderMomentCard(m) {
     });
     card.appendChild(cmts);
   }
-
   return card;
 }
 
@@ -3235,7 +3329,6 @@ document.getElementById('momentChangeBgBtn').onclick = () => {
 
 /* ===== 朋友圈发动态 ===== */
 let momentPostImgs = [];
-
 document.getElementById('momentAddBtn').onclick = () => {
   momentPostImgs = [];
   document.getElementById('momentPostText').value = '';
@@ -3606,7 +3699,6 @@ document.getElementById('backFromMusicBtn').onclick = () => {
   if (musicCurrentId && musicAudio && !musicAudio.paused && musicFloatEnabled) showFloatDisc();
 };
 
-/* 上传本地音乐 */
 function uploadMusicFile() {
   const up = document.createElement('input');
   up.type = 'file'; up.accept = 'audio/*';
@@ -3649,7 +3741,6 @@ async function addMusicFromFile(f) {
   musicList.push({ id, name, artist: '', type: 'local', duration });
 }
 
-/* 链接添加 */
 let musicInputMode = 'link';
 function openMusicInputModal(mode) {
   musicInputMode = mode;
@@ -3688,7 +3779,6 @@ async function playMusic(id) {
   const m = musicList.find(x => x.id === id);
   if (!m) return;
 
-  // 如果是同一首歌，保留进度，不重头播
   if (musicCurrentId === id && musicAudio) {
     showPage('musicPlayerPage');
     updatePlayerAvatars();
@@ -3841,7 +3931,6 @@ document.getElementById('musicListBtn').onclick = () => {
   if (musicAudio && !musicAudio.paused && musicFloatEnabled) showFloatDisc();
 };
 
-/* 进度条拖动 */
 (function() {
   const wrap = document.getElementById('musicBarWrap');
   if (!wrap) return;
@@ -3853,7 +3942,6 @@ document.getElementById('musicListBtn').onclick = () => {
   });
 })();
 
-/* 一起听计时 */
 let togetherStartTime = 0;
 let togetherTimer = null;
 function startTogetherTimer() {
@@ -3892,7 +3980,7 @@ function hideFloatDisc() {
   document.getElementById('floatCard').classList.add('hidden');
 }
 
-/* 拖动 + 点击 */
+/* 拖动 + 点击（点击后：唱片区隐藏，卡片区显示） */
 (function() {
   const disc = document.getElementById('floatDisc');
   let startX = 0, startY = 0, startLeft = 0, startTop = 0, moved = false, touching = false;
@@ -3936,11 +4024,16 @@ function hideFloatDisc() {
   document.addEventListener('mouseup', onEnd);
 })();
 
+/* 打开迷你卡片：隐藏唱片区，显示卡片区 */
 function openFloatCard() {
-  const card = document.getElementById('floatCard');
-  card.classList.remove('hidden');
+  document.getElementById('floatDisc').classList.add('hidden');
+  document.getElementById('floatCard').classList.remove('hidden');
 }
-document.getElementById('floatUpBtn').onclick = () => document.getElementById('floatCard').classList.add('hidden');
+/* 点 ∧：隐藏卡片区，恢复唱片区 */
+document.getElementById('floatUpBtn').onclick = () => {
+  document.getElementById('floatCard').classList.add('hidden');
+  document.getElementById('floatDisc').classList.remove('hidden');
+};
 document.getElementById('floatPlayBtn').onclick = togglePlay;
 document.getElementById('floatPrevBtn').onclick = playPrev;
 document.getElementById('floatNextBtn').onclick = playNext;
