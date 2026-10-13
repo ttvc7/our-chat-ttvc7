@@ -40,71 +40,67 @@ body { font-family: -apple-system, BlinkMacSystemFont, "Helvetica Neue", Arial, 
 #homePage { background: #f5f5f5; display: flex; flex-direction: column; overflow: hidden; }
 .home-pages-wrap { flex: 1; position: relative; overflow: hidden; }
 .home-pages-track { display: flex; width: 200%; height: 100%; transition: transform 0.32s cubic-bezier(0.25, 0.8, 0.25, 1); }
-.home-page-item { width: 50%; height: 100%; flex-shrink: 0; overflow-y: auto; padding: 30px 20px 20px; display: flex; flex-direction: column; }
+.home-page-item { width: 50%; height: 100%; flex-shrink: 0; overflow-y: auto; padding: 36px 22px 24px; display: flex; flex-direction: column; }
 
-/* 第一页：时间 */
-.home-time-card { display: block; padding: 20px 8px 8px; background: transparent; font-size: 48px; font-weight: 300; color: #444; letter-spacing: 3px; margin-bottom: 6px; }
+/* 第一页 */
+.home-time-card { display: block; padding: 0 0 4px; background: transparent; font-size: 48px; font-weight: 300; color: #444; letter-spacing: 3px; margin-bottom: 20px; flex-shrink: 0; }
 
-/* 第一页：头像 + 左右气泡 */
-.home-avatars-row3 { display: flex; align-items: center; justify-content: center; gap: 8px; margin-top: 4px; }
-.home-avatars-row3 .side-bubble { flex: 0 0 auto; max-width: 100px; min-width: 60px; padding: 8px 12px; background: #fff; border-radius: 14px; font-size: 12px; color: #aaa; cursor: pointer; text-align: center; word-break: break-word; min-height: 18px; }
+.home-avatars-row3 { display: flex; align-items: center; justify-content: space-between; gap: 8px; margin-bottom: 20px; flex-shrink: 0; }
+.home-avatars-row3 .side-bubble { flex: 0 0 auto; max-width: 110px; min-width: 60px; padding: 9px 13px; background: #fff; border-radius: 14px; font-size: 12px; color: #aaa; cursor: pointer; text-align: center; word-break: break-word; min-height: 18px; }
 .home-avatars-row3 .side-bubble.filled { color: #333; }
-.home-avatars-pair2 { display: flex; align-items: flex-start; justify-content: center; }
+.home-avatars-pair2 { display: flex; align-items: flex-start; justify-content: center; flex-shrink: 0; }
 .home-avatars-pair2 .avatar-wrap { display: flex; flex-direction: column; align-items: center; }
 .home-avatars-pair2 .avatar-wrap:first-child { margin-right: -14px; z-index: 2; }
 .home-avatars-pair2 .avatar-wrap:last-child { z-index: 1; }
 .home-avatars-pair2 .avatar-circle { width: 68px; height: 68px; border-radius: 50%; background: #e5e5e5 center/cover no-repeat; display: flex; align-items: center; justify-content: center; font-size: 20px; color: #999; border: 3px solid #fff; }
 .home-avatars-pair2 .avatar-name { font-size: 13px; color: #666; margin-top: 4px; }
 
-.home-quote { text-align: center; margin: 12px 0 18px; }
-.home-quote-box { display: inline-block; min-width: 200px; padding: 10px 20px; background: #fff; border-radius: 14px; font-size: 14px; color: #aaa; cursor: pointer; }
+.home-quote { text-align: center; margin: 0 0 24px; flex-shrink: 0; }
+.home-quote-box { display: inline-block; min-width: 200px; padding: 11px 20px; background: #fff; border-radius: 14px; font-size: 14px; color: #aaa; cursor: pointer; }
 .home-quote-text { display: none; font-size: 15px; color: #333; font-weight: 500; }
 .home-quote.filled .home-quote-box { display: none; }
 .home-quote.filled .home-quote-text { display: inline-block; }
 
-.home-row-2 { display: flex; gap: 16px; align-items: center; justify-content: center; flex: 0 0 auto; margin-bottom: 22px; }
+.home-row-2 { display: flex; gap: 16px; align-items: flex-start; margin-bottom: 24px; flex-shrink: 0; }
 .home-card-small { width: 130px; height: 190px; background: #fff; border-radius: 16px; display: flex; align-items: center; justify-content: center; overflow: hidden; cursor: pointer; flex-shrink: 0; }
 .home-card-small img { width: 100%; height: 100%; object-fit: cover; }
 .home-card-small .tip { color: #bbb; font-size: 13px; text-align: center; }
-.home-grid-2x2 { flex: 0 0 auto; display: grid; grid-template-columns: 1fr 1fr; gap: 12px 20px; padding: 0 4px; }
-.home-grid-2x2 .home-item { display: flex; flex-direction: column; align-items: center; gap: 6px; cursor: pointer; padding: 4px 0; }
+.home-grid-2x2 { flex: 1; display: grid; grid-template-columns: 1fr 1fr; gap: 12px 6px; padding-top: 8px; }
+.home-grid-2x2 .home-item { display: flex; flex-direction: column; align-items: center; gap: 8px; cursor: pointer; padding: 8px 0; }
 .home-grid-2x2 .home-icon { width: 40px; height: 40px; display: flex; align-items: center; justify-content: center; }
 .home-grid-2x2 .home-icon svg { width: 30px; height: 30px; stroke: #555; }
 .home-grid-2x2 .home-label { font-size: 13px; color: #555; }
 /* ★★★ css 段 1 结束 ★★★ *//* ★★★ css 段 2 开始 ★★★ */
 /* 第一页：今日状态 */
-.home-today-title { font-size: 15px; color: #333; margin: 0 0 12px 4px; }
-.home-today-row { display: flex; gap: 12px; justify-content: space-between; }
+.home-today-title { font-size: 15px; color: #333; margin: 0 0 12px 4px; flex-shrink: 0; }
+.home-today-row { display: flex; gap: 12px; justify-content: space-between; flex-shrink: 0; }
 .home-today-bubble { flex: 1; background: #fff; border-radius: 14px; padding: 14px 12px; box-shadow: 0 3px 10px rgba(0,0,0,0.08); cursor: pointer; position: relative; min-height: 60px; display: flex; flex-direction: column; justify-content: center; }
-.home-today-bubble .line { font-size: 13px; color: #333; line-height: 1.5; word-break: break-word; }
+.home-today-bubble .line { font-size: 13px; color: #333; line-height: 1.5; word-break: break-word; text-align: center; }
 .home-today-bubble .line .num { color: #e8a33d; font-weight: 600; }
 .home-today-bubble .plus-one { position: absolute; top: 4px; right: 8px; font-size: 13px; color: #e8a33d; font-weight: 600; opacity: 0; pointer-events: none; }
 .home-today-bubble .plus-one.show { animation: plusOne 0.9s ease forwards; }
 @keyframes plusOne { 0% { opacity: 0; transform: translateY(6px); } 30% { opacity: 1; transform: translateY(0); } 100% { opacity: 0; transform: translateY(-10px); } }
 
 /* 第二页 */
-.home-page-item.page2 { display: flex; flex-direction: column; padding: 20px 20px 20px; }
-
-/* 第二页：顶部 圆形图 + 小卡 */
-.page2-top-row { display: flex; gap: 12px; align-items: center; margin-bottom: 26px; }
+.page2-top-row { display: flex; gap: 12px; align-items: flex-start; margin-bottom: 24px; flex-shrink: 0; }
 .page2-circle-img { width: 88px; height: 88px; border-radius: 50%; background: #fff center/cover no-repeat; display: flex; align-items: center; justify-content: center; color: #bbb; font-size: 12px; cursor: pointer; flex-shrink: 0; overflow: hidden; text-align: center; }
+.page2-circle-img img { width: 100%; height: 100%; object-fit: cover; }
 .page2-card-small { flex: 1; height: 88px; background: #fff; border-radius: 14px; display: flex; align-items: center; justify-content: center; overflow: hidden; cursor: pointer; color: #bbb; font-size: 13px; }
 .page2-card-small img { width: 100%; height: 100%; object-fit: cover; }
 
-/* 第二页：头像 + 心电波 */
-.home-heartbeat-card { width: 100%; background: transparent; padding: 0 8px; margin-bottom: 24px; }
+.home-heartbeat-card { width: 100%; background: transparent; padding: 4px 8px 8px; margin-bottom: 24px; flex-shrink: 0; }
 .home-heartbeat-card .hb-row { display: flex; align-items: center; justify-content: space-between; gap: 8px; }
 .home-heartbeat-card .hb-avatar { width: 68px; height: 68px; border-radius: 50%; background: #e5e5e5 center/cover no-repeat; display: flex; align-items: center; justify-content: center; font-size: 20px; color: #999; flex-shrink: 0; }
 .home-heartbeat-card .hb-wave { flex: 1; height: 40px; display: flex; align-items: center; justify-content: center; }
 .home-heartbeat-card .hb-wave svg { width: 100%; height: 32px; }
 .home-heartbeat-card .hb-wave polyline { fill: none; stroke: #f4c2ce; stroke-width: 2; stroke-linecap: round; stroke-linejoin: round; }
-.home-heartbeat-card .hb-text { text-align: center; margin-top: 12px; font-size: 15px; color: #aaa; cursor: pointer; min-height: 22px; }
+.home-heartbeat-card .hb-text { text-align: center; margin-top: 16px; font-size: 15px; color: #aaa; cursor: pointer; min-height: 22px; }
 .home-heartbeat-card .hb-text.filled { color: #333; }
 
 /* 第二页：今日心情小条 */
-.home-mood-card { background: rgba(255,255,255,0.7); border-radius: 16px; padding: 14px 14px 16px; margin-bottom: 24px; }
+.home-mood-card { background: rgba(255,255,255,0.75); border-radius: 16px; padding: 14px 14px 16px; margin-bottom: 24px; flex-shrink: 0; }
 .home-mood-card .mood-title { font-size: 13px; color: #888; margin-bottom: 10px; }
-.home-mood-card .mood-week { display: flex; justify-content: space-between; gap: 6px; }
+.home-mood-card .mood-week { display: flex; justify-content: space-between; gap: 4px; }
 .home-mood-card .mood-day { flex: 1; display: flex; flex-direction: column; align-items: center; gap: 6px; cursor: default; }
 .home-mood-card .mood-day.today { cursor: pointer; }
 .home-mood-card .mood-day .day-label { font-size: 11px; color: #999; }
@@ -112,29 +108,30 @@ body { font-family: -apple-system, BlinkMacSystemFont, "Helvetica Neue", Arial, 
 .home-mood-card .mood-day .mood-icon { width: 28px; height: 28px; border-radius: 50%; background: #f0f0f0; display: flex; align-items: center; justify-content: center; font-size: 16px; }
 .home-mood-card .mood-day.today .mood-icon { border: 1.5px dashed #e8a33d; }
 .home-mood-card .mood-day .mood-icon.has { background: #fff; border: none; }
-.home-mood-card .mood-ta { margin-top: 12px; display: flex; justify-content: center; }
+.home-mood-card .mood-ta { margin-top: 14px; display: flex; justify-content: center; }
 .home-mood-card .mood-ta .mood-icon { width: 28px; height: 28px; border-radius: 50%; background: #fff; display: flex; align-items: center; justify-content: center; font-size: 16px; }
 
-/* 心情选择弹窗 */
 #moodPickerModal .modal-box { max-width: 320px; }
 .mood-picker-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 10px; padding: 6px 0; }
 .mood-picker-item { aspect-ratio: 1; border-radius: 12px; background: #f5f5f5; display: flex; align-items: center; justify-content: center; font-size: 24px; cursor: pointer; }
 .mood-picker-item:active { background: #e8e8e8; }
 
-/* 第二页：纪念日小卡 + 商店/陪伴 + 两行对话 */
-.home-row-bottom2 { display: flex; gap: 16px; margin-top: 6px; flex: 1; align-items: flex-start; }
-.home-anniv-card { width: 150px; height: 150px; background: #fff; border-radius: 20px; box-shadow: 0 4px 14px rgba(0,0,0,0.06); display: flex; flex-direction: column; align-items: center; justify-content: center; padding: 14px 8px; cursor: pointer; flex-shrink: 0; }
+/* 第二页：纪念日 + 商店/陪伴（上下） + 两行对话 */
+.home-row-bottom2 { display: flex; gap: 16px; margin-top: auto; align-items: flex-start; flex-shrink: 0; }
+.home-anniv-card { width: 130px; height: 130px; background: #fff; border-radius: 18px; box-shadow: 0 2px 10px rgba(0,0,0,0.1); display: flex; flex-direction: column; align-items: center; justify-content: center; padding: 14px 8px; cursor: pointer; flex-shrink: 0; }
 .home-anniv-card .anniv-title { font-size: 13px; color: #888; margin-bottom: 6px; }
-.home-anniv-card .anniv-num { font-size: 46px; font-weight: 600; color: #222; line-height: 1; }
-.home-anniv-card .anniv-sub { font-size: 11px; color: #aaa; margin-top: 6px; }
+.home-anniv-card .anniv-num { font-size: 42px; font-weight: 600; color: #222; line-height: 1; }
+.home-anniv-card .anniv-sub { font-size: 11px; color: #aaa; margin-top: 4px; }
 
-.home-right-col { flex: 1; display: flex; flex-direction: column; gap: 16px; }
-.home-shop-line, .home-companion-line { display: flex; align-items: center; gap: 8px; justify-content: center; }
-.home-store-label { font-size: 13px; color: #555; display: flex; flex-direction: column; align-items: center; gap: 4px; cursor: pointer; flex-shrink: 0; }
+.home-right-col { flex: 1; display: flex; flex-direction: column; gap: 12px; }
+.home-shop-line { display: flex; align-items: center; gap: 8px; }
+.home-companion-line { display: flex; align-items: center; gap: 8px; }
+.home-store-label { display: flex; flex-direction: column; align-items: center; gap: 2px; cursor: pointer; flex-shrink: 0; }
 .home-store-label svg { width: 24px; height: 24px; stroke: #555; }
-.home-mini-talk { flex: 1; max-width: 120px; padding: 8px 12px; background: #fff; border-radius: 14px; font-size: 12px; color: #333; cursor: pointer; text-align: center; min-height: 16px; word-break: break-word; }
+.home-store-label span { font-size: 12px; color: #555; }
+.home-mini-talk { flex: 1; padding: 8px 12px; background: #fff; border-radius: 14px; font-size: 12px; color: #333; cursor: pointer; text-align: center; min-height: 16px; word-break: break-word; }
 .home-mini-talk .placeholder { color: #bbb; }
-.home-mini-avatar { width: 34px; height: 34px; border-radius: 50%; background: #e5e5e5 center/cover no-repeat; display: flex; align-items: center; justify-content: center; font-size: 12px; color: #999; flex-shrink: 0; }
+.home-mini-avatar { width: 32px; height: 32px; border-radius: 50%; background: #e5e5e5 center/cover no-repeat; display: flex; align-items: center; justify-content: center; font-size: 12px; color: #999; flex-shrink: 0; }
 
 /* 底部固定栏 */
 .home-bottom-bar { flex-shrink: 0; background: #fff; border-radius: 18px 18px 0 0; margin: 0 6px; padding-bottom: 6px; }
@@ -184,7 +181,7 @@ body { font-family: -apple-system, BlinkMacSystemFont, "Helvetica Neue", Arial, 
 #menuPopup.show { display: block; }
 #menuPopup .menu-item { padding: 10px 18px; font-size: 15px; color: #333; cursor: pointer; }
 #menuPopup .menu-item:active { background: #f2f2f2; }
-/* ★★★ css 段 2 结束 ★★★ *//* ★★★ css 段 3 开始 ★★★ */
+
 .plus-menu { position: fixed; bottom: 60px; left: 10px; right: 10px; background: #fff; border-radius: 14px; padding: 16px; box-shadow: 0 4px 20px rgba(0,0,0,0.15); z-index: 90; transition: transform 0.25s ease, opacity 0.25s ease; }
 .plus-menu.hidden { transform: translateY(20px); opacity: 0; pointer-events: none; }
 .plus-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 12px; }
@@ -200,7 +197,7 @@ body { font-family: -apple-system, BlinkMacSystemFont, "Helvetica Neue", Arial, 
 .modal-head { padding: 14px 16px; border-bottom: 1px solid #eee; display: flex; justify-content: space-between; align-items: center; font-weight: 600; }
 .modal-head button { background: none; border: none; font-size: 22px; color: #999; }
 .modal-body { padding: 16px; overflow-y: auto; }
-
+/* ★★★ css 段 2 结束 ★★★ *//* ★★★ css 段 3 开始 ★★★ */
 .transfer-target { display: flex; align-items: center; gap: 12px; padding: 12px 0; border-bottom: 1px solid #eee; margin-bottom: 16px; }
 .transfer-avatar { width: 44px; height: 44px; border-radius: 8px; background: #e8a33d; color: #fff; display: flex; align-items: center; justify-content: center; font-size: 18px; font-weight: 600; background-size: cover; background-position: center; }
 .transfer-name { font-size: 16px; color: #333; font-weight: 600; }
@@ -283,6 +280,33 @@ body { font-family: -apple-system, BlinkMacSystemFont, "Helvetica Neue", Arial, 
 .about-box { text-align: center; padding: 30px 10px; line-height: 2; color: #555; font-size: 14px; white-space: pre-wrap; }
 .about-box .title { font-size: 24px; font-weight: 600; color: #333; letter-spacing: 3px; margin-bottom: 20px; }
 .about-box .divider { color: #ccc; margin: 16px 0; }
+
+/* ===== 纪念日日期滚轮 ===== */
+.anniv-date-picker { position: fixed; inset: 0; z-index: 400; background: rgba(0,0,0,0.4); display: flex; align-items: flex-end; justify-content: center; }
+.anniv-date-picker.hidden { display: none; }
+.anniv-date-box { width: 100%; background: #fff; border-radius: 20px 20px 0 0; padding: 20px; }
+.anniv-date-title { font-size: 16px; font-weight: 600; color: #111; text-align: center; margin-bottom: 18px; }
+.anniv-date-row { display: flex; justify-content: center; align-items: center; gap: 10px; margin-bottom: 20px; }
+.anniv-date-col { width: 90px; text-align: center; }
+.anniv-date-col .top, .anniv-date-col .bottom { font-size: 14px; color: #bbb; padding: 6px 0; }
+.anniv-date-col .cur { font-size: 22px; color: #111; font-weight: 600; padding: 4px 0; border-top: 2px solid #e8a33d; border-bottom: 2px solid #e8a33d; }
+.anniv-date-label { font-size: 13px; color: #999; }
+.anniv-date-actions { display: flex; gap: 12px; }
+.anniv-date-actions button { flex: 1; padding: 14px; border: none; border-radius: 12px; font-size: 15px; cursor: pointer; }
+.anniv-date-actions .cancel { background: #f0f0f0; color: #333; }
+.anniv-date-actions .ok { background: #222; color: #fff; }
+
+/* ===== 表情面板 ===== */
+.sticker-panel { position: fixed; bottom: 0; left: 0; right: 0; height: 60vh; background: #fff; border-top: 1px solid #e0e0e0; border-radius: 16px 16px 0 0; display: flex; flex-direction: column; z-index: 80; box-shadow: 0 -4px 16px rgba(0,0,0,0.1); transition: transform 0.25s ease; }
+.sticker-panel.hidden { transform: translateY(100%); pointer-events: none; }
+.sticker-head { display: flex; align-items: center; gap: 6px; padding: 12px 14px; border-bottom: 1px solid #f0f0f0; }
+.sticker-tab { background: none; border: none; font-size: 14px; color: #999; padding: 6px 14px; border-radius: 16px; cursor: pointer; }
+.sticker-tab.active { color: #111; background: #f0f0f0; font-weight: 600; }
+.sticker-add-btn { margin-left: auto; background: #222; color: #fff; border: none; padding: 6px 14px; border-radius: 16px; font-size: 13px; cursor: pointer; }
+.sticker-body { flex: 1; overflow-y: auto; padding: 12px; display: grid; grid-template-columns: repeat(4, 1fr); gap: 8px; align-content: start; }
+.sticker-body .sticker-item { position: relative; aspect-ratio: 1; background: #f0f0f0; border-radius: 10px; background-size: cover; background-position: center; cursor: pointer; }
+.sticker-body .sticker-item .sticker-del { position: absolute; top: -6px; right: -6px; width: 20px; height: 20px; border-radius: 50%; background: #e74c3c; color: #fff; border: none; font-size: 12px; line-height: 1; display: flex; align-items: center; justify-content: center; cursor: pointer; padding: 0; }
+.sticker-body .sticker-empty { grid-column: 1 / -1; text-align: center; color: #999; font-size: 13px; padding: 40px 20px; }
 /* ★★★ css 段 3 结束 ★★★ *//* ★★★ css 段 4 开始 ★★★ */
 /* ===== 朋友圈 ===== */
 .moment-header { position: relative; width: 100%; height: 260px; background: linear-gradient(135deg, #e8f0ff 0%, #d7e4f8 100%); background-size: cover; background-position: center; flex-shrink: 0; }
@@ -638,23 +662,23 @@ body { font-family: -apple-system, BlinkMacSystemFont, "Helvetica Neue", Arial, 
 #floatDisc.spinning .float-disc-inner { animation: discSpin 12s linear infinite; }
 #floatDisc .float-cover { width: 44px; height: 44px; border-radius: 50%; background: #333 center/cover no-repeat; }
 
-/* 展开的迷你卡片 */
-#floatCard { position: fixed; z-index: 71; width: calc(100% - 40px); max-width: 400px; left: 50%; transform: translateX(-50%); top: 20px; background: #fff; border-radius: 22px; box-shadow: 0 12px 40px rgba(0,0,0,0.15); padding: 18px 20px 22px; }
+/* 展开的迷你卡片（跟悬浮球同一位置出现，也能拖） */
+#floatCard { position: fixed; z-index: 71; width: 220px; background: #fff; border-radius: 18px; box-shadow: 0 12px 40px rgba(0,0,0,0.18); padding: 16px 16px 18px; cursor: grab; touch-action: none; user-select: none; }
 #floatCard.hidden { display: none; }
 .float-card-top { display: flex; align-items: center; justify-content: space-between; margin-bottom: 4px; }
-.float-card-top .camera-btn { width: 30px; height: 30px; border-radius: 50%; background: #f0f0f0; display: flex; align-items: center; justify-content: center; cursor: pointer; border: none; }
-.float-card-top .camera-btn svg { width: 16px; height: 16px; stroke: #666; }
-.float-card-top .up-btn { width: 30px; height: 30px; background: none; border: none; cursor: pointer; display: flex; align-items: center; justify-content: center; }
-.float-card-top .up-btn svg { width: 20px; height: 20px; stroke: #666; }
-.float-card-title { text-align: center; font-size: 20px; font-weight: 700; color: #222; letter-spacing: 1px; margin-bottom: 2px; }
-.float-card-sub { text-align: center; font-size: 13px; color: #999; margin-bottom: 14px; }
-.float-card-progress { height: 3px; background: #eee; border-radius: 2px; position: relative; margin-bottom: 14px; }
+.float-card-top .camera-btn { width: 28px; height: 28px; border-radius: 50%; background: #f0f0f0; display: flex; align-items: center; justify-content: center; cursor: pointer; border: none; }
+.float-card-top .camera-btn svg { width: 15px; height: 15px; stroke: #666; }
+.float-card-top .up-btn { width: 28px; height: 28px; background: none; border: none; cursor: pointer; display: flex; align-items: center; justify-content: center; }
+.float-card-top .up-btn svg { width: 18px; height: 18px; stroke: #666; }
+.float-card-title { text-align: center; font-size: 16px; font-weight: 700; color: #222; margin-bottom: 2px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.float-card-sub { text-align: center; font-size: 12px; color: #999; margin-bottom: 12px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.float-card-progress { height: 3px; background: #eee; border-radius: 2px; position: relative; margin-bottom: 12px; }
 .float-card-progress .fill { position: absolute; left: 0; top: 0; height: 100%; background: #c9a06a; border-radius: 2px; width: 0%; }
-.float-card-controls { display: flex; align-items: center; justify-content: space-between; padding: 0 6px; }
+.float-card-controls { display: flex; align-items: center; justify-content: space-between; padding: 0 2px; }
 .float-card-controls .ctrl { background: none; border: none; padding: 6px; display: flex; align-items: center; justify-content: center; cursor: pointer; }
-.float-card-controls .ctrl svg { width: 22px; height: 22px; stroke: #999; }
-.float-card-controls .play-big { width: 48px; height: 48px; border-radius: 50%; background: #c9a06a; display: flex; align-items: center; justify-content: center; }
-.float-card-controls .play-big svg { width: 20px; height: 20px; fill: #fff; stroke: none; }
+.float-card-controls .ctrl svg { width: 20px; height: 20px; stroke: #999; }
+.float-card-controls .play-big { width: 42px; height: 42px; border-radius: 50%; background: #c9a06a; display: flex; align-items: center; justify-content: center; }
+.float-card-controls .play-big svg { width: 18px; height: 18px; fill: #fff; stroke: none; }
 .float-card-controls .ctrl.active svg { stroke: #c9a06a; }
 
 /* ===== 陪伴页（占位） ===== */
@@ -679,7 +703,4 @@ body { font-family: -apple-system, BlinkMacSystemFont, "Helvetica Neue", Arial, 
 
 /* ===== 通用小工具 ===== */
 .hidden { display: none !important; }
-/* ★★★ css 段 7 结束 ★★★ *//* ★★★ css 段 8 开始 ★★★ */
-/* 通用 */
-.hidden { display: none !important; }
-/* ★★★ css 段 8 结束 ★★★ */
+/* ★★★ css 段 7 结束 ★★★ */
