@@ -34,18 +34,18 @@
         <div class="home-time-card" id="homeTime">--:--</div>
 
         <div class="home-avatars-row3">
-          <div class="side-bubble" id="talkLeftBubble">点击可输入</div>
           <div class="home-avatars-pair2">
             <div class="avatar-wrap">
               <div class="avatar-circle" id="homeTaAvatar">TA</div>
               <div class="avatar-name" id="homeTaName">TA</div>
+              <div class="side-bubble" id="talkLeftBubble" style="position:absolute;left:-70px;top:52px;">点击</div>
             </div>
             <div class="avatar-wrap">
               <div class="avatar-circle" id="homeMyAvatar">我</div>
               <div class="avatar-name" id="homeMyName">我</div>
+              <div class="side-bubble" id="talkRightBubble" style="position:absolute;right:-70px;top:52px;">点击</div>
             </div>
           </div>
-          <div class="side-bubble" id="talkRightBubble">点击可输入</div>
         </div>
 
         <div class="home-quote" id="homeQuote">
@@ -129,12 +129,16 @@
                 <svg viewBox="0 0 24 24" fill="none" stroke="#555" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M4 7 L20 7 L20 20 L4 20 Z"></path><path d="M4 7 L5 4 L19 4 L20 7"></path><path d="M9 11 L15 11"></path></svg>
                 <span>商店</span>
               </div>
+              <div class="home-mini-avatar" id="miniAvatarMy">我</div>
+              <div class="home-mini-talk" id="miniTalkMine"><span class="placeholder">点击输入</span></div>
             </div>
-            <div class="home-shop-line">
+            <div class="home-companion-line">
               <div class="home-store-label" id="homeCompanionLabel">
                 <svg viewBox="0 0 24 24" fill="none" stroke="#555" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M20.8 4.6 a5.5 5.5 0 0 0 -7.8 0 L12 5.7 l-1 -1.1 a5.5 5.5 0 0 0 -7.8 7.8 l1.1 1 L12 21 l7.7 -7.6 1.1 -1 a5.5 5.5 0 0 0 0 -7.8 Z"></path></svg>
                 <span>陪伴</span>
               </div>
+              <div class="home-mini-avatar" id="miniAvatarTa">TA</div>
+              <div class="home-mini-talk" id="miniTalkTa"><span class="placeholder">点击输入</span></div>
             </div>
           </div>
         </div>
@@ -780,16 +784,17 @@
 <input type="file" id="floatCoverUpload" accept="image/*" style="display:none;">
 <!-- ★★★ index 段 4 结束 ★★★ --><!-- ★★★ index 段 5 开始 ★★★ -->
 <script>
-/* ===== IndexedDB 封装 ===== */
+/* ===== IndexedDB 封装（存图片、语音、音乐） ===== */
 let _idb = null;
 function openIDB() {
   return new Promise((resolve, reject) => {
     if (_idb) return resolve(_idb);
-    const req = indexedDB.open('ourchat_db', 1);
+    const req = indexedDB.open('ourchat_db', 2);
     req.onupgradeneeded = (e) => {
       const db = e.target.result;
       if (!db.objectStoreNames.contains('voices')) db.createObjectStore('voices', { keyPath: 'id' });
       if (!db.objectStoreNames.contains('music')) db.createObjectStore('music', { keyPath: 'id' });
+      if (!db.objectStoreNames.contains('imgs')) db.createObjectStore('imgs', { keyPath: 'key' });
     };
     req.onsuccess = (e) => { _idb = e.target.result; resolve(_idb); };
     req.onerror = (e) => reject(e);
@@ -820,6 +825,21 @@ async function idbDelete(store, key) {
     tx.objectStore(store).delete(key);
     tx.oncomplete = () => resolve();
     tx.onerror = (e) => reject(e);
+  });
+}
+
+/* 图片专用：存大图，返回 dataURL；用 IDB 存 blob */
+async function saveImgBlob(key, dataUrl) {
+  const blob = await (await fetch(dataUrl)).blob();
+  await idbPut('imgs', { key, blob });
+}
+async function loadImgBlob(key) {
+  const rec = await idbGet('imgs', key);
+  if (!rec || !rec.blob) return '';
+  return await new Promise((resolve) => {
+    const r = new FileReader();
+    r.onload = () => resolve(r.result);
+    r.readAsDataURL(rec.blob);
   });
 }
 
@@ -2007,7 +2027,7 @@ function scheduleAutoMessage() {
   }, delay);
 }
 
-/* ===== 主页资产 ===== */
+/* ===== 主页资产应用 ===== */
 function applyHomeAssets() {
   const myA = document.getElementById('homeMyAvatar');
   const taA = document.getElementById('homeTaAvatar');
@@ -2038,6 +2058,11 @@ function applyHomeAssets() {
   if (t2) t2.textContent = taName;
   if (t3) t3.textContent = taName;
   if (t4) t4.textContent = myName;
+
+  const miniMy = document.getElementById('miniAvatarMy');
+  const miniTa = document.getElementById('miniAvatarTa');
+  if (miniMy) { if (myUrl) { miniMy.style.background = `url(${myUrl}) center/cover no-repeat`; miniMy.textContent = ''; } else { miniMy.style.background = '#e5e5e5'; miniMy.textContent = myName.charAt(0); } }
+  if (miniTa) { if (taUrl) { miniTa.style.background = `url(${taUrl}) center/cover no-repeat`; miniTa.textContent = ''; } else { miniTa.style.background = '#e5e5e5'; miniTa.textContent = taName.charAt(0); } }
 }
 function applyHomeWallpaper() {
   const wp = load('home_wallpaper', '');
@@ -2072,16 +2097,31 @@ function applySideBubbles() {
   const r = document.getElementById('talkRightBubble');
   const lv = load('home_talk_left', '');
   const rv = load('home_talk_right', '');
-  if (l) { if (lv) { l.textContent = lv; l.classList.add('filled'); } else { l.textContent = '点击可输入'; l.classList.remove('filled'); } }
-  if (r) { if (rv) { r.textContent = rv; r.classList.add('filled'); } else { r.textContent = '点击可输入'; r.classList.remove('filled'); } }
+  if (l) { if (lv) { l.textContent = lv; l.classList.add('filled'); } else { l.textContent = '点击'; l.classList.remove('filled'); } }
+  if (r) { if (rv) { r.textContent = rv; r.classList.add('filled'); } else { r.textContent = '点击'; r.classList.remove('filled'); } }
 }
-function applyPage2Images() {
+function applyMiniTalks() {
+  const m = document.getElementById('miniTalkMine');
+  const t = document.getElementById('miniTalkTa');
+  const mv = load('home_mini_mine', '');
+  const tv = load('home_mini_ta', '');
+  if (m) { if (mv) m.textContent = mv; else m.innerHTML = '<span class="placeholder">点击输入</span>'; }
+  if (t) { if (tv) t.textContent = tv; else t.innerHTML = '<span class="placeholder">点击输入</span>'; }
+}
+async function applyPage2Images() {
   const c = document.getElementById('page2CircleImg');
   const s = document.getElementById('page2CardSmall');
-  const cv = load('home_page2_circle', '');
-  const sv = load('home_page2_card', '');
+  const cv = await loadImgBlob('img_home_page2_circle');
+  const sv = await loadImgBlob('img_home_page2_card');
   if (c) { if (cv) { c.style.background = `url(${cv}) center/cover no-repeat`; c.textContent = ''; } else { c.style.background = '#fff'; c.textContent = '点此选图'; } }
   if (s) { if (sv) { s.innerHTML = `<img src="${sv}">`; } else { s.innerHTML = '点此选图'; } }
+}
+async function applyHomeCard() {
+  const img = document.getElementById('homeCardImg');
+  const tip = document.getElementById('homeCardTip');
+  if (!img) return;
+  const saved = await loadImgBlob('img_home_card');
+  if (saved) { img.src = saved; img.style.display = 'block'; if (tip) tip.style.display = 'none'; }
 }
 function updateHomeTime() {
   const el = document.getElementById('homeTime');
@@ -2151,7 +2191,7 @@ updateTodayUI();
 startTaAutoGrow();
 setInterval(checkTodayReset, 60000);
 
-/* ===== 今日心情（7 天格子 + TA 心情在下一行） ===== */
+/* ===== 今日心情 ===== */
 const MOODS = ['😊','😢','😡','😴','🥰','😐','🤔','😭','😍','😅','😳','🥺'];
 let moodData = load('home_mood_data', {});
 function getMoodKey() { return getTodayKeyStr(); }
@@ -2235,12 +2275,10 @@ document.querySelectorAll('.home-grid-2x2 .home-item').forEach(item => {
     else if (key === 'mail') showMailPage();
   };
 });
-
 document.getElementById('homeShopLabel').onclick = () => showShopPage();
 document.getElementById('homeCompanionLabel').onclick = () => document.getElementById('companionModal').classList.remove('hidden');
 document.getElementById('closeCompanionBtn').onclick = () => document.getElementById('companionModal').classList.add('hidden');
 document.getElementById('homeAnnivCard').onclick = () => { showPage('annivPage'); renderAnniv(); };
-
 document.querySelectorAll('.home-tabs-bottom .tab-btn').forEach(btn => {
   btn.onclick = () => {
     const key = btn.dataset.key;
@@ -2283,32 +2321,29 @@ function setHomePage(page) {
   homeDots.forEach((d, i) => d.onclick = () => setHomePage(i));
 })();
 
-/* ===== 小卡选图（第一页） ===== */
+/* ===== 第一页小卡选图 ===== */
 (function() {
   const cardEl = document.getElementById('homeCard');
   const img = document.getElementById('homeCardImg');
   const tip = document.getElementById('homeCardTip');
-  const saved = load('home_card_img', '');
-  if (saved) { img.src = saved; img.style.display = 'block'; tip.style.display = 'none'; }
   const upload = document.createElement('input');
   upload.type = 'file'; upload.accept = 'image/*'; upload.style.display = 'none';
   document.body.appendChild(upload);
   cardEl.onclick = () => upload.click();
   upload.onchange = (e) => {
-    const file = e.target.files[0];
-    if (!file) return;
+    const file = e.target.files[0]; if (!file) return;
     const reader = new FileReader();
-    reader.onload = (ev) => {
+    reader.onload = async (ev) => {
       const url = ev.target.result;
-      img.src = url; img.style.display = 'block'; tip.style.display = 'none';
-      save('home_card_img', url);
+      await saveImgBlob('img_home_card', url);
+      img.src = url; img.style.display = 'block'; if (tip) tip.style.display = 'none';
     };
     reader.readAsDataURL(file);
     upload.value = '';
   };
 })();
 
-/* ===== 圆形图 / 第二页小卡选图 ===== */
+/* ===== 第二页圆形图 / 小卡选图 ===== */
 (function() {
   const circle = document.getElementById('page2CircleImg');
   const card = document.getElementById('page2CardSmall');
@@ -2319,11 +2354,11 @@ function setHomePage(page) {
   up1.onchange = (e) => {
     const f = e.target.files[0]; if (!f) return;
     const r = new FileReader();
-    r.onload = (ev) => {
+    r.onload = async (ev) => {
       const url = ev.target.result;
+      await saveImgBlob('img_home_page2_circle', url);
       circle.style.background = `url(${url}) center/cover no-repeat`;
       circle.textContent = '';
-      save('home_page2_circle', url);
     };
     r.readAsDataURL(f); up1.value = '';
   };
@@ -2334,10 +2369,10 @@ function setHomePage(page) {
   up2.onchange = (e) => {
     const f = e.target.files[0]; if (!f) return;
     const r = new FileReader();
-    r.onload = (ev) => {
+    r.onload = async (ev) => {
       const url = ev.target.result;
+      await saveImgBlob('img_home_page2_card', url);
       card.innerHTML = `<img src="${url}">`;
-      save('home_page2_card', url);
     };
     r.readAsDataURL(f); up2.value = '';
   };
@@ -2386,6 +2421,22 @@ document.getElementById('talkRightBubble').onclick = () => {
   applySideBubbles();
 };
 
+/* ===== 第二页两行对话 ===== */
+document.getElementById('miniTalkMine').onclick = () => {
+  const cur = load('home_mini_mine', '');
+  const v = prompt('输入我说的话：', cur);
+  if (v === null) return;
+  save('home_mini_mine', v.trim());
+  applyMiniTalks();
+};
+document.getElementById('miniTalkTa').onclick = () => {
+  const cur = load('home_mini_ta', '');
+  const v = prompt('输入对方说的话：', cur);
+  if (v === null) return;
+  save('home_mini_ta', v.trim());
+  applyMiniTalks();
+};
+
 /* ===== 纪念日小卡数字 ===== */
 function updateHomeAnnivNum() {
   const el = document.getElementById('homeAnnivNum');
@@ -2404,15 +2455,23 @@ window.refreshMessages = refreshMessages;
 window.openCardTab = openCardTab;
 window.updateHomeAnnivNum = updateHomeAnnivNum;
 
-refreshMessages();
-applyHomeAssets();
-applyHomeWallpaper();
-applyHomeQuote();
-applyHbText();
-applySideBubbles();
-applyPage2Images();
-(function() { const t = document.getElementById('taName'); if (t) t.textContent = load('ta_name', 'TA'); })();
-scheduleAutoMessage();
+/* ===== 页面加载后强制渲染一次 ===== */
+window.addEventListener('DOMContentLoaded', () => {
+  setTimeout(() => {
+    refreshMessages();
+    applyHomeAssets();
+    applyHomeWallpaper();
+    applyHomeQuote();
+    applyHbText();
+    applySideBubbles();
+    applyMiniTalks();
+    applyPage2Images();
+    applyHomeCard();
+    renderMoodWeek();
+    (function() { const t = document.getElementById('taName'); if (t) t.textContent = load('ta_name', 'TA'); })();
+    scheduleAutoMessage();
+  }, 300);
+});
 
 /* ===== 商店 ===== */
 let shopItems = load('our_shop_items', []);
@@ -3677,6 +3736,7 @@ async function playMusic(id) {
   if (!m) return;
 
   if (musicCurrentId === id && musicAudio) {
+    hideFloatDisc();
     showPage('musicPlayerPage');
     updatePlayerAvatars();
     if (musicAudio.paused) {
@@ -3727,6 +3787,7 @@ async function playMusic(id) {
   document.getElementById('floatSub').textContent = m.artist || '未知歌手';
   document.getElementById('floatCover').style.background = m.cover ? `url(${m.cover}) center/cover no-repeat` : '#333';
 
+  hideFloatDisc();
   showPage('musicPlayerPage');
   updatePlayerAvatars();
   await musicAudio.play();
@@ -3874,11 +3935,10 @@ function hideFloatDisc() {
   document.getElementById('floatCard').classList.add('hidden');
 }
 
-/* 悬浮球拖动 + 点击（点它变迷你卡，位置不变） */
+/* 悬浮球拖动 + 点击 */
 (function() {
   const disc = document.getElementById('floatDisc');
   let startX = 0, startY = 0, startLeft = 0, startTop = 0, moved = false, touching = false;
-
   function onStart(e) {
     const p = e.touches ? e.touches[0] : e;
     touching = true; moved = false;
@@ -3921,11 +3981,9 @@ function openFloatCardFromDisc() {
   const card = document.getElementById('floatCard');
   const discLeft = parseInt(disc.style.left || 0, 10);
   const discTop = parseInt(disc.style.top || 0, 10);
-  // 卡片以球为锚点：居中到球心
   const cardW = 220;
   let left = discLeft + 32 - cardW / 2;
   let top = discTop - 10;
-  // 边界
   if (left < 8) left = 8;
   if (left + cardW > window.innerWidth - 8) left = window.innerWidth - cardW - 8;
   if (top < 8) top = 8;
@@ -3969,11 +4027,10 @@ function openFloatCardFromDisc() {
   document.addEventListener('mouseup', onEnd);
 })();
 
-/* 点 ∧ → 卡片变回悬浮球（位置也变回原处） */
+/* 点 ∧ → 卡片变回悬浮球 */
 document.getElementById('floatUpBtn').onclick = () => {
   const disc = document.getElementById('floatDisc');
   const card = document.getElementById('floatCard');
-  // 卡片位置转成球位置
   const cardLeft = parseInt(card.style.left || 0, 10);
   const cardTop = parseInt(card.style.top || 0, 10);
   const discLeft = cardLeft + 110 - 32;
@@ -4012,25 +4069,6 @@ document.getElementById('floatCoverUpload').onchange = (e) => {
 </script>
 <!-- ★★★ index 段 15 结束 ★★★ --><!-- ★★★ index 段 16 开始 ★★★ -->
 <script src="settings.js"></script>
-  <script>
-window.addEventListener('load', () => {
-  setTimeout(() => {
-    const box = document.createElement('div');
-    box.style.cssText = 'position:fixed;top:0;left:0;right:0;z-index:99999;background:#000;color:#0f0;padding:12px;font-size:12px;font-family:monospace;white-space:pre-wrap;word-break:break-all;';
-    const data = {
-      quote: localStorage.getItem('home_quote'),
-      hbText: localStorage.getItem('home_hb_text'),
-      talkLeft: localStorage.getItem('home_talk_left'),
-      talkRight: localStorage.getItem('home_talk_right'),
-      cardImg: localStorage.getItem('home_card_img') ? '有图' : '没图',
-      p2Circle: localStorage.getItem('home_page2_circle') ? '有图' : '没图',
-      p2Card: localStorage.getItem('home_page2_card') ? '有图' : '没图'
-    };
-    box.textContent = JSON.stringify(data, null, 2);
-    document.body.appendChild(box);
-  }, 1500);
-});
-  </script>
 </body>
 </html>
 <!-- ★★★ index 段 16 结束 ★★★ -->
