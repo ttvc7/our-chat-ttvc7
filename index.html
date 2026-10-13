@@ -4012,6 +4012,25 @@ document.getElementById('floatCoverUpload').onchange = (e) => {
 </script>
 <!-- ★★★ index 段 15 结束 ★★★ --><!-- ★★★ index 段 16 开始 ★★★ -->
 <script src="settings.js"></script>
+  <script>
+window.addEventListener('load', () => {
+  setTimeout(() => {
+    const box = document.createElement('div');
+    box.style.cssText = 'position:fixed;top:0;left:0;right:0;z-index:99999;background:#000;color:#0f0;padding:12px;font-size:12px;font-family:monospace;white-space:pre-wrap;word-break:break-all;';
+    const data = {
+      quote: localStorage.getItem('home_quote'),
+      hbText: localStorage.getItem('home_hb_text'),
+      talkLeft: localStorage.getItem('home_talk_left'),
+      talkRight: localStorage.getItem('home_talk_right'),
+      cardImg: localStorage.getItem('home_card_img') ? '有图' : '没图',
+      p2Circle: localStorage.getItem('home_page2_circle') ? '有图' : '没图',
+      p2Card: localStorage.getItem('home_page2_card') ? '有图' : '没图'
+    };
+    box.textContent = JSON.stringify(data, null, 2);
+    document.body.appendChild(box);
+  }, 1500);
+});
+  </script>
 </body>
 </html>
 <!-- ★★★ index 段 16 结束 ★★★ -->
