@@ -202,82 +202,82 @@
     panel.innerHTML = `
       <div class="set-card">
         <div class="set-card-title">首页壁纸</div>
-        <div class="wallpaper-row" style="padding:6px 2px; display:flex; gap:10px; flex-wrap:wrap;">
-          <div class="wallpaper-dot" data-wp="#f5f5f5" style="background:#f5f5f5; width:30px; height:30px; border-radius:50%; border:1px solid #ddd; cursor:pointer;"></div>
-          <div class="wallpaper-dot" data-wp="linear-gradient(180deg,#ffe8ec 0%,#f8d7e3 100%)" style="background:linear-gradient(180deg,#ffe8ec,#f8d7e3); width:30px; height:30px; border-radius:50%; cursor:pointer;"></div>
-          <div class="wallpaper-dot" data-wp="linear-gradient(180deg,#e8f0ff 0%,#d7e4f8 100%)" style="background:linear-gradient(180deg,#e8f0ff,#d7e4f8); width:30px; height:30px; border-radius:50%; cursor:pointer;"></div>
-          <div class="wallpaper-dot" data-wp="linear-gradient(180deg,#e8fff2 0%,#c8f0dc 100%)" style="background:linear-gradient(180deg,#e8fff2,#c8f0dc); width:30px; height:30px; border-radius:50%; cursor:pointer;"></div>
-          <div class="wallpaper-dot" data-wp="linear-gradient(180deg,#f3e8ff 0%,#e0d0f5 100%)" style="background:linear-gradient(180deg,#f3e8ff,#e0d0f5); width:30px; height:30px; border-radius:50%; cursor:pointer;"></div>
-          <div class="wallpaper-dot" data-wp="linear-gradient(180deg,#fff4e0 0%,#f5e0c5 100%)" style="background:linear-gradient(180deg,#fff4e0,#f5e0c5); width:30px; height:30px; border-radius:50%; cursor:pointer;"></div>
+        <div class="wallpaper-row" style="padding:6px 2px;">
+          <div class="wallpaper-dot" data-wp="#f5f5f5" style="background:#f5f5f5"></div>
+          <div class="wallpaper-dot" data-wp="linear-gradient(180deg,#ffe8ec 0%,#f8d7e3 100%)" style="background:linear-gradient(180deg,#ffe8ec,#f8d7e3)"></div>
+          <div class="wallpaper-dot" data-wp="linear-gradient(180deg,#e8f0ff 0%,#d7e4f8 100%)" style="background:linear-gradient(180deg,#e8f0ff,#d7e4f8)"></div>
+          <div class="wallpaper-dot" data-wp="linear-gradient(180deg,#e8fff2 0%,#c8f0dc 100%)" style="background:linear-gradient(180deg,#e8fff2,#c8f0dc)"></div>
+          <div class="wallpaper-dot" data-wp="linear-gradient(180deg,#f3e8ff 0%,#e0d0f5 100%)" style="background:linear-gradient(180deg,#f3e8ff,#e0d0f5)"></div>
+          <div class="wallpaper-dot" data-wp="linear-gradient(180deg,#fff4e0 0%,#f5e0c5 100%)" style="background:linear-gradient(180deg,#fff4e0,#f5e0c5)"></div>
         </div>
-        <button class="btn-secondary" id="pickWallpaperBtn" style="margin:12px 0; padding:8px 12px; border-radius:8px; border:1px solid #ddd; background:#fff; cursor:pointer;">从相册选首页壁纸</button>
+        <button class="btn-secondary" id="pickWallpaperBtn" style="margin:8px 0;">从相册选首页壁纸</button>
         <input type="file" id="wallpaperUpload" accept="image/*" style="display:none;">
       </div>
       <div class="set-card">
         <div class="set-card-title">聊天背景</div>
-        <div class="color-row" style="padding:6px 2px; display:flex; gap:10px;">
-          <div class="color-dot" style="background:#f5f5f5; width:30px; height:30px; border-radius:50%; border:1px solid #ddd; cursor:pointer;" data-bg="#f5f5f5"></div>
-          <div class="color-dot" style="background:#fdf6f0; width:30px; height:30px; border-radius:50%; border:1px solid #ddd; cursor:pointer;" data-bg="#fdf6f0"></div>
-          <div class="color-dot" style="background:#f0f4f8; width:30px; height:30px; border-radius:50%; border:1px solid #ddd; cursor:pointer;" data-bg="#f0f4f8"></div>
-          <div class="color-dot" style="background:#f7f0f5; width:30px; height:30px; border-radius:50%; border:1px solid #ddd; cursor:pointer;" data-bg="#f7f0f5"></div>
-          <div class="color-dot" style="background:#eef4ee; width:30px; height:30px; border-radius:50%; border:1px solid #ddd; cursor:pointer;" data-bg="#eef4ee"></div>
+        <div class="color-row" style="padding:6px 2px;">
+          <div class="color-dot" style="background:#f5f5f5" data-bg="#f5f5f5"></div>
+          <div class="color-dot" style="background:#fdf6f0" data-bg="#fdf6f0"></div>
+          <div class="color-dot" style="background:#f0f4f8" data-bg="#f0f4f8"></div>
+          <div class="color-dot" style="background:#f7f0f5" data-bg="#f7f0f5"></div>
+          <div class="color-dot" style="background:#eef4ee" data-bg="#eef4ee"></div>
         </div>
-        <button class="btn-secondary" id="pickBgBtn" style="margin:12px 0; padding:8px 12px; border-radius:8px; border:1px solid #ddd; background:#fff; cursor:pointer;">从相册选背景图</button>
+        <button class="btn-secondary" id="pickBgBtn" style="margin:8px 0;">从相册选背景图</button>
         <input type="file" id="bgUpload" accept="image/*" style="display:none;">
       </div>
       <div class="set-card">
         <div class="set-card-title">气泡形状</div>
-        <div class="opt-grid" style="padding:6px 2px; display:flex; gap:8px; flex-wrap:wrap;">
-          <div class="opt-card" data-bubble="sharp" style="padding:8px 14px; border:1px solid #ddd; border-radius:8px; cursor:pointer; font-size:14px;">标准尖角</div>
-          <div class="opt-card" data-bubble="round" style="padding:8px 14px; border:1px solid #ddd; border-radius:8px; cursor:pointer; font-size:14px;">圆角</div>
-          <div class="opt-card" data-bubble="pill" style="padding:8px 14px; border:1px solid #ddd; border-radius:8px; cursor:pointer; font-size:14px;">大圆角胶囊</div>
-          <div class="opt-card" data-bubble="square" style="padding:8px 14px; border:1px solid #ddd; border-radius:8px; cursor:pointer; font-size:14px;">方形直角</div>
+        <div class="opt-grid" style="padding:6px 2px;">
+          <div class="opt-card" data-bubble="sharp">标准尖角</div>
+          <div class="opt-card" data-bubble="round">圆角</div>
+          <div class="opt-card" data-bubble="pill">大圆角胶囊</div>
+          <div class="opt-card" data-bubble="square">方形直角</div>
         </div>
       </div>
       <div class="set-card">
         <div class="set-card-title">字体大小</div>
-        <div class="opt-grid" style="padding:6px 2px; display:flex; gap:8px;">
-          <div class="opt-card" data-font="14" style="padding:8px 14px; border:1px solid #ddd; border-radius:8px; cursor:pointer; font-size:14px;">小</div>
-          <div class="opt-card" data-font="15" style="padding:8px 14px; border:1px solid #ddd; border-radius:8px; cursor:pointer; font-size:14px;">中</div>
-          <div class="opt-card" data-font="17" style="padding:8px 14px; border:1px solid #ddd; border-radius:8px; cursor:pointer; font-size:14px;">大</div>
+        <div class="opt-grid" style="padding:6px 2px;">
+          <div class="opt-card" data-font="14">小</div>
+          <div class="opt-card" data-font="15">中</div>
+          <div class="opt-card" data-font="17">大</div>
         </div>
       </div>
       <div class="set-card">
         <div class="set-card-title">主题颜色</div>
-        <div style="padding:6px 2px;"><input type="color" class="color-slider" id="textColorPicker" value="${cfg.textColor}" style="width:100%; height:40px; border:none; cursor:pointer;"></div>
-        <button class="btn-primary" id="applyTextColor" style="margin:8px 0; padding:10px; width:100%; border-radius:8px; border:none; background:#222; color:#fff; cursor:pointer;">应用颜色</button>
+        <div style="padding:6px 2px;"><input type="color" class="color-slider" id="textColorPicker" value="${cfg.textColor}"></div>
+        <button class="btn-primary" id="applyTextColor" style="margin:8px 0;">应用颜色</button>
       </div>
       <div class="set-card">
         <div class="set-card-title">头像 & 昵称</div>
-        <div class="avatar-row" id="taAvatarRow" style="display:flex; align-items:center; gap:10px; margin-bottom:10px; cursor:pointer;">
-          <div class="avatar-preview" id="taAvatarPreview" style="width:40px; height:40px; border-radius:50%; background:#eee center/cover; ${cfg.taAvatar ? `background-image:url(${cfg.taAvatar})` : ''}"></div>
-          <span class="label" style="font-size:14px;">TA 的头像（点击更换）</span>
+        <div class="avatar-row" id="taAvatarRow">
+          <div class="avatar-preview" id="taAvatarPreview" style="${cfg.taAvatar ? `background-image:url(${cfg.taAvatar})` : ''}"></div>
+          <span class="label">TA 的头像（点击更换）</span>
         </div>
-        <div class="avatar-row" id="myAvatarRow" style="display:flex; align-items:center; gap:10px; margin-bottom:10px; cursor:pointer;">
-          <div class="avatar-preview" id="myAvatarPreview" style="width:40px; height:40px; border-radius:50%; background:#eee center/cover; ${cfg.myAvatar ? `background-image:url(${cfg.myAvatar})` : ''}"></div>
-          <span class="label" style="font-size:14px;">我的头像（点击更换）</span>
+        <div class="avatar-row" id="myAvatarRow">
+          <div class="avatar-preview" id="myAvatarPreview" style="${cfg.myAvatar ? `background-image:url(${cfg.myAvatar})` : ''}"></div>
+          <span class="label">我的头像（点击更换）</span>
         </div>
         <input type="file" id="avatarUpload" accept="image/*" style="display:none;">
-        <div class="input-row" style="display:flex; justify-content:space-between; align-items:center; margin:10px 0;"><span class="label" style="font-size:14px;">TA 的昵称</span><input type="text" id="taNameInput" value="${cfg.taName}" style="width:120px; padding:6px 10px; border:1px solid #ddd; border-radius:8px; outline:none;"></div>
-        <div class="input-row" style="display:flex; justify-content:space-between; align-items:center; margin:10px 0;"><span class="label" style="font-size:14px;">我的昵称</span><input type="text" id="myNameInput" value="${cfg.myName}" style="width:120px; padding:6px 10px; border:1px solid #ddd; border-radius:8px; outline:none;"></div>
-        <button class="btn-primary" id="saveNames" style="margin:8px 0; padding:10px; width:100%; border-radius:8px; border:none; background:#222; color:#fff; cursor:pointer;">保存昵称</button>
+        <div class="input-row"><span class="label">TA 的昵称</span><input type="text" id="taNameInput" value="${cfg.taName}"></div>
+        <div class="input-row"><span class="label">我的昵称</span><input type="text" id="myNameInput" value="${cfg.myName}"></div>
+        <button class="btn-primary" id="saveNames" style="margin:8px 0;">保存昵称</button>
       </div>
       <div class="set-card">
         <div class="set-card-title">头像样式</div>
-        <div class="opt-grid" style="padding:6px 2px; display:flex; gap:8px;">
-          <div class="opt-card ${cfg.myAvatarStyle === 'circle' ? 'active' : ''}" data-avatar="circle" style="padding:8px 14px; border:1px solid #ddd; border-radius:8px; cursor:pointer; font-size:14px;">圆形</div>
-          <div class="opt-card ${cfg.myAvatarStyle === 'square' ? 'active' : ''}" data-avatar="square" style="padding:8px 14px; border:1px solid #ddd; border-radius:8px; cursor:pointer; font-size:14px;">方形</div>
-          <div class="opt-card ${cfg.myAvatarStyle === 'rounded' ? 'active' : ''}" data-avatar="rounded" style="padding:8px 14px; border:1px solid #ddd; border-radius:8px; cursor:pointer; font-size:14px;">圆角方形</div>
+        <div class="opt-grid" style="padding:6px 2px;">
+          <div class="opt-card ${cfg.myAvatarStyle === 'circle' ? 'active' : ''}" data-avatar="circle">圆形</div>
+          <div class="opt-card ${cfg.myAvatarStyle === 'square' ? 'active' : ''}" data-avatar="square">方形</div>
+          <div class="opt-card ${cfg.myAvatarStyle === 'rounded' ? 'active' : ''}" data-avatar="rounded">圆角方形</div>
         </div>
       </div>
       <div class="set-card">
         <div class="set-card-title">高级 CSS</div>
-        <textarea class="css-area" id="bubbleCssInput" placeholder=".bubble { ... }" style="width:100%; height:60px; margin-bottom:8px; padding:10px; border-radius:8px; border:1px solid #ddd; box-sizing:border-box;">${load('bubble_css', '')}</textarea>
-        <button class="btn-primary" id="applyBubbleCss" style="margin:4px 0 12px; padding:10px; width:100%; border-radius:8px; border:none; background:#222; color:#fff; cursor:pointer;">应用气泡 CSS</button>
-        <textarea class="css-area" id="fontCssInput" placeholder=".bubble { font-family: ...; }" style="width:100%; height:60px; margin-bottom:8px; padding:10px; border-radius:8px; border:1px solid #ddd; box-sizing:border-box;">${load('font_css', '')}</textarea>
-        <button class="btn-primary" id="applyFontCss" style="margin:4px 0 12px; padding:10px; width:100%; border-radius:8px; border:none; background:#222; color:#fff; cursor:pointer;">应用字体 CSS</button>
-        <textarea class="css-area" id="themeCssInput" placeholder="body { ... }" style="width:100%; height:60px; margin-bottom:8px; padding:10px; border-radius:8px; border:1px solid #ddd; box-sizing:border-box;">${load('theme_css', '')}</textarea>
-        <button class="btn-primary" id="applyThemeCss" style="margin:4px 0; padding:10px; width:100%; border-radius:8px; border:none; background:#222; color:#fff; cursor:pointer;">应用主题 CSS</button>
+        <textarea class="css-area" id="bubbleCssInput" placeholder=".bubble { ... }">${load('bubble_css', '')}</textarea>
+        <button class="btn-primary" id="applyBubbleCss" style="margin:4px 0 12px;">应用气泡 CSS</button>
+        <textarea class="css-area" id="fontCssInput" placeholder=".bubble { font-family: ...; }">${load('font_css', '')}</textarea>
+        <button class="btn-primary" id="applyFontCss" style="margin:4px 0 12px;">应用字体 CSS</button>
+        <textarea class="css-area" id="themeCssInput" placeholder="body { ... }">${load('theme_css', '')}</textarea>
+        <button class="btn-primary" id="applyThemeCss" style="margin:4px 0;">应用主题 CSS</button>
       </div>
     `;
 
@@ -292,16 +292,18 @@
     const pickWpBtn = panel.querySelector('#pickWallpaperBtn');
     const wpUpload = panel.querySelector('#wallpaperUpload');
     pickWpBtn.onclick = () => wpUpload.click();
+    /* ★ 修复：壁纸选图补压缩，防止 localStorage 5MB 爆掉 ★ */
     wpUpload.onchange = (e) => {
       const file = e.target.files[0]; if (!file) return;
-      const reader = new FileReader();
-      reader.onload = (ev) => {
-        const url = ev.target.result;
+      compressImage(file, 800, (url) => {
         const homePage = document.getElementById('homePage');
         if (homePage) homePage.style.background = `url(${url}) center/cover no-repeat`;
-        save('home_wallpaper', url);
-      };
-      reader.readAsDataURL(file);
+        try {
+          save('home_wallpaper', url);
+        } catch (err) {
+          alert('壁纸太大，存储失败，请换一张小一点的图');
+        }
+      });
       wpUpload.value = '';
     };
     panel.querySelectorAll('.color-dot').forEach(dot => {
@@ -405,7 +407,7 @@
       save('theme_css', css);
     };
   }
-/* ★★★ settings 段 2 结束 ★★★ *//* ★★★ settings 段 3 开始 ★★★ */
+
   function renderFeatureTab(panel) {
     const mailOn = load('mail_auto_on', false);
     const mailMin = load('mail_auto_min', 3);
@@ -454,22 +456,22 @@
       document.getElementById('searchModal').classList.remove('hidden');
     };
   }
-
+/* ★★★ settings 段 2 结束 ★★★ *//* ★★★ settings 段 3 开始 ★★★ */
   function renderOtherTab(panel) {
     panel.innerHTML = `
       <div class="set-card">
         <div class="set-card-title">备份</div>
         <p style="font-size:13px;color:#999;padding:6px 2px 12px;">导出后请把文字存到备忘录。</p>
-        <button class="btn-primary" id="exportBtn" style="margin:4px 0; padding:10px; width:100%; border-radius:8px; border:none; background:#222; color:#fff; cursor:pointer;">导出备份</button>
-        <button class="btn-secondary" id="importBtn" style="margin:4px 0; padding:10px; width:100%; border-radius:8px; border:1px solid #ddd; background:#fff; color:#333; cursor:pointer;">导入备份</button>
-        <textarea class="css-area" id="backupArea" placeholder="备份内容会显示在这里" style="height:160px; width:100%; margin-top:10px; padding:10px; border-radius:8px; border:1px solid #ddd; box-sizing:border-box; font-size:12px;"></textarea>
+        <button class="btn-primary" id="exportBtn" style="margin:4px 0;">导出备份</button>
+        <button class="btn-secondary" id="importBtn" style="margin:4px 0;">导入备份</button>
+        <textarea class="css-area" id="backupArea" placeholder="备份内容会显示在这里" style="height:160px;margin-top:10px;"></textarea>
       </div>
       <div class="set-card">
         <div class="set-card-title">关于</div>
-        <div class="about-box" style="padding:20px 10px; text-align:center; font-size:13px; color:#666;">
-          <div class="title" style="font-size:18px; font-weight:600; color:#111; margin-bottom:6px;">Echo</div>
+        <div class="about-box" style="padding:20px 10px;">
+          <div class="title">Echo</div>
           你和 TA 的专属聊天室
-          <div class="divider" style="margin:16px 0; color:#eee;">────────────</div>
+          <div class="divider">────────────</div>
           版本  v1.0<br>作者  ttvc7<br>始于  2026 年 9 月 24 日
         </div>
       </div>
@@ -555,17 +557,31 @@
   window.addEventListener('load', () => {
     applyAll();
     renderMain();
+    /* ★ 修复：JSON.parse 加 try/catch，防止非 JSON 字符串导致整段 load 回调中断 ★ */
     const bubbleCss = localStorage.getItem('bubble_css');
-    if (bubbleCss) { const s = document.createElement('style'); s.id = 'userBubbleCss'; s.textContent = JSON.parse(bubbleCss); document.head.appendChild(s); }
+    if (bubbleCss) {
+      try {
+        const s = document.createElement('style'); s.id = 'userBubbleCss'; s.textContent = JSON.parse(bubbleCss); document.head.appendChild(s);
+      } catch (e) { console.error('bubble_css 解析失败', e); }
+    }
     const fontCss = localStorage.getItem('font_css');
-    if (fontCss) { const s = document.createElement('style'); s.id = 'userFontCss'; s.textContent = JSON.parse(fontCss); document.head.appendChild(s); }
+    if (fontCss) {
+      try {
+        const s = document.createElement('style'); s.id = 'userFontCss'; s.textContent = JSON.parse(fontCss); document.head.appendChild(s);
+      } catch (e) { console.error('font_css 解析失败', e); }
+    }
     const themeCss = localStorage.getItem('theme_css');
-    if (themeCss) { const s = document.createElement('style'); s.id = 'userThemeCss'; s.textContent = JSON.parse(themeCss); document.head.appendChild(s); }
+    if (themeCss) {
+      try {
+        const s = document.createElement('style'); s.id = 'userThemeCss'; s.textContent = JSON.parse(themeCss); document.head.appendChild(s);
+      } catch (e) { console.error('theme_css 解析失败', e); }
+    }
     const savedThemeColor = localStorage.getItem('theme_color');
-    if (savedThemeColor) applyThemeColor(JSON.parse(savedThemeColor));
+    if (savedThemeColor) {
+      try { applyThemeColor(JSON.parse(savedThemeColor)); }
+      catch (e) { console.error('theme_color 解析失败', e); }
+    }
   });
 
-  // 暴露给全局，以便在聊天页面发消息刷新后重新应用外观
-  window.applyAllSettings = applyAll;
 })();
 /* ★★★ settings 段 3 结束 ★★★ */
