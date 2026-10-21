@@ -2005,17 +2005,14 @@ function applyHomeTalks() {
   if (ta) { if (tv) { ta.textContent = tv; ta.classList.remove('placeholder'); } else { ta.innerHTML = '<span class="placeholder">点击输入</span>'; } }
 }
 
-async function applyHomeBigCard() {
+function applyHomeBigCard() {
   const img = document.getElementById('homeBigCardImg');
   const tip = document.getElementById('homeBigCardTip');
   if (!img) return;
-  try {
-    const saved = await loadImgBlob('img_home_card');
-    if (saved) { img.src = saved; img.style.display = 'block'; if (tip) tip.style.display = 'none'; }
-    else { img.style.display = 'none'; if (tip) tip.style.display = 'block'; }
-  } catch(e) {
-    console.error('读取小卡失败', e);
-  }
+  // 退回 localStorage 存储
+  const saved = load('home_card_img_local', '');
+  if (saved) { img.src = saved; img.style.display = 'block'; if (tip) tip.style.display = 'none'; }
+  else { img.style.display = 'none'; if (tip) tip.style.display = 'block'; }
 }
 
 function updateHomeTime() {
@@ -2052,7 +2049,7 @@ document.querySelectorAll('.home-bottom-bar .bar-item').forEach(btn => {
   };
 });
 
-/* 小卡选图保存：加入图片压缩和 IndexedDB 处理（确保存得住） */
+/* 小卡选图保存：强制使用 localStorage */
 (function() {
   const cardEl = document.getElementById('homeBigCard');
   const img = document.getElementById('homeBigCardImg');
@@ -2063,11 +2060,10 @@ document.querySelectorAll('.home-bottom-bar .bar-item').forEach(btn => {
   cardEl.onclick = () => upload.click();
   upload.onchange = (e) => {
     const file = e.target.files[0]; if (!file) return;
-    compressImage(file, 800, async (url) => {
-      try {
-        await saveImgBlob('img_home_card', url);
-        img.src = url; img.style.display = 'block'; if (tip) tip.style.display = 'none';
-      } catch(err) { alert('保存失败，请重试'); }
+    // 既然退回 localStorage，就一定要用 compressImage 压缩得很小
+    compressImage(file, 600, async (url) => {
+      img.src = url; img.style.display = 'block'; if (tip) tip.style.display = 'none';
+      save('home_card_img_local', url); // 存进 localStorage
     });
     upload.value = '';
   };
@@ -2123,15 +2119,15 @@ window.refreshMessages = refreshMessages;
 window.openCardTab = openCardTab;
 window.updateHomeAnnivNum = updateHomeAnnivNum;
 
-/* ===== 初始化主控（延迟 100ms 确保读取正确） ===== */
+/* ===== 初始化主控 ===== */
 window.addEventListener('load', () => {
-  setTimeout(async () => {
+  setTimeout(() => {
     refreshMessages();
     applyHomeAssets();
     applyHomeWallpaper();
     applyHomeQuote();
     applyHomeTalks();
-    await applyHomeBigCard();
+    applyHomeBigCard();
     updateHomeAnnivNum();
     const t = document.getElementById('taName'); if (t) t.textContent = load('ta_name', 'TA');
     scheduleAutoMessage();
