@@ -28,7 +28,6 @@
 <div id="homePage" class="page">
   <div class="home-time" id="homeTime">--:--</div>
 
-  <!-- 头像区域 -->
   <div class="home-avatars">
     <div class="avatar-wrap">
       <div class="avatar-circle" id="homeTaAvatar">TA</div>
@@ -40,13 +39,11 @@
     </div>
   </div>
 
-  <!-- 寄语区域 -->
   <div class="home-quote" id="homeQuote">
     <div class="home-quote-box" id="homeQuoteBox">双击寄语</div>
     <div class="home-quote-text" id="homeQuoteText"></div>
   </div>
 
-  <!-- 中部：小卡 + 四个入口 -->
   <div class="home-main-area">
     <div class="home-big-card" id="homeBigCard">
       <img id="homeBigCardImg" src="" alt="" style="display:none;">
@@ -72,27 +69,25 @@
     </div>
   </div>
 
-  <!-- 底部：纪念日 + 气泡对话 -->
   <div class="home-bottom-area">
     <div class="home-anniv-card" id="homeAnnivCard">
       <div class="anniv-title">纪念日</div>
       <div class="anniv-num" id="homeAnnivNum">0</div>
     </div>
     <div class="home-chat-area">
-      <!-- 我（头像在左，气泡在右） -->
+      <!-- 我：头像左，气泡右 -->
       <div class="home-chat-row">
         <div class="home-chat-avatar" id="talkMyAvatar">我</div>
         <div class="home-chat-bubble" id="talkMineBubble"><span class="placeholder">点击输入</span></div>
       </div>
-      <!-- TA（头像在左，气泡在右） -->
-      <div class="home-chat-row">
-        <div class="home-chat-avatar" id="talkTaAvatar">TA</div>
+      <!-- TA：气泡左，头像右（reverse 修正了位置） -->
+      <div class="home-chat-row reverse">
         <div class="home-chat-bubble" id="talkTaBubble"><span class="placeholder">点击输入</span></div>
+        <div class="home-chat-avatar" id="talkTaAvatar">TA</div>
       </div>
     </div>
   </div>
 
-  <!-- 底部固定栏（深色边框保留） -->
   <div class="home-bottom-bar">
     <div class="bar-item" data-key="settings">设置</div>
     <div class="bar-item" data-key="cards">字卡库</div>
@@ -745,7 +740,7 @@ async function idbDelete(store, key) {
   });
 }
 
-/* 存图专用：修复转 Blob 失败问题 */
+/* 存图专用：解决大图转 Base64 失败的问题 */
 async function saveImgBlob(key, dataUrl) {
   try {
     const res = await fetch(dataUrl);
@@ -753,10 +748,10 @@ async function saveImgBlob(key, dataUrl) {
     await idbPut('imgs', { key, blob });
   } catch (e) {
     console.error('存图失败', e);
-    alert('图片太大了，存不下！');
+    alert('图片太大了，存不下！请换张小的。');
   }
 }
-/* 读图专用：转回 DataURL 渲染 */
+/* 读图专用：异步转回 DataURL 渲染 */
 async function loadImgBlob(key) {
   const rec = await idbGet('imgs', key);
   if (!rec || !rec.blob) return '';
@@ -792,6 +787,8 @@ function showPage(id) {
         refreshMessages();
         el.scrollTop = el.scrollHeight;
       }
+      // 切回聊天页时重新应用一次自定义设置，防止新消息不套用样式
+      if (typeof window.applyAllSettings === 'function') window.applyAllSettings();
     }, 50);
   }
 }
@@ -1951,7 +1948,7 @@ function scheduleAutoMessage() {
   }, delay);
 }
 
-/* ===== 主页逻辑（修复刷新消失问题） ===== */
+/* ===== 主页逻辑 ===== */
 function applyHomeAssets() {
   const myA = document.getElementById('homeMyAvatar');
   const taA = document.getElementById('homeTaAvatar');
@@ -2008,7 +2005,6 @@ function applyHomeTalks() {
   if (ta) { if (tv) { ta.textContent = tv; ta.classList.remove('placeholder'); } else { ta.innerHTML = '<span class="placeholder">点击输入</span>'; } }
 }
 
-/* 小卡图读取：异步从 IndexedDB 强制拉取 */
 async function applyHomeBigCard() {
   const img = document.getElementById('homeBigCardImg');
   const tip = document.getElementById('homeBigCardTip');
@@ -2056,7 +2052,7 @@ document.querySelectorAll('.home-bottom-bar .bar-item').forEach(btn => {
   };
 });
 
-/* 小卡选图保存：加入 IndexedDB 及界面反馈 */
+/* 小卡选图保存：加入图片压缩和 IndexedDB 处理（确保存得住） */
 (function() {
   const cardEl = document.getElementById('homeBigCard');
   const img = document.getElementById('homeBigCardImg');
@@ -2067,20 +2063,17 @@ document.querySelectorAll('.home-bottom-bar .bar-item').forEach(btn => {
   cardEl.onclick = () => upload.click();
   upload.onchange = (e) => {
     const file = e.target.files[0]; if (!file) return;
-    const reader = new FileReader();
-    reader.onload = async (ev) => {
-      const url = ev.target.result;
-      // 存到 IndexedDB
-      await saveImgBlob('img_home_card', url);
-      // 更新界面
-      img.src = url; img.style.display = 'block'; if (tip) tip.style.display = 'none';
-    };
-    reader.readAsDataURL(file);
+    compressImage(file, 800, async (url) => {
+      try {
+        await saveImgBlob('img_home_card', url);
+        img.src = url; img.style.display = 'block'; if (tip) tip.style.display = 'none';
+      } catch(err) { alert('保存失败，请重试'); }
+    });
     upload.value = '';
   };
 })();
 
-/* 寄语双击编辑：保存到 localStorage */
+/* 寄语双击编辑 */
 (function() {
   const box = document.getElementById('homeQuoteBox');
   const txt = document.getElementById('homeQuoteText');
@@ -2095,7 +2088,7 @@ document.querySelectorAll('.home-bottom-bar .bar-item').forEach(btn => {
   txt.ondblclick = edit;
 })();
 
-/* 气泡对话点击编辑：保存到 localStorage */
+/* 气泡对话点击编辑 */
 document.getElementById('talkMineBubble').onclick = () => {
   const cur = load('home_talk_mine', '');
   const v = prompt('输入我说的话：', cur);
@@ -2130,23 +2123,19 @@ window.refreshMessages = refreshMessages;
 window.openCardTab = openCardTab;
 window.updateHomeAnnivNum = updateHomeAnnivNum;
 
-/* ===== 初始化主控 ===== */
-window.addEventListener('load', async () => {
-  // 1. 先跑聊天消息
-  refreshMessages();
-  // 2. 跑主页基础资产
-  applyHomeAssets();
-  applyHomeWallpaper();
-  applyHomeQuote();
-  applyHomeTalks();
-  // 3. 异步读图（小卡图）
-  await applyHomeBigCard();
-  // 4. 跑纪念日
-  updateHomeAnnivNum();
-  // 5. 补全名字
-  const t = document.getElementById('taName'); if (t) t.textContent = load('ta_name', 'TA');
-  // 6. 启动定时器
-  scheduleAutoMessage();
+/* ===== 初始化主控（延迟 100ms 确保读取正确） ===== */
+window.addEventListener('load', () => {
+  setTimeout(async () => {
+    refreshMessages();
+    applyHomeAssets();
+    applyHomeWallpaper();
+    applyHomeQuote();
+    applyHomeTalks();
+    await applyHomeBigCard();
+    updateHomeAnnivNum();
+    const t = document.getElementById('taName'); if (t) t.textContent = load('ta_name', 'TA');
+    scheduleAutoMessage();
+  }, 100);
 });
 </script>
 <!-- ★★★ index 段 10 结束 ★★★ --><!-- ★★★ index 段 11 开始 ★★★ -->
@@ -3582,7 +3571,7 @@ function hideFloatDisc() {
   document.addEventListener('mouseup', onEnd);
 })();
 
-/* 点悬浮球 → 变迷你卡（位置就是悬浮球当前位置） */
+/* 点悬浮球 → 变迷你卡 */
 function openFloatCardFromDisc() {
   const disc = document.getElementById('floatDisc');
   const card = document.getElementById('floatCard');
