@@ -405,7 +405,7 @@
       save('theme_css', css);
     };
   }
-
+/* ★★★ settings 段 2 结束 ★★★ *//* ★★★ settings 段 3 开始 ★★★ */
   function renderFeatureTab(panel) {
     const mailOn = load('mail_auto_on', false);
     const mailMin = load('mail_auto_min', 3);
@@ -454,7 +454,7 @@
       document.getElementById('searchModal').classList.remove('hidden');
     };
   }
-/* ★★★ settings 段 2 结束 ★★★ *//* ★★★ settings 段 3 开始 ★★★ */
+
   function renderOtherTab(panel) {
     panel.innerHTML = `
       <div class="set-card">
