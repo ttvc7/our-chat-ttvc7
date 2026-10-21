@@ -487,14 +487,9 @@
         favorites: JSON.parse(localStorage.getItem('our_favorites') || '[]'),
         annivList: JSON.parse(localStorage.getItem('anniv_list') || '[]'),
         annivStart: localStorage.getItem('anniv_start') || '',
-        todayState: JSON.parse(localStorage.getItem('home_today_state') || 'null'),
-        moodData: JSON.parse(localStorage.getItem('home_mood_data') || '{}'),
         homeQuote: localStorage.getItem('home_quote') || '',
-        homeHbText: localStorage.getItem('home_hb_text') || '',
-        talkLeft: localStorage.getItem('home_talk_left') || '',
-        talkRight: localStorage.getItem('home_talk_right') || '',
-        miniMine: localStorage.getItem('home_mini_mine') || '',
-        miniTa: localStorage.getItem('home_mini_ta') || '',
+        talkMine: localStorage.getItem('home_talk_mine') || '',
+        talkTa: localStorage.getItem('home_talk_ta') || '',
         taName: cfg.taName, myName: cfg.myName
       };
       let text = '=== ttvc7 备份 ===\n';
@@ -527,14 +522,9 @@
         if (data.favorites) localStorage.setItem('our_favorites', JSON.stringify(data.favorites));
         if (data.annivList) localStorage.setItem('anniv_list', JSON.stringify(data.annivList));
         if (data.annivStart) localStorage.setItem('anniv_start', data.annivStart);
-        if (data.todayState) localStorage.setItem('home_today_state', JSON.stringify(data.todayState));
-        if (data.moodData) localStorage.setItem('home_mood_data', JSON.stringify(data.moodData));
         if (data.homeQuote) localStorage.setItem('home_quote', JSON.stringify(data.homeQuote));
-        if (data.homeHbText) localStorage.setItem('home_hb_text', JSON.stringify(data.homeHbText));
-        if (data.talkLeft) localStorage.setItem('home_talk_left', JSON.stringify(data.talkLeft));
-        if (data.talkRight) localStorage.setItem('home_talk_right', JSON.stringify(data.talkRight));
-        if (data.miniMine) localStorage.setItem('home_mini_mine', JSON.stringify(data.miniMine));
-        if (data.miniTa) localStorage.setItem('home_mini_ta', JSON.stringify(data.miniTa));
+        if (data.talkMine) localStorage.setItem('home_talk_mine', JSON.stringify(data.talkMine));
+        if (data.talkTa) localStorage.setItem('home_talk_ta', JSON.stringify(data.talkTa));
         if (data.taName) localStorage.setItem('ta_name', JSON.stringify(data.taName));
         if (data.myName) localStorage.setItem('my_name', JSON.stringify(data.myName));
         alert('导入成功，刷新页面生效');
