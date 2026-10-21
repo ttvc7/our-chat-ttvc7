@@ -8,6 +8,10 @@
 <link rel="icon" href="IMG_20260923_234621.jpg">
 <link rel="manifest" href="manifest.json">
 <link rel="stylesheet" href="settings.css">
+<style>
+/* 强行写死主页气泡头像的排版，防止浏览器缓存导致不生效 */
+.home-chat-row.reverse { display: flex !important; flex-direction: row-reverse !important; }
+</style>
 </head>
 <body>
 
@@ -24,9 +28,10 @@
   </div>
 </div>
 
-<!-- ===== 主页 ===== -->
+<!-- ===== 主页（单页） ===== -->
 <div id="homePage" class="page">
   <div class="home-time" id="homeTime">--:--</div>
+
   <div class="home-avatars">
     <div class="avatar-wrap">
       <div class="avatar-circle" id="homeTaAvatar">TA</div>
@@ -49,10 +54,22 @@
       <div class="tip" id="homeBigCardTip">小卡</div>
     </div>
     <div class="home-grid-2x2">
-      <div class="home-item" data-key="wechat"><div class="home-icon"><svg viewBox="0 0 24 24" fill="none" stroke="#555" stroke-width="1.6"><path d="M20 12 C20 16.4 16 20 11 20 C10 20 9.1 19.9 8.2 19.7 L4 21 L5.2 17.5 C3.8 16.2 3 14.6 3 12 C3 7.6 7 4 12 4 C17 4 20 7.6 20 12 Z"></path></svg></div><div class="home-label">聊天</div></div>
-      <div class="home-item" data-key="moments"><div class="home-icon"><svg viewBox="0 0 24 24" fill="none" stroke="#555" stroke-width="1.6"><circle cx="12" cy="12" r="4"></circle><circle cx="12" cy="12" r="9"></circle></svg></div><div class="home-label">朋友圈</div></div>
-      <div class="home-item" data-key="music"><div class="home-icon"><svg viewBox="0 0 24 24" fill="none" stroke="#555" stroke-width="1.6"><path d="M9 18 V5 L21 3 V16"></path><circle cx="6" cy="18" r="3"></circle><circle cx="18" cy="16" r="3"></circle></svg></div><div class="home-label">音乐</div></div>
-      <div class="home-item" data-key="shop"><div class="home-icon"><svg viewBox="0 0 24 24" fill="none" stroke="#555" stroke-width="1.6"><path d="M4 7 L20 7 L20 20 L4 20 Z"></path><path d="M4 7 L5 4 L19 4 L20 7"></path><path d="M9 11 L15 11"></path></svg></div><div class="home-label">商店</div></div>
+      <div class="home-item" data-key="wechat">
+        <div class="home-icon"><svg viewBox="0 0 24 24" fill="none" stroke="#555" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M20 12 C20 16.4 16 20 11 20 C10 20 9.1 19.9 8.2 19.7 L4 21 L5.2 17.5 C3.8 16.2 3 14.6 3 12 C3 7.6 7 4 12 4 C17 4 20 7.6 20 12 Z"></path></svg></div>
+        <div class="home-label">聊天</div>
+      </div>
+      <div class="home-item" data-key="moments">
+        <div class="home-icon"><svg viewBox="0 0 24 24" fill="none" stroke="#555" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="4"></circle><circle cx="12" cy="12" r="9"></circle></svg></div>
+        <div class="home-label">朋友圈</div>
+      </div>
+      <div class="home-item" data-key="music">
+        <div class="home-icon"><svg viewBox="0 0 24 24" fill="none" stroke="#555" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M9 18 V5 L21 3 V16"></path><circle cx="6" cy="18" r="3"></circle><circle cx="18" cy="16" r="3"></circle></svg></div>
+        <div class="home-label">音乐</div>
+      </div>
+      <div class="home-item" data-key="shop">
+        <div class="home-icon"><svg viewBox="0 0 24 24" fill="none" stroke="#555" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M4 7 L20 7 L20 20 L4 20 Z"></path><path d="M4 7 L5 4 L19 4 L20 7"></path><path d="M9 11 L15 11"></path></svg></div>
+        <div class="home-label">商店</div>
+      </div>
     </div>
   </div>
 
@@ -62,6 +79,7 @@
       <div class="anniv-num" id="homeAnnivNum">0</div>
     </div>
     <div class="home-chat-area">
+      <!-- 这里的 reverse 类会强制生效，确保我的头像在左，TA 的气泡在左头像在右 -->
       <div class="home-chat-row">
         <div class="home-chat-avatar" id="talkMyAvatar">我</div>
         <div class="home-chat-bubble" id="talkMineBubble"><span class="placeholder">点击输入</span></div>
@@ -80,103 +98,198 @@
     <div class="bar-item" data-key="mail">信箱</div>
   </div>
 </div>
-<!-- ★★★ index 段 1 结束 ★★★ -->
 
-<!-- ★★★ index 段 2 开始 ★★★ -->
 <!-- ===== 朋友圈页 ===== -->
 <div id="momentsPage" class="page hidden">
   <header class="chat-header">
-    <div class="header-left"><button class="header-btn" id="backFromMomentsBtn"><svg viewBox="0 0 24 24" fill="none" stroke="#666" stroke-width="2.5"><path d="M15 6 L9 12 L15 18"></path></svg></button></div>
+    <div class="header-left">
+      <button class="header-btn" id="backFromMomentsBtn">
+        <svg viewBox="0 0 24 24" fill="none" stroke="#666" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M15 6 L9 12 L15 18"></path></svg>
+      </button>
+    </div>
     <span>朋友圈</span>
     <div class="header-right moment-top-icons">
-      <button id="momentBellBtn"><svg viewBox="0 0 24 24" fill="none" stroke="#333" stroke-width="1.8"><path d="M18 8 A6 6 0 0 0 6 8 C6 15 4 17 4 17 H20 C20 17 18 15 18 8"></path><path d="M10 20 A2 2 0 0 0 14 20"></path></svg><span class="red-dot" id="momentBellRedDot"></span></button>
-      <button id="momentTrashBtn"><svg viewBox="0 0 24 24" fill="none" stroke="#333" stroke-width="1.8"><path d="M4 6 H20"></path><path d="M9 6 V4 H15 V6"></path><path d="M6 6 L7 20 H17 L18 6"></path></svg></button>
-      <button id="momentListBtn"><svg viewBox="0 0 24 24" fill="none" stroke="#333" stroke-width="2"><path d="M4 7 H20"></path><path d="M4 12 H20"></path><path d="M4 17 H20"></path></svg></button>
+      <button id="momentBellBtn">
+        <svg viewBox="0 0 24 24" fill="none" stroke="#333" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M18 8 A6 6 0 0 0 6 8 C6 15 4 17 4 17 H20 C20 17 18 15 18 8"></path><path d="M10 20 A2 2 0 0 0 14 20"></path></svg>
+        <span class="red-dot" id="momentBellRedDot"></span>
+      </button>
+      <button id="momentTrashBtn">
+        <svg viewBox="0 0 24 24" fill="none" stroke="#333" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M4 6 H20"></path><path d="M9 6 V4 H15 V6"></path><path d="M6 6 L7 20 H17 L18 6"></path></svg>
+      </button>
+      <button id="momentListBtn" title="只看对方动态">
+        <svg viewBox="0 0 24 24" fill="none" stroke="#333" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 7 H20"></path><path d="M4 12 H20"></path><path d="M4 17 H20"></path></svg>
+      </button>
     </div>
   </header>
-  <div class="moment-header" id="momentHeader"><div class="avatar-block"><div class="avatar-name" id="momentMyName">我</div><div class="avatar-img" id="momentMyAvatar">我</div></div></div>
-  <div class="moment-bg-tools"><button id="momentChangeBgBtn">换背景</button></div>
-  <div class="moment-divider"><span class="divider-text" id="momentDividerText">今天</span></div>
+  <div class="moment-header" id="momentHeader">
+    <div class="avatar-block">
+      <div class="avatar-name" id="momentMyName">我</div>
+      <div class="avatar-img" id="momentMyAvatar">我</div>
+    </div>
+  </div>
+  <div class="moment-bg-tools">
+    <button id="momentChangeBgBtn">换背景</button>
+  </div>
+  <div class="moment-divider">
+    <span class="divider-text" id="momentDividerText">今天</span>
+  </div>
   <div class="moment-body" id="momentBody"></div>
   <button class="moment-fab" id="momentAddBtn">+</button>
 </div>
 
+<!-- ===== 发朋友圈弹窗 ===== -->
 <div id="momentPostModal" class="modal hidden">
   <div class="moment-post-sheet">
-    <div class="moment-post-head"><button id="momentPostCancel">取消</button><span>发表动态</span><button class="primary" id="momentPostSend">发表</button></div>
+    <div class="moment-post-head">
+      <button id="momentPostCancel">取消</button>
+      <span>发表动态</span>
+      <button class="primary" id="momentPostSend">发表</button>
+    </div>
     <div class="moment-post-body">
       <textarea id="momentPostText" placeholder="这一刻的想法…"></textarea>
-      <div class="moment-post-imgs" id="momentPostImgs"><div class="add-img" id="momentAddImgBtn">+</div></div>
+      <div class="moment-post-imgs" id="momentPostImgs">
+        <div class="add-img" id="momentAddImgBtn">+</div>
+      </div>
       <input type="file" id="momentImgUpload" accept="image/*" style="display:none;">
     </div>
   </div>
 </div>
 
-<div id="momentNotifyModal" class="modal hidden"><div class="modal-box"><div class="modal-head"><span>通知提醒</span><button id="closeMomentNotifyBtn">×</button></div><div class="modal-body"><div id="momentNotifyBody" class="notify-list"></div></div></div></div>
+<!-- ===== 朋友圈通知面板 ===== -->
+<div id="momentNotifyModal" class="modal hidden">
+  <div class="modal-box">
+    <div class="modal-head"><span>通知提醒</span><button id="closeMomentNotifyBtn">×</button></div>
+    <div class="modal-body"><div id="momentNotifyBody" class="notify-list"></div></div>
+  </div>
+</div>
+
+<!-- ===== 删除朋友圈动态面板 ===== -->
 <div id="momentTrashModal" class="modal hidden">
   <div class="modal-box">
     <div class="modal-head"><span>删除朋友圈动态</span><button id="closeMomentTrashBtn">×</button></div>
     <div class="modal-body">
       <p style="font-size:13px;color:#999;margin-bottom:12px;">删除后无法恢复。</p>
-      <div class="moment-del-options" id="momentDelOptions"><button data-type="all">全部删除</button><button data-type="mine">仅我的动态</button><button data-type="ta">对方动态</button></div>
-      <div class="moment-del-actions"><button class="cancel" id="momentDelCancel">取消</button><button class="ok" id="momentDelOk">确定</button></div>
+      <div class="moment-del-options" id="momentDelOptions">
+        <button data-type="all">全部删除</button>
+        <button data-type="mine">仅我的动态</button>
+        <button data-type="ta">对方动态</button>
+      </div>
+      <div class="moment-del-actions">
+        <button class="cancel" id="momentDelCancel">取消</button>
+        <button class="ok" id="momentDelOk">确定</button>
+      </div>
     </div>
   </div>
 </div>
 
 <!-- ===== 纪念日页 ===== -->
 <div id="annivPage" class="page hidden">
-  <header class="chat-header"><div class="header-left"><button class="header-btn" id="backFromAnnivBtn"><svg viewBox="0 0 24 24" fill="none" stroke="#666" stroke-width="2.5"><path d="M15 6 L9 12 L15 18"></path></svg></button></div><span>纪念日</span><div class="header-right"></div></header>
+  <header class="chat-header">
+    <div class="header-left">
+      <button class="header-btn" id="backFromAnnivBtn">
+        <svg viewBox="0 0 24 24" fill="none" stroke="#666" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M15 6 L9 12 L15 18"></path></svg>
+      </button>
+    </div>
+    <span>纪念日</span>
+    <div class="header-right"></div>
+  </header>
   <div class="anniv-body">
-    <div class="anniv-main"><div class="anniv-label">我们已经在一起</div><div class="anniv-days" id="annivDays">0</div><div class="anniv-label">天</div><button class="btn-secondary" id="editStartBtn" style="max-width:200px;margin-top:20px;">设置起始日期</button></div>
-    <div class="anniv-list-title">纪念日列表</div><div class="anniv-list" id="annivList"></div>
+    <div class="anniv-main">
+      <div class="anniv-label">我们已经在一起</div>
+      <div class="anniv-days" id="annivDays">0</div>
+      <div class="anniv-label">天</div>
+      <button class="btn-secondary" id="editStartBtn" style="max-width:200px;margin-top:20px;">设置起始日期</button>
+    </div>
+    <div class="anniv-list-title">纪念日列表</div>
+    <div class="anniv-list" id="annivList"></div>
     <button class="btn-primary" id="addAnnivBtn" style="margin-top:10px;">+ 添加纪念日</button>
   </div>
 </div>
 
+<!-- ===== 纪念日日期滚轮 ===== -->
 <div id="annivDatePicker" class="anniv-date-picker hidden">
   <div class="anniv-date-box">
     <div class="anniv-date-title" id="annivDateTitle">设置起始日期</div>
     <div class="anniv-date-row">
-      <div class="anniv-date-col"><div class="top" id="annivYearTop">--</div><div class="cur" id="annivYearCur">2024</div><div class="bottom" id="annivYearBot">--</div><div class="anniv-date-label">年</div></div>
-      <div class="anniv-date-col"><div class="top" id="annivMonthTop">--</div><div class="cur" id="annivMonthCur">01</div><div class="bottom" id="annivMonthBot">--</div><div class="anniv-date-label">月</div></div>
-      <div class="anniv-date-col"><div class="top" id="annivDayTop">--</div><div class="cur" id="annivDayCur">01</div><div class="bottom" id="annivDayBot">--</div><div class="anniv-date-label">日</div></div>
+      <div class="anniv-date-col">
+        <div class="top" id="annivYearTop">--</div>
+        <div class="cur" id="annivYearCur">2024</div>
+        <div class="bottom" id="annivYearBot">--</div>
+        <div class="anniv-date-label">年</div>
+      </div>
+      <div class="anniv-date-col">
+        <div class="top" id="annivMonthTop">--</div>
+        <div class="cur" id="annivMonthCur">01</div>
+        <div class="bottom" id="annivMonthBot">--</div>
+        <div class="anniv-date-label">月</div>
+      </div>
+      <div class="anniv-date-col">
+        <div class="top" id="annivDayTop">--</div>
+        <div class="cur" id="annivDayCur">01</div>
+        <div class="bottom" id="annivDayBot">--</div>
+        <div class="anniv-date-label">日</div>
+      </div>
     </div>
-    <div class="anniv-date-actions"><button class="cancel" id="annivDateCancel">取消</button><button class="ok" id="annivDateOk">确定</button></div>
+    <div class="anniv-date-actions">
+      <button class="cancel" id="annivDateCancel">取消</button>
+      <button class="ok" id="annivDateOk">确定</button>
+    </div>
   </div>
 </div>
-
+<!-- ★★★ index 段 1 结束 ★★★ --><!-- ★★★ index 段 2 开始 ★★★ -->
 <!-- ===== 聊天页 ===== -->
 <div id="chatPage" class="page hidden">
   <header class="chat-header">
-    <div class="header-left"><button class="header-btn" id="backHomeBtn"><svg viewBox="0 0 24 24" fill="none" stroke="#666" stroke-width="2.5"><path d="M15 6 L9 12 L15 18"></path></svg></button></div>
+    <div class="header-left">
+      <button class="header-btn" id="backHomeBtn">
+        <svg viewBox="0 0 24 24" fill="none" stroke="#666" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M15 6 L9 12 L15 18"></path></svg>
+      </button>
+    </div>
     <span id="taName">TA</span>
-    <div class="header-right"><button class="header-btn" id="openMenuBtn"><svg viewBox="0 0 24 24" fill="none" stroke="#666" stroke-width="2.5"><circle cx="5" cy="12" r="1.5" fill="#666"></circle><circle cx="12" cy="12" r="1.5" fill="#666"></circle><circle cx="19" cy="12" r="1.5" fill="#666"></circle></svg></button></div>
+    <div class="header-right">
+      <button class="header-btn" id="openMenuBtn">
+        <svg viewBox="0 0 24 24" fill="none" stroke="#666" stroke-width="2.5" stroke-linecap="round"><circle cx="5" cy="12" r="1.5" fill="#666" stroke="none"></circle><circle cx="12" cy="12" r="1.5" fill="#666" stroke="none"></circle><circle cx="19" cy="12" r="1.5" fill="#666" stroke="none"></circle></svg>
+      </button>
+    </div>
   </header>
   <div id="messages"></div>
   <footer class="chat-footer">
-    <button class="footer-btn" id="plusBtn"><svg viewBox="0 0 24 24" fill="none" stroke="#666" stroke-width="2"><circle cx="12" cy="12" r="9"></circle><path d="M12 8 V16 M8 12 H16"></path></svg></button>
-    <button class="footer-btn" id="emojiBtn"><svg viewBox="0 0 24 24" fill="none" stroke="#666" stroke-width="1.8"><circle cx="12" cy="12" r="9"></circle><circle cx="9" cy="10" r="1" fill="#666"></circle><circle cx="15" cy="10" r="1" fill="#666"></circle><path d="M8.5 14.5 Q12 17 15.5 14.5"></path></svg></button>
+    <button class="footer-btn" id="plusBtn"><svg viewBox="0 0 24 24" fill="none" stroke="#666" stroke-width="2" stroke-linecap="round"><circle cx="12" cy="12" r="9"></circle><path d="M12 8 V16 M8 12 H16"></path></svg></button>
+    <button class="footer-btn" id="emojiBtn"><svg viewBox="0 0 24 24" fill="none" stroke="#666" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"></circle><circle cx="9" cy="10" r="1" fill="#666"></circle><circle cx="15" cy="10" r="1" fill="#666"></circle><path d="M8.5 14.5 Q12 17 15.5 14.5"></path></svg></button>
     <input id="input" type="text" placeholder="输入消息…" autocomplete="off">
-    <button class="footer-btn send-btn" id="sendBtn"><svg viewBox="0 0 24 24" fill="none" stroke="#222" stroke-width="2"><path d="M22 2 L11 13"></path><path d="M22 2 L15 22 L11 13 L2 9 Z"></path></svg></button>
+    <button class="footer-btn send-btn" id="sendBtn"><svg viewBox="0 0 24 24" fill="none" stroke="#222" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 2 L11 13"></path><path d="M22 2 L15 22 L11 13 L2 9 Z"></path></svg></button>
   </footer>
 </div>
 
-<div id="menuPopup"><div class="menu-item" id="menuSettings">设置</div><div class="menu-item" id="menuCards">字卡库</div></div>
+<div id="menuPopup">
+  <div class="menu-item" id="menuSettings">设置</div>
+  <div class="menu-item" id="menuCards">字卡库</div>
+</div>
+
 <div id="plusMenu" class="plus-menu hidden">
   <div class="plus-grid">
-    <div class="plus-item" data-key="transfer"><div class="plus-icon"><svg viewBox="0 0 24 24" fill="none" stroke="#333" stroke-width="2"><path d="M4 8 L14 8 M10 4 L14 8 L10 12"></path><path d="M20 16 L10 16 M14 12 L10 16 L14 20"></path></svg></div><div class="plus-label">转账</div></div>
-    <div class="plus-item" data-key="gift"><div class="plus-icon"><svg viewBox="0 0 24 24" fill="none" stroke="#333" stroke-width="2"><rect x="3" y="8" width="18" height="13" rx="2"></rect><path d="M12 8 V21 M3 12 H21"></path></svg></div><div class="plus-label">礼物</div></div>
-    <div class="plus-item" data-key="survey"><div class="plus-icon"><svg viewBox="0 0 24 24" fill="none" stroke="#333" stroke-width="2"><rect x="4" y="4" width="16" height="18" rx="2"></rect><path d="M9 4 V7 H15 V4"></path></svg></div><div class="plus-label">问卷</div></div>
-    <div class="plus-item" data-key="continue"><div class="plus-icon"><svg viewBox="0 0 24 24" fill="none" stroke="#333" stroke-width="2"><path d="M4 12 A8 8 0 1 1 12 20"></path><path d="M4 12 L2 9 M4 12 L7 10"></path></svg></div><div class="plus-label">继续说</div></div>
+    <div class="plus-item" data-key="transfer"><div class="plus-icon"><svg viewBox="0 0 24 24" fill="none" stroke="#333" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 8 L14 8 M10 4 L14 8 L10 12"></path><path d="M20 16 L10 16 M14 12 L10 16 L14 20"></path></svg></div><div class="plus-label">转账</div></div>
+    <div class="plus-item" data-key="gift"><div class="plus-icon"><svg viewBox="0 0 24 24" fill="none" stroke="#333" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="8" width="18" height="13" rx="2"></rect><path d="M12 8 V21 M3 12 H21"></path><path d="M8 8 Q5 4 8 4 Q11 4 12 8"></path><path d="M16 8 Q19 4 16 4 Q13 4 12 8"></path></svg></div><div class="plus-label">礼物</div></div>
+    <div class="plus-item" data-key="survey"><div class="plus-icon"><svg viewBox="0 0 24 24" fill="none" stroke="#333" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="4" y="4" width="16" height="18" rx="2"></rect><path d="M9 4 V7 H15 V4"></path><path d="M8 12 H16 M8 16 H14"></path></svg></div><div class="plus-label">问卷</div></div>
+    <div class="plus-item" data-key="continue"><div class="plus-icon"><svg viewBox="0 0 24 24" fill="none" stroke="#333" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 12 A8 8 0 1 1 12 20"></path><path d="M4 12 L2 9 M4 12 L7 10"></path></svg></div><div class="plus-label">继续说</div></div>
   </div>
 </div>
-<div id="longPressMenu" class="long-press-menu hidden"><div class="lp-item" data-act="copy">复制</div><div class="lp-item" data-act="quote">引用</div><div class="lp-item" data-act="fav">收藏</div><div class="lp-item" data-act="del">删除</div></div>
-<!-- ★★★ index 段 2 结束 ★★★ --><!-- ★★★ index 段 3 开始（HTML 剩余所有页面） ★★★ -->
+
+<div id="longPressMenu" class="long-press-menu hidden">
+  <div class="lp-item" data-act="copy">复制</div>
+  <div class="lp-item" data-act="quote">引用</div>
+  <div class="lp-item" data-act="fav">收藏</div>
+  <div class="lp-item" data-act="del">删除</div>
+</div>
+
 <!-- ===== 信箱页 ===== -->
 <div id="mailPage" class="page hidden">
   <header class="chat-header">
-    <div class="header-left"><button class="header-btn" id="backFromMailBtn"><svg viewBox="0 0 24 24" fill="none" stroke="#666" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M15 6 L9 12 L15 18"></path></svg></button></div>
+    <div class="header-left">
+      <button class="header-btn" id="backFromMailBtn">
+        <svg viewBox="0 0 24 24" fill="none" stroke="#666" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M15 6 L9 12 L15 18"></path></svg>
+      </button>
+    </div>
     <span>信箱</span>
     <div class="header-right"></div>
   </header>
@@ -190,7 +303,9 @@
 
 <div id="mailWritePage" class="page hidden">
   <header class="chat-header">
-    <div class="header-left"><button class="survey-header-btn" id="mailWriteCancelBtn">取消</button></div>
+    <div class="header-left">
+      <button class="survey-header-btn" id="mailWriteCancelBtn">取消</button>
+    </div>
     <span>写信</span>
     <div class="header-right"></div>
   </header>
@@ -219,9 +334,17 @@
 <!-- ===== 问卷列表页 ===== -->
 <div id="surveyListPage" class="page hidden">
   <header class="chat-header">
-    <div class="header-left"><button class="header-btn" id="backFromSurveyListBtn"><svg viewBox="0 0 24 24" fill="none" stroke="#666" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M15 6 L9 12 L15 18"></path></svg></button></div>
+    <div class="header-left">
+      <button class="header-btn" id="backFromSurveyListBtn">
+        <svg viewBox="0 0 24 24" fill="none" stroke="#666" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M15 6 L9 12 L15 18"></path></svg>
+      </button>
+    </div>
     <span>问卷</span>
-    <div class="header-right"><button class="header-btn" id="surveyNewBtn"><svg viewBox="0 0 24 24" fill="none" stroke="#666" stroke-width="2" stroke-linecap="round"><circle cx="12" cy="12" r="9"></circle><path d="M12 8 V16 M8 12 H16"></path></svg></button></div>
+    <div class="header-right">
+      <button class="header-btn" id="surveyNewBtn">
+        <svg viewBox="0 0 24 24" fill="none" stroke="#666" stroke-width="2" stroke-linecap="round"><circle cx="12" cy="12" r="9"></circle><path d="M12 8 V16 M8 12 H16"></path></svg>
+      </button>
+    </div>
   </header>
   <div class="shop-body" id="surveyListBody"></div>
 </div>
@@ -229,9 +352,13 @@
 <!-- ===== 新建问卷页 ===== -->
 <div id="surveyNewPage" class="page hidden">
   <header class="chat-header">
-    <div class="header-left"><button class="survey-header-btn" id="surveyCancelBtn">取消</button></div>
+    <div class="header-left">
+      <button class="survey-header-btn" id="surveyCancelBtn">取消</button>
+    </div>
     <span>新建问卷</span>
-    <div class="header-right"><button class="survey-header-btn dark" id="surveySendBtn">发送</button></div>
+    <div class="header-right">
+      <button class="survey-header-btn dark" id="surveySendBtn">发送</button>
+    </div>
   </header>
   <div class="survey-new-body">
     <div class="survey-card">
@@ -259,7 +386,11 @@
 <!-- ===== 商店页 ===== -->
 <div id="shopPage" class="page hidden">
   <header class="chat-header">
-    <div class="header-left"><button class="header-btn" id="backFromShopBtn"><svg viewBox="0 0 24 24" fill="none" stroke="#666" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M15 6 L9 12 L15 18"></path></svg></button></div>
+    <div class="header-left">
+      <button class="header-btn" id="backFromShopBtn">
+        <svg viewBox="0 0 24 24" fill="none" stroke="#666" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M15 6 L9 12 L15 18"></path></svg>
+      </button>
+    </div>
     <span>商店</span>
     <div class="header-right"></div>
   </header>
@@ -272,7 +403,6 @@
   <button class="shop-fab" id="shopAddBtn">+</button>
 </div>
 
-<!-- ===== 添加/编辑商品弹窗 ===== -->
 <div id="shopEditModal" class="modal hidden">
   <div class="shop-edit-sheet">
     <div class="shop-edit-head">
@@ -297,7 +427,6 @@
   </div>
 </div>
 
-<!-- ===== 商品详情弹窗 ===== -->
 <div id="shopDetailModal" class="modal hidden">
   <div class="shop-detail-sheet">
     <div class="shop-edit-head">
@@ -382,7 +511,6 @@
   <div id="voiceList"></div>
 </template>
 
-<!-- ===== 聊天页表情面板 ===== -->
 <div id="stickerPanel" class="sticker-panel hidden">
   <div class="sticker-head">
     <button class="sticker-tab active" data-tab="mine">我</button>
@@ -393,96 +521,31 @@
   <input type="file" id="stickerUploadChat" accept="image/*" multiple style="display:none;">
 </div>
 
-<!-- ===== 转账弹窗 ===== -->
 <div id="transferModal" class="modal hidden"><div class="modal-box"><div class="modal-head"><span>转账</span><button id="closeTransferBtn">×</button></div><div class="modal-body"><div class="transfer-target"><div class="transfer-avatar" id="transferAvatar">TA</div><div class="transfer-name" id="transferName">TA</div></div><div class="transfer-input-row"><span class="transfer-yen">¥</span><input type="number" id="transferAmount" placeholder="0.00" inputmode="decimal"></div><input type="text" id="transferNote" placeholder="添加转账说明" class="transfer-note"><button class="btn-primary" id="confirmTransferBtn">确认转账</button></div></div></div>
 
-<!-- ===== 收款全屏 ===== -->
 <div id="receiveModal" class="modal hidden"><div class="receive-box"><button class="receive-back" id="closeReceiveBtn">←</button><div class="receive-content"><div class="receive-icon" id="receiveIcon">🕐</div><div class="receive-title" id="receiveTitle">请收款</div><div class="receive-amount" id="receiveAmount">¥1.00</div><div class="receive-line"></div><div class="receive-time-row"><span>转账时间</span><span id="receiveTime">--</span></div><div class="receive-line"></div><button class="receive-btn" id="receiveConfirmBtn">收款</button><div class="receive-tip" id="receiveTip">1天内未确认，将退还给对方。<span id="refundLink">退还</span></div></div></div></div>
 
-<!-- ===== 设置弹窗 ===== -->
 <div id="settingsModal" class="modal hidden"><div class="modal-box"><div class="modal-head"><span>设置</span><button id="closeSettingsBtn">×</button></div><div class="modal-body" style="padding:0;" id="settingsBody"></div></div></div>
+<div id="favModal" class="modal hidden"><div class="modal-box"><div class="modal-head"><span>收藏夹</span><button id="closeFavBtn">×</button></div><div class="modal-body" id="favBody"></div></div></div>
+<div id="searchModal" class="modal hidden"><div class="modal-box"><div class="modal-head"><span>搜索聊天</span><button id="closeSearchBtn">×</button></div><div class="modal-body"><input type="text" id="searchInput" class="shop-input" placeholder="搜索聊天内容…"><div id="searchResult" style="margin-top:12px;"></div></div></div></div>
 
-<!-- ===== 收藏夹弹窗 ===== -->
-<div id="favModal" class="modal hidden">
-  <div class="modal-box">
-    <div class="modal-head"><span>收藏夹</span><button id="closeFavBtn">×</button></div>
-    <div class="modal-body" id="favBody"></div>
-  </div>
-</div>
-
-<!-- ===== 搜索聊天弹窗 ===== -->
-<div id="searchModal" class="modal hidden">
-  <div class="modal-box">
-    <div class="modal-head"><span>搜索聊天</span><button id="closeSearchBtn">×</button></div>
-    <div class="modal-body">
-      <input type="text" id="searchInput" class="shop-input" placeholder="搜索聊天内容…">
-      <div id="searchResult" style="margin-top:12px;"></div>
-    </div>
-  </div>
-</div>
-
-<!-- ===== 音乐库页 ===== -->
 <div id="musicLibraryPage" class="page hidden">
-  <header class="chat-header">
-    <div class="header-left"><button class="header-btn" id="backFromMusicBtn"><svg viewBox="0 0 24 24" fill="none" stroke="#666" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M15 6 L9 12 L15 18"></path></svg></button></div>
-    <span>音乐</span>
-    <div class="header-right"></div>
-  </header>
-  <div class="music-float-toggle">
-    <span class="label">悬浮播放小框</span>
-    <div class="switch on" id="musicFloatSwitch"></div>
-  </div>
-  <div class="music-tabs">
-    <button class="music-tab active" data-tab="mine">我的音乐库</button>
-    <button class="music-tab" data-tab="playlist">歌单</button>
-    <button class="music-tab" data-tab="fav">我的收藏</button>
-  </div>
+  <header class="chat-header"><div class="header-left"><button class="header-btn" id="backFromMusicBtn"><svg viewBox="0 0 24 24" fill="none" stroke="#666" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M15 6 L9 12 L15 18"></path></svg></button></div><span>音乐</span><div class="header-right"></div></header>
+  <div class="music-float-toggle"><span class="label">悬浮播放小框</span><div class="switch on" id="musicFloatSwitch"></div></div>
+  <div class="music-tabs"><button class="music-tab active" data-tab="mine">我的音乐库</button><button class="music-tab" data-tab="playlist">歌单</button><button class="music-tab" data-tab="fav">我的收藏</button></div>
   <div class="music-body" id="musicBody"></div>
 </div>
 
-<!-- ===== 音乐输入弹窗 ===== -->
-<div id="musicInputModal" class="modal hidden music-input-modal">
-  <div class="modal-box">
-    <div class="modal-head"><span id="musicInputTitle">链接添加</span><button id="closeMusicInputBtn">×</button></div>
-    <div class="modal-body">
-      <div class="music-input-field"><span class="label">歌名</span><input type="text" id="musicNameInput" placeholder="必填"></div>
-      <div class="music-input-field"><span class="label">歌手</span><input type="text" id="musicArtistInput" placeholder="可空"></div>
-      <div class="music-input-field" id="musicUrlField"><span class="label">音乐链接</span><input type="text" id="musicUrlInput" placeholder="mp3 直链"></div>
-      <button class="music-input-save" id="musicInputSave">保存</button>
-    </div>
-  </div>
-</div>
+<div id="musicInputModal" class="modal hidden music-input-modal"><div class="modal-box"><div class="modal-head"><span id="musicInputTitle">链接添加</span><button id="closeMusicInputBtn">×</button></div><div class="modal-body"><div class="music-input-field"><span class="label">歌名</span><input type="text" id="musicNameInput" placeholder="必填"></div><div class="music-input-field"><span class="label">歌手</span><input type="text" id="musicArtistInput" placeholder="可空"></div><div class="music-input-field" id="musicUrlField"><span class="label">音乐链接</span><input type="text" id="musicUrlInput" placeholder="mp3 直链"></div><button class="music-input-save" id="musicInputSave">保存</button></div></div></div>
 
-<!-- ===== 全屏播放器 ===== -->
 <div id="musicPlayerPage" class="page hidden">
-  <div class="music-player-top">
-    <button class="header-btn" id="musicBackBtn"><svg viewBox="0 0 24 24" fill="none" stroke="#222" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M15 6 L9 12 L15 18"></path></svg></button>
-    <button class="header-btn" id="musicPlusBtn"><svg viewBox="0 0 24 24" fill="none" stroke="#222" stroke-width="2.2" stroke-linecap="round"><path d="M12 5 V19 M5 12 H19"></path></svg></button>
-  </div>
+  <div class="music-player-top"><button class="header-btn" id="musicBackBtn"><svg viewBox="0 0 24 24" fill="none" stroke="#222" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M15 6 L9 12 L15 18"></path></svg></button><button class="header-btn" id="musicPlusBtn"><svg viewBox="0 0 24 24" fill="none" stroke="#222" stroke-width="2.2" stroke-linecap="round"><path d="M12 5 V19 M5 12 H19"></path></svg></button></div>
   <div class="music-player-body">
-    <div class="music-player-avatars">
-      <div class="avatar-wrap"><div class="avatar-circle" id="playerTaAvatar">TA</div></div>
-      <div class="avatar-wrap"><div class="avatar-circle" id="playerMyAvatar">我</div></div>
-    </div>
+    <div class="music-player-avatars"><div class="avatar-wrap"><div class="avatar-circle" id="playerTaAvatar">TA</div></div><div class="avatar-wrap"><div class="avatar-circle" id="playerMyAvatar">我</div></div></div>
     <div class="music-player-together" id="musicTogetherText">TA就在你的身边，一起听了 0 分钟</div>
-    <div class="music-disc-wrap">
-      <div class="music-disc" id="musicDisc">
-        <div class="disc-ring"></div>
-        <div class="disc-ring r2"></div>
-        <div class="disc-ring r3"></div>
-        <div class="cover" id="musicDiscCover"></div>
-      </div>
-    </div>
-    <div class="music-title-line" id="musicTitleLine">未播放</div>
-    <div class="music-lyric-line" id="musicLyricLine">—</div>
-    <div class="music-progress">
-      <span class="time" id="musicTimeCur">00:00</span>
-      <div class="bar-wrap" id="musicBarWrap">
-        <div class="bar-fill" id="musicBarFill"></div>
-        <div class="bar-dot" id="musicBarDot"></div>
-      </div>
-      <span class="time" id="musicTimeTotal">00:00</span>
-    </div>
+    <div class="music-disc-wrap"><div class="music-disc" id="musicDisc"><div class="disc-ring"></div><div class="disc-ring r2"></div><div class="disc-ring r3"></div><div class="cover" id="musicDiscCover"></div></div></div>
+    <div class="music-title-line" id="musicTitleLine">未播放</div><div class="music-lyric-line" id="musicLyricLine">—</div>
+    <div class="music-progress"><span class="time" id="musicTimeCur">00:00</span><div class="bar-wrap" id="musicBarWrap"><div class="bar-fill" id="musicBarFill"></div><div class="bar-dot" id="musicBarDot"></div></div><span class="time" id="musicTimeTotal">00:00</span></div>
     <div class="music-controls">
       <button class="ctrl" id="musicLoopBtn"><svg viewBox="0 0 24 24" fill="none" stroke="#333" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M17 2 L21 6 L17 10"></path><path d="M3 11 V9 a4 4 0 0 1 4 -4 H21"></path><path d="M7 22 L3 18 L7 14"></path><path d="M21 13 V15 a4 4 0 0 1 -4 4 H3"></path></svg></button>
       <button class="ctrl" id="musicPrevBtn"><svg viewBox="0 0 24 24" fill="none" stroke="#333" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M19 20 L9 12 L19 4 Z"></path><path d="M5 4 V20"></path></svg></button>
@@ -493,24 +556,10 @@
   </div>
 </div>
 
-<!-- ===== 悬浮小圆唱片 ===== -->
-<div id="floatDisc" class="hidden">
-  <div class="float-disc-inner">
-    <div class="float-cover" id="floatCover"></div>
-  </div>
-</div>
-
-<!-- ===== 悬浮展开卡片 ===== -->
+<div id="floatDisc" class="hidden"><div class="float-disc-inner"><div class="float-cover" id="floatCover"></div></div></div>
 <div id="floatCard" class="hidden">
-  <div class="float-card-top">
-    <button class="camera-btn" id="floatCameraBtn"><svg viewBox="0 0 24 24" fill="none" stroke="#666" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M4 8 H7 L9 5 H15 L17 8 H20 V19 H4 Z"></path><circle cx="12" cy="13" r="3.5"></circle></svg></button>
-    <button class="up-btn" id="floatUpBtn"><svg viewBox="0 0 24 24" fill="none" stroke="#666" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M6 15 L12 9 L18 15"></path></svg></button>
-  </div>
-  <div class="float-card-title" id="floatTitle">未播放</div>
-  <div class="float-card-sub" id="floatSub">—</div>
-  <div class="float-card-progress">
-    <div class="fill" id="floatFill"></div>
-  </div>
+  <div class="float-card-top"><button class="camera-btn" id="floatCameraBtn"><svg viewBox="0 0 24 24" fill="none" stroke="#666" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M4 8 H7 L9 5 H15 L17 8 H20 V19 H4 Z"></path><circle cx="12" cy="13" r="3.5"></circle></svg></button><button class="up-btn" id="floatUpBtn"><svg viewBox="0 0 24 24" fill="none" stroke="#666" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M6 15 L12 9 L18 15"></path></svg></button></div>
+  <div class="float-card-title" id="floatTitle">未播放</div><div class="float-card-sub" id="floatSub">—</div><div class="float-card-progress"><div class="fill" id="floatFill"></div></div>
   <div class="float-card-controls">
     <button class="ctrl" id="floatLoopBtn"><svg viewBox="0 0 24 24" fill="none" stroke="#999" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M17 2 L21 6 L17 10"></path><path d="M3 11 V9 a4 4 0 0 1 4 -4 H21"></path><path d="M7 22 L3 18 L7 14"></path><path d="M21 13 V15 a4 4 0 0 1 -4 4 H3"></path></svg></button>
     <button class="ctrl" id="floatPrevBtn"><svg viewBox="0 0 24 24" fill="none" stroke="#999" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M19 20 L9 12 L19 4 Z"></path><path d="M5 4 V20"></path></svg></button>
@@ -520,52 +569,9 @@
   </div>
 </div>
 <input type="file" id="floatCoverUpload" accept="image/*" style="display:none;">
-<!-- ★★★ index 段 3 结束（HTML 剩余所有页面） ★★★ --><!-- ★★★ index 段 4 开始（核心 JS） ★★★ -->
+<!-- ★★★ index 段 2 结束 ★★★ --><!-- ★★★ index 段 3 开始 ★★★ -->
 <script>
-/* ===== IndexedDB 封装（存语音、音乐、图片） ===== */
-let _idb = null;
-function openIDB() {
-  return new Promise((resolve, reject) => {
-    if (_idb) return resolve(_idb);
-    const req = indexedDB.open('ourchat_db', 2);
-    req.onupgradeneeded = (e) => {
-      const db = e.target.result;
-      if (!db.objectStoreNames.contains('voices')) db.createObjectStore('voices', { keyPath: 'id' });
-      if (!db.objectStoreNames.contains('music')) db.createObjectStore('music', { keyPath: 'id' });
-      if (!db.objectStoreNames.contains('imgs')) db.createObjectStore('imgs', { keyPath: 'key' });
-    };
-    req.onsuccess = (e) => { _idb = e.target.result; resolve(_idb); };
-    req.onerror = (e) => reject(e);
-  });
-}
-async function idbPut(store, val) {
-  const db = await openIDB();
-  return new Promise((resolve, reject) => {
-    const tx = db.transaction(store, 'readwrite');
-    tx.objectStore(store).put(val);
-    tx.oncomplete = () => resolve();
-    tx.onerror = (e) => reject(e);
-  });
-}
-async function idbGet(store, key) {
-  const db = await openIDB();
-  return new Promise((resolve, reject) => {
-    const tx = db.transaction(store, 'readonly');
-    const req = tx.objectStore(store).get(key);
-    req.onsuccess = () => resolve(req.result);
-    req.onerror = (e) => reject(e);
-  });
-}
-async function idbDelete(store, key) {
-  const db = await openIDB();
-  return new Promise((resolve, reject) => {
-    const tx = db.transaction(store, 'readwrite');
-    tx.objectStore(store).delete(key);
-    tx.oncomplete = () => resolve();
-    tx.onerror = (e) => reject(e);
-  });
-}
-
+/* ===== 基础数据读取 ===== */
 const messagesEl = document.getElementById('messages');
 const inputEl = document.getElementById('input');
 
@@ -610,6 +616,7 @@ setTimeout(() => {
   if (loading) { loading.classList.add('fade-out'); setTimeout(() => loading.remove(), 700); }
 }, 1000);
 
+/* ===== 聊天消息 ===== */
 function addMessage(sender, content, quote, store, msgId) {
   const row = document.createElement('div');
   row.className = 'msg-row ' + (sender === 'me' ? 'me' : 'ta');
@@ -618,7 +625,9 @@ function addMessage(sender, content, quote, store, msgId) {
   const avatar = buildAvatar(sender);
   const bubble = document.createElement('div');
   bubble.className = 'bubble';
-  if (quote) { const q = document.createElement('span'); q.className = 'quote-block'; q.textContent = quote; bubble.appendChild(q); }
+  if (quote) {
+    const q = document.createElement('span'); q.className = 'quote-block'; q.textContent = quote; bubble.appendChild(q);
+  }
   bubble.appendChild(document.createTextNode(content));
 
   row.appendChild(avatar);
@@ -642,7 +651,11 @@ function addImage(sender, url, store) {
   img.src = url; img.style.maxWidth = '120px'; img.style.maxHeight = '120px'; img.style.borderRadius = '8px';
   row.appendChild(avatar); row.appendChild(img);
   messagesEl.appendChild(row); messagesEl.scrollTop = messagesEl.scrollHeight;
-  if (store !== false) { const msgs = load('our_messages', []); msgs.push({ type: 'image', sender, url, t: Date.now(), msgId: row.dataset.msgId }); save('our_messages', msgs); }
+  if (store !== false) {
+    const msgs = load('our_messages', []);
+    msgs.push({ type: 'image', sender, url, t: Date.now(), msgId: row.dataset.msgId });
+    save('our_messages', msgs);
+  }
 }
 
 function showTyping() {
@@ -694,8 +707,9 @@ document.getElementById('sendBtn').onclick = sendMessage;
 
 /* ===== 转账卡片 ===== */
 function renderTransferCard(m) {
+  const isMe = m.sender === 'me';
   const row = document.createElement('div');
-  row.className = 'msg-row ' + (m.sender === 'me' ? 'me' : 'ta');
+  row.className = 'msg-row ' + (isMe ? 'me' : 'ta');
   row.dataset.msgId = m.msgId || (Date.now() + '_' + Math.random().toString(36).slice(2, 8));
   row.style.maxWidth = '70%';
   const avatar = buildAvatar(m.sender);
@@ -757,7 +771,7 @@ function refreshMessages() {
   messagesEl.scrollTop = messagesEl.scrollHeight;
 }
 
-/* ===== 转账接收 ===== */
+/* ===== 收款逻辑 ===== */
 let currentTransferId = null;
 function openReceiveModal(id) {
   const msgs = load('our_messages', []);
@@ -828,9 +842,7 @@ document.addEventListener('dblclick', function(e) {
   sys.style.cssText = 'align-self:center;font-size:12px;color:#999;background:rgba(0,0,0,0.04);padding:4px 12px;border-radius:10px;';
   sys.textContent = text; messagesEl.appendChild(sys); messagesEl.scrollTop = messagesEl.scrollHeight;
 });
-</script>
-<!-- ★★★ index 段 4 结束（核心 JS） ★★★ --><!-- ★★★ index 段 5 开始（字卡库与菜单逻辑） ★★★ -->
-<script>
+
 /* ===== 聊天菜单 & 加号菜单 ===== */
 document.getElementById('backHomeBtn').onclick = () => showPage('homePage');
 
@@ -842,15 +854,8 @@ document.getElementById('backHomeBtn').onclick = () => showPage('homePage');
     document.addEventListener('click', () => menuPopup.classList.remove('show'));
     menuPopup.addEventListener('click', (e) => e.stopPropagation());
   }
-  document.getElementById('menuSettings').onclick = () => {
-    if (menuPopup) menuPopup.classList.remove('show');
-    document.getElementById('settingsModal').classList.remove('hidden');
-  };
-  document.getElementById('menuCards').onclick = () => {
-    if (menuPopup) menuPopup.classList.remove('show');
-    document.getElementById('cardModal').classList.remove('hidden');
-    if (typeof window.openCardTab === 'function') window.openCardTab('main');
-  };
+  document.getElementById('menuSettings').onclick = () => { if (menuPopup) menuPopup.classList.remove('show'); document.getElementById('settingsModal').classList.remove('hidden'); };
+  document.getElementById('menuCards').onclick = () => { if (menuPopup) menuPopup.classList.remove('show'); document.getElementById('cardModal').classList.remove('hidden'); if (typeof window.openCardTab === 'function') window.openCardTab('main'); };
 })();
 
 (function() {
@@ -858,10 +863,7 @@ document.getElementById('backHomeBtn').onclick = () => showPage('homePage');
   const plusBtn = document.getElementById('plusBtn');
   if (plusBtn && plusMenu) {
     plusBtn.addEventListener('click', (e) => { e.stopPropagation(); plusMenu.classList.toggle('hidden'); });
-    document.addEventListener('click', (e) => {
-      if (e.target.closest('#plusMenu') || e.target.closest('#plusBtn')) return;
-      plusMenu.classList.add('hidden');
-    });
+    document.addEventListener('click', (e) => { if (e.target.closest('#plusMenu') || e.target.closest('#plusBtn')) return; plusMenu.classList.add('hidden'); });
     plusMenu.addEventListener('click', (e) => e.stopPropagation());
   }
   document.querySelectorAll('.plus-item').forEach(item => {
@@ -896,7 +898,7 @@ document.getElementById('confirmTransferBtn').onclick = () => {
   makeTransferCard(amount, document.getElementById('transferNote').value.trim());
 };
 
-/* ===== 字卡库完整逻辑（4个页签） ===== */
+/* ===== 字卡库完整逻辑 ===== */
 document.getElementById('closeCardBtn').onclick = () => document.getElementById('cardModal').classList.add('hidden');
 
 window.openCardTab = function(tab) {
@@ -943,9 +945,7 @@ function bindMainTab() {
       if (seen.has(key)) removed++; else { seen.add(key); newCards.push(c); }
     });
     if (removed === 0) return alert('没有发现重复的字卡');
-    if (confirm('发现 ' + removed + ' 条重复字卡，确定删除吗？')) {
-      cards = newCards; save('our_cards', cards); loadCards(); alert('已删除 ' + removed + ' 条');
-    }
+    if (confirm('发现 ' + removed + ' 条重复字卡，确定删除吗？')) { cards = newCards; save('our_cards', cards); loadCards(); alert('已删除 ' + removed + ' 条'); }
   };
 }
 
@@ -953,10 +953,8 @@ function loadCards() {
   const list = document.getElementById('cardList'), catsBox = document.getElementById('cardCats');
   if (!list || !catsBox) return;
   let allMain = cards.map((c, idx) => ({ ...c, _idx: idx })).filter(c => c.type === 'main' || !c.type);
-  
   catsBox.innerHTML = '';
   const allCat = document.createElement('button'); allCat.className = 'card-cat active'; allCat.textContent = '全部'; allCat.onclick = () => loadCards(); catsBox.appendChild(allCat);
-
   if (allMain.length === 0) { list.innerHTML = '<div style="color:#999;font-size:13px;text-align:center;padding:20px 0;">还没有字卡，加一条试试</div>'; return; }
   list.innerHTML = '';
   allMain.forEach(card => {
@@ -989,7 +987,6 @@ function loadEmojiList() {
     div.appendChild(s); div.appendChild(btn); list.appendChild(div);
   });
 }
-
 function bindPatTab() {
   const listBox = document.getElementById('patToMeList'); if(!listBox) return;
   const patToMe = load('pat_to_me', ['{TA} 拍了拍 {我}']);
@@ -1011,70 +1008,15 @@ function bindPatTab() {
     save('pat_to_me', list.length ? list : ['{TA} 拍了拍 {我}']); alert('已保存');
   };
 }
-
 function bindVoiceTab() {
   const box = document.getElementById('voiceImportBox'); 
   if (box) box.onclick = () => alert('语音功能需在电脑端支持导入');
   const countEl = document.getElementById('voiceCount');
   if (countEl) countEl.textContent = '暂不支持在手机上导入语音';
 }
-
-/* ===== 聊天表情包面板 ===== */
-(function() {
-  const panel = document.getElementById('stickerPanel');
-  const body = document.getElementById('stickerBody');
-  const emojiBtn = document.getElementById('emojiBtn');
-  const addBtn = document.getElementById('stickerAddBtnChat');
-  const upload = document.getElementById('stickerUploadChat');
-  let currentTab = 'mine';
-
-  function key() { return currentTab === 'mine' ? 'my_stickers' : 'ta_stickers'; }
-  function render() {
-    const list = load(key(), []);
-    body.innerHTML = '';
-    if (list.length === 0) { body.innerHTML = '<div style="grid-column:1/-1;text-align:center;color:#999;font-size:13px;padding:40px 20px;">还没有表情哦<br>点右上角「+ 添加」上传图片</div>'; return; }
-    list.forEach((url, idx) => {
-      const div = document.createElement('div'); div.className = 'sticker-item'; div.style.backgroundImage = 'url(' + url + ')';
-      const del = document.createElement('button'); del.className = 'sticker-del'; del.textContent = '×';
-      del.onclick = (e) => { e.stopPropagation(); const arr = load(key(), []); arr.splice(idx, 1); save(key(), arr); render(); };
-      div.appendChild(del);
-      div.onclick = () => { if (currentTab === 'mine') addImage('me', url); };
-      body.appendChild(div);
-    });
-  }
-
-  emojiBtn.onclick = (e) => {
-    e.stopPropagation(); e.preventDefault();
-    if (panel.classList.contains('hidden')) { panel.classList.remove('hidden'); render(); }
-    else { panel.classList.add('hidden'); }
-  };
-  addBtn.onclick = (e) => { e.stopPropagation(); upload.click(); };
-  upload.onchange = (e) => {
-    const files = Array.from(e.target.files); if (files.length === 0) return;
-    const list = load(key(), []); let done = 0;
-    files.forEach(f => {
-      compressImage(f, 300, (url) => {
-        list.push(url); done++;
-        if (done === files.length) { save(key(), list); render(); }
-      });
-    });
-    upload.value = '';
-  };
-  document.querySelectorAll('.sticker-tab').forEach(tab => {
-    tab.onclick = (e) => {
-      e.stopPropagation();
-      document.querySelectorAll('.sticker-tab').forEach(t => t.classList.remove('active'));
-      tab.classList.add('active');
-      currentTab = tab.dataset.tab; render();
-    };
-  });
-  document.addEventListener('click', (e) => {
-    if (panel.classList.contains('hidden')) return;
-    if (e.target.closest('#stickerPanel') || e.target.closest('#emojiBtn')) return;
-    panel.classList.add('hidden');
-  });
-})();
-
+</script>
+<!-- ★★★ index 段 3 结束 ★★★ --><!-- ★★★ index 段 4 开始（完整业务逻辑） ★★★ -->
+<script>
 /* ===== 自动消息 ===== */
 let autoMsgTimer = null;
 function scheduleAutoMessage() {
@@ -1086,9 +1028,7 @@ function scheduleAutoMessage() {
     addMessage('ta', drawCardText(), drawQuote(), true); scheduleAutoMessage();
   }, delay);
 }
-</script>
-<!-- ★★★ index 段 5 结束（字卡库与菜单逻辑） ★★★ --><!-- ★★★ index 段 6 开始（主页与所有业务逻辑） ★★★ -->
-<script>
+
 /* ===== 主页基础渲染 ===== */
 function applyHomeAssets() {
   const myA = document.getElementById('homeMyAvatar'), taA = document.getElementById('homeTaAvatar');
@@ -1104,11 +1044,15 @@ function applyHomeAssets() {
   const talkMyA = document.getElementById('talkMyAvatar'), talkTaA = document.getElementById('talkTaAvatar');
   if (talkMyA) { if (myUrl) { talkMyA.style.background = `url(${myUrl}) center/cover no-repeat`; talkMyA.textContent = ''; } else { talkMyA.style.background = '#e5e5e5'; talkMyA.textContent = myName.charAt(0); } }
   if (talkTaA) { if (taUrl) { talkTaA.style.background = `url(${taUrl}) center/cover no-repeat`; talkTaA.textContent = ''; } else { talkTaA.style.background = '#e5e5e5'; talkTaA.textContent = taName.charAt(0); } }
+
+  const pta = document.getElementById('playerTaAvatar'), pma = document.getElementById('playerMyAvatar');
+  if (pta) { if (taUrl) { pta.style.background = `url(${taUrl}) center/cover no-repeat`; pta.textContent = ''; } else { pta.style.background = '#e5e5e5'; pta.textContent = taName.charAt(0); } }
+  if (pma) { if (myUrl) { pma.style.background = `url(${myUrl}) center/cover no-repeat`; pma.textContent = ''; } else { pma.style.background = '#e5e5e5'; pma.textContent = myName.charAt(0); } }
 }
 function updateHomeTime() { const el = document.getElementById('homeTime'); if (el) { const d = new Date(); el.textContent = String(d.getHours()).padStart(2, '0') + ':' + String(d.getMinutes()).padStart(2, '0'); } }
 setInterval(updateHomeTime, 30000); updateHomeTime();
 
-/* ===== 图片压缩及小卡（强制 localStorage） ===== */
+/* ===== 图片压缩及小卡存储 ===== */
 function compressImage(file, maxSize, cb) {
   const reader = new FileReader();
   reader.onload = (e) => {
@@ -1180,39 +1124,80 @@ document.getElementById('editStartBtn').onclick = () => {
 };
 document.getElementById('addAnnivBtn').onclick = () => alert('纪念日列表功能待开发');
 
-/* ===== 朋友圈逻辑（基础渲染） ===== */
+/* ===== 朋友圈完整逻辑 ===== */
 function initMomentsPage() {
-  document.getElementById('momentMyName').textContent = load('my_name', '我');
-  const myAvatar = document.getElementById('momentMyAvatar');
-  const url = load('my_avatar', '');
-  if (url) { myAvatar.style.background = `url(${url}) center/cover`; myAvatar.textContent = ''; }
-  else myAvatar.textContent = load('my_name', '我').charAt(0);
-  
-  const box = document.getElementById('momentBody');
-  const moments = load('our_moments', []);
-  box.innerHTML = moments.length ? '' : '<div style="text-align:center;color:#999;padding:50px;">还没有动态</div>';
-  moments.forEach(m => {
-    const div = document.createElement('div'); div.className = 'moment-card';
-    div.innerHTML = `<div class="head"><div class="a">${m.sender === 'me' ? '我' : 'TA'}</div><div class="who"><div class="name">${m.sender === 'me' ? '我' : 'TA'}</div></div></div><div class="text">${m.text || ''}</div>`;
-    box.appendChild(div);
+  const myAvatar = document.getElementById('momentMyAvatar'), myName = document.getElementById('momentMyName');
+  const url = load('my_avatar', ''), name = load('my_name', '我');
+  if (myAvatar) { if (url) { myAvatar.style.background = `url(${url}) center/cover`; myAvatar.textContent = ''; } else myAvatar.textContent = name.charAt(0); }
+  if (myName) myName.textContent = name;
+  renderMomentsList();
+}
+function renderMomentsList() {
+  const box = document.getElementById('momentBody'); if (!box) return;
+  const all = load('our_moments', []); all.sort((a, b) => b.t - a.t); box.innerHTML = '';
+  if (all.length === 0) { box.innerHTML = '<div style="text-align:center;color:#999;padding:50px;">还没有动态，点右下角发一条吧</div>'; return; }
+  all.forEach(m => {
+    const card = document.createElement('div'); card.className = 'moment-card';
+    const isMe = m.sender === 'me';
+    const avatarUrl = isMe ? load('my_avatar', '') : load('ta_avatar', '');
+    const name = isMe ? load('my_name', '我') : load('ta_name', 'TA');
+    let html = `<div class="head"><div class="a" ${avatarUrl?`style="background:url(${avatarUrl}) center/cover"`:''}>${avatarUrl?'':name.charAt(0)}</div><div class="who"><div class="name">${name}</div></div></div>`;
+    if (m.text) html += `<div class="text">${m.text}</div>`;
+    if (m.imgs && m.imgs.length > 0) { html += `<div class="imgs">${m.imgs.map(img => `<img src="${img}">`).join('')}</div>`; }
+    html += `<div class="actions"><button class="like-btn">♡ 赞</button><button class="comment-btn">💬 评论</button></div>`;
+    card.innerHTML = html;
+    box.appendChild(card);
   });
 }
+let momentPostImgs = [];
 document.getElementById('backFromMomentsBtn').onclick = () => showPage('homePage');
-document.getElementById('momentAddBtn').onclick = () => document.getElementById('momentPostModal').classList.remove('hidden');
+document.getElementById('momentAddBtn').onclick = () => {
+  momentPostImgs = []; document.getElementById('momentPostText').value = ''; document.getElementById('momentPostImgs').innerHTML = '<div class="add-img" id="momentAddImgBtn">+</div>'; document.getElementById('momentAddImgBtn').onclick = () => document.getElementById('momentImgUpload').click(); document.getElementById('momentPostModal').classList.remove('hidden');
+};
 document.getElementById('momentPostCancel').onclick = () => document.getElementById('momentPostModal').classList.add('hidden');
+document.getElementById('momentImgUpload').onchange = (e) => {
+  const files = Array.from(e.target.files); if (files.length === 0) return;
+  let done = 0; files.forEach(f => {
+    compressImage(f, 800, (url) => { momentPostImgs.push(url); done++; if (done === files.length) {
+      const box = document.getElementById('momentPostImgs'); box.innerHTML = ''; momentPostImgs.forEach(u => { box.innerHTML += `<img src="${u}" style="width:60px;height:60px;margin:4px;border-radius:6px;object-fit:cover;">`; });
+      box.innerHTML += '<div class="add-img" id="momentAddImgBtn">+</div>'; document.getElementById('momentAddImgBtn').onclick = () => document.getElementById('momentImgUpload').click();
+    }});
+  }); e.target.value = '';
+};
 document.getElementById('momentPostSend').onclick = () => {
   const text = document.getElementById('momentPostText').value.trim();
-  if (!text) return alert('写点什么吧');
-  const ms = load('our_moments', []); ms.push({ sender: 'me', text, t: Date.now() });
-  save('our_moments', ms); document.getElementById('momentPostModal').classList.add('hidden'); initMomentsPage();
+  if (!text && momentPostImgs.length === 0) return alert('写点什么吧');
+  const ms = load('our_moments', []); ms.push({ sender: 'me', text: text, imgs: momentPostImgs, t: Date.now() });
+  save('our_moments', ms); document.getElementById('momentPostModal').classList.add('hidden'); renderMomentsList();
 };
 
-/* ===== 信箱、问卷、商店、音乐的基础拦截 ===== */
-document.getElementById('backFromMailBtn').onclick = () => showPage('homePage');
-document.getElementById('backFromSurveyListBtn').onclick = () => showPage('homePage');
-document.getElementById('backFromShopBtn').onclick = () => showPage('homePage');
+/* ===== 音乐播放器完整逻辑 ===== */
+let musicList = [], musicCurrentId = null, musicAudio = null, musicLoopMode = 'list', musicFloatEnabled = true;
+function showMusicLibrary() { showPage('musicLibraryPage'); loadMusicFromIDB(); }
+function saveMusicMeta() { save('our_music_meta', musicList.map(m => ({ id: m.id, name: m.name, type: m.type, url: m.url, cover: m.cover, duration: m.duration }))); }
+function loadMusicFromIDB() {
+  musicList = load('our_music_meta', []); 
+  const box = document.getElementById('musicBody');
+  if (!box) return;
+  let html = '<button id="musicUploadBtn" class="music-action-btn">上传音乐</button><div class="music-list" style="margin-top:10px;">';
+  if (musicList.length === 0) html += '<div class="music-empty">音乐库为空</div>';
+  musicList.forEach(m => { html += `<div class="music-item" data-id="${m.id}"><div class="info"><div class="title">${m.name}</div></div></div>`; });
+  html += '</div>'; box.innerHTML = html;
+  document.getElementById('musicUploadBtn').onclick = () => { const up = document.createElement('input'); up.type='file'; up.accept='audio/*'; up.onchange=(e)=>{ const f=e.target.files[0]; if(!f)return; const id=Date.now(); const blob=new Blob([f]); idbPut('music',{id,blob}); musicList.push({id,name:f.name.replace(/\.[^.]+$/,''),type:'local',duration:''}); saveMusicMeta(); showMusicLibrary(); }; up.click(); };
+  document.querySelectorAll('.music-item').forEach(item => { item.onclick = () => playMusic(item.dataset.id); });
+}
+async function playMusic(id) {
+  const m = musicList.find(x => x.id == id); if (!m) return;
+  musicCurrentId = id; let src = m.url;
+  if (m.type === 'local') { const rec = await idbGet('music', id); if (rec && rec.blob) src = URL.createObjectURL(rec.blob); }
+  if (!src) return alert('音频丢失');
+  if (musicAudio) musicAudio.pause();
+  musicAudio = new Audio(src); showPage('musicPlayerPage');
+  document.getElementById('musicTitleLine').textContent = m.name;
+  musicAudio.play(); document.getElementById('musicPlayBtn').onclick = () => { if(musicAudio.paused) {musicAudio.play();} else {musicAudio.pause();} };
+  document.getElementById('musicBackBtn').onclick = () => showPage('homePage');
+}
 document.getElementById('backFromMusicBtn').onclick = () => showPage('homePage');
-document.getElementById('musicBackBtn').onclick = () => showPage('homePage');
 
 /* ===== 首页图标与底栏绑定 ===== */
 document.querySelectorAll('.home-grid-2x2 .home-item').forEach(item => {
@@ -1220,7 +1205,7 @@ document.querySelectorAll('.home-grid-2x2 .home-item').forEach(item => {
     const key = item.dataset.key;
     if (key === 'wechat') showPage('chatPage');
     else if (key === 'moments') { showPage('momentsPage'); initMomentsPage(); }
-    else if (key === 'music') { showPage('musicLibraryPage'); }
+    else if (key === 'music') { showPage('musicLibraryPage'); showMusicLibrary(); }
     else if (key === 'shop') { showPage('shopPage'); }
   };
 });
@@ -1237,10 +1222,7 @@ document.querySelectorAll('.home-bottom-bar .bar-item').forEach(btn => {
 /* ===== 初始化主控 ===== */
 window.addEventListener('load', () => {
   setTimeout(() => {
-    refreshMessages();
-    applyHomeAssets();
-    loadHomeBigCard();
-    renderAnniv();
+    refreshMessages(); applyHomeAssets(); loadHomeBigCard(); renderAnniv();
     const t = document.getElementById('taName'); if (t) t.textContent = load('ta_name', 'TA');
     scheduleAutoMessage();
   }, 100);
@@ -1249,4 +1231,4 @@ window.addEventListener('load', () => {
 <script src="settings.js"></script>
 </body>
 </html>
-<!-- ★★★ index 段 6 结束（主页与所有业务逻辑） ★★★ -->
+<!-- ★★★ index 段 4 结束（完整业务逻辑） ★★★ -->
