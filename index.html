@@ -28,6 +28,7 @@
 <div id="homePage" class="page">
   <div class="home-time" id="homeTime">--:--</div>
 
+  <!-- 头像区域 -->
   <div class="home-avatars">
     <div class="avatar-wrap">
       <div class="avatar-circle" id="homeTaAvatar">TA</div>
@@ -39,11 +40,13 @@
     </div>
   </div>
 
+  <!-- 寄语区域 -->
   <div class="home-quote" id="homeQuote">
     <div class="home-quote-box" id="homeQuoteBox">双击寄语</div>
     <div class="home-quote-text" id="homeQuoteText"></div>
   </div>
 
+  <!-- 中部：小卡 + 四个入口 -->
   <div class="home-main-area">
     <div class="home-big-card" id="homeBigCard">
       <img id="homeBigCardImg" src="" alt="" style="display:none;">
@@ -69,23 +72,27 @@
     </div>
   </div>
 
+  <!-- 底部：纪念日 + 气泡对话 -->
   <div class="home-bottom-area">
     <div class="home-anniv-card" id="homeAnnivCard">
       <div class="anniv-title">纪念日</div>
       <div class="anniv-num" id="homeAnnivNum">0</div>
     </div>
     <div class="home-chat-area">
+      <!-- 我（头像在左，气泡在右） -->
       <div class="home-chat-row">
         <div class="home-chat-avatar" id="talkMyAvatar">我</div>
         <div class="home-chat-bubble" id="talkMineBubble"><span class="placeholder">点击输入</span></div>
       </div>
-      <div class="home-chat-row reverse">
-        <div class="home-chat-bubble" id="talkTaBubble"><span class="placeholder">点击输入</span></div>
+      <!-- TA（头像在左，气泡在右） -->
+      <div class="home-chat-row">
         <div class="home-chat-avatar" id="talkTaAvatar">TA</div>
+        <div class="home-chat-bubble" id="talkTaBubble"><span class="placeholder">点击输入</span></div>
       </div>
     </div>
   </div>
 
+  <!-- 底部固定栏（深色边框保留） -->
   <div class="home-bottom-bar">
     <div class="bar-item" data-key="settings">设置</div>
     <div class="bar-item" data-key="cards">字卡库</div>
@@ -486,10 +493,12 @@
 
 <template id="tpl-pat">
   <div class="sec-title">我拍他</div>
-  <div class="pat-item"><input type="text" id="patToTaInput"></div>
+  <div class="pat-item" style="margin-bottom:10px;">
+    <input type="text" id="patToTaInput" class="pat-input">
+  </div>
   <div class="sec-title" style="margin-top:16px;">他拍我（随机）</div>
-  <div id="patToMeList"></div>
-  <button class="btn-secondary" id="addPatBtn">+ 添加一条</button>
+  <div id="patToMeList" style="display:flex; flex-direction:column; gap:8px; margin-bottom:16px;"></div>
+  <button class="btn-secondary" id="addPatBtn" style="margin-bottom:12px;">+ 添加一条</button>
   <button class="btn-primary" id="savePatBtn">保存</button>
 </template>
 
@@ -736,16 +745,18 @@ async function idbDelete(store, key) {
   });
 }
 
-/* 存图专用：解决 localStorage 5MB 爆掉的问题 */
+/* 存图专用：修复转 Blob 失败问题 */
 async function saveImgBlob(key, dataUrl) {
   try {
-    const blob = await (await fetch(dataUrl)).blob();
+    const res = await fetch(dataUrl);
+    const blob = await res.blob();
     await idbPut('imgs', { key, blob });
   } catch (e) {
     console.error('存图失败', e);
     alert('图片太大了，存不下！');
   }
 }
+/* 读图专用：转回 DataURL 渲染 */
 async function loadImgBlob(key) {
   const rec = await idbGet('imgs', key);
   if (!rec || !rec.blob) return '';
@@ -1705,7 +1716,7 @@ function bindPatTab() {
     patToMe.forEach((text, idx) => {
       const div = document.createElement('div');
       div.className = 'pat-item';
-      div.innerHTML = `<input type="text" class="pat-input" value="${text}"><button class="remove">×</button>`;
+      div.innerHTML = `<input type="text" class="pat-input" value="${text}"><button class="remove" style="background:none;border:none;color:#e74c3c;font-size:20px;cursor:pointer;">×</button>`;
       div.querySelector('.remove').onclick = () => { patToMe.splice(idx, 1); renderPatList(); };
       listBox.appendChild(div);
     });
@@ -1940,7 +1951,7 @@ function scheduleAutoMessage() {
   }, delay);
 }
 
-/* ===== 主页逻辑 ===== */
+/* ===== 主页逻辑（修复刷新消失问题） ===== */
 function applyHomeAssets() {
   const myA = document.getElementById('homeMyAvatar');
   const taA = document.getElementById('homeTaAvatar');
@@ -1993,17 +2004,22 @@ function applyHomeTalks() {
   const ta = document.getElementById('talkTaBubble');
   const mv = load('home_talk_mine', '');
   const tv = load('home_talk_ta', '');
-  if (mine) { if (mv) mine.textContent = mv; else mine.innerHTML = '<span class="placeholder">点击输入</span>'; }
-  if (ta) { if (tv) ta.textContent = tv; else ta.innerHTML = '<span class="placeholder">点击输入</span>'; }
+  if (mine) { if (mv) { mine.textContent = mv; mine.classList.remove('placeholder'); } else { mine.innerHTML = '<span class="placeholder">点击输入</span>'; } }
+  if (ta) { if (tv) { ta.textContent = tv; ta.classList.remove('placeholder'); } else { ta.innerHTML = '<span class="placeholder">点击输入</span>'; } }
 }
 
+/* 小卡图读取：异步从 IndexedDB 强制拉取 */
 async function applyHomeBigCard() {
   const img = document.getElementById('homeBigCardImg');
   const tip = document.getElementById('homeBigCardTip');
   if (!img) return;
-  const saved = await loadImgBlob('img_home_card');
-  if (saved) { img.src = saved; img.style.display = 'block'; if (tip) tip.style.display = 'none'; }
-  else { img.style.display = 'none'; if (tip) tip.style.display = 'block'; }
+  try {
+    const saved = await loadImgBlob('img_home_card');
+    if (saved) { img.src = saved; img.style.display = 'block'; if (tip) tip.style.display = 'none'; }
+    else { img.style.display = 'none'; if (tip) tip.style.display = 'block'; }
+  } catch(e) {
+    console.error('读取小卡失败', e);
+  }
 }
 
 function updateHomeTime() {
@@ -2040,7 +2056,7 @@ document.querySelectorAll('.home-bottom-bar .bar-item').forEach(btn => {
   };
 });
 
-/* 选图 */
+/* 小卡选图保存：加入 IndexedDB 及界面反馈 */
 (function() {
   const cardEl = document.getElementById('homeBigCard');
   const img = document.getElementById('homeBigCardImg');
@@ -2054,7 +2070,9 @@ document.querySelectorAll('.home-bottom-bar .bar-item').forEach(btn => {
     const reader = new FileReader();
     reader.onload = async (ev) => {
       const url = ev.target.result;
+      // 存到 IndexedDB
       await saveImgBlob('img_home_card', url);
+      // 更新界面
       img.src = url; img.style.display = 'block'; if (tip) tip.style.display = 'none';
     };
     reader.readAsDataURL(file);
@@ -2062,7 +2080,7 @@ document.querySelectorAll('.home-bottom-bar .bar-item').forEach(btn => {
   };
 })();
 
-/* 寄语双击 */
+/* 寄语双击编辑：保存到 localStorage */
 (function() {
   const box = document.getElementById('homeQuoteBox');
   const txt = document.getElementById('homeQuoteText');
@@ -2077,7 +2095,7 @@ document.querySelectorAll('.home-bottom-bar .bar-item').forEach(btn => {
   txt.ondblclick = edit;
 })();
 
-/* 气泡对话点击 */
+/* 气泡对话点击编辑：保存到 localStorage */
 document.getElementById('talkMineBubble').onclick = () => {
   const cur = load('home_talk_mine', '');
   const v = prompt('输入我说的话：', cur);
@@ -2112,91 +2130,28 @@ window.refreshMessages = refreshMessages;
 window.openCardTab = openCardTab;
 window.updateHomeAnnivNum = updateHomeAnnivNum;
 
-/* ===== 初始化 ===== */
-window.addEventListener('load', () => {
+/* ===== 初始化主控 ===== */
+window.addEventListener('load', async () => {
+  // 1. 先跑聊天消息
   refreshMessages();
+  // 2. 跑主页基础资产
   applyHomeAssets();
   applyHomeWallpaper();
   applyHomeQuote();
   applyHomeTalks();
-  applyHomeBigCard();
+  // 3. 异步读图（小卡图）
+  await applyHomeBigCard();
+  // 4. 跑纪念日
   updateHomeAnnivNum();
-  (function() { const t = document.getElementById('taName'); if (t) t.textContent = load('ta_name', 'TA'); })();
+  // 5. 补全名字
+  const t = document.getElementById('taName'); if (t) t.textContent = load('ta_name', 'TA');
+  // 6. 启动定时器
   scheduleAutoMessage();
 });
-
-/* ===== 商店 ===== */
-let shopItems = load('our_shop_items', []);
-let shopOrders = load('our_shop_orders', []);
-let editingShopId = null;
-let currentDetailId = null;
-let pendingShopImage = '';
-function saveShopItems() { save('our_shop_items', shopItems); }
-function saveShopOrders() { save('our_shop_orders', shopOrders); }
-function showShopPage() {
-  showPage('shopPage');
-  renderShopItems(); renderShopOrders();
-  document.querySelectorAll('.shop-tab').forEach(t => t.classList.remove('active'));
-  document.querySelector('.shop-tab[data-tab="items"]').classList.add('active');
-  document.getElementById('shopItemsPanel').classList.remove('hidden');
-  document.getElementById('shopOrdersPanel').classList.add('hidden');
-  document.getElementById('shopAddBtn').style.display = '';
-}
-function renderShopItems() {
-  const box = document.getElementById('shopItemsPanel');
-  if (!box) return;
-  if (shopItems.length === 0) { box.innerHTML = '<div class="shop-empty">还没有商品，点右下角 + 添加一个吧</div>'; return; }
-  box.innerHTML = '<div class="shop-item-grid"></div>';
-  const grid = box.firstElementChild;
-  shopItems.forEach(it => {
-    const card = document.createElement('div');
-    card.className = 'shop-item-card';
-    card.innerHTML = `<img src="${it.img || ''}" alt=""><div class="shop-item-name">${it.name || '未命名'}</div><div class="shop-item-price">¥${(it.price || 0)}</div>`;
-    card.onclick = () => openShopDetail(it.id);
-    grid.appendChild(card);
-  });
-}
-function renderShopOrders() {
-  const box = document.getElementById('shopOrdersPanel');
-  if (!box) return;
-  if (shopOrders.length === 0) { box.innerHTML = '<div class="shop-empty">还没有订单</div>'; return; }
-  box.innerHTML = '';
-  shopOrders.slice().reverse().forEach(o => {
-    const div = document.createElement('div');
-    div.className = 'shop-order-item';
-    const dir = o.direction === 'me_to_ta' ? '我买给他的' : '他买给我的';
-    div.innerHTML = `<img src="${o.img || ''}" alt=""><div class="shop-order-info"><div class="shop-order-title">${o.name || ''}</div><div class="shop-order-sub">${dir} · ¥${o.price || 0} · ${new Date(o.t).toLocaleString('zh-CN')}</div></div>`;
-    box.appendChild(div);
-  });
-}
-function openShopEdit(item) {
-  editingShopId = item ? item.id : null;
-  pendingShopImage = item ? (item.img || '') : '';
-  document.getElementById('shopEditTitle').textContent = item ? '编辑商品' : '添加商品';
-  document.getElementById('shopNameInput').value = item ? (item.name || '') : '';
-  document.getElementById('shopPriceInput').value = item ? (item.price || '') : '';
-  document.getElementById('shopDescInput').value = item ? (item.desc || '') : '';
-  const img = document.getElementById('shopImgPreview');
-  const plus = document.getElementById('shopImgPlus');
-  if (pendingShopImage) { img.src = pendingShopImage; img.style.display = 'block'; plus.style.display = 'none'; }
-  else { img.style.display = 'none'; plus.style.display = 'block'; }
-  document.getElementById('shopEditModal').classList.remove('hidden');
-}
-function closeShopEdit() { document.getElementById('shopEditModal').classList.add('hidden'); }
-function openShopDetail(id) {
-  const it = shopItems.find(x => x.id === id);
-  if (!it) return;
-  currentDetailId = id;
-  document.getElementById('detailImg').src = it.img || '';
-  document.getElementById('detailName').textContent = it.name || '未命名';
-  document.getElementById('detailPrice').textContent = '¥' + (it.price || 0);
-  document.getElementById('detailDesc').textContent = it.desc || '（暂无介绍）';
-  document.getElementById('shopDetailModal').classList.remove('hidden');
-}
-function closeShopDetail() { document.getElementById('shopDetailModal').classList.add('hidden'); }
 </script>
 <!-- ★★★ index 段 10 结束 ★★★ --><!-- ★★★ index 段 11 开始 ★★★ -->
 <script>
+/* ===== 购买与代付 ===== */
 function buyForTa(it) {
   const taName = load('ta_name', 'TA');
   const cardId = Date.now() + '_buy_' + Math.random().toString(36).slice(2, 8);
