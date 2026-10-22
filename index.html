@@ -1,4 +1,4 @@
-<!-- ★★★ index 第 1 大段 开始 ★★★ -->
+/* ★★★ index 段 1 开始 ★★★ */
 <!DOCTYPE html>
 <html lang="zh-CN">
 <head>
@@ -75,12 +75,11 @@
       <div class="anniv-num" id="homeAnnivNum">0</div>
     </div>
     <div class="home-chat-area">
-      <!-- 强制行内样式反转，绝对不受缓存影响 -->
       <div class="home-chat-row">
         <div class="home-chat-avatar" id="talkMyAvatar">我</div>
         <div class="home-chat-bubble" id="talkMineBubble"><span class="placeholder">点击输入</span></div>
       </div>
-      <div class="home-chat-row reverse" style="display: flex !important; flex-direction: row-reverse !important;">
+      <div class="home-chat-row reverse">
         <div class="home-chat-bubble" id="talkTaBubble"><span class="placeholder">点击输入</span></div>
         <div class="home-chat-avatar" id="talkTaAvatar">TA</div>
       </div>
@@ -232,7 +231,7 @@
     </div>
   </div>
 </div>
-<!-- ★★★ index 第 1 大段 结束 ★★★ --><!-- ★★★ index 第 2 大段 开始 ★★★ -->
+
 <!-- ===== 聊天页 ===== -->
 <div id="chatPage" class="page hidden">
   <header class="chat-header">
@@ -450,7 +449,7 @@
     </div>
   </div>
 </div>
-<!-- ★★★ index 第 2 大段 结束 ★★★ --><!-- ★★★ index 第 3 大段 开始 ★★★ -->
+/* ★★★ index 段 1 结束 ★★★ *//* ★★★ index 段 2 开始 ★★★ */
 <!-- ===== 字卡库弹窗 ===== -->
 <div id="cardModal" class="modal hidden">
   <div class="modal-box" id="cardBox">
@@ -519,13 +518,48 @@
 </div>
 
 <!-- ===== 转账弹窗 ===== -->
-<div id="transferModal" class="modal hidden"><div class="modal-box"><div class="modal-head"><span>转账</span><button id="closeTransferBtn">×</button></div><div class="modal-body"><div class="transfer-target"><div class="transfer-avatar" id="transferAvatar">TA</div><div class="transfer-name" id="transferName">TA</div></div><div class="transfer-input-row"><span class="transfer-yen">¥</span><input type="number" id="transferAmount" placeholder="0.00" inputmode="decimal"></div><input type="text" id="transferNote" placeholder="添加转账说明" class="transfer-note"><button class="btn-primary" id="confirmTransferBtn">确认转账</button></div></div></div>
+<div id="transferModal" class="modal hidden">
+  <div class="modal-box">
+    <div class="modal-head"><span>转账</span><button id="closeTransferBtn">×</button></div>
+    <div class="modal-body">
+      <div class="transfer-target">
+        <div class="transfer-avatar" id="transferAvatar">TA</div>
+        <div class="transfer-name" id="transferName">TA</div>
+      </div>
+      <div class="transfer-input-row">
+        <span class="transfer-yen">¥</span>
+        <input type="number" id="transferAmount" placeholder="0.00" inputmode="decimal">
+      </div>
+      <input type="text" id="transferNote" placeholder="添加转账说明" class="transfer-note">
+      <button class="btn-primary" id="confirmTransferBtn">确认转账</button>
+    </div>
+  </div>
+</div>
 
 <!-- ===== 收款全屏 ===== -->
-<div id="receiveModal" class="modal hidden"><div class="receive-box"><button class="receive-back" id="closeReceiveBtn">←</button><div class="receive-content"><div class="receive-icon" id="receiveIcon">🕐</div><div class="receive-title" id="receiveTitle">请收款</div><div class="receive-amount" id="receiveAmount">¥1.00</div><div class="receive-line"></div><div class="receive-time-row"><span>转账时间</span><span id="receiveTime">--</span></div><div class="receive-line"></div><button class="receive-btn" id="receiveConfirmBtn">收款</button><div class="receive-tip" id="receiveTip">1天内未确认，将退还给对方。<span id="refundLink">退还</span></div></div></div></div>
+<div id="receiveModal" class="modal hidden">
+  <div class="receive-box">
+    <button class="receive-back" id="closeReceiveBtn">←</button>
+    <div class="receive-content">
+      <div class="receive-icon" id="receiveIcon">🕐</div>
+      <div class="receive-title" id="receiveTitle">请收款</div>
+      <div class="receive-amount" id="receiveAmount">¥1.00</div>
+      <div class="receive-line"></div>
+      <div class="receive-time-row"><span>转账时间</span><span id="receiveTime">--</span></div>
+      <div class="receive-line"></div>
+      <button class="receive-btn" id="receiveConfirmBtn">收款</button>
+      <div class="receive-tip" id="receiveTip">1天内未确认，将退还给对方。<span id="refundLink">退还</span></div>
+    </div>
+  </div>
+</div>
 
 <!-- ===== 设置弹窗 ===== -->
-<div id="settingsModal" class="modal hidden"><div class="modal-box"><div class="modal-head"><span>设置</span><button id="closeSettingsBtn">×</button></div><div class="modal-body" style="padding:0;"></div></div></div>
+<div id="settingsModal" class="modal hidden">
+  <div class="modal-box">
+    <div class="modal-head"><span>设置</span><button id="closeSettingsBtn">×</button></div>
+    <div class="modal-body" style="padding:0;"></div>
+  </div>
+</div>
 
 <!-- ===== 收藏夹弹窗 ===== -->
 <div id="favModal" class="modal hidden">
@@ -691,9 +725,9 @@
 </div>
 
 <input type="file" id="floatCoverUpload" accept="image/*" style="display:none;">
-<!-- ★★★ index 第 3 大段 结束 ★★★ --><!-- ★★★ index 第 4 大段 开始 ★★★ -->
+
 <script>
-/* ===== IndexedDB 封装（存语音、音乐、图片） ===== */
+/* ===== IndexedDB 封装（存语音、音乐；小卡已改 localStorage） ===== */
 let _idb = null;
 function openIDB() {
   return new Promise((resolve, reject) => {
@@ -745,7 +779,12 @@ function load(key, def) {
   catch (e) { return def; }
 }
 function save(key, val) {
-  try { localStorage.setItem(key, JSON.stringify(val)); } catch (e) {}
+  try {
+    localStorage.setItem(key, JSON.stringify(val));
+  } catch (e) {
+    console.error('保存失败', key, e);
+    alert('本地存储已满，请清理一些图片或表情');
+  }
 }
 
 let cards = load('our_cards', []);
@@ -762,7 +801,6 @@ function showPage(id) {
         refreshMessages();
         el.scrollTop = el.scrollHeight;
       }
-      if (typeof window.applyAllSettings === 'function') window.applyAllSettings();
     }, 50);
   }
 }
@@ -782,7 +820,10 @@ function formatDateFull(t) {
 function ensureDateDivider() {
   const last = load('last_msg_day', '');
   const key = todayKey();
-  if (key !== last) { save('last_msg_day', key); return true; }
+  if (key !== last) {
+    save('last_msg_day', key);
+    return true;
+  }
   return false;
 }
 
@@ -791,14 +832,22 @@ function buildAvatar(sender) {
   avatar.className = 'avatar';
   const isMe = sender === 'me';
   const avatarUrl = isMe ? load('my_avatar', '') : load('ta_avatar', '');
-  if (avatarUrl) { avatar.style.background = `url(${avatarUrl}) center/cover no-repeat`; avatar.textContent = ''; }
-  else { avatar.textContent = (isMe ? load('my_name', '我') : load('ta_name', 'TA')).charAt(0); }
+  if (avatarUrl) {
+    avatar.style.background = `url(${avatarUrl}) center/cover no-repeat`;
+    avatar.textContent = '';
+  } else {
+    const name = isMe ? load('my_name', '我') : load('ta_name', 'TA');
+    avatar.textContent = name.charAt(0);
+  }
   return avatar;
 }
 
 setTimeout(() => {
   const loading = document.getElementById('loading');
-  if (loading) { loading.classList.add('fade-out'); setTimeout(() => loading.remove(), 700); }
+  if (loading) {
+    loading.classList.add('fade-out');
+    setTimeout(() => loading.remove(), 700);
+  }
 }, 2000);
 
 function addDateDivider(t) {
@@ -812,11 +861,18 @@ function addMessage(sender, content, quote, store, msgId) {
   const row = document.createElement('div');
   row.className = 'msg-row ' + (sender === 'me' ? 'me' : 'ta');
   row.dataset.msgId = msgId || (Date.now() + '_' + Math.random().toString(36).slice(2, 8));
+
   const avatar = buildAvatar(sender);
   const bubble = document.createElement('div');
   bubble.className = 'bubble';
-  if (quote) { const q = document.createElement('span'); q.className = 'quote-block'; q.textContent = quote; bubble.appendChild(q); }
+  if (quote) {
+    const q = document.createElement('span');
+    q.className = 'quote-block';
+    q.textContent = quote;
+    bubble.appendChild(q);
+  }
   bubble.appendChild(document.createTextNode(content));
+
   if (sender === 'me' && load('read_receipt', true)) {
     const readMark = document.createElement('div');
     readMark.className = 'read-mark unread';
@@ -825,7 +881,9 @@ function addMessage(sender, content, quote, store, msgId) {
     else readMark.textContent = '未读';
     bubble.appendChild(readMark);
   }
-  row.appendChild(avatar); row.appendChild(bubble);
+
+  row.appendChild(avatar);
+  row.appendChild(bubble);
   messagesEl.appendChild(row);
   messagesEl.scrollTop = messagesEl.scrollHeight;
 
@@ -848,22 +906,33 @@ function addImage(sender, url, store) {
   const row = document.createElement('div');
   row.className = 'msg-row ' + (sender === 'me' ? 'me' : 'ta');
   row.dataset.msgId = Date.now() + '_' + Math.random().toString(36).slice(2, 8);
+
   const avatar = buildAvatar(sender);
   const img = document.createElement('img');
-  img.src = url; img.style.maxWidth = '120px'; img.style.maxHeight = '120px'; img.style.borderRadius = '8px';
-  row.appendChild(avatar); row.appendChild(img);
-  messagesEl.appendChild(row); messagesEl.scrollTop = messagesEl.scrollHeight;
-  if (store !== false) { const msgs = load('our_messages', []); msgs.push({ type: 'image', sender, url, t: Date.now(), msgId: row.dataset.msgId }); save('our_messages', msgs); }
-}
-</script>
+  img.src = url;
+  img.style.maxWidth = '120px';
+  img.style.maxHeight = '120px';
+  img.style.borderRadius = '8px';
 
-<script>
+  row.appendChild(avatar);
+  row.appendChild(img);
+  messagesEl.appendChild(row);
+  messagesEl.scrollTop = messagesEl.scrollHeight;
+
+  if (store !== false) {
+    const msgs = load('our_messages', []);
+    msgs.push({ type: 'image', sender, url, t: Date.now(), msgId: row.dataset.msgId });
+    save('our_messages', msgs);
+  }
+}
+
 /* ===== 语音消息 ===== */
 function addVoiceMessage(sender, voiceId, name, duration, store) {
   const row = document.createElement('div');
   row.className = 'msg-row ' + (sender === 'me' ? 'me' : 'ta');
   row.dataset.msgId = Date.now() + '_' + Math.random().toString(36).slice(2, 8);
   const avatar = buildAvatar(sender);
+
   const bubble = document.createElement('div');
   bubble.className = 'voice-bubble';
   bubble.dataset.voiceId = voiceId;
@@ -872,45 +941,85 @@ function addVoiceMessage(sender, voiceId, name, duration, store) {
     <div class="waves">${'<span></span>'.repeat(9)}</div>
     <div class="duration">${duration}</div>
   `;
-  bubble.onclick = (e) => { e.stopPropagation(); playVoice(bubble, voiceId); };
-  row.appendChild(avatar); row.appendChild(bubble);
-  messagesEl.appendChild(row); messagesEl.scrollTop = messagesEl.scrollHeight;
-  if (store !== false) { const msgs = load('our_messages', []); msgs.push({ type: 'voice', sender, voiceId, name, duration, t: Date.now(), msgId: row.dataset.msgId }); save('our_messages', msgs); }
+  bubble.onclick = (e) => {
+    e.stopPropagation();
+    playVoice(bubble, voiceId);
+  };
+  row.appendChild(avatar);
+  row.appendChild(bubble);
+  messagesEl.appendChild(row);
+  messagesEl.scrollTop = messagesEl.scrollHeight;
+
+  if (store !== false) {
+    const msgs = load('our_messages', []);
+    msgs.push({ type: 'voice', sender, voiceId, name, duration, t: Date.now(), msgId: row.dataset.msgId });
+    save('our_messages', msgs);
+  }
 }
 
-let currentAudio = null, currentAudioEl = null, currentAudioUrl = null;
+let currentAudio = null;
+let currentAudioEl = null;
+let currentAudioUrl = null;
+
 async function playVoice(bubbleEl, voiceId) {
   const rec = await idbGet('voices', voiceId);
   if (!rec) return;
+
   if (currentAudioEl === bubbleEl && currentAudio) {
-    currentAudio.pause(); if (currentAudioUrl) URL.revokeObjectURL(currentAudioUrl);
-    bubbleEl.classList.remove('playing'); bubbleEl.querySelector('.play-btn').innerHTML = '<svg viewBox="0 0 24 24"><path d="M8 5 V19 L19 12 Z"></path></svg>';
-    currentAudio = null; currentAudioEl = null; currentAudioUrl = null; return;
+    currentAudio.pause();
+    if (currentAudioUrl) URL.revokeObjectURL(currentAudioUrl);
+    bubbleEl.classList.remove('playing');
+    bubbleEl.querySelector('.play-btn').innerHTML = '<svg viewBox="0 0 24 24"><path d="M8 5 V19 L19 12 Z"></path></svg>';
+    currentAudio = null;
+    currentAudioEl = null;
+    currentAudioUrl = null;
+    return;
   }
+
   if (currentAudio) {
     currentAudio.pause();
-    if (currentAudioEl) { currentAudioEl.classList.remove('playing'); currentAudioEl.querySelector('.play-btn').innerHTML = '<svg viewBox="0 0 24 24"><path d="M8 5 V19 L19 12 Z"></path></svg>'; }
+    if (currentAudioEl) {
+      currentAudioEl.classList.remove('playing');
+      currentAudioEl.querySelector('.play-btn').innerHTML = '<svg viewBox="0 0 24 24"><path d="M8 5 V19 L19 12 Z"></path></svg>';
+    }
     if (currentAudioUrl) URL.revokeObjectURL(currentAudioUrl);
   }
+
   currentAudioUrl = URL.createObjectURL(rec.blob);
   currentAudio = new Audio(currentAudioUrl);
-  currentAudioEl = bubbleEl; bubbleEl.classList.add('playing');
+  currentAudioEl = bubbleEl;
+  bubbleEl.classList.add('playing');
   bubbleEl.querySelector('.play-btn').innerHTML = '<svg viewBox="0 0 24 24"><path d="M7 5 H10 V19 H7 Z"></path><path d="M14 5 H17 V19 H14 Z"></path></svg>';
+
   currentAudio.onended = () => {
-    bubbleEl.classList.remove('playing'); bubbleEl.querySelector('.play-btn').innerHTML = '<svg viewBox="0 0 24 24"><path d="M8 5 V19 L19 12 Z"></path></svg>';
+    bubbleEl.classList.remove('playing');
+    bubbleEl.querySelector('.play-btn').innerHTML = '<svg viewBox="0 0 24 24"><path d="M8 5 V19 L19 12 Z"></path></svg>';
     if (currentAudioUrl) URL.revokeObjectURL(currentAudioUrl);
-    currentAudio = null; currentAudioEl = null; currentAudioUrl = null;
+    currentAudio = null;
+    currentAudioEl = null;
+    currentAudioUrl = null;
   };
-  currentAudio.play().catch(() => { bubbleEl.classList.remove('playing'); bubbleEl.querySelector('.play-btn').innerHTML = '<svg viewBox="0 0 24 24"><path d="M8 5 V19 L19 12 Z"></path></svg>'; });
+  currentAudio.play().catch(() => {
+    bubbleEl.classList.remove('playing');
+    bubbleEl.querySelector('.play-btn').innerHTML = '<svg viewBox="0 0 24 24"><path d="M8 5 V19 L19 12 Z"></path></svg>';
+  });
 }
 
 function showTyping() {
   const taNameEl = document.getElementById('taName');
-  if (taNameEl && !taNameEl.dataset.typing) { taNameEl.dataset.original = taNameEl.textContent; taNameEl.dataset.typing = '1'; taNameEl.textContent = '对方正在输入中…'; markAllRead(); }
+  if (taNameEl && !taNameEl.dataset.typing) {
+    taNameEl.dataset.original = taNameEl.textContent;
+    taNameEl.dataset.typing = '1';
+    taNameEl.textContent = '对方正在输入中…';
+    markAllRead();
+  }
 }
 function hideTyping() {
   const taNameEl = document.getElementById('taName');
-  if (taNameEl && taNameEl.dataset.typing) { taNameEl.textContent = taNameEl.dataset.original || load('ta_name', 'TA'); delete taNameEl.dataset.typing; }
+  if (taNameEl && taNameEl.dataset.typing) {
+    taNameEl.textContent = taNameEl.dataset.original || load('ta_name', 'TA');
+    delete taNameEl.dataset.typing;
+  }
 }
 
 function drawCardText() {
@@ -918,42 +1027,69 @@ function drawCardText() {
   const emojiCards = cards.filter(c => c.type === 'emoji');
   const emojiProb = load('emoji_prob', 10);
   const roll = Math.random() * 100;
-  if (emojiCards.length > 0 && roll < emojiProb) return emojiCards[Math.floor(Math.random() * emojiCards.length)].content;
-  if (mainCards.length > 0) return mainCards[Math.floor(Math.random() * mainCards.length)].content;
+  if (emojiCards.length > 0 && roll < emojiProb) {
+    return emojiCards[Math.floor(Math.random() * emojiCards.length)].content;
+  }
+  if (mainCards.length > 0) {
+    return mainCards[Math.floor(Math.random() * mainCards.length)].content;
+  }
   return '（字卡库还是空的，点右上角添加一些吧）';
 }
+
 function drawQuote() {
   const quoteProb = load('quote_prob', 30);
   if (Math.random() * 100 >= quoteProb) return '';
   const msgs = load('our_messages', []).filter(m => m.type === 'text' && m.sender === 'me');
   if (msgs.length === 0) return '';
-  return '你：' + msgs[Math.floor(Math.random() * msgs.length)].content;
+  const pick = msgs[Math.floor(Math.random() * msgs.length)];
+  return '你：' + pick.content;
 }
+
 function tryTaVoiceReply() {
   const voiceProb = load('voice_prob', 0);
   const voices = load('our_voices_meta', []);
-  if (voices.length === 0 || Math.random() * 100 >= voiceProb) return false;
+  if (voices.length === 0) return false;
+  if (Math.random() * 100 >= voiceProb) return false;
   const v = voices[Math.floor(Math.random() * voices.length)];
-  addVoiceMessage('ta', v.id, v.name, v.duration, true); return true;
+  addVoiceMessage('ta', v.id, v.name, v.duration, true);
+  return true;
 }
 
 async function sendMessage() {
-  const text = inputEl.value.trim(); if (!text) return;
-  inputEl.value = ''; const q = quoteTarget; quoteTarget = null;
-  inputEl.placeholder = '输入消息…'; inputEl.classList.remove('quoting');
+  const text = inputEl.value.trim();
+  if (!text) return;
+  inputEl.value = '';
+  const q = quoteTarget;
+  quoteTarget = null;
+  inputEl.placeholder = '输入消息…';
+  inputEl.classList.remove('quoting');
   addMessage('me', text, q || '', true);
 
-  const rMin = load('reply_min', 1), rMax = load('reply_max', 1);
-  const dMin = load('delay_min', 5), dMax = load('delay_max', 15);
+  const rMin = load('reply_min', 1);
+  const rMax = load('reply_max', 1);
+  const dMin = load('delay_min', 5);
+  const dMax = load('delay_max', 15);
   showTyping();
-  await new Promise(r => setTimeout(r, (Math.min(dMin, dMax) + Math.random() * Math.abs(dMax - dMin)) * 1000));
-  if (load('read_no_reply', false) && Math.random() < 0.5) { hideTyping(); return; }
+  const firstDelay = (Math.min(dMin, dMax) + Math.random() * Math.abs(dMax - dMin)) * 1000;
+  await new Promise(r => setTimeout(r, firstDelay));
+
+  if (load('read_no_reply', false)) {
+    if (Math.random() < 0.5) { hideTyping(); return; }
+  }
 
   const count = Math.min(rMin, rMax) + Math.floor(Math.random() * (Math.abs(rMax - rMin) + 1));
   for (let i = 0; i < count; i++) {
-    if (i > 0) { await new Promise(r => setTimeout(r, 500 + Math.random() * 1500)); showTyping(); await new Promise(r => setTimeout(r, 400)); }
+    if (i > 0) {
+      await new Promise(r => setTimeout(r, 500 + Math.random() * 1500));
+      showTyping();
+      await new Promise(r => setTimeout(r, 400));
+    }
     hideTyping();
-    if (!tryTaVoiceReply()) addMessage('ta', drawCardText(), drawQuote(), true);
+    if (!tryTaVoiceReply()) {
+      const reply = drawCardText();
+      const quote = drawQuote();
+      addMessage('ta', reply, quote, true);
+    }
   }
   hideTyping();
 }
@@ -962,18 +1098,25 @@ document.getElementById('sendBtn').onclick = sendMessage;
 
 function markAllRead() {
   if (!load('read_receipt', true)) return;
-  const all = load('our_messages', []); let changed = false;
-  all.forEach(m => { if (m.sender === 'me' && m.type === 'text' && !m.read) { m.read = true; changed = true; } });
+  const all = load('our_messages', []);
+  let changed = false;
+  all.forEach(m => {
+    if (m.sender === 'me' && m.type === 'text' && !m.read) { m.read = true; changed = true; }
+  });
   if (changed) save('our_messages', all);
   const rs = load('read_style', 'icon');
   document.querySelectorAll('.msg-row.me .bubble .read-mark').forEach(el => {
-    el.classList.remove('unread'); el.classList.add('read');
-    if (rs === 'icon') el.innerHTML = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M2 13 L7 18 L15 8"></path><path d="M9 13 L12 16 L20 6"></path></svg>';
-    else el.textContent = '已读';
+    el.classList.remove('unread');
+    el.classList.add('read');
+    if (rs === 'icon') {
+      el.innerHTML = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M2 13 L7 18 L15 8"></path><path d="M9 13 L12 16 L20 6"></path></svg>';
+    } else {
+      el.textContent = '已读';
+    }
   });
 }
 </script>
-<!-- ★★★ index 第 4 大段 结束 ★★★ --><!-- ★★★ index 第 5 大段 开始 ★★★ -->
+/* ★★★ index 段 2 结束 ★★★ *//* ★★★ index 段 3 开始 ★★★ */
 <script>
 /* ===== 转账卡片 ===== */
 function renderTransferCard(m) {
@@ -998,10 +1141,14 @@ function renderTransferCard(m) {
   info.innerHTML = `<div class="tc-amount">¥${(m.amount || 0).toFixed(2)}</div><div class="tc-status">${statusText}</div>`;
   card.appendChild(icon); card.appendChild(info);
   const label = document.createElement('div');
-  label.className = 'transfer-card-label'; label.textContent = '转账'; card.appendChild(label);
+  label.className = 'transfer-card-label';
+  label.textContent = '转账';
+  card.appendChild(label);
   card.onclick = () => openReceiveModal(m.transferId);
-  row.appendChild(avatar); row.appendChild(card);
-  messagesEl.appendChild(row); messagesEl.scrollTop = messagesEl.scrollHeight;
+  row.appendChild(avatar);
+  row.appendChild(card);
+  messagesEl.appendChild(row);
+  messagesEl.scrollTop = messagesEl.scrollHeight;
 }
 
 function makeTransferCard(amount, note) {
@@ -1023,7 +1170,8 @@ function makeTransferCard(amount, note) {
     if (newStatus === 'pending') return;
     const all = load('our_messages', []);
     all.forEach(m => { if (m.type === 'transfer' && m.transferId === transferId) m.status = newStatus; });
-    save('our_messages', all); refreshMessages();
+    save('our_messages', all);
+    refreshMessages();
   }, 2000 + Math.random() * 3000);
 }
 
@@ -1055,16 +1203,18 @@ function refreshMessages() {
     const row = el.closest('.msg-row');
     const m = msgs.find(x => x.msgId === row.dataset.msgId);
     if (m && m.read) {
-      el.classList.remove('unread'); el.classList.add('read');
+      el.classList.remove('unread');
+      el.classList.add('read');
       if (rs === 'icon') el.innerHTML = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M2 13 L7 18 L15 8"></path><path d="M9 13 L12 16 L20 6"></path></svg>';
       else el.textContent = '已读';
     } else {
-      el.classList.add('unread'); el.classList.remove('read');
-      if (rs === 'icon') el.innerHTML = ''; else el.textContent = '未读';
+      el.classList.add('unread');
+      el.classList.remove('read');
+      if (rs === 'icon') el.innerHTML = '';
+      else el.textContent = '未读';
     }
   });
   messagesEl.scrollTop = messagesEl.scrollHeight;
-  if (typeof window.applyAllSettings === 'function') window.applyAllSettings();
 }
 
 let currentTransferId = null;
@@ -1257,9 +1407,7 @@ document.querySelectorAll('#longPressMenu .lp-item').forEach(item => {
     }
   };
 });
-</script>
-<!-- ★★★ index 第 5 大段 结束 ★★★ --><!-- ★★★ index 第 6 大段 开始 ★★★ -->
-<script>
+
 /* ===== 商店卡片 ===== */
 function renderShopCard(m) {
   const row = document.createElement('div');
@@ -1293,8 +1441,10 @@ function renderShopCard(m) {
       }
     };
   }
-  row.appendChild(avatar); row.appendChild(card);
-  messagesEl.appendChild(row); messagesEl.scrollTop = messagesEl.scrollHeight;
+  row.appendChild(avatar);
+  row.appendChild(card);
+  messagesEl.appendChild(row);
+  messagesEl.scrollTop = messagesEl.scrollHeight;
 }
 
 function addSystemTip(text, store) {
@@ -1305,7 +1455,11 @@ function addSystemTip(text, store) {
   messagesEl.appendChild(sys);
   messagesEl.scrollTop = messagesEl.scrollHeight;
   setTimeout(() => { messagesEl.scrollTop = messagesEl.scrollHeight; }, 50);
-  if (store !== false) { const msgs = load('our_messages', []); msgs.push({ type: 'systemtip', text, t: Date.now() }); save('our_messages', msgs); }
+  if (store !== false) {
+    const msgs = load('our_messages', []);
+    msgs.push({ type: 'systemtip', text, t: Date.now() });
+    save('our_messages', msgs);
+  }
 }
 
 document.getElementById('backHomeBtn').onclick = () => showPage('homePage');
@@ -1327,22 +1481,35 @@ document.getElementById('backHomeBtn').onclick = () => showPage('homePage');
       const key = item.dataset.key;
       if (plusMenu) plusMenu.classList.add('hidden');
       if (key === 'transfer') {
-        const tm = document.getElementById('transferModal'), tn = document.getElementById('transferName'), taAvatarEl = document.getElementById('transferAvatar');
-        const tName = load('ta_name', 'TA'), tAvatar = load('ta_avatar', '');
+        const tm = document.getElementById('transferModal');
+        const tn = document.getElementById('transferName');
+        const taAvatarEl = document.getElementById('transferAvatar');
+        const tName = load('ta_name', 'TA');
+        const tAvatar = load('ta_avatar', '');
         if (tn) tn.textContent = tName;
-        if (taAvatarEl) { if (tAvatar) { taAvatarEl.style.background = `url(${tAvatar}) center/cover no-repeat`; taAvatarEl.textContent = ''; } else taAvatarEl.textContent = tName.charAt(0); }
+        if (taAvatarEl) {
+          if (tAvatar) { taAvatarEl.style.background = `url(${tAvatar}) center/cover no-repeat`; taAvatarEl.textContent = ''; }
+          else taAvatarEl.textContent = tName.charAt(0);
+        }
         if (tm) tm.classList.remove('hidden');
       }
       if (key === 'gift') showShopPage();
       if (key === 'survey') showSurveyListPage();
       if (key === 'continue') {
-        const rMin = load('reply_min', 1), rMax = load('reply_max', 1);
+        const rMin = load('reply_min', 1);
+        const rMax = load('reply_max', 1);
         const count = Math.min(rMin, rMax) + Math.floor(Math.random() * (Math.abs(rMax - rMin) + 1));
         (async () => {
           for (let i = 0; i < count; i++) {
             if (i > 0) await new Promise(r => setTimeout(r, 500 + Math.random() * 1500));
-            showTyping(); await new Promise(r => setTimeout(r, 800 + Math.random() * 1000)); hideTyping();
-            if (!tryTaVoiceReply()) { const reply = drawCardText(); const quote = drawQuote(); addMessage('ta', reply, quote, true); }
+            showTyping();
+            await new Promise(r => setTimeout(r, 800 + Math.random() * 1000));
+            hideTyping();
+            if (!tryTaVoiceReply()) {
+              const reply = drawCardText();
+              const quote = drawQuote();
+              addMessage('ta', reply, quote, true);
+            }
           }
         })();
       }
@@ -1351,117 +1518,210 @@ document.getElementById('backHomeBtn').onclick = () => showPage('homePage');
 })();
 
 (function() {
-  const menuPopup = document.getElementById('menuPopup'), openMenuBtn = document.getElementById('openMenuBtn');
+  const menuPopup = document.getElementById('menuPopup');
+  const openMenuBtn = document.getElementById('openMenuBtn');
   if (openMenuBtn && menuPopup) {
     openMenuBtn.addEventListener('click', (e) => { e.stopPropagation(); menuPopup.classList.toggle('show'); });
     document.addEventListener('click', () => menuPopup.classList.remove('show'));
     menuPopup.addEventListener('click', (e) => e.stopPropagation());
   }
-  document.getElementById('menuSettings').onclick = () => { if (menuPopup) menuPopup.classList.remove('show'); document.getElementById('settingsModal').classList.remove('hidden'); };
-  document.getElementById('menuCards').onclick = () => { if (menuPopup) menuPopup.classList.remove('show'); document.getElementById('cardModal').classList.remove('hidden'); if (typeof window.openCardTab === 'function') window.openCardTab('main'); };
-})();
-
-(function() {
-  const closeBtn = document.getElementById('closeTransferBtn'), confirmBtn = document.getElementById('confirmTransferBtn'), amountInput = document.getElementById('transferAmount'), noteInput = document.getElementById('transferNote'), modal = document.getElementById('transferModal');
-  if (closeBtn) closeBtn.onclick = () => modal.classList.add('hidden');
-  if (confirmBtn) confirmBtn.onclick = () => {
-    const amount = parseFloat(amountInput.value); if (!amount || amount <= 0) { alert('请输入有效金额'); return; }
-    const note = noteInput.value.trim(); modal.classList.add('hidden'); amountInput.value = ''; noteInput.value = '';
-    makeTransferCard(amount, note);
+  document.getElementById('menuSettings').onclick = () => {
+    if (menuPopup) menuPopup.classList.remove('show');
+    document.getElementById('settingsModal').classList.remove('hidden');
+  };
+  document.getElementById('menuCards').onclick = () => {
+    if (menuPopup) menuPopup.classList.remove('show');
+    document.getElementById('cardModal').classList.remove('hidden');
+    if (typeof window.openCardTab === 'function') window.openCardTab('main');
   };
 })();
 
-/* ===== 字卡库逻辑 ===== */
+(function() {
+  const closeBtn = document.getElementById('closeTransferBtn');
+  const confirmBtn = document.getElementById('confirmTransferBtn');
+  const amountInput = document.getElementById('transferAmount');
+  const noteInput = document.getElementById('transferNote');
+  const modal = document.getElementById('transferModal');
+  if (closeBtn) closeBtn.onclick = () => modal.classList.add('hidden');
+  if (confirmBtn) confirmBtn.onclick = () => {
+    const amount = parseFloat(amountInput.value);
+    if (!amount || amount <= 0) { alert('请输入有效金额'); return; }
+    const note = noteInput.value.trim();
+    modal.classList.add('hidden');
+    amountInput.value = ''; noteInput.value = '';
+    makeTransferCard(amount, note);
+  };
+})();
+</script>
+/* ★★★ index 段 3 结束 ★★★ *//* ★★★ index 段 4 开始 ★★★ */
+<script>
+/* ===== 字卡库 ===== */
 document.getElementById('closeCardBtn').onclick = () => document.getElementById('cardModal').classList.add('hidden');
-let currentCardTab = 'main', currentCat = 'all', currentSearch = '';
+
+let currentCardTab = 'main';
+let currentCat = 'all';
+let currentSearch = '';
+
 function openCardTab(tab) {
   currentCardTab = tab;
   document.querySelectorAll('#cardTabs .card-tab').forEach(t => t.classList.toggle('active', t.dataset.tab === tab));
-  const body = document.getElementById('cardBody'); body.innerHTML = '';
-  const tpl = document.getElementById('tpl-' + tab); if (!tpl) return;
+  const body = document.getElementById('cardBody');
+  body.innerHTML = '';
+  const tplId = 'tpl-' + tab;
+  const tpl = document.getElementById(tplId);
+  if (!tpl) return;
   body.appendChild(tpl.content.cloneNode(true));
   if (tab === 'main') { currentCat = 'all'; currentSearch = ''; bindMainTab(); loadCards(); }
   if (tab === 'emoji') bindEmojiTab();
   if (tab === 'pat') bindPatTab();
   if (tab === 'voice') bindVoiceTab();
 }
-window.openCardTab = openCardTab;
-document.querySelectorAll('#cardTabs .card-tab').forEach(btn => { btn.onclick = () => openCardTab(btn.dataset.tab); });
+document.querySelectorAll('#cardTabs .card-tab').forEach(btn => {
+  btn.onclick = () => openCardTab(btn.dataset.tab);
+});
 
 function parseCards(text) {
-  const lines = text.split('\n').map(l => l.trim()).filter(l => l); if (lines.length === 0) return [];
-  let category = '', startIdx = 0; const m = lines[0].match(/^【(.+?)】$/); if (m) { category = m[1].trim(); startIdx = 1; }
-  const result = []; for (let i = startIdx; i < lines.length; i++) result.push({ content: lines[i], category }); return result;
+  const lines = text.split('\n').map(l => l.trim()).filter(l => l);
+  if (lines.length === 0) return [];
+  let category = '', startIdx = 0;
+  const m = lines[0].match(/^【(.+?)】$/);
+  if (m) { category = m[1].trim(); startIdx = 1; }
+  const result = [];
+  for (let i = startIdx; i < lines.length; i++) result.push({ content: lines[i], category });
+  return result;
 }
+
 function bindMainTab() {
   document.getElementById('addCardBtn').onclick = () => {
-    const input = document.getElementById('cardInput'), text = input.value.trim(); if (!text) return;
-    const parsed = parseCards(text); if (parsed.length === 0) { alert('请至少写一行内容'); return; }
+    const input = document.getElementById('cardInput');
+    const text = input.value.trim();
+    if (!text) return;
+    const parsed = parseCards(text);
+    if (parsed.length === 0) { alert('请至少写一行内容'); return; }
     parsed.forEach(p => cards.push({ content: p.content, category: p.category, type: 'main' }));
-    save('our_cards', cards); input.value = ''; loadCards();
+    save('our_cards', cards);
+    input.value = '';
+    loadCards();
   };
-  const searchInput = document.getElementById('cardSearchInput'); searchInput.oninput = () => { currentSearch = searchInput.value.trim(); loadCards(); };
+  const searchInput = document.getElementById('cardSearchInput');
+  searchInput.oninput = () => { currentSearch = searchInput.value.trim(); loadCards(); };
   document.getElementById('dedupBtn').onclick = () => {
-    const seen = new Set(), newCards = []; let removed = 0;
-    cards.forEach(c => { const key = (c.type || 'main') + '|' + (c.category || '') + '|' + (c.content || ''); if (seen.has(key)) removed++; else { seen.add(key); newCards.push(c); } });
+    const seen = new Set();
+    const newCards = [];
+    let removed = 0;
+    cards.forEach(c => {
+      const key = (c.type || 'main') + '|' + (c.category || '') + '|' + (c.content || '');
+      if (seen.has(key)) removed++;
+      else { seen.add(key); newCards.push(c); }
+    });
     if (removed === 0) { alert('没有发现重复的字卡'); return; }
-    if (confirm('发现 ' + removed + ' 条重复字卡，确定删除吗？')) { cards = newCards; save('our_cards', cards); loadCards(); alert('已删除 ' + removed + ' 条重复字卡'); }
+    if (confirm('发现 ' + removed + ' 条重复字卡，确定删除吗？')) {
+      cards = newCards; save('our_cards', cards); loadCards();
+      alert('已删除 ' + removed + ' 条重复字卡');
+    }
   };
 }
+
 function loadCards() {
-  const list = document.getElementById('cardList'), catsBox = document.getElementById('cardCats'); if (!list || !catsBox) return;
+  const list = document.getElementById('cardList');
+  const catsBox = document.getElementById('cardCats');
+  if (!list || !catsBox) return;
   let allMain = cards.map((c, idx) => ({ ...c, _idx: idx })).filter(c => c.type === 'main' || !c.type);
   if (currentSearch) allMain = allMain.filter(c => (c.content || '').includes(currentSearch));
-  const cats = new Set(); allMain.forEach(c => { if (c.category) cats.add(c.category); });
-  catsBox.innerHTML = ''; const allCat = document.createElement('button'); allCat.className = 'card-cat' + (currentCat === 'all' ? ' active' : ''); allCat.textContent = '全部'; allCat.onclick = () => { currentCat = 'all'; loadCards(); }; catsBox.appendChild(allCat);
-  const noCat = document.createElement('button'); noCat.className = 'card-cat' + (currentCat === '未分类' ? ' active' : ''); noCat.textContent = '未分类'; noCat.onclick = () => { currentCat = '未分类'; loadCards(); }; catsBox.appendChild(noCat);
-  cats.forEach(cat => { const el = document.createElement('button'); el.className = 'card-cat' + (currentCat === cat ? ' active' : ''); el.textContent = cat; el.onclick = () => { currentCat = cat; loadCards(); }; catsBox.appendChild(el); });
-  let filtered = allMain; if (currentCat === '未分类') filtered = filtered.filter(c => !c.category); else if (currentCat !== 'all') filtered = filtered.filter(c => c.category === currentCat);
-  if (filtered.length === 0) { list.innerHTML = '<div style="color:#999;font-size:13px;text-align:center;padding:20px 0;">还没有字卡，加一条试试</div>'; return; }
+  const cats = new Set();
+  allMain.forEach(c => { if (c.category) cats.add(c.category); });
+  catsBox.innerHTML = '';
+  const allCat = document.createElement('button');
+  allCat.className = 'card-cat' + (currentCat === 'all' ? ' active' : '');
+  allCat.textContent = '全部';
+  allCat.onclick = () => { currentCat = 'all'; loadCards(); };
+  catsBox.appendChild(allCat);
+  const noCat = document.createElement('button');
+  noCat.className = 'card-cat' + (currentCat === '未分类' ? ' active' : '');
+  noCat.textContent = '未分类';
+  noCat.onclick = () => { currentCat = '未分类'; loadCards(); };
+  catsBox.appendChild(noCat);
+  cats.forEach(cat => {
+    const el = document.createElement('button');
+    el.className = 'card-cat' + (currentCat === cat ? ' active' : '');
+    el.textContent = cat;
+    el.onclick = () => { currentCat = cat; loadCards(); };
+    catsBox.appendChild(el);
+  });
+  let filtered = allMain;
+  if (currentCat === '未分类') filtered = filtered.filter(c => !c.category);
+  else if (currentCat !== 'all') filtered = filtered.filter(c => c.category === currentCat);
+  if (filtered.length === 0) {
+    list.innerHTML = '<div style="color:#999;font-size:13px;text-align:center;padding:20px 0;">还没有字卡，加一条试试</div>';
+    return;
+  }
   list.innerHTML = '';
   filtered.forEach(card => {
-    const div = document.createElement('div'); div.className = 'card-item';
-    const wrap = document.createElement('div'); wrap.style.flex = '1'; wrap.style.wordBreak = 'break-word';
-    const s = document.createElement('div'); s.textContent = card.content; s.style.fontSize = '14px'; s.style.color = '#333'; wrap.appendChild(s);
-    if (card.category) { const tag = document.createElement('span'); tag.textContent = card.category; tag.style.cssText = 'display:inline-block;font-size:11px;color:#999;background:#f0f0f0;padding:2px 8px;border-radius:8px;margin-top:6px;'; wrap.appendChild(tag); }
-    const btn = document.createElement('button'); btn.textContent = '×'; btn.onclick = () => { cards.splice(card._idx, 1); save('our_cards', cards); loadCards(); };
-    div.appendChild(wrap); div.appendChild(btn); list.appendChild(div);
+    const div = document.createElement('div');
+    div.className = 'card-item';
+    const wrap = document.createElement('div');
+    wrap.style.flex = '1'; wrap.style.wordBreak = 'break-word';
+    const s = document.createElement('div');
+    s.textContent = card.content; s.style.fontSize = '14px'; s.style.color = '#333';
+    wrap.appendChild(s);
+    if (card.category) {
+      const tag = document.createElement('span');
+      tag.textContent = card.category;
+      tag.style.cssText = 'display:inline-block;font-size:11px;color:#999;background:#f0f0f0;padding:2px 8px;border-radius:8px;margin-top:6px;';
+      wrap.appendChild(tag);
+    }
+    const btn = document.createElement('button');
+    btn.textContent = '×';
+    btn.onclick = () => { cards.splice(card._idx, 1); save('our_cards', cards); loadCards(); };
+    div.appendChild(wrap); div.appendChild(btn);
+    list.appendChild(div);
   });
 }
-</script>
 
-<script>
-/* ===== Emoji、拍一拍、语音、表情包面板 ===== */
 function bindEmojiTab() {
   const input = document.getElementById('emojiInput');
   document.getElementById('addEmojiBtn').onclick = () => {
-    const text = input.value.trim(); if (!text) return;
-    text.split('\n').map(l => l.trim()).filter(l => l).forEach(l => cards.push({ content: l, category: '', type: 'emoji' }));
-    save('our_cards', cards); input.value = ''; loadEmojiList();
+    const text = input.value.trim();
+    if (!text) return;
+    const lines = text.split('\n').map(l => l.trim()).filter(l => l);
+    lines.forEach(l => cards.push({ content: l, category: '', type: 'emoji' }));
+    save('our_cards', cards);
+    input.value = '';
+    loadEmojiList();
   };
   loadEmojiList();
 }
+
 function loadEmojiList() {
-  const list = document.getElementById('emojiList'); if (!list) return;
+  const list = document.getElementById('emojiList');
+  if (!list) return;
   const emojis = cards.map((c, idx) => ({ ...c, _idx: idx })).filter(c => c.type === 'emoji');
   if (emojis.length === 0) { list.innerHTML = '<div style="color:#999;font-size:13px;text-align:center;padding:20px 0;">还没有颜文字</div>'; return; }
   list.innerHTML = '';
   emojis.forEach(card => {
-    const div = document.createElement('div'); div.className = 'card-item';
-    const s = document.createElement('div'); s.textContent = card.content; s.style.flex = '1';
-    const btn = document.createElement('button'); btn.textContent = '×'; btn.onclick = () => { cards.splice(card._idx, 1); save('our_cards', cards); loadEmojiList(); };
-    div.appendChild(s); div.appendChild(btn); list.appendChild(div);
+    const div = document.createElement('div');
+    div.className = 'card-item';
+    const s = document.createElement('div');
+    s.textContent = card.content; s.style.flex = '1';
+    const btn = document.createElement('button');
+    btn.textContent = '×';
+    btn.onclick = () => { cards.splice(card._idx, 1); save('our_cards', cards); loadEmojiList(); };
+    div.appendChild(s); div.appendChild(btn);
+    list.appendChild(div);
   });
 }
+
 function bindPatTab() {
-  const patToTa = load('pat_to_ta', ['{我} 拍了拍 {TA}']), patToMe = load('pat_to_me', ['{TA} 拍了拍 {我}']);
+  const patToTa = load('pat_to_ta', ['{我} 拍了拍 {TA}']);
+  const patToMe = load('pat_to_me', ['{TA} 拍了拍 {我}']);
   document.getElementById('patToTaInput').value = patToTa[0] || '';
   const listBox = document.getElementById('patToMeList');
   function renderPatList() {
     listBox.innerHTML = '';
     patToMe.forEach((text, idx) => {
-      const div = document.createElement('div'); div.className = 'pat-item';
-      div.innerHTML = `<input type="text" class="pat-input" value="${text}"><button class="remove" style="background:none;border:none;color:#e74c3c;font-size:20px;cursor:pointer;">×</button>`;
+      const div = document.createElement('div');
+      div.className = 'pat-item';
+      div.innerHTML = `<input type="text" class="pat-input" value="${text}"><button class="remove">×</button>`;
       div.querySelector('.remove').onclick = () => { patToMe.splice(idx, 1); renderPatList(); };
       listBox.appendChild(div);
     });
@@ -1469,173 +1729,465 @@ function bindPatTab() {
   renderPatList();
   document.getElementById('addPatBtn').onclick = () => { patToMe.push(''); renderPatList(); };
   document.getElementById('savePatBtn').onclick = () => {
-    save('pat_to_ta', [document.getElementById('patToTaInput').value.trim() || '{我} 拍了拍 {TA}']);
-    const list = []; document.querySelectorAll('#patToMeList .pat-input').forEach(inp => { if (inp.value.trim()) list.push(inp.value.trim()); });
-    save('pat_to_me', list.length ? list : ['{TA} 拍了拍 {我}']); alert('已保存');
+    const toTa = document.getElementById('patToTaInput').value.trim();
+    save('pat_to_ta', toTa ? [toTa] : ['{我} 拍了拍 {TA}']);
+    const inputs = document.querySelectorAll('#patToMeList .pat-input');
+    const list = [];
+    inputs.forEach(inp => { if (inp.value.trim()) list.push(inp.value.trim()); });
+    save('pat_to_me', list.length ? list : ['{TA} 拍了拍 {我}']);
+    alert('已保存');
   };
 }
-function bindVoiceTab() { alert('语音导入功能需在电脑端支持'); }
 
+function bindVoiceTab() {
+  const importBox = document.getElementById('voiceImportBox');
+  const upload = document.getElementById('voiceUpload');
+  importBox.onclick = () => upload.click();
+  upload.onchange = async (e) => {
+    const files = Array.from(e.target.files);
+    if (files.length === 0) return;
+    upload.value = '';
+    for (const f of files) {
+      if (f.size > 30 * 1024 * 1024) { alert(f.name + ' 超过30MB，已跳过'); continue; }
+      try {
+        const buf = await f.arrayBuffer();
+        const blob = new Blob([buf], { type: f.type || 'audio/mpeg' });
+        let duration = '0"';
+        await new Promise((resolve) => {
+          const url = URL.createObjectURL(blob);
+          const audio = new Audio(url);
+          audio.onloadedmetadata = () => {
+            if (isFinite(audio.duration)) duration = Math.round(audio.duration) + '"';
+            URL.revokeObjectURL(url);
+            resolve();
+          };
+          audio.onerror = () => { URL.revokeObjectURL(url); resolve(); };
+        });
+        const id = Date.now() + '_' + Math.random().toString(36).slice(2, 6);
+        await idbPut('voices', { id, name: f.name, blob, duration });
+        const meta = load('our_voices_meta', []);
+        meta.push({ id, name: f.name, duration });
+        save('our_voices_meta', meta);
+      } catch (err) {
+        alert(f.name + ' 读取失败：' + err.message);
+      }
+    }
+    renderVoiceList();
+  };
+  renderVoiceList();
+}
+
+function renderVoiceList() {
+  const listBox = document.getElementById('voiceList');
+  const countEl = document.getElementById('voiceCount');
+  if (!listBox) return;
+  const list = load('our_voices_meta', []);
+  countEl.textContent = '共 ' + list.length + ' 条语音字卡 · 对方回复时选一条';
+  listBox.innerHTML = '';
+  if (list.length === 0) {
+    listBox.innerHTML = `
+      <div class="voice-empty">
+        <svg viewBox="0 0 24 24" fill="none" stroke="#ddd" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3 V15"></path><path d="M8 7 V11"></path><path d="M16 7 V11"></path><rect x="9" y="15" width="6" height="6" rx="3"></rect></svg>
+        <div class="text">暂无语音字卡，点上方导入</div>
+      </div>
+    `;
+    return;
+  }
+  list.forEach(v => {
+    const div = document.createElement('div');
+    div.className = 'voice-item';
+    div.innerHTML = `<span class="name">🎵 ${v.name}</span><span class="dur">${v.duration}</span><button class="del">×</button>`;
+    div.querySelector('.del').onclick = async () => {
+      await idbDelete('voices', v.id);
+      const meta = load('our_voices_meta', []);
+      const i = meta.findIndex(x => x.id === v.id);
+      if (i >= 0) meta.splice(i, 1);
+      save('our_voices_meta', meta);
+      renderVoiceList();
+    };
+    listBox.appendChild(div);
+  });
+}
+
+/* ===== 聊天页表情面板 ===== */
 (function() {
-  const panel = document.getElementById('stickerPanel'), body = document.getElementById('stickerBody'), emojiBtn = document.getElementById('emojiBtn'), addBtn = document.getElementById('stickerAddBtnChat'), upload = document.getElementById('stickerUploadChat');
+  const panel = document.getElementById('stickerPanel');
+  const body = document.getElementById('stickerBody');
+  const emojiBtn = document.getElementById('emojiBtn');
+  const addBtn = document.getElementById('stickerAddBtnChat');
+  const upload = document.getElementById('stickerUploadChat');
   let currentTab = 'mine';
+
   function key() { return currentTab === 'mine' ? 'my_stickers' : 'ta_stickers'; }
+
   function render() {
-    const list = load(key(), []); body.innerHTML = '';
-    if (list.length === 0) { body.innerHTML = '<div style="grid-column:1/-1;text-align:center;color:#999;font-size:13px;padding:40px 20px;">还没有表情包</div>'; return; }
+    const list = load(key(), []);
+    body.innerHTML = '';
+    if (list.length === 0) {
+      body.innerHTML = '<div class="sticker-empty" style="grid-column:1/-1;text-align:center;color:#999;font-size:13px;padding:40px 20px;line-height:1.8;">还没有表情哦<br>点右上角「+ 添加」上传图片</div>';
+      return;
+    }
     list.forEach((url, idx) => {
-      const div = document.createElement('div'); div.className = 'sticker-item'; div.style.backgroundImage = 'url(' + url + ')';
-      const del = document.createElement('button'); del.className = 'sticker-del'; del.textContent = '×';
-      del.onclick = (e) => { e.stopPropagation(); const arr = load(key(), []); arr.splice(idx, 1); save(key(), arr); render(); };
+      const div = document.createElement('div');
+      div.className = 'sticker-item';
+      div.style.backgroundImage = 'url(' + url + ')';
+      const del = document.createElement('button');
+      del.className = 'sticker-del';
+      del.textContent = '×';
+      del.onclick = (e) => {
+        e.stopPropagation();
+        const arr = load(key(), []);
+        arr.splice(idx, 1);
+        save(key(), arr);
+        render();
+      };
       div.appendChild(del);
-      div.onclick = () => { if (currentTab === 'mine') addImage('me', url); };
+      div.onclick = () => {
+        if (currentTab === 'mine') addImage('me', url);
+      };
       body.appendChild(div);
     });
   }
-  emojiBtn.onclick = (e) => { e.stopPropagation(); e.preventDefault(); if (panel.classList.contains('hidden')) { panel.classList.remove('hidden'); render(); } else { panel.classList.add('hidden'); } };
-  addBtn.onclick = (e) => { e.stopPropagation(); upload.click(); };
+
+  emojiBtn.onclick = (e) => {
+    e.stopPropagation();
+    e.preventDefault();
+    if (panel.classList.contains('hidden')) {
+      panel.classList.remove('hidden');
+      render();
+    } else {
+      panel.classList.add('hidden');
+    }
+  };
+
+  addBtn.onclick = (e) => {
+    e.stopPropagation();
+    upload.click();
+  };
+
   upload.onchange = (e) => {
-    const files = Array.from(e.target.files); if (files.length === 0) return;
-    const list = load(key(), []); let done = 0;
-    files.forEach(f => { compressImage(f, 300, (url) => { list.push(url); done++; if (done === files.length) { save(key(), list); render(); } }); });
+    const files = Array.from(e.target.files);
+    if (files.length === 0) return;
+    const list = load(key(), []);
+    let done = 0;
+    files.forEach(f => {
+      compressImage(f, 300, (url) => {
+        list.push(url);
+        done++;
+        if (done === files.length) {
+          save(key(), list);
+          render();
+        }
+      });
+    });
     upload.value = '';
   };
+
   document.querySelectorAll('.sticker-tab').forEach(tab => {
-    tab.onclick = (e) => { e.stopPropagation(); document.querySelectorAll('.sticker-tab').forEach(t => t.classList.remove('active')); tab.classList.add('active'); currentTab = tab.dataset.tab; render(); };
+    tab.onclick = (e) => {
+      e.stopPropagation();
+      document.querySelectorAll('.sticker-tab').forEach(t => t.classList.remove('active'));
+      tab.classList.add('active');
+      currentTab = tab.dataset.tab;
+      render();
+    };
   });
-  document.addEventListener('click', (e) => { if (panel.classList.contains('hidden')) return; if (e.target.closest('#stickerPanel') || e.target.closest('#emojiBtn')) return; panel.classList.add('hidden'); });
+
+  document.addEventListener('click', (e) => {
+    if (panel.classList.contains('hidden')) return;
+    if (e.target.closest('#stickerPanel') || e.target.closest('#emojiBtn')) return;
+    panel.classList.add('hidden');
+  });
 })();
+
+function compressImage(file, maxSize, cb) {
+  const reader = new FileReader();
+  reader.onload = (e) => {
+    const img = new Image();
+    img.onload = () => {
+      const canvas = document.createElement('canvas');
+      let w = img.width, h = img.height;
+      if (w > h) { if (w > maxSize) { h = h * maxSize / w; w = maxSize; } } else { if (h > maxSize) { w = w * maxSize / h; h = maxSize; } }
+      canvas.width = w; canvas.height = h;
+      canvas.getContext('2d').drawImage(img, 0, 0, w, h);
+      cb(canvas.toDataURL('image/jpeg', 0.85));
+    };
+    img.src = e.target.result;
+  };
+  reader.readAsDataURL(file);
+}
 
 /* ===== 自动消息 ===== */
 let autoMsgTimer = null;
 function scheduleAutoMessage() {
-  const min = load('auto_msg_min', 1) * 60 * 1000, max = load('auto_msg_max', 5) * 60 * 1000;
+  const min = load('auto_msg_min', 1) * 60 * 1000;
+  const max = load('auto_msg_max', 5) * 60 * 1000;
   const delay = min + Math.random() * (max - min);
   clearTimeout(autoMsgTimer);
   autoMsgTimer = setTimeout(async () => {
     const giftProb = load('gift_prob', 0);
     if (Math.random() * 100 < giftProb && shopItems.length > 0) {
-      const it = shopItems[Math.floor(Math.random() * shopItems.length)]; showTyping(); await new Promise(r => setTimeout(r, 800 + Math.random() * 1200)); hideTyping(); taSendGift(it); scheduleAutoMessage(); return;
+      const it = shopItems[Math.floor(Math.random() * shopItems.length)];
+      showTyping();
+      await new Promise(r => setTimeout(r, 800 + Math.random() * 1200));
+      hideTyping();
+      taSendGift(it);
+      scheduleAutoMessage();
+      return;
     }
     const transProb = load('auto_trans_prob', 30);
     if (Math.random() * 100 < transProb) {
-      const tMin = load('auto_trans_min', 5), tMax = load('auto_trans_max', 50); const amount = tMin + Math.random() * (tMax - tMin);
+      const tMin = load('auto_trans_min', 5), tMax = load('auto_trans_max', 50);
+      const amount = tMin + Math.random() * (tMax - tMin);
       makeTaTransferCard(Math.round(amount * 100) / 100, '');
     } else {
-      showTyping(); await new Promise(r => setTimeout(r, 800 + Math.random() * 1200)); hideTyping();
-      if (!tryTaVoiceReply()) { const reply = drawCardText(); const quote = drawQuote(); addMessage('ta', reply, quote, true); }
+      showTyping();
+      await new Promise(r => setTimeout(r, 800 + Math.random() * 1200));
+      hideTyping();
+      if (!tryTaVoiceReply()) {
+        const reply = drawCardText();
+        const quote = drawQuote();
+        addMessage('ta', reply, quote, true);
+      }
     }
     scheduleAutoMessage();
   }, delay);
 }
+</script>
+/* ★★★ index 段 4 结束 ★★★ *//* ★★★ index 段 5 开始 ★★★ */
+<script>
+/* ===== 页内输入弹窗（替代 prompt，兼容手机） ===== */
+function openTextInput(title, defaultValue, onConfirm) {
+  let mask = document.getElementById('customInputMask');
+  if (mask) mask.remove();
+  mask = document.createElement('div');
+  mask.id = 'customInputMask';
+  mask.style.cssText = 'position:fixed;inset:0;background:rgba(0,0,0,0.4);z-index:9999;display:flex;align-items:center;justify-content:center;';
+  mask.innerHTML = `
+    <div style="width:82%;max-width:340px;background:#fff;border-radius:14px;overflow:hidden;">
+      <div style="padding:18px 18px 6px;font-size:16px;font-weight:600;color:#111;text-align:center;">${title}</div>
+      <div style="padding:6px 18px 18px;">
+        <textarea id="customInputArea" style="width:100%;height:90px;border:1px solid #eee;border-radius:10px;padding:10px 12px;font-size:15px;outline:none;resize:none;font-family:inherit;background:#fafafa;box-sizing:border-box;">${defaultValue || ''}</textarea>
+      </div>
+      <div style="display:flex;border-top:1px solid #eee;">
+        <button id="customInputCancel" style="flex:1;padding:14px;background:#fff;border:none;font-size:16px;color:#666;cursor:pointer;">取消</button>
+        <button id="customInputOk" style="flex:1;padding:14px;background:#fff;border:none;font-size:16px;color:#222;font-weight:600;cursor:pointer;border-left:1px solid #eee;">确定</button>
+      </div>
+    </div>
+  `;
+  document.body.appendChild(mask);
+  const area = mask.querySelector('#customInputArea');
+  setTimeout(() => area.focus(), 50);
+  mask.querySelector('#customInputCancel').onclick = () => mask.remove();
+  mask.querySelector('#customInputOk').onclick = () => {
+    const v = area.value.trim();
+    mask.remove();
+    onConfirm(v);
+  };
+  mask.onclick = (e) => { if (e.target === mask) mask.remove(); };
+}
 
-/* ===== 主页头像/壁纸/寄语/气泡（强制本地读取） ===== */
+/* ===== 主页逻辑 ===== */
 function applyHomeAssets() {
-  const myA = document.getElementById('homeMyAvatar'), taA = document.getElementById('homeTaAvatar'), myNameEl = document.getElementById('homeMyName'), taNameEl = document.getElementById('homeTaName');
-  const myUrl = load('my_avatar', ''), taUrl = load('ta_avatar', ''), myName = load('my_name', '我'), taName = load('ta_name', 'TA');
+  const myA = document.getElementById('homeMyAvatar');
+  const taA = document.getElementById('homeTaAvatar');
+  const myNameEl = document.getElementById('homeMyName');
+  const taNameEl = document.getElementById('homeTaName');
+  const myUrl = load('my_avatar', ''), taUrl = load('ta_avatar', '');
+  const myName = load('my_name', '我'), taName = load('ta_name', 'TA');
+
   if (myA) { if (myUrl) { myA.style.background = `url(${myUrl}) center/cover no-repeat`; myA.textContent = ''; } else { myA.style.background = '#e5e5e5'; myA.textContent = myName.charAt(0); } }
   if (taA) { if (taUrl) { taA.style.background = `url(${taUrl}) center/cover no-repeat`; taA.textContent = ''; } else { taA.style.background = '#e5e5e5'; taA.textContent = taName.charAt(0); } }
   if (myNameEl) myNameEl.textContent = myName;
   if (taNameEl) taNameEl.textContent = taName;
-  const talkMyA = document.getElementById('talkMyAvatar'), talkTaA = document.getElementById('talkTaAvatar');
+
+  const talkMyA = document.getElementById('talkMyAvatar');
+  const talkTaA = document.getElementById('talkTaAvatar');
   if (talkMyA) { if (myUrl) { talkMyA.style.background = `url(${myUrl}) center/cover no-repeat`; talkMyA.textContent = ''; } else { talkMyA.style.background = '#e5e5e5'; talkMyA.textContent = myName.charAt(0); } }
   if (talkTaA) { if (taUrl) { talkTaA.style.background = `url(${taUrl}) center/cover no-repeat`; talkTaA.textContent = ''; } else { talkTaA.style.background = '#e5e5e5'; talkTaA.textContent = taName.charAt(0); } }
-  const pta = document.getElementById('playerTaAvatar'), pma = document.getElementById('playerMyAvatar');
+
+  const pta = document.getElementById('playerTaAvatar');
+  const pma = document.getElementById('playerMyAvatar');
   if (pta) { if (taUrl) { pta.style.background = `url(${taUrl}) center/cover no-repeat`; pta.textContent = ''; } else { pta.style.background = '#e5e5e5'; pta.textContent = taName.charAt(0); } }
   if (pma) { if (myUrl) { pma.style.background = `url(${myUrl}) center/cover no-repeat`; pma.textContent = ''; } else { pma.style.background = '#e5e5e5'; pma.textContent = myName.charAt(0); } }
 }
+
 function applyHomeWallpaper() {
-  const wp = load('home_wallpaper', ''), homePage = document.getElementById('homePage'); if (!homePage) return;
-  if (wp) homePage.style.background = wp.startsWith('linear') || wp.startsWith('#') ? wp : `url(${wp}) center/cover no-repeat`; else homePage.style.background = '#f5f5f5';
+  const wp = load('home_wallpaper', '');
+  const homePage = document.getElementById('homePage');
+  if (!homePage) return;
+  if (wp) homePage.style.background = wp.startsWith('linear') || wp.startsWith('#') ? wp : `url(${wp}) center/cover no-repeat`;
+  else homePage.style.background = '#f5f5f5';
 }
+
 function applyHomeQuote() {
-  const q = load('home_quote', ''), box = document.getElementById('homeQuoteBox'), txt = document.getElementById('homeQuoteText'), wrap = document.getElementById('homeQuote');
-  if (q) { wrap.classList.add('filled'); txt.textContent = q; } else { wrap.classList.remove('filled'); box.textContent = '双击寄语'; txt.textContent = ''; }
+  const q = load('home_quote', '');
+  const box = document.getElementById('homeQuoteBox');
+  const txt = document.getElementById('homeQuoteText');
+  const wrap = document.getElementById('homeQuote');
+  if (q) {
+    wrap.classList.add('filled');
+    txt.textContent = q;
+  } else {
+    wrap.classList.remove('filled');
+    box.textContent = '双击寄语';
+    txt.textContent = '';
+  }
 }
+
 function applyHomeTalks() {
-  const mine = document.getElementById('talkMineBubble'), ta = document.getElementById('talkTaBubble'), mv = load('home_talk_mine', ''), tv = load('home_talk_ta', '');
+  const mine = document.getElementById('talkMineBubble');
+  const ta = document.getElementById('talkTaBubble');
+  const mv = load('home_talk_mine', '');
+  const tv = load('home_talk_ta', '');
   if (mine) { if (mv) mine.textContent = mv; else mine.innerHTML = '<span class="placeholder">点击输入</span>'; }
   if (ta) { if (tv) ta.textContent = tv; else ta.innerHTML = '<span class="placeholder">点击输入</span>'; }
 }
-function loadHomeBigCard() {
-  const img = document.getElementById('homeBigCardImg'), tip = document.getElementById('homeBigCardTip');
-  const saved = load('home_card_img_local', ''); // 强制改为本地读取，不再异步
-  if (saved) { img.src = saved; img.style.display = 'block'; if (tip) tip.style.display = 'none'; }
-  else { img.style.display = 'none'; if (tip) tip.style.display = 'block'; }
-}
-function updateHomeTime() { const el = document.getElementById('homeTime'); if (el) { const d = new Date(); el.textContent = String(d.getHours()).padStart(2, '0') + ':' + String(d.getMinutes()).padStart(2, '0'); } }
-setInterval(updateHomeTime, 30000); updateHomeTime();
 
+/* ===== 小卡：localStorage 存 dataURL（手机兼容） ===== */
+function applyHomeBigCard() {
+  const img = document.getElementById('homeBigCardImg');
+  const tip = document.getElementById('homeBigCardTip');
+  if (!img) return;
+  const saved = load('home_card_img', '');
+  if (saved) {
+    img.src = saved;
+    img.style.display = 'block';
+    if (tip) tip.style.display = 'none';
+  } else {
+    img.style.display = 'none';
+    if (tip) tip.style.display = 'block';
+  }
+}
+
+function updateHomeTime() {
+  const el = document.getElementById('homeTime');
+  if (!el) return;
+  const d = new Date();
+  el.textContent = String(d.getHours()).padStart(2, '0') + ':' + String(d.getMinutes()).padStart(2, '0');
+}
+setInterval(updateHomeTime, 30000);
+updateHomeTime();
+
+/* 快捷入口 */
 document.querySelectorAll('.home-grid-2x2 .home-item').forEach(item => {
   item.onclick = () => {
     const key = item.dataset.key;
-    if (key === 'wechat') showPage('chatPage'); else if (key === 'moments') { showPage('momentsPage'); initMomentsPage(); } else if (key === 'music') showMusicLibrary(); else if (key === 'shop') showShopPage();
+    if (key === 'wechat') showPage('chatPage');
+    else if (key === 'moments') { showPage('momentsPage'); initMomentsPage(); }
+    else if (key === 'music') showMusicLibrary();
+    else if (key === 'shop') showShopPage();
   };
 });
+
+/* 底部固定栏 */
 document.querySelectorAll('.home-bottom-bar .bar-item').forEach(btn => {
   btn.onclick = () => {
     const key = btn.dataset.key;
     if (key === 'settings') document.getElementById('settingsModal').classList.remove('hidden');
-    else if (key === 'cards') { document.getElementById('cardModal').classList.remove('hidden'); if (typeof window.openCardTab === 'function') window.openCardTab('main'); }
+    else if (key === 'cards') {
+      document.getElementById('cardModal').classList.remove('hidden');
+      if (typeof window.openCardTab === 'function') window.openCardTab('main');
+    }
     else if (key === 'anniversary') { showPage('annivPage'); renderAnniv(); }
     else if (key === 'mail') showMailPage();
   };
 });
 
-/* 小卡选图保存：强制修改为 localStorage */
-function compressImage(file, maxSize, cb) {
-  const reader = new FileReader();
-  reader.onload = (e) => {
-    const img = new Image(); img.onload = () => {
-      const canvas = document.createElement('canvas'); let w = img.width, h = img.height;
-      if (w > h) { if (w > maxSize) { h = h * maxSize / w; w = maxSize; } } else { if (h > maxSize) { w = w * maxSize / h; h = maxSize; } }
-      canvas.width = w; canvas.height = h; canvas.getContext('2d').drawImage(img, 0, 0, w, h);
-      cb(canvas.toDataURL('image/jpeg', 0.85));
-    }; img.src = e.target.result;
-  }; reader.readAsDataURL(file);
-}
+/* 选图 */
 (function() {
-  const cardEl = document.getElementById('homeBigCard'), img = document.getElementById('homeBigCardImg'), tip = document.getElementById('homeBigCardTip');
-  const upload = document.createElement('input'); upload.type = 'file'; upload.accept = 'image/*'; upload.style.display = 'none'; document.body.appendChild(upload);
+  const cardEl = document.getElementById('homeBigCard');
+  const img = document.getElementById('homeBigCardImg');
+  const tip = document.getElementById('homeBigCardTip');
+  const upload = document.createElement('input');
+  upload.type = 'file';
+  upload.accept = 'image/*';
+  upload.style.display = 'none';
+  document.body.appendChild(upload);
+
   cardEl.onclick = () => upload.click();
+
   upload.onchange = (e) => {
-    const file = e.target.files[0]; if (!file) return;
-    compressImage(file, 600, (url) => {
-      img.src = url; img.style.display = 'block'; if (tip) tip.style.display = 'none';
-      save('home_card_img_local', url); // 存进本地
+    const file = e.target.files[0];
+    if (!file) return;
+    compressImage(file, 900, (url) => {
+      try {
+        save('home_card_img', url);
+      } catch (err) {
+        alert('图片太大，换一张小一点的吧');
+        return;
+      }
+      img.src = url;
+      img.style.display = 'block';
+      if (tip) tip.style.display = 'none';
     });
     upload.value = '';
   };
 })();
 
-/* 寄语/气泡点击 */
+/* 寄语双击 */
 (function() {
-  const box = document.getElementById('homeQuoteBox'), txt = document.getElementById('homeQuoteText');
-  function edit() { const v = prompt('输入寄语：', load('home_quote', '')); if (v === null) return; save('home_quote', v.trim()); applyHomeQuote(); }
-  box.ondblclick = edit; txt.ondblclick = edit;
+  const box = document.getElementById('homeQuoteBox');
+  const txt = document.getElementById('homeQuoteText');
+  function edit() {
+    const cur = load('home_quote', '');
+    openTextInput('输入寄语', cur, (v) => {
+      save('home_quote', v);
+      applyHomeQuote();
+    });
+  }
+  box.ondblclick = edit;
+  txt.ondblclick = edit;
 })();
-document.getElementById('talkMineBubble').onclick = () => { const v = prompt('输入我说的话：', load('home_talk_mine', '')); if (v === null) return; save('home_talk_mine', v.trim()); applyHomeTalks(); };
-document.getElementById('talkTaBubble').onclick = () => { const v = prompt('输入对方说的话：', load('home_talk_ta', '')); if (v === null) return; save('home_talk_ta', v.trim()); applyHomeTalks(); };
 
+/* 气泡对话点击 */
+document.getElementById('talkMineBubble').onclick = () => {
+  const cur = load('home_talk_mine', '');
+  openTextInput('输入我说的话', cur, (v) => {
+    save('home_talk_mine', v);
+    applyHomeTalks();
+  });
+};
+document.getElementById('talkTaBubble').onclick = () => {
+  const cur = load('home_talk_ta', '');
+  openTextInput('输入对方说的话', cur, (v) => {
+    save('home_talk_ta', v);
+    applyHomeTalks();
+  });
+};
+
+/* 纪念日小卡 */
 document.getElementById('homeAnnivCard').onclick = () => { showPage('annivPage'); renderAnniv(); };
 function updateHomeAnnivNum() {
-  const el = document.getElementById('homeAnnivNum'); if (!el) return;
+  const el = document.getElementById('homeAnnivNum');
+  if (!el) return;
   const start = localStorage.getItem('anniv_start') || '';
-  if (start) { const diff = Math.floor((Date.now() - new Date(start).getTime()) / 86400000); el.textContent = diff >= 0 ? diff : 0; } else el.textContent = '0';
+  if (start) {
+    const diff = Math.floor((Date.now() - new Date(start).getTime()) / 86400000);
+    el.textContent = diff >= 0 ? diff : 0;
+  } else el.textContent = '0';
 }
 updateHomeAnnivNum();
-window.applyHomeWallpaper = applyHomeWallpaper; window.renderFavList = renderFavList; window.refreshMessages = refreshMessages; window.openCardTab = openCardTab; window.updateHomeAnnivNum = updateHomeAnnivNum;
+
+window.applyHomeWallpaper = applyHomeWallpaper;
+window.applyHomeAssets = applyHomeAssets;
+window.refreshMessages = refreshMessages;
+window.openCardTab = openCardTab;
+window.updateHomeAnnivNum = updateHomeAnnivNum;
 </script>
-<!-- ★★★ index 第 6 大段 结束 ★★★ --><!-- ★★★ index 第 7 大段 开始 ★★★ -->
+/* ★★★ index 段 5 结束 ★★★ *//* ★★★ index 段 6 开始 ★★★ */
 <script>
-/* ===== 商店逻辑 ===== */
+/* ===== 商店 ===== */
 let shopItems = load('our_shop_items', []);
 let shopOrders = load('our_shop_orders', []);
-let editingShopId = null, currentDetailId = null, pendingShopImage = '';
+let editingShopId = null;
+let currentDetailId = null;
+let pendingShopImage = '';
 function saveShopItems() { save('our_shop_items', shopItems); }
 function saveShopOrders() { save('our_shop_orders', shopOrders); }
 function showShopPage() {
-  showPage('shopPage'); renderShopItems(); renderShopOrders();
+  showPage('shopPage');
+  renderShopItems(); renderShopOrders();
   document.querySelectorAll('.shop-tab').forEach(t => t.classList.remove('active'));
   document.querySelector('.shop-tab[data-tab="items"]').classList.add('active');
   document.getElementById('shopItemsPanel').classList.remove('hidden');
@@ -1643,41 +2195,49 @@ function showShopPage() {
   document.getElementById('shopAddBtn').style.display = '';
 }
 function renderShopItems() {
-  const box = document.getElementById('shopItemsPanel'); if (!box) return;
+  const box = document.getElementById('shopItemsPanel');
+  if (!box) return;
   if (shopItems.length === 0) { box.innerHTML = '<div class="shop-empty">还没有商品，点右下角 + 添加一个吧</div>'; return; }
   box.innerHTML = '<div class="shop-item-grid"></div>';
   const grid = box.firstElementChild;
   shopItems.forEach(it => {
-    const card = document.createElement('div'); card.className = 'shop-item-card';
+    const card = document.createElement('div');
+    card.className = 'shop-item-card';
     card.innerHTML = `<img src="${it.img || ''}" alt=""><div class="shop-item-name">${it.name || '未命名'}</div><div class="shop-item-price">¥${(it.price || 0)}</div>`;
-    card.onclick = () => openShopDetail(it.id); grid.appendChild(card);
+    card.onclick = () => openShopDetail(it.id);
+    grid.appendChild(card);
   });
 }
 function renderShopOrders() {
-  const box = document.getElementById('shopOrdersPanel'); if (!box) return;
+  const box = document.getElementById('shopOrdersPanel');
+  if (!box) return;
   if (shopOrders.length === 0) { box.innerHTML = '<div class="shop-empty">还没有订单</div>'; return; }
   box.innerHTML = '';
   shopOrders.slice().reverse().forEach(o => {
-    const div = document.createElement('div'); div.className = 'shop-order-item';
+    const div = document.createElement('div');
+    div.className = 'shop-order-item';
     const dir = o.direction === 'me_to_ta' ? '我买给他的' : '他买给我的';
     div.innerHTML = `<img src="${o.img || ''}" alt=""><div class="shop-order-info"><div class="shop-order-title">${o.name || ''}</div><div class="shop-order-sub">${dir} · ¥${o.price || 0} · ${new Date(o.t).toLocaleString('zh-CN')}</div></div>`;
     box.appendChild(div);
   });
 }
 function openShopEdit(item) {
-  editingShopId = item ? item.id : null; pendingShopImage = item ? (item.img || '') : '';
+  editingShopId = item ? item.id : null;
+  pendingShopImage = item ? (item.img || '') : '';
   document.getElementById('shopEditTitle').textContent = item ? '编辑商品' : '添加商品';
   document.getElementById('shopNameInput').value = item ? (item.name || '') : '';
   document.getElementById('shopPriceInput').value = item ? (item.price || '') : '';
   document.getElementById('shopDescInput').value = item ? (item.desc || '') : '';
-  const img = document.getElementById('shopImgPreview'), plus = document.getElementById('shopImgPlus');
+  const img = document.getElementById('shopImgPreview');
+  const plus = document.getElementById('shopImgPlus');
   if (pendingShopImage) { img.src = pendingShopImage; img.style.display = 'block'; plus.style.display = 'none'; }
   else { img.style.display = 'none'; plus.style.display = 'block'; }
   document.getElementById('shopEditModal').classList.remove('hidden');
 }
 function closeShopEdit() { document.getElementById('shopEditModal').classList.add('hidden'); }
 function openShopDetail(id) {
-  const it = shopItems.find(x => x.id === id); if (!it) return;
+  const it = shopItems.find(x => x.id === id);
+  if (!it) return;
   currentDetailId = id;
   document.getElementById('detailImg').src = it.img || '';
   document.getElementById('detailName').textContent = it.name || '未命名';
@@ -1688,34 +2248,46 @@ function openShopDetail(id) {
 function closeShopDetail() { document.getElementById('shopDetailModal').classList.add('hidden'); }
 
 function buyForTa(it) {
-  const taName = load('ta_name', 'TA'); const cardId = Date.now() + '_buy_' + Math.random().toString(36).slice(2, 8);
+  const taName = load('ta_name', 'TA');
+  const cardId = Date.now() + '_buy_' + Math.random().toString(36).slice(2, 8);
   const msg = { type: 'shopcard', sender: 'me', title: `我给${taName}赠送了商品`, sub: it.name, img: it.img, status: '接收', cardId, t: Date.now() };
-  const msgs = load('our_messages', []); msgs.push(msg); save('our_messages', msgs); renderShopCard(msg);
-  shopOrders.push({ id: cardId, direction: 'me_to_ta', itemId: it.id, name: it.name, price: it.price, img: it.img, t: Date.now() }); saveShopOrders();
+  const msgs = load('our_messages', []); msgs.push(msg); save('our_messages', msgs);
+  renderShopCard(msg);
+  shopOrders.push({ id: cardId, direction: 'me_to_ta', itemId: it.id, name: it.name, price: it.price, img: it.img, t: Date.now() });
+  saveShopOrders();
   setTimeout(() => {
-    const all = load('our_messages', []); const m = all.find(x => x.cardId === cardId);
+    const all = load('our_messages', []);
+    const m = all.find(x => x.cardId === cardId);
     if (m) { m.status = '已接收'; save('our_messages', all); }
-    const el = document.querySelector(`[data-shop-card="${cardId}"] .shop-card-status .tag`); if (el) el.textContent = '已接收';
+    const el = document.querySelector(`[data-shop-card="${cardId}"] .shop-card-status .tag`);
+    if (el) el.textContent = '已接收';
     addSystemTip('对方已收下', true);
   }, 3000 + Math.random() * 2000);
 }
 function helpPay(it) {
   const cardId = Date.now() + '_pay_' + Math.random().toString(36).slice(2, 8);
   const msg = { type: 'shopcard', sender: 'me', title: `我希望你帮付¥${it.price}`, sub: it.name, img: it.img, status: '未付款', cardId, t: Date.now() };
-  const msgs = load('our_messages', []); msgs.push(msg); save('our_messages', msgs); renderShopCard(msg);
+  const msgs = load('our_messages', []); msgs.push(msg); save('our_messages', msgs);
+  renderShopCard(msg);
   setTimeout(() => {
-    const all = load('our_messages', []); const m = all.find(x => x.cardId === cardId);
+    const all = load('our_messages', []);
+    const m = all.find(x => x.cardId === cardId);
     if (m) { m.status = '已付款'; save('our_messages', all); }
-    const el = document.querySelector(`[data-shop-card="${cardId}"] .shop-card-status .tag`); if (el) el.textContent = '已付款';
+    const el = document.querySelector(`[data-shop-card="${cardId}"] .shop-card-status .tag`);
+    if (el) el.textContent = '已付款';
     addSystemTip('对方已付款', true);
-    shopOrders.push({ id: cardId, direction: 'ta_to_me', itemId: it.id, name: it.name, price: it.price, img: it.img, t: Date.now() }); saveShopOrders();
+    shopOrders.push({ id: cardId, direction: 'ta_to_me', itemId: it.id, name: it.name, price: it.price, img: it.img, t: Date.now() });
+    saveShopOrders();
   }, 5000 + Math.random() * 1000);
 }
 function taSendGift(it) {
-  const taName = load('ta_name', 'TA'); const cardId = Date.now() + '_tagift_' + Math.random().toString(36).slice(2, 8);
+  const taName = load('ta_name', 'TA');
+  const cardId = Date.now() + '_tagift_' + Math.random().toString(36).slice(2, 8);
   const msg = { type: 'shopcard', sender: 'ta', title: `${taName}给我赠送了商品`, sub: it.name, img: it.img, status: '接收', cardId, clickable: true, t: Date.now() };
-  const msgs = load('our_messages', []); msgs.push(msg); save('our_messages', msgs); renderShopCard(msg);
-  shopOrders.push({ id: cardId, direction: 'ta_to_me', itemId: it.id, name: it.name, price: it.price, img: it.img, t: Date.now() }); saveShopOrders();
+  const msgs = load('our_messages', []); msgs.push(msg); save('our_messages', msgs);
+  renderShopCard(msg);
+  shopOrders.push({ id: cardId, direction: 'ta_to_me', itemId: it.id, name: it.name, price: it.price, img: it.img, t: Date.now() });
+  saveShopOrders();
 }
 
 document.getElementById('backFromShopBtn').onclick = () => showPage('homePage');
@@ -1724,7 +2296,8 @@ document.getElementById('closeShopEditBtn').onclick = closeShopEdit;
 document.getElementById('closeShopDetailBtn').onclick = closeShopDetail;
 document.querySelectorAll('.shop-tab').forEach(tab => {
   tab.onclick = () => {
-    document.querySelectorAll('.shop-tab').forEach(t => t.classList.remove('active')); tab.classList.add('active');
+    document.querySelectorAll('.shop-tab').forEach(t => t.classList.remove('active'));
+    tab.classList.add('active');
     const k = tab.dataset.tab;
     document.getElementById('shopItemsPanel').classList.toggle('hidden', k !== 'items');
     document.getElementById('shopOrdersPanel').classList.toggle('hidden', k !== 'orders');
@@ -1734,80 +2307,136 @@ document.querySelectorAll('.shop-tab').forEach(tab => {
 });
 document.getElementById('shopImgPicker').onclick = () => document.getElementById('shopImgUpload').click();
 document.getElementById('shopImgUpload').onchange = (e) => {
-  const f = e.target.files[0]; if (!f) return; const r = new FileReader();
-  r.onload = (ev) => { pendingShopImage = ev.target.result; const img = document.getElementById('shopImgPreview'); img.src = pendingShopImage; img.style.display = 'block'; document.getElementById('shopImgPlus').style.display = 'none'; };
+  const f = e.target.files[0]; if (!f) return;
+  const r = new FileReader();
+  r.onload = (ev) => {
+    pendingShopImage = ev.target.result;
+    const img = document.getElementById('shopImgPreview');
+    img.src = pendingShopImage; img.style.display = 'block';
+    document.getElementById('shopImgPlus').style.display = 'none';
+  };
   r.readAsDataURL(f); e.target.value = '';
 };
 document.getElementById('shopSaveBtn').onclick = () => {
-  const name = document.getElementById('shopNameInput').value.trim(), price = parseFloat(document.getElementById('shopPriceInput').value) || 0, desc = document.getElementById('shopDescInput').value.trim();
+  const name = document.getElementById('shopNameInput').value.trim();
+  const price = parseFloat(document.getElementById('shopPriceInput').value) || 0;
+  const desc = document.getElementById('shopDescInput').value.trim();
   if (!name) { alert('请输入商品名称'); return; }
-  if (editingShopId) { const it = shopItems.find(x => x.id === editingShopId); if (it) { it.name = name; it.price = price; it.desc = desc; it.img = pendingShopImage; } }
-  else { shopItems.push({ id: Date.now() + '_' + Math.random().toString(36).slice(2, 8), name, price, desc, img: pendingShopImage, t: Date.now() }); }
+  if (editingShopId) {
+    const it = shopItems.find(x => x.id === editingShopId);
+    if (it) { it.name = name; it.price = price; it.desc = desc; it.img = pendingShopImage; }
+  } else {
+    shopItems.push({ id: Date.now() + '_' + Math.random().toString(36).slice(2, 8), name, price, desc, img: pendingShopImage, t: Date.now() });
+  }
   saveShopItems(); closeShopEdit(); renderShopItems();
 };
 document.getElementById('detailBuyBtn').onclick = () => { const it = shopItems.find(x => x.id === currentDetailId); if (!it) return; closeShopDetail(); buyForTa(it); };
 document.getElementById('detailHelpPayBtn').onclick = () => { const it = shopItems.find(x => x.id === currentDetailId); if (!it) return; closeShopDetail(); helpPay(it); };
 document.getElementById('detailEditBtn').onclick = () => { const it = shopItems.find(x => x.id === currentDetailId); if (!it) return; closeShopDetail(); openShopEdit(it); };
-document.getElementById('detailDeleteBtn').onclick = () => { if (!confirm('确定删除这个商品吗？')) return; shopItems = shopItems.filter(x => x.id !== currentDetailId); saveShopItems(); closeShopDetail(); renderShopItems(); };
+document.getElementById('detailDeleteBtn').onclick = () => {
+  if (!confirm('确定删除这个商品吗？')) return;
+  shopItems = shopItems.filter(x => x.id !== currentDetailId);
+  saveShopItems(); closeShopDetail(); renderShopItems();
+};
 
-/* ===== 收藏/搜索 ===== */
+/* ===== 收藏 / 搜索 ===== */
 function renderFavList() {
-  const body = document.getElementById('favBody'); if (!body) return;
+  const body = document.getElementById('favBody');
+  if (!body) return;
   const favs = load('our_favorites', []);
   if (favs.length === 0) { body.innerHTML = '<div style="text-align:center;color:#999;padding:40px 0;">收藏夹空空如也</div>'; return; }
   body.innerHTML = '';
   favs.slice().reverse().forEach((f, i) => {
     const realIdx = favs.length - 1 - i;
-    const div = document.createElement('div'); div.className = 'card-item';
+    const div = document.createElement('div');
+    div.className = 'card-item';
     div.innerHTML = `<div style="flex:1;word-break:break-word;">${f.text}</div><button>×</button>`;
     div.querySelector('button').onclick = () => { favs.splice(realIdx, 1); save('our_favorites', favs); renderFavList(); };
     body.appendChild(div);
   });
 }
 function renderSearchList(kw) {
-  const box = document.getElementById('searchResult'); if (!box) return;
+  const box = document.getElementById('searchResult');
+  if (!box) return;
   if (!kw) { box.innerHTML = ''; return; }
   const msgs = load('our_messages', []).filter(m => m.type === 'text' && m.content && m.content.includes(kw));
   if (msgs.length === 0) { box.innerHTML = '<div style="color:#999;text-align:center;padding:20px;">没找到</div>'; return; }
   const groups = {};
-  msgs.forEach(m => { const d = new Date(m.t); const key = `${d.getFullYear()}-${d.getMonth() + 1}-${d.getDate()}`; if (!groups[key]) groups[key] = []; groups[key].push(m); });
+  msgs.forEach(m => {
+    const d = new Date(m.t);
+    const key = `${d.getFullYear()}-${d.getMonth() + 1}-${d.getDate()}`;
+    if (!groups[key]) groups[key] = [];
+    groups[key].push(m);
+  });
+  const keys = Object.keys(groups).sort((a, b) => {
+    const [ay, am, ad] = a.split('-').map(Number);
+    const [by, bm, bd] = b.split('-').map(Number);
+    return new Date(by, bm - 1, bd) - new Date(ay, am - 1, ad);
+  });
   box.innerHTML = '';
-  Object.keys(groups).sort().reverse().forEach(k => {
+  keys.forEach(k => {
     const [y, mo, da] = k.split('-').map(Number);
-    const group = document.createElement('div'); group.className = 'search-date-group';
-    const title = document.createElement('div'); title.className = 'search-date-title'; title.textContent = `${mo}月${da}日`; group.appendChild(title);
+    const group = document.createElement('div');
+    group.className = 'search-date-group';
+    const title = document.createElement('div');
+    title.className = 'search-date-title';
+    title.textContent = `${mo}月${da}日`;
+    group.appendChild(title);
     groups[k].slice().reverse().forEach(m => {
-      const div = document.createElement('div'); div.className = 'search-msg-item';
-      const d = new Date(m.t); const hh = String(d.getHours()).padStart(2, '0'); const mm = String(d.getMinutes()).padStart(2, '0');
+      const div = document.createElement('div');
+      div.className = 'search-msg-item';
+      const d = new Date(m.t);
+      const hh = String(d.getHours()).padStart(2, '0');
+      const mm = String(d.getMinutes()).padStart(2, '0');
       const who = m.sender === 'me' ? '我' : load('ta_name', 'TA');
       div.innerHTML = `<span class="search-msg-time">${hh}:${mm} ${who}：</span>${m.content}`;
-      div.onclick = () => jumpToMessage(m.msgId); group.appendChild(div);
+      div.onclick = () => jumpToMessage(m.msgId);
+      group.appendChild(div);
     });
     box.appendChild(group);
   });
 }
+
 function jumpToMessage(msgId) {
-  document.getElementById('searchModal').classList.add('hidden'); showPage('chatPage');
-  setTimeout(() => { const row = document.querySelector(`.msg-row[data-msg-id="${msgId}"]`); if (!row) return; row.scrollIntoView({ behavior: 'smooth', block: 'center' }); row.classList.add('jump-highlight'); setTimeout(() => row.classList.remove('jump-highlight'), 2000); }, 200);
+  document.getElementById('searchModal').classList.add('hidden');
+  showPage('chatPage');
+  setTimeout(() => {
+    const row = document.querySelector(`.msg-row[data-msg-id="${msgId}"]`);
+    if (!row) return;
+    row.scrollIntoView({ behavior: 'smooth', block: 'center' });
+    row.classList.add('jump-highlight');
+    setTimeout(() => row.classList.remove('jump-highlight'), 2000);
+  }, 200);
 }
+
 document.getElementById('closeFavBtn').onclick = () => document.getElementById('favModal').classList.add('hidden');
 document.getElementById('closeSearchBtn').onclick = () => document.getElementById('searchModal').classList.add('hidden');
-const searchInp = document.getElementById('searchInput'); if (searchInp) searchInp.oninput = () => renderSearchList(searchInp.value.trim());
+const searchInp = document.getElementById('searchInput');
+if (searchInp) searchInp.oninput = () => renderSearchList(searchInp.value.trim());
+window.renderFavList = renderFavList;
 </script>
-
+/* ★★★ index 段 6 结束 ★★★ *//* ★★★ index 段 7 开始 ★★★ */
 <script>
 /* ===== 纪念日 ===== */
 function loadAnnivList() { try { return JSON.parse(localStorage.getItem('anniv_list') || '[]'); } catch (e) { return []; } }
 function saveAnnivList(list) { localStorage.setItem('anniv_list', JSON.stringify(list)); }
 function renderAnniv() {
-  const start = localStorage.getItem('anniv_start') || ''; const daysEl = document.getElementById('annivDays');
-  if (start) { const diff = Math.floor((Date.now() - new Date(start).getTime()) / 86400000); daysEl.textContent = diff >= 0 ? diff : 0; } else daysEl.textContent = '--';
-  const list = loadAnnivList(); const listEl = document.getElementById('annivList');
+  const start = localStorage.getItem('anniv_start') || '';
+  const daysEl = document.getElementById('annivDays');
+  if (start) {
+    const diff = Math.floor((Date.now() - new Date(start).getTime()) / 86400000);
+    daysEl.textContent = diff >= 0 ? diff : 0;
+  } else daysEl.textContent = '--';
+  const list = loadAnnivList();
+  const listEl = document.getElementById('annivList');
   if (list.length === 0) { listEl.innerHTML = '<div style="color:#999;font-size:13px;text-align:center;padding:20px;">还没有纪念日，点下面添加</div>'; updateHomeAnnivNum(); return; }
   listEl.innerHTML = '';
   list.forEach((item, idx) => {
-    const div = document.createElement('div'); div.className = 'anniv-item';
-    const now = new Date(); const target = new Date(now.getFullYear(), item.month - 1, item.day); if (target < now) target.setFullYear(now.getFullYear() + 1);
+    const div = document.createElement('div');
+    div.className = 'anniv-item';
+    const now = new Date();
+    const target = new Date(now.getFullYear(), item.month - 1, item.day);
+    if (target < now) target.setFullYear(now.getFullYear() + 1);
     const left = Math.ceil((target - now) / 86400000);
     div.innerHTML = `<div class="anniv-item-info"><div class="anniv-item-name">${item.name}</div><div class="anniv-item-date">${item.month}月${item.day}日</div></div><div class="anniv-item-days">还有 ${left} 天</div><button class="anniv-item-del">×</button>`;
     div.querySelector('.anniv-item-del').onclick = () => { list.splice(idx, 1); saveAnnivList(list); renderAnniv(); };
@@ -1817,93 +2446,175 @@ function renderAnniv() {
 }
 document.getElementById('backFromAnnivBtn').onclick = () => showPage('homePage');
 
-let annivPickerMode = 'start', annivPickerY = 2024, annivPickerM = 1, annivPickerD = 1;
+let annivPickerMode = 'start';
+let annivPickerY = 2024, annivPickerM = 1, annivPickerD = 1;
 function pad2(n) { return String(n).padStart(2, '0'); }
 function daysInMonth(y, m) { return new Date(y, m, 0).getDate(); }
 function renderAnnivPicker() {
-  const maxD = daysInMonth(annivPickerY, annivPickerM); if (annivPickerD > maxD) annivPickerD = maxD;
-  document.getElementById('annivYearCur').textContent = annivPickerY; document.getElementById('annivYearTop').textContent = annivPickerY - 1; document.getElementById('annivYearBot').textContent = annivPickerY + 1;
-  document.getElementById('annivMonthCur').textContent = pad2(annivPickerM); document.getElementById('annivMonthTop').textContent = pad2(annivPickerM === 1 ? 12 : annivPickerM - 1); document.getElementById('annivMonthBot').textContent = pad2(annivPickerM === 12 ? 1 : annivPickerM + 1);
-  document.getElementById('annivDayCur').textContent = pad2(annivPickerD); document.getElementById('annivDayTop').textContent = pad2(annivPickerD === 1 ? maxD : annivPickerD - 1); document.getElementById('annivDayBot').textContent = pad2(annivPickerD === maxD ? 1 : annivPickerD + 1);
+  const maxD = daysInMonth(annivPickerY, annivPickerM);
+  if (annivPickerD > maxD) annivPickerD = maxD;
+  document.getElementById('annivYearCur').textContent = annivPickerY;
+  document.getElementById('annivYearTop').textContent = annivPickerY - 1;
+  document.getElementById('annivYearBot').textContent = annivPickerY + 1;
+  document.getElementById('annivMonthCur').textContent = pad2(annivPickerM);
+  document.getElementById('annivMonthTop').textContent = pad2(annivPickerM === 1 ? 12 : annivPickerM - 1);
+  document.getElementById('annivMonthBot').textContent = pad2(annivPickerM === 12 ? 1 : annivPickerM + 1);
+  document.getElementById('annivDayCur').textContent = pad2(annivPickerD);
+  document.getElementById('annivDayTop').textContent = pad2(annivPickerD === 1 ? maxD : annivPickerD - 1);
+  document.getElementById('annivDayBot').textContent = pad2(annivPickerD === maxD ? 1 : annivPickerD + 1);
 }
 function openAnnivPicker(mode, defVal) {
   annivPickerMode = mode;
-  if (defVal) { const m = defVal.match(/^(\d{4})-(\d{1,2})-(\d{1,2})$/); if (m) { annivPickerY = parseInt(m[1]); annivPickerM = parseInt(m[2]); annivPickerD = parseInt(m[3]); } }
-  else { const d = new Date(); annivPickerY = d.getFullYear(); annivPickerM = d.getMonth() + 1; annivPickerD = d.getDate(); }
+  if (defVal) {
+    const m = defVal.match(/^(\d{4})-(\d{1,2})-(\d{1,2})$/);
+    if (m) { annivPickerY = parseInt(m[1]); annivPickerM = parseInt(m[2]); annivPickerD = parseInt(m[3]); }
+  } else {
+    const d = new Date();
+    annivPickerY = d.getFullYear();
+    annivPickerM = d.getMonth() + 1;
+    annivPickerD = d.getDate();
+  }
   document.getElementById('annivDateTitle').textContent = mode === 'start' ? '设置起始日期' : '添加纪念日';
-  renderAnnivPicker(); document.getElementById('annivDatePicker').classList.remove('hidden');
+  renderAnnivPicker();
+  document.getElementById('annivDatePicker').classList.remove('hidden');
 }
 function closeAnnivPicker() { document.getElementById('annivDatePicker').classList.add('hidden'); }
+
 (function() {
   function bindCol(elId, fn) {
-    const el = document.getElementById(elId).parentElement; let startY = 0;
+    const el = document.getElementById(elId).parentElement;
+    let startY = 0;
     function onStart(e) { startY = (e.touches ? e.touches[0].clientY : e.clientY); }
-    function onEnd(e) { const endY = (e.changedTouches ? e.changedTouches[0].clientY : e.clientY); const dy = endY - startY; if (Math.abs(dy) < 12) return; fn(dy > 0 ? -1 : 1); }
-    el.addEventListener('touchstart', onStart, { passive: true }); el.addEventListener('touchend', onEnd); el.addEventListener('mousedown', onStart); el.addEventListener('mouseup', onEnd);
+    function onEnd(e) {
+      const endY = (e.changedTouches ? e.changedTouches[0].clientY : e.clientY);
+      const dy = endY - startY;
+      if (Math.abs(dy) < 12) return;
+      fn(dy > 0 ? -1 : 1);
+    }
+    el.addEventListener('touchstart', onStart, { passive: true });
+    el.addEventListener('touchend', onEnd);
+    el.addEventListener('mousedown', onStart);
+    el.addEventListener('mouseup', onEnd);
   }
   bindCol('annivYearCur', (dir) => { annivPickerY += dir; renderAnnivPicker(); });
-  bindCol('annivMonthCur', (dir) => { annivPickerM += dir; if (annivPickerM > 12) { annivPickerM = 1; annivPickerY += 1; } if (annivPickerM < 1) { annivPickerM = 12; annivPickerY -= 1; } renderAnnivPicker(); });
-  bindCol('annivDayCur', (dir) => { const maxD = daysInMonth(annivPickerY, annivPickerM); annivPickerD += dir; if (annivPickerD > maxD) { annivPickerD = 1; } if (annivPickerD < 1) { annivPickerD = maxD; } renderAnnivPicker(); });
+  bindCol('annivMonthCur', (dir) => {
+    annivPickerM += dir;
+    if (annivPickerM > 12) { annivPickerM = 1; annivPickerY += 1; }
+    if (annivPickerM < 1) { annivPickerM = 12; annivPickerY -= 1; }
+    renderAnnivPicker();
+  });
+  bindCol('annivDayCur', (dir) => {
+    const maxD = daysInMonth(annivPickerY, annivPickerM);
+    annivPickerD += dir;
+    if (annivPickerD > maxD) { annivPickerD = 1; }
+    if (annivPickerD < 1) { annivPickerD = maxD; }
+    renderAnnivPicker();
+  });
 })();
+
 document.getElementById('editStartBtn').onclick = () => { openAnnivPicker('start', localStorage.getItem('anniv_start') || ''); };
 document.getElementById('annivDateCancel').onclick = closeAnnivPicker;
 document.getElementById('annivDateOk').onclick = () => {
   const dateStr = `${annivPickerY}-${pad2(annivPickerM)}-${pad2(annivPickerD)}`;
-  if (annivPickerMode === 'start') { localStorage.setItem('anniv_start', dateStr); renderAnniv(); }
-  else { const name = window._pendingAnnivName || '纪念日'; const list = loadAnnivList(); list.push({ name: name, month: annivPickerM, day: annivPickerD }); saveAnnivList(list); renderAnniv(); }
+  if (annivPickerMode === 'start') {
+    localStorage.setItem('anniv_start', dateStr);
+    renderAnniv();
+  } else {
+    const name = window._pendingAnnivName || '纪念日';
+    const list = loadAnnivList();
+    list.push({ name: name, month: annivPickerM, day: annivPickerD });
+    saveAnnivList(list);
+    renderAnniv();
+  }
   closeAnnivPicker();
 };
-document.getElementById('addAnnivBtn').onclick = () => { const name = prompt('纪念日名称（比如：我的生日）'); if (!name) return; window._pendingAnnivName = name.trim(); openAnnivPicker('add', ''); };
+document.getElementById('addAnnivBtn').onclick = () => {
+  const name = prompt('纪念日名称（比如：我的生日）');
+  if (!name) return;
+  window._pendingAnnivName = name.trim();
+  openAnnivPicker('add', '');
+};
 </script>
-<!-- ★★★ index 第 7 大段 结束 ★★★ --><!-- ★★★ index 第 8 大段 开始 ★★★ -->
+/* ★★★ index 段 7 结束 ★★★ *//* ★★★ index 段 8 开始 ★★★ */
 <script>
 /* ===== 问卷 ===== */
-let surveyQuestions = [], currentSurveyType = 'single';
+let surveyQuestions = [];
+let currentSurveyType = 'single';
 function showSurveyListPage() { showPage('surveyListPage'); renderSurveyList(); }
 function renderSurveyList() {
-  const box = document.getElementById('surveyListBody'); if (!box) return;
+  const box = document.getElementById('surveyListBody');
+  if (!box) return;
   const surveys = load('our_surveys', []);
   if (surveys.length === 0) { box.innerHTML = '<div class="shop-empty">暂无问卷<br>点击右上角 + 新建问卷</div>'; return; }
   box.innerHTML = '';
   surveys.slice().reverse().forEach(s => {
-    const div = document.createElement('div'); div.className = 'survey-item';
+    const div = document.createElement('div');
+    div.className = 'survey-item';
     const dateStr = new Date(s.t).toLocaleString('zh-CN', { month: '2-digit', day: '2-digit', hour: '2-digit', minute: '2-digit' });
     div.innerHTML = `<div class="survey-item-title">${s.title || '未命名问卷'}</div><div class="survey-item-meta">我创建的 · ${s.questions.length} 个问题 · ${dateStr}</div><div class="survey-item-status ${s.answered ? '' : 'unanswered'}">${s.answered ? '✓ 已回答' : '○ 未回答'}</div>`;
-    div.onclick = () => openSurveyAnswer(s.id); box.appendChild(div);
+    div.onclick = () => openSurveyAnswer(s.id);
+    box.appendChild(div);
   });
 }
 function renderSurveyQuestions() {
-  const box = document.getElementById('surveyQuestions'); if (!box) return;
+  const box = document.getElementById('surveyQuestions');
+  if (!box) return;
   box.innerHTML = '';
   surveyQuestions.forEach((q, qi) => {
-    const block = document.createElement('div'); block.className = 'survey-q-block';
-    const isYesNo = currentSurveyType === 'yesno'; let optsHtml = '';
-    if (isYesNo) { optsHtml = `<div class="survey-opt-row"><span class="survey-opt-key">A</span><input type="text" class="survey-opt-input" value="是" disabled></div><div class="survey-opt-row"><span class="survey-opt-key">B</span><input type="text" class="survey-opt-input" value="否" disabled></div>`; }
-    else { optsHtml = q.options.map((opt, oi) => `<div class="survey-opt-row"><span class="survey-opt-key">${String.fromCharCode(65 + oi)}</span><input type="text" class="survey-opt-input" value="${opt}" data-qi="${qi}" data-oi="${oi}"><button class="survey-opt-del" data-qi="${qi}" data-oi="${oi}">×</button></div>`).join(''); }
+    const block = document.createElement('div');
+    block.className = 'survey-q-block';
+    const isYesNo = currentSurveyType === 'yesno';
+    let optsHtml = '';
+    if (isYesNo) {
+      optsHtml = `<div class="survey-opt-row"><span class="survey-opt-key">A</span><input type="text" class="survey-opt-input" value="是" disabled></div><div class="survey-opt-row"><span class="survey-opt-key">B</span><input type="text" class="survey-opt-input" value="否" disabled></div>`;
+    } else {
+      optsHtml = q.options.map((opt, oi) => `<div class="survey-opt-row"><span class="survey-opt-key">${String.fromCharCode(65 + oi)}</span><input type="text" class="survey-opt-input" value="${opt}" data-qi="${qi}" data-oi="${oi}"><button class="survey-opt-del" data-qi="${qi}" data-oi="${oi}">×</button></div>`).join('');
+    }
     block.innerHTML = `<div class="survey-q-row"><span class="survey-q-label">问题 ${qi + 1}</span><input type="text" class="survey-q-input" value="${q.title}" placeholder="请输入问题" data-qi="${qi}"></div><div class="survey-opts" data-qi="${qi}">${optsHtml}</div>${isYesNo ? '' : `<div class="survey-add-opt" data-qi="${qi}">+ 添加选项</div>`}`;
     box.appendChild(block);
   });
   box.querySelectorAll('.survey-q-input').forEach(inp => { inp.oninput = () => { surveyQuestions[parseInt(inp.dataset.qi)].title = inp.value; }; });
   box.querySelectorAll('.survey-opt-input').forEach(inp => { inp.oninput = () => { surveyQuestions[parseInt(inp.dataset.qi)].options[parseInt(inp.dataset.oi)] = inp.value; }; });
-  box.querySelectorAll('.survey-opt-del').forEach(btn => { btn.onclick = () => { const qi = parseInt(btn.dataset.qi), oi = parseInt(btn.dataset.oi); if (surveyQuestions[qi].options.length <= 2) { alert('至少保留 2 个选项'); return; } surveyQuestions[qi].options.splice(oi, 1); renderSurveyQuestions(); }; });
-  box.querySelectorAll('.survey-add-opt').forEach(el => { el.onclick = () => { surveyQuestions[parseInt(el.dataset.qi)].options.push(''); renderSurveyQuestions(); }; });
+  box.querySelectorAll('.survey-opt-del').forEach(btn => {
+    btn.onclick = () => {
+      const qi = parseInt(btn.dataset.qi), oi = parseInt(btn.dataset.oi);
+      if (surveyQuestions[qi].options.length <= 2) { alert('至少保留 2 个选项'); return; }
+      surveyQuestions[qi].options.splice(oi, 1); renderSurveyQuestions();
+    };
+  });
+  box.querySelectorAll('.survey-add-opt').forEach(el => {
+    el.onclick = () => { surveyQuestions[parseInt(el.dataset.qi)].options.push(''); renderSurveyQuestions(); };
+  });
 }
 function resetSurveyNew() {
-  currentSurveyType = 'single'; surveyQuestions = [{ title: '', options: ['', ''], optionsByType: { custom: ['', ''], yesno: ['是', '否'] } }];
+  currentSurveyType = 'single';
+  surveyQuestions = [{ title: '', options: ['', ''], optionsByType: { custom: ['', ''], yesno: ['是', '否'] } }];
   document.getElementById('surveyTitleInput').value = '';
   document.querySelectorAll('.survey-type-btn').forEach(b => b.classList.toggle('active', b.dataset.type === 'single'));
-  document.getElementById('surveyTypeTip').textContent = '单选：对方回答时只会选中一个选项'; renderSurveyQuestions();
+  document.getElementById('surveyTypeTip').textContent = '单选：对方回答时只会选中一个选项';
+  renderSurveyQuestions();
 }
 document.querySelectorAll('.survey-type-btn').forEach(btn => {
   btn.onclick = () => {
-    const newType = btn.dataset.type, oldType = currentSurveyType; if (newType === oldType) return;
-    surveyQuestions.forEach(q => { if (!q.optionsByType) q.optionsByType = {}; if (oldType === 'yesno') q.optionsByType.yesno = ['是', '否']; else q.optionsByType.custom = q.options.slice(); });
-    currentSurveyType = newType; document.querySelectorAll('.survey-type-btn').forEach(b => b.classList.remove('active')); btn.classList.add('active');
+    const newType = btn.dataset.type, oldType = currentSurveyType;
+    if (newType === oldType) return;
+    surveyQuestions.forEach(q => {
+      if (!q.optionsByType) q.optionsByType = {};
+      if (oldType === 'yesno') q.optionsByType.yesno = ['是', '否'];
+      else q.optionsByType.custom = q.options.slice();
+    });
+    currentSurveyType = newType;
+    document.querySelectorAll('.survey-type-btn').forEach(b => b.classList.remove('active'));
+    btn.classList.add('active');
     const tip = document.getElementById('surveyTypeTip');
     if (newType === 'single') tip.textContent = '单选：对方回答时只会选中一个选项';
     if (newType === 'multi') tip.textContent = '多选：对方回答时会从你填写的选项中随机选中多项';
     if (newType === 'yesno') tip.textContent = '是否：只需填写问题，选项固定为「是 / 否」';
-    surveyQuestions.forEach(q => { if (!q.optionsByType) q.optionsByType = {}; if (newType === 'yesno') q.options = ['是', '否']; else q.options = (q.optionsByType.custom && q.optionsByType.custom.length >= 2) ? q.optionsByType.custom.slice() : ['', '']; });
+    surveyQuestions.forEach(q => {
+      if (!q.optionsByType) q.optionsByType = {};
+      if (newType === 'yesno') q.options = ['是', '否'];
+      else q.options = (q.optionsByType.custom && q.optionsByType.custom.length >= 2) ? q.optionsByType.custom.slice() : ['', ''];
+    });
     renderSurveyQuestions();
   };
 });
@@ -1916,244 +2627,506 @@ document.getElementById('surveySendBtn').onclick = () => {
   if (!title) { alert('请输入问卷标题'); return; }
   for (let i = 0; i < surveyQuestions.length; i++) {
     if (!surveyQuestions[i].title.trim()) { alert('问题 ' + (i + 1) + ' 还没有填写'); return; }
-    if (currentSurveyType !== 'yesno') { for (let j = 0; j < surveyQuestions[i].options.length; j++) { if (!surveyQuestions[i].options[j].trim()) { alert('问题 ' + (i + 1) + ' 的选项 ' + String.fromCharCode(65 + j) + ' 没有填写'); return; } } }
+    if (currentSurveyType !== 'yesno') {
+      for (let j = 0; j < surveyQuestions[i].options.length; j++) {
+        if (!surveyQuestions[i].options[j].trim()) { alert('问题 ' + (i + 1) + ' 的选项 ' + String.fromCharCode(65 + j) + ' 没有填写'); return; }
+      }
+    }
   }
   const surveys = load('our_surveys', []);
   const survey = { id: Date.now() + '_' + Math.random().toString(36).slice(2, 8), title, type: currentSurveyType, questions: surveyQuestions.map(q => ({ title: q.title, options: q.options.slice() })), t: Date.now(), answered: false };
-  surveys.push(survey); save('our_surveys', surveys); sendSurveyToChat(survey); showPage('chatPage');
+  surveys.push(survey); save('our_surveys', surveys);
+  sendSurveyToChat(survey); showPage('chatPage');
 };
 function sendSurveyToChat(survey) {
-  const taName = load('ta_name', 'TA'); const cardId = survey.id + '_card';
+  const taName = load('ta_name', 'TA');
+  const cardId = survey.id + '_card';
   const msg = { type: 'surveycard', sender: 'me', surveyId: survey.id, title: `邀请${taName}回答问卷`, sub: `问题：${survey.questions[0].title}`, count: survey.questions.length, status: '未回答', cardId, t: Date.now() };
-  const msgs = load('our_messages', []); msgs.push(msg); save('our_messages', msgs); renderSurveyCard(msg);
+  const msgs = load('our_messages', []); msgs.push(msg); save('our_messages', msgs);
+  renderSurveyCard(msg);
   setTimeout(() => { autoAnswerSurvey(survey.id); }, 2000 + Math.random() * 1000);
 }
 function autoAnswerSurvey(surveyId) {
-  const surveys = load('our_surveys', []); const s = surveys.find(x => x.id === surveyId); if (!s || s.answered) return;
+  const surveys = load('our_surveys', []);
+  const s = surveys.find(x => x.id === surveyId);
+  if (!s || s.answered) return;
   const answers = [];
   s.questions.forEach(q => {
     if (s.type === 'single') answers.push([Math.floor(Math.random() * q.options.length)]);
-    else if (s.type === 'multi') { const n = q.options.length; if (n <= 2) answers.push(q.options.map((_, i) => i)); else { const cnt = 2 + Math.floor(Math.random() * 2); const idxs = []; while (idxs.length < cnt) { const r = Math.floor(Math.random() * n); if (!idxs.includes(r)) idxs.push(r); } idxs.sort((a, b) => a - b); answers.push(idxs); } }
-    else answers.push([Math.floor(Math.random() * 2)]);
+    else if (s.type === 'multi') {
+      const n = q.options.length;
+      if (n <= 2) answers.push(q.options.map((_, i) => i));
+      else {
+        const cnt = 2 + Math.floor(Math.random() * 2); const idxs = [];
+        while (idxs.length < cnt) { const r = Math.floor(Math.random() * n); if (!idxs.includes(r)) idxs.push(r); }
+        idxs.sort((a, b) => a - b); answers.push(idxs);
+      }
+    } else answers.push([Math.floor(Math.random() * 2)]);
   });
   const mainCards = cards.filter(c => (c.type || 'main') === 'main');
   const note = mainCards.length > 0 ? mainCards[Math.floor(Math.random() * mainCards.length)].content : '';
-  s.answered = true; s.answers = answers; s.note = note; s.answeredAt = Date.now(); save('our_surveys', surveys);
-  const all = load('our_messages', []); const myCard = all.find(m => m.type === 'surveycard' && m.surveyId === surveyId && m.sender === 'me');
+  s.answered = true; s.answers = answers; s.note = note; s.answeredAt = Date.now();
+  save('our_surveys', surveys);
+  const all = load('our_messages', []);
+  const myCard = all.find(m => m.type === 'surveycard' && m.surveyId === surveyId && m.sender === 'me');
   if (myCard) myCard.status = '已回答';
   all.push({ type: 'surveycard', sender: 'ta', surveyId: surveyId, title: '我回答了问卷', sub: `问题：${s.questions[0].title}`, count: s.questions.length, status: '已回答', cardId: 'ta_' + surveyId + '_' + Math.random().toString(36).slice(2, 6), t: Date.now() });
-  save('our_messages', all); refreshMessages();
+  save('our_messages', all);
+  refreshMessages();
 }
 function renderSurveyCard(m) {
-  const row = document.createElement('div'); row.className = 'msg-row ' + (m.sender === 'me' ? 'me' : 'ta'); row.dataset.msgId = m.cardId;
-  const avatar = buildAvatar(m.sender); const card = document.createElement('div'); card.className = 'survey-card-msg'; card.dataset.surveyId = m.surveyId;
+  const row = document.createElement('div');
+  row.className = 'msg-row ' + (m.sender === 'me' ? 'me' : 'ta');
+  row.dataset.msgId = m.cardId;
+  const avatar = buildAvatar(m.sender);
+  const card = document.createElement('div');
+  card.className = 'survey-card-msg';
+  card.dataset.surveyId = m.surveyId;
   card.innerHTML = `<div class="survey-card-msg-top"><div class="survey-card-msg-icon"><svg viewBox="0 0 24 24" fill="none" stroke="#666" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="4" y="4" width="16" height="18" rx="2"></rect><path d="M9 4 V7 H15 V4"></path><path d="M8 12 H16 M8 16 H14"></path></svg></div><div style="flex:1;"><div class="survey-card-msg-title">${m.title}</div><div class="survey-card-msg-sub">${m.sub || ''}</div></div></div><div class="survey-card-msg-line"></div><div class="survey-card-msg-foot"><span>${m.count}个问题</span><span class="tag">${m.status}</span></div>`;
-  card.style.cursor = 'pointer'; card.onclick = () => openSurveyAnswer(m.surveyId);
-  row.appendChild(avatar); row.appendChild(card); messagesEl.appendChild(row); messagesEl.scrollTop = messagesEl.scrollHeight;
+  card.style.cursor = 'pointer';
+  card.onclick = () => openSurveyAnswer(m.surveyId);
+  row.appendChild(avatar); row.appendChild(card);
+  messagesEl.appendChild(row);
+  messagesEl.scrollTop = messagesEl.scrollHeight;
 }
 function openSurveyAnswer(surveyId) {
-  const surveys = load('our_surveys', []); const s = surveys.find(x => x.id === surveyId); if (!s) return;
-  const modal = document.getElementById('surveyAnswerModal'); document.getElementById('surveyAnswerTitle').textContent = s.title;
-  const body = document.getElementById('surveyAnswerBody'); body.innerHTML = '';
+  const surveys = load('our_surveys', []);
+  const s = surveys.find(x => x.id === surveyId);
+  if (!s) return;
+  const modal = document.getElementById('surveyAnswerModal');
+  document.getElementById('surveyAnswerTitle').textContent = s.title;
+  const body = document.getElementById('surveyAnswerBody');
+  body.innerHTML = '';
   s.questions.forEach((q, qi) => {
-    const block = document.createElement('div'); block.className = 'survey-answer-q';
+    const block = document.createElement('div');
+    block.className = 'survey-answer-q';
     block.innerHTML = `<div class="survey-answer-q-title">${(qi + 1)}. ${q.title}</div>`;
     const selected = s.answers ? (s.answers[qi] || []) : [];
     q.options.forEach((opt, oi) => {
-      const div = document.createElement('div'); div.className = 'survey-answer-opt' + (selected.includes(oi) ? ' selected' : '');
-      div.innerHTML = `<div class="bullet"></div><div>${String.fromCharCode(65 + oi)}. ${opt}</div>`; block.appendChild(div);
+      const div = document.createElement('div');
+      div.className = 'survey-answer-opt' + (selected.includes(oi) ? ' selected' : '');
+      div.innerHTML = `<div class="bullet"></div><div>${String.fromCharCode(65 + oi)}. ${opt}</div>`;
+      block.appendChild(div);
     });
     body.appendChild(block);
   });
-  if (s.note) { const noteBox = document.createElement('div'); noteBox.className = 'survey-note-box'; noteBox.innerHTML = `<div class="label">备注</div>${s.note}`; body.appendChild(noteBox); }
+  if (s.note) {
+    const noteBox = document.createElement('div');
+    noteBox.className = 'survey-note-box';
+    noteBox.innerHTML = `<div class="label">备注</div>${s.note}`;
+    body.appendChild(noteBox);
+  }
   modal.classList.remove('hidden');
 }
 document.getElementById('closeSurveyAnswerBtn').onclick = () => document.getElementById('surveyAnswerModal').classList.add('hidden');
-
+</script>
+/* ★★★ index 段 8 结束 ★★★ *//* ★★★ index 段 9 开始 ★★★ */
+<script>
 /* ===== 信箱 ===== */
 let currentMailTab = 'sent';
 function showMailPage() {
-  showPage('mailPage'); currentMailTab = 'sent';
+  showPage('mailPage');
+  currentMailTab = 'sent';
   document.querySelectorAll('.mail-tab').forEach(t => t.classList.toggle('active', t.dataset.tab === 'sent'));
   renderMailList();
 }
 document.querySelectorAll('.mail-tab').forEach(tab => {
-  tab.onclick = () => { currentMailTab = tab.dataset.tab; document.querySelectorAll('.mail-tab').forEach(t => t.classList.remove('active')); tab.classList.add('active'); renderMailList(); };
+  tab.onclick = () => {
+    currentMailTab = tab.dataset.tab;
+    document.querySelectorAll('.mail-tab').forEach(t => t.classList.remove('active'));
+    tab.classList.add('active');
+    renderMailList();
+  };
 });
 function renderMailList() {
-  const box = document.getElementById('mailBody'); const mails = load('our_mails', []).filter(m => m.direction === currentMailTab);
-  if (mails.length === 0) { box.innerHTML = '<div class="mail-empty">' + (currentMailTab === 'sent' ? '还没有寄出过信，写下你的第一封信吧' : '还没有收到过信') + '</div>'; return; }
+  const box = document.getElementById('mailBody');
+  const mails = load('our_mails', []).filter(m => m.direction === currentMailTab);
+  if (mails.length === 0) {
+    box.innerHTML = '<div class="mail-empty">' + (currentMailTab === 'sent' ? '还没有寄出过信，写下你的第一封信吧' : '还没有收到过信') + '</div>';
+    return;
+  }
   box.innerHTML = '';
   mails.slice().reverse().forEach(m => {
-    const div = document.createElement('div'); div.className = 'mail-item';
+    const div = document.createElement('div');
+    div.className = 'mail-item';
     const fromText = m.direction === 'sent' ? '我寄给 ' + load('ta_name', 'TA') : load('ta_name', 'TA') + ' 寄给我';
     const statusText = m.direction === 'sent' ? '已寄出' : (m.read ? '已读' : '未读');
     const statusCls = m.direction === 'sent' ? 'sent' : (m.read ? '' : 'unread');
     div.innerHTML = `<div class="from">${fromText}</div><div class="preview">${(m.title ? '【' + m.title + '】' : '') + (m.content || '')}</div><div class="date">${new Date(m.t).toLocaleString('zh-CN')}</div><div class="status ${statusCls}">${statusText}</div>`;
-    div.onclick = () => openMailRead(m.id); box.appendChild(div);
+    div.onclick = () => openMailRead(m.id);
+    box.appendChild(div);
   });
 }
 function openMailRead(mailId) {
-  const mails = load('our_mails', []); const m = mails.find(x => x.id === mailId); if (!m) return;
+  const mails = load('our_mails', []);
+  const m = mails.find(x => x.id === mailId);
+  if (!m) return;
   if (m.direction === 'received' && !m.read) { m.read = true; save('our_mails', mails); renderMailList(); }
   const from = m.direction === 'sent' ? '我寄给 ' + load('ta_name', 'TA') : load('ta_name', 'TA') + ' 寄给我';
-  document.getElementById('mailReadFrom').textContent = from; document.getElementById('mailReadTitle').textContent = m.title || '（无题）';
-  document.getElementById('mailReadContent').textContent = m.content || ''; document.getElementById('mailReadDate').textContent = new Date(m.t).toLocaleString('zh-CN');
+  document.getElementById('mailReadFrom').textContent = from;
+  document.getElementById('mailReadTitle').textContent = m.title || '（无题）';
+  document.getElementById('mailReadContent').textContent = m.content || '';
+  document.getElementById('mailReadDate').textContent = new Date(m.t).toLocaleString('zh-CN');
   document.getElementById('mailReadModal').classList.remove('hidden');
 }
 document.getElementById('closeMailReadBtn').onclick = () => document.getElementById('mailReadModal').classList.add('hidden');
 document.getElementById('backFromMailBtn').onclick = () => showPage('homePage');
-document.getElementById('mailWriteBtn').onclick = () => { document.getElementById('mailWriteTo').textContent = '收件人：' + load('ta_name', 'TA'); document.getElementById('mailTitleInput').value = ''; document.getElementById('mailContentInput').value = ''; showPage('mailWritePage'); };
+document.getElementById('mailWriteBtn').onclick = () => {
+  document.getElementById('mailWriteTo').textContent = '收件人：' + load('ta_name', 'TA');
+  document.getElementById('mailTitleInput').value = '';
+  document.getElementById('mailContentInput').value = '';
+  showPage('mailWritePage');
+};
 document.getElementById('mailWriteCancelBtn').onclick = () => showPage('mailPage');
 document.getElementById('mailSendBtn').onclick = () => {
-  const title = document.getElementById('mailTitleInput').value.trim(); const content = document.getElementById('mailContentInput').value.trim();
+  const title = document.getElementById('mailTitleInput').value.trim();
+  const content = document.getElementById('mailContentInput').value.trim();
   if (!content) { alert('还没写内容'); return; }
-  const mails = load('our_mails', []); mails.push({ id: Date.now() + '_' + Math.random().toString(36).slice(2, 6), direction: 'sent', title, content, t: Date.now() });
-  save('our_mails', mails); showPage('mailPage'); currentMailTab = 'sent';
-  document.querySelectorAll('.mail-tab').forEach(t => t.classList.toggle('active', t.dataset.tab === 'sent')); renderMailList();
+  const mails = load('our_mails', []);
+  mails.push({ id: Date.now() + '_' + Math.random().toString(36).slice(2, 6), direction: 'sent', title, content, t: Date.now() });
+  save('our_mails', mails);
+  showPage('mailPage');
+  currentMailTab = 'sent';
+  document.querySelectorAll('.mail-tab').forEach(t => t.classList.toggle('active', t.dataset.tab === 'sent'));
+  renderMailList();
 };
-</script>
+let autoMailTimer = null;
+function scheduleAutoMail() {
+  const min = load('mail_auto_min', 3) * 60 * 60 * 1000;
+  const max = load('mail_auto_max', 6) * 60 * 60 * 1000;
+  const enabled = load('mail_auto_on', false);
+  clearTimeout(autoMailTimer);
+  if (!enabled) return;
+  const delay = min + Math.random() * (max - min);
+  autoMailTimer = setTimeout(() => {
+    if (!load('mail_auto_on', false)) return;
+    const mainCards = cards.filter(c => (c.type || 'main') === 'main');
+    const content = mainCards.length > 0 ? mainCards[Math.floor(Math.random() * mainCards.length)].content : '想你了。';
+    const mails = load('our_mails', []);
+    mails.push({ id: Date.now() + '_' + Math.random().toString(36).slice(2, 6), direction: 'received', title: '', content, t: Date.now(), read: false });
+    save('our_mails', mails);
+    scheduleAutoMail();
+  }, delay);
+}
+scheduleAutoMail();
 
-<script>
 /* ===== 朋友圈 ===== */
-let momentListMode = 'all', currentVisibleDate = '';
+let momentListMode = 'all';
+let currentVisibleDate = '';
+
 function initMomentsPage() {
-  const myAvatar = document.getElementById('momentMyAvatar'), myName = document.getElementById('momentMyName');
-  const url = load('my_avatar', ''), name = load('my_name', '我');
-  if (myAvatar) { if (url) { myAvatar.style.background = `url(${url}) center/cover no-repeat`; myAvatar.textContent = ''; } else myAvatar.textContent = name.charAt(0); }
+  const myAvatar = document.getElementById('momentMyAvatar');
+  const myName = document.getElementById('momentMyName');
+  const url = load('my_avatar', '');
+  const name = load('my_name', '我');
+  if (myAvatar) {
+    if (url) { myAvatar.style.background = `url(${url}) center/cover no-repeat`; myAvatar.textContent = ''; }
+    else myAvatar.textContent = name.charAt(0);
+  }
   if (myName) myName.textContent = name;
-  const bg = load('moment_bg', ''); const header = document.getElementById('momentHeader');
-  if (bg) { header.style.background = `url(${bg}) center/cover no-repeat`; } else { header.style.background = 'linear-gradient(135deg, #e8f0ff 0%, #d7e4f8 100%)'; }
-  momentListMode = 'all'; const listBtn = document.getElementById('momentListBtn'); if (listBtn) listBtn.classList.remove('active');
-  currentVisibleDate = ''; renderMomentsList(); updateBellDot();
+  const bg = load('moment_bg', '');
+  const header = document.getElementById('momentHeader');
+  if (bg) {
+    header.style.background = `url(${bg}) center/cover no-repeat`;
+  } else {
+    header.style.background = 'linear-gradient(135deg, #e8f0ff 0%, #d7e4f8 100%)';
+  }
+  momentListMode = 'all';
+  const listBtn = document.getElementById('momentListBtn');
+  if (listBtn) listBtn.classList.remove('active');
+  currentVisibleDate = '';
+  renderMomentsList();
+  updateBellDot();
 }
-function dateKeyOf(d) { return `${d.getFullYear()}-${d.getMonth() + 1}-${d.getDate()}`; }
+
+function dateKeyOf(d) {
+  return `${d.getFullYear()}-${d.getMonth() + 1}-${d.getDate()}`;
+}
+
 function formatDividerDate(d) {
-  const today = new Date(); today.setHours(0, 0, 0, 0); const target = new Date(d); target.setHours(0, 0, 0, 0);
+  const today = new Date(); today.setHours(0, 0, 0, 0);
+  const target = new Date(d); target.setHours(0, 0, 0, 0);
   const diff = Math.round((today - target) / 86400000);
-  if (diff === 0) return '今天'; if (diff === 1) return '昨天'; if (diff === 2) return '前天'; return `${d.getMonth() + 1}月${d.getDate()}日`;
+  if (diff === 0) return '今天';
+  if (diff === 1) return '昨天';
+  if (diff === 2) return '前天';
+  return `${d.getMonth() + 1}月${d.getDate()}日`;
 }
+
 function renderMomentsList() {
-  const box = document.getElementById('momentBody'); if (!box) return;
-  const all = load('our_moments', []); let list = all.slice();
+  const box = document.getElementById('momentBody');
+  if (!box) return;
+  const all = load('our_moments', []);
+  let list = all.slice();
   if (momentListMode === 'ta') list = list.filter(m => m.sender === 'ta');
   const allEmpty = all.length === 0;
-  if (momentListMode === 'ta' && list.length === 0) { box.innerHTML = '<div class="moment-ta-empty">对方还没有发动态哦</div>'; const dt = document.getElementById('momentDividerText'); if (dt) dt.textContent = '今天'; currentVisibleDate = ''; return; }
-  if (momentListMode === 'all' && allEmpty) { box.innerHTML = ''; const dt = document.getElementById('momentDividerText'); if (dt) dt.textContent = '今天'; currentVisibleDate = ''; return; }
-  list.sort((a, b) => b.t - a.t); box.innerHTML = '';
-  list.forEach(m => { const card = renderMomentCard(m); card.dataset.dateKey = dateKeyOf(new Date(m.t)); box.appendChild(card); });
-  const firstKey = dateKeyOf(new Date(list[0].t)); currentVisibleDate = firstKey;
-  const dt = document.getElementById('momentDividerText'); if (dt) dt.textContent = formatDividerDate(new Date(list[0].t));
+  if (momentListMode === 'ta' && list.length === 0) {
+    box.innerHTML = '<div class="moment-ta-empty">对方还没有发动态哦</div>';
+    const dt = document.getElementById('momentDividerText');
+    if (dt) dt.textContent = '今天';
+    currentVisibleDate = '';
+    return;
+  }
+  if (momentListMode === 'all' && allEmpty) {
+    box.innerHTML = '';
+    const dt = document.getElementById('momentDividerText');
+    if (dt) dt.textContent = '今天';
+    currentVisibleDate = '';
+    return;
+  }
+  list.sort((a, b) => b.t - a.t);
+  box.innerHTML = '';
+  list.forEach(m => {
+    const card = renderMomentCard(m);
+    card.dataset.dateKey = dateKeyOf(new Date(m.t));
+    box.appendChild(card);
+  });
+  const firstKey = dateKeyOf(new Date(list[0].t));
+  currentVisibleDate = firstKey;
+  const dt = document.getElementById('momentDividerText');
+  if (dt) dt.textContent = formatDividerDate(new Date(list[0].t));
   bindMomentScroll();
 }
+
 function bindMomentScroll() {
-  const box = document.getElementById('momentBody'); if (!box) return;
+  const box = document.getElementById('momentBody');
+  if (!box) return;
   box.onscroll = () => {
-    const cards = box.querySelectorAll('.moment-card'); if (cards.length === 0) return;
-    const boxTop = box.getBoundingClientRect().top; let visibleKey = '';
-    for (let i = 0; i < cards.length; i++) { const r = cards[i].getBoundingClientRect(); if (r.bottom > boxTop + 2) { visibleKey = cards[i].dataset.dateKey; break; } }
+    const cards = box.querySelectorAll('.moment-card');
+    if (cards.length === 0) return;
+    const boxTop = box.getBoundingClientRect().top;
+    let visibleKey = '';
+    for (let i = 0; i < cards.length; i++) {
+      const r = cards[i].getBoundingClientRect();
+      if (r.bottom > boxTop + 2) {
+        visibleKey = cards[i].dataset.dateKey;
+        break;
+      }
+    }
     if (!visibleKey) visibleKey = cards[cards.length - 1].dataset.dateKey;
     if (visibleKey && visibleKey !== currentVisibleDate) {
-      currentVisibleDate = visibleKey; const [y, mo, da] = visibleKey.split('-').map(Number);
-      const dt = document.getElementById('momentDividerText'); if (dt) dt.textContent = formatDividerDate(new Date(y, mo - 1, da));
+      currentVisibleDate = visibleKey;
+      const [y, mo, da] = visibleKey.split('-').map(Number);
+      const dt = document.getElementById('momentDividerText');
+      if (dt) dt.textContent = formatDividerDate(new Date(y, mo - 1, da));
     }
   };
 }
+
 function renderMomentCard(m) {
-  const card = document.createElement('div'); card.className = 'moment-card'; card.dataset.mid = m.id;
-  const isMe = m.sender === 'me'; const avatarUrl = isMe ? load('my_avatar', '') : load('ta_avatar', '');
+  const card = document.createElement('div');
+  card.className = 'moment-card';
+  card.dataset.mid = m.id;
+  const isMe = m.sender === 'me';
+  const avatarUrl = isMe ? load('my_avatar', '') : load('ta_avatar', '');
   const name = isMe ? load('my_name', '我') : load('ta_name', 'TA');
-  const a = document.createElement('div'); a.className = 'head';
-  const aImg = document.createElement('div'); aImg.className = 'a';
-  if (avatarUrl) { aImg.style.background = `url(${avatarUrl}) center/cover no-repeat`; } else aImg.textContent = name.charAt(0);
-  const who = document.createElement('div'); who.className = 'who';
-  const d = new Date(m.t); const dateStr = `${d.getMonth() + 1}月${d.getDate()}日 ${pad2(d.getHours())}:${pad2(d.getMinutes())}`;
+  const a = document.createElement('div');
+  a.className = 'head';
+  const aImg = document.createElement('div');
+  aImg.className = 'a';
+  if (avatarUrl) { aImg.style.background = `url(${avatarUrl}) center/cover no-repeat`; }
+  else aImg.textContent = name.charAt(0);
+  const who = document.createElement('div');
+  who.className = 'who';
+  const d = new Date(m.t);
+  const dateStr = `${d.getMonth() + 1}月${d.getDate()}日 ${pad2(d.getHours())}:${pad2(d.getMinutes())}`;
   who.innerHTML = `<div class="name">${name}</div><div class="time">${dateStr}</div>`;
   a.appendChild(aImg); a.appendChild(who);
   if (isMe) {
-    const del = document.createElement('button'); del.className = 'del-btn'; del.textContent = '×';
-    del.onclick = () => { if (!confirm('删除这条动态？')) return; const all = load('our_moments', []); const i = all.findIndex(x => x.id === m.id); if (i >= 0) all.splice(i, 1); save('our_moments', all); renderMomentsList(); };
+    const del = document.createElement('button');
+    del.className = 'del-btn';
+    del.textContent = '×';
+    del.onclick = () => {
+      if (!confirm('删除这条动态？')) return;
+      const all = load('our_moments', []);
+      const i = all.findIndex(x => x.id === m.id);
+      if (i >= 0) all.splice(i, 1);
+      save('our_moments', all);
+      renderMomentsList();
+    };
     a.appendChild(del);
   }
   card.appendChild(a);
-  if (m.text) { const t = document.createElement('div'); t.className = 'text'; t.textContent = m.text; card.appendChild(t); }
+  if (m.text) {
+    const t = document.createElement('div');
+    t.className = 'text';
+    t.textContent = m.text;
+    card.appendChild(t);
+  }
   if (m.imgs && m.imgs.length > 0) {
-    const imgsBox = document.createElement('div'); imgsBox.className = 'imgs' + (m.imgs.length === 1 ? ' single' : '');
-    m.imgs.forEach(url => { const img = document.createElement('img'); img.src = url; imgsBox.appendChild(img); });
+    const imgsBox = document.createElement('div');
+    imgsBox.className = 'imgs' + (m.imgs.length === 1 ? ' single' : '');
+    m.imgs.forEach(url => {
+      const img = document.createElement('img');
+      img.src = url;
+      imgsBox.appendChild(img);
+    });
     card.appendChild(imgsBox);
   }
-  const acts = document.createElement('div'); acts.className = 'actions'; const liked = (m.likes || []).includes('me');
+  const acts = document.createElement('div');
+  acts.className = 'actions';
+  const liked = (m.likes || []).includes('me');
   acts.innerHTML = `<button class="like-btn ${liked ? 'liked' : ''}">♡ 赞</button><button class="comment-btn">💬 评论</button>`;
   acts.querySelector('.like-btn').onclick = () => {
-    const all = load('our_moments', []); const x = all.find(y => y.id === m.id); if (!x) return; if (!x.likes) x.likes = [];
-    const i = x.likes.indexOf('me'); if (i >= 0) x.likes.splice(i, 1); else x.likes.push('me');
-    save('our_moments', all); renderMomentsList();
+    const all = load('our_moments', []);
+    const x = all.find(y => y.id === m.id);
+    if (!x) return;
+    if (!x.likes) x.likes = [];
+    const i = x.likes.indexOf('me');
+    if (i >= 0) x.likes.splice(i, 1);
+    else x.likes.push('me');
+    save('our_moments', all);
+    renderMomentsList();
   };
   acts.querySelector('.comment-btn').onclick = () => {
-    const v = prompt('说点什么：'); if (!v || !v.trim()) return; const all = load('our_moments', []); const x = all.find(y => y.id === m.id); if (!x) return;
-    if (!x.comments) x.comments = []; x.comments.push({ who: 'me', text: v.trim(), t: Date.now() }); save('our_moments', all); renderMomentsList();
+    const v = prompt('说点什么：');
+    if (!v || !v.trim()) return;
+    const all = load('our_moments', []);
+    const x = all.find(y => y.id === m.id);
+    if (!x) return;
+    if (!x.comments) x.comments = [];
+    x.comments.push({ who: 'me', text: v.trim(), t: Date.now() });
+    save('our_moments', all);
+    renderMomentsList();
   };
   card.appendChild(acts);
   if (m.likes && m.likes.length > 0) {
-    const likesBox = document.createElement('div'); likesBox.className = 'likes';
-    const names = m.likes.map(w => w === 'me' ? load('my_name', '我') : load('ta_name', 'TA')).join('、'); likesBox.textContent = '♡ ' + names; card.appendChild(likesBox);
+    const likesBox = document.createElement('div');
+    likesBox.className = 'likes';
+    const names = m.likes.map(w => w === 'me' ? load('my_name', '我') : load('ta_name', 'TA')).join('、');
+    likesBox.textContent = '♡ ' + names;
+    card.appendChild(likesBox);
   }
   if (m.comments && m.comments.length > 0) {
-    const cmts = document.createElement('div'); cmts.className = 'comments';
-    m.comments.forEach(c => { const div = document.createElement('div'); div.className = 'c'; const wname = c.who === 'me' ? load('my_name', '我') : load('ta_name', 'TA'); div.innerHTML = `<span class="who">${wname}：</span>${c.text}`; cmts.appendChild(div); });
+    const cmts = document.createElement('div');
+    cmts.className = 'comments';
+    m.comments.forEach(c => {
+      const div = document.createElement('div');
+      div.className = 'c';
+      const wname = c.who === 'me' ? load('my_name', '我') : load('ta_name', 'TA');
+      div.innerHTML = `<span class="who">${wname}：</span>${c.text}`;
+      cmts.appendChild(div);
+    });
     card.appendChild(cmts);
   }
   return card;
 }
+</script>
+/* ★★★ index 段 9 结束 ★★★ *//* ★★★ index 段 10 开始 ★★★ */
+<script>
 document.getElementById('backFromMomentsBtn').onclick = () => showPage('homePage');
 document.getElementById('momentListBtn').onclick = () => {
   const btn = document.getElementById('momentListBtn');
-  if (momentListMode === 'all') { momentListMode = 'ta'; btn.classList.add('active'); } else { momentListMode = 'all'; btn.classList.remove('active'); }
-  renderMomentsList(); const box = document.getElementById('momentBody'); if (box) box.scrollTop = 0;
+  if (momentListMode === 'all') {
+    momentListMode = 'ta';
+    btn.classList.add('active');
+  } else {
+    momentListMode = 'all';
+    btn.classList.remove('active');
+  }
+  renderMomentsList();
+  const box = document.getElementById('momentBody');
+  if (box) box.scrollTop = 0;
 };
 document.getElementById('momentChangeBgBtn').onclick = () => {
-  const up = document.createElement('input'); up.type = 'file'; up.accept = 'image/*';
-  up.onchange = (e) => { const f = e.target.files[0]; if (!f) return; compressImage(f, 800, (url) => { save('moment_bg', url); document.getElementById('momentHeader').style.background = `url(${url}) center/cover no-repeat`; }); }; up.click();
+  const up = document.createElement('input');
+  up.type = 'file'; up.accept = 'image/*';
+  up.onchange = (e) => {
+    const f = e.target.files[0]; if (!f) return;
+    compressImage(f, 800, (url) => {
+      save('moment_bg', url);
+      const header = document.getElementById('momentHeader');
+      header.style.background = `url(${url}) center/cover no-repeat`;
+    });
+  };
+  up.click();
 };
+
+/* ===== 发朋友圈 ===== */
 let momentPostImgs = [];
-document.getElementById('momentAddBtn').onclick = () => { momentPostImgs = []; document.getElementById('momentPostText').value = ''; renderMomentPostImgs(); document.getElementById('momentPostModal').classList.remove('hidden'); };
-document.getElementById('momentPostCancel').onclick = () => document.getElementById('momentPostModal').classList.add('hidden');
+document.getElementById('momentAddBtn').onclick = () => {
+  momentPostImgs = [];
+  document.getElementById('momentPostText').value = '';
+  renderMomentPostImgs();
+  document.getElementById('momentPostModal').classList.remove('hidden');
+};
+document.getElementById('momentPostCancel').onclick = () => {
+  document.getElementById('momentPostModal').classList.add('hidden');
+};
 document.getElementById('momentImgUpload').onchange = (e) => {
-  const files = Array.from(e.target.files); if (files.length === 0) return; let done = 0;
-  files.forEach(f => { compressImage(f, 800, (url) => { momentPostImgs.push(url); done++; if (done === files.length) renderMomentPostImgs(); }); }); e.target.value = '';
+  const files = Array.from(e.target.files);
+  if (files.length === 0) return;
+  let done = 0;
+  files.forEach(f => {
+    compressImage(f, 800, (url) => {
+      momentPostImgs.push(url);
+      done++;
+      if (done === files.length) renderMomentPostImgs();
+    });
+  });
+  e.target.value = '';
 };
 function renderMomentPostImgs() {
-  const box = document.getElementById('momentPostImgs'); box.innerHTML = '';
+  const box = document.getElementById('momentPostImgs');
+  box.innerHTML = '';
   momentPostImgs.forEach((url, i) => {
-    const d = document.createElement('div'); d.className = 'img-box'; d.innerHTML = `<img src="${url}"><button class="del">×</button>`;
-    d.querySelector('.del').onclick = () => { momentPostImgs.splice(i, 1); renderMomentPostImgs(); }; box.appendChild(d);
+    const d = document.createElement('div');
+    d.className = 'img-box';
+    d.innerHTML = `<img src="${url}"><button class="del">×</button>`;
+    d.querySelector('.del').onclick = () => {
+      momentPostImgs.splice(i, 1);
+      renderMomentPostImgs();
+    };
+    box.appendChild(d);
   });
-  const add = document.createElement('div'); add.className = 'add-img'; add.id = 'momentAddImgBtn'; add.textContent = '+';
-  add.onclick = () => document.getElementById('momentImgUpload').click(); box.appendChild(add);
+  const add = document.createElement('div');
+  add.className = 'add-img';
+  add.id = 'momentAddImgBtn';
+  add.textContent = '+';
+  add.onclick = () => document.getElementById('momentImgUpload').click();
+  box.appendChild(add);
 }
 document.getElementById('momentPostSend').onclick = () => {
   const text = document.getElementById('momentPostText').value.trim();
   if (!text && momentPostImgs.length === 0) { alert('写点什么或选张图吧'); return; }
-  const all = load('our_moments', []); all.push({ id: Date.now() + '_' + Math.random().toString(36).slice(2, 6), sender: 'me', text: text, imgs: momentPostImgs.slice(), t: Date.now(), likes: [], comments: [] });
-  save('our_moments', all); document.getElementById('momentPostModal').classList.add('hidden');
-  momentListMode = 'all'; const listBtn = document.getElementById('momentListBtn'); if (listBtn) listBtn.classList.remove('active');
-  renderMomentsList(); const box = document.getElementById('momentBody'); if (box) box.scrollTop = 0;
+  const all = load('our_moments', []);
+  all.push({ id: Date.now() + '_' + Math.random().toString(36).slice(2, 6), sender: 'me', text: text, imgs: momentPostImgs.slice(), t: Date.now(), likes: [], comments: [] });
+  save('our_moments', all);
+  document.getElementById('momentPostModal').classList.add('hidden');
+  momentListMode = 'all';
+  const listBtn = document.getElementById('momentListBtn');
+  if (listBtn) listBtn.classList.remove('active');
+  renderMomentsList();
+  const box = document.getElementById('momentBody');
+  if (box) box.scrollTop = 0;
 };
+
+/* ===== 铃铛通知 ===== */
 function loadMomentNotifies() { return load('our_moment_notifies', []); }
 function saveMomentNotifies(list) { save('our_moment_notifies', list); }
 function updateBellDot() {
-  const list = loadMomentNotifies(); const hasUnread = list.some(n => !n.read);
-  const btn = document.getElementById('momentBellBtn'); if (btn) btn.classList.toggle('has-new', hasUnread);
+  const list = loadMomentNotifies();
+  const hasUnread = list.some(n => !n.read);
+  const btn = document.getElementById('momentBellBtn');
+  if (btn) btn.classList.toggle('has-new', hasUnread);
 }
 document.getElementById('momentBellBtn').onclick = () => {
-  const list = loadMomentNotifies(); list.forEach(n => n.read = true); saveMomentNotifies(list); updateBellDot();
+  const list = loadMomentNotifies();
+  list.forEach(n => n.read = true);
+  saveMomentNotifies(list);
+  updateBellDot();
   const body = document.getElementById('momentNotifyBody');
-  if (list.length === 0) { body.innerHTML = '<div class="notify-empty">还没有通知</div>'; }
-  else {
+  if (list.length === 0) {
+    body.innerHTML = '<div class="notify-empty">还没有通知</div>';
+  } else {
     body.innerHTML = '';
     list.slice().reverse().forEach(n => {
-      const div = document.createElement('div'); div.className = 'notify-item'; const taAvatar = load('ta_avatar', ''); const taName = load('ta_name', 'TA');
-      const d = new Date(n.t); const dateStr = `${d.getMonth() + 1}月${d.getDate()}日 ${pad2(d.getHours())}:${pad2(d.getMinutes())}`;
+      const div = document.createElement('div');
+      div.className = 'notify-item';
+      const taAvatar = load('ta_avatar', '');
+      const taName = load('ta_name', 'TA');
+      const d = new Date(n.t);
+      const dateStr = `${d.getMonth() + 1}月${d.getDate()}日 ${pad2(d.getHours())}:${pad2(d.getMinutes())}`;
       div.innerHTML = `<div class="a" ${taAvatar ? `style="background-image:url(${taAvatar})"` : ''}>${taAvatar ? '' : taName.charAt(0)}</div><div class="info"><div class="t">${n.text}</div><div class="d">${dateStr}</div></div>`;
       body.appendChild(div);
     });
@@ -2161,35 +3134,66 @@ document.getElementById('momentBellBtn').onclick = () => {
   document.getElementById('momentNotifyModal').classList.remove('hidden');
 };
 document.getElementById('closeMomentNotifyBtn').onclick = () => document.getElementById('momentNotifyModal').classList.add('hidden');
+
+/* ===== 删除朋友圈动态 ===== */
 let momentDelType = 'all';
-document.getElementById('momentTrashBtn').onclick = () => { momentDelType = 'all'; document.querySelectorAll('#momentDelOptions button').forEach(b => b.classList.toggle('active', b.dataset.type === 'all')); document.getElementById('momentTrashModal').classList.remove('hidden'); };
-document.querySelectorAll('#momentDelOptions button').forEach(btn => { btn.onclick = () => { momentDelType = btn.dataset.type; document.querySelectorAll('#momentDelOptions button').forEach(b => b.classList.remove('active')); btn.classList.add('active'); }; });
+document.getElementById('momentTrashBtn').onclick = () => {
+  momentDelType = 'all';
+  document.querySelectorAll('#momentDelOptions button').forEach(b => b.classList.toggle('active', b.dataset.type === 'all'));
+  document.getElementById('momentTrashModal').classList.remove('hidden');
+};
+document.querySelectorAll('#momentDelOptions button').forEach(btn => {
+  btn.onclick = () => {
+    momentDelType = btn.dataset.type;
+    document.querySelectorAll('#momentDelOptions button').forEach(b => b.classList.remove('active'));
+    btn.classList.add('active');
+  };
+});
 document.getElementById('closeMomentTrashBtn').onclick = () => document.getElementById('momentTrashModal').classList.add('hidden');
 document.getElementById('momentDelCancel').onclick = () => document.getElementById('momentTrashModal').classList.add('hidden');
 document.getElementById('momentDelOk').onclick = () => {
   let all = load('our_moments', []);
-  if (momentDelType === 'all') all = []; else if (momentDelType === 'mine') all = all.filter(m => m.sender !== 'me'); else if (momentDelType === 'ta') all = all.filter(m => m.sender !== 'ta');
-  save('our_moments', all); document.getElementById('momentTrashModal').classList.add('hidden'); renderMomentsList();
+  if (momentDelType === 'all') all = [];
+  else if (momentDelType === 'mine') all = all.filter(m => m.sender !== 'me');
+  else if (momentDelType === 'ta') all = all.filter(m => m.sender !== 'ta');
+  save('our_moments', all);
+  document.getElementById('momentTrashModal').classList.add('hidden');
+  renderMomentsList();
 };
+
+/* ===== 对方自动发朋友圈 ===== */
 let autoMomentTimer = null;
 function scheduleAutoMoment() {
-  const enabled = load('moment_auto_on', false); const min = load('moment_auto_min', 30) * 60 * 1000; const max = load('moment_auto_max', 60) * 60 * 1000;
-  clearTimeout(autoMomentTimer); if (!enabled) return; const delay = min + Math.random() * (max - min);
+  const enabled = load('moment_auto_on', false);
+  const min = load('moment_auto_min', 30) * 60 * 1000;
+  const max = load('moment_auto_max', 60) * 60 * 1000;
+  clearTimeout(autoMomentTimer);
+  if (!enabled) return;
+  const delay = min + Math.random() * (max - min);
   autoMomentTimer = setTimeout(() => {
     if (!load('moment_auto_on', false)) return;
     const mainCards = cards.filter(c => (c.type || 'main') === 'main');
     const text = mainCards.length > 0 ? mainCards[Math.floor(Math.random() * mainCards.length)].content : '今天也想你。';
-    let imgs = []; if (Math.random() < 0.3) { const stickers = load('ta_stickers', []); if (stickers.length > 0) imgs.push(stickers[Math.floor(Math.random() * stickers.length)]); }
-    const all = load('our_moments', []); all.push({ id: Date.now() + '_' + Math.random().toString(36).slice(2, 6), sender: 'ta', text: text, imgs: imgs, t: Date.now(), likes: [], comments: [] }); save('our_moments', all);
-    const notifies = loadMomentNotifies(); const taName = load('ta_name', 'TA'); notifies.push({ text: taName + ' 发布了一条新动态', t: Date.now(), read: false }); saveMomentNotifies(notifies); updateBellDot();
-    const page = document.getElementById('momentsPage'); if (page && !page.classList.contains('hidden')) renderMomentsList();
+    let imgs = [];
+    if (Math.random() < 0.3) {
+      const stickers = load('ta_stickers', []);
+      if (stickers.length > 0) imgs.push(stickers[Math.floor(Math.random() * stickers.length)]);
+    }
+    const all = load('our_moments', []);
+    all.push({ id: Date.now() + '_' + Math.random().toString(36).slice(2, 6), sender: 'ta', text: text, imgs: imgs, t: Date.now(), likes: [], comments: [] });
+    save('our_moments', all);
+    const notifies = loadMomentNotifies();
+    const taName = load('ta_name', 'TA');
+    notifies.push({ text: taName + ' 发布了一条新动态', t: Date.now(), read: false });
+    saveMomentNotifies(notifies);
+    updateBellDot();
+    const page = document.getElementById('momentsPage');
+    if (page && !page.classList.contains('hidden')) renderMomentsList();
     scheduleAutoMoment();
   }, delay);
 }
 scheduleAutoMoment();
-</script>
-<!-- ★★★ index 第 8 大段 结束 ★★★ --><!-- ★★★ index 第 9 大段 开始 ★★★ -->
-<script>
+
 /* ===== 音乐库 ===== */
 let musicList = [];
 let musicCurrentId = null;
@@ -2238,20 +3242,30 @@ function renderMusicList() {
   } else if (musicCurrentTab === 'fav') {
     const favs = musicList.filter(m => m.fav);
     if (favs.length === 0) html += '<div class="music-empty">还没有收藏的歌</div>';
-    else { html += '<div class="music-list">'; favs.forEach(m => html += musicItemHTML(m)); html += '</div>'; }
+    else {
+      html += '<div class="music-list">';
+      favs.forEach(m => html += musicItemHTML(m));
+      html += '</div>';
+    }
   }
   box.innerHTML = html;
   if (musicCurrentTab === 'mine') renderMusicItems('all');
   if (musicCurrentTab === 'fav') bindMusicItems();
   bindMusicActions();
 }
+</script>
+/* ★★★ index 段 10 结束 ★★★ *//* ★★★ index 段 11 开始 ★★★ */
+<script>
 function musicItemHTML(m) {
   const artist = m.artist || '未知歌手';
   const dur = m.duration || '';
   return `<div class="music-item" data-id="${m.id}">
     <div class="checkbox"></div>
     <div class="cover" ${m.cover ? `style="background-image:url(${m.cover})"` : ''}>${m.cover ? '' : '♪'}</div>
-    <div class="info"><div class="title">${m.name || '未命名'}</div><div class="sub">${artist}${m.type === 'link' ? ' · 网络' : ''}</div></div>
+    <div class="info">
+      <div class="title">${m.name || '未命名'}</div>
+      <div class="sub">${artist}${m.type === 'link' ? ' · 网络' : ''}</div>
+    </div>
     <div class="dur">${dur}</div>
     <button class="more">⋯</button>
   </div>`;
@@ -2279,115 +3293,513 @@ function bindMusicItems() {
   });
 }
 function showMusicItemMenu(id) {
-  const m = musicList.find(x => x.id === id); if (!m) return;
+  const m = musicList.find(x => x.id === id);
+  if (!m) return;
   const pick = prompt('输入数字：\n1. ' + (m.fav ? '取消收藏' : '收藏') + '\n2. 删除', '1');
   if (pick === '1') { m.fav = !m.fav; saveMusicMeta(); renderMusicList(); }
-  else if (pick === '2') { if (!confirm('确定删除这首歌？')) return; musicList = musicList.filter(x => x.id !== id); idbDelete('music', id).catch(() => {}); saveMusicMeta(); if (musicCurrentId === id) stopMusic(); renderMusicList(); }
+  else if (pick === '2') {
+    if (!confirm('确定删除这首歌？')) return;
+    musicList = musicList.filter(x => x.id !== id);
+    idbDelete('music', id).catch(() => {});
+    saveMusicMeta();
+    if (musicCurrentId === id) stopMusic();
+    renderMusicList();
+  }
 }
 function bindMusicActions() {
-  const uploadBtn = document.getElementById('musicUploadBtn'), linkBtn = document.getElementById('musicLinkBtn'), batchImportBtn = document.getElementById('musicBatchImportBtn'), batchManageBtn = document.getElementById('musicBatchManageBtn'), cleanBtn = document.getElementById('musicCleanBtn'), batchCancel = document.getElementById('musicBatchCancel'), batchDelete = document.getElementById('musicBatchDelete'), floatSwitch = document.getElementById('musicFloatSwitch');
+  const uploadBtn = document.getElementById('musicUploadBtn');
+  const linkBtn = document.getElementById('musicLinkBtn');
+  const batchImportBtn = document.getElementById('musicBatchImportBtn');
+  const batchManageBtn = document.getElementById('musicBatchManageBtn');
+  const cleanBtn = document.getElementById('musicCleanBtn');
+  const batchCancel = document.getElementById('musicBatchCancel');
+  const batchDelete = document.getElementById('musicBatchDelete');
+  const floatSwitch = document.getElementById('musicFloatSwitch');
+
   if (uploadBtn) uploadBtn.onclick = uploadMusicFile;
   if (linkBtn) linkBtn.onclick = () => openMusicInputModal('link');
   if (batchImportBtn) batchImportBtn.onclick = uploadMusicFiles;
   if (batchManageBtn) batchManageBtn.onclick = () => { musicBatchMode = !musicBatchMode; renderMusicList(); };
   if (batchCancel) batchCancel.onclick = () => { musicBatchMode = false; renderMusicList(); };
   if (batchDelete) batchDelete.onclick = () => {
-    const checked = document.querySelectorAll('.music-item.checked'); if (checked.length === 0) { alert('没有选中'); return; }
+    const checked = document.querySelectorAll('.music-item.checked');
+    if (checked.length === 0) { alert('没有选中'); return; }
     if (!confirm('删除选中的 ' + checked.length + ' 首？')) return;
-    const ids = Array.from(checked).map(el => el.dataset.id); ids.forEach(id => idbDelete('music', id).catch(() => {}));
-    musicList = musicList.filter(m => !ids.includes(m.id)); saveMusicMeta(); musicBatchMode = false; renderMusicList();
+    const ids = Array.from(checked).map(el => el.dataset.id);
+    ids.forEach(id => idbDelete('music', id).catch(() => {}));
+    musicList = musicList.filter(m => !ids.includes(m.id));
+    saveMusicMeta(); musicBatchMode = false; renderMusicList();
   };
   if (cleanBtn) cleanBtn.onclick = () => {
-    const bad = musicList.filter(m => m.type === 'link'); if (bad.length === 0) { alert('没有会员歌曲'); return; }
+    const bad = musicList.filter(m => m.type === 'link');
+    if (bad.length === 0) { alert('没有会员歌曲'); return; }
     if (!confirm('删除全部 ' + bad.length + ' 首链接歌曲？')) return;
-    bad.forEach(m => idbDelete('music', m.id).catch(() => {})); musicList = musicList.filter(m => m.type !== 'link'); saveMusicMeta(); renderMusicList();
+    bad.forEach(m => idbDelete('music', m.id).catch(() => {}));
+    musicList = musicList.filter(m => m.type !== 'link');
+    saveMusicMeta(); renderMusicList();
   };
-  if (floatSwitch) floatSwitch.onclick = () => { musicFloatEnabled = !musicFloatEnabled; floatSwitch.classList.toggle('on', musicFloatEnabled); if (!musicFloatEnabled) hideFloatDisc(); else if (musicCurrentId && musicAudio && !musicAudio.paused) showFloatDisc(); };
-  document.querySelectorAll('.music-sub-tab').forEach(tab => { tab.onclick = () => { document.querySelectorAll('.music-sub-tab').forEach(t => t.classList.remove('active')); tab.classList.add('active'); renderMusicItems(tab.dataset.sub); }; });
-  document.querySelectorAll('.music-tab').forEach(tab => { tab.onclick = () => { document.querySelectorAll('.music-tab').forEach(t => t.classList.remove('active')); tab.classList.add('active'); musicCurrentTab = tab.dataset.tab; renderMusicList(); }; });
+  if (floatSwitch) floatSwitch.onclick = () => {
+    musicFloatEnabled = !musicFloatEnabled;
+    floatSwitch.classList.toggle('on', musicFloatEnabled);
+    if (!musicFloatEnabled) hideFloatDisc();
+    else if (musicCurrentId && musicAudio && !musicAudio.paused) showFloatDisc();
+  };
+  document.querySelectorAll('.music-sub-tab').forEach(tab => {
+    tab.onclick = () => {
+      document.querySelectorAll('.music-sub-tab').forEach(t => t.classList.remove('active'));
+      tab.classList.add('active');
+      renderMusicItems(tab.dataset.sub);
+    };
+  });
+  document.querySelectorAll('.music-tab').forEach(tab => {
+    tab.onclick = () => {
+      document.querySelectorAll('.music-tab').forEach(t => t.classList.remove('active'));
+      tab.classList.add('active');
+      musicCurrentTab = tab.dataset.tab;
+      renderMusicList();
+    };
+  });
 }
-document.getElementById('backFromMusicBtn').onclick = () => { showPage('homePage'); if (musicCurrentId && musicAudio && !musicAudio.paused && musicFloatEnabled) showFloatDisc(); };
-function uploadMusicFile() { const up = document.createElement('input'); up.type = 'file'; up.accept = 'audio/*'; up.onchange = async (e) => { const f = e.target.files[0]; if (!f) return; await addMusicFromFile(f); saveMusicMeta(); renderMusicList(); }; up.click(); }
-function uploadMusicFiles() { const up = document.createElement('input'); up.type = 'file'; up.accept = 'audio/*'; up.multiple = true; up.onchange = async (e) => { const files = Array.from(e.target.files); for (const f of files) await addMusicFromFile(f); saveMusicMeta(); renderMusicList(); }; up.click(); }
+document.getElementById('backFromMusicBtn').onclick = () => {
+  showPage('homePage');
+  if (musicCurrentId && musicAudio && !musicAudio.paused && musicFloatEnabled) showFloatDisc();
+};
+
+function uploadMusicFile() {
+  const up = document.createElement('input');
+  up.type = 'file'; up.accept = 'audio/*';
+  up.onchange = async (e) => {
+    const f = e.target.files[0]; if (!f) return;
+    await addMusicFromFile(f);
+    saveMusicMeta(); renderMusicList();
+  };
+  up.click();
+}
+function uploadMusicFiles() {
+  const up = document.createElement('input');
+  up.type = 'file'; up.accept = 'audio/*'; up.multiple = true;
+  up.onchange = async (e) => {
+    const files = Array.from(e.target.files);
+    for (const f of files) await addMusicFromFile(f);
+    saveMusicMeta(); renderMusicList();
+  };
+  up.click();
+}
 async function addMusicFromFile(f) {
-  const id = Date.now() + '_' + Math.random().toString(36).slice(2, 6); const buf = await f.arrayBuffer(); const blob = new Blob([buf], { type: f.type || 'audio/mpeg' }); let duration = '';
-  await new Promise((resolve) => { const url = URL.createObjectURL(blob); const audio = new Audio(url); audio.onloadedmetadata = () => { if (isFinite(audio.duration)) duration = fmtTime(Math.round(audio.duration)); URL.revokeObjectURL(url); resolve(); }; audio.onerror = () => { URL.revokeObjectURL(url); resolve(); }; });
-  await idbPut('music', { id, blob }); const name = f.name.replace(/\.[^.]+$/, ''); musicList.push({ id, name, artist: '', type: 'local', duration });
+  const id = Date.now() + '_' + Math.random().toString(36).slice(2, 6);
+  const buf = await f.arrayBuffer();
+  const blob = new Blob([buf], { type: f.type || 'audio/mpeg' });
+  let duration = '';
+  await new Promise((resolve) => {
+    const url = URL.createObjectURL(blob);
+    const audio = new Audio(url);
+    audio.onloadedmetadata = () => {
+      if (isFinite(audio.duration)) duration = fmtTime(Math.round(audio.duration));
+      URL.revokeObjectURL(url); resolve();
+    };
+    audio.onerror = () => { URL.revokeObjectURL(url); resolve(); };
+  });
+  await idbPut('music', { id, blob });
+  const name = f.name.replace(/\.[^.]+$/, '');
+  musicList.push({ id, name, artist: '', type: 'local', duration });
 }
+
 let musicInputMode = 'link';
-function openMusicInputModal(mode) { musicInputMode = mode; document.getElementById('musicInputTitle').textContent = '链接添加'; document.getElementById('musicNameInput').value = ''; document.getElementById('musicArtistInput').value = ''; document.getElementById('musicUrlInput').value = ''; document.getElementById('musicUrlField').style.display = ''; document.getElementById('musicInputModal').classList.remove('hidden'); }
+function openMusicInputModal(mode) {
+  musicInputMode = mode;
+  document.getElementById('musicInputTitle').textContent = '链接添加';
+  document.getElementById('musicNameInput').value = '';
+  document.getElementById('musicArtistInput').value = '';
+  document.getElementById('musicUrlInput').value = '';
+  document.getElementById('musicUrlField').style.display = '';
+  document.getElementById('musicInputModal').classList.remove('hidden');
+}
 document.getElementById('closeMusicInputBtn').onclick = () => document.getElementById('musicInputModal').classList.add('hidden');
 document.getElementById('musicInputSave').onclick = () => {
-  const name = document.getElementById('musicNameInput').value.trim(); const artist = document.getElementById('musicArtistInput').value.trim(); const url = document.getElementById('musicUrlInput').value.trim();
-  if (!name) { alert('请填歌名'); return; } if (musicInputMode === 'link' && !url) { alert('请填音乐链接'); return; }
-  const id = Date.now() + '_' + Math.random().toString(36).slice(2, 6); musicList.push({ id, name, artist, type: 'link', url, duration: '' }); saveMusicMeta(); document.getElementById('musicInputModal').classList.add('hidden'); renderMusicList();
+  const name = document.getElementById('musicNameInput').value.trim();
+  const artist = document.getElementById('musicArtistInput').value.trim();
+  const url = document.getElementById('musicUrlInput').value.trim();
+  if (!name) { alert('请填歌名'); return; }
+  if (musicInputMode === 'link' && !url) { alert('请填音乐链接'); return; }
+  const id = Date.now() + '_' + Math.random().toString(36).slice(2, 6);
+  musicList.push({ id, name, artist, type: 'link', url, duration: '' });
+  saveMusicMeta();
+  document.getElementById('musicInputModal').classList.add('hidden');
+  renderMusicList();
 };
-function fmtTime(s) { s = Math.floor(s || 0); const m = Math.floor(s / 60); const ss = s % 60; return String(m).padStart(2, '0') + ':' + String(ss).padStart(2, '0'); }
-</script>
 
-<script>
-/* ===== 音乐播放器 & 悬浮窗 ===== */
+function fmtTime(s) {
+  s = Math.floor(s || 0);
+  const m = Math.floor(s / 60);
+  const ss = s % 60;
+  return String(m).padStart(2, '0') + ':' + String(ss).padStart(2, '0');
+}
+
+/* ===== 音乐播放器 ===== */
 async function playMusic(id) {
-  const m = musicList.find(x => x.id === id); if (!m) return;
-  if (musicCurrentId === id && musicAudio) { hideFloatDisc(); showPage('musicPlayerPage'); updatePlayerAvatars(); if (musicAudio.paused) { updatePlayIcons(false); document.getElementById('musicDisc').classList.remove('spinning'); } else { updatePlayIcons(true); document.getElementById('musicDisc').classList.add('spinning'); } return; }
+  const m = musicList.find(x => x.id === id);
+  if (!m) return;
+
+  if (musicCurrentId === id && musicAudio) {
+    hideFloatDisc();
+    showPage('musicPlayerPage');
+    updatePlayerAvatars();
+    if (musicAudio.paused) {
+      updatePlayIcons(false);
+      document.getElementById('musicDisc').classList.remove('spinning');
+    } else {
+      updatePlayIcons(true);
+      document.getElementById('musicDisc').classList.add('spinning');
+    }
+    return;
+  }
+
   musicCurrentId = id;
-  let src = ''; if (m.type === 'link') src = m.url; else { const rec = await idbGet('music', id); if (!rec || !rec.blob) { alert('音频文件丢失'); return; } src = URL.createObjectURL(rec.blob); }
+
+  let src = '';
+  if (m.type === 'link') src = m.url;
+  else {
+    const rec = await idbGet('music', id);
+    if (!rec || !rec.blob) { alert('音频文件丢失'); return; }
+    src = URL.createObjectURL(rec.blob);
+  }
+
   if (musicAudio) { musicAudio.pause(); musicAudio = null; }
   musicAudio = new Audio(src);
-  musicAudio.onloadedmetadata = () => { const total = musicAudio.duration; document.getElementById('musicTimeTotal').textContent = fmtTime(total); };
-  musicAudio.ontimeupdate = () => { const cur = musicAudio.currentTime; const total = musicAudio.duration || 0; document.getElementById('musicTimeCur').textContent = fmtTime(cur); const pct = total > 0 ? (cur / total) * 100 : 0; document.getElementById('musicBarFill').style.width = pct + '%'; document.getElementById('musicBarDot').style.left = pct + '%'; document.getElementById('floatFill').style.width = pct + '%'; };
-  musicAudio.onended = () => { if (musicLoopMode === 'one') { musicAudio.currentTime = 0; musicAudio.play(); return; } playNext(); };
-  document.getElementById('musicTitleLine').textContent = m.name + (m.artist ? ' - ' + m.artist : ''); document.getElementById('musicLyricLine').textContent = '—';
+
+  musicAudio.onloadedmetadata = () => {
+    const total = musicAudio.duration;
+    document.getElementById('musicTimeTotal').textContent = fmtTime(total);
+  };
+  musicAudio.ontimeupdate = () => {
+    const cur = musicAudio.currentTime;
+    const total = musicAudio.duration || 0;
+    document.getElementById('musicTimeCur').textContent = fmtTime(cur);
+    const pct = total > 0 ? (cur / total) * 100 : 0;
+    document.getElementById('musicBarFill').style.width = pct + '%';
+    document.getElementById('musicBarDot').style.left = pct + '%';
+    document.getElementById('floatFill').style.width = pct + '%';
+  };
+  musicAudio.onended = () => {
+    if (musicLoopMode === 'one') { musicAudio.currentTime = 0; musicAudio.play(); return; }
+    playNext();
+  };
+
+  document.getElementById('musicTitleLine').textContent = m.name + (m.artist ? ' - ' + m.artist : '');
+  document.getElementById('musicLyricLine').textContent = '—';
   document.getElementById('musicDiscCover').style.background = m.cover ? `url(${m.cover}) center/cover no-repeat` : '#333';
-  document.getElementById('floatTitle').textContent = m.name; document.getElementById('floatSub').textContent = m.artist || '未知歌手'; document.getElementById('floatCover').style.background = m.cover ? `url(${m.cover}) center/cover no-repeat` : '#333';
-  hideFloatDisc(); showPage('musicPlayerPage'); updatePlayerAvatars(); await musicAudio.play(); updatePlayIcons(true);
-  document.getElementById('musicDisc').classList.add('spinning'); document.getElementById('floatDisc').classList.add('spinning'); updateTogetherTime(); startTogetherTimer();
+  document.getElementById('floatTitle').textContent = m.name;
+  document.getElementById('floatSub').textContent = m.artist || '未知歌手';
+  document.getElementById('floatCover').style.background = m.cover ? `url(${m.cover}) center/cover no-repeat` : '#333';
+
+  hideFloatDisc();
+  showPage('musicPlayerPage');
+  updatePlayerAvatars();
+  await musicAudio.play();
+  updatePlayIcons(true);
+  document.getElementById('musicDisc').classList.add('spinning');
+  document.getElementById('floatDisc').classList.add('spinning');
+  updateTogetherTime();
+  startTogetherTimer();
 }
+</script>
+/* ★★★ index 段 11 结束 ★★★ *//* ★★★ index 段 12 开始 ★★★ */
+<script>
 function updatePlayerAvatars() {
-  const taUrl = load('ta_avatar', ''), myUrl = load('my_avatar', ''), taName = load('ta_name', 'TA'), myName = load('my_name', '我');
-  const pta = document.getElementById('playerTaAvatar'), pma = document.getElementById('playerMyAvatar');
+  const taUrl = load('ta_avatar', '');
+  const myUrl = load('my_avatar', '');
+  const taName = load('ta_name', 'TA');
+  const myName = load('my_name', '我');
+  const pta = document.getElementById('playerTaAvatar');
+  const pma = document.getElementById('playerMyAvatar');
   if (pta) { if (taUrl) { pta.style.background = `url(${taUrl}) center/cover no-repeat`; pta.textContent = ''; } else { pta.style.background = '#e5e5e5'; pta.textContent = taName.charAt(0); } }
   if (pma) { if (myUrl) { pma.style.background = `url(${myUrl}) center/cover no-repeat`; pma.textContent = ''; } else { pma.style.background = '#e5e5e5'; pma.textContent = myName.charAt(0); } }
 }
-function updatePlayIcons(playing) {
-  const playSvg = '<svg viewBox="0 0 24 24" id="musicPlayIcon"><path d="M8 5 V19 L19 12 Z"></path></svg>', pauseSvg = '<svg viewBox="0 0 24 24" id="musicPlayIcon"><path d="M7 5 H10 V19 H7 Z"></path><path d="M14 5 H17 V19 H14 Z"></path></svg>', fplaySvg = '<svg viewBox="0 0 24 24" id="floatPlayIcon"><path d="M8 5 V19 L19 12 Z"></path></svg>', fpauseSvg = '<svg viewBox="0 0 24 24" id="floatPlayIcon"><path d="M7 5 H10 V19 H7 Z"></path><path d="M14 5 H17 V19 H14 Z"></path></svg>';
-  const mp = document.getElementById('musicPlayBtn'), fp = document.getElementById('floatPlayBtn');
-  if (mp) mp.innerHTML = playing ? pauseSvg : playSvg; if (fp) fp.innerHTML = playing ? fpauseSvg : fplaySvg;
-}
-function stopMusic() { if (musicAudio) { musicAudio.pause(); musicAudio = null; } musicCurrentId = null; document.getElementById('musicDisc').classList.remove('spinning'); document.getElementById('floatDisc').classList.remove('spinning'); hideFloatDisc(); stopTogetherTimer(); }
-function playNext() { if (musicList.length === 0) return; const idx = musicList.findIndex(m => m.id === musicCurrentId); let next; if (musicLoopMode === 'shuffle') next = musicList[Math.floor(Math.random() * musicList.length)]; else next = musicList[(idx + 1) % musicList.length]; playMusic(next.id); }
-function playPrev() { if (musicList.length === 0) return; const idx = musicList.findIndex(m => m.id === musicCurrentId); playMusic(musicList[(idx - 1 + musicList.length) % musicList.length].id); }
-function togglePlay() { if (!musicAudio) return; if (musicAudio.paused) { musicAudio.play(); updatePlayIcons(true); document.getElementById('musicDisc').classList.add('spinning'); document.getElementById('floatDisc').classList.add('spinning'); startTogetherTimer(); } else { musicAudio.pause(); updatePlayIcons(false); document.getElementById('musicDisc').classList.remove('spinning'); document.getElementById('floatDisc').classList.remove('spinning'); stopTogetherTimer(); } }
-function toggleLoop() { const modes = ['list', 'one', 'shuffle']; const i = modes.indexOf(musicLoopMode); musicLoopMode = modes[(i + 1) % modes.length]; const btn = document.getElementById('musicLoopBtn'), fbtn = document.getElementById('floatLoopBtn'); if (musicLoopMode !== 'list') { btn.classList.add('active'); fbtn.classList.add('active'); } else { btn.classList.remove('active'); fbtn.classList.remove('active'); } }
-document.getElementById('musicBackBtn').onclick = () => { showPage('homePage'); if (musicAudio && !musicAudio.paused && musicFloatEnabled) showFloatDisc(); };
-document.getElementById('musicPlusBtn').onclick = () => { showPage('musicLibraryPage'); loadMusicFromIDB(); };
-document.getElementById('musicPlayBtn').onclick = togglePlay; document.getElementById('musicPrevBtn').onclick = playPrev; document.getElementById('musicNextBtn').onclick = playNext; document.getElementById('musicLoopBtn').onclick = toggleLoop;
-document.getElementById('musicListBtn').onclick = () => { showPage('musicLibraryPage'); loadMusicFromIDB(); if (musicAudio && !musicAudio.paused && musicFloatEnabled) showFloatDisc(); };
-(function() { const wrap = document.getElementById('musicBarWrap'); if (!wrap) return; wrap.addEventListener('click', (e) => { if (!musicAudio || !musicAudio.duration) return; const rect = wrap.getBoundingClientRect(); const pct = Math.max(0, Math.min(1, (e.clientX - rect.left) / rect.width)); musicAudio.currentTime = pct * musicAudio.duration; }); })();
-let togetherStartTime = 0, togetherTimer = null;
-function startTogetherTimer() { if (!togetherStartTime) togetherStartTime = Date.now(); stopTogetherTimer(); togetherTimer = setInterval(updateTogetherTime, 30000); updateTogetherTime(); }
-function stopTogetherTimer() { if (togetherTimer) clearInterval(togetherTimer); togetherTimer = null; }
-function updateTogetherTime() { if (!togetherStartTime) return; const mins = Math.floor((Date.now() - togetherStartTime) / 60000); document.getElementById('musicTogetherText').textContent = 'TA就在你的身边，一起听了 ' + mins + ' 分钟'; }
-function showFloatDisc() { const disc = document.getElementById('floatDisc'); if (!disc) return; const savedX = load('float_disc_x', null), savedY = load('float_disc_y', null); if (savedX !== null && savedY !== null) { disc.style.left = savedX + 'px'; disc.style.top = savedY + 'px'; } else { disc.style.left = (window.innerWidth - 84) + 'px'; disc.style.top = (window.innerHeight - 180) + 'px'; } disc.classList.remove('hidden'); }
-function hideFloatDisc() { document.getElementById('floatDisc').classList.add('hidden'); document.getElementById('floatCard').classList.add('hidden'); }
-(function() { const disc = document.getElementById('floatDisc'); let startX = 0, startY = 0, startLeft = 0, startTop = 0, moved = false, touching = false; function onStart(e) { const p = e.touches ? e.touches[0] : e; touching = true; moved = false; startX = p.clientX; startY = p.clientY; startLeft = parseInt(disc.style.left || 0, 10); startTop = parseInt(disc.style.top || 0, 10); } function onMove(e) { if (!touching) return; const p = e.touches ? e.touches[0] : e; const dx = p.clientX - startX; const dy = p.clientY - startY; if (Math.abs(dx) > 4 || Math.abs(dy) > 4) moved = true; if (!moved) return; let nx = Math.max(0, Math.min(window.innerWidth - 64, startLeft + dx)); let ny = Math.max(0, Math.min(window.innerHeight - 64, startTop + dy)); disc.style.left = nx + 'px'; disc.style.top = ny + 'px'; } function onEnd() { if (touching && moved) { save('float_disc_x', parseInt(disc.style.left, 10)); save('float_disc_y', parseInt(disc.style.top, 10)); } else if (touching && !moved) { openFloatCardFromDisc(); } touching = false; } disc.addEventListener('touchstart', onStart, { passive: true }); disc.addEventListener('touchmove', onMove, { passive: true }); disc.addEventListener('touchend', onEnd); disc.addEventListener('mousedown', onStart); document.addEventListener('mousemove', onMove); document.addEventListener('mouseup', onEnd); })();
-function openFloatCardFromDisc() { const disc = document.getElementById('floatDisc'), card = document.getElementById('floatCard'); const discLeft = parseInt(disc.style.left || 0, 10), discTop = parseInt(disc.style.top || 0, 10); const cardW = 220; let left = discLeft + 32 - cardW / 2; let top = discTop - 10; if (left < 8) left = 8; if (left + cardW > window.innerWidth - 8) left = window.innerWidth - cardW - 8; if (top < 8) top = 8; if (top + 200 > window.innerHeight - 8) top = window.innerHeight - 208; card.style.left = left + 'px'; card.style.top = top + 'px'; card.classList.remove('hidden'); disc.classList.add('hidden'); }
-document.getElementById('floatUpBtn').onclick = () => { const disc = document.getElementById('floatDisc'), card = document.getElementById('floatCard'); const cardLeft = parseInt(card.style.left || 0, 10), cardTop = parseInt(card.style.top || 0, 10); const discLeft = cardLeft + 110 - 32, discTop = cardTop + 10; disc.style.left = Math.max(0, Math.min(window.innerWidth - 64, discLeft)) + 'px'; disc.style.top = Math.max(0, Math.min(window.innerHeight - 64, discTop)) + 'px'; save('float_disc_x', parseInt(disc.style.left, 10)); save('float_disc_y', parseInt(disc.style.top, 10)); card.classList.add('hidden'); disc.classList.remove('hidden'); };
-document.getElementById('floatPlayBtn').onclick = togglePlay; document.getElementById('floatPrevBtn').onclick = playPrev; document.getElementById('floatNextBtn').onclick = playNext; document.getElementById('floatLoopBtn').onclick = toggleLoop;
-document.getElementById('floatListBtn').onclick = () => { hideFloatDisc(); showPage('musicLibraryPage'); loadMusicFromIDB(); };
-document.getElementById('floatCameraBtn').onclick = () => { document.getElementById('floatCoverUpload').click(); };
-document.getElementById('floatCoverUpload').onchange = (e) => { const f = e.target.files[0]; if (!f) return; compressImage(f, 400, (url) => { const m = musicList.find(x => x.id === musicCurrentId); if (m) { m.cover = url; saveMusicMeta(); } document.getElementById('floatCover').style.background = `url(${url}) center/cover no-repeat`; document.getElementById('musicDiscCover').style.background = `url(${url}) center/cover no-repeat`; }); e.target.value = ''; };
 
-/* ===== 最终初始化 ===== */
+function updatePlayIcons(playing) {
+  const playSvg = '<svg viewBox="0 0 24 24" id="musicPlayIcon"><path d="M8 5 V19 L19 12 Z"></path></svg>';
+  const pauseSvg = '<svg viewBox="0 0 24 24" id="musicPlayIcon"><path d="M7 5 H10 V19 H7 Z"></path><path d="M14 5 H17 V19 H14 Z"></path></svg>';
+  const fplaySvg = '<svg viewBox="0 0 24 24" id="floatPlayIcon"><path d="M8 5 V19 L19 12 Z"></path></svg>';
+  const fpauseSvg = '<svg viewBox="0 0 24 24" id="floatPlayIcon"><path d="M7 5 H10 V19 H7 Z"></path><path d="M14 5 H17 V19 H14 Z"></path></svg>';
+  const mp = document.getElementById('musicPlayBtn');
+  const fp = document.getElementById('floatPlayBtn');
+  if (mp) mp.innerHTML = playing ? pauseSvg : playSvg;
+  if (fp) fp.innerHTML = playing ? fpauseSvg : fplaySvg;
+}
+
+function stopMusic() {
+  if (musicAudio) { musicAudio.pause(); musicAudio = null; }
+  musicCurrentId = null;
+  document.getElementById('musicDisc').classList.remove('spinning');
+  document.getElementById('floatDisc').classList.remove('spinning');
+  hideFloatDisc();
+  stopTogetherTimer();
+}
+
+function playNext() {
+  if (musicList.length === 0) return;
+  const idx = musicList.findIndex(m => m.id === musicCurrentId);
+  let next;
+  if (musicLoopMode === 'shuffle') next = musicList[Math.floor(Math.random() * musicList.length)];
+  else next = musicList[(idx + 1) % musicList.length];
+  playMusic(next.id);
+}
+function playPrev() {
+  if (musicList.length === 0) return;
+  const idx = musicList.findIndex(m => m.id === musicCurrentId);
+  playMusic(musicList[(idx - 1 + musicList.length) % musicList.length].id);
+}
+function togglePlay() {
+  if (!musicAudio) return;
+  if (musicAudio.paused) {
+    musicAudio.play();
+    updatePlayIcons(true);
+    document.getElementById('musicDisc').classList.add('spinning');
+    document.getElementById('floatDisc').classList.add('spinning');
+    startTogetherTimer();
+  } else {
+    musicAudio.pause();
+    updatePlayIcons(false);
+    document.getElementById('musicDisc').classList.remove('spinning');
+    document.getElementById('floatDisc').classList.remove('spinning');
+    stopTogetherTimer();
+  }
+}
+function toggleLoop() {
+  const modes = ['list', 'one', 'shuffle'];
+  const i = modes.indexOf(musicLoopMode);
+  musicLoopMode = modes[(i + 1) % modes.length];
+  const btn = document.getElementById('musicLoopBtn');
+  const fbtn = document.getElementById('floatLoopBtn');
+  if (musicLoopMode !== 'list') { btn.classList.add('active'); fbtn.classList.add('active'); }
+  else { btn.classList.remove('active'); fbtn.classList.remove('active'); }
+}
+
+document.getElementById('musicBackBtn').onclick = () => {
+  showPage('homePage');
+  if (musicAudio && !musicAudio.paused && musicFloatEnabled) showFloatDisc();
+};
+document.getElementById('musicPlusBtn').onclick = () => {
+  showPage('musicLibraryPage');
+  loadMusicFromIDB();
+};
+document.getElementById('musicPlayBtn').onclick = togglePlay;
+document.getElementById('musicPrevBtn').onclick = playPrev;
+document.getElementById('musicNextBtn').onclick = playNext;
+document.getElementById('musicLoopBtn').onclick = toggleLoop;
+document.getElementById('musicListBtn').onclick = () => {
+  showPage('musicLibraryPage');
+  loadMusicFromIDB();
+  if (musicAudio && !musicAudio.paused && musicFloatEnabled) showFloatDisc();
+};
+
+(function() {
+  const wrap = document.getElementById('musicBarWrap');
+  if (!wrap) return;
+  wrap.addEventListener('click', (e) => {
+    if (!musicAudio || !musicAudio.duration) return;
+    const rect = wrap.getBoundingClientRect();
+    const pct = Math.max(0, Math.min(1, (e.clientX - rect.left) / rect.width));
+    musicAudio.currentTime = pct * musicAudio.duration;
+  });
+})();
+
+let togetherStartTime = 0;
+let togetherTimer = null;
+function startTogetherTimer() {
+  if (!togetherStartTime) togetherStartTime = Date.now();
+  stopTogetherTimer();
+  togetherTimer = setInterval(updateTogetherTime, 30000);
+  updateTogetherTime();
+}
+function stopTogetherTimer() {
+  if (togetherTimer) clearInterval(togetherTimer);
+  togetherTimer = null;
+}
+function updateTogetherTime() {
+  if (!togetherStartTime) return;
+  const mins = Math.floor((Date.now() - togetherStartTime) / 60000);
+  document.getElementById('musicTogetherText').textContent = 'TA就在你的身边，一起听了 ' + mins + ' 分钟';
+}
+
+/* ===== 悬浮小圆唱片 ===== */
+function showFloatDisc() {
+  const disc = document.getElementById('floatDisc');
+  if (!disc) return;
+  const savedX = load('float_disc_x', null);
+  const savedY = load('float_disc_y', null);
+  if (savedX !== null && savedY !== null) {
+    disc.style.left = savedX + 'px';
+    disc.style.top = savedY + 'px';
+  } else {
+    disc.style.left = (window.innerWidth - 84) + 'px';
+    disc.style.top = (window.innerHeight - 180) + 'px';
+  }
+  disc.classList.remove('hidden');
+}
+function hideFloatDisc() {
+  document.getElementById('floatDisc').classList.add('hidden');
+  document.getElementById('floatCard').classList.add('hidden');
+}
+
+/* 悬浮球拖动 + 点击 */
+(function() {
+  const disc = document.getElementById('floatDisc');
+  let startX = 0, startY = 0, startLeft = 0, startTop = 0, moved = false, touching = false;
+  function onStart(e) {
+    const p = e.touches ? e.touches[0] : e;
+    touching = true; moved = false;
+    startX = p.clientX; startY = p.clientY;
+    startLeft = parseInt(disc.style.left || 0, 10);
+    startTop = parseInt(disc.style.top || 0, 10);
+  }
+  function onMove(e) {
+    if (!touching) return;
+    const p = e.touches ? e.touches[0] : e;
+    const dx = p.clientX - startX;
+    const dy = p.clientY - startY;
+    if (Math.abs(dx) > 4 || Math.abs(dy) > 4) moved = true;
+    if (!moved) return;
+    let nx = Math.max(0, Math.min(window.innerWidth - 64, startLeft + dx));
+    let ny = Math.max(0, Math.min(window.innerHeight - 64, startTop + dy));
+    disc.style.left = nx + 'px';
+    disc.style.top = ny + 'px';
+  }
+  function onEnd() {
+    if (touching && moved) {
+      save('float_disc_x', parseInt(disc.style.left, 10));
+      save('float_disc_y', parseInt(disc.style.top, 10));
+    } else if (touching && !moved) {
+      openFloatCardFromDisc();
+    }
+    touching = false;
+  }
+  disc.addEventListener('touchstart', onStart, { passive: true });
+  disc.addEventListener('touchmove', onMove, { passive: true });
+  disc.addEventListener('touchend', onEnd);
+  disc.addEventListener('mousedown', onStart);
+  document.addEventListener('mousemove', onMove);
+  document.addEventListener('mouseup', onEnd);
+})();
+
+/* 点悬浮球 → 变迷你卡 */
+function openFloatCardFromDisc() {
+  const disc = document.getElementById('floatDisc');
+  const card = document.getElementById('floatCard');
+  const discLeft = parseInt(disc.style.left || 0, 10);
+  const discTop = parseInt(disc.style.top || 0, 10);
+  const cardW = 220;
+  let left = discLeft + 32 - cardW / 2;
+  let top = discTop - 10;
+  if (left < 8) left = 8;
+  if (left + cardW > window.innerWidth - 8) left = window.innerWidth - cardW - 8;
+  if (top < 8) top = 8;
+  if (top + 200 > window.innerHeight - 8) top = window.innerHeight - 208;
+  card.style.left = left + 'px';
+  card.style.top = top + 'px';
+  card.classList.remove('hidden');
+  disc.classList.add('hidden');
+}
+
+/* 迷你卡也能拖 */
+(function() {
+  const card = document.getElementById('floatCard');
+  let startX = 0, startY = 0, startLeft = 0, startTop = 0, moved = false, touching = false;
+  function onStart(e) {
+    if (e.target.closest('.ctrl') || e.target.closest('.play-big') || e.target.closest('.camera-btn') || e.target.closest('.up-btn')) return;
+    const p = e.touches ? e.touches[0] : e;
+    touching = true; moved = false;
+    startX = p.clientX; startY = p.clientY;
+    startLeft = parseInt(card.style.left || 0, 10);
+    startTop = parseInt(card.style.top || 0, 10);
+  }
+  function onMove(e) {
+    if (!touching) return;
+    const p = e.touches ? e.touches[0] : e;
+    const dx = p.clientX - startX;
+    const dy = p.clientY - startY;
+    if (Math.abs(dx) > 4 || Math.abs(dy) > 4) moved = true;
+    if (!moved) return;
+    let nx = Math.max(0, Math.min(window.innerWidth - 200, startLeft + dx));
+    let ny = Math.max(0, Math.min(window.innerHeight - 80, startTop + dy));
+    card.style.left = nx + 'px';
+    card.style.top = ny + 'px';
+  }
+  function onEnd() { touching = false; }
+  card.addEventListener('touchstart', onStart, { passive: true });
+  card.addEventListener('touchmove', onMove, { passive: true });
+  card.addEventListener('touchend', onEnd);
+  card.addEventListener('mousedown', onStart);
+  document.addEventListener('mousemove', onMove);
+  document.addEventListener('mouseup', onEnd);
+})();
+
+/* 点 ∧ → 卡片变回悬浮球 */
+document.getElementById('floatUpBtn').onclick = () => {
+  const disc = document.getElementById('floatDisc');
+  const card = document.getElementById('floatCard');
+  const cardLeft = parseInt(card.style.left || 0, 10);
+  const cardTop = parseInt(card.style.top || 0, 10);
+  const discLeft = cardLeft + 110 - 32;
+  const discTop = cardTop + 10;
+  disc.style.left = Math.max(0, Math.min(window.innerWidth - 64, discLeft)) + 'px';
+  disc.style.top = Math.max(0, Math.min(window.innerHeight - 64, discTop)) + 'px';
+  save('float_disc_x', parseInt(disc.style.left, 10));
+  save('float_disc_y', parseInt(disc.style.top, 10));
+  card.classList.add('hidden');
+  disc.classList.remove('hidden');
+};
+document.getElementById('floatPlayBtn').onclick = togglePlay;
+document.getElementById('floatPrevBtn').onclick = playPrev;
+document.getElementById('floatNextBtn').onclick = playNext;
+document.getElementById('floatLoopBtn').onclick = toggleLoop;
+document.getElementById('floatListBtn').onclick = () => {
+  hideFloatDisc();
+  showPage('musicLibraryPage');
+  loadMusicFromIDB();
+};
+
+/* 换封面 */
+document.getElementById('floatCameraBtn').onclick = () => {
+  document.getElementById('floatCoverUpload').click();
+};
+document.getElementById('floatCoverUpload').onchange = (e) => {
+  const f = e.target.files[0]; if (!f) return;
+  compressImage(f, 400, (url) => {
+    const m = musicList.find(x => x.id === musicCurrentId);
+    if (m) { m.cover = url; saveMusicMeta(); }
+    document.getElementById('floatCover').style.background = `url(${url}) center/cover no-repeat`;
+    document.getElementById('musicDiscCover').style.background = `url(${url}) center/cover no-repeat`;
+  });
+  e.target.value = '';
+};
+</script>
+/* ★★★ index 段 12 结束 ★★★ *//* ★★★ index 段 13 开始 ★★★ */
+<script>
+/* ===== 初始化 ===== */
 window.addEventListener('load', () => {
-  setTimeout(() => {
-    refreshMessages(); applyHomeAssets(); loadHomeBigCard(); renderAnniv();
-    const t = document.getElementById('taName'); if (t) t.textContent = load('ta_name', 'TA');
-    scheduleAutoMessage();
-  }, 100);
+  refreshMessages();
+  applyHomeAssets();
+  applyHomeWallpaper();
+  applyHomeQuote();
+  applyHomeTalks();
+  applyHomeBigCard();
+  updateHomeAnnivNum();
+  (function() { const t = document.getElementById('taName'); if (t) t.textContent = load('ta_name', 'TA'); })();
+  scheduleAutoMessage();
+  scheduleAutoMail();
+  scheduleAutoMoment();
+});
+
+/* 兜底：页面直接点击时关闭菜单/面板 */
+document.addEventListener('click', (e) => {
+  const lp = document.getElementById('longPressMenu');
+  if (lp && !lp.classList.contains('hidden') && !e.target.closest('#longPressMenu')) {
+    lp.classList.add('hidden');
+  }
 });
 </script>
 <script src="settings.js"></script>
 </body>
 </html>
-<!-- ★★★ index 第 9 大段 结束 ★★★ -->
+/* ★★★ index 段 13 结束 ★★★ */
