@@ -51,13 +51,13 @@ body { font-family: -apple-system, BlinkMacSystemFont, "Helvetica Neue", Arial, 
 .home-avatars .avatar-name { font-size: 13px; color: #666; margin-top: 4px; }
 
 .home-quote { text-align: center; margin-bottom: 24px; }
-.home-quote-box { display: inline-block; min-width: 200px; padding: 10px 20px; background: #fff; border: 1.5px solid #333; border-radius: 14px; font-size: 14px; color: #333; cursor: pointer; }
+.home-quote-box { display: inline-block; min-width: 200px; padding: 10px 20px; background: #fff; border: 1.5px solid #d1d1d1; border-radius: 14px; font-size: 14px; color: #333; cursor: pointer; }
 .home-quote-text { display: none; font-size: 15px; color: #333; font-weight: 500; }
 .home-quote.filled .home-quote-box { display: none; }
 .home-quote.filled .home-quote-text { display: inline-block; }
 
 .home-main-area { display: flex; gap: 16px; align-items: flex-start; margin-bottom: 24px; }
-.home-big-card { width: 140px; height: 200px; background: #fff; border: 2px solid #333; border-radius: 12px; display: flex; align-items: center; justify-content: center; overflow: hidden; cursor: pointer; flex-shrink: 0; }
+.home-big-card { width: 140px; height: 200px; background: #fff; border: 1.5px solid #d1d1d1; border-radius: 12px; display: flex; align-items: center; justify-content: center; overflow: hidden; cursor: pointer; flex-shrink: 0; }
 .home-big-card img { width: 100%; height: 100%; object-fit: cover; }
 .home-big-card .tip { color: #bbb; font-size: 14px; }
 
@@ -67,19 +67,19 @@ body { font-family: -apple-system, BlinkMacSystemFont, "Helvetica Neue", Arial, 
 .home-grid-2x2 .home-icon svg { width: 30px; height: 30px; stroke: #555; }
 .home-grid-2x2 .home-label { font-size: 15px; color: #333; font-weight: 500; }
 
-.home-bottom-area { display: flex; gap: 16px; align-items: flex-start; margin-bottom: 24px; }
-.home-anniv-card { width: 120px; height: 120px; background: #fff; border: 2px solid #333; border-radius: 12px; display: flex; flex-direction: column; align-items: center; justify-content: center; cursor: pointer; flex-shrink: 0; }
+.home-bottom-area { display: flex; gap: 16px; align-items: flex-start; margin-top: 36px; margin-bottom: 24px; }
+.home-anniv-card { width: 120px; height: 120px; background: #fff; border: 1.5px solid #d1d1d1; border-radius: 12px; display: flex; flex-direction: column; align-items: center; justify-content: center; cursor: pointer; flex-shrink: 0; }
 .home-anniv-card .anniv-title { font-size: 14px; color: #888; margin-bottom: 4px; }
 .home-anniv-card .anniv-num { font-size: 38px; font-weight: 600; color: #222; line-height: 1; }
 
-/* 对方那一行：气泡在左、头像在右，DOM 顺序已经是气泡→头像，所以用 row 不用 row-reverse */
 .home-chat-area { flex: 1; display: flex; flex-direction: column; gap: 16px; padding-top: 10px; }
 .home-chat-row { display: flex; align-items: center; gap: 8px; }
 .home-chat-row.reverse { flex-direction: row; }
 .home-chat-avatar { width: 36px; height: 36px; border-radius: 50%; background: #e5e5e5 center/cover no-repeat; display: flex; align-items: center; justify-content: center; font-size: 14px; color: #999; flex-shrink: 0; border: 1px solid #ddd; }
-.home-chat-bubble { flex: 1; padding: 10px 14px; background: #fff; border: 1.5px solid #333; border-radius: 14px; font-size: 13px; color: #333; cursor: pointer; text-align: center; word-break: break-word; min-height: 18px; }
+.home-chat-bubble { flex: 1; padding: 10px 14px; background: #fff; border: 1.5px solid #d1d1d1; border-radius: 14px; font-size: 13px; color: #333; cursor: pointer; text-align: center; word-break: break-word; min-height: 18px; }
 .home-chat-bubble .placeholder { color: #999; }
 
+/* 保持最底部的黑色边框不动 */
 .home-bottom-bar { background: #fff; border: 1.5px solid #333; border-radius: 14px; padding: 14px 10px; display: flex; justify-content: space-around; align-items: center; margin-top: auto; }
 .home-bottom-bar .bar-item { font-size: 14px; color: #333; cursor: pointer; font-weight: 500; }
 
@@ -130,6 +130,7 @@ body { font-family: -apple-system, BlinkMacSystemFont, "Helvetica Neue", Arial, 
 .plus-label { font-size: 13px; color: #666; }
 .plus-item:active .plus-icon { background: #eee; }
 /* ★★★ css 段 1 结束 ★★★ *//* ★★★ css 段 2 开始 ★★★ */
+/* ===== 朋友圈 ===== */
 .moment-header { position: relative; width: 100%; height: 260px; background: linear-gradient(135deg, #e8f0ff 0%, #d7e4f8 100%); background-size: cover; background-position: center; flex-shrink: 0; }
 .moment-header .avatar-block { position: absolute; right: 24px; bottom: -32px; display: flex; align-items: flex-start; gap: 10px; }
 .moment-header .avatar-block .avatar-name { font-size: 16px; color: #fff; font-weight: 800; line-height: 1; margin-top: 4px; max-width: 100px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; text-shadow: none; }
@@ -372,6 +373,12 @@ body { font-family: -apple-system, BlinkMacSystemFont, "Helvetica Neue", Arial, 
 .card-tools { display: flex; gap: 8px; margin: 10px 0; }
 #cardSearchInput { flex: 1; padding: 9px 12px; border: 1px solid #eee; border-radius: 10px; font-size: 14px; outline: none; background: #fafafa; }
 #dedupBtn { padding: 9px 14px; background: #f0f0f0; color: #333; border: none; border-radius: 10px; font-size: 14px; cursor: pointer; flex-shrink: 0; }
+
+/* ===== 修复拍一拍输入框样式 ===== */
+.pat-item { display: flex; align-items: center; gap: 8px; margin-bottom: 10px; }
+.pat-item input { flex: 1; padding: 10px 12px; border: 1px solid #eee; border-radius: 8px; font-size: 14px; outline: none; background: #fafafa; color: #333; }
+.pat-item .remove { width: 30px; height: 30px; border: none; border-radius: 8px; background: #f0f0f0; color: #e74c3c; font-size: 18px; cursor: pointer; flex-shrink: 0; display: flex; align-items: center; justify-content: center; }
+.sec-title { font-size: 14px; color: #333; font-weight: 600; margin-bottom: 8px; }
 
 .voice-import-box { background: #fff; border-radius: 12px; padding: 16px; margin-bottom: 14px; border: 1px solid #f0f0f0; display: flex; align-items: center; gap: 12px; cursor: pointer; }
 .voice-import-icon { width: 44px; height: 44px; border-radius: 10px; background: #f0f0f0; display: flex; align-items: center; justify-content: center; flex-shrink: 0; }
