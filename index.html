@@ -24,7 +24,6 @@
   </div>
 </div>
 
-<!-- ===== 主页（单页） ===== -->
 <div id="homePage" class="page">
   <div class="home-time" id="homeTime">--:--</div>
 
@@ -94,7 +93,6 @@
   </div>
 </div>
 
-<!-- ===== 朋友圈页 ===== -->
 <div id="momentsPage" class="page hidden">
   <header class="chat-header">
     <div class="header-left">
@@ -132,7 +130,6 @@
   <button class="moment-fab" id="momentAddBtn">+</button>
 </div>
 
-<!-- ===== 发朋友圈弹窗 ===== -->
 <div id="momentPostModal" class="modal hidden">
   <div class="moment-post-sheet">
     <div class="moment-post-head">
@@ -150,7 +147,6 @@
   </div>
 </div>
 
-<!-- ===== 朋友圈通知面板 ===== -->
 <div id="momentNotifyModal" class="modal hidden">
   <div class="modal-box">
     <div class="modal-head"><span>通知提醒</span><button id="closeMomentNotifyBtn">×</button></div>
@@ -158,7 +154,6 @@
   </div>
 </div>
 
-<!-- ===== 删除朋友圈动态面板 ===== -->
 <div id="momentTrashModal" class="modal hidden">
   <div class="modal-box">
     <div class="modal-head"><span>删除朋友圈动态</span><button id="closeMomentTrashBtn">×</button></div>
@@ -177,7 +172,6 @@
   </div>
 </div>
 
-<!-- ===== 纪念日页 ===== -->
 <div id="annivPage" class="page hidden">
   <header class="chat-header">
     <div class="header-left">
@@ -201,7 +195,6 @@
   </div>
 </div>
 
-<!-- ===== 纪念日日期滚轮 ===== -->
 <div id="annivDatePicker" class="anniv-date-picker hidden">
   <div class="anniv-date-box">
     <div class="anniv-date-title" id="annivDateTitle">设置起始日期</div>
@@ -232,7 +225,6 @@
   </div>
 </div>
 
-<!-- ===== 聊天页 ===== -->
 <div id="chatPage" class="page hidden">
   <header class="chat-header">
     <div class="header-left">
@@ -276,7 +268,7 @@
   <div class="lp-item" data-act="fav">收藏</div>
   <div class="lp-item" data-act="del">删除</div>
 </div>
-
+/* ★★★ index 段 1 结束 ★★★ *//* ★★★ index 段 2 开始 ★★★ */
 <!-- ===== 信箱页 ===== -->
 <div id="mailPage" class="page hidden">
   <header class="chat-header">
@@ -449,7 +441,7 @@
     </div>
   </div>
 </div>
-/* ★★★ index 段 1 结束 ★★★ *//* ★★★ index 段 2 开始 ★★★ */
+/* ★★★ index 段 2 结束 ★★★ *//* ★★★ index 段 3 开始 ★★★ */
 <!-- ===== 字卡库弹窗 ===== -->
 <div id="cardModal" class="modal hidden">
   <div class="modal-box" id="cardBox">
@@ -725,7 +717,7 @@
 </div>
 
 <input type="file" id="floatCoverUpload" accept="image/*" style="display:none;">
-
+/* ★★★ index 段 3 结束 ★★★ *//* ★★★ index 段 4 开始 ★★★ */
 <script>
 /* ===== IndexedDB 封装（存语音、音乐；小卡已改 localStorage） ===== */
 let _idb = null;
@@ -926,7 +918,6 @@ function addImage(sender, url, store) {
   }
 }
 
-/* ===== 语音消息 ===== */
 function addVoiceMessage(sender, voiceId, name, duration, store) {
   const row = document.createElement('div');
   row.className = 'msg-row ' + (sender === 'me' ? 'me' : 'ta');
@@ -1116,7 +1107,7 @@ function markAllRead() {
   });
 }
 </script>
-/* ★★★ index 段 2 结束 ★★★ *//* ★★★ index 段 3 开始 ★★★ */
+/* ★★★ index 段 4 结束 ★★★ *//* ★★★ index 段 5 开始 ★★★ */
 <script>
 /* ===== 转账卡片 ===== */
 function renderTransferCard(m) {
@@ -1301,7 +1292,6 @@ document.addEventListener('dblclick', function(e) {
   messagesEl.scrollTop = messagesEl.scrollHeight;
 });
 
-/* ===== 长按菜单 ===== */
 let longPressTarget = null;
 let longPressTimer = null;
 
@@ -1408,7 +1398,6 @@ document.querySelectorAll('#longPressMenu .lp-item').forEach(item => {
   };
 });
 
-/* ===== 商店卡片 ===== */
 function renderShopCard(m) {
   const row = document.createElement('div');
   row.className = 'msg-row ' + (m.sender === 'me' ? 'me' : 'ta');
@@ -1464,7 +1453,6 @@ function addSystemTip(text, store) {
 
 document.getElementById('backHomeBtn').onclick = () => showPage('homePage');
 
-/* ===== 加号菜单 ===== */
 (function() {
   const plusMenu = document.getElementById('plusMenu');
   const plusBtn = document.getElementById('plusBtn');
@@ -1553,7 +1541,7 @@ document.getElementById('backHomeBtn').onclick = () => showPage('homePage');
   };
 })();
 </script>
-/* ★★★ index 段 3 结束 ★★★ *//* ★★★ index 段 4 开始 ★★★ */
+/* ★★★ index 段 5 结束 ★★★ *//* ★★★ index 段 6 开始 ★★★ */
 <script>
 /* ===== 字卡库 ===== */
 document.getElementById('closeCardBtn').onclick = () => document.getElementById('cardModal').classList.add('hidden');
@@ -1809,7 +1797,6 @@ function renderVoiceList() {
   });
 }
 
-/* ===== 聊天页表情面板 ===== */
 (function() {
   const panel = document.getElementById('stickerPanel');
   const body = document.getElementById('stickerBody');
@@ -1916,7 +1903,9 @@ function compressImage(file, maxSize, cb) {
   };
   reader.readAsDataURL(file);
 }
-
+</script>
+/* ★★★ index 段 6 结束 ★★★ *//* ★★★ index 段 7 开始 ★★★ */
+<script>
 /* ===== 自动消息 ===== */
 let autoMsgTimer = null;
 function scheduleAutoMessage() {
@@ -1953,10 +1942,8 @@ function scheduleAutoMessage() {
     scheduleAutoMessage();
   }, delay);
 }
-</script>
-/* ★★★ index 段 4 结束 ★★★ *//* ★★★ index 段 5 开始 ★★★ */
-<script>
-/* ===== 页内输入弹窗（替代 prompt，兼容手机） ===== */
+
+/* ===== 页内输入弹窗 ===== */
 function openTextInput(title, defaultValue, onConfirm) {
   let mask = document.getElementById('customInputMask');
   if (mask) mask.remove();
@@ -1995,7 +1982,7 @@ function applyHomeAssets() {
   const taNameEl = document.getElementById('homeTaName');
   const myUrl = load('my_avatar', ''), taUrl = load('ta_avatar', '');
   const myName = load('my_name', '我'), taName = load('ta_name', 'TA');
-
+  
   if (myA) { if (myUrl) { myA.style.background = `url(${myUrl}) center/cover no-repeat`; myA.textContent = ''; } else { myA.style.background = '#e5e5e5'; myA.textContent = myName.charAt(0); } }
   if (taA) { if (taUrl) { taA.style.background = `url(${taUrl}) center/cover no-repeat`; taA.textContent = ''; } else { taA.style.background = '#e5e5e5'; taA.textContent = taName.charAt(0); } }
   if (myNameEl) myNameEl.textContent = myName;
@@ -2044,7 +2031,6 @@ function applyHomeTalks() {
   if (ta) { if (tv) ta.textContent = tv; else ta.innerHTML = '<span class="placeholder">点击输入</span>'; }
 }
 
-/* ===== 小卡：localStorage 存 dataURL（手机兼容） ===== */
 function applyHomeBigCard() {
   const img = document.getElementById('homeBigCardImg');
   const tip = document.getElementById('homeBigCardTip');
@@ -2069,7 +2055,6 @@ function updateHomeTime() {
 setInterval(updateHomeTime, 30000);
 updateHomeTime();
 
-/* 快捷入口 */
 document.querySelectorAll('.home-grid-2x2 .home-item').forEach(item => {
   item.onclick = () => {
     const key = item.dataset.key;
@@ -2080,7 +2065,6 @@ document.querySelectorAll('.home-grid-2x2 .home-item').forEach(item => {
   };
 });
 
-/* 底部固定栏 */
 document.querySelectorAll('.home-bottom-bar .bar-item').forEach(btn => {
   btn.onclick = () => {
     const key = btn.dataset.key;
@@ -2094,7 +2078,6 @@ document.querySelectorAll('.home-bottom-bar .bar-item').forEach(btn => {
   };
 });
 
-/* 选图 */
 (function() {
   const cardEl = document.getElementById('homeBigCard');
   const img = document.getElementById('homeBigCardImg');
@@ -2125,7 +2108,6 @@ document.querySelectorAll('.home-bottom-bar .bar-item').forEach(btn => {
   };
 })();
 
-/* 寄语双击 */
 (function() {
   const box = document.getElementById('homeQuoteBox');
   const txt = document.getElementById('homeQuoteText');
@@ -2140,7 +2122,6 @@ document.querySelectorAll('.home-bottom-bar .bar-item').forEach(btn => {
   txt.ondblclick = edit;
 })();
 
-/* 气泡对话点击 */
 document.getElementById('talkMineBubble').onclick = () => {
   const cur = load('home_talk_mine', '');
   openTextInput('输入我说的话', cur, (v) => {
@@ -2156,7 +2137,6 @@ document.getElementById('talkTaBubble').onclick = () => {
   });
 };
 
-/* 纪念日小卡 */
 document.getElementById('homeAnnivCard').onclick = () => { showPage('annivPage'); renderAnniv(); };
 function updateHomeAnnivNum() {
   const el = document.getElementById('homeAnnivNum');
@@ -2175,9 +2155,9 @@ window.refreshMessages = refreshMessages;
 window.openCardTab = openCardTab;
 window.updateHomeAnnivNum = updateHomeAnnivNum;
 </script>
-/* ★★★ index 段 5 结束 ★★★ *//* ★★★ index 段 6 开始 ★★★ */
+/* ★★★ index 段 7 结束 ★★★ *//* ★★★ index 段 8 开始 ★★★ */
 <script>
-/* ===== 商店 ===== */
+/* ===== 商店逻辑 ===== */
 let shopItems = load('our_shop_items', []);
 let shopOrders = load('our_shop_orders', []);
 let editingShopId = null;
@@ -2290,7 +2270,10 @@ function taSendGift(it) {
   saveShopOrders();
 }
 
-document.getElementById('backFromShopBtn').onclick = () => showPage('homePage');
+/* 返回按钮统一改为返回聊天页 */
+document.getElementById('backFromShopBtn').onclick = () => showPage('chatPage');
+document.getElementById('backFromSurveyListBtn').onclick = () => showPage('chatPage');
+
 document.getElementById('shopAddBtn').onclick = () => openShopEdit(null);
 document.getElementById('closeShopEditBtn').onclick = closeShopEdit;
 document.getElementById('closeShopDetailBtn').onclick = closeShopDetail;
@@ -2415,7 +2398,7 @@ const searchInp = document.getElementById('searchInput');
 if (searchInp) searchInp.oninput = () => renderSearchList(searchInp.value.trim());
 window.renderFavList = renderFavList;
 </script>
-/* ★★★ index 段 6 结束 ★★★ *//* ★★★ index 段 7 开始 ★★★ */
+/* ★★★ index 段 8 结束 ★★★ *//* ★★★ index 段 9 开始 ★★★ */
 <script>
 /* ===== 纪念日 ===== */
 function loadAnnivList() { try { return JSON.parse(localStorage.getItem('anniv_list') || '[]'); } catch (e) { return []; } }
@@ -2534,9 +2517,7 @@ document.getElementById('addAnnivBtn').onclick = () => {
   window._pendingAnnivName = name.trim();
   openAnnivPicker('add', '');
 };
-</script>
-/* ★★★ index 段 7 结束 ★★★ *//* ★★★ index 段 8 开始 ★★★ */
-<script>
+
 /* ===== 问卷 ===== */
 let surveyQuestions = [];
 let currentSurveyType = 'single';
@@ -2618,7 +2599,6 @@ document.querySelectorAll('.survey-type-btn').forEach(btn => {
     renderSurveyQuestions();
   };
 });
-document.getElementById('backFromSurveyListBtn').onclick = () => showPage('chatPage');
 document.getElementById('surveyNewBtn').onclick = () => { resetSurveyNew(); showPage('surveyNewPage'); };
 document.getElementById('surveyCancelBtn').onclick = () => showPage('surveyListPage');
 document.getElementById('surveyAddQBtn').onclick = () => { surveyQuestions.push({ title: '', options: currentSurveyType === 'yesno' ? ['是', '否'] : ['', ''], optionsByType: { custom: ['', ''], yesno: ['是', '否'] } }); renderSurveyQuestions(); };
@@ -2720,9 +2700,9 @@ function openSurveyAnswer(surveyId) {
 }
 document.getElementById('closeSurveyAnswerBtn').onclick = () => document.getElementById('surveyAnswerModal').classList.add('hidden');
 </script>
-/* ★★★ index 段 8 结束 ★★★ *//* ★★★ index 段 9 开始 ★★★ */
+/* ★★★ index 段 9 结束 ★★★ *//* ★★★ index 段 10 开始 ★★★ */
 <script>
-/* ===== 信箱 ===== */
+/* ===== 信箱逻辑 ===== */
 let currentMailTab = 'sent';
 function showMailPage() {
   showPage('mailPage');
@@ -2810,7 +2790,7 @@ function scheduleAutoMail() {
 }
 scheduleAutoMail();
 
-/* ===== 朋友圈 ===== */
+/* ===== 朋友圈逻辑 ===== */
 let momentListMode = 'all';
 let currentVisibleDate = '';
 
@@ -2861,7 +2841,7 @@ function renderMomentsList() {
   if (momentListMode === 'ta') list = list.filter(m => m.sender === 'ta');
   const allEmpty = all.length === 0;
   if (momentListMode === 'ta' && list.length === 0) {
-    box.innerHTML = '<div class="moment-ta-empty">对方还没有发动态哦</div>';
+    box.innerHTML = '<div class="moment-ta-empty" style="text-align:center;padding:60px 20px;color:#bbb;">对方还没有发动态哦</div>';
     const dt = document.getElementById('momentDividerText');
     if (dt) dt.textContent = '今天';
     currentVisibleDate = '';
@@ -3012,7 +2992,7 @@ function renderMomentCard(m) {
   return card;
 }
 </script>
-/* ★★★ index 段 9 结束 ★★★ *//* ★★★ index 段 10 开始 ★★★ */
+/* ★★★ index 段 10 结束 ★★★ *//* ★★★ index 段 11 开始 ★★★ */
 <script>
 document.getElementById('backFromMomentsBtn').onclick = () => showPage('homePage');
 document.getElementById('momentListBtn').onclick = () => {
@@ -3193,7 +3173,9 @@ function scheduleAutoMoment() {
   }, delay);
 }
 scheduleAutoMoment();
-
+</script>
+/* ★★★ index 段 11 结束 ★★★ *//* ★★★ index 段 12 开始 ★★★ */
+<script>
 /* ===== 音乐库 ===== */
 let musicList = [];
 let musicCurrentId = null;
@@ -3253,9 +3235,7 @@ function renderMusicList() {
   if (musicCurrentTab === 'fav') bindMusicItems();
   bindMusicActions();
 }
-</script>
-/* ★★★ index 段 10 结束 ★★★ *//* ★★★ index 段 11 开始 ★★★ */
-<script>
+
 function musicItemHTML(m) {
   const artist = m.artist || '未知歌手';
   const dur = m.duration || '';
@@ -3434,7 +3414,9 @@ function fmtTime(s) {
   const ss = s % 60;
   return String(m).padStart(2, '0') + ':' + String(ss).padStart(2, '0');
 }
-
+</script>
+/* ★★★ index 段 12 结束 ★★★ *//* ★★★ index 段 13 开始 ★★★ */
+<script>
 /* ===== 音乐播放器 ===== */
 async function playMusic(id) {
   const m = musicList.find(x => x.id === id);
@@ -3502,9 +3484,7 @@ async function playMusic(id) {
   updateTogetherTime();
   startTogetherTimer();
 }
-</script>
-/* ★★★ index 段 11 结束 ★★★ *//* ★★★ index 段 12 开始 ★★★ */
-<script>
+
 function updatePlayerAvatars() {
   const taUrl = load('ta_avatar', '');
   const myUrl = load('my_avatar', '');
@@ -3642,7 +3622,6 @@ function hideFloatDisc() {
   document.getElementById('floatCard').classList.add('hidden');
 }
 
-/* 悬浮球拖动 + 点击 */
 (function() {
   const disc = document.getElementById('floatDisc');
   let startX = 0, startY = 0, startLeft = 0, startTop = 0, moved = false, touching = false;
@@ -3682,7 +3661,6 @@ function hideFloatDisc() {
   document.addEventListener('mouseup', onEnd);
 })();
 
-/* 点悬浮球 → 变迷你卡 */
 function openFloatCardFromDisc() {
   const disc = document.getElementById('floatDisc');
   const card = document.getElementById('floatCard');
@@ -3701,7 +3679,6 @@ function openFloatCardFromDisc() {
   disc.classList.add('hidden');
 }
 
-/* 迷你卡也能拖 */
 (function() {
   const card = document.getElementById('floatCard');
   let startX = 0, startY = 0, startLeft = 0, startTop = 0, moved = false, touching = false;
@@ -3734,7 +3711,6 @@ function openFloatCardFromDisc() {
   document.addEventListener('mouseup', onEnd);
 })();
 
-/* 点 ∧ → 卡片变回悬浮球 */
 document.getElementById('floatUpBtn').onclick = () => {
   const disc = document.getElementById('floatDisc');
   const card = document.getElementById('floatCard');
@@ -3759,7 +3735,6 @@ document.getElementById('floatListBtn').onclick = () => {
   loadMusicFromIDB();
 };
 
-/* 换封面 */
 document.getElementById('floatCameraBtn').onclick = () => {
   document.getElementById('floatCoverUpload').click();
 };
@@ -3773,9 +3748,7 @@ document.getElementById('floatCoverUpload').onchange = (e) => {
   });
   e.target.value = '';
 };
-</script>
-/* ★★★ index 段 12 结束 ★★★ *//* ★★★ index 段 13 开始 ★★★ */
-<script>
+
 /* ===== 初始化 ===== */
 window.addEventListener('load', () => {
   refreshMessages();
@@ -3791,7 +3764,6 @@ window.addEventListener('load', () => {
   scheduleAutoMoment();
 });
 
-/* 兜底：页面直接点击时关闭菜单/面板 */
 document.addEventListener('click', (e) => {
   const lp = document.getElementById('longPressMenu');
   if (lp && !lp.classList.contains('hidden') && !e.target.closest('#longPressMenu')) {
