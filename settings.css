@@ -1,4 +1,9 @@
 /* ★★★ css 段 1 开始 ★★★ */
+:root {
+  --theme-color: #222222;
+  --theme-color-light: rgba(34, 34, 34, 0.1);
+}
+
 * { margin: 0; padding: 0; box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
 html, body { height: 100%; overflow: hidden; }
 body { font-family: -apple-system, BlinkMacSystemFont, "Helvetica Neue", Arial, sans-serif; background: #f5f5f5; }
@@ -36,11 +41,8 @@ body { font-family: -apple-system, BlinkMacSystemFont, "Helvetica Neue", Arial, 
 .page { position: absolute; inset: 0; display: flex; flex-direction: column; background: transparent; }
 .page.hidden { display: none; }
 
-/* ===== 单页主页 ===== */
 #homePage { background: #f5f5f5; display: flex; flex-direction: column; overflow-y: auto; padding: 24px 20px 16px; }
-
 .home-time { font-size: 48px; font-weight: 300; color: #444; letter-spacing: 3px; margin-bottom: 10px; }
-
 .home-avatars { display: flex; align-items: flex-start; justify-content: center; margin-bottom: 16px; }
 .home-avatars .avatar-wrap { display: flex; flex-direction: column; align-items: center; }
 .home-avatars .avatar-wrap:first-child { margin-right: -14px; z-index: 2; }
@@ -70,7 +72,6 @@ body { font-family: -apple-system, BlinkMacSystemFont, "Helvetica Neue", Arial, 
 .home-anniv-card .anniv-title { font-size: 14px; color: #888; margin-bottom: 4px; }
 .home-anniv-card .anniv-num { font-size: 38px; font-weight: 600; color: #222; line-height: 1; }
 
-/* 对方那一行：气泡在左、头像在右，DOM 顺序已经是气泡→头像，所以用 row 不用 row-reverse */
 .home-chat-area { flex: 1; display: flex; flex-direction: column; gap: 16px; padding-top: 10px; }
 .home-chat-row { display: flex; align-items: center; gap: 8px; }
 .home-chat-row.reverse { flex-direction: row; }
@@ -81,7 +82,6 @@ body { font-family: -apple-system, BlinkMacSystemFont, "Helvetica Neue", Arial, 
 .home-bottom-bar { background: #fff; border: 1.5px solid #333; border-radius: 14px; padding: 14px 10px; display: flex; justify-content: space-around; align-items: center; margin-top: auto; }
 .home-bottom-bar .bar-item { font-size: 14px; color: #333; cursor: pointer; font-weight: 500; }
 
-/* ===== 聊天页 ===== */
 .chat-header { height: 56px; background: #f7f7f7; border-bottom: 1px solid #e0e0e0; display: flex; align-items: center; justify-content: space-between; padding: 0 16px; flex-shrink: 0; position: relative; }
 .chat-header #taName { position: absolute; left: 50%; transform: translateX(-50%); font-size: 17px; font-weight: 600; color: #111; max-width: 60%; text-align: center; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
 .header-left { width: 24px; height: 24px; display: flex; align-items: center; }
@@ -352,8 +352,8 @@ body { font-family: -apple-system, BlinkMacSystemFont, "Helvetica Neue", Arial, 
 .anniv-date-actions button { flex: 1; padding: 14px; border: none; border-radius: 12px; font-size: 15px; cursor: pointer; }
 .anniv-date-actions .cancel { background: #f0f0f0; color: #333; }
 .anniv-date-actions .ok { background: #222; color: #fff; }
-
-/* ===== 字卡库 / 表情 / 语音 ===== */
+/* ★★★ css 段 3 结束 ★★★ *//* ★★★ css 段 4 开始 ★★★ */
+/* ===== 字卡库 ===== */
 #cardBox { width: 94%; max-width: 420px; max-height: 85vh; background: #fff; border-radius: 14px; display: flex; flex-direction: column; overflow: hidden; }
 .card-topbar { display: flex; align-items: center; justify-content: space-between; padding: 16px 18px 12px; border-bottom: 1px solid #f0f0f0; }
 .card-topbar .title { font-size: 17px; font-weight: 600; color: #111; }
@@ -416,8 +416,8 @@ body { font-family: -apple-system, BlinkMacSystemFont, "Helvetica Neue", Arial, 
 .sticker-body .sticker-item { position: relative; aspect-ratio: 1; background: #f0f0f0; border-radius: 10px; background-size: cover; background-position: center; cursor: pointer; }
 .sticker-body .sticker-item .sticker-del { position: absolute; top: -6px; right: -6px; width: 20px; height: 20px; border-radius: 50%; background: #e74c3c; color: #fff; border: none; font-size: 12px; line-height: 1; display: flex; align-items: center; justify-content: center; cursor: pointer; padding: 0; }
 .sticker-body .sticker-empty { grid-column: 1 / -1; text-align: center; color: #999; font-size: 13px; padding: 40px 20px; }
-/* ★★★ css 段 3 结束 ★★★ *//* ★★★ css 段 4 开始 ★★★ */
-/* ===== 通用 UI ===== */
+
+/* ===== 通用 UI (弹窗、转账、收款、长按) ===== */
 .modal { position: fixed; inset: 0; background: rgba(0,0,0,.4); display: flex; align-items: center; justify-content: center; z-index: 99; }
 .modal.hidden { display: none; }
 .modal-box { width: 90%; max-width: 400px; max-height: 80vh; background: #fff; border-radius: 12px; display: flex; flex-direction: column; overflow: hidden; }
@@ -482,7 +482,7 @@ body { font-family: -apple-system, BlinkMacSystemFont, "Helvetica Neue", Arial, 
 .msg-row.jump-highlight .transfer-card { background: #d9d9d9 !important; transition: background 0.3s; }
 
 .hidden { display: none !important; }
-
+/* ★★★ css 段 4 结束 ★★★ *//* ★★★ css 段 5 开始 ★★★ */
 /* ===== 音乐库 ===== */
 #musicLibraryPage { background: #f5f5f5; }
 .music-float-toggle { display: flex; align-items: center; justify-content: space-between; padding: 12px 18px; background: #fff; border-bottom: 1px solid #f0f0f0; flex-shrink: 0; }
@@ -527,7 +527,7 @@ body { font-family: -apple-system, BlinkMacSystemFont, "Helvetica Neue", Arial, 
 .music-input-field .label { display: block; font-size: 13px; color: #888; margin-bottom: 6px; }
 .music-input-field input { width: 100%; padding: 12px 14px; border: 1px solid #eee; border-radius: 10px; font-size: 14px; outline: none; background: #fafafa; box-sizing: border-box; }
 .music-input-save { width: 100%; margin-top: 8px; padding: 14px; background: #222; color: #fff; border: none; border-radius: 12px; font-size: 15px; cursor: pointer; }
-/* ★★★ css 段 4 结束 ★★★ *//* ★★★ css 段 5 开始 ★★★ */
+
 /* ===== 全屏播放器 ===== */
 #musicPlayerPage { background: linear-gradient(180deg, #fafafa 0%, #f0f0f0 100%); padding: 0 20px; }
 .music-player-top { display: flex; justify-content: space-between; align-items: center; padding: 12px 0 0; flex-shrink: 0; }
@@ -605,16 +605,16 @@ body { font-family: -apple-system, BlinkMacSystemFont, "Helvetica Neue", Arial, 
 .set-row .label { flex: 1; color: #333; }
 .set-row input[type="number"] { width: 72px; padding: 6px 8px; border: 1px solid #eee; border-radius: 8px; font-size: 14px; outline: none; background: #fafafa; text-align: center; color: #333; }
 .set-row input[type="text"] { flex: 1; padding: 8px 10px; border: 1px solid #eee; border-radius: 8px; font-size: 14px; outline: none; background: #fafafa; color: #333; }
-.set-row input[type="checkbox"] { width: 20px; height: 20px; accent-color: #222; cursor: pointer; flex-shrink: 0; }
+.set-row input[type="checkbox"] { width: 20px; height: 20px; accent-color: var(--theme-color); cursor: pointer; flex-shrink: 0; }
 .set-row input[type="color"] { width: 40px; height: 28px; border: none; padding: 0; background: none; cursor: pointer; }
 
 .radio-group { display: flex; gap: 12px; }
 .radio-group label { display: flex; align-items: center; gap: 4px; font-size: 13px; color: #333; cursor: pointer; }
-.radio-group input[type="radio"] { accent-color: #222; cursor: pointer; }
+.radio-group input[type="radio"] { accent-color: var(--theme-color); cursor: pointer; }
 
-.set-btn { width: 100%; padding: 14px; background: #222; color: #fff; border: none; border-radius: 12px; font-size: 15px; font-weight: 600; cursor: pointer; margin: 8px 0 16px; }
+.set-btn { width: 100%; padding: 14px; background: var(--theme-color); color: #fff; border: none; border-radius: 12px; font-size: 15px; font-weight: 600; cursor: pointer; margin: 8px 0 16px; }
 
-.btn-primary { width: 100%; padding: 12px; background: #222; color: #fff; border: none; border-radius: 10px; font-size: 14px; font-weight: 600; cursor: pointer; }
+.btn-primary { width: 100%; padding: 12px; background: var(--theme-color); color: #fff; border: none; border-radius: 10px; font-size: 14px; font-weight: 600; cursor: pointer; }
 .btn-secondary { width: 100%; padding: 12px; background: #f0f0f0; color: #333; border: none; border-radius: 10px; font-size: 14px; cursor: pointer; }
 
 .wallpaper-row { display: flex; flex-wrap: wrap; gap: 10px; }
@@ -627,7 +627,7 @@ body { font-family: -apple-system, BlinkMacSystemFont, "Helvetica Neue", Arial, 
 
 .opt-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 8px; }
 .opt-card { padding: 12px; text-align: center; background: #f7f7f7; border: 1.5px solid transparent; border-radius: 10px; font-size: 14px; color: #333; cursor: pointer; }
-.opt-card.active { border-color: #222; background: #fff; font-weight: 600; }
+.opt-card.active { border-color: var(--theme-color); background: #fff; font-weight: 600; color: var(--theme-color); }
 
 .avatar-row { display: flex; align-items: center; gap: 12px; padding: 10px 0; cursor: pointer; }
 .avatar-row .label { flex: 1; font-size: 14px; color: #333; }
