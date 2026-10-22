@@ -72,6 +72,7 @@ body { font-family: -apple-system, BlinkMacSystemFont, "Helvetica Neue", Arial, 
 .home-anniv-card .anniv-title { font-size: 14px; color: #888; margin-bottom: 4px; }
 .home-anniv-card .anniv-num { font-size: 38px; font-weight: 600; color: #222; line-height: 1; }
 
+/* 对方那一行：气泡在左、头像在右，DOM 顺序已经是气泡→头像，所以用 row 不用 row-reverse */
 .home-chat-area { flex: 1; display: flex; flex-direction: column; gap: 16px; padding-top: 10px; }
 .home-chat-row { display: flex; align-items: center; gap: 8px; }
 .home-chat-row.reverse { flex-direction: row; }
@@ -129,7 +130,6 @@ body { font-family: -apple-system, BlinkMacSystemFont, "Helvetica Neue", Arial, 
 .plus-label { font-size: 13px; color: #666; }
 .plus-item:active .plus-icon { background: #eee; }
 /* ★★★ css 段 1 结束 ★★★ *//* ★★★ css 段 2 开始 ★★★ */
-/* ===== 朋友圈 ===== */
 .moment-header { position: relative; width: 100%; height: 260px; background: linear-gradient(135deg, #e8f0ff 0%, #d7e4f8 100%); background-size: cover; background-position: center; flex-shrink: 0; }
 .moment-header .avatar-block { position: absolute; right: 24px; bottom: -32px; display: flex; align-items: flex-start; gap: 10px; }
 .moment-header .avatar-block .avatar-name { font-size: 16px; color: #fff; font-weight: 800; line-height: 1; margin-top: 4px; max-width: 100px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; text-shadow: none; }
@@ -353,7 +353,7 @@ body { font-family: -apple-system, BlinkMacSystemFont, "Helvetica Neue", Arial, 
 .anniv-date-actions .cancel { background: #f0f0f0; color: #333; }
 .anniv-date-actions .ok { background: #222; color: #fff; }
 /* ★★★ css 段 3 结束 ★★★ *//* ★★★ css 段 4 开始 ★★★ */
-/* ===== 字卡库 ===== */
+/* ===== 字卡库 / 表情 / 语音 ===== */
 #cardBox { width: 94%; max-width: 420px; max-height: 85vh; background: #fff; border-radius: 14px; display: flex; flex-direction: column; overflow: hidden; }
 .card-topbar { display: flex; align-items: center; justify-content: space-between; padding: 16px 18px 12px; border-bottom: 1px solid #f0f0f0; }
 .card-topbar .title { font-size: 17px; font-weight: 600; color: #111; }
@@ -417,7 +417,7 @@ body { font-family: -apple-system, BlinkMacSystemFont, "Helvetica Neue", Arial, 
 .sticker-body .sticker-item .sticker-del { position: absolute; top: -6px; right: -6px; width: 20px; height: 20px; border-radius: 50%; background: #e74c3c; color: #fff; border: none; font-size: 12px; line-height: 1; display: flex; align-items: center; justify-content: center; cursor: pointer; padding: 0; }
 .sticker-body .sticker-empty { grid-column: 1 / -1; text-align: center; color: #999; font-size: 13px; padding: 40px 20px; }
 
-/* ===== 通用 UI (弹窗、转账、收款、长按) ===== */
+/* ===== 通用 UI ===== */
 .modal { position: fixed; inset: 0; background: rgba(0,0,0,.4); display: flex; align-items: center; justify-content: center; z-index: 99; }
 .modal.hidden { display: none; }
 .modal-box { width: 90%; max-width: 400px; max-height: 80vh; background: #fff; border-radius: 12px; display: flex; flex-direction: column; overflow: hidden; }
