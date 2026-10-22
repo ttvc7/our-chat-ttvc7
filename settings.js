@@ -29,7 +29,7 @@
     chatBgImage: load('chat_bg_image', ''),
     taAvatarStyle: load('avatar_style_ta', ''),
     myAvatarStyle: load('avatar_style_my', ''),
-    themeColor: load('theme_color', '')
+    themeColor: load('theme_color', '#222222')
   };
 
   function applyAll() {
@@ -68,9 +68,20 @@
   }
 
   function applyThemeColor(color) {
+    document.documentElement.style.setProperty('--theme-color', color);
     let s = document.getElementById('userThemeColor');
     if (!s) { s = document.createElement('style'); s.id = 'userThemeColor'; document.head.appendChild(s); }
-    s.textContent = `.btn-primary { background: ${color} !important; } .set-btn { background: ${color} !important; }`;
+    s.textContent = `
+      .btn-primary, .set-btn, .music-input-save, .shop-save-btn, .shop-btn-dark, 
+      .survey-header-btn.dark, .mail-send-btn, .moment-fab, .shop-fab, .mail-fab { 
+        background: ${color} !important; 
+        border-color: ${color} !important;
+      } 
+      .moment-top-icons button.active { 
+        background: ${color} !important; 
+        border-color: ${color} !important;
+      }
+    `;
   }
 
   function renderMain() {
@@ -249,7 +260,7 @@
       </div>
       <div class="set-card">
         <div class="set-card-title">主题颜色</div>
-        <div style="padding:6px 2px;"><input type="color" class="color-slider" id="textColorPicker" value="${cfg.textColor}"></div>
+        <div style="padding:6px 2px;"><input type="color" class="color-slider" id="textColorPicker" value="${cfg.themeColor}"></div>
         <button class="btn-primary" id="applyTextColor" style="margin:8px 0;">应用颜色</button>
       </div>
       <div class="set-card">
@@ -358,9 +369,11 @@
     const picker = panel.querySelector('#textColorPicker');
     panel.querySelector('#applyTextColor').onclick = () => {
       const color = picker.value;
-      cfg.textColor = color; cfg.themeColor = color;
-      save('text_color', color); save('theme_color', color);
+      cfg.textColor = '#111111'; // 气泡文字保持黑色，防止看不清
+      cfg.themeColor = color;
+      save('theme_color', color);
       applyAll(); applyThemeColor(color);
+      alert('主题颜色已应用');
     };
     let currentAvatarTarget = null;
     const avatarUpload = panel.querySelector('#avatarUpload');
@@ -410,7 +423,7 @@
       save('theme_css', css);
     };
   }
-
+/* ★★★ settings 段 2 结束 ★★★ *//* ★★★ settings 段 3 开始 ★★★ */
   function renderFeatureTab(panel) {
     const mailOn = load('mail_auto_on', false);
     const mailMin = load('mail_auto_min', 3);
@@ -461,7 +474,7 @@
       document.getElementById('searchModal').classList.remove('hidden');
     };
   }
-/* ★★★ settings 段 2 结束 ★★★ *//* ★★★ settings 段 3 开始 ★★★ */
+
   function renderOtherTab(panel) {
     panel.innerHTML = `
       <div class="set-card">
@@ -564,14 +577,17 @@
   window.addEventListener('load', () => {
     applyAll();
     renderMain();
+    
+    // 加载时应用主题色
+    const savedThemeColor = localStorage.getItem('theme_color');
+    if (savedThemeColor) applyThemeColor(JSON.parse(savedThemeColor));
+
     const bubbleCss = localStorage.getItem('bubble_css');
     if (bubbleCss) { const s = document.createElement('style'); s.id = 'userBubbleCss'; s.textContent = JSON.parse(bubbleCss); document.head.appendChild(s); }
     const fontCss = localStorage.getItem('font_css');
     if (fontCss) { const s = document.createElement('style'); s.id = 'userFontCss'; s.textContent = JSON.parse(fontCss); document.head.appendChild(s); }
     const themeCss = localStorage.getItem('theme_css');
     if (themeCss) { const s = document.createElement('style'); s.id = 'userThemeCss'; s.textContent = JSON.parse(themeCss); document.head.appendChild(s); }
-    const savedThemeColor = localStorage.getItem('theme_color');
-    if (savedThemeColor) applyThemeColor(JSON.parse(savedThemeColor));
   });
 
 })();
