@@ -436,20 +436,24 @@
   </div>
 </div>
 <!-- ★★★ index 段 3 结束 ★★★ --><!-- ★★★ index 段 4 开始 ★★★ -->
-<div id="cardModal" class="modal hidden">
-  <div class="modal-box" id="cardBox">
-    <div class="card-topbar">
-      <span class="title">字卡库</span>
-      <button class="close" id="closeCardBtn">×</button>
+<!-- ===== 字卡库全屏页 ===== -->
+<div id="cardPage" class="page hidden">
+  <header class="chat-header">
+    <div class="header-left">
+      <button class="header-btn" id="closeCardBtn">
+        <svg viewBox="0 0 24 24" fill="none" stroke="#666" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M15 6 L9 12 L15 18"></path></svg>
+      </button>
     </div>
-    <div class="card-tabs" id="cardTabs">
-      <button class="card-tab active" data-tab="main">主字卡</button>
-      <button class="card-tab" data-tab="emoji">Emoji</button>
-      <button class="card-tab" data-tab="pat">拍一拍</button>
-      <button class="card-tab" data-tab="voice">语音</button>
-    </div>
-    <div class="card-body" id="cardBody"></div>
+    <span>字卡库</span>
+    <div class="header-right"></div>
+  </header>
+  <div class="card-tabs" id="cardTabs">
+    <button class="card-tab active" data-tab="main">主字卡</button>
+    <button class="card-tab" data-tab="emoji">Emoji</button>
+    <button class="card-tab" data-tab="pat">拍一拍</button>
+    <button class="card-tab" data-tab="voice">语音</button>
   </div>
+  <div class="card-body" id="cardBody"></div>
 </div>
 
 <template id="tpl-main">
@@ -491,6 +495,7 @@
   <div id="voiceList"></div>
 </template>
 
+<!-- ===== 聊天页表情面板 ===== -->
 <div id="stickerPanel" class="sticker-panel hidden">
   <div class="sticker-head">
     <button class="sticker-tab active" data-tab="mine">我</button>
@@ -501,6 +506,7 @@
   <input type="file" id="stickerUploadChat" accept="image/*" multiple style="display:none;">
 </div>
 
+<!-- ===== 转账弹窗 ===== -->
 <div id="transferModal" class="modal hidden">
   <div class="modal-box">
     <div class="modal-head"><span>转账</span><button id="closeTransferBtn">×</button></div>
@@ -519,6 +525,7 @@
   </div>
 </div>
 
+<!-- ===== 收款全屏 ===== -->
 <div id="receiveModal" class="modal hidden">
   <div class="receive-box">
     <button class="receive-back" id="closeReceiveBtn">←</button>
@@ -535,6 +542,7 @@
   </div>
 </div>
 
+<!-- ===== 设置弹窗 ===== -->
 <div id="settingsModal" class="modal hidden">
   <div class="modal-box">
     <div class="modal-head"><span>设置</span><button id="closeSettingsBtn">×</button></div>
@@ -542,6 +550,7 @@
   </div>
 </div>
 
+<!-- ===== 收藏夹弹窗 ===== -->
 <div id="favModal" class="modal hidden">
   <div class="modal-box">
     <div class="modal-head"><span>收藏夹</span><button id="closeFavBtn">×</button></div>
@@ -549,6 +558,7 @@
   </div>
 </div>
 
+<!-- ===== 搜索聊天弹窗 ===== -->
 <div id="searchModal" class="modal hidden">
   <div class="modal-box">
     <div class="modal-head"><span>搜索聊天</span><button id="closeSearchBtn">×</button></div>
@@ -559,6 +569,7 @@
   </div>
 </div>
 <!-- ★★★ index 段 4 结束 ★★★ --><!-- ★★★ index 段 5 开始 ★★★ -->
+<!-- ===== 音乐库页 ===== -->
 <div id="musicLibraryPage" class="page hidden">
   <header class="chat-header">
     <div class="header-left">
@@ -581,6 +592,7 @@
   <div class="music-body" id="musicBody"></div>
 </div>
 
+<!-- ===== 音乐输入弹窗 ===== -->
 <div id="musicInputModal" class="modal hidden music-input-modal">
   <div class="modal-box">
     <div class="modal-head"><span id="musicInputTitle">链接添加</span><button id="closeMusicInputBtn">×</button></div>
@@ -602,6 +614,7 @@
   </div>
 </div>
 
+<!-- ===== 全屏播放器 ===== -->
 <div id="musicPlayerPage" class="page hidden">
   <div class="music-player-top">
     <button class="header-btn" id="musicBackBtn">
@@ -659,12 +672,14 @@
   </div>
 </div>
 
+<!-- ===== 悬浮小圆唱片 ===== -->
 <div id="floatDisc" class="hidden">
   <div class="float-disc-inner">
     <div class="float-cover" id="floatCover"></div>
   </div>
 </div>
 
+<!-- ===== 悬浮展开卡片 ===== -->
 <div id="floatCard" class="hidden">
   <div class="float-card-top">
     <button class="camera-btn" id="floatCameraBtn">
@@ -996,7 +1011,7 @@ function hideTyping() {
 }
 
 function drawCardText() {
-  const mainCards = cards.filter(c => (c.type || 'main') === 'main');
+  const mainCards = cards.filter(c => (c.type || 'main') === 'main' && !c.blocked);
   const emojiCards = cards.filter(c => c.type === 'emoji');
   const emojiProb = load('emoji_prob', 10);
   const roll = Math.random() * 100;
@@ -1267,11 +1282,8 @@ document.addEventListener('dblclick', function(e) {
   const patToMe = load('pat_to_me', ['{TA} 拍了拍 {我}']);
   let template = row.classList.contains('me') ? patToMe[Math.floor(Math.random() * patToMe.length)] : patToTa[0];
   let text = template.replace(/\{我\}/g, myName).replace(/\{TA\}/g, taName);
-  const sys = document.createElement('div');
-  sys.style.cssText = 'align-self:center;font-size:12px;color:#999;background:rgba(0,0,0,0.04);padding:4px 12px;border-radius:10px;';
-  sys.textContent = text;
-  messagesEl.appendChild(sys);
-  messagesEl.scrollTop = messagesEl.scrollHeight;
+  
+  addSystemTip(text, true); 
 });
 
 let longPressTarget = null;
@@ -1424,11 +1436,9 @@ function renderShopCard(m) {
 function addSystemTip(text, store) {
   const sys = document.createElement('div');
   sys.className = 'system-tip';
-  sys.style.cssText = 'align-self:center;font-size:12px;color:#999;background:rgba(0,0,0,0.04);padding:4px 12px;border-radius:10px;';
   sys.textContent = text;
   messagesEl.appendChild(sys);
   messagesEl.scrollTop = messagesEl.scrollHeight;
-  setTimeout(() => { messagesEl.scrollTop = messagesEl.scrollHeight; }, 50);
   if (store !== false) {
     const msgs = load('our_messages', []);
     msgs.push({ type: 'systemtip', text, t: Date.now() });
@@ -1466,7 +1476,7 @@ document.getElementById('backHomeBtn').onclick = () => showPage('homePage');
         }
         if (tm) tm.classList.remove('hidden');
       }
-      if (key === 'gift') showShopPage(true); // true 表示从聊天页进入
+      if (key === 'gift') showShopPage(true);
       if (key === 'survey') showSurveyListPage();
       if (key === 'continue') {
         const rMin = load('reply_min', 1);
@@ -1504,7 +1514,7 @@ document.getElementById('backHomeBtn').onclick = () => showPage('homePage');
   };
   document.getElementById('menuCards').onclick = () => {
     if (menuPopup) menuPopup.classList.remove('show');
-    document.getElementById('cardModal').classList.remove('hidden');
+    showPage('cardPage');
     if (typeof window.openCardTab === 'function') window.openCardTab('main');
   };
 })();
@@ -1527,7 +1537,10 @@ document.getElementById('backHomeBtn').onclick = () => showPage('homePage');
 })();
 
 /* ===== 字卡库 ===== */
-document.getElementById('closeCardBtn').onclick = () => document.getElementById('cardModal').classList.add('hidden');
+document.getElementById('closeCardBtn').onclick = () => {
+  showPage('homePage');
+  if (typeof updateHomeAnnivNum === 'function') updateHomeAnnivNum();
+};
 
 let currentCardTab = 'main';
 let currentCat = 'all';
@@ -1597,8 +1610,10 @@ function loadCards() {
   const list = document.getElementById('cardList');
   const catsBox = document.getElementById('cardCats');
   if (!list || !catsBox) return;
+  
   let allMain = cards.map((c, idx) => ({ ...c, _idx: idx })).filter(c => c.type === 'main' || !c.type);
   if (currentSearch) allMain = allMain.filter(c => (c.content || '').includes(currentSearch));
+  
   const cats = new Set();
   allMain.forEach(c => { if (c.category) cats.add(c.category); });
   catsBox.innerHTML = '';
@@ -1607,11 +1622,13 @@ function loadCards() {
   allCat.textContent = '全部';
   allCat.onclick = () => { currentCat = 'all'; loadCards(); };
   catsBox.appendChild(allCat);
+  
   const noCat = document.createElement('button');
   noCat.className = 'card-cat' + (currentCat === '未分类' ? ' active' : '');
   noCat.textContent = '未分类';
   noCat.onclick = () => { currentCat = '未分类'; loadCards(); };
   catsBox.appendChild(noCat);
+  
   cats.forEach(cat => {
     const el = document.createElement('button');
     el.className = 'card-cat' + (currentCat === cat ? ' active' : '');
@@ -1619,36 +1636,92 @@ function loadCards() {
     el.onclick = () => { currentCat = cat; loadCards(); };
     catsBox.appendChild(el);
   });
+  
   let filtered = allMain;
   if (currentCat === '未分类') filtered = filtered.filter(c => !c.category);
   else if (currentCat !== 'all') filtered = filtered.filter(c => c.category === currentCat);
+  
   if (filtered.length === 0) {
-    list.innerHTML = '<div style="color:#999;font-size:13px;text-align:center;padding:20px 0;">还没有字卡，加一条试试</div>';
+    list.innerHTML = '<div style="color:#999;font-size:13px;text-align:center;padding:60px 20px;">还未添加字卡</div>';
     return;
   }
+  
   list.innerHTML = '';
   filtered.forEach(card => {
     const div = document.createElement('div');
     div.className = 'card-item';
+    
     const wrap = document.createElement('div');
     wrap.style.flex = '1'; wrap.style.wordBreak = 'break-word';
     const s = document.createElement('div');
-    s.textContent = card.content; s.style.fontSize = '14px'; s.style.color = '#333';
+    s.textContent = card.content; 
+    s.style.fontSize = '14px'; 
+    s.style.color = card.blocked ? '#ccc' : '#333';
+    if (card.blocked) s.style.textDecoration = 'line-through';
     wrap.appendChild(s);
+    
     if (card.category) {
       const tag = document.createElement('span');
       tag.textContent = card.category;
       tag.style.cssText = 'display:inline-block;font-size:11px;color:#999;background:#f0f0f0;padding:2px 8px;border-radius:8px;margin-top:6px;';
       wrap.appendChild(tag);
     }
-    const btn = document.createElement('button');
-    btn.textContent = '×';
-    btn.onclick = () => { cards.splice(card._idx, 1); save('our_cards', cards); loadCards(); };
-    div.appendChild(wrap); div.appendChild(btn);
+
+    const btnGroup = document.createElement('div');
+    btnGroup.style.display = 'flex';
+    btnGroup.style.alignItems = 'center';
+    btnGroup.style.gap = '10px';
+
+    const eyeBtn = document.createElement('button');
+    eyeBtn.innerHTML = card.blocked 
+      ? '<svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="#ccc" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M17.94 17.94A10.07 10.07 0 0 1 12 20c-7 0-11-8-11-8a18.45 18.45 0 0 1 5.06-5.94M9.9 4.24A9.12 9.12 0 0 1 12 4c7 0 11 8 11 8a18.5 18.5 0 0 1-2.16 3.19m-6.72-1.07a3 3 0 1 1-4.24-4.24"></path><line x1="1" y1="1" x2="23" y2="23"></line></svg>'
+      : '<svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="#666" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"></path><circle cx="12" cy="12" r="3"></circle></svg>';
+    eyeBtn.style.background = 'none'; eyeBtn.style.border = 'none'; eyeBtn.style.cursor = 'pointer'; eyeBtn.style.padding = '4px';
+    eyeBtn.onclick = (e) => {
+      e.stopPropagation();
+      cards[card._idx].blocked = !cards[card._idx].blocked;
+      save('our_cards', cards);
+      loadCards();
+      addSystemTip(cards[card._idx].blocked ? '已屏蔽，不会出现在随机回复中' : '已取消屏蔽，将正常回复', true);
+    };
+
+    const editBtn = document.createElement('button');
+    editBtn.innerHTML = '<svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="#666" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 20h9"></path><path d="M16.5 3.5a2.121 2.121 0 0 1 3 3L7 19l-4 1 1-4L16.5 3.5z"></path></svg>';
+    editBtn.style.background = 'none'; editBtn.style.border = 'none'; editBtn.style.cursor = 'pointer'; editBtn.style.padding = '4px';
+    editBtn.onclick = (e) => {
+      e.stopPropagation();
+      openTextInput('修改字卡内容', card.content, (newContent) => {
+        if (newContent && newContent !== card.content) {
+          cards[card._idx].content = newContent;
+          save('our_cards', cards);
+          loadCards();
+        }
+      });
+    };
+
+    const delBtn = document.createElement('button');
+    delBtn.innerHTML = '×';
+    delBtn.style.color = '#e74c3c'; delBtn.style.fontSize = '20px'; delBtn.style.lineHeight = '1';
+    delBtn.style.background = 'none'; delBtn.style.border = 'none'; delBtn.style.cursor = 'pointer'; delBtn.style.padding = '4px';
+    delBtn.onclick = (e) => { 
+      e.stopPropagation();
+      cards.splice(card._idx, 1); 
+      save('our_cards', cards); 
+      loadCards(); 
+    };
+
+    btnGroup.appendChild(eyeBtn);
+    btnGroup.appendChild(editBtn);
+    btnGroup.appendChild(delBtn);
+
+    div.appendChild(wrap); 
+    div.appendChild(btnGroup);
     list.appendChild(div);
   });
 }
-
+</script>
+<!-- ★★★ index 段 8 结束 ★★★ --><!-- ★★★ index 段 9 开始 ★★★ -->
+<script>
 function bindEmojiTab() {
   const input = document.getElementById('emojiInput');
   document.getElementById('addEmojiBtn').onclick = () => {
@@ -1709,10 +1782,7 @@ function bindPatTab() {
     alert('已保存');
   };
 }
-</script>
-<!-- ★★★ index 段 8 结束 ★★★ --><!-- ★★★ index 段 9 开始 ★★★ -->
-<script>
-/* ===== 语音字卡 & 表情包 ===== */
+
 function bindVoiceTab() {
   const importBox = document.getElementById('voiceImportBox');
   const upload = document.getElementById('voiceUpload');
@@ -1890,7 +1960,6 @@ function compressImage(file, maxSize, cb) {
   reader.readAsDataURL(file);
 }
 
-/* ===== 自动消息 ===== */
 let autoMsgTimer = null;
 function scheduleAutoMessage() {
   const min = load('auto_msg_min', 1) * 60 * 1000;
@@ -1927,7 +1996,6 @@ function scheduleAutoMessage() {
   }, delay);
 }
 
-/* ===== 页内输入弹窗 ===== */
 function openTextInput(title, defaultValue, onConfirm) {
   let mask = document.getElementById('customInputMask');
   if (mask) mask.remove();
@@ -2047,7 +2115,7 @@ document.querySelectorAll('.home-grid-2x2 .home-item').forEach(item => {
     if (key === 'wechat') showPage('chatPage');
     else if (key === 'moments') { showPage('momentsPage'); initMomentsPage(); }
     else if (key === 'music') showMusicLibrary();
-    else if (key === 'shop') showShopPage(false); // false 表示从首页进入
+    else if (key === 'shop') showShopPage(false);
   };
 });
 
@@ -2056,7 +2124,7 @@ document.querySelectorAll('.home-bottom-bar .bar-item').forEach(btn => {
     const key = btn.dataset.key;
     if (key === 'settings') document.getElementById('settingsModal').classList.remove('hidden');
     else if (key === 'cards') {
-      document.getElementById('cardModal').classList.remove('hidden');
+      showPage('cardPage');
       if (typeof window.openCardTab === 'function') window.openCardTab('main');
     }
     else if (key === 'anniversary') { showPage('annivPage'); renderAnniv(); }
@@ -2143,7 +2211,7 @@ window.updateHomeAnnivNum = updateHomeAnnivNum;
 </script>
 <!-- ★★★ index 段 10 结束 ★★★ --><!-- ★★★ index 段 11 开始 ★★★ -->
 <script>
-/* ===== 商店逻辑（修复返回位置） ===== */
+/* ===== 商店逻辑 ===== */
 let shopItems = load('our_shop_items', []);
 let shopOrders = load('our_shop_orders', []);
 let editingShopId = null;
@@ -3016,7 +3084,6 @@ document.getElementById('momentChangeBgBtn').onclick = () => {
   up.click();
 };
 
-/* ===== 发朋友圈 ===== */
 let momentPostImgs = [];
 document.getElementById('momentAddBtn').onclick = () => {
   momentPostImgs = [];
@@ -3075,7 +3142,6 @@ document.getElementById('momentPostSend').onclick = () => {
   if (box) box.scrollTop = 0;
 };
 
-/* ===== 铃铛通知 ===== */
 function loadMomentNotifies() { return load('our_moment_notifies', []); }
 function saveMomentNotifies(list) { save('our_moment_notifies', list); }
 function updateBellDot() {
@@ -3109,7 +3175,6 @@ document.getElementById('momentBellBtn').onclick = () => {
 };
 document.getElementById('closeMomentNotifyBtn').onclick = () => document.getElementById('momentNotifyModal').classList.add('hidden');
 
-/* ===== 删除朋友圈动态 ===== */
 let momentDelType = 'all';
 document.getElementById('momentTrashBtn').onclick = () => {
   momentDelType = 'all';
@@ -3135,7 +3200,6 @@ document.getElementById('momentDelOk').onclick = () => {
   renderMomentsList();
 };
 
-/* ===== 对方自动发朋友圈 ===== */
 let autoMomentTimer = null;
 function scheduleAutoMoment() {
   const enabled = load('moment_auto_on', false);
