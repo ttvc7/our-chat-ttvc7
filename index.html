@@ -704,6 +704,46 @@
 <input type="file" id="floatCoverUpload" accept="image/*" style="display:none;">
 <!-- ★★★ index 段 5 结束 ★★★ --><!-- ★★★ index 段 6 开始 ★★★ -->
 <script>
+/* ===== Service Worker 注册与通知权限 ===== */
+if ('serviceWorker' in navigator) {
+  navigator.serviceWorker.register('sw.js').then(function(reg) {
+    console.log('SW registered');
+  }).catch(function(err) {
+    console.log('SW registration failed: ', err);
+  });
+}
+
+// 请求通知权限的函数（稍后会在设置里调用）
+function requestNotificationPermission() {
+  if (!('Notification' in window)) {
+    alert('你的浏览器不支持通知');
+    return;
+  }
+  Notification.requestPermission().then(function(permission) {
+    if (permission === 'granted') {
+      // 权限获取成功
+    } else {
+      alert('你拒绝了通知权限，无法在后台收到消息');
+    }
+  });
+}
+
+// 发送后台通知的函数
+function sendBackgroundNotification(title, body) {
+  if (Notification.permission === 'granted') {
+    if (navigator.serviceWorker && navigator.serviceWorker.controller) {
+      navigator.serviceWorker.controller.postMessage({
+        type: 'SHOW_NOTIFICATION',
+        title: title,
+        body: body
+      });
+    } else {
+      // Fallback 如果 SW 还没准备好
+      new Notification(title, { body: body, icon: 'IMG_20260923_234621.jpg' });
+    }
+  }
+}
+
 /* ===== IndexedDB 封装 ===== */
 let _idb = null;
 function openIDB() {
@@ -878,7 +918,9 @@ function addMessage(sender, content, quote, store, msgId) {
     save('our_messages', msgs);
   }
 }
-
+</script>
+<!-- ★★★ index 段 6 结束 ★★★ --><!-- ★★★ index 段 7 开始 ★★★ -->
+<script>
 function addImage(sender, url, store) {
   const row = document.createElement('div');
   row.className = 'msg-row ' + (sender === 'me' ? 'me' : 'ta');
@@ -932,9 +974,7 @@ function addVoiceMessage(sender, voiceId, name, duration, store) {
     save('our_messages', msgs);
   }
 }
-</script>
-<!-- ★★★ index 段 6 结束 ★★★ --><!-- ★★★ index 段 7 开始 ★★★ -->
-<script>
+
 let currentAudio = null;
 let currentAudioEl = null;
 let currentAudioUrl = null;
@@ -1906,6 +1946,8 @@ function scheduleAutoMessage() {
         const reply = drawCardText();
         const quote = drawQuote();
         addMessage('ta', reply, quote, true);
+        // 后台自动回复时弹出系统通知
+        sendBackgroundNotification(load('ta_name', 'TA'), reply);
       }
     }
     scheduleAutoMessage();
@@ -2124,7 +2166,9 @@ window.applyHomeAssets = applyHomeAssets;
 window.refreshMessages = refreshMessages;
 window.openCardTab = openCardTab;
 window.updateHomeAnnivNum = updateHomeAnnivNum;
-
+</script>
+<!-- ★★★ index 段 13 结束 ★★★ --><!-- ★★★ index 段 14 开始 ★★★ -->
+<script>
 /* ===== 商店逻辑 ===== */
 let shopItems = load('our_shop_items', []);
 let shopOrders = load('our_shop_orders', []);
@@ -2199,9 +2243,7 @@ function openShopDetail(id) {
   document.getElementById('shopDetailModal').classList.remove('hidden');
 }
 function closeShopDetail() { document.getElementById('shopDetailModal').classList.add('hidden'); }
-</script>
-<!-- ★★★ index 段 13 结束 ★★★ --><!-- ★★★ index 段 14 开始 ★★★ -->
-<script>
+
 function buyForTa(it) {
   const taName = load('ta_name', 'TA');
   const cardId = Date.now() + '_buy_' + Math.random().toString(36).slice(2, 8);
@@ -2491,7 +2533,9 @@ document.getElementById('addAnnivBtn').onclick = () => {
     openAnnivPicker('add', '');
   });
 };
-
+</script>
+<!-- ★★★ index 段 15 结束 ★★★ --><!-- ★★★ index 段 16 开始 ★★★ -->
+<script>
 /* ===== 问卷逻辑 ===== */
 let surveyQuestions = [];
 let currentSurveyType = 'single';
@@ -2549,9 +2593,6 @@ function resetSurveyNew() {
   document.getElementById('surveyTypeTip').textContent = '单选：对方回答时只会选中一个选项';
   renderSurveyQuestions();
 }
-</script>
-<!-- ★★★ index 段 15 结束 ★★★ --><!-- ★★★ index 段 16 开始 ★★★ -->
-<script>
 document.querySelectorAll('.survey-type-btn').forEach(btn => {
   btn.onclick = () => {
     const newType = btn.dataset.type, oldType = currentSurveyType;
@@ -3147,7 +3188,9 @@ function scheduleAutoMoment() {
   }, delay);
 }
 scheduleAutoMoment();
-
+</script>
+<!-- ★★★ index 段 18 结束 ★★★ --><!-- ★★★ index 段 19 开始 ★★★ -->
+<script>
 /* ===== 音乐库 ===== */
 let musicList = [];
 let musicCurrentId = null;
@@ -3171,9 +3214,6 @@ function loadMusicFromIDB() {
   musicList = meta.map(m => ({ ...m, fav: m.fav || false }));
   renderMusicList();
 }
-</script>
-<!-- ★★★ index 段 18 结束 ★★★ --><!-- ★★★ index 段 19 开始 ★★★ -->
-<script>
 function renderMusicList() {
   const box = document.getElementById('musicBody');
   if (!box) return;
