@@ -431,7 +431,19 @@
     const momentOn = load('moment_auto_on', false);
     const momentMin = load('moment_auto_min', 30);
     const momentMax = load('moment_auto_max', 60);
+    
+    // 获取当前通知权限状态
+    const notifyPermission = (typeof Notification !== 'undefined') ? Notification.permission : 'denied';
+
     panel.innerHTML = `
+      <div class="set-card">
+        <div class="set-card-title">系统通知</div>
+        <div class="set-row">
+          <span class="label">允许后台弹窗消息</span>
+          <button class="btn-primary" id="enableNotifyBtn" style="width:auto;padding:6px 12px;font-size:13px;">${notifyPermission === 'granted' ? '已开启' : '去开启'}</button>
+        </div>
+        <p style="font-size:12px;color:#999;margin-top:8px;">开启后，退出浏览器或锁屏也能收到 TA 的消息（需保持浏览器在后台运行）。</p>
+      </div>
       <div class="set-card">
         <div class="set-card-title">信箱</div>
         <div class="set-row"><span class="label">对方主动写信</span><input type="checkbox" id="mailAutoOn" ${mailOn ? 'checked' : ''}></div>
@@ -451,6 +463,22 @@
         <div class="set-row" id="openSearchBtn" style="cursor:pointer;">搜索聊天记录</div>
       </div>
     `;
+
+    // 绑定通知申请按钮
+    const enableBtn = panel.querySelector('#enableNotifyBtn');
+    if (enableBtn) {
+      enableBtn.onclick = () => {
+        if (typeof requestNotificationPermission === 'function') {
+          requestNotificationPermission();
+          setTimeout(() => {
+            enableBtn.textContent = Notification.permission === 'granted' ? '已开启' : '去开启';
+          }, 500);
+        } else {
+          alert('通知模块未加载，请刷新页面');
+        }
+      };
+    }
+
     panel.querySelector('#saveFeatureSettings').onclick = () => {
       save('mail_auto_on', panel.querySelector('#mailAutoOn').checked);
       const mn = parseInt(panel.querySelector('#mailAutoMin').value) || 3;
@@ -578,33 +606,15 @@
     applyAll();
     renderMain();
     
-    // 加载时应用主题色
     const savedThemeColor = localStorage.getItem('theme_color');
     if (savedThemeColor) applyThemeColor(JSON.parse(savedThemeColor));
 
     const bubbleCss = localStorage.getItem('bubble_css');
-    if (bubbleCss) { 
-      const s = document.createElement('style'); 
-      s.id = 'userBubbleCss'; 
-      s.textContent = JSON.parse(bubbleCss); 
-      document.head.appendChild(s); 
-    }
-    
+    if (bubbleCss) { const s = document.createElement('style'); s.id = 'userBubbleCss'; s.textContent = JSON.parse(bubbleCss); document.head.appendChild(s); }
     const fontCss = localStorage.getItem('font_css');
-    if (fontCss) { 
-      const s = document.createElement('style'); 
-      s.id = 'userFontCss'; 
-      s.textContent = JSON.parse(fontCss); 
-      document.head.appendChild(s); 
-    }
-    
+    if (fontCss) { const s = document.createElement('style'); s.id = 'userFontCss'; s.textContent = JSON.parse(fontCss); document.head.appendChild(s); }
     const themeCss = localStorage.getItem('theme_css');
-    if (themeCss) { 
-      const s = document.createElement('style'); 
-      s.id = 'userThemeCss'; 
-      s.textContent = JSON.parse(themeCss); 
-      document.head.appendChild(s); 
-    }
+    if (themeCss) { const s = document.createElement('style'); s.id = 'userThemeCss'; s.textContent = JSON.parse(themeCss); document.head.appendChild(s); }
   });
 
 })();
