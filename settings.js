@@ -577,32 +577,33 @@
   window.addEventListener('load', () => {
     applyAll();
     renderMain();
-    
+
+    // 加载时应用主题色
     const savedThemeColor = localStorage.getItem('theme_color');
     if (savedThemeColor) applyThemeColor(JSON.parse(savedThemeColor));
 
     const bubbleCss = localStorage.getItem('bubble_css');
-    if (bubbleCss) { 
-      const s = document.createElement('style'); 
-      s.id = 'userBubbleCss'; 
-      s.textContent = JSON.parse(bubbleCss); 
-      document.head.appendChild(s); 
+    if (bubbleCss) {
+      const s = document.createElement('style');
+      s.id = 'userBubbleCss';
+      s.textContent = JSON.parse(bubbleCss);
+      document.head.appendChild(s);
     }
-    
+
     const fontCss = localStorage.getItem('font_css');
-    if (fontCss) { 
-      const s = document.createElement('style'); 
-      s.id = 'userFontCss'; 
-      s.textContent = JSON.parse(fontCss); 
-      document.head.appendChild(s); 
+    if (fontCss) {
+      const s = document.createElement('style');
+      s.id = 'userFontCss';
+      s.textContent = JSON.parse(fontCss);
+      document.head.appendChild(s);
     }
-    
+
     const themeCss = localStorage.getItem('theme_css');
-    if (themeCss) { 
-      const s = document.createElement('style'); 
-      s.id = 'userThemeCss'; 
-      s.textContent = JSON.parse(themeCss); 
-      document.head.appendChild(s); 
+    if (themeCss) {
+      const s = document.createElement('style');
+      s.id = 'userThemeCss';
+      s.textContent = JSON.parse(themeCss);
+      document.head.appendChild(s);
     }
   });
 
