@@ -26,6 +26,7 @@
 
 <div id="homePage" class="page">
   <div class="home-time" id="homeTime">--:--</div>
+
   <div class="home-avatars">
     <div class="avatar-wrap">
       <div class="avatar-circle" id="homeTaAvatar">TA</div>
@@ -36,10 +37,12 @@
       <div class="avatar-name" id="homeMyName">我</div>
     </div>
   </div>
+
   <div class="home-quote" id="homeQuote">
     <div class="home-quote-box" id="homeQuoteBox">双击寄语</div>
     <div class="home-quote-text" id="homeQuoteText"></div>
   </div>
+
   <div class="home-main-area">
     <div class="home-big-card" id="homeBigCard">
       <img id="homeBigCardImg" src="" alt="" style="display:none;">
@@ -64,6 +67,7 @@
       </div>
     </div>
   </div>
+
   <div class="home-bottom-area">
     <div class="home-anniv-card" id="homeAnnivCard">
       <div class="anniv-title">纪念日</div>
@@ -80,6 +84,7 @@
       </div>
     </div>
   </div>
+
   <div class="home-bottom-bar">
     <div class="bar-item" data-key="settings">设置</div>
     <div class="bar-item" data-key="cards">字卡库</div>
@@ -87,39 +92,66 @@
     <div class="bar-item" data-key="mail">信箱</div>
   </div>
 </div>
-
+<!-- ★★★ index 段 1 结束 ★★★ --><!-- ★★★ index 段 2 开始 ★★★ -->
 <div id="momentsPage" class="page hidden">
   <header class="chat-header">
-    <div class="header-left"><button class="header-btn" id="backFromMomentsBtn"><svg viewBox="0 0 24 24" fill="none" stroke="#666" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M15 6 L9 12 L15 18"></path></svg></button></div>
+    <div class="header-left">
+      <button class="header-btn" id="backFromMomentsBtn">
+        <svg viewBox="0 0 24 24" fill="none" stroke="#666" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M15 6 L9 12 L15 18"></path></svg>
+      </button>
+    </div>
     <span>朋友圈</span>
     <div class="header-right moment-top-icons">
-      <button id="momentBellBtn"><svg viewBox="0 0 24 24" fill="none" stroke="#333" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M18 8 A6 6 0 0 0 6 8 C6 15 4 17 4 17 H20 C20 17 18 15 18 8"></path><path d="M10 20 A2 2 0 0 0 14 20"></path></svg><span class="red-dot" id="momentBellRedDot"></span></button>
-      <button id="momentTrashBtn"><svg viewBox="0 0 24 24" fill="none" stroke="#333" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M4 6 H20"></path><path d="M9 6 V4 H15 V6"></path><path d="M6 6 L7 20 H17 L18 6"></path></svg></button>
-      <button id="momentListBtn"><svg viewBox="0 0 24 24" fill="none" stroke="#333" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 7 H20"></path><path d="M4 12 H20"></path><path d="M4 17 H20"></path></svg></button>
+      <button id="momentBellBtn">
+        <svg viewBox="0 0 24 24" fill="none" stroke="#333" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M18 8 A6 6 0 0 0 6 8 C6 15 4 17 4 17 H20 C20 17 18 15 18 8"></path><path d="M10 20 A2 2 0 0 0 14 20"></path></svg>
+        <span class="red-dot" id="momentBellRedDot"></span>
+      </button>
+      <button id="momentTrashBtn">
+        <svg viewBox="0 0 24 24" fill="none" stroke="#333" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M4 6 H20"></path><path d="M9 6 V4 H15 V6"></path><path d="M6 6 L7 20 H17 L18 6"></path></svg>
+      </button>
+      <button id="momentListBtn" title="只看对方动态">
+        <svg viewBox="0 0 24 24" fill="none" stroke="#333" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 7 H20"></path><path d="M4 12 H20"></path><path d="M4 17 H20"></path></svg>
+      </button>
     </div>
   </header>
   <div class="moment-header" id="momentHeader">
-    <div class="avatar-block"><div class="avatar-name" id="momentMyName">我</div><div class="avatar-img" id="momentMyAvatar">我</div></div>
+    <div class="avatar-block">
+      <div class="avatar-name" id="momentMyName">我</div>
+      <div class="avatar-img" id="momentMyAvatar">我</div>
+    </div>
   </div>
-  <div class="moment-bg-tools"><button id="momentChangeBgBtn">换背景</button></div>
-  <div class="moment-divider"><span class="divider-text" id="momentDividerText">今天</span></div>
+  <div class="moment-bg-tools">
+    <button id="momentChangeBgBtn">换背景</button>
+  </div>
+  <div class="moment-divider">
+    <span class="divider-text" id="momentDividerText">今天</span>
+  </div>
   <div class="moment-body" id="momentBody"></div>
   <button class="moment-fab" id="momentAddBtn">+</button>
 </div>
 
 <div id="momentPostModal" class="modal hidden">
   <div class="moment-post-sheet">
-    <div class="moment-post-head"><button id="momentPostCancel">取消</button><span>发表动态</span><button class="primary" id="momentPostSend">发表</button></div>
+    <div class="moment-post-head">
+      <button id="momentPostCancel">取消</button>
+      <span>发表动态</span>
+      <button class="primary" id="momentPostSend">发表</button>
+    </div>
     <div class="moment-post-body">
       <textarea id="momentPostText" placeholder="这一刻的想法…"></textarea>
-      <div class="moment-post-imgs" id="momentPostImgs"><div class="add-img" id="momentAddImgBtn">+</div></div>
+      <div class="moment-post-imgs" id="momentPostImgs">
+        <div class="add-img" id="momentAddImgBtn">+</div>
+      </div>
       <input type="file" id="momentImgUpload" accept="image/*" style="display:none;">
     </div>
   </div>
 </div>
 
 <div id="momentNotifyModal" class="modal hidden">
-  <div class="modal-box"><div class="modal-head"><span>通知提醒</span><button id="closeMomentNotifyBtn">×</button></div><div class="modal-body"><div id="momentNotifyBody" class="notify-list"></div></div></div>
+  <div class="modal-box">
+    <div class="modal-head"><span>通知提醒</span><button id="closeMomentNotifyBtn">×</button></div>
+    <div class="modal-body"><div id="momentNotifyBody" class="notify-list"></div></div>
+  </div>
 </div>
 
 <div id="momentTrashModal" class="modal hidden">
@@ -127,16 +159,28 @@
     <div class="modal-head"><span>删除朋友圈动态</span><button id="closeMomentTrashBtn">×</button></div>
     <div class="modal-body">
       <p style="font-size:13px;color:#999;margin-bottom:12px;">删除后无法恢复。</p>
-      <div class="moment-del-options" id="momentDelOptions"><button data-type="all">全部删除</button><button data-type="mine">仅我的动态</button><button data-type="ta">对方动态</button></div>
-      <div class="moment-del-actions"><button class="cancel" id="momentDelCancel">取消</button><button class="ok" id="momentDelOk">确定</button></div>
+      <div class="moment-del-options" id="momentDelOptions">
+        <button data-type="all">全部删除</button>
+        <button data-type="mine">仅我的动态</button>
+        <button data-type="ta">对方动态</button>
+      </div>
+      <div class="moment-del-actions">
+        <button class="cancel" id="momentDelCancel">取消</button>
+        <button class="ok" id="momentDelOk">确定</button>
+      </div>
     </div>
   </div>
 </div>
-
+<!-- ★★★ index 段 2 结束 ★★★ --><!-- ★★★ index 段 3 开始 ★★★ -->
 <div id="annivPage" class="page hidden">
   <header class="chat-header">
-    <div class="header-left"><button class="header-btn" id="backFromAnnivBtn"><svg viewBox="0 0 24 24" fill="none" stroke="#666" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M15 6 L9 12 L15 18"></path></svg></button></div>
-    <span>纪念日</span><div class="header-right"></div>
+    <div class="header-left">
+      <button class="header-btn" id="backFromAnnivBtn">
+        <svg viewBox="0 0 24 24" fill="none" stroke="#666" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M15 6 L9 12 L15 18"></path></svg>
+      </button>
+    </div>
+    <span>纪念日</span>
+    <div class="header-right"></div>
   </header>
   <div class="anniv-body">
     <div class="anniv-main">
@@ -155,20 +199,44 @@
   <div class="anniv-date-box">
     <div class="anniv-date-title" id="annivDateTitle">设置起始日期</div>
     <div class="anniv-date-row">
-      <div class="anniv-date-col"><div class="top" id="annivYearTop">--</div><div class="cur" id="annivYearCur">2024</div><div class="bottom" id="annivYearBot">--</div><div class="anniv-date-label">年</div></div>
-      <div class="anniv-date-col"><div class="top" id="annivMonthTop">--</div><div class="cur" id="annivMonthCur">01</div><div class="bottom" id="annivMonthBot">--</div><div class="anniv-date-label">月</div></div>
-      <div class="anniv-date-col"><div class="top" id="annivDayTop">--</div><div class="cur" id="annivDayCur">01</div><div class="bottom" id="annivDayBot">--</div><div class="anniv-date-label">日</div></div>
+      <div class="anniv-date-col">
+        <div class="top" id="annivYearTop">--</div>
+        <div class="cur" id="annivYearCur">2024</div>
+        <div class="bottom" id="annivYearBot">--</div>
+        <div class="anniv-date-label">年</div>
+      </div>
+      <div class="anniv-date-col">
+        <div class="top" id="annivMonthTop">--</div>
+        <div class="cur" id="annivMonthCur">01</div>
+        <div class="bottom" id="annivMonthBot">--</div>
+        <div class="anniv-date-label">月</div>
+      </div>
+      <div class="anniv-date-col">
+        <div class="top" id="annivDayTop">--</div>
+        <div class="cur" id="annivDayCur">01</div>
+        <div class="bottom" id="annivDayBot">--</div>
+        <div class="anniv-date-label">日</div>
+      </div>
     </div>
-    <div class="anniv-date-actions"><button class="cancel" id="annivDateCancel">取消</button><button class="ok" id="annivDateOk">确定</button></div>
+    <div class="anniv-date-actions">
+      <button class="cancel" id="annivDateCancel">取消</button>
+      <button class="ok" id="annivDateOk">确定</button>
+    </div>
   </div>
 </div>
 
 <div id="chatPage" class="page hidden">
   <header class="chat-header">
-    <div class="header-left"><button class="header-btn" id="backHomeBtn"><svg viewBox="0 0 24 24" fill="none" stroke="#666" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M15 6 L9 12 L15 18"></path></svg></button></div>
+    <div class="header-left">
+      <button class="header-btn" id="backHomeBtn">
+        <svg viewBox="0 0 24 24" fill="none" stroke="#666" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M15 6 L9 12 L15 18"></path></svg>
+      </button>
+    </div>
     <span id="taName">TA</span>
     <div class="header-right">
-      <button class="header-btn" id="openMenuBtn"><svg viewBox="0 0 24 24" fill="none" stroke="#666" stroke-width="2.5" stroke-linecap="round"><circle cx="5" cy="12" r="1.5" fill="#666" stroke="none"></circle><circle cx="12" cy="12" r="1.5" fill="#666" stroke="none"></circle><circle cx="19" cy="12" r="1.5" fill="#666" stroke="none"></circle></svg></button>
+      <button class="header-btn" id="openMenuBtn">
+        <svg viewBox="0 0 24 24" fill="none" stroke="#666" stroke-width="2.5" stroke-linecap="round"><circle cx="5" cy="12" r="1.5" fill="#666" stroke="none"></circle><circle cx="12" cy="12" r="1.5" fill="#666" stroke="none"></circle><circle cx="19" cy="12" r="1.5" fill="#666" stroke="none"></circle></svg>
+      </button>
     </div>
   </header>
   <div id="messages"></div>
@@ -180,7 +248,10 @@
   </footer>
 </div>
 
-<div id="menuPopup"><div class="menu-item" id="menuSettings">设置</div><div class="menu-item" id="menuCards">字卡库</div></div>
+<div id="menuPopup">
+  <div class="menu-item" id="menuSettings">设置</div>
+  <div class="menu-item" id="menuCards">字卡库</div>
+</div>
 
 <div id="plusMenu" class="plus-menu hidden">
   <div class="plus-grid">
@@ -192,21 +263,37 @@
 </div>
 
 <div id="longPressMenu" class="long-press-menu hidden">
-  <div class="lp-item" data-act="copy">复制</div><div class="lp-item" data-act="quote">引用</div><div class="lp-item" data-act="fav">收藏</div><div class="lp-item" data-act="del">删除</div>
+  <div class="lp-item" data-act="copy">复制</div>
+  <div class="lp-item" data-act="quote">引用</div>
+  <div class="lp-item" data-act="fav">收藏</div>
+  <div class="lp-item" data-act="del">删除</div>
 </div>
-<!-- ★★★ index 段 1 结束 ★★★ --><!-- ★★★ index 段 2 开始 ★★★ -->
+<!-- ★★★ index 段 3 结束 ★★★ --><!-- ★★★ index 段 4 开始 ★★★ -->
 <div id="mailPage" class="page hidden">
   <header class="chat-header">
-    <div class="header-left"><button class="header-btn" id="backFromMailBtn"><svg viewBox="0 0 24 24" fill="none" stroke="#666" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M15 6 L9 12 L15 18"></path></svg></button></div>
-    <span>信箱</span><div class="header-right"></div>
+    <div class="header-left">
+      <button class="header-btn" id="backFromMailBtn">
+        <svg viewBox="0 0 24 24" fill="none" stroke="#666" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M15 6 L9 12 L15 18"></path></svg>
+      </button>
+    </div>
+    <span>信箱</span>
+    <div class="header-right"></div>
   </header>
-  <div class="mail-tabs"><div class="mail-tab active" data-tab="sent">寄出的信</div><div class="mail-tab" data-tab="received">收到的信</div></div>
-  <div class="mail-body" id="mailBody"></div><button class="mail-fab" id="mailWriteBtn">+</button>
+  <div class="mail-tabs">
+    <div class="mail-tab active" data-tab="sent">寄出的信</div>
+    <div class="mail-tab" data-tab="received">收到的信</div>
+  </div>
+  <div class="mail-body" id="mailBody"></div>
+  <button class="mail-fab" id="mailWriteBtn">+</button>
 </div>
+
 <div id="mailWritePage" class="page hidden">
   <header class="chat-header">
-    <div class="header-left"><button class="survey-header-btn" id="mailWriteCancelBtn">取消</button></div>
-    <span>写信</span><div class="header-right"></div>
+    <div class="header-left">
+      <button class="survey-header-btn" id="mailWriteCancelBtn">取消</button>
+    </div>
+    <span>写信</span>
+    <div class="header-right"></div>
   </header>
   <div class="mail-write-body">
     <div class="mail-write-card">
@@ -217,30 +304,54 @@
     </div>
   </div>
 </div>
+
 <div id="mailReadModal" class="modal hidden mail-read-modal">
-  <div class="modal-box"><div class="modal-head"><span>信件</span><button id="closeMailReadBtn">×</button></div><div class="modal-body"><div class="mail-read-from" id="mailReadFrom">TA 寄给我</div><div class="mail-read-title" id="mailReadTitle">--</div><div class="mail-read-content" id="mailReadContent">--</div><div class="mail-read-date" id="mailReadDate">--</div></div></div>
+  <div class="modal-box">
+    <div class="modal-head"><span>信件</span><button id="closeMailReadBtn">×</button></div>
+    <div class="modal-body">
+      <div class="mail-read-from" id="mailReadFrom">TA 寄给我</div>
+      <div class="mail-read-title" id="mailReadTitle">--</div>
+      <div class="mail-read-content" id="mailReadContent">--</div>
+      <div class="mail-read-date" id="mailReadDate">--</div>
+    </div>
+  </div>
 </div>
 
 <div id="surveyListPage" class="page hidden">
   <header class="chat-header">
-    <div class="header-left"><button class="header-btn" id="backFromSurveyListBtn"><svg viewBox="0 0 24 24" fill="none" stroke="#666" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M15 6 L9 12 L15 18"></path></svg></button></div>
+    <div class="header-left">
+      <button class="header-btn" id="backFromSurveyListBtn">
+        <svg viewBox="0 0 24 24" fill="none" stroke="#666" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M15 6 L9 12 L15 18"></path></svg>
+      </button>
+    </div>
     <span>问卷</span>
-    <div class="header-right"><button class="header-btn" id="surveyNewBtn"><svg viewBox="0 0 24 24" fill="none" stroke="#666" stroke-width="2" stroke-linecap="round"><circle cx="12" cy="12" r="9"></circle><path d="M12 8 V16 M8 12 H16"></path></svg></button></div>
+    <div class="header-right">
+      <button class="header-btn" id="surveyNewBtn">
+        <svg viewBox="0 0 24 24" fill="none" stroke="#666" stroke-width="2" stroke-linecap="round"><circle cx="12" cy="12" r="9"></circle><path d="M12 8 V16 M8 12 H16"></path></svg>
+      </button>
+    </div>
   </header>
   <div class="shop-body" id="surveyListBody"></div>
 </div>
+
 <div id="surveyNewPage" class="page hidden">
   <header class="chat-header">
-    <div class="header-left"><button class="survey-header-btn" id="surveyCancelBtn">取消</button></div>
+    <div class="header-left">
+      <button class="survey-header-btn" id="surveyCancelBtn">取消</button>
+    </div>
     <span>新建问卷</span>
-    <div class="header-right"><button class="survey-header-btn dark" id="surveySendBtn">发送</button></div>
+    <div class="header-right">
+      <button class="survey-header-btn dark" id="surveySendBtn">发送</button>
+    </div>
   </header>
   <div class="survey-new-body">
     <div class="survey-card">
       <input type="text" id="surveyTitleInput" class="survey-title-input" placeholder="请输入问卷标题">
       <div class="survey-type-row">
         <span class="survey-type-label">题型</span>
-        <button class="survey-type-btn active" data-type="single">单选</button><button class="survey-type-btn" data-type="multi">多选</button><button class="survey-type-btn" data-type="yesno">是否</button>
+        <button class="survey-type-btn active" data-type="single">单选</button>
+        <button class="survey-type-btn" data-type="multi">多选</button>
+        <button class="survey-type-btn" data-type="yesno">是否</button>
       </div>
       <div class="survey-type-tip" id="surveyTypeTip">单选：对方回答时只会选中一个选项</div>
     </div>
@@ -248,133 +359,352 @@
     <button class="survey-add-q" id="surveyAddQBtn">+ 添加问题</button>
   </div>
 </div>
+
 <div id="surveyAnswerModal" class="modal hidden">
-  <div class="modal-box"><div class="modal-head"><span id="surveyAnswerTitle">问卷</span><button id="closeSurveyAnswerBtn">×</button></div><div class="modal-body" id="surveyAnswerBody"></div></div>
+  <div class="modal-box">
+    <div class="modal-head"><span id="surveyAnswerTitle">问卷</span><button id="closeSurveyAnswerBtn">×</button></div>
+    <div class="modal-body" id="surveyAnswerBody"></div>
+  </div>
 </div>
 
 <div id="shopPage" class="page hidden">
   <header class="chat-header">
-    <div class="header-left"><button class="header-btn" id="backFromShopBtn"><svg viewBox="0 0 24 24" fill="none" stroke="#666" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M15 6 L9 12 L15 18"></path></svg></button></div>
-    <span>商店</span><div class="header-right"></div>
+    <div class="header-left">
+      <button class="header-btn" id="backFromShopBtn">
+        <svg viewBox="0 0 24 24" fill="none" stroke="#666" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M15 6 L9 12 L15 18"></path></svg>
+      </button>
+    </div>
+    <span>商店</span>
+    <div class="header-right"></div>
   </header>
-  <div class="shop-tabs"><div class="shop-tab active" data-tab="items">购物</div><div class="shop-tab" data-tab="orders">订单</div></div>
-  <div class="shop-body" id="shopItemsPanel"></div><div class="shop-body hidden" id="shopOrdersPanel"></div>
+  <div class="shop-tabs">
+    <div class="shop-tab active" data-tab="items">购物</div>
+    <div class="shop-tab" data-tab="orders">订单</div>
+  </div>
+  <div class="shop-body" id="shopItemsPanel"></div>
+  <div class="shop-body hidden" id="shopOrdersPanel"></div>
   <button class="shop-fab" id="shopAddBtn">+</button>
 </div>
+
 <div id="shopEditModal" class="modal hidden">
   <div class="shop-edit-sheet">
-    <div class="shop-edit-head"><span id="shopEditTitle">添加商品</span><button id="closeShopEditBtn">×</button></div>
+    <div class="shop-edit-head">
+      <span id="shopEditTitle">添加商品</span>
+      <button id="closeShopEditBtn">×</button>
+    </div>
     <div class="shop-edit-body">
       <div class="shop-field-label">商品图标</div>
-      <div class="shop-img-picker" id="shopImgPicker"><img id="shopImgPreview" src="" alt="" style="display:none;"><span id="shopImgPlus">+</span></div>
+      <div class="shop-img-picker" id="shopImgPicker">
+        <img id="shopImgPreview" src="" alt="" style="display:none;">
+        <span id="shopImgPlus">+</span>
+      </div>
       <input type="file" id="shopImgUpload" accept="image/*" style="display:none;">
-      <div class="shop-field-label">商品名称</div><input type="text" id="shopNameInput" class="shop-input" placeholder="输入商品名称">
-      <div class="shop-field-label">价格（¥）</div><input type="number" id="shopPriceInput" class="shop-input" placeholder="0.00" inputmode="decimal">
-      <div class="shop-field-label">商品介绍</div><textarea id="shopDescInput" class="shop-textarea" placeholder="介绍一下这个商品…"></textarea>
+      <div class="shop-field-label">商品名称</div>
+      <input type="text" id="shopNameInput" class="shop-input" placeholder="输入商品名称">
+      <div class="shop-field-label">价格（¥）</div>
+      <input type="number" id="shopPriceInput" class="shop-input" placeholder="0.00" inputmode="decimal">
+      <div class="shop-field-label">商品介绍</div>
+      <textarea id="shopDescInput" class="shop-textarea" placeholder="介绍一下这个商品…"></textarea>
       <button class="shop-save-btn" id="shopSaveBtn">保存商品</button>
     </div>
   </div>
 </div>
+
 <div id="shopDetailModal" class="modal hidden">
   <div class="shop-detail-sheet">
-    <div class="shop-edit-head"><span>商品详情</span><button id="closeShopDetailBtn">×</button></div>
+    <div class="shop-edit-head">
+      <span>商品详情</span>
+      <button id="closeShopDetailBtn">×</button>
+    </div>
     <div class="shop-detail-body">
-      <img id="detailImg" class="shop-detail-img" src="" alt=""><div class="shop-detail-name" id="detailName">--</div><div class="shop-detail-price" id="detailPrice">¥0</div>
-      <div class="shop-detail-desc-box"><div class="shop-detail-desc-label">商品介绍</div><div id="detailDesc">--</div></div>
-      <div class="shop-detail-actions"><button class="shop-btn-outline" id="detailHelpPayBtn">找TA代付</button><button class="shop-btn-dark" id="detailBuyBtn">给TA购买</button></div>
-      <div class="shop-detail-actions"><button class="shop-btn-outline" id="detailEditBtn">编辑商品</button><button class="shop-btn-outline danger" id="detailDeleteBtn">删除商品</button></div>
+      <img id="detailImg" class="shop-detail-img" src="" alt="">
+      <div class="shop-detail-name" id="detailName">--</div>
+      <div class="shop-detail-price" id="detailPrice">¥0</div>
+      <div class="shop-detail-desc-box">
+        <div class="shop-detail-desc-label">商品介绍</div>
+        <div id="detailDesc">--</div>
+      </div>
+      <div class="shop-detail-actions">
+        <button class="shop-btn-outline" id="detailHelpPayBtn">找TA代付</button>
+        <button class="shop-btn-dark" id="detailBuyBtn">给TA购买</button>
+      </div>
+      <div class="shop-detail-actions">
+        <button class="shop-btn-outline" id="detailEditBtn">编辑商品</button>
+        <button class="shop-btn-outline danger" id="detailDeleteBtn">删除商品</button>
+      </div>
     </div>
   </div>
 </div>
-
+<!-- ★★★ index 段 4 结束 ★★★ --><!-- ★★★ index 段 5 开始 ★★★ -->
 <div id="cardPage" class="page hidden">
   <header class="chat-header">
-    <div class="header-left"><button class="header-btn" id="closeCardBtn"><svg viewBox="0 0 24 24" fill="none" stroke="#666" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M15 6 L9 12 L15 18"></path></svg></button></div>
-    <span>字卡库</span><div class="header-right"></div>
+    <div class="header-left">
+      <button class="header-btn" id="closeCardBtn">
+        <svg viewBox="0 0 24 24" fill="none" stroke="#666" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M15 6 L9 12 L15 18"></path></svg>
+      </button>
+    </div>
+    <span>字卡库</span>
+    <div class="header-right"></div>
   </header>
   <div class="card-tabs" id="cardTabs">
-    <button class="card-tab active" data-tab="main">主字卡</button><button class="card-tab" data-tab="emoji">Emoji</button><button class="card-tab" data-tab="pat">拍一拍</button><button class="card-tab" data-tab="voice">语音</button>
+    <button class="card-tab active" data-tab="main">主字卡</button>
+    <button class="card-tab" data-tab="emoji">Emoji</button>
+    <button class="card-tab" data-tab="pat">拍一拍</button>
+    <button class="card-tab" data-tab="voice">语音</button>
   </div>
   <div class="card-body" id="cardBody"></div>
 </div>
+
 <template id="tpl-main">
-  <textarea id="cardInput" placeholder="输入字卡内容…（支持【分类】换行分隔）"></textarea><button id="addCardBtn">添加字卡</button>
-  <div class="card-tools"><input type="text" id="cardSearchInput" placeholder="搜索字卡…"><button id="dedupBtn">去重</button></div>
-  <div class="card-cats" id="cardCats"></div><div id="cardList"></div>
+  <textarea id="cardInput" placeholder="输入字卡内容…（支持【分类】换行分隔）"></textarea>
+  <button id="addCardBtn">添加字卡</button>
+  <div class="card-tools">
+    <input type="text" id="cardSearchInput" placeholder="搜索字卡…">
+    <button id="dedupBtn">去重</button>
+  </div>
+  <div class="card-cats" id="cardCats"></div>
+  <div id="cardList"></div>
 </template>
+
 <template id="tpl-emoji">
-  <textarea id="emojiInput" placeholder="输入颜文字，一行一个"></textarea><button id="addEmojiBtn">添加颜文字</button><div id="emojiList"></div>
+  <textarea id="emojiInput" placeholder="输入颜文字，一行一个"></textarea>
+  <button id="addEmojiBtn">添加颜文字</button>
+  <div id="emojiList"></div>
 </template>
+
 <template id="tpl-pat">
-  <div class="sec-title">我拍他</div><div class="pat-item"><input type="text" id="patToTaInput"></div>
-  <div class="sec-title" style="margin-top:16px;">他拍我（随机）</div><div id="patToMeList"></div>
-  <button class="btn-secondary" id="addPatBtn">+ 添加一条</button><button class="btn-primary" id="savePatBtn">保存</button>
+  <div class="sec-title">我拍他</div>
+  <div class="pat-item"><input type="text" id="patToTaInput"></div>
+  <div class="sec-title" style="margin-top:16px;">他拍我（随机）</div>
+  <div id="patToMeList"></div>
+  <button class="btn-secondary" id="addPatBtn">+ 添加一条</button>
+  <button class="btn-primary" id="savePatBtn">保存</button>
 </template>
+
 <template id="tpl-voice">
   <div class="voice-import-box" id="voiceImportBox">
     <div class="voice-import-icon"><svg viewBox="0 0 24 24" fill="none" stroke="#666" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3 V15"></path><path d="M8 7 V11"></path><path d="M16 7 V11"></path><rect x="9" y="15" width="6" height="6" rx="3"></rect></svg></div>
-    <div class="voice-import-text"><div class="voice-import-title">导入语音文件</div><div class="voice-import-sub">支持 MP3/WAV/M4A/MP4，可多选，每条 ≤30MB</div></div>
+    <div class="voice-import-text">
+      <div class="voice-import-title">导入语音文件</div>
+      <div class="voice-import-sub">支持 MP3/WAV/M4A/MP4，可多选，每条 ≤30MB</div>
+    </div>
   </div>
   <input type="file" id="voiceUpload" accept="audio/*,video/mp4" multiple style="display:none;">
-  <div class="voice-count" id="voiceCount">共 0 条语音字卡 · 对方回复时选一条</div><div id="voiceList"></div>
+  <div class="voice-count" id="voiceCount">共 0 条语音字卡 · 对方回复时选一条</div>
+  <div id="voiceList"></div>
 </template>
 
 <div id="stickerPanel" class="sticker-panel hidden">
-  <div class="sticker-head"><button class="sticker-tab active" data-tab="mine">我</button><button class="sticker-tab" data-tab="ta">对方</button><button class="sticker-add-btn" id="stickerAddBtnChat">+ 添加</button></div>
-  <div class="sticker-body" id="stickerBody"></div><input type="file" id="stickerUploadChat" accept="image/*" multiple style="display:none;">
+  <div class="sticker-head">
+    <button class="sticker-tab active" data-tab="mine">我</button>
+    <button class="sticker-tab" data-tab="ta">对方</button>
+    <button class="sticker-add-btn" id="stickerAddBtnChat">+ 添加</button>
+  </div>
+  <div class="sticker-body" id="stickerBody"></div>
+  <input type="file" id="stickerUploadChat" accept="image/*" multiple style="display:none;">
 </div>
 
-<div id="transferModal" class="modal hidden"><div class="modal-box"><div class="modal-head"><span>转账</span><button id="closeTransferBtn">×</button></div><div class="modal-body"><div class="transfer-target"><div class="transfer-avatar" id="transferAvatar">TA</div><div class="transfer-name" id="transferName">TA</div></div><div class="transfer-input-row"><span class="transfer-yen">¥</span><input type="number" id="transferAmount" placeholder="0.00" inputmode="decimal"></div><input type="text" id="transferNote" placeholder="添加转账说明" class="transfer-note"><button class="btn-primary" id="confirmTransferBtn">确认转账</button></div></div></div>
-
-<div id="receiveModal" class="modal hidden"><div class="receive-box"><button class="receive-back" id="closeReceiveBtn">←</button><div class="receive-content"><div class="receive-icon" id="receiveIcon">🕐</div><div class="receive-title" id="receiveTitle">请收款</div><div class="receive-amount" id="receiveAmount">¥1.00</div><div class="receive-line"></div><div class="receive-time-row"><span>转账时间</span><span id="receiveTime">--</span></div><div class="receive-line"></div><button class="receive-btn" id="receiveConfirmBtn">收款</button><div class="receive-tip" id="receiveTip">1天内未确认，将退还给对方。<span id="refundLink">退还</span></div></div></div></div>
-
-<div id="settingsModal" class="modal hidden"><div class="modal-box"><div class="modal-head"><span>设置</span><button id="closeSettingsBtn">×</button></div><div class="modal-body" style="padding:0;"></div></div></div>
-<div id="favModal" class="modal hidden"><div class="modal-box"><div class="modal-head"><span>收藏夹</span><button id="closeFavBtn">×</button></div><div class="modal-body" id="favBody"></div></div></div>
-<div id="searchModal" class="modal hidden"><div class="modal-box"><div class="modal-head"><span>搜索聊天</span><button id="closeSearchBtn">×</button></div><div class="modal-body"><input type="text" id="searchInput" class="shop-input" placeholder="搜索聊天内容…"><div id="searchResult" style="margin-top:12px;"></div></div></div></div>
-
-<div id="musicLibraryPage" class="page hidden">
-  <header class="chat-header"><div class="header-left"><button class="header-btn" id="backFromMusicBtn"><svg viewBox="0 0 24 24" fill="none" stroke="#666" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M15 6 L9 12 L15 18"></path></svg></button></div><span>音乐</span><div class="header-right"></div></header>
-  <div class="music-float-toggle"><span class="label">悬浮播放小框</span><div class="switch on" id="musicFloatSwitch"></div></div>
-  <div class="music-tabs"><button class="music-tab active" data-tab="mine">我的音乐库</button><button class="music-tab" data-tab="playlist">歌单</button><button class="music-tab" data-tab="fav">我的收藏</button></div>
-  <div class="music-body" id="musicBody"></div>
-</div>
-<div id="musicInputModal" class="modal hidden music-input-modal">
-  <div class="modal-box"><div class="modal-head"><span id="musicInputTitle">链接添加</span><button id="closeMusicInputBtn">×</button></div><div class="modal-body"><div class="music-input-field"><span class="label">歌名</span><input type="text" id="musicNameInput" placeholder="必填"></div><div class="music-input-field"><span class="label">歌手</span><input type="text" id="musicArtistInput" placeholder="可空"></div><div class="music-input-field" id="musicUrlField"><span class="label">音乐链接</span><input type="text" id="musicUrlInput" placeholder="mp3 直链"></div><button class="music-input-save" id="musicInputSave">保存</button></div></div>
-</div>
-<div id="musicPlayerPage" class="page hidden">
-  <div class="music-player-top"><button class="header-btn" id="musicBackBtn"><svg viewBox="0 0 24 24" fill="none" stroke="#222" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M15 6 L9 12 L15 18"></path></svg></button><button class="header-btn" id="musicPlusBtn"><svg viewBox="0 0 24 24" fill="none" stroke="#222" stroke-width="2.2" stroke-linecap="round"><path d="M12 5 V19 M5 12 H19"></path></svg></button></div>
-  <div class="music-player-body">
-    <div class="music-player-avatars"><div class="avatar-wrap"><div class="avatar-circle" id="playerTaAvatar">TA</div></div><div class="avatar-wrap"><div class="avatar-circle" id="playerMyAvatar">我</div></div></div>
-    <div class="music-player-together" id="musicTogetherText">TA就在你的身边，一起听了 0 分钟</div>
-    <div class="music-disc-wrap"><div class="music-disc" id="musicDisc"><div class="disc-ring"></div><div class="disc-ring r2"></div><div class="disc-ring r3"></div><div class="cover" id="musicDiscCover"></div></div></div>
-    <div class="music-title-line" id="musicTitleLine">未播放</div><div class="music-lyric-line" id="musicLyricLine">—</div>
-    <div class="music-progress"><span class="time" id="musicTimeCur">00:00</span><div class="bar-wrap" id="musicBarWrap"><div class="bar-fill" id="musicBarFill"></div><div class="bar-dot" id="musicBarDot"></div></div><span class="time" id="musicTimeTotal">00:00</span></div>
-    <div class="music-controls">
-      <button class="ctrl" id="musicLoopBtn"><svg viewBox="0 0 24 24" fill="none" stroke="#333" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M17 2 L21 6 L17 10"></path><path d="M3 11 V9 a4 4 0 0 1 4 -4 H21"></path><path d="M7 22 L3 18 L7 14"></path><path d="M21 13 V15 a4 4 0 0 1 -4 4 H3"></path></svg></button>
-      <button class="ctrl" id="musicPrevBtn"><svg viewBox="0 0 24 24" fill="none" stroke="#333" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M19 20 L9 12 L19 4 Z"></path><path d="M5 4 V20"></path></svg></button>
-      <button class="play-big" id="musicPlayBtn"><svg viewBox="0 0 24 24" id="musicPlayIcon"><path d="M8 5 V19 L19 12 Z"></path></svg></button>
-      <button class="ctrl" id="musicNextBtn"><svg viewBox="0 0 24 24" fill="none" stroke="#333" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M5 4 L15 12 L5 20 Z"></path><path d="M19 4 V20"></path></svg></button>
-      <button class="ctrl" id="musicListBtn"><svg viewBox="0 0 24 24" fill="none" stroke="#333" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M4 7 H20"></path><path d="M4 12 H20"></path><path d="M4 17 H20"></path></svg></button>
+<div id="transferModal" class="modal hidden">
+  <div class="modal-box">
+    <div class="modal-head"><span>转账</span><button id="closeTransferBtn">×</button></div>
+    <div class="modal-body">
+      <div class="transfer-target">
+        <div class="transfer-avatar" id="transferAvatar">TA</div>
+        <div class="transfer-name" id="transferName">TA</div>
+      </div>
+      <div class="transfer-input-row">
+        <span class="transfer-yen">¥</span>
+        <input type="number" id="transferAmount" placeholder="0.00" inputmode="decimal">
+      </div>
+      <input type="text" id="transferNote" placeholder="添加转账说明" class="transfer-note">
+      <button class="btn-primary" id="confirmTransferBtn">确认转账</button>
     </div>
   </div>
 </div>
-<div id="floatDisc" class="hidden"><div class="float-disc-inner"><div class="float-cover" id="floatCover"></div></div></div>
-<div id="floatCard" class="hidden">
-  <div class="float-card-top"><button class="camera-btn" id="floatCameraBtn"><svg viewBox="0 0 24 24" fill="none" stroke="#666" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M4 8 H7 L9 5 H15 L17 8 H20 V19 H4 Z"></path><circle cx="12" cy="13" r="3.5"></circle></svg></button><button class="up-btn" id="floatUpBtn"><svg viewBox="0 0 24 24" fill="none" stroke="#666" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M6 15 L12 9 L18 15"></path></svg></button></div>
-  <div class="float-card-title" id="floatTitle">未播放</div><div class="float-card-sub" id="floatSub">—</div>
-  <div class="float-card-progress"><div class="fill" id="floatFill"></div></div>
-  <div class="float-card-controls">
-    <button class="ctrl" id="floatLoopBtn"><svg viewBox="0 0 24 24" fill="none" stroke="#999" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M17 2 L21 6 L17 10"></path><path d="M3 11 V9 a4 4 0 0 1 4 -4 H21"></path><path d="M7 22 L3 18 L7 14"></path><path d="M21 13 V15 a4 4 0 0 1 -4 4 H3"></path></svg></button>
-    <button class="ctrl" id="floatPrevBtn"><svg viewBox="0 0 24 24" fill="none" stroke="#999" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M19 20 L9 12 L19 4 Z"></path><path d="M5 4 V20"></path></svg></button>
-    <button class="play-big" id="floatPlayBtn"><svg viewBox="0 0 24 24" id="floatPlayIcon"><path d="M8 5 V19 L19 12 Z"></path></svg></button>
-    <button class="ctrl" id="floatNextBtn"><svg viewBox="0 0 24 24" fill="none" stroke="#999" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M5 4 L15 12 L5 20 Z"></path><path d="M19 4 V20"></path></svg></button>
-    <button class="ctrl" id="floatListBtn"><svg viewBox="0 0 24 24" fill="none" stroke="#999" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M4 7 H20"></path><path d="M4 12 H20"></path><path d="M4 17 H20"></path></svg></button>
+
+<div id="receiveModal" class="modal hidden">
+  <div class="receive-box">
+    <button class="receive-back" id="closeReceiveBtn">←</button>
+    <div class="receive-content">
+      <div class="receive-icon" id="receiveIcon">🕐</div>
+      <div class="receive-title" id="receiveTitle">请收款</div>
+      <div class="receive-amount" id="receiveAmount">¥1.00</div>
+      <div class="receive-line"></div>
+      <div class="receive-time-row"><span>转账时间</span><span id="receiveTime">--</span></div>
+      <div class="receive-line"></div>
+      <button class="receive-btn" id="receiveConfirmBtn">收款</button>
+      <div class="receive-tip" id="receiveTip">1天内未确认，将退还给对方。<span id="refundLink">退还</span></div>
+    </div>
   </div>
 </div>
+
+<div id="settingsModal" class="modal hidden">
+  <div class="modal-box">
+    <div class="modal-head"><span>设置</span><button id="closeSettingsBtn">×</button></div>
+    <div class="modal-body" style="padding:0;"></div>
+  </div>
+</div>
+
+<div id="favModal" class="modal hidden">
+  <div class="modal-box">
+    <div class="modal-head"><span>收藏夹</span><button id="closeFavBtn">×</button></div>
+    <div class="modal-body" id="favBody"></div>
+  </div>
+</div>
+
+<div id="searchModal" class="modal hidden">
+  <div class="modal-box">
+    <div class="modal-head"><span>搜索聊天</span><button id="closeSearchBtn">×</button></div>
+    <div class="modal-body">
+      <input type="text" id="searchInput" class="shop-input" placeholder="搜索聊天内容…">
+      <div id="searchResult" style="margin-top:12px;"></div>
+    </div>
+  </div>
+</div>
+<!-- ★★★ index 段 5 结束 ★★★ --><!-- ★★★ index 段 6 开始 ★★★ -->
+<div id="musicLibraryPage" class="page hidden">
+  <header class="chat-header">
+    <div class="header-left">
+      <button class="header-btn" id="backFromMusicBtn">
+        <svg viewBox="0 0 24 24" fill="none" stroke="#666" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M15 6 L9 12 L15 18"></path></svg>
+      </button>
+    </div>
+    <span>音乐</span>
+    <div class="header-right"></div>
+  </header>
+  <div class="music-float-toggle">
+    <span class="label">悬浮播放小框</span>
+    <div class="switch on" id="musicFloatSwitch"></div>
+  </div>
+  <div class="music-tabs">
+    <button class="music-tab active" data-tab="mine">我的音乐库</button>
+    <button class="music-tab" data-tab="playlist">歌单</button>
+    <button class="music-tab" data-tab="fav">我的收藏</button>
+  </div>
+  <div class="music-body" id="musicBody"></div>
+</div>
+
+<div id="musicInputModal" class="modal hidden music-input-modal">
+  <div class="modal-box">
+    <div class="modal-head"><span id="musicInputTitle">链接添加</span><button id="closeMusicInputBtn">×</button></div>
+    <div class="modal-body">
+      <div class="music-input-field">
+        <span class="label">歌名</span>
+        <input type="text" id="musicNameInput" placeholder="必填">
+      </div>
+      <div class="music-input-field">
+        <span class="label">歌手</span>
+        <input type="text" id="musicArtistInput" placeholder="可空">
+      </div>
+      <div class="music-input-field" id="musicUrlField">
+        <span class="label">音乐链接</span>
+        <input type="text" id="musicUrlInput" placeholder="mp3 直链">
+      </div>
+      <button class="music-input-save" id="musicInputSave">保存</button>
+    </div>
+  </div>
+</div>
+
+<div id="musicPlayerPage" class="page hidden">
+  <div class="music-player-top">
+    <button class="header-btn" id="musicBackBtn">
+      <svg viewBox="0 0 24 24" fill="none" stroke="#222" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M15 6 L9 12 L15 18"></path></svg>
+    </button>
+    <button class="header-btn" id="musicPlusBtn">
+      <svg viewBox="0 0 24 24" fill="none" stroke="#222" stroke-width="2.2" stroke-linecap="round"><path d="M12 5 V19 M5 12 H19"></path></svg>
+    </button>
+  </div>
+  <div class="music-player-body">
+    <div class="music-player-avatars">
+      <div class="avatar-wrap">
+        <div class="avatar-circle" id="playerTaAvatar">TA</div>
+      </div>
+      <div class="avatar-wrap">
+        <div class="avatar-circle" id="playerMyAvatar">我</div>
+      </div>
+    </div>
+    <div class="music-player-together" id="musicTogetherText">TA就在你的身边，一起听了 0 分钟</div>
+    <div class="music-disc-wrap">
+      <div class="music-disc" id="musicDisc">
+        <div class="disc-ring"></div>
+        <div class="disc-ring r2"></div>
+        <div class="disc-ring r3"></div>
+        <div class="cover" id="musicDiscCover"></div>
+      </div>
+    </div>
+    <div class="music-title-line" id="musicTitleLine">未播放</div>
+    <div class="music-lyric-line" id="musicLyricLine">—</div>
+    <div class="music-progress">
+      <span class="time" id="musicTimeCur">00:00</span>
+      <div class="bar-wrap" id="musicBarWrap">
+        <div class="bar-fill" id="musicBarFill"></div>
+        <div class="bar-dot" id="musicBarDot"></div>
+      </div>
+      <span class="time" id="musicTimeTotal">00:00</span>
+    </div>
+    <div class="music-controls">
+      <button class="ctrl" id="musicLoopBtn">
+        <svg viewBox="0 0 24 24" fill="none" stroke="#333" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M17 2 L21 6 L17 10"></path><path d="M3 11 V9 a4 4 0 0 1 4 -4 H21"></path><path d="M7 22 L3 18 L7 14"></path><path d="M21 13 V15 a4 4 0 0 1 -4 4 H3"></path></svg>
+      </button>
+      <button class="ctrl" id="musicPrevBtn">
+        <svg viewBox="0 0 24 24" fill="none" stroke="#333" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M19 20 L9 12 L19 4 Z"></path><path d="M5 4 V20"></path></svg>
+      </button>
+      <button class="play-big" id="musicPlayBtn">
+        <svg viewBox="0 0 24 24" id="musicPlayIcon"><path d="M8 5 V19 L19 12 Z"></path></svg>
+      </button>
+      <button class="ctrl" id="musicNextBtn">
+        <svg viewBox="0 0 24 24" fill="none" stroke="#333" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M5 4 L15 12 L5 20 Z"></path><path d="M19 4 V20"></path></svg>
+      </button>
+      <button class="ctrl" id="musicListBtn">
+        <svg viewBox="0 0 24 24" fill="none" stroke="#333" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M4 7 H20"></path><path d="M4 12 H20"></path><path d="M4 17 H20"></path></svg>
+      </button>
+    </div>
+  </div>
+</div>
+
+<div id="floatDisc" class="hidden">
+  <div class="float-disc-inner">
+    <div class="float-cover" id="floatCover"></div>
+  </div>
+</div>
+
+<div id="floatCard" class="hidden">
+  <div class="float-card-top">
+    <button class="camera-btn" id="floatCameraBtn">
+      <svg viewBox="0 0 24 24" fill="none" stroke="#666" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M4 8 H7 L9 5 H15 L17 8 H20 V19 H4 Z"></path><circle cx="12" cy="13" r="3.5"></circle></svg>
+    </button>
+    <button class="up-btn" id="floatUpBtn">
+      <svg viewBox="0 0 24 24" fill="none" stroke="#666" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M6 15 L12 9 L18 15"></path></svg>
+    </button>
+  </div>
+  <div class="float-card-title" id="floatTitle">未播放</div>
+  <div class="float-card-sub" id="floatSub">—</div>
+  <div class="float-card-progress">
+    <div class="fill" id="floatFill"></div>
+  </div>
+  <div class="float-card-controls">
+    <button class="ctrl" id="floatLoopBtn">
+      <svg viewBox="0 0 24 24" fill="none" stroke="#999" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M17 2 L21 6 L17 10"></path><path d="M3 11 V9 a4 4 0 0 1 4 -4 H21"></path><path d="M7 22 L3 18 L7 14"></path><path d="M21 13 V15 a4 4 0 0 1 -4 4 H3"></path></svg>
+    </button>
+    <button class="ctrl" id="floatPrevBtn">
+      <svg viewBox="0 0 24 24" fill="none" stroke="#999" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M19 20 L9 12 L19 4 Z"></path><path d="M5 4 V20"></path></svg>
+    </button>
+    <button class="play-big" id="floatPlayBtn">
+      <svg viewBox="0 0 24 24" id="floatPlayIcon"><path d="M8 5 V19 L19 12 Z"></path></svg>
+    </button>
+    <button class="ctrl" id="floatNextBtn">
+      <svg viewBox="0 0 24 24" fill="none" stroke="#999" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M5 4 L15 12 L5 20 Z"></path><path d="M19 4 V20"></path></svg>
+    </button>
+    <button class="ctrl" id="floatListBtn">
+      <svg viewBox="0 0 24 24" fill="none" stroke="#999" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M4 7 H20"></path><path d="M4 12 H20"></path><path d="M4 17 H20"></path></svg>
+    </button>
+  </div>
+</div>
+
 <input type="file" id="floatCoverUpload" accept="image/*" style="display:none;">
-<!-- ★★★ index 段 2 结束 ★★★ --><!-- ★★★ index 段 3 开始 ★★★ -->
+<!-- ★★★ index 段 6 结束 ★★★ --><!-- ★★★ index 段 7 开始 ★★★ -->
 <script>
-/* ===== 基础工具与全局变量 ===== */
+/* ===== IndexedDB 封装 ===== */
 let _idb = null;
 function openIDB() {
   return new Promise((resolve, reject) => {
@@ -420,13 +750,22 @@ async function idbDelete(store, key) {
 
 const messagesEl = document.getElementById('messages');
 const inputEl = document.getElementById('input');
-function load(key, def) { try { const v = localStorage.getItem(key); return v ? JSON.parse(v) : def; } catch (e) { return def; } }
-function save(key, val) { try { localStorage.setItem(key, JSON.stringify(val)); } catch (e) { alert('本地存储已满，请清理图片'); } }
+
+function load(key, def) {
+  try { const v = localStorage.getItem(key); return v ? JSON.parse(v) : def; }
+  catch (e) { return def; }
+}
+function save(key, val) {
+  try {
+    localStorage.setItem(key, JSON.stringify(val));
+  } catch (e) {
+    console.error('保存失败', key, e);
+    alert('本地存储已满，请清理一些图片或表情');
+  }
+}
 
 let cards = load('our_cards', []);
 let quoteTarget = null;
-let currentTransferId = null;
-let cardReturnPage = 'homePage';
 
 function showPage(id) {
   document.querySelectorAll('.page').forEach(p => p.classList.add('hidden'));
@@ -435,87 +774,107 @@ function showPage(id) {
   if (id === 'chatPage') {
     setTimeout(() => {
       const el = document.getElementById('messages');
-      if (el && typeof refreshMessages === 'function') { refreshMessages(); el.scrollTop = el.scrollHeight; }
+      if (el && typeof refreshMessages === 'function') {
+        refreshMessages();
+        el.scrollTop = el.scrollHeight;
+      }
     }, 50);
   }
 }
 
-function todayKey() { const d = new Date(); return `${d.getFullYear()}-${d.getMonth() + 1}-${d.getDate()}`; }
-function formatDateFull(t) { const d = new Date(t); return `${d.getMonth() + 1}月${d.getDate()}日 ${String(d.getHours()).padStart(2, '0')}:${String(d.getMinutes()).padStart(2, '0')}`; }
-function ensureDateDivider() { const last = load('last_msg_day', ''); const key = todayKey(); if (key !== last) { save('last_msg_day', key); return true; } return false; }
-function pad2(n) { return String(n).padStart(2, '0'); }
-function daysInMonth(y, m) { return new Date(y, m, 0).getDate(); }
-function fmtTime(s) { s = Math.floor(s || 0); return String(Math.floor(s / 60)).padStart(2, '0') + ':' + String(s % 60).padStart(2, '0'); }
+function todayKey() {
+  const d = new Date();
+  return `${d.getFullYear()}-${d.getMonth() + 1}-${d.getDate()}`;
+}
+
+function formatDateFull(t) {
+  const d = new Date(t);
+  const hh = String(d.getHours()).padStart(2, '0');
+  const mm = String(d.getMinutes()).padStart(2, '0');
+  return `${d.getMonth() + 1}月${d.getDate()}日 ${hh}:${mm}`;
+}
+
+function ensureDateDivider() {
+  const last = load('last_msg_day', '');
+  const key = todayKey();
+  if (key !== last) {
+    save('last_msg_day', key);
+    return true;
+  }
+  return false;
+}
 
 function buildAvatar(sender) {
   const avatar = document.createElement('div');
   avatar.className = 'avatar';
   const isMe = sender === 'me';
   const avatarUrl = isMe ? load('my_avatar', '') : load('ta_avatar', '');
-  if (avatarUrl) { avatar.style.background = `url(${avatarUrl}) center/cover no-repeat`; avatar.textContent = ''; }
-  else { avatar.textContent = (isMe ? load('my_name', '我') : load('ta_name', 'TA')).charAt(0); }
+  if (avatarUrl) {
+    avatar.style.background = `url(${avatarUrl}) center/cover no-repeat`;
+    avatar.textContent = '';
+  } else {
+    const name = isMe ? load('my_name', '我') : load('ta_name', 'TA');
+    avatar.textContent = name.charAt(0);
+  }
   return avatar;
 }
 
-function compressImage(file, maxSize, cb) {
-  const reader = new FileReader();
-  reader.onload = (e) => {
-    const img = new Image();
-    img.onload = () => {
-      const canvas = document.createElement('canvas');
-      let w = img.width, h = img.height;
-      if (w > h) { if (w > maxSize) { h = h * maxSize / w; w = maxSize; } } else { if (h > maxSize) { w = w * maxSize / h; h = maxSize; } }
-      canvas.width = w; canvas.height = h;
-      canvas.getContext('2d').drawImage(img, 0, 0, w, h);
-      cb(canvas.toDataURL('image/jpeg', 0.85));
-    };
-    img.src = e.target.result;
-  };
-  reader.readAsDataURL(file);
+setTimeout(() => {
+  const loading = document.getElementById('loading');
+  if (loading) {
+    loading.classList.add('fade-out');
+    setTimeout(() => loading.remove(), 700);
+  }
+}, 2000);
+
+function addDateDivider(t) {
+  const div = document.createElement('div');
+  div.className = 'date-divider';
+  div.textContent = formatDateFull(t);
+  messagesEl.appendChild(div);
 }
-
-function openTextInput(title, defaultValue, onConfirm) {
-  let mask = document.getElementById('customInputMask');
-  if (mask) mask.remove();
-  mask = document.createElement('div');
-  mask.id = 'customInputMask';
-  mask.style.cssText = 'position:fixed;inset:0;background:rgba(0,0,0,0.4);z-index:9999;display:flex;align-items:center;justify-content:center;';
-  mask.innerHTML = `<div style="width:82%;max-width:340px;background:#fff;border-radius:14px;overflow:hidden;">
-      <div style="padding:18px 18px 6px;font-size:16px;font-weight:600;color:#111;text-align:center;">${title}</div>
-      <div style="padding:6px 18px 18px;"><textarea id="customInputArea" style="width:100%;height:90px;border:1px solid #eee;border-radius:10px;padding:10px 12px;font-size:15px;outline:none;resize:none;font-family:inherit;background:#fafafa;box-sizing:border-box;">${defaultValue || ''}</textarea></div>
-      <div style="display:flex;border-top:1px solid #eee;"><button id="customInputCancel" style="flex:1;padding:14px;background:#fff;border:none;font-size:16px;color:#666;cursor:pointer;">取消</button><button id="customInputOk" style="flex:1;padding:14px;background:#fff;border:none;font-size:16px;color:#222;font-weight:600;cursor:pointer;border-left:1px solid #eee;">确定</button></div>
-    </div>`;
-  document.body.appendChild(mask);
-  const area = mask.querySelector('#customInputArea');
-  setTimeout(() => area.focus(), 50);
-  mask.querySelector('#customInputCancel').onclick = () => mask.remove();
-  mask.querySelector('#customInputOk').onclick = () => { const v = area.value.trim(); mask.remove(); onConfirm(v); };
-  mask.onclick = (e) => { if (e.target === mask) mask.remove(); };
-}
-
-/* ===== 聊天核心消息 ===== */
-function addDateDivider(t) { const div = document.createElement('div'); div.className = 'date-divider'; div.textContent = formatDateFull(t); messagesEl.appendChild(div); }
-
+</script>
+<!-- ★★★ index 段 7 结束 ★★★ --><!-- ★★★ index 段 8 开始 ★★★ -->
+<script>
 function addMessage(sender, content, quote, store, msgId) {
   const row = document.createElement('div');
   row.className = 'msg-row ' + (sender === 'me' ? 'me' : 'ta');
   row.dataset.msgId = msgId || (Date.now() + '_' + Math.random().toString(36).slice(2, 8));
+
   const avatar = buildAvatar(sender);
   const bubble = document.createElement('div');
   bubble.className = 'bubble';
-  if (quote) { const q = document.createElement('span'); q.className = 'quote-block'; q.textContent = quote; bubble.appendChild(q); }
-  bubble.appendChild(document.createTextNode(content));
-  if (sender === 'me' && load('read_receipt', true)) {
-    const rm = document.createElement('div'); rm.className = 'read-mark unread';
-    if (load('read_style', 'icon') === 'text') rm.textContent = '未读';
-    bubble.appendChild(rm);
+  if (quote) {
+    const q = document.createElement('span');
+    q.className = 'quote-block';
+    q.textContent = quote;
+    bubble.appendChild(q);
   }
-  row.appendChild(avatar); row.appendChild(bubble); messagesEl.appendChild(row); messagesEl.scrollTop = messagesEl.scrollHeight;
+  bubble.appendChild(document.createTextNode(content));
+
+  if (sender === 'me' && load('read_receipt', true)) {
+    const readMark = document.createElement('div');
+    readMark.className = 'read-mark unread';
+    const rs = load('read_style', 'icon');
+    if (rs === 'icon') readMark.innerHTML = '';
+    else readMark.textContent = '未读';
+    bubble.appendChild(readMark);
+  }
+
+  row.appendChild(avatar);
+  row.appendChild(bubble);
+  messagesEl.appendChild(row);
+  messagesEl.scrollTop = messagesEl.scrollHeight;
+
   if (store !== false) {
     const msgs = load('our_messages', []);
     if (ensureDateDivider()) {
-      msgs.push({ type: 'datedivider', text: formatDateFull(Date.now()), t: Date.now() - 1 });
-      const dEl = document.createElement('div'); dEl.className = 'date-divider'; dEl.textContent = formatDateFull(Date.now()); messagesEl.insertBefore(dEl, row);
+      const div = { type: 'datedivider', text: formatDateFull(Date.now()), t: Date.now() - 1 };
+      msgs.push(div);
+      const dividerEl = document.createElement('div');
+      dividerEl.className = 'date-divider';
+      dividerEl.textContent = div.text;
+      messagesEl.insertBefore(dividerEl, row);
     }
     msgs.push({ type: 'text', sender, content, quote: quote || '', t: Date.now(), msgId: row.dataset.msgId, read: false });
     save('our_messages', msgs);
@@ -523,88 +882,194 @@ function addMessage(sender, content, quote, store, msgId) {
 }
 
 function addImage(sender, url, store) {
-  const row = document.createElement('div'); row.className = 'msg-row ' + (sender === 'me' ? 'me' : 'ta'); row.dataset.msgId = Date.now() + '_' + Math.random().toString(36).slice(2, 8);
+  const row = document.createElement('div');
+  row.className = 'msg-row ' + (sender === 'me' ? 'me' : 'ta');
+  row.dataset.msgId = Date.now() + '_' + Math.random().toString(36).slice(2, 8);
+
   const avatar = buildAvatar(sender);
-  const img = document.createElement('img'); img.src = url; img.style.maxWidth = '120px'; img.style.maxHeight = '120px'; img.style.borderRadius = '8px';
-  row.appendChild(avatar); row.appendChild(img); messagesEl.appendChild(row); messagesEl.scrollTop = messagesEl.scrollHeight;
-  if (store !== false) { const msgs = load('our_messages', []); msgs.push({ type: 'image', sender, url, t: Date.now(), msgId: row.dataset.msgId }); save('our_messages', msgs); }
+  const img = document.createElement('img');
+  img.src = url;
+  img.style.maxWidth = '120px';
+  img.style.maxHeight = '120px';
+  img.style.borderRadius = '8px';
+
+  row.appendChild(avatar);
+  row.appendChild(img);
+  messagesEl.appendChild(row);
+  messagesEl.scrollTop = messagesEl.scrollHeight;
+
+  if (store !== false) {
+    const msgs = load('our_messages', []);
+    msgs.push({ type: 'image', sender, url, t: Date.now(), msgId: row.dataset.msgId });
+    save('our_messages', msgs);
+  }
 }
 
 function addVoiceMessage(sender, voiceId, name, duration, store) {
-  const row = document.createElement('div'); row.className = 'msg-row ' + (sender === 'me' ? 'me' : 'ta'); row.dataset.msgId = Date.now() + '_' + Math.random().toString(36).slice(2, 8);
+  const row = document.createElement('div');
+  row.className = 'msg-row ' + (sender === 'me' ? 'me' : 'ta');
+  row.dataset.msgId = Date.now() + '_' + Math.random().toString(36).slice(2, 8);
   const avatar = buildAvatar(sender);
-  const bubble = document.createElement('div'); bubble.className = 'voice-bubble'; bubble.dataset.voiceId = voiceId;
-  bubble.innerHTML = `<div class="play-btn"><svg viewBox="0 0 24 24"><path d="M8 5 V19 L19 12 Z"></path></svg></div><div class="waves">${'<span></span>'.repeat(9)}</div><div class="duration">${duration}</div>`;
-  bubble.onclick = (e) => { e.stopPropagation(); playVoice(bubble, voiceId); };
-  row.appendChild(avatar); row.appendChild(bubble); messagesEl.appendChild(row); messagesEl.scrollTop = messagesEl.scrollHeight;
-  if (store !== false) { const msgs = load('our_messages', []); msgs.push({ type: 'voice', sender, voiceId, name, duration, t: Date.now(), msgId: row.dataset.msgId }); save('our_messages', msgs); }
-}
 
-function addSystemTip(text, store) {
-  const sys = document.createElement('div'); sys.className = 'system-tip'; sys.textContent = text; messagesEl.appendChild(sys); messagesEl.scrollTop = messagesEl.scrollHeight;
-  if (store !== false) { const msgs = load('our_messages', []); msgs.push({ type: 'systemtip', text, t: Date.now() }); save('our_messages', msgs); }
+  const bubble = document.createElement('div');
+  bubble.className = 'voice-bubble';
+  bubble.dataset.voiceId = voiceId;
+  bubble.innerHTML = `
+    <div class="play-btn"><svg viewBox="0 0 24 24"><path d="M8 5 V19 L19 12 Z"></path></svg></div>
+    <div class="waves">${'<span></span>'.repeat(9)}</div>
+    <div class="duration">${duration}</div>
+  `;
+  bubble.onclick = (e) => {
+    e.stopPropagation();
+    playVoice(bubble, voiceId);
+  };
+  row.appendChild(avatar);
+  row.appendChild(bubble);
+  messagesEl.appendChild(row);
+  messagesEl.scrollTop = messagesEl.scrollHeight;
+
+  if (store !== false) {
+    const msgs = load('our_messages', []);
+    msgs.push({ type: 'voice', sender, voiceId, name, duration, t: Date.now(), msgId: row.dataset.msgId });
+    save('our_messages', msgs);
+  }
 }
 </script>
-<!-- ★★★ index 段 3 结束 ★★★ --><!-- ★★★ index 段 4 开始 ★★★ -->
+<!-- ★★★ index 段 8 结束 ★★★ --><!-- ★★★ index 段 9 开始 ★★★ -->
 <script>
-let currentAudio = null, currentAudioEl = null, currentAudioUrl = null;
+let currentAudio = null;
+let currentAudioEl = null;
+let currentAudioUrl = null;
+
 async function playVoice(bubbleEl, voiceId) {
-  const rec = await idbGet('voices', voiceId); if (!rec) return;
+  const rec = await idbGet('voices', voiceId);
+  if (!rec) return;
+
   if (currentAudioEl === bubbleEl && currentAudio) {
-    currentAudio.pause(); if (currentAudioUrl) URL.revokeObjectURL(currentAudioUrl);
-    bubbleEl.classList.remove('playing'); bubbleEl.querySelector('.play-btn').innerHTML = '<svg viewBox="0 0 24 24"><path d="M8 5 V19 L19 12 Z"></path></svg>';
-    currentAudio = null; currentAudioEl = null; currentAudioUrl = null; return;
+    currentAudio.pause();
+    if (currentAudioUrl) URL.revokeObjectURL(currentAudioUrl);
+    bubbleEl.classList.remove('playing');
+    bubbleEl.querySelector('.play-btn').innerHTML = '<svg viewBox="0 0 24 24"><path d="M8 5 V19 L19 12 Z"></path></svg>';
+    currentAudio = null;
+    currentAudioEl = null;
+    currentAudioUrl = null;
+    return;
   }
+
   if (currentAudio) {
     currentAudio.pause();
-    if (currentAudioEl) { currentAudioEl.classList.remove('playing'); currentAudioEl.querySelector('.play-btn').innerHTML = '<svg viewBox="0 0 24 24"><path d="M8 5 V19 L19 12 Z"></path></svg>'; }
+    if (currentAudioEl) {
+      currentAudioEl.classList.remove('playing');
+      currentAudioEl.querySelector('.play-btn').innerHTML = '<svg viewBox="0 0 24 24"><path d="M8 5 V19 L19 12 Z"></path></svg>';
+    }
     if (currentAudioUrl) URL.revokeObjectURL(currentAudioUrl);
   }
-  currentAudioUrl = URL.createObjectURL(rec.blob); currentAudio = new Audio(currentAudioUrl); currentAudioEl = bubbleEl;
-  bubbleEl.classList.add('playing'); bubbleEl.querySelector('.play-btn').innerHTML = '<svg viewBox="0 0 24 24"><path d="M7 5 H10 V19 H7 Z"></path><path d="M14 5 H17 V19 H14 Z"></path></svg>';
+
+  currentAudioUrl = URL.createObjectURL(rec.blob);
+  currentAudio = new Audio(currentAudioUrl);
+  currentAudioEl = bubbleEl;
+  bubbleEl.classList.add('playing');
+  bubbleEl.querySelector('.play-btn').innerHTML = '<svg viewBox="0 0 24 24"><path d="M7 5 H10 V19 H7 Z"></path><path d="M14 5 H17 V19 H14 Z"></path></svg>';
+
   currentAudio.onended = () => {
-    bubbleEl.classList.remove('playing'); bubbleEl.querySelector('.play-btn').innerHTML = '<svg viewBox="0 0 24 24"><path d="M8 5 V19 L19 12 Z"></path></svg>';
-    if (currentAudioUrl) URL.revokeObjectURL(currentAudioUrl); currentAudio = null; currentAudioEl = null; currentAudioUrl = null;
+    bubbleEl.classList.remove('playing');
+    bubbleEl.querySelector('.play-btn').innerHTML = '<svg viewBox="0 0 24 24"><path d="M8 5 V19 L19 12 Z"></path></svg>';
+    if (currentAudioUrl) URL.revokeObjectURL(currentAudioUrl);
+    currentAudio = null;
+    currentAudioEl = null;
+    currentAudioUrl = null;
   };
-  currentAudio.play().catch(() => { bubbleEl.classList.remove('playing'); bubbleEl.querySelector('.play-btn').innerHTML = '<svg viewBox="0 0 24 24"><path d="M8 5 V19 L19 12 Z"></path></svg>'; });
+  currentAudio.play().catch(() => {
+    bubbleEl.classList.remove('playing');
+    bubbleEl.querySelector('.play-btn').innerHTML = '<svg viewBox="0 0 24 24"><path d="M8 5 V19 L19 12 Z"></path></svg>';
+  });
 }
 
-function showTyping() { const el = document.getElementById('taName'); if (el && !el.dataset.typing) { el.dataset.original = el.textContent; el.dataset.typing = '1'; el.textContent = '对方正在输入中…'; markAllRead(); } }
-function hideTyping() { const el = document.getElementById('taName'); if (el && el.dataset.typing) { el.textContent = el.dataset.original || load('ta_name', 'TA'); delete el.dataset.typing; } }
+function showTyping() {
+  const taNameEl = document.getElementById('taName');
+  if (taNameEl && !taNameEl.dataset.typing) {
+    taNameEl.dataset.original = taNameEl.textContent;
+    taNameEl.dataset.typing = '1';
+    taNameEl.textContent = '对方正在输入中…';
+    markAllRead();
+  }
+}
+function hideTyping() {
+  const taNameEl = document.getElementById('taName');
+  if (taNameEl && taNameEl.dataset.typing) {
+    taNameEl.textContent = taNameEl.dataset.original || load('ta_name', 'TA');
+    delete taNameEl.dataset.typing;
+  }
+}
 
 function drawCardText() {
   const mainCards = cards.filter(c => (c.type || 'main') === 'main' && !c.blocked);
   const emojiCards = cards.filter(c => c.type === 'emoji');
-  if (emojiCards.length > 0 && Math.random() * 100 < load('emoji_prob', 10)) return emojiCards[Math.floor(Math.random() * emojiCards.length)].content;
-  if (mainCards.length > 0) return mainCards[Math.floor(Math.random() * mainCards.length)].content;
+  const emojiProb = load('emoji_prob', 10);
+  const roll = Math.random() * 100;
+  if (emojiCards.length > 0 && roll < emojiProb) {
+    return emojiCards[Math.floor(Math.random() * emojiCards.length)].content;
+  }
+  if (mainCards.length > 0) {
+    return mainCards[Math.floor(Math.random() * mainCards.length)].content;
+  }
   return '（字卡库还是空的，点右上角添加一些吧）';
 }
+
 function drawQuote() {
-  if (Math.random() * 100 >= load('quote_prob', 30)) return '';
+  const quoteProb = load('quote_prob', 30);
+  if (Math.random() * 100 >= quoteProb) return '';
   const msgs = load('our_messages', []).filter(m => m.type === 'text' && m.sender === 'me');
-  return msgs.length > 0 ? '你：' + msgs[Math.floor(Math.random() * msgs.length)].content : '';
+  if (msgs.length === 0) return '';
+  const pick = msgs[Math.floor(Math.random() * msgs.length)];
+  return '你：' + pick.content;
 }
+
 function tryTaVoiceReply() {
+  const voiceProb = load('voice_prob', 0);
   const voices = load('our_voices_meta', []);
-  if (voices.length > 0 && Math.random() * 100 < load('voice_prob', 0)) {
-    const v = voices[Math.floor(Math.random() * voices.length)]; addVoiceMessage('ta', v.id, v.name, v.duration, true); return true;
-  }
-  return false;
+  if (voices.length === 0) return false;
+  if (Math.random() * 100 >= voiceProb) return false;
+  const v = voices[Math.floor(Math.random() * voices.length)];
+  addVoiceMessage('ta', v.id, v.name, v.duration, true);
+  return true;
 }
 
 async function sendMessage() {
-  const text = inputEl.value.trim(); if (!text) return;
-  inputEl.value = ''; const q = quoteTarget; quoteTarget = null; inputEl.placeholder = '输入消息…'; inputEl.classList.remove('quoting');
+  const text = inputEl.value.trim();
+  if (!text) return;
+  inputEl.value = '';
+  const q = quoteTarget;
+  quoteTarget = null;
+  inputEl.placeholder = '输入消息…';
+  inputEl.classList.remove('quoting');
   addMessage('me', text, q || '', true);
+
+  const rMin = load('reply_min', 1);
+  const rMax = load('reply_max', 1);
+  const dMin = load('delay_min', 5);
+  const dMax = load('delay_max', 15);
   showTyping();
-  await new Promise(r => setTimeout(r, (Math.min(load('delay_min', 5), load('delay_max', 15)) + Math.random() * Math.abs(load('delay_max', 15) - load('delay_min', 5))) * 1000));
-  if (load('read_no_reply', false) && Math.random() < 0.5) { hideTyping(); return; }
-  const rMin = load('reply_min', 1), rMax = load('reply_max', 1);
+  const firstDelay = (Math.min(dMin, dMax) + Math.random() * Math.abs(dMax - dMin)) * 1000;
+  await new Promise(r => setTimeout(r, firstDelay));
+
+  if (load('read_no_reply', false)) {
+    if (Math.random() < 0.5) { hideTyping(); return; }
+  }
+
   const count = Math.min(rMin, rMax) + Math.floor(Math.random() * (Math.abs(rMax - rMin) + 1));
   for (let i = 0; i < count; i++) {
-    if (i > 0) { await new Promise(r => setTimeout(r, 500 + Math.random() * 1500)); showTyping(); await new Promise(r => setTimeout(r, 400)); }
+    if (i > 0) {
+      await new Promise(r => setTimeout(r, 500 + Math.random() * 1500));
+      showTyping();
+      await new Promise(r => setTimeout(r, 400));
+    }
     hideTyping();
-    if (!tryTaVoiceReply()) { addMessage('ta', drawCardText(), drawQuote(), true); }
+    if (!tryTaVoiceReply()) {
+      const reply = drawCardText();
+      const quote = drawQuote();
+      addMessage('ta', reply, quote, true);
+    }
   }
   hideTyping();
 }
@@ -615,199 +1080,413 @@ function markAllRead() {
   if (!load('read_receipt', true)) return;
   const all = load('our_messages', []);
   let changed = false;
-  all.forEach(m => { if (m.sender === 'me' && m.type === 'text' && !m.read) { m.read = true; changed = true; } });
+  all.forEach(m => {
+    if (m.sender === 'me' && m.type === 'text' && !m.read) { m.read = true; changed = true; }
+  });
   if (changed) save('our_messages', all);
   const rs = load('read_style', 'icon');
   document.querySelectorAll('.msg-row.me .bubble .read-mark').forEach(el => {
     el.classList.remove('unread');
     el.classList.add('read');
-    if (rs === 'icon') el.innerHTML = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M2 13 L7 18 L15 8"></path><path d="M9 13 L12 16 L20 6"></path></svg>';
-    else el.textContent = '已读';
+    if (rs === 'icon') {
+      el.innerHTML = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M2 13 L7 18 L15 8"></path><path d="M9 13 L12 16 L20 6"></path></svg>';
+    } else {
+      el.textContent = '已读';
+    }
   });
 }
-
+</script>
+<!-- ★★★ index 段 9 结束 ★★★ --><!-- ★★★ index 段 10 开始 ★★★ -->
+<script>
+/* ===== 转账卡片 ===== */
 function renderTransferCard(m) {
   const isMe = m.sender === 'me';
   const row = document.createElement('div');
-  row.className = 'msg-row ' + (isMe ? 'me' : 'ta'); row.dataset.msgId = m.msgId || (Date.now() + '_' + Math.random().toString(36).slice(2, 8)); row.style.maxWidth = '70%';
-  const card = document.createElement('div'); card.className = 'transfer-card';
-  if (m.status === 'received') card.classList.add('received'); if (m.status === 'refunded') card.classList.add('refunded');
-  const icon = document.createElement('div'); icon.className = 'transfer-card-icon';
+  row.className = 'msg-row ' + (isMe ? 'me' : 'ta');
+  row.dataset.msgId = m.msgId || (Date.now() + '_' + Math.random().toString(36).slice(2, 8));
+  row.style.maxWidth = '70%';
+  const avatar = buildAvatar(m.sender);
+  const card = document.createElement('div');
+  card.className = 'transfer-card';
+  if (m.status === 'received') card.classList.add('received');
+  if (m.status === 'refunded') card.classList.add('refunded');
+  const icon = document.createElement('div');
+  icon.className = 'transfer-card-icon';
   if (m.status === 'received') icon.innerHTML = '<svg viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12 L10 17 L19 7"></path></svg>';
   else if (m.status === 'refunded') icon.innerHTML = '<svg viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M19 12 A7 7 0 1 1 12 5"></path><path d="M12 5 L12 1 M12 5 L16 5"></path></svg>';
   else icon.innerHTML = '<svg viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 8 L14 8 M10 4 L14 8 L10 12"></path><path d="M20 16 L10 16 M14 12 L10 16 L14 20"></path></svg>';
-  const info = document.createElement('div'); info.className = 'transfer-card-info';
-  info.innerHTML = `<div class="tc-amount">¥${(m.amount || 0).toFixed(2)}</div><div class="tc-status">${m.status === 'received' ? '已收款' : (m.status === 'refunded' ? '已退还' : '待收款')}</div>`;
+  const info = document.createElement('div');
+  info.className = 'transfer-card-info';
+  const statusText = m.status === 'received' ? '已收款' : (m.status === 'refunded' ? '已退还' : '待收款');
+  info.innerHTML = `<div class="tc-amount">¥${(m.amount || 0).toFixed(2)}</div><div class="tc-status">${statusText}</div>`;
   card.appendChild(icon); card.appendChild(info);
-  const label = document.createElement('div'); label.className = 'transfer-card-label'; label.textContent = '转账'; card.appendChild(label);
+  const label = document.createElement('div');
+  label.className = 'transfer-card-label';
+  label.textContent = '转账';
+  card.appendChild(label);
   card.onclick = () => openReceiveModal(m.transferId);
-  row.appendChild(buildAvatar(m.sender)); row.appendChild(card); messagesEl.appendChild(row); messagesEl.scrollTop = messagesEl.scrollHeight;
+  row.appendChild(avatar);
+  row.appendChild(card);
+  messagesEl.appendChild(row);
+  messagesEl.scrollTop = messagesEl.scrollHeight;
 }
 
 function makeTransferCard(amount, note) {
-  const transferId = Date.now() + '_' + Math.random().toString(36).slice(2, 8); const t = Date.now(); const msgId = Date.now() + '_' + Math.random().toString(36).slice(2, 8);
+  const transferId = Date.now() + '_' + Math.random().toString(36).slice(2, 8);
+  const t = Date.now();
+  const msgId = Date.now() + '_' + Math.random().toString(36).slice(2, 8);
   const msgs = load('our_messages', []);
   msgs.push({ type: 'transfer', from: 'me', sender: 'me', transferId, amount, note, status: 'pending', t, msgId });
   msgs.push({ type: 'transfer', from: 'me', sender: 'ta', transferId, amount, note, status: 'pending', t: t + 1, msgId: msgId + '_ta' });
   save('our_messages', msgs);
   renderTransferCard({ type: 'transfer', from: 'me', sender: 'me', transferId, amount, note, status: 'pending', t, msgId });
   setTimeout(() => {
-    const recv = load('trans_recv', 60), ref = load('trans_ref', 30), ign = load('trans_ign', 10); const total = recv + ref + ign; const r = Math.random() * total;
-    let newStatus = 'pending'; if (r < recv) newStatus = 'received'; else if (r < recv + ref) newStatus = 'refunded';
+    const recv = load('trans_recv', 60), ref = load('trans_ref', 30), ign = load('trans_ign', 10);
+    const total = recv + ref + ign;
+    const r = Math.random() * total;
+    let newStatus = 'pending';
+    if (r < recv) newStatus = 'received';
+    else if (r < recv + ref) newStatus = 'refunded';
     if (newStatus === 'pending') return;
-    const all = load('our_messages', []); all.forEach(m => { if (m.type === 'transfer' && m.transferId === transferId) m.status = newStatus; }); save('our_messages', all); refreshMessages();
+    const all = load('our_messages', []);
+    all.forEach(m => { if (m.type === 'transfer' && m.transferId === transferId) m.status = newStatus; });
+    save('our_messages', all);
+    refreshMessages();
   }, 2000 + Math.random() * 3000);
 }
+
 function makeTaTransferCard(amount, note) {
-  const transferId = Date.now() + '_ta_' + Math.random().toString(36).slice(2, 8); const t = Date.now(); const msgId = Date.now() + '_' + Math.random().toString(36).slice(2, 8);
-  const msgs = load('our_messages', []); msgs.push({ type: 'transfer', from: 'ta', sender: 'ta', transferId, amount, note, status: 'pending', t, msgId }); save('our_messages', msgs);
+  const transferId = Date.now() + '_ta_' + Math.random().toString(36).slice(2, 8);
+  const t = Date.now();
+  const msgId = Date.now() + '_' + Math.random().toString(36).slice(2, 8);
+  const msgs = load('our_messages', []);
+  msgs.push({ type: 'transfer', from: 'ta', sender: 'ta', transferId, amount, note, status: 'pending', t, msgId });
+  save('our_messages', msgs);
   renderTransferCard({ type: 'transfer', from: 'ta', sender: 'ta', transferId, amount, note, status: 'pending', t, msgId });
 }
 
 function refreshMessages() {
-  messagesEl.innerHTML = ''; const msgs = load('our_messages', []);
+  messagesEl.innerHTML = '';
+  const msgs = load('our_messages', []);
   msgs.forEach(m => {
-    if (m.type === 'transfer') renderTransferCard(m); else if (m.type === 'image') addImage(m.sender, m.url, false);
-    else if (m.type === 'text') addMessage(m.sender, m.content, m.quote, false, m.msgId); else if (m.type === 'voice') addVoiceMessage(m.sender, m.voiceId, m.name, m.duration, false);
-    else if (m.type === 'shopcard') renderShopCard(m); else if (m.type === 'systemtip') addSystemTip(m.text, false);
-    else if (m.type === 'datedivider') addDateDivider(m.t); else if (m.type === 'surveycard') renderSurveyCard(m);
+    if (m.type === 'transfer') renderTransferCard(m);
+    else if (m.type === 'image') addImage(m.sender, m.url, false);
+    else if (m.type === 'text') addMessage(m.sender, m.content, m.quote, false, m.msgId);
+    else if (m.type === 'voice') addVoiceMessage(m.sender, m.voiceId, m.name, m.duration, false);
+    else if (m.type === 'shopcard') renderShopCard(m);
+    else if (m.type === 'systemtip') addSystemTip(m.text, false);
+    else if (m.type === 'datedivider') addDateDivider(m.t);
+    else if (m.type === 'surveycard') renderSurveyCard(m);
   });
   const rs = load('read_style', 'icon');
   document.querySelectorAll('.msg-row.me .bubble .read-mark').forEach(el => {
-    const row = el.closest('.msg-row'); const m = msgs.find(x => x.msgId === row.dataset.msgId);
+    const row = el.closest('.msg-row');
+    const m = msgs.find(x => x.msgId === row.dataset.msgId);
     if (m && m.read) {
-      el.classList.remove('unread'); el.classList.add('read');
-      if (rs === 'icon') el.innerHTML = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M2 13 L7 18 L15 8"></path><path d="M9 13 L12 16 L20 6"></path></svg>'; else el.textContent = '已读';
+      el.classList.remove('unread');
+      el.classList.add('read');
+      if (rs === 'icon') el.innerHTML = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M2 13 L7 18 L15 8"></path><path d="M9 13 L12 16 L20 6"></path></svg>';
+      else el.textContent = '已读';
     } else {
-      el.classList.add('unread'); el.classList.remove('read');
-      if (rs === 'icon') el.innerHTML = ''; else el.textContent = '未读';
+      el.classList.add('unread');
+      el.classList.remove('read');
+      if (rs === 'icon') el.innerHTML = '';
+      else el.textContent = '未读';
     }
   });
   messagesEl.scrollTop = messagesEl.scrollHeight;
 }
-
+</script>
+<!-- ★★★ index 段 10 结束 ★★★ --><!-- ★★★ index 段 11 开始 ★★★ -->
+<script>
+let currentTransferId = null;
 function openReceiveModal(transferId) {
-  const msgs = load('our_messages', []); const msg = msgs.find(m => m.type === 'transfer' && m.transferId === transferId); if (!msg) return; currentTransferId = transferId;
-  const mEl = document.getElementById('receiveModal'); const iEl = document.getElementById('receiveIcon'); const tEl = document.getElementById('receiveTitle'); const bEl = document.getElementById('receiveConfirmBtn');
-  if (msg.status === 'pending') { iEl.textContent = '🕐'; iEl.className = 'receive-icon blue'; tEl.textContent = '请收款'; bEl.textContent = '收款'; bEl.style.background = '#07c160'; document.getElementById('receiveTip').style.display = ''; }
-  else if (msg.status === 'received') { iEl.textContent = '✓'; iEl.className = 'receive-icon white'; tEl.textContent = '已收款'; bEl.textContent = '完成'; bEl.style.background = '#ccc'; document.getElementById('receiveTip').style.display = 'none'; }
-  else { iEl.textContent = '↩'; iEl.className = 'receive-icon yellow'; tEl.textContent = '已退还'; bEl.textContent = '完成'; bEl.style.background = '#ccc'; document.getElementById('receiveTip').style.display = 'none'; }
-  document.getElementById('receiveAmount').textContent = '¥' + (msg.amount || 0).toFixed(2); document.getElementById('receiveTime').textContent = new Date(msg.t || Date.now()).toLocaleString('zh-CN'); mEl.classList.remove('hidden');
+  const msgs = load('our_messages', []);
+  const msg = msgs.find(m => m.type === 'transfer' && m.transferId === transferId);
+  if (!msg) return;
+  currentTransferId = transferId;
+  const receiveModal = document.getElementById('receiveModal');
+  const receiveIcon = document.getElementById('receiveIcon');
+  const receiveTitle = document.getElementById('receiveTitle');
+  const receiveAmount = document.getElementById('receiveAmount');
+  const receiveTime = document.getElementById('receiveTime');
+  const receiveConfirmBtn = document.getElementById('receiveConfirmBtn');
+  const receiveTip = document.getElementById('receiveTip');
+  if (msg.status === 'pending') {
+    receiveIcon.textContent = '🕐'; receiveIcon.className = 'receive-icon blue';
+    receiveTitle.textContent = '请收款';
+    receiveConfirmBtn.textContent = '收款';
+    receiveConfirmBtn.style.background = '#07c160';
+    receiveTip.style.display = '';
+  } else if (msg.status === 'received') {
+    receiveIcon.textContent = '✓'; receiveIcon.className = 'receive-icon white';
+    receiveTitle.textContent = '已收款';
+    receiveConfirmBtn.textContent = '完成';
+    receiveConfirmBtn.style.background = '#ccc';
+    receiveTip.style.display = 'none';
+  } else {
+    receiveIcon.textContent = '↩'; receiveIcon.className = 'receive-icon yellow';
+    receiveTitle.textContent = '已退还';
+    receiveConfirmBtn.textContent = '完成';
+    receiveConfirmBtn.style.background = '#ccc';
+    receiveTip.style.display = 'none';
+  }
+  receiveAmount.textContent = '¥' + (msg.amount || 0).toFixed(2);
+  receiveTime.textContent = new Date(msg.t || Date.now()).toLocaleString('zh-CN');
+  receiveModal.classList.remove('hidden');
 }
 document.getElementById('closeReceiveBtn').onclick = () => document.getElementById('receiveModal').classList.add('hidden');
 document.getElementById('receiveConfirmBtn').onclick = () => {
-  const rm = document.getElementById('receiveModal'); if (!currentTransferId) { rm.classList.add('hidden'); return; }
-  const msgs = load('our_messages', []); const msg = msgs.find(m => m.type === 'transfer' && m.transferId === currentTransferId); if (!msg) { rm.classList.add('hidden'); return; }
+  const receiveModal = document.getElementById('receiveModal');
+  if (!currentTransferId) { receiveModal.classList.add('hidden'); return; }
+  const msgs = load('our_messages', []);
+  const msg = msgs.find(m => m.type === 'transfer' && m.transferId === currentTransferId);
+  if (!msg) { receiveModal.classList.add('hidden'); return; }
   if (msg.status === 'pending') {
-    if (msg.from === 'me') { rm.classList.add('hidden'); return; }
+    if (msg.from === 'me') { receiveModal.classList.add('hidden'); return; }
     msgs.forEach(m => { if (m.type === 'transfer' && m.transferId === currentTransferId) m.status = 'received'; });
-    if (!msgs.find(m => m.type === 'transfer' && m.transferId === currentTransferId && m.sender === 'me')) msgs.push({ type: 'transfer', from: 'ta', sender: 'me', transferId: currentTransferId, amount: msg.amount, note: msg.note, status: 'received', t: Date.now() });
+    const mySide = msgs.find(m => m.type === 'transfer' && m.transferId === currentTransferId && m.sender === 'me');
+    if (!mySide) msgs.push({ type: 'transfer', from: 'ta', sender: 'me', transferId: currentTransferId, amount: msg.amount, note: msg.note, status: 'received', t: Date.now() });
     save('our_messages', msgs);
   }
-  rm.classList.add('hidden'); refreshMessages();
+  receiveModal.classList.add('hidden');
+  refreshMessages();
 };
 document.getElementById('refundLink').onclick = () => {
-  const rm = document.getElementById('receiveModal'); if (!currentTransferId) return;
-  const msgs = load('our_messages', []); const msg = msgs.find(m => m.type === 'transfer' && m.transferId === currentTransferId);
+  const receiveModal = document.getElementById('receiveModal');
+  if (!currentTransferId) return;
+  const msgs = load('our_messages', []);
+  const msg = msgs.find(m => m.type === 'transfer' && m.transferId === currentTransferId);
   if (!msg || msg.status !== 'pending' || msg.from === 'me') return;
   msgs.forEach(m => { if (m.type === 'transfer' && m.transferId === currentTransferId) m.status = 'refunded'; });
-  if (!msgs.find(m => m.type === 'transfer' && m.transferId === currentTransferId && m.sender === 'me')) msgs.push({ type: 'transfer', from: 'ta', sender: 'me', transferId: currentTransferId, amount: msg.amount, note: msg.note, status: 'refunded', t: Date.now() });
-  save('our_messages', msgs); rm.classList.add('hidden'); refreshMessages();
+  const mySide = msgs.find(m => m.type === 'transfer' && m.transferId === currentTransferId && m.sender === 'me');
+  if (!mySide) msgs.push({ type: 'transfer', from: 'ta', sender: 'me', transferId: currentTransferId, amount: msg.amount, note: msg.note, status: 'refunded', t: Date.now() });
+  save('our_messages', msgs);
+  receiveModal.classList.add('hidden');
+  refreshMessages();
 };
 
 document.addEventListener('dblclick', function(e) {
-  const avatar = e.target.closest('.avatar'); if (!avatar) return; const row = avatar.closest('.msg-row'); if (!row) return;
+  const avatar = e.target.closest('.avatar');
+  if (!avatar) return;
+  const row = avatar.closest('.msg-row');
+  if (!row) return;
   const taName = load('ta_name', 'TA'), myName = load('my_name', '我');
-  const patToTa = load('pat_to_ta', ['{我} 拍了拍 {TA}']); const patToMe = load('pat_to_me', ['{TA} 拍了拍 {我}']);
+  const patToTa = load('pat_to_ta', ['{我} 拍了拍 {TA}']);
+  const patToMe = load('pat_to_me', ['{TA} 拍了拍 {我}']);
   let template = row.classList.contains('me') ? patToMe[Math.floor(Math.random() * patToMe.length)] : patToTa[0];
-  addSystemTip(template.replace(/\{我\}/g, myName).replace(/\{TA\}/g, taName), true);
+  let text = template.replace(/\{我\}/g, myName).replace(/\{TA\}/g, taName);
+  addSystemTip(text, true);
 });
-</script>
-<!-- ★★★ index 段 4 结束 ★★★ --><!-- ★★★ index 段 5 开始 ★★★ -->
-<script>
-let longPressTarget = null; let longPressTimer = null;
+
+let longPressTarget = null;
+let longPressTimer = null;
+
 function startLongPress(target) {
   longPressTarget = target;
-  const menu = document.getElementById('longPressMenu'); menu.classList.remove('hidden');
+  const menu = document.getElementById('longPressMenu');
+  menu.classList.remove('hidden');
   const bubble = target.querySelector('.bubble, .shop-card, .transfer-card, .voice-bubble') || target;
-  const rect = bubble.getBoundingClientRect(); const menuW = 240; let left = rect.left;
+  const rect = bubble.getBoundingClientRect();
+  const menuW = 240;
+  let left = rect.left;
   if (left + menuW > window.innerWidth) left = window.innerWidth - menuW - 10;
-  menu.style.left = left + 'px'; menu.style.top = (rect.bottom + 6) + 'px';
+  menu.style.left = left + 'px';
+  menu.style.top = (rect.bottom + 6) + 'px';
 }
+
 document.addEventListener('touchstart', (e) => {
-  const bubble = e.target.closest('.bubble, .shop-card, .transfer-card, .voice-bubble'); if (!bubble) return;
-  const row = bubble.closest('.msg-row'); if (!row) return;
-  clearTimeout(longPressTimer); longPressTimer = setTimeout(() => startLongPress(row), 500);
+  const bubble = e.target.closest('.bubble, .shop-card, .transfer-card, .voice-bubble');
+  if (!bubble) return;
+  const row = bubble.closest('.msg-row');
+  if (!row) return;
+  clearTimeout(longPressTimer);
+  longPressTimer = setTimeout(() => startLongPress(row), 500);
 }, { passive: true });
 document.addEventListener('touchend', () => clearTimeout(longPressTimer));
 document.addEventListener('touchmove', () => clearTimeout(longPressTimer));
 document.addEventListener('mousedown', (e) => {
   if ('ontouchstart' in window) return;
-  const bubble = e.target.closest('.bubble, .shop-card, .transfer-card, .voice-bubble'); if (!bubble) return;
-  const row = bubble.closest('.msg-row'); if (!row) return;
-  clearTimeout(longPressTimer); longPressTimer = setTimeout(() => startLongPress(row), 500);
+  const bubble = e.target.closest('.bubble, .shop-card, .transfer-card, .voice-bubble');
+  if (!bubble) return;
+  const row = bubble.closest('.msg-row');
+  if (!row) return;
+  clearTimeout(longPressTimer);
+  longPressTimer = setTimeout(() => startLongPress(row), 500);
 });
 document.addEventListener('mouseup', () => clearTimeout(longPressTimer));
-document.addEventListener('click', (e) => { if (e.target.closest('#longPressMenu')) return; document.getElementById('longPressMenu').classList.add('hidden'); });
+document.addEventListener('click', (e) => {
+  if (e.target.closest('#longPressMenu')) return;
+  document.getElementById('longPressMenu').classList.add('hidden');
+});
 
 document.querySelectorAll('#longPressMenu .lp-item').forEach(item => {
   item.onclick = () => {
-    const act = item.dataset.act; if (!longPressTarget) return;
-    const msgId = longPressTarget.dataset.msgId; const msgs = load('our_messages', []); const idx = msgs.findIndex(m => m.msgId === msgId); const m = idx >= 0 ? msgs[idx] : null;
+    const act = item.dataset.act;
+    if (!longPressTarget) return;
+    const msgId = longPressTarget.dataset.msgId;
+    const msgs = load('our_messages', []);
+    const idx = msgs.findIndex(m => m.msgId === msgId);
+    const m = idx >= 0 ? msgs[idx] : null;
     document.getElementById('longPressMenu').classList.add('hidden');
+
     if (m && m.type === 'voice') {
-      if (act === 'quote') { quoteTarget = '语音 ' + (m.duration || ''); inputEl.focus(); inputEl.placeholder = '引用：语音'; inputEl.classList.add('quoting'); return; }
-      if (act === 'del') { if (idx < 0) return; if (!confirm('删除这条语音？')) return; msgs.splice(idx, 1); save('our_messages', msgs); refreshMessages(); return; }
+      if (act === 'quote') {
+        quoteTarget = '语音 ' + (m.duration || '');
+        inputEl.focus();
+        inputEl.placeholder = '引用：语音';
+        inputEl.classList.add('quoting');
+        return;
+      }
+      if (act === 'del') {
+        if (idx < 0) return;
+        if (!confirm('删除这条语音？')) return;
+        msgs.splice(idx, 1);
+        save('our_messages', msgs);
+        refreshMessages();
+        return;
+      }
       return;
     }
+
     if (act === 'copy') {
-      let text = ''; if (m && m.type === 'text') text = m.content; else if (m && m.type === 'shopcard') text = m.title + ' ' + (m.sub || ''); else if (m && m.type === 'transfer') text = '转账 ¥' + m.amount;
-      if (text && navigator.clipboard) navigator.clipboard.writeText(text).then(() => alert('已复制')); else if (text) alert('已复制：' + text);
+      let text = '';
+      if (m && m.type === 'text') text = m.content;
+      else if (m && m.type === 'shopcard') text = m.title + ' ' + (m.sub || '');
+      else if (m && m.type === 'transfer') text = '转账 ¥' + m.amount;
+      if (text && navigator.clipboard) navigator.clipboard.writeText(text).then(() => alert('已复制'));
+      else if (text) alert('已复制：' + text);
     }
     if (act === 'quote') {
-      if (!m) return; if (m.type === 'text') quoteTarget = (m.sender === 'me' ? '我：' : 'TA：') + m.content; else if (m.type === 'shopcard') quoteTarget = m.title; else if (m.type === 'transfer') quoteTarget = '转账 ¥' + m.amount; else return;
-      inputEl.focus(); inputEl.placeholder = '引用：' + (m.content || m.title || ('转账 ¥' + m.amount)); inputEl.classList.add('quoting');
+      if (!m) return;
+      if (m.type === 'text') quoteTarget = (m.sender === 'me' ? '我：' : 'TA：') + m.content;
+      else if (m.type === 'shopcard') quoteTarget = m.title;
+      else if (m.type === 'transfer') quoteTarget = '转账 ¥' + m.amount;
+      else return;
+      inputEl.focus();
+      inputEl.placeholder = '引用：' + (m.content || m.title || ('转账 ¥' + m.amount));
+      inputEl.classList.add('quoting');
     }
     if (act === 'fav') {
-      if (!m) return; const favs = load('our_favorites', []); favs.push({ text: m.content || m.title || ('转账 ¥' + m.amount) || '', from: m.sender, t: Date.now() }); save('our_favorites', favs); alert('已收藏');
+      if (!m) return;
+      let text = m.content || m.title || ('转账 ¥' + m.amount) || '';
+      const favs = load('our_favorites', []);
+      favs.push({ text, from: m.sender, t: Date.now() });
+      save('our_favorites', favs);
+      alert('已收藏');
     }
-    if (act === 'del') { if (idx < 0) return; if (!confirm('删除这条消息？')) return; msgs.splice(idx, 1); save('our_messages', msgs); refreshMessages(); }
+    if (act === 'del') {
+      if (idx < 0) return;
+      if (!confirm('删除这条消息？')) return;
+      msgs.splice(idx, 1);
+      save('our_messages', msgs);
+      refreshMessages();
+    }
   };
 });
-
+</script>
+<!-- ★★★ index 段 11 结束 ★★★ --><!-- ★★★ index 段 12 开始 ★★★ -->
+<script>
 function renderShopCard(m) {
-  const row = document.createElement('div'); row.className = 'msg-row ' + (m.sender === 'me' ? 'me' : 'ta'); row.dataset.msgId = m.cardId; if (m.cardId) row.dataset.shopCard = m.cardId;
-  const card = document.createElement('div'); card.className = 'shop-card';
-  card.innerHTML = `<div class="shop-card-top"><img src="${m.img || ''}" alt=""><div style="flex:1;"><div class="shop-card-title">${m.title}</div><div class="shop-card-sub">${m.sub || ''}</div></div></div><div class="shop-card-line"></div><div class="shop-card-status"><span class="tag">${m.status}</span></div>`;
+  const row = document.createElement('div');
+  row.className = 'msg-row ' + (m.sender === 'me' ? 'me' : 'ta');
+  row.dataset.msgId = m.cardId;
+  if (m.cardId) row.dataset.shopCard = m.cardId;
+  const avatar = buildAvatar(m.sender);
+  const card = document.createElement('div');
+  card.className = 'shop-card';
+  card.innerHTML = `
+    <div class="shop-card-top">
+      <img src="${m.img || ''}" alt="">
+      <div style="flex:1;">
+        <div class="shop-card-title">${m.title}</div>
+        <div class="shop-card-sub">${m.sub || ''}</div>
+      </div>
+    </div>
+    <div class="shop-card-line"></div>
+    <div class="shop-card-status"><span class="tag">${m.status}</span></div>
+  `;
   if (m.clickable) {
     card.style.cursor = 'pointer';
-    card.onclick = () => { const tag = card.querySelector('.tag'); if (tag && tag.textContent === '接收') { tag.textContent = '已接收'; const all = load('our_messages', []); const x = all.find(y => y.cardId === m.cardId); if (x) { x.status = '已接收'; save('our_messages', all); } addSystemTip('我已收下', true); } };
+    card.onclick = () => {
+      const tag = card.querySelector('.tag');
+      if (tag && tag.textContent === '接收') {
+        tag.textContent = '已接收';
+        const all = load('our_messages', []);
+        const x = all.find(y => y.cardId === m.cardId);
+        if (x) { x.status = '已接收'; save('our_messages', all); }
+        addSystemTip('我已收下', true);
+      }
+    };
   }
-  row.appendChild(buildAvatar(m.sender)); row.appendChild(card); messagesEl.appendChild(row); messagesEl.scrollTop = messagesEl.scrollHeight;
+  row.appendChild(avatar);
+  row.appendChild(card);
+  messagesEl.appendChild(row);
+  messagesEl.scrollTop = messagesEl.scrollHeight;
+}
+
+function addSystemTip(text, store) {
+  const sys = document.createElement('div');
+  sys.className = 'system-tip';
+  sys.textContent = text;
+  messagesEl.appendChild(sys);
+  messagesEl.scrollTop = messagesEl.scrollHeight;
+  if (store !== false) {
+    const msgs = load('our_messages', []);
+    msgs.push({ type: 'systemtip', text, t: Date.now() });
+    save('our_messages', msgs);
+  }
 }
 
 document.getElementById('backHomeBtn').onclick = () => showPage('homePage');
 
+let cardReturnPage = 'homePage';
+
 (function() {
-  const plusMenu = document.getElementById('plusMenu'); const plusBtn = document.getElementById('plusBtn');
-  if (plusBtn && plusMenu) { plusBtn.addEventListener('click', (e) => { e.stopPropagation(); plusMenu.classList.toggle('hidden'); }); document.addEventListener('click', (e) => { if (e.target.closest('#plusMenu') || e.target.closest('#plusBtn')) return; plusMenu.classList.add('hidden'); }); plusMenu.addEventListener('click', (e) => e.stopPropagation()); }
+  const plusMenu = document.getElementById('plusMenu');
+  const plusBtn = document.getElementById('plusBtn');
+  if (plusBtn && plusMenu) {
+    plusBtn.addEventListener('click', (e) => { e.stopPropagation(); plusMenu.classList.toggle('hidden'); });
+    document.addEventListener('click', (e) => {
+      if (e.target.closest('#plusMenu') || e.target.closest('#plusBtn')) return;
+      plusMenu.classList.add('hidden');
+    });
+    plusMenu.addEventListener('click', (e) => e.stopPropagation());
+  }
   document.querySelectorAll('.plus-item').forEach(item => {
     item.onclick = () => {
-      const key = item.dataset.key; if (plusMenu) plusMenu.classList.add('hidden');
+      const key = item.dataset.key;
+      if (plusMenu) plusMenu.classList.add('hidden');
       if (key === 'transfer') {
-        const tn = document.getElementById('transferName'); const taAvatarEl = document.getElementById('transferAvatar'); const tName = load('ta_name', 'TA'); const tAvatar = load('ta_avatar', '');
-        if (tn) tn.textContent = tName; if (taAvatarEl) { if (tAvatar) { taAvatarEl.style.background = `url(${tAvatar}) center/cover no-repeat`; taAvatarEl.textContent = ''; } else taAvatarEl.textContent = tName.charAt(0); }
-        document.getElementById('transferModal').classList.remove('hidden');
+        const tm = document.getElementById('transferModal');
+        const tn = document.getElementById('transferName');
+        const taAvatarEl = document.getElementById('transferAvatar');
+        const tName = load('ta_name', 'TA');
+        const tAvatar = load('ta_avatar', '');
+        if (tn) tn.textContent = tName;
+        if (taAvatarEl) {
+          if (tAvatar) { taAvatarEl.style.background = `url(${tAvatar}) center/cover no-repeat`; taAvatarEl.textContent = ''; }
+          else taAvatarEl.textContent = tName.charAt(0);
+        }
+        if (tm) tm.classList.remove('hidden');
       }
       if (key === 'gift') showShopPage(true);
       if (key === 'survey') showSurveyListPage();
       if (key === 'continue') {
+        const rMin = load('reply_min', 1);
+        const rMax = load('reply_max', 1);
+        const count = Math.min(rMin, rMax) + Math.floor(Math.random() * (Math.abs(rMax - rMin) + 1));
         (async () => {
-          const rMin = load('reply_min', 1), rMax = load('reply_max', 1); const count = Math.min(rMin, rMax) + Math.floor(Math.random() * (Math.abs(rMax - rMin) + 1));
           for (let i = 0; i < count; i++) {
             if (i > 0) await new Promise(r => setTimeout(r, 500 + Math.random() * 1500));
-            showTyping(); await new Promise(r => setTimeout(r, 800 + Math.random() * 1000)); hideTyping();
-            if (!tryTaVoiceReply()) { addMessage('ta', drawCardText(), drawQuote(), true); }
+            showTyping();
+            await new Promise(r => setTimeout(r, 800 + Math.random() * 1000));
+            hideTyping();
+            if (!tryTaVoiceReply()) {
+              const reply = drawCardText();
+              const quote = drawQuote();
+              addMessage('ta', reply, quote, true);
+            }
           }
         })();
       }
@@ -816,64 +1495,117 @@ document.getElementById('backHomeBtn').onclick = () => showPage('homePage');
 })();
 
 (function() {
-  const menuPopup = document.getElementById('menuPopup'); const openMenuBtn = document.getElementById('openMenuBtn');
-  if (openMenuBtn && menuPopup) { openMenuBtn.addEventListener('click', (e) => { e.stopPropagation(); menuPopup.classList.toggle('show'); }); document.addEventListener('click', () => menuPopup.classList.remove('show')); menuPopup.addEventListener('click', (e) => e.stopPropagation()); }
-  document.getElementById('menuSettings').onclick = () => { if (menuPopup) menuPopup.classList.remove('show'); document.getElementById('settingsModal').classList.remove('hidden'); };
-  document.getElementById('menuCards').onclick = () => { if (menuPopup) menuPopup.classList.remove('show'); cardReturnPage = 'chatPage'; showPage('cardPage'); if (typeof window.openCardTab === 'function') window.openCardTab('main'); };
+  const menuPopup = document.getElementById('menuPopup');
+  const openMenuBtn = document.getElementById('openMenuBtn');
+  if (openMenuBtn && menuPopup) {
+    openMenuBtn.addEventListener('click', (e) => { e.stopPropagation(); menuPopup.classList.toggle('show'); });
+    document.addEventListener('click', () => menuPopup.classList.remove('show'));
+    menuPopup.addEventListener('click', (e) => e.stopPropagation());
+  }
+  document.getElementById('menuSettings').onclick = () => {
+    if (menuPopup) menuPopup.classList.remove('show');
+    document.getElementById('settingsModal').classList.remove('hidden');
+  };
+  document.getElementById('menuCards').onclick = () => {
+    if (menuPopup) menuPopup.classList.remove('show');
+    cardReturnPage = 'chatPage';
+    showPage('cardPage');
+    if (typeof window.openCardTab === 'function') window.openCardTab('main');
+  };
 })();
 
 (function() {
-  const amountInput = document.getElementById('transferAmount'); const noteInput = document.getElementById('transferNote'); const modal = document.getElementById('transferModal');
-  document.getElementById('closeTransferBtn').onclick = () => modal.classList.add('hidden');
-  document.getElementById('confirmTransferBtn').onclick = () => {
-    const amount = parseFloat(amountInput.value); if (!amount || amount <= 0) { alert('请输入有效金额'); return; }
-    const note = noteInput.value.trim(); modal.classList.add('hidden'); amountInput.value = ''; noteInput.value = ''; makeTransferCard(amount, note);
+  const closeBtn = document.getElementById('closeTransferBtn');
+  const confirmBtn = document.getElementById('confirmTransferBtn');
+  const amountInput = document.getElementById('transferAmount');
+  const noteInput = document.getElementById('transferNote');
+  const modal = document.getElementById('transferModal');
+  if (closeBtn) closeBtn.onclick = () => modal.classList.add('hidden');
+  if (confirmBtn) confirmBtn.onclick = () => {
+    const amount = parseFloat(amountInput.value);
+    if (!amount || amount <= 0) { alert('请输入有效金额'); return; }
+    const note = noteInput.value.trim();
+    modal.classList.add('hidden');
+    amountInput.value = ''; noteInput.value = '';
+    makeTransferCard(amount, note);
   };
 })();
 
 document.getElementById('closeCardBtn').onclick = () => { showPage(cardReturnPage); };
-let currentCardTab = 'main'; let currentCat = 'all'; let currentSearch = '';
+let currentCardTab = 'main';
+let currentCat = 'all';
+let currentSearch = '';
 
 function openCardTab(tab) {
-  currentCardTab = tab; document.querySelectorAll('#cardTabs .card-tab').forEach(t => t.classList.toggle('active', t.dataset.tab === tab));
-  const body = document.getElementById('cardBody'); body.innerHTML = '';
-  const tpl = document.getElementById('tpl-' + tab); if (!tpl) return; body.appendChild(tpl.content.cloneNode(true));
+  currentCardTab = tab;
+  document.querySelectorAll('#cardTabs .card-tab').forEach(t => t.classList.toggle('active', t.dataset.tab === tab));
+  const body = document.getElementById('cardBody');
+  body.innerHTML = '';
+  const tplId = 'tpl-' + tab;
+  const tpl = document.getElementById(tplId);
+  if (!tpl) return;
+  body.appendChild(tpl.content.cloneNode(true));
   if (tab === 'main') { currentCat = 'all'; currentSearch = ''; bindMainTab(); loadCards(); }
-  if (tab === 'emoji') bindEmojiTab(); if (tab === 'pat') bindPatTab(); if (tab === 'voice') bindVoiceTab();
+  if (tab === 'emoji') bindEmojiTab();
+  if (tab === 'pat') bindPatTab();
+  if (tab === 'voice') bindVoiceTab();
 }
-document.querySelectorAll('#cardTabs .card-tab').forEach(btn => { btn.onclick = () => openCardTab(btn.dataset.tab); });
-
+document.querySelectorAll('#cardTabs .card-tab').forEach(btn => {
+  btn.onclick = () => openCardTab(btn.dataset.tab);
+});
+</script>
+<!-- ★★★ index 段 12 结束 ★★★ --><!-- ★★★ index 段 13 开始 ★★★ -->
+<script>
 function parseCards(text) {
-  const lines = text.split('\n').map(l => l.trim()).filter(l => l); if (lines.length === 0) return [];
-  let category = '', startIdx = 0; const m = lines[0].match(/^【(.+?)】$/); if (m) { category = m[1].trim(); startIdx = 1; }
-  const result = []; for (let i = startIdx; i < lines.length; i++) result.push({ content: lines[i], category }); return result;
+  const lines = text.split('\n').map(l => l.trim()).filter(l => l);
+  if (lines.length === 0) return [];
+  let category = '', startIdx = 0;
+  const m = lines[0].match(/^【(.+?)】$/);
+  if (m) { category = m[1].trim(); startIdx = 1; }
+  const result = [];
+  for (let i = startIdx; i < lines.length; i++) result.push({ content: lines[i], category });
+  return result;
 }
 
 function bindMainTab() {
   document.getElementById('addCardBtn').onclick = () => {
-    const input = document.getElementById('cardInput'); const text = input.value.trim(); if (!text) return;
-    const parsed = parseCards(text); if (parsed.length === 0) { alert('请至少写一行内容'); return; }
-    parsed.forEach(p => cards.push({ content: p.content, category: p.category, type: 'main' })); save('our_cards', cards); input.value = ''; loadCards();
+    const input = document.getElementById('cardInput');
+    const text = input.value.trim();
+    if (!text) return;
+    const parsed = parseCards(text);
+    if (parsed.length === 0) { alert('请至少写一行内容'); return; }
+    parsed.forEach(p => cards.push({ content: p.content, category: p.category, type: 'main' }));
+    save('our_cards', cards);
+    input.value = '';
+    loadCards();
   };
-  const searchInput = document.getElementById('cardSearchInput'); searchInput.oninput = () => { currentSearch = searchInput.value.trim(); loadCards(); };
+  const searchInput = document.getElementById('cardSearchInput');
+  searchInput.oninput = () => { currentSearch = searchInput.value.trim(); loadCards(); };
   document.getElementById('dedupBtn').onclick = () => {
-    const seen = new Set(); const newCards = []; let removed = 0;
-    cards.forEach(c => { const key = (c.type || 'main') + '|' + (c.category || '') + '|' + (c.content || ''); if (seen.has(key)) removed++; else { seen.add(key); newCards.push(c); } });
+    const seen = new Set();
+    const newCards = [];
+    let removed = 0;
+    cards.forEach(c => {
+      const key = (c.type || 'main') + '|' + (c.category || '') + '|' + (c.content || '');
+      if (seen.has(key)) removed++;
+      else { seen.add(key); newCards.push(c); }
+    });
     if (removed === 0) { alert('没有发现重复的字卡'); return; }
-    if (confirm('发现 ' + removed + ' 条重复字卡，确定删除吗？')) { cards = newCards; save('our_cards', cards); loadCards(); alert('已删除 ' + removed + ' 条重复字卡'); }
+    if (confirm('发现 ' + removed + ' 条重复字卡，确定删除吗？')) {
+      cards = newCards; save('our_cards', cards); loadCards();
+      alert('已删除 ' + removed + ' 条重复字卡');
+    }
   };
 }
-</script>
-<!-- ★★★ index 段 5 结束 ★★★ --><!-- ★★★ index 段 6 开始 ★★★ -->
-<script>
+
 function loadCards() {
   const list = document.getElementById('cardList');
   const catsBox = document.getElementById('cardCats');
   if (!list || !catsBox) return;
-  
+
   let allMain = cards.map((c, idx) => ({ ...c, _idx: idx })).filter(c => c.type === 'main' || !c.type);
   if (currentSearch) allMain = allMain.filter(c => (c.content || '').includes(currentSearch));
-  
+
   const cats = new Set();
   allMain.forEach(c => { if (c.category) cats.add(c.category); });
   catsBox.innerHTML = '';
@@ -882,13 +1614,13 @@ function loadCards() {
   allCat.textContent = '全部';
   allCat.onclick = () => { currentCat = 'all'; loadCards(); };
   catsBox.appendChild(allCat);
-  
+
   const noCat = document.createElement('button');
   noCat.className = 'card-cat' + (currentCat === '未分类' ? ' active' : '');
   noCat.textContent = '未分类';
   noCat.onclick = () => { currentCat = '未分类'; loadCards(); };
   catsBox.appendChild(noCat);
-  
+
   cats.forEach(cat => {
     const el = document.createElement('button');
     el.className = 'card-cat' + (currentCat === cat ? ' active' : '');
@@ -896,30 +1628,30 @@ function loadCards() {
     el.onclick = () => { currentCat = cat; loadCards(); };
     catsBox.appendChild(el);
   });
-  
+
   let filtered = allMain;
   if (currentCat === '未分类') filtered = filtered.filter(c => !c.category);
   else if (currentCat !== 'all') filtered = filtered.filter(c => c.category === currentCat);
-  
+
   if (filtered.length === 0) {
     list.innerHTML = '<div style="color:#999;font-size:13px;text-align:center;padding:60px 20px;">还未添加字卡</div>';
     return;
   }
-  
+
   list.innerHTML = '';
   filtered.forEach(card => {
     const div = document.createElement('div');
     div.className = 'card-item';
-    
+
     const wrap = document.createElement('div');
     wrap.style.flex = '1'; wrap.style.wordBreak = 'break-word';
     const s = document.createElement('div');
-    s.textContent = card.content; 
-    s.style.fontSize = '14px'; 
+    s.textContent = card.content;
+    s.style.fontSize = '14px';
     s.style.color = card.blocked ? '#ccc' : '#333';
     if (card.blocked) s.style.textDecoration = 'line-through';
     wrap.appendChild(s);
-    
+
     if (card.category) {
       const tag = document.createElement('span');
       tag.textContent = card.category;
@@ -933,7 +1665,7 @@ function loadCards() {
     btnGroup.style.gap = '10px';
 
     const eyeBtn = document.createElement('button');
-    eyeBtn.innerHTML = card.blocked 
+    eyeBtn.innerHTML = card.blocked
       ? '<svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="#ccc" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M17.94 17.94A10.07 10.07 0 0 1 12 20c-7 0-11-8-11-8a18.45 18.45 0 0 1 5.06-5.94M9.9 4.24A9.12 9.12 0 0 1 12 4c7 0 11 8 11 8a18.5 18.5 0 0 1-2.16 3.19m-6.72-1.07a3 3 0 1 1-4.24-4.24"></path><line x1="1" y1="1" x2="23" y2="23"></line></svg>'
       : '<svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="#666" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"></path><circle cx="12" cy="12" r="3"></circle></svg>';
     eyeBtn.style.background = 'none'; eyeBtn.style.border = 'none'; eyeBtn.style.cursor = 'pointer'; eyeBtn.style.padding = '4px';
@@ -942,7 +1674,7 @@ function loadCards() {
       cards[card._idx].blocked = !cards[card._idx].blocked;
       save('our_cards', cards);
       loadCards();
-      
+
       let toast = document.getElementById('customToast');
       if (!toast) {
         toast = document.createElement('div');
@@ -953,7 +1685,7 @@ function loadCards() {
       toast.textContent = cards[card._idx].blocked ? '已屏蔽，不会出现在随机回复中' : '已取消屏蔽，将正常回复';
       toast.style.opacity = '1';
       toast.style.display = 'block';
-      
+
       clearTimeout(window._toastTimer);
       window._toastTimer = setTimeout(() => {
         toast.style.opacity = '0';
@@ -979,18 +1711,18 @@ function loadCards() {
     delBtn.innerHTML = '×';
     delBtn.style.color = '#e74c3c'; delBtn.style.fontSize = '20px'; delBtn.style.lineHeight = '1';
     delBtn.style.background = 'none'; delBtn.style.border = 'none'; delBtn.style.cursor = 'pointer'; delBtn.style.padding = '4px';
-    delBtn.onclick = (e) => { 
+    delBtn.onclick = (e) => {
       e.stopPropagation();
-      cards.splice(card._idx, 1); 
-      save('our_cards', cards); 
-      loadCards(); 
+      cards.splice(card._idx, 1);
+      save('our_cards', cards);
+      loadCards();
     };
 
     btnGroup.appendChild(eyeBtn);
     btnGroup.appendChild(editBtn);
     btnGroup.appendChild(delBtn);
 
-    div.appendChild(wrap); 
+    div.appendChild(wrap);
     div.appendChild(btnGroup);
     list.appendChild(div);
   });
@@ -999,32 +1731,37 @@ function loadCards() {
 function bindEmojiTab() {
   const input = document.getElementById('emojiInput');
   document.getElementById('addEmojiBtn').onclick = () => {
-    const text = input.value.trim(); if (!text) return;
+    const text = input.value.trim();
+    if (!text) return;
     const lines = text.split('\n').map(l => l.trim()).filter(l => l);
     lines.forEach(l => cards.push({ content: l, category: '', type: 'emoji' }));
-    save('our_cards', cards); input.value = ''; loadEmojiList();
+    save('our_cards', cards);
+    input.value = '';
+    loadEmojiList();
   };
   loadEmojiList();
 }
 
 function loadEmojiList() {
-  const list = document.getElementById('emojiList'); if (!list) return;
+  const list = document.getElementById('emojiList');
+  if (!list) return;
   const emojis = cards.map((c, idx) => ({ ...c, _idx: idx })).filter(c => c.type === 'emoji');
-  if (emojis.length === 0) { 
-    list.innerHTML = '<div style="color:#999;font-size:13px;text-align:center;padding:20px 0;">还没有颜文字</div>'; 
-    return; 
-  }
+  if (emojis.length === 0) { list.innerHTML = '<div style="color:#999;font-size:13px;text-align:center;padding:20px 0;">还没有颜文字</div>'; return; }
   list.innerHTML = '';
   emojis.forEach(card => {
-    const div = document.createElement('div'); div.className = 'card-item';
-    const s = document.createElement('div'); s.textContent = card.content; s.style.flex = '1';
-    const btn = document.createElement('button'); btn.textContent = '×';
+    const div = document.createElement('div');
+    div.className = 'card-item';
+    const s = document.createElement('div');
+    s.textContent = card.content; s.style.flex = '1';
+    const btn = document.createElement('button');
+    btn.textContent = '×';
     btn.onclick = () => { cards.splice(card._idx, 1); save('our_cards', cards); loadEmojiList(); };
-    div.appendChild(s); div.appendChild(btn); list.appendChild(div);
+    div.appendChild(s); div.appendChild(btn);
+    list.appendChild(div);
   });
 }
 </script>
-<!-- ★★★ index 段 6 结束 ★★★ --><!-- ★★★ index 段 7 开始 ★★★ -->
+<!-- ★★★ index 段 13 结束 ★★★ --><!-- ★★★ index 段 14 开始 ★★★ -->
 <script>
 function bindPatTab() {
   const patToTa = load('pat_to_ta', ['{我} 拍了拍 {TA}']);
@@ -1073,7 +1810,8 @@ function bindVoiceTab() {
           const audio = new Audio(url);
           audio.onloadedmetadata = () => {
             if (isFinite(audio.duration)) duration = Math.round(audio.duration) + '"';
-            URL.revokeObjectURL(url); resolve();
+            URL.revokeObjectURL(url);
+            resolve();
           };
           audio.onerror = () => { URL.revokeObjectURL(url); resolve(); };
         });
@@ -1123,105 +1861,23 @@ function renderVoiceList() {
   });
 }
 
-/* ===== 表情包面板（这段确保笑脸能点开） ===== */
-(function() {
-  const panel = document.getElementById('stickerPanel');
-  const body = document.getElementById('stickerBody');
-  const emojiBtn = document.getElementById('emojiBtn');
-  const addBtn = document.getElementById('stickerAddBtnChat');
-  const upload = document.getElementById('stickerUploadChat');
-  let currentTab = 'mine';
-
-  function key() { return currentTab === 'mine' ? 'my_stickers' : 'ta_stickers'; }
-
-  function render() {
-    const list = load(key(), []);
-    body.innerHTML = '';
-    if (list.length === 0) {
-      body.innerHTML = '<div class="sticker-empty" style="grid-column:1/-1;text-align:center;color:#999;font-size:13px;padding:40px 20px;line-height:1.8;">还没有表情哦<br>点右上角「+ 添加」上传图片</div>';
-      return;
-    }
-    list.forEach((url, idx) => {
-      const div = document.createElement('div');
-      div.className = 'sticker-item';
-      div.style.backgroundImage = 'url(' + url + ')';
-      const del = document.createElement('button');
-      del.className = 'sticker-del';
-      del.textContent = '×';
-      del.onclick = (e) => {
-        e.stopPropagation();
-        const arr = load(key(), []);
-        arr.splice(idx, 1);
-        save(key(), arr);
-        render();
-      };
-      div.appendChild(del);
-      div.onclick = () => {
-        if (currentTab === 'mine') addImage('me', url);
-      };
-      body.appendChild(div);
-    });
-  }
-
-  if (emojiBtn) {
-    emojiBtn.onclick = (e) => {
-      e.stopPropagation();
-      e.preventDefault();
-      if (panel.classList.contains('hidden')) {
-        panel.classList.remove('hidden');
-        render();
-      } else {
-        panel.classList.add('hidden');
-      }
+function compressImage(file, maxSize, cb) {
+  const reader = new FileReader();
+  reader.onload = (e) => {
+    const img = new Image();
+    img.onload = () => {
+      const canvas = document.createElement('canvas');
+      let w = img.width, h = img.height;
+      if (w > h) { if (w > maxSize) { h = h * maxSize / w; w = maxSize; } } else { if (h > maxSize) { w = w * maxSize / h; h = maxSize; } }
+      canvas.width = w; canvas.height = h;
+      canvas.getContext('2d').drawImage(img, 0, 0, w, h);
+      cb(canvas.toDataURL('image/jpeg', 0.85));
     };
-  }
+    img.src = e.target.result;
+  };
+  reader.readAsDataURL(file);
+}
 
-  if (addBtn) {
-    addBtn.onclick = (e) => {
-      e.stopPropagation();
-      upload.click();
-    };
-  }
-
-  if (upload) {
-    upload.onchange = (e) => {
-      const files = Array.from(e.target.files);
-      if (files.length === 0) return;
-      const list = load(key(), []);
-      let done = 0;
-      files.forEach(f => {
-        compressImage(f, 300, (url) => {
-          list.push(url);
-          done++;
-          if (done === files.length) {
-            save(key(), list);
-            render();
-          }
-        });
-      });
-      upload.value = '';
-    };
-  }
-
-  document.querySelectorAll('.sticker-tab').forEach(tab => {
-    tab.onclick = (e) => {
-      e.stopPropagation();
-      document.querySelectorAll('.sticker-tab').forEach(t => t.classList.remove('active'));
-      tab.classList.add('active');
-      currentTab = tab.dataset.tab;
-      render();
-    };
-  });
-
-  document.addEventListener('click', (e) => {
-    if (panel.classList.contains('hidden')) return;
-    if (e.target.closest('#stickerPanel') || e.target.closest('#emojiBtn')) return;
-    panel.classList.add('hidden');
-  });
-})();
-</script>
-<!-- ★★★ index 段 7 结束 ★★★ --><!-- ★★★ index 段 8 开始 ★★★ -->
-<script>
 let autoMsgTimer = null;
 function scheduleAutoMessage() {
   const min = load('auto_msg_min', 1) * 60 * 1000;
@@ -1258,6 +1914,38 @@ function scheduleAutoMessage() {
   }, delay);
 }
 
+function openTextInput(title, defaultValue, onConfirm) {
+  let mask = document.getElementById('customInputMask');
+  if (mask) mask.remove();
+  mask = document.createElement('div');
+  mask.id = 'customInputMask';
+  mask.style.cssText = 'position:fixed;inset:0;background:rgba(0,0,0,0.4);z-index:9999;display:flex;align-items:center;justify-content:center;';
+  mask.innerHTML = `
+    <div style="width:82%;max-width:340px;background:#fff;border-radius:14px;overflow:hidden;">
+      <div style="padding:18px 18px 6px;font-size:16px;font-weight:600;color:#111;text-align:center;">${title}</div>
+      <div style="padding:6px 18px 18px;">
+        <textarea id="customInputArea" style="width:100%;height:90px;border:1px solid #eee;border-radius:10px;padding:10px 12px;font-size:15px;outline:none;resize:none;font-family:inherit;background:#fafafa;box-sizing:border-box;">${defaultValue || ''}</textarea>
+      </div>
+      <div style="display:flex;border-top:1px solid #eee;">
+        <button id="customInputCancel" style="flex:1;padding:14px;background:#fff;border:none;font-size:16px;color:#666;cursor:pointer;">取消</button>
+        <button id="customInputOk" style="flex:1;padding:14px;background:#fff;border:none;font-size:16px;color:#222;font-weight:600;cursor:pointer;border-left:1px solid #eee;">确定</button>
+      </div>
+    </div>
+  `;
+  document.body.appendChild(mask);
+  const area = mask.querySelector('#customInputArea');
+  setTimeout(() => area.focus(), 50);
+  mask.querySelector('#customInputCancel').onclick = () => mask.remove();
+  mask.querySelector('#customInputOk').onclick = () => {
+    const v = area.value.trim();
+    mask.remove();
+    onConfirm(v);
+  };
+  mask.onclick = (e) => { if (e.target === mask) mask.remove(); };
+}
+</script>
+<!-- ★★★ index 段 14 结束 ★★★ --><!-- ★★★ index 段 15 开始 ★★★ -->
+<script>
 function applyHomeAssets() {
   const myA = document.getElementById('homeMyAvatar');
   const taA = document.getElementById('homeTaAvatar');
@@ -1265,7 +1953,7 @@ function applyHomeAssets() {
   const taNameEl = document.getElementById('homeTaName');
   const myUrl = load('my_avatar', ''), taUrl = load('ta_avatar', '');
   const myName = load('my_name', '我'), taName = load('ta_name', 'TA');
-  
+
   if (myA) { if (myUrl) { myA.style.background = `url(${myUrl}) center/cover no-repeat`; myA.textContent = ''; } else { myA.style.background = '#e5e5e5'; myA.textContent = myName.charAt(0); } }
   if (taA) { if (taUrl) { taA.style.background = `url(${taUrl}) center/cover no-repeat`; taA.textContent = ''; } else { taA.style.background = '#e5e5e5'; taA.textContent = taName.charAt(0); } }
   if (myNameEl) myNameEl.textContent = myName;
@@ -1328,9 +2016,7 @@ function applyHomeBigCard() {
     if (tip) tip.style.display = 'block';
   }
 }
-</script>
-<!-- ★★★ index 段 8 结束 ★★★ --><!-- ★★★ index 段 9 开始 ★★★ -->
-<script>
+
 function updateHomeTime() {
   const el = document.getElementById('homeTime');
   if (!el) return;
@@ -1369,14 +2055,26 @@ document.querySelectorAll('.home-bottom-bar .bar-item').forEach(btn => {
   const img = document.getElementById('homeBigCardImg');
   const tip = document.getElementById('homeBigCardTip');
   const upload = document.createElement('input');
-  upload.type = 'file'; upload.accept = 'image/*'; upload.style.display = 'none';
+  upload.type = 'file';
+  upload.accept = 'image/*';
+  upload.style.display = 'none';
   document.body.appendChild(upload);
+
   cardEl.onclick = () => upload.click();
+
   upload.onchange = (e) => {
-    const file = e.target.files[0]; if (!file) return;
+    const file = e.target.files[0];
+    if (!file) return;
     compressImage(file, 900, (url) => {
-      try { save('home_card_img', url); } catch (err) { alert('图片太大，换一张小一点的吧'); return; }
-      img.src = url; img.style.display = 'block'; if (tip) tip.style.display = 'none';
+      try {
+        save('home_card_img', url);
+      } catch (err) {
+        alert('图片太大，换一张小一点的吧');
+        return;
+      }
+      img.src = url;
+      img.style.display = 'block';
+      if (tip) tip.style.display = 'none';
     });
     upload.value = '';
   };
@@ -1387,18 +2085,28 @@ document.querySelectorAll('.home-bottom-bar .bar-item').forEach(btn => {
   const txt = document.getElementById('homeQuoteText');
   function edit() {
     const cur = load('home_quote', '');
-    openTextInput('输入寄语', cur, (v) => { save('home_quote', v); applyHomeQuote(); });
+    openTextInput('输入寄语', cur, (v) => {
+      save('home_quote', v);
+      applyHomeQuote();
+    });
   }
-  box.ondblclick = edit; txt.ondblclick = edit;
+  box.ondblclick = edit;
+  txt.ondblclick = edit;
 })();
 
 document.getElementById('talkMineBubble').onclick = () => {
   const cur = load('home_talk_mine', '');
-  openTextInput('输入我说的话', cur, (v) => { save('home_talk_mine', v); applyHomeTalks(); });
+  openTextInput('输入我说的话', cur, (v) => {
+    save('home_talk_mine', v);
+    applyHomeTalks();
+  });
 };
 document.getElementById('talkTaBubble').onclick = () => {
   const cur = load('home_talk_ta', '');
-  openTextInput('输入对方说的话', cur, (v) => { save('home_talk_ta', v); applyHomeTalks(); });
+  openTextInput('输入对方说的话', cur, (v) => {
+    save('home_talk_ta', v);
+    applyHomeTalks();
+  });
 };
 
 document.getElementById('homeAnnivCard').onclick = () => { showPage('annivPage'); renderAnniv(); };
@@ -1419,7 +2127,7 @@ window.refreshMessages = refreshMessages;
 window.openCardTab = openCardTab;
 window.updateHomeAnnivNum = updateHomeAnnivNum;
 </script>
-<!-- ★★★ index 段 9 结束 ★★★ --><!-- ★★★ index 段 10 开始 ★★★ -->
+<!-- ★★★ index 段 15 结束 ★★★ --><!-- ★★★ index 段 16 开始 ★★★ -->
 <script>
 /* ===== 商店逻辑 ===== */
 let shopItems = load('our_shop_items', []);
@@ -1495,7 +2203,9 @@ function openShopDetail(id) {
   document.getElementById('shopDetailModal').classList.remove('hidden');
 }
 function closeShopDetail() { document.getElementById('shopDetailModal').classList.add('hidden'); }
-
+</script>
+<!-- ★★★ index 段 16 结束 ★★★ --><!-- ★★★ index 段 17 开始 ★★★ -->
+<script>
 function buyForTa(it) {
   const taName = load('ta_name', 'TA');
   const cardId = Date.now() + '_buy_' + Math.random().toString(36).slice(2, 8);
@@ -1545,7 +2255,6 @@ document.getElementById('backFromSurveyListBtn').onclick = () => showPage('chatP
 document.getElementById('shopAddBtn').onclick = () => openShopEdit(null);
 document.getElementById('closeShopEditBtn').onclick = closeShopEdit;
 document.getElementById('closeShopDetailBtn').onclick = closeShopDetail;
-
 document.querySelectorAll('.shop-tab').forEach(tab => {
   tab.onclick = () => {
     document.querySelectorAll('.shop-tab').forEach(t => t.classList.remove('active'));
@@ -1557,9 +2266,6 @@ document.querySelectorAll('.shop-tab').forEach(tab => {
     if (k === 'orders') renderShopOrders(); else renderShopItems();
   };
 });
-</script>
-<!-- ★★★ index 段 10 结束 ★★★ --><!-- ★★★ index 段 11 开始 ★★★ -->
-<script>
 document.getElementById('shopImgPicker').onclick = () => document.getElementById('shopImgUpload').click();
 document.getElementById('shopImgUpload').onchange = (e) => {
   const f = e.target.files[0]; if (!f) return;
@@ -1594,7 +2300,6 @@ document.getElementById('detailDeleteBtn').onclick = () => {
   saveShopItems(); closeShopDetail(); renderShopItems();
 };
 
-/* ===== 收藏 / 搜索 ===== */
 function renderFavList() {
   const body = document.getElementById('favBody');
   if (!body) return;
@@ -1670,7 +2375,7 @@ const searchInp = document.getElementById('searchInput');
 if (searchInp) searchInp.oninput = () => renderSearchList(searchInp.value.trim());
 window.renderFavList = renderFavList;
 </script>
-<!-- ★★★ index 段 11 结束 ★★★ --><!-- ★★★ index 段 12 开始 ★★★ -->
+<!-- ★★★ index 段 17 结束 ★★★ --><!-- ★★★ index 段 18 开始 ★★★ -->
 <script>
 /* ===== 纪念日逻辑 ===== */
 function loadAnnivList() { try { return JSON.parse(localStorage.getItem('anniv_list') || '[]'); } catch (e) { return []; } }
@@ -1703,6 +2408,8 @@ document.getElementById('backFromAnnivBtn').onclick = () => showPage('homePage')
 
 let annivPickerMode = 'start';
 let annivPickerY = 2024, annivPickerM = 1, annivPickerD = 1;
+function pad2(n) { return String(n).padStart(2, '0'); }
+function daysInMonth(y, m) { return new Date(y, m, 0).getDate(); }
 function renderAnnivPicker() {
   const maxD = daysInMonth(annivPickerY, annivPickerM);
   if (annivPickerD > maxD) annivPickerD = maxD;
@@ -1789,7 +2496,7 @@ document.getElementById('addAnnivBtn').onclick = () => {
   });
 };
 </script>
-<!-- ★★★ index 段 12 结束 ★★★ --><!-- ★★★ index 段 13 开始 ★★★ -->
+<!-- ★★★ index 段 18 结束 ★★★ --><!-- ★★★ index 段 19 开始 ★★★ -->
 <script>
 /* ===== 问卷逻辑 ===== */
 let surveyQuestions = [];
@@ -1848,6 +2555,7 @@ function resetSurveyNew() {
   document.getElementById('surveyTypeTip').textContent = '单选：对方回答时只会选中一个选项';
   renderSurveyQuestions();
 }
+
 document.querySelectorAll('.survey-type-btn').forEach(btn => {
   btn.onclick = () => {
     const newType = btn.dataset.type, oldType = currentSurveyType;
@@ -1891,9 +2599,6 @@ document.getElementById('surveySendBtn').onclick = () => {
   surveys.push(survey); save('our_surveys', surveys);
   sendSurveyToChat(survey); showPage('chatPage');
 };
-</script>
-<!-- ★★★ index 段 13 结束 ★★★ --><!-- ★★★ index 段 14 开始 ★★★ -->
-<script>
 function sendSurveyToChat(survey) {
   const taName = load('ta_name', 'TA');
   const cardId = survey.id + '_card';
@@ -1902,6 +2607,9 @@ function sendSurveyToChat(survey) {
   renderSurveyCard(msg);
   setTimeout(() => { autoAnswerSurvey(survey.id); }, 2000 + Math.random() * 1000);
 }
+</script>
+<!-- ★★★ index 段 19 结束 ★★★ --><!-- ★★★ index 段 20 开始 ★★★ -->
+<script>
 function autoAnswerSurvey(surveyId) {
   const surveys = load('our_surveys', []);
   const s = surveys.find(x => x.id === surveyId);
@@ -1975,7 +2683,9 @@ function openSurveyAnswer(surveyId) {
   modal.classList.remove('hidden');
 }
 document.getElementById('closeSurveyAnswerBtn').onclick = () => document.getElementById('surveyAnswerModal').classList.add('hidden');
-
+</script>
+<!-- ★★★ index 段 20 结束 ★★★ --><!-- ★★★ index 段 21 开始 ★★★ -->
+<script>
 /* ===== 信箱逻辑 ===== */
 let currentMailTab = 'sent';
 function showMailPage() {
@@ -2044,10 +2754,6 @@ document.getElementById('mailSendBtn').onclick = () => {
   document.querySelectorAll('.mail-tab').forEach(t => t.classList.toggle('active', t.dataset.tab === 'sent'));
   renderMailList();
 };
-</script>
-<!-- ★★★ index 段 14 结束 ★★★ --><!-- ★★★ index 段 15 开始 ★★★ -->
-<script>
-/* ===== 自动写信 ===== */
 let autoMailTimer = null;
 function scheduleAutoMail() {
   const min = load('mail_auto_min', 3) * 60 * 60 * 1000;
@@ -2067,7 +2773,9 @@ function scheduleAutoMail() {
   }, delay);
 }
 scheduleAutoMail();
-
+</script>
+<!-- ★★★ index 段 21 结束 ★★★ --><!-- ★★★ index 段 22 开始 ★★★ -->
+<script>
 /* ===== 朋友圈逻辑 ===== */
 let momentListMode = 'all';
 let currentVisibleDate = '';
@@ -2097,7 +2805,9 @@ function initMomentsPage() {
   updateBellDot();
 }
 
-function dateKeyOf(d) { return `${d.getFullYear()}-${d.getMonth() + 1}-${d.getDate()}`; }
+function dateKeyOf(d) {
+  return `${d.getFullYear()}-${d.getMonth() + 1}-${d.getDate()}`;
+}
 
 function formatDividerDate(d) {
   const today = new Date(); today.setHours(0, 0, 0, 0);
@@ -2269,7 +2979,7 @@ function renderMomentCard(m) {
   return card;
 }
 </script>
-<!-- ★★★ index 段 15 结束 ★★★ --><!-- ★★★ index 段 16 开始 ★★★ -->
+<!-- ★★★ index 段 22 结束 ★★★ --><!-- ★★★ index 段 23 开始 ★★★ -->
 <script>
 document.getElementById('backFromMomentsBtn').onclick = () => showPage('homePage');
 document.getElementById('momentListBtn').onclick = () => {
@@ -2447,7 +3157,7 @@ function scheduleAutoMoment() {
 }
 scheduleAutoMoment();
 </script>
-<!-- ★★★ index 段 16 结束 ★★★ --><!-- ★★★ index 段 17 开始 ★★★ -->
+<!-- ★★★ index 段 23 结束 ★★★ --><!-- ★★★ index 段 24 开始 ★★★ -->
 <script>
 /* ===== 音乐库 ===== */
 let musicList = [];
@@ -2472,6 +3182,7 @@ function loadMusicFromIDB() {
   musicList = meta.map(m => ({ ...m, fav: m.fav || false }));
   renderMusicList();
 }
+
 function renderMusicList() {
   const box = document.getElementById('musicBody');
   if (!box) return;
@@ -2560,9 +3271,6 @@ function showMusicItemMenu(id) {
     }
   });
 }
-</script>
-<!-- ★★★ index 段 17 结束 ★★★ --><!-- ★★★ index 段 18 开始 ★★★ -->
-<script>
 function bindMusicActions() {
   const uploadBtn = document.getElementById('musicUploadBtn');
   const linkBtn = document.getElementById('musicLinkBtn');
@@ -2684,8 +3392,15 @@ document.getElementById('musicInputSave').onclick = () => {
   document.getElementById('musicInputModal').classList.add('hidden');
   renderMusicList();
 };
+
+function fmtTime(s) {
+  s = Math.floor(s || 0);
+  const m = Math.floor(s / 60);
+  const ss = s % 60;
+  return String(m).padStart(2, '0') + ':' + String(ss).padStart(2, '0');
+}
 </script>
-<!-- ★★★ index 段 18 结束 ★★★ --><!-- ★★★ index 段 19 开始 ★★★ -->
+<!-- ★★★ index 段 24 结束 ★★★ --><!-- ★★★ index 段 25 开始 ★★★ -->
 <script>
 /* ===== 音乐播放器 ===== */
 async function playMusic(id) {
@@ -2707,6 +3422,7 @@ async function playMusic(id) {
   }
 
   musicCurrentId = id;
+
   let src = '';
   if (m.type === 'link') src = m.url;
   else {
@@ -2871,7 +3587,7 @@ function updateTogetherTime() {
   document.getElementById('musicTogetherText').textContent = 'TA就在你的身边，一起听了 ' + mins + ' 分钟';
 }
 </script>
-<!-- ★★★ index 段 19 结束 ★★★ --><!-- ★★★ index 段 20 开始 ★★★ -->
+<!-- ★★★ index 段 25 结束 ★★★ --><!-- ★★★ index 段 26 开始 ★★★ -->
 <script>
 /* ===== 悬浮小圆唱片 ===== */
 function showFloatDisc() {
@@ -3019,28 +3735,115 @@ document.getElementById('floatCoverUpload').onchange = (e) => {
   });
   e.target.value = '';
 };
-</script>
-<!-- ★★★ index 段 20 结束 ★★★ --><!-- ★★★ index 段 21 开始（最后一段，包含所有初始化） ★★★ -->
-<script>
-window.addEventListener('load', () => {
-  try {
-    if (typeof refreshMessages === 'function') refreshMessages();
-    if (typeof applyHomeAssets === 'function') applyHomeAssets();
-    if (typeof applyHomeWallpaper === 'function') applyHomeWallpaper();
-    if (typeof applyHomeQuote === 'function') applyHomeQuote();
-    if (typeof applyHomeTalks === 'function') applyHomeTalks();
-    if (typeof applyHomeBigCard === 'function') applyHomeBigCard();
-    if (typeof updateHomeAnnivNum === 'function') updateHomeAnnivNum();
-    
-    const t = document.getElementById('taName'); 
-    if (t) t.textContent = load('ta_name', 'TA'); 
-    
-    if (typeof scheduleAutoMessage === 'function') scheduleAutoMessage();
-    if (typeof scheduleAutoMail === 'function') scheduleAutoMail();
-    if (typeof scheduleAutoMoment === 'function') scheduleAutoMoment();
-  } catch (e) {
-    console.log('初始化时发生非致命错误: ', e);
+
+/* ===== 表情包面板（补丁） ===== */
+let stickerTab = 'mine';
+
+function getStickers(which) {
+  return load(which === 'ta' ? 'ta_stickers' : 'my_stickers', []);
+}
+function saveStickers(which, list) {
+  save(which === 'ta' ? 'ta_stickers' : 'my_stickers', list);
+}
+
+function renderStickerPanel() {
+  const body = document.getElementById('stickerBody');
+  if (!body) return;
+  const list = getStickers(stickerTab);
+  if (list.length === 0) {
+    body.innerHTML = '<div class="sticker-empty">' +
+      (stickerTab === 'ta' ? '对方还没有表情包，点右上角 + 添加' : '我还没有表情包，点右上角 + 添加') +
+      '</div>';
+    return;
   }
+  body.innerHTML = '';
+  list.forEach((url, i) => {
+    const d = document.createElement('div');
+    d.className = 'sticker-item';
+    d.style.backgroundImage = `url(${url})`;
+    const del = document.createElement('button');
+    del.className = 'sticker-del';
+    del.textContent = '×';
+    del.onclick = (e) => {
+      e.stopPropagation();
+      const arr = getStickers(stickerTab);
+      arr.splice(i, 1);
+      saveStickers(stickerTab, arr);
+      renderStickerPanel();
+    };
+    d.appendChild(del);
+    d.onclick = () => {
+      if (stickerTab === 'mine') {
+        addImage('me', url, true);
+        closeStickerPanel();
+      }
+    };
+    body.appendChild(d);
+  });
+}
+
+function openStickerPanel() {
+  renderStickerPanel();
+  document.getElementById('stickerPanel').classList.remove('hidden');
+  const pm = document.getElementById('plusMenu');
+  if (pm) pm.classList.add('hidden');
+}
+function closeStickerPanel() {
+  document.getElementById('stickerPanel').classList.add('hidden');
+}
+
+(function bindStickerPanel() {
+  const emojiBtn = document.getElementById('emojiBtn');
+  const panel = document.getElementById('stickerPanel');
+  if (emojiBtn) emojiBtn.onclick = (e) => {
+    e.stopPropagation();
+    panel.classList.contains('hidden') ? openStickerPanel() : closeStickerPanel();
+  };
+  document.querySelectorAll('#stickerPanel .sticker-tab').forEach(t => {
+    t.onclick = () => {
+      stickerTab = t.dataset.tab;
+      document.querySelectorAll('#stickerPanel .sticker-tab').forEach(x => x.classList.toggle('active', x === t));
+      renderStickerPanel();
+    };
+  });
+  document.getElementById('stickerAddBtnChat').onclick = () => {
+    document.getElementById('stickerUploadChat').click();
+  };
+  document.getElementById('stickerUploadChat').onchange = (e) => {
+    const files = Array.from(e.target.files || []);
+    if (!files.length) return;
+    e.target.value = '';
+    let done = 0;
+    files.forEach(f => {
+      compressImage(f, 400, (url) => {
+        const arr = getStickers(stickerTab);
+        arr.push(url);
+        saveStickers(stickerTab, arr);
+        done++;
+        if (done === files.length) renderStickerPanel();
+      });
+    });
+  };
+  document.addEventListener('click', (e) => {
+    if (panel.classList.contains('hidden')) return;
+    if (e.target.closest('#stickerPanel') || e.target.closest('#emojiBtn')) return;
+    closeStickerPanel();
+  });
+})();
+
+/* ===== 初始化 ===== */
+window.addEventListener('load', () => {
+  refreshMessages();
+  applyHomeAssets();
+  applyHomeWallpaper();
+  applyHomeQuote();
+  applyHomeTalks();
+  applyHomeBigCard();
+  updateHomeAnnivNum();
+  (function() { const t = document.getElementById('taName'); if (t) t.textContent = load('ta_name', 'TA'); })();
+  scheduleAutoMessage();
+  scheduleAutoMail();
+  scheduleAutoMoment();
 });
 
 document.addEventListener('click', (e) => {
@@ -3053,4 +3856,4 @@ document.addEventListener('click', (e) => {
 <script src="settings.js"></script>
 </body>
 </html>
-<!-- ★★★ index 段 21 结束 ★★★ -->
+<!-- ★★★ index 段 26 结束 ★★★ -->
