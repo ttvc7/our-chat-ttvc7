@@ -83,6 +83,7 @@ body { font-family: -apple-system, BlinkMacSystemFont, "Helvetica Neue", Arial, 
 .home-bottom-bar { background: #fff; border: 1.5px solid #333; border-radius: 14px; padding: 14px 10px; display: flex; justify-content: space-around; align-items: center; margin-top: auto; }
 .home-bottom-bar .bar-item { font-size: 14px; color: #333; cursor: pointer; font-weight: 500; }
 
+/* 聊天页 */
 .chat-header { height: 56px; background: #f7f7f7; border-bottom: 1px solid #e0e0e0; display: flex; align-items: center; justify-content: space-between; padding: 0 16px; flex-shrink: 0; position: relative; }
 .chat-header #taName { position: absolute; left: 50%; transform: translateX(-50%); font-size: 17px; font-weight: 600; color: #111; max-width: 60%; text-align: center; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
 .header-left { width: 24px; height: 24px; display: flex; align-items: center; }
@@ -354,16 +355,14 @@ body { font-family: -apple-system, BlinkMacSystemFont, "Helvetica Neue", Arial, 
 .anniv-date-actions .cancel { background: #f0f0f0; color: #333; }
 .anniv-date-actions .ok { background: #222; color: #fff; }
 /* ★★★ css 段 3 结束 ★★★ *//* ★★★ css 段 4 开始 ★★★ */
-/* ===== 字卡库 / 表情 / 语音 ===== */
-#cardBox { width: 94%; max-width: 420px; max-height: 85vh; background: #fff; border-radius: 14px; display: flex; flex-direction: column; overflow: hidden; }
-.card-topbar { display: flex; align-items: center; justify-content: space-between; padding: 16px 18px 12px; border-bottom: 1px solid #f0f0f0; }
-.card-topbar .title { font-size: 17px; font-weight: 600; color: #111; }
-.card-topbar .close { background: none; border: none; font-size: 22px; color: #999; cursor: pointer; }
-.card-tabs { display: flex; gap: 4px; padding: 10px 12px; border-bottom: 1px solid #f0f0f0; overflow-x: auto; }
+/* ===== 字卡库全屏页面 ===== */
+#cardPage { background: #f5f5f5; }
+.card-tabs { display: flex; gap: 4px; padding: 10px 12px; border-bottom: 1px solid #f0f0f0; overflow-x: auto; background: #fff; flex-shrink: 0; }
 .card-tab { flex-shrink: 0; padding: 8px 16px; border-radius: 18px; background: transparent; font-size: 14px; color: #999; cursor: pointer; white-space: nowrap; border: none; }
 .card-tab.active { color: #111; font-weight: 600; background: #f0f0f0; }
-.card-body { flex: 1; overflow-y: auto; padding: 14px 16px; }
-.card-item { padding: 12px 14px; background: #f7f7f7; border-radius: 10px; margin-bottom: 8px; font-size: 14px; display: flex; justify-content: space-between; align-items: center; gap: 8px; }
+.card-body { flex: 1; overflow-y: auto; padding: 14px 16px 100px; }
+
+.card-item { padding: 12px 14px; background: #fff; border-radius: 10px; margin-bottom: 8px; font-size: 14px; display: flex; justify-content: space-between; align-items: center; gap: 8px; }
 .card-item button { background: none; border: none; color: #e74c3c; font-size: 18px; cursor: pointer; flex-shrink: 0; padding: 0 4px; }
 .card-cats { display: flex; flex-wrap: wrap; gap: 8px; margin: 10px 0; }
 .card-cat { padding: 5px 14px; border-radius: 14px; background: #f0f0f0; font-size: 13px; color: #666; cursor: pointer; user-select: none; border: none; }
@@ -431,6 +430,22 @@ body { font-family: -apple-system, BlinkMacSystemFont, "Helvetica Neue", Arial, 
 .modal-head { padding: 14px 16px; border-bottom: 1px solid #eee; display: flex; justify-content: space-between; align-items: center; font-weight: 600; }
 .modal-head button { background: none; border: none; font-size: 22px; color: #999; }
 .modal-body { padding: 16px; overflow-y: auto; }
+
+.system-tip {
+  align-self: center;
+  font-size: 12px;
+  color: #7a7a7a;
+  background: rgba(255, 255, 255, 0.65); /* 半透明底色 */
+  backdrop-filter: blur(4px); /* 磨砂模糊效果 */
+  -webkit-backdrop-filter: blur(4px);
+  padding: 6px 16px;
+  border-radius: 12px;
+  margin: 4px 0;
+  text-align: center;
+  max-width: 80%;
+  word-break: break-word;
+  border: 0.5px solid rgba(255, 255, 255, 0.5); /* 淡淡的边框 */
+}
 
 .transfer-target { display: flex; align-items: center; gap: 12px; padding: 12px 0; border-bottom: 1px solid #eee; margin-bottom: 16px; }
 .transfer-avatar { width: 44px; height: 44px; border-radius: 8px; background: #e8a33d; color: #fff; display: flex; align-items: center; justify-content: center; font-size: 18px; font-weight: 600; background-size: cover; background-position: center; }
