@@ -369,7 +369,7 @@
     const picker = panel.querySelector('#textColorPicker');
     panel.querySelector('#applyTextColor').onclick = () => {
       const color = picker.value;
-      cfg.textColor = '#111111'; // 气泡文字保持黑色，防止看不清
+      cfg.textColor = '#111111';
       cfg.themeColor = color;
       save('theme_color', color);
       applyAll(); applyThemeColor(color);
@@ -583,11 +583,28 @@
     if (savedThemeColor) applyThemeColor(JSON.parse(savedThemeColor));
 
     const bubbleCss = localStorage.getItem('bubble_css');
-    if (bubbleCss) { const s = document.createElement('style'); s.id = 'userBubbleCss'; s.textContent = JSON.parse(bubbleCss); document.head.appendChild(s); }
+    if (bubbleCss) { 
+      const s = document.createElement('style'); 
+      s.id = 'userBubbleCss'; 
+      s.textContent = JSON.parse(bubbleCss); 
+      document.head.appendChild(s); 
+    }
+    
     const fontCss = localStorage.getItem('font_css');
-    if (fontCss) { const s = document.createElement('style'); s.id = 'userFontCss'; s.textContent = JSON.parse(fontCss); document.head.appendChild(s); }
+    if (fontCss) { 
+      const s = document.createElement('style'); 
+      s.id = 'userFontCss'; 
+      s.textContent = JSON.parse(fontCss); 
+      document.head.appendChild(s); 
+    }
+    
     const themeCss = localStorage.getItem('theme_css');
-    if (themeCss) { const s = document.createElement('style'); s.id = 'userThemeCss'; s.textContent = JSON.parse(themeCss); document.head.appendChild(s); }
+    if (themeCss) { 
+      const s = document.createElement('style'); 
+      s.id = 'userThemeCss'; 
+      s.textContent = JSON.parse(themeCss); 
+      document.head.appendChild(s); 
+    }
   });
 
 })();
