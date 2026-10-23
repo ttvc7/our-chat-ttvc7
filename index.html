@@ -150,7 +150,7 @@
 <div id="momentNotifyModal" class="modal hidden">
   <div class="modal-box">
     <div class="modal-head"><span>通知提醒</span><button id="closeMomentNotifyBtn">×</button></div>
-    <div class="modal-body"><div id="momentNotifyBody" class="notify-list"></div></div>
+    <div class="modal-body" style="padding:0;"><div id="momentNotifyBody" class="notify-list"></div></div>
   </div>
 </div>
 
@@ -2933,6 +2933,7 @@ function renderMomentCard(m) {
   acts.className = 'actions';
   const liked = (m.likes || []).includes('me');
   acts.innerHTML = `<button class="like-btn ${liked ? 'liked' : ''}">♡ 赞</button><button class="comment-btn">💬 评论</button>`;
+  
   acts.querySelector('.like-btn').onclick = () => {
     const all = load('our_moments', []);
     const x = all.find(y => y.id === m.id);
@@ -2944,6 +2945,7 @@ function renderMomentCard(m) {
     save('our_moments', all);
     renderMomentsList();
   };
+  
   acts.querySelector('.comment-btn').onclick = () => {
     openTextInput('说点什么', '', (v) => {
       if (!v) return;
@@ -2954,9 +2956,16 @@ function renderMomentCard(m) {
       x.comments.push({ who: 'me', text: v, t: Date.now() });
       save('our_moments', all);
       renderMomentsList();
+      
+      // 触发 TA 的互动（可能不回，可能有延迟）
+      setTimeout(() => {
+        triggerTaMomentInteraction(m.id);
+      }, 3000 + Math.random() * 10000);
     });
   };
+  
   card.appendChild(acts);
+  
   if (m.likes && m.likes.length > 0) {
     const likesBox = document.createElement('div');
     likesBox.className = 'likes';
@@ -2964,6 +2973,7 @@ function renderMomentCard(m) {
     likesBox.textContent = '♡ ' + names;
     card.appendChild(likesBox);
   }
+  
   if (m.comments && m.comments.length > 0) {
     const cmts = document.createElement('div');
     cmts.className = 'comments';
@@ -3403,14 +3413,16 @@ function fmtTime(s) {
 <!-- ★★★ index 段 24 结束 ★★★ --><!-- ★★★ index 段 25 开始 ★★★ -->
 <script>
 /* ===== 音乐播放器 ===== */
-async function playMusic(id) {
+async function playMusic(id, isSilent = false) {
   const m = musicList.find(x => x.id === id);
   if (!m) return;
 
   if (musicCurrentId === id && musicAudio) {
-    hideFloatDisc();
-    showPage('musicPlayerPage');
-    updatePlayerAvatars();
+    if (!isSilent) {
+      hideFloatDisc();
+      showPage('musicPlayerPage');
+      updatePlayerAvatars();
+    }
     if (musicAudio.paused) {
       updatePlayIcons(false);
       document.getElementById('musicDisc').classList.remove('spinning');
@@ -3459,9 +3471,12 @@ async function playMusic(id) {
   document.getElementById('floatSub').textContent = m.artist || '未知歌手';
   document.getElementById('floatCover').style.background = m.cover ? `url(${m.cover}) center/cover no-repeat` : '#333';
 
-  hideFloatDisc();
-  showPage('musicPlayerPage');
-  updatePlayerAvatars();
+  if (!isSilent) {
+    hideFloatDisc();
+    showPage('musicPlayerPage');
+    updatePlayerAvatars();
+  }
+
   await musicAudio.play();
   updatePlayIcons(true);
   document.getElementById('musicDisc').classList.add('spinning');
@@ -3507,12 +3522,14 @@ function playNext() {
   let next;
   if (musicLoopMode === 'shuffle') next = musicList[Math.floor(Math.random() * musicList.length)];
   else next = musicList[(idx + 1) % musicList.length];
-  playMusic(next.id);
+  const isSilent = !document.getElementById('floatCard').classList.contains('hidden') || !document.getElementById('floatDisc').classList.contains('hidden');
+  playMusic(next.id, isSilent);
 }
 function playPrev() {
   if (musicList.length === 0) return;
   const idx = musicList.findIndex(m => m.id === musicCurrentId);
-  playMusic(musicList[(idx - 1 + musicList.length) % musicList.length].id);
+  const isSilent = !document.getElementById('floatCard').classList.contains('hidden') || !document.getElementById('floatDisc').classList.contains('hidden');
+  playMusic(musicList[(idx - 1 + musicList.length) % musicList.length].id, isSilent);
 }
 function togglePlay() {
   if (!musicAudio) return;
@@ -3541,7 +3558,8 @@ function toggleLoop() {
 }
 
 document.getElementById('musicBackBtn').onclick = () => {
-  showPage('homePage');
+  showPage('musicLibraryPage');
+  loadMusicFromIDB();
   if (musicAudio && !musicAudio.paused && musicFloatEnabled) showFloatDisc();
 };
 document.getElementById('musicPlusBtn').onclick = () => {
@@ -3713,8 +3731,19 @@ document.getElementById('floatUpBtn').onclick = () => {
   disc.classList.remove('hidden');
 };
 document.getElementById('floatPlayBtn').onclick = togglePlay;
-document.getElementById('floatPrevBtn').onclick = playPrev;
-document.getElementById('floatNextBtn').onclick = playNext;
+document.getElementById('floatPrevBtn').onclick = () => {
+  if (musicList.length === 0) return;
+  const idx = musicList.findIndex(m => m.id === musicCurrentId);
+  playMusic(musicList[(idx - 1 + musicList.length) % musicList.length].id, true);
+};
+document.getElementById('floatNextBtn').onclick = () => {
+  if (musicList.length === 0) return;
+  const idx = musicList.findIndex(m => m.id === musicCurrentId);
+  let next;
+  if (musicLoopMode === 'shuffle') next = musicList[Math.floor(Math.random() * musicList.length)];
+  else next = musicList[(idx + 1) % musicList.length];
+  playMusic(next.id, true);
+};
 document.getElementById('floatLoopBtn').onclick = toggleLoop;
 document.getElementById('floatListBtn').onclick = () => {
   hideFloatDisc();
@@ -3830,6 +3859,46 @@ function closeStickerPanel() {
     closeStickerPanel();
   });
 })();
+
+/* ===== 朋友圈 TA 自动互动逻辑 ===== */
+function triggerTaMomentInteraction(momentId) {
+  if (!momentId) return;
+  const all = load('our_moments', []);
+  const m = all.find(x => x.id === momentId);
+  if (!m) return;
+
+  const taName = load('ta_name', 'TA');
+  let hasInteraction = false;
+
+  // 点赞 (80%概率)
+  if (!m.likes) m.likes = [];
+  if (!m.likes.includes('ta') && Math.random() < 0.8) {
+    m.likes.push('ta');
+    hasInteraction = true;
+  }
+
+  // 评论 (60%概率)
+  if (Math.random() < 0.6) {
+    const mainCards = cards.filter(c => (c.type || 'main') === 'main' && !c.blocked);
+    if (mainCards.length > 0) {
+      const replyText = mainCards[Math.floor(Math.random() * mainCards.length)].content;
+      if (!m.comments) m.comments = [];
+      m.comments.push({ who: 'ta', text: replyText, t: Date.now() });
+      hasInteraction = true;
+
+      const notifies = loadMomentNotifies();
+      notifies.push({ text: `${taName} 回复了你：${replyText}`, t: Date.now(), read: false });
+      saveMomentNotifies(notifies);
+      updateBellDot();
+    }
+  }
+
+  if (hasInteraction) {
+    save('our_moments', all);
+    const page = document.getElementById('momentsPage');
+    if (page && !page.classList.contains('hidden')) renderMomentsList();
+  }
+}
 
 /* ===== 初始化 ===== */
 window.addEventListener('load', () => {
