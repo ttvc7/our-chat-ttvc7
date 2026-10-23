@@ -864,33 +864,6 @@ function addMessage(sender, content, quote, store, msgId) {
   messagesEl.appendChild(row);
   messagesEl.scrollTop = messagesEl.scrollHeight;
 
-  // === 系统通知逻辑 ===
-  if (sender === 'ta') {
-    const chatPage = document.getElementById('chatPage');
-    const isChatActive = chatPage && !chatPage.classList.contains('hidden');
-    
-    if (document.hidden || !isChatActive) {
-      if ('Notification' in window && Notification.permission === 'granted') {
-        const taName = load('ta_name', 'TA');
-        const options = {
-          body: content,
-          icon: load('ta_avatar', 'IMG_20260923_234621.jpg'),
-          badge: 'IMG_20260923_234621.jpg',
-          vibrate: [200, 100, 200],
-          tag: 'chat-message'
-        };
-        
-        if (navigator.serviceWorker && navigator.serviceWorker.ready) {
-          navigator.serviceWorker.ready.then(reg => {
-            reg.showNotification(taName, options);
-          });
-        } else {
-          new Notification(taName, options);
-        }
-      }
-    }
-  }
-
   if (store !== false) {
     const msgs = load('our_messages', []);
     if (ensureDateDivider()) {
@@ -3174,9 +3147,7 @@ function scheduleAutoMoment() {
   }, delay);
 }
 scheduleAutoMoment();
-</script>
-<!-- ★★★ index 段 18 结束 ★★★ --><!-- ★★★ index 段 19 开始 ★★★ -->
-<script>
+
 /* ===== 音乐库 ===== */
 let musicList = [];
 let musicCurrentId = null;
@@ -3200,6 +3171,9 @@ function loadMusicFromIDB() {
   musicList = meta.map(m => ({ ...m, fav: m.fav || false }));
   renderMusicList();
 }
+</script>
+<!-- ★★★ index 段 18 结束 ★★★ --><!-- ★★★ index 段 19 开始 ★★★ -->
+<script>
 function renderMusicList() {
   const box = document.getElementById('musicBody');
   if (!box) return;
@@ -3755,17 +3729,6 @@ document.getElementById('floatCoverUpload').onchange = (e) => {
 
 /* ===== 初始化 ===== */
 window.addEventListener('load', () => {
-  // 注册 SW 和请求通知权限
-  if ('serviceWorker' in navigator) {
-    navigator.serviceWorker.register('./sw.js').then(() => {
-      console.log('SW 注册成功');
-    }).catch(err => console.log('SW 注册失败', err));
-  }
-
-  if ('Notification' in window && Notification.permission !== 'granted' && Notification.permission !== 'denied') {
-    Notification.requestPermission();
-  }
-
   refreshMessages();
   applyHomeAssets();
   applyHomeWallpaper();
