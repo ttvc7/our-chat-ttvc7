@@ -21,6 +21,8 @@ self.addEventListener('message', (e) => {
       badge: 'IMG_20260923_234621.jpg',
       tag: 'chat-message', // 相同的 tag 会替换掉旧通知，避免刷屏
       renotify: true,
+      requireInteraction: true, // 让通知不自动消失，需要用户处理
+      vibrate: [200, 100, 200], // 增加手机震动
       data: {
         url: self.location.origin + '/our-chat-ttvc7/' // 点击通知跳转的网址
       }
