@@ -428,9 +428,9 @@
     const mailOn = load('mail_auto_on', false);
     const mailMin = load('mail_auto_min', 3);
     const mailMax = load('mail_auto_max', 6);
-    const momentOn = load('moment_auto_on', false);
-    const momentMin = load('moment_auto_min', 30);
-    const momentMax = load('moment_auto_max', 60);
+    const momentOn = load('moment_auto_on', true);
+    const questionOn = load('question_auto_on', true);
+    
     panel.innerHTML = `
       <div class="set-card">
         <div class="set-card-title">信箱</div>
@@ -439,10 +439,20 @@
         <div class="set-row"><span class="label">最长间隔（小时）</span><input type="number" id="mailAutoMax" value="${mailMax}" min="1" max="48"></div>
       </div>
       <div class="set-card">
-        <div class="set-card-title">对方主动发朋友圈</div>
-        <div class="set-row"><span class="label">自动发朋友圈</span><input type="checkbox" id="momentAutoOn" ${momentOn ? 'checked' : ''}></div>
-        <div class="set-row"><span class="label">最短间隔（分钟）</span><input type="number" id="momentAutoMin" value="${momentMin}" min="1" max="600"></div>
-        <div class="set-row"><span class="label">最长间隔（分钟）</span><input type="number" id="momentAutoMax" value="${momentMax}" min="1" max="600"></div>
+        <div class="set-card-title">朋友圈自动互动</div>
+        <div class="set-row">
+          <span class="label">自动发动态 / 点赞评论</span>
+          <input type="checkbox" id="momentAutoOn" ${momentOn ? 'checked' : ''}>
+        </div>
+        <p style="font-size:12px;color:#999;margin-top:8px;">开启后，对方会根据累计在线时长（30~60分钟），不定时发动态或评论/点赞你。</p>
+      </div>
+      <div class="set-card">
+        <div class="set-card-title">对方发问卷</div>
+        <div class="set-row">
+          <span class="label">开启问卷推送</span>
+          <input type="checkbox" id="questionAutoOn" ${questionOn ? 'checked' : ''}>
+        </div>
+        <p style="font-size:12px;color:#999;margin-top:8px;">开启后，累计在线（1~4小时）会收到对方发来的一封问卷。</p>
       </div>
       <button class="set-btn" id="saveFeatureSettings">保存</button>
       <div class="set-card">
@@ -458,13 +468,14 @@
       save('mail_auto_min', Math.min(mn, mx));
       save('mail_auto_max', Math.max(mn, mx));
       save('moment_auto_on', panel.querySelector('#momentAutoOn').checked);
-      const mmn = parseInt(panel.querySelector('#momentAutoMin').value) || 30;
-      const mmx = parseInt(panel.querySelector('#momentAutoMax').value) || 60;
-      save('moment_auto_min', Math.min(mmn, mmx));
-      save('moment_auto_max', Math.max(mmn, mmx));
+      save('question_auto_on', panel.querySelector('#questionAutoOn').checked);
+      
+      // 每次保存开关，重置一下触发时间，避免切回去马上触发
+      save('moment_trigger_time', 0);
+      save('question_trigger_time', 0);
+      
       alert('已保存');
       if (typeof scheduleAutoMail === 'function') scheduleAutoMail();
-      if (typeof scheduleAutoMoment === 'function') scheduleAutoMoment();
     };
     panel.querySelector('#openFavBtn').onclick = () => {
       document.getElementById('favModal').classList.remove('hidden');
@@ -498,6 +509,8 @@
       const data = {
         messages: JSON.parse(localStorage.getItem('our_messages') || '[]'),
         cards: JSON.parse(localStorage.getItem('our_cards') || '[]'),
+        questionBank: JSON.parse(localStorage.getItem('our_question_bank') || '[]'),
+        taQuestionsSent: JSON.parse(localStorage.getItem('our_ta_questions_sent') || '[]'),
         mails: JSON.parse(localStorage.getItem('our_mails') || '[]'),
         surveys: JSON.parse(localStorage.getItem('our_surveys') || '[]'),
         moments: JSON.parse(localStorage.getItem('our_moments') || '[]'),
@@ -510,22 +523,17 @@
         homeQuote: localStorage.getItem('home_quote') || '',
         talkMine: localStorage.getItem('home_talk_mine') || '',
         talkTa: localStorage.getItem('home_talk_ta') || '',
-        homeCardImg: localStorage.getItem('home_card_img') || '',
-        taName: cfg.taName, myName: cfg.myName
+        taName: localStorage.getItem('ta_name') || '"TA"',
+        myName: localStorage.getItem('my_name') || '"我"'
       };
+      
       let text = '=== ttvc7 备份 ===\n';
-      text += 'TA昵称：' + data.taName + '\n我的昵称：' + data.myName + '\n\n';
-      text += '=== 字卡 ===\n';
-      data.cards.forEach(c => text += (c.content || c) + '\n');
-      text += '\n=== 聊天记录 ===\n';
-      data.messages.forEach(m => {
-        text += (m.sender === 'me' ? data.myName : data.taName) + '：' + (m.content || m.title || m.text || '') + '\n';
-      });
-      text += '\n=== 原始数据（勿改） ===\n';
+      text += '=== 原始数据（勿改） ===\n';
       text += JSON.stringify(data);
       panel.querySelector('#backupArea').value = text;
       alert('已生成，请复制保存');
     };
+    
     panel.querySelector('#importBtn').onclick = () => {
       const text = panel.querySelector('#backupArea').value;
       const match = text.match(/=== 原始数据（勿改） ===\s*(\{[\s\S]*\})/);
@@ -534,6 +542,8 @@
         const data = JSON.parse(match[1]);
         if (data.messages) localStorage.setItem('our_messages', JSON.stringify(data.messages));
         if (data.cards) localStorage.setItem('our_cards', JSON.stringify(data.cards));
+        if (data.questionBank) localStorage.setItem('our_question_bank', JSON.stringify(data.questionBank));
+        if (data.taQuestionsSent) localStorage.setItem('our_ta_questions_sent', JSON.stringify(data.taQuestionsSent));
         if (data.mails) localStorage.setItem('our_mails', JSON.stringify(data.mails));
         if (data.surveys) localStorage.setItem('our_surveys', JSON.stringify(data.surveys));
         if (data.moments) localStorage.setItem('our_moments', JSON.stringify(data.moments));
@@ -543,12 +553,14 @@
         if (data.favorites) localStorage.setItem('our_favorites', JSON.stringify(data.favorites));
         if (data.annivList) localStorage.setItem('anniv_list', JSON.stringify(data.annivList));
         if (data.annivStart) localStorage.setItem('anniv_start', data.annivStart);
-        if (data.homeQuote) localStorage.setItem('home_quote', JSON.stringify(data.homeQuote));
-        if (data.talkMine) localStorage.setItem('home_talk_mine', JSON.stringify(data.talkMine));
-        if (data.talkTa) localStorage.setItem('home_talk_ta', JSON.stringify(data.talkTa));
-        if (data.homeCardImg) localStorage.setItem('home_card_img', JSON.stringify(data.homeCardImg));
-        if (data.taName) localStorage.setItem('ta_name', JSON.stringify(data.taName));
-        if (data.myName) localStorage.setItem('my_name', JSON.stringify(data.myName));
+        
+        // 修复导入时多带了引号的问题，直接存原始值
+        if (data.homeQuote) localStorage.setItem('home_quote', data.homeQuote);
+        if (data.talkMine) localStorage.setItem('home_talk_mine', data.talkMine);
+        if (data.talkTa) localStorage.setItem('home_talk_ta', data.talkTa);
+        if (data.taName) localStorage.setItem('ta_name', data.taName);
+        if (data.myName) localStorage.setItem('my_name', data.myName);
+        
         alert('导入成功，刷新页面生效');
       } catch (e) { alert('导入失败：' + e.message); }
     };
@@ -578,7 +590,6 @@
     applyAll();
     renderMain();
 
-    // 加载时应用主题色
     const savedThemeColor = localStorage.getItem('theme_color');
     if (savedThemeColor) applyThemeColor(JSON.parse(savedThemeColor));
 
