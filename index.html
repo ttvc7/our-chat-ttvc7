@@ -26,7 +26,6 @@
 
 <div id="homePage" class="page">
   <div class="home-time" id="homeTime">--:--</div>
-
   <div class="home-avatars">
     <div class="avatar-wrap">
       <div class="avatar-circle" id="homeTaAvatar">TA</div>
@@ -37,12 +36,10 @@
       <div class="avatar-name" id="homeMyName">我</div>
     </div>
   </div>
-
   <div class="home-quote" id="homeQuote">
     <div class="home-quote-box" id="homeQuoteBox">双击寄语</div>
     <div class="home-quote-text" id="homeQuoteText"></div>
   </div>
-
   <div class="home-main-area">
     <div class="home-big-card" id="homeBigCard">
       <img id="homeBigCardImg" src="" alt="" style="display:none;">
@@ -67,7 +64,6 @@
       </div>
     </div>
   </div>
-
   <div class="home-bottom-area">
     <div class="home-anniv-card" id="homeAnnivCard">
       <div class="anniv-title">纪念日</div>
@@ -84,7 +80,6 @@
       </div>
     </div>
   </div>
-
   <div class="home-bottom-bar">
     <div class="bar-item" data-key="settings">设置</div>
     <div class="bar-item" data-key="cards">字卡库</div>
@@ -92,13 +87,11 @@
     <div class="bar-item" data-key="mail">信箱</div>
   </div>
 </div>
-<!-- ★★★ index 段 1 结束 ★★★ --><!-- ★★★ index 段 2 开始 ★★★ -->
+
 <div id="momentsPage" class="page hidden">
   <header class="chat-header">
     <div class="header-left">
-      <button class="header-btn" id="backFromMomentsBtn">
-        <svg viewBox="0 0 24 24" fill="none" stroke="#666" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M15 6 L9 12 L15 18"></path></svg>
-      </button>
+      <button class="header-btn" id="backFromMomentsBtn"><svg viewBox="0 0 24 24" fill="none" stroke="#666" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M15 6 L9 12 L15 18"></path></svg></button>
     </div>
     <span>朋友圈</span>
     <div class="header-right moment-top-icons">
@@ -106,12 +99,8 @@
         <svg viewBox="0 0 24 24" fill="none" stroke="#333" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M18 8 A6 6 0 0 0 6 8 C6 15 4 17 4 17 H20 C20 17 18 15 18 8"></path><path d="M10 20 A2 2 0 0 0 14 20"></path></svg>
         <span class="red-dot" id="momentBellRedDot"></span>
       </button>
-      <button id="momentTrashBtn">
-        <svg viewBox="0 0 24 24" fill="none" stroke="#333" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M4 6 H20"></path><path d="M9 6 V4 H15 V6"></path><path d="M6 6 L7 20 H17 L18 6"></path></svg>
-      </button>
-      <button id="momentListBtn" title="只看对方动态">
-        <svg viewBox="0 0 24 24" fill="none" stroke="#333" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 7 H20"></path><path d="M4 12 H20"></path><path d="M4 17 H20"></path></svg>
-      </button>
+      <button id="momentTrashBtn"><svg viewBox="0 0 24 24" fill="none" stroke="#333" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M4 6 H20"></path><path d="M9 6 V4 H15 V6"></path><path d="M6 6 L7 20 H17 L18 6"></path></svg></button>
+      <button id="momentListBtn"><svg viewBox="0 0 24 24" fill="none" stroke="#333" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 7 H20"></path><path d="M4 12 H20"></path><path d="M4 17 H20"></path></svg></button>
     </div>
   </header>
   <div class="moment-header" id="momentHeader">
@@ -120,12 +109,8 @@
       <div class="avatar-img" id="momentMyAvatar">我</div>
     </div>
   </div>
-  <div class="moment-bg-tools">
-    <button id="momentChangeBgBtn">换背景</button>
-  </div>
-  <div class="moment-divider">
-    <span class="divider-text" id="momentDividerText">今天</span>
-  </div>
+  <div class="moment-bg-tools"><button id="momentChangeBgBtn">换背景</button></div>
+  <div class="moment-divider"><span class="divider-text" id="momentDividerText">今天</span></div>
   <div class="moment-body" id="momentBody"></div>
   <button class="moment-fab" id="momentAddBtn">+</button>
 </div>
@@ -133,15 +118,11 @@
 <div id="momentPostModal" class="modal hidden">
   <div class="moment-post-sheet">
     <div class="moment-post-head">
-      <button id="momentPostCancel">取消</button>
-      <span>发表动态</span>
-      <button class="primary" id="momentPostSend">发表</button>
+      <button id="momentPostCancel">取消</button><span>发表动态</span><button class="primary" id="momentPostSend">发表</button>
     </div>
     <div class="moment-post-body">
       <textarea id="momentPostText" placeholder="这一刻的想法…"></textarea>
-      <div class="moment-post-imgs" id="momentPostImgs">
-        <div class="add-img" id="momentAddImgBtn">+</div>
-      </div>
+      <div class="moment-post-imgs" id="momentPostImgs"><div class="add-img" id="momentAddImgBtn">+</div></div>
       <input type="file" id="momentImgUpload" accept="image/*" style="display:none;">
     </div>
   </div>
@@ -160,27 +141,17 @@
     <div class="modal-body">
       <p style="font-size:13px;color:#999;margin-bottom:12px;">删除后无法恢复。</p>
       <div class="moment-del-options" id="momentDelOptions">
-        <button data-type="all">全部删除</button>
-        <button data-type="mine">仅我的动态</button>
-        <button data-type="ta">对方动态</button>
+        <button data-type="all">全部删除</button><button data-type="mine">仅我的动态</button><button data-type="ta">对方动态</button>
       </div>
-      <div class="moment-del-actions">
-        <button class="cancel" id="momentDelCancel">取消</button>
-        <button class="ok" id="momentDelOk">确定</button>
-      </div>
+      <div class="moment-del-actions"><button class="cancel" id="momentDelCancel">取消</button><button class="ok" id="momentDelOk">确定</button></div>
     </div>
   </div>
 </div>
-<!-- ★★★ index 段 2 结束 ★★★ --><!-- ★★★ index 段 3 开始 ★★★ -->
+
 <div id="annivPage" class="page hidden">
   <header class="chat-header">
-    <div class="header-left">
-      <button class="header-btn" id="backFromAnnivBtn">
-        <svg viewBox="0 0 24 24" fill="none" stroke="#666" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M15 6 L9 12 L15 18"></path></svg>
-      </button>
-    </div>
-    <span>纪念日</span>
-    <div class="header-right"></div>
+    <div class="header-left"><button class="header-btn" id="backFromAnnivBtn"><svg viewBox="0 0 24 24" fill="none" stroke="#666" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M15 6 L9 12 L15 18"></path></svg></button></div>
+    <span>纪念日</span><div class="header-right"></div>
   </header>
   <div class="anniv-body">
     <div class="anniv-main">
@@ -199,44 +170,20 @@
   <div class="anniv-date-box">
     <div class="anniv-date-title" id="annivDateTitle">设置起始日期</div>
     <div class="anniv-date-row">
-      <div class="anniv-date-col">
-        <div class="top" id="annivYearTop">--</div>
-        <div class="cur" id="annivYearCur">2024</div>
-        <div class="bottom" id="annivYearBot">--</div>
-        <div class="anniv-date-label">年</div>
-      </div>
-      <div class="anniv-date-col">
-        <div class="top" id="annivMonthTop">--</div>
-        <div class="cur" id="annivMonthCur">01</div>
-        <div class="bottom" id="annivMonthBot">--</div>
-        <div class="anniv-date-label">月</div>
-      </div>
-      <div class="anniv-date-col">
-        <div class="top" id="annivDayTop">--</div>
-        <div class="cur" id="annivDayCur">01</div>
-        <div class="bottom" id="annivDayBot">--</div>
-        <div class="anniv-date-label">日</div>
-      </div>
+      <div class="anniv-date-col"><div class="top" id="annivYearTop">--</div><div class="cur" id="annivYearCur">2024</div><div class="bottom" id="annivYearBot">--</div><div class="anniv-date-label">年</div></div>
+      <div class="anniv-date-col"><div class="top" id="annivMonthTop">--</div><div class="cur" id="annivMonthCur">01</div><div class="bottom" id="annivMonthBot">--</div><div class="anniv-date-label">月</div></div>
+      <div class="anniv-date-col"><div class="top" id="annivDayTop">--</div><div class="cur" id="annivDayCur">01</div><div class="bottom" id="annivDayBot">--</div><div class="anniv-date-label">日</div></div>
     </div>
-    <div class="anniv-date-actions">
-      <button class="cancel" id="annivDateCancel">取消</button>
-      <button class="ok" id="annivDateOk">确定</button>
-    </div>
+    <div class="anniv-date-actions"><button class="cancel" id="annivDateCancel">取消</button><button class="ok" id="annivDateOk">确定</button></div>
   </div>
 </div>
 
 <div id="chatPage" class="page hidden">
   <header class="chat-header">
-    <div class="header-left">
-      <button class="header-btn" id="backHomeBtn">
-        <svg viewBox="0 0 24 24" fill="none" stroke="#666" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M15 6 L9 12 L15 18"></path></svg>
-      </button>
-    </div>
+    <div class="header-left"><button class="header-btn" id="backHomeBtn"><svg viewBox="0 0 24 24" fill="none" stroke="#666" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M15 6 L9 12 L15 18"></path></svg></button></div>
     <span id="taName">TA</span>
     <div class="header-right">
-      <button class="header-btn" id="openMenuBtn">
-        <svg viewBox="0 0 24 24" fill="none" stroke="#666" stroke-width="2.5" stroke-linecap="round"><circle cx="5" cy="12" r="1.5" fill="#666" stroke="none"></circle><circle cx="12" cy="12" r="1.5" fill="#666" stroke="none"></circle><circle cx="19" cy="12" r="1.5" fill="#666" stroke="none"></circle></svg>
-      </button>
+      <button class="header-btn" id="openMenuBtn"><svg viewBox="0 0 24 24" fill="none" stroke="#666" stroke-width="2.5" stroke-linecap="round"><circle cx="5" cy="12" r="1.5" fill="#666" stroke="none"></circle><circle cx="12" cy="12" r="1.5" fill="#666" stroke="none"></circle><circle cx="19" cy="12" r="1.5" fill="#666" stroke="none"></circle></svg></button>
     </div>
   </header>
   <div id="messages"></div>
@@ -247,12 +194,8 @@
     <button class="footer-btn send-btn" id="sendBtn"><svg viewBox="0 0 24 24" fill="none" stroke="#222" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 2 L11 13"></path><path d="M22 2 L15 22 L11 13 L2 9 Z"></path></svg></button>
   </footer>
 </div>
-
-<div id="menuPopup">
-  <div class="menu-item" id="menuSettings">设置</div>
-  <div class="menu-item" id="menuCards">字卡库</div>
-</div>
-
+<!-- ★★★ index 段 1 结束 ★★★ --><!-- ★★★ index 段 2 开始 ★★★ -->
+<div id="menuPopup"><div class="menu-item" id="menuSettings">设置</div><div class="menu-item" id="menuCards">字卡库</div></div>
 <div id="plusMenu" class="plus-menu hidden">
   <div class="plus-grid">
     <div class="plus-item" data-key="transfer"><div class="plus-icon"><svg viewBox="0 0 24 24" fill="none" stroke="#333" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 8 L14 8 M10 4 L14 8 L10 12"></path><path d="M20 16 L10 16 M14 12 L10 16 L14 20"></path></svg></div><div class="plus-label">转账</div></div>
@@ -263,37 +206,20 @@
 </div>
 
 <div id="longPressMenu" class="long-press-menu hidden">
-  <div class="lp-item" data-act="copy">复制</div>
-  <div class="lp-item" data-act="quote">引用</div>
-  <div class="lp-item" data-act="fav">收藏</div>
-  <div class="lp-item" data-act="del">删除</div>
-</div>
-<!-- ★★★ index 段 3 结束 ★★★ --><!-- ★★★ index 段 4 开始 ★★★ -->
-<div id="mailPage" class="page hidden">
-  <header class="chat-header">
-    <div class="header-left">
-      <button class="header-btn" id="backFromMailBtn">
-        <svg viewBox="0 0 24 24" fill="none" stroke="#666" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M15 6 L9 12 L15 18"></path></svg>
-      </button>
-    </div>
-    <span>信箱</span>
-    <div class="header-right"></div>
-  </header>
-  <div class="mail-tabs">
-    <div class="mail-tab active" data-tab="sent">寄出的信</div>
-    <div class="mail-tab" data-tab="received">收到的信</div>
-  </div>
-  <div class="mail-body" id="mailBody"></div>
-  <button class="mail-fab" id="mailWriteBtn">+</button>
+  <div class="lp-item" data-act="copy">复制</div><div class="lp-item" data-act="quote">引用</div><div class="lp-item" data-act="fav">收藏</div><div class="lp-item" data-act="del">删除</div>
 </div>
 
+<div id="mailPage" class="page hidden">
+  <header class="chat-header">
+    <div class="header-left"><button class="header-btn" id="backFromMailBtn"><svg viewBox="0 0 24 24" fill="none" stroke="#666" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M15 6 L9 12 L15 18"></path></svg></button></div>
+    <span>信箱</span><div class="header-right"></div>
+  </header>
+  <div class="mail-tabs"><div class="mail-tab active" data-tab="sent">寄出的信</div><div class="mail-tab" data-tab="received">收到的信</div></div>
+  <div class="mail-body" id="mailBody"></div><button class="mail-fab" id="mailWriteBtn">+</button>
+</div>
 <div id="mailWritePage" class="page hidden">
   <header class="chat-header">
-    <div class="header-left">
-      <button class="survey-header-btn" id="mailWriteCancelBtn">取消</button>
-    </div>
-    <span>写信</span>
-    <div class="header-right"></div>
+    <div class="header-left"><button class="survey-header-btn" id="mailWriteCancelBtn">取消</button></div><span>写信</span><div class="header-right"></div>
   </header>
   <div class="mail-write-body">
     <div class="mail-write-card">
@@ -304,45 +230,27 @@
     </div>
   </div>
 </div>
-
 <div id="mailReadModal" class="modal hidden mail-read-modal">
   <div class="modal-box">
     <div class="modal-head"><span>信件</span><button id="closeMailReadBtn">×</button></div>
     <div class="modal-body">
-      <div class="mail-read-from" id="mailReadFrom">TA 寄给我</div>
-      <div class="mail-read-title" id="mailReadTitle">--</div>
-      <div class="mail-read-content" id="mailReadContent">--</div>
-      <div class="mail-read-date" id="mailReadDate">--</div>
+      <div class="mail-read-from" id="mailReadFrom">TA 寄给我</div><div class="mail-read-title" id="mailReadTitle">--</div><div class="mail-read-content" id="mailReadContent">--</div><div class="mail-read-date" id="mailReadDate">--</div>
     </div>
   </div>
 </div>
 
 <div id="surveyListPage" class="page hidden">
   <header class="chat-header">
-    <div class="header-left">
-      <button class="header-btn" id="backFromSurveyListBtn">
-        <svg viewBox="0 0 24 24" fill="none" stroke="#666" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M15 6 L9 12 L15 18"></path></svg>
-      </button>
-    </div>
+    <div class="header-left"><button class="header-btn" id="backFromSurveyListBtn"><svg viewBox="0 0 24 24" fill="none" stroke="#666" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M15 6 L9 12 L15 18"></path></svg></button></div>
     <span>问卷</span>
-    <div class="header-right">
-      <button class="header-btn" id="surveyNewBtn">
-        <svg viewBox="0 0 24 24" fill="none" stroke="#666" stroke-width="2" stroke-linecap="round"><circle cx="12" cy="12" r="9"></circle><path d="M12 8 V16 M8 12 H16"></path></svg>
-      </button>
-    </div>
+    <div class="header-right"><button class="header-btn" id="surveyNewBtn"><svg viewBox="0 0 24 24" fill="none" stroke="#666" stroke-width="2" stroke-linecap="round"><circle cx="12" cy="12" r="9"></circle><path d="M12 8 V16 M8 12 H16"></path></svg></button></div>
   </header>
   <div class="shop-body" id="surveyListBody"></div>
 </div>
-
 <div id="surveyNewPage" class="page hidden">
   <header class="chat-header">
-    <div class="header-left">
-      <button class="survey-header-btn" id="surveyCancelBtn">取消</button>
-    </div>
-    <span>新建问卷</span>
-    <div class="header-right">
-      <button class="survey-header-btn dark" id="surveySendBtn">发送</button>
-    </div>
+    <div class="header-left"><button class="survey-header-btn" id="surveyCancelBtn">取消</button></div><span>新建问卷</span>
+    <div class="header-right"><button class="survey-header-btn dark" id="surveySendBtn">发送</button></div>
   </header>
   <div class="survey-new-body">
     <div class="survey-card">
@@ -359,7 +267,6 @@
     <button class="survey-add-q" id="surveyAddQBtn">+ 添加问题</button>
   </div>
 </div>
-
 <div id="surveyAnswerModal" class="modal hidden">
   <div class="modal-box">
     <div class="modal-head"><span id="surveyAnswerTitle">问卷</span><button id="closeSurveyAnswerBtn">×</button></div>
@@ -369,88 +276,54 @@
 
 <div id="shopPage" class="page hidden">
   <header class="chat-header">
-    <div class="header-left">
-      <button class="header-btn" id="backFromShopBtn">
-        <svg viewBox="0 0 24 24" fill="none" stroke="#666" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M15 6 L9 12 L15 18"></path></svg>
-      </button>
-    </div>
-    <span>商店</span>
-    <div class="header-right"></div>
+    <div class="header-left"><button class="header-btn" id="backFromShopBtn"><svg viewBox="0 0 24 24" fill="none" stroke="#666" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M15 6 L9 12 L15 18"></path></svg></button></div>
+    <span>商店</span><div class="header-right"></div>
   </header>
-  <div class="shop-tabs">
-    <div class="shop-tab active" data-tab="items">购物</div>
-    <div class="shop-tab" data-tab="orders">订单</div>
-  </div>
+  <div class="shop-tabs"><div class="shop-tab active" data-tab="items">购物</div><div class="shop-tab" data-tab="orders">订单</div></div>
   <div class="shop-body" id="shopItemsPanel"></div>
   <div class="shop-body hidden" id="shopOrdersPanel"></div>
   <button class="shop-fab" id="shopAddBtn">+</button>
 </div>
-
 <div id="shopEditModal" class="modal hidden">
   <div class="shop-edit-sheet">
-    <div class="shop-edit-head">
-      <span id="shopEditTitle">添加商品</span>
-      <button id="closeShopEditBtn">×</button>
-    </div>
+    <div class="shop-edit-head"><span id="shopEditTitle">添加商品</span><button id="closeShopEditBtn">×</button></div>
     <div class="shop-edit-body">
       <div class="shop-field-label">商品图标</div>
       <div class="shop-img-picker" id="shopImgPicker">
-        <img id="shopImgPreview" src="" alt="" style="display:none;">
-        <span id="shopImgPlus">+</span>
+        <img id="shopImgPreview" src="" alt="" style="display:none;"><span id="shopImgPlus">+</span>
       </div>
       <input type="file" id="shopImgUpload" accept="image/*" style="display:none;">
-      <div class="shop-field-label">商品名称</div>
-      <input type="text" id="shopNameInput" class="shop-input" placeholder="输入商品名称">
-      <div class="shop-field-label">价格（¥）</div>
-      <input type="number" id="shopPriceInput" class="shop-input" placeholder="0.00" inputmode="decimal">
-      <div class="shop-field-label">商品介绍</div>
-      <textarea id="shopDescInput" class="shop-textarea" placeholder="介绍一下这个商品…"></textarea>
+      <div class="shop-field-label">商品名称</div><input type="text" id="shopNameInput" class="shop-input" placeholder="输入商品名称">
+      <div class="shop-field-label">价格（¥）</div><input type="number" id="shopPriceInput" class="shop-input" placeholder="0.00" inputmode="decimal">
+      <div class="shop-field-label">商品介绍</div><textarea id="shopDescInput" class="shop-textarea" placeholder="介绍一下这个商品…"></textarea>
       <button class="shop-save-btn" id="shopSaveBtn">保存商品</button>
     </div>
   </div>
 </div>
-
 <div id="shopDetailModal" class="modal hidden">
   <div class="shop-detail-sheet">
-    <div class="shop-edit-head">
-      <span>商品详情</span>
-      <button id="closeShopDetailBtn">×</button>
-    </div>
+    <div class="shop-edit-head"><span>商品详情</span><button id="closeShopDetailBtn">×</button></div>
     <div class="shop-detail-body">
       <img id="detailImg" class="shop-detail-img" src="" alt="">
-      <div class="shop-detail-name" id="detailName">--</div>
-      <div class="shop-detail-price" id="detailPrice">¥0</div>
-      <div class="shop-detail-desc-box">
-        <div class="shop-detail-desc-label">商品介绍</div>
-        <div id="detailDesc">--</div>
-      </div>
-      <div class="shop-detail-actions">
-        <button class="shop-btn-outline" id="detailHelpPayBtn">找TA代付</button>
-        <button class="shop-btn-dark" id="detailBuyBtn">给TA购买</button>
-      </div>
-      <div class="shop-detail-actions">
-        <button class="shop-btn-outline" id="detailEditBtn">编辑商品</button>
-        <button class="shop-btn-outline danger" id="detailDeleteBtn">删除商品</button>
-      </div>
+      <div class="shop-detail-name" id="detailName">--</div><div class="shop-detail-price" id="detailPrice">¥0</div>
+      <div class="shop-detail-desc-box"><div class="shop-detail-desc-label">商品介绍</div><div id="detailDesc">--</div></div>
+      <div class="shop-detail-actions"><button class="shop-btn-outline" id="detailHelpPayBtn">找TA代付</button><button class="shop-btn-dark" id="detailBuyBtn">给TA购买</button></div>
+      <div class="shop-detail-actions"><button class="shop-btn-outline" id="detailEditBtn">编辑商品</button><button class="shop-btn-outline danger" id="detailDeleteBtn">删除商品</button></div>
     </div>
   </div>
 </div>
-<!-- ★★★ index 段 4 结束 ★★★ --><!-- ★★★ index 段 5 开始 ★★★ -->
+
 <div id="cardPage" class="page hidden">
   <header class="chat-header">
-    <div class="header-left">
-      <button class="header-btn" id="closeCardBtn">
-        <svg viewBox="0 0 24 24" fill="none" stroke="#666" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M15 6 L9 12 L15 18"></path></svg>
-      </button>
-    </div>
-    <span>字卡库</span>
-    <div class="header-right"></div>
+    <div class="header-left"><button class="header-btn" id="closeCardBtn"><svg viewBox="0 0 24 24" fill="none" stroke="#666" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M15 6 L9 12 L15 18"></path></svg></button></div>
+    <span>字卡库</span><div class="header-right"></div>
   </header>
   <div class="card-tabs" id="cardTabs">
     <button class="card-tab active" data-tab="main">主字卡</button>
     <button class="card-tab" data-tab="emoji">Emoji</button>
     <button class="card-tab" data-tab="pat">拍一拍</button>
     <button class="card-tab" data-tab="voice">语音</button>
+    <button class="card-tab" data-tab="question">问卷题库</button>
   </div>
   <div class="card-body" id="cardBody"></div>
 </div>
@@ -465,33 +338,34 @@
   <div class="card-cats" id="cardCats"></div>
   <div id="cardList"></div>
 </template>
-
 <template id="tpl-emoji">
   <textarea id="emojiInput" placeholder="输入颜文字，一行一个"></textarea>
   <button id="addEmojiBtn">添加颜文字</button>
   <div id="emojiList"></div>
 </template>
-
 <template id="tpl-pat">
-  <div class="sec-title">我拍他</div>
-  <div class="pat-item"><input type="text" id="patToTaInput"></div>
-  <div class="sec-title" style="margin-top:16px;">他拍我（随机）</div>
-  <div id="patToMeList"></div>
-  <button class="btn-secondary" id="addPatBtn">+ 添加一条</button>
-  <button class="btn-primary" id="savePatBtn">保存</button>
+  <div class="sec-title">我拍他</div><div class="pat-item"><input type="text" id="patToTaInput"></div>
+  <div class="sec-title" style="margin-top:16px;">他拍我（随机）</div><div id="patToMeList"></div>
+  <button class="btn-secondary" id="addPatBtn">+ 添加一条</button><button class="btn-primary" id="savePatBtn">保存</button>
 </template>
-
 <template id="tpl-voice">
   <div class="voice-import-box" id="voiceImportBox">
     <div class="voice-import-icon"><svg viewBox="0 0 24 24" fill="none" stroke="#666" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3 V15"></path><path d="M8 7 V11"></path><path d="M16 7 V11"></path><rect x="9" y="15" width="6" height="6" rx="3"></rect></svg></div>
-    <div class="voice-import-text">
-      <div class="voice-import-title">导入语音文件</div>
-      <div class="voice-import-sub">支持 MP3/WAV/M4A/MP4，可多选，每条 ≤30MB</div>
-    </div>
+    <div class="voice-import-text"><div class="voice-import-title">导入语音文件</div><div class="voice-import-sub">支持 MP3/WAV/M4A/MP4，可多选，每条 ≤30MB</div></div>
   </div>
   <input type="file" id="voiceUpload" accept="audio/*,video/mp4" multiple style="display:none;">
-  <div class="voice-count" id="voiceCount">共 0 条语音字卡 · 对方回复时选一条</div>
-  <div id="voiceList"></div>
+  <div class="voice-count" id="voiceCount">共 0 条语音字卡 · 对方回复时选一条</div><div id="voiceList"></div>
+</template>
+<template id="tpl-question">
+  <div class="card-tools" style="margin-bottom:12px;">
+    <input type="text" id="questionSearchInput" placeholder="搜索题目…">
+  </div>
+  <div class="card-cats" id="questionCats">
+    <button class="card-cat active" data-cat="all">全部</button>
+    <button class="card-cat" data-cat="默认问题">默认问题</button>
+    <button class="card-cat" data-cat="未分组">未分组</button>
+  </div>
+  <div id="questionList" class="question-list"></div>
 </template>
 
 <div id="stickerPanel" class="sticker-panel hidden">
@@ -508,14 +382,8 @@
   <div class="modal-box">
     <div class="modal-head"><span>转账</span><button id="closeTransferBtn">×</button></div>
     <div class="modal-body">
-      <div class="transfer-target">
-        <div class="transfer-avatar" id="transferAvatar">TA</div>
-        <div class="transfer-name" id="transferName">TA</div>
-      </div>
-      <div class="transfer-input-row">
-        <span class="transfer-yen">¥</span>
-        <input type="number" id="transferAmount" placeholder="0.00" inputmode="decimal">
-      </div>
+      <div class="transfer-target"><div class="transfer-avatar" id="transferAvatar">TA</div><div class="transfer-name" id="transferName">TA</div></div>
+      <div class="transfer-input-row"><span class="transfer-yen">¥</span><input type="number" id="transferAmount" placeholder="0.00" inputmode="decimal"></div>
       <input type="text" id="transferNote" placeholder="添加转账说明" class="transfer-note">
       <button class="btn-primary" id="confirmTransferBtn">确认转账</button>
     </div>
@@ -556,26 +424,27 @@
   <div class="modal-box">
     <div class="modal-head"><span>搜索聊天</span><button id="closeSearchBtn">×</button></div>
     <div class="modal-body">
-      <input type="text" id="searchInput" class="shop-input" placeholder="搜索聊天内容…">
+      <div style="display:flex; gap:8px; margin-bottom:12px;">
+        <input type="text" id="searchInput" class="shop-input" style="flex:1;" placeholder="搜索聊天内容…">
+        <button class="btn-secondary" id="searchDateFilterBtn" style="width:auto; padding:0 16px;">日期</button>
+      </div>
+      <div id="searchDatePanel" class="hidden" style="display:flex; gap:8px; margin-bottom:12px; align-items:center; flex-wrap:wrap;">
+        <input type="date" id="searchStartDate" class="shop-input" style="width:auto; flex:1;">
+        <span>至</span>
+        <input type="date" id="searchEndDate" class="shop-input" style="width:auto; flex:1;">
+        <button class="btn-secondary" id="searchDateReset" style="width:100%;">重置日期</button>
+      </div>
       <div id="searchResult" style="margin-top:12px;"></div>
     </div>
   </div>
 </div>
-<!-- ★★★ index 段 5 结束 ★★★ --><!-- ★★★ index 段 6 开始 ★★★ -->
+
 <div id="musicLibraryPage" class="page hidden">
   <header class="chat-header">
-    <div class="header-left">
-      <button class="header-btn" id="backFromMusicBtn">
-        <svg viewBox="0 0 24 24" fill="none" stroke="#666" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M15 6 L9 12 L15 18"></path></svg>
-      </button>
-    </div>
-    <span>音乐</span>
-    <div class="header-right"></div>
+    <div class="header-left"><button class="header-btn" id="backFromMusicBtn"><svg viewBox="0 0 24 24" fill="none" stroke="#666" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M15 6 L9 12 L15 18"></path></svg></button></div>
+    <span>音乐</span><div class="header-right"></div>
   </header>
-  <div class="music-float-toggle">
-    <span class="label">悬浮播放小框</span>
-    <div class="switch on" id="musicFloatSwitch"></div>
-  </div>
+  <div class="music-float-toggle"><span class="label">悬浮播放小框</span><div class="switch on" id="musicFloatSwitch"></div></div>
   <div class="music-tabs">
     <button class="music-tab active" data-tab="mine">我的音乐库</button>
     <button class="music-tab" data-tab="playlist">歌单</button>
@@ -588,18 +457,9 @@
   <div class="modal-box">
     <div class="modal-head"><span id="musicInputTitle">链接添加</span><button id="closeMusicInputBtn">×</button></div>
     <div class="modal-body">
-      <div class="music-input-field">
-        <span class="label">歌名</span>
-        <input type="text" id="musicNameInput" placeholder="必填">
-      </div>
-      <div class="music-input-field">
-        <span class="label">歌手</span>
-        <input type="text" id="musicArtistInput" placeholder="可空">
-      </div>
-      <div class="music-input-field" id="musicUrlField">
-        <span class="label">音乐链接</span>
-        <input type="text" id="musicUrlInput" placeholder="mp3 直链">
-      </div>
+      <div class="music-input-field"><span class="label">歌名</span><input type="text" id="musicNameInput" placeholder="必填"></div>
+      <div class="music-input-field"><span class="label">歌手</span><input type="text" id="musicArtistInput" placeholder="可空"></div>
+      <div class="music-input-field" id="musicUrlField"><span class="label">音乐链接</span><input type="text" id="musicUrlInput" placeholder="mp3 直链"></div>
       <button class="music-input-save" id="musicInputSave">保存</button>
     </div>
   </div>
@@ -607,28 +467,18 @@
 
 <div id="musicPlayerPage" class="page hidden">
   <div class="music-player-top">
-    <button class="header-btn" id="musicBackBtn">
-      <svg viewBox="0 0 24 24" fill="none" stroke="#222" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M15 6 L9 12 L15 18"></path></svg>
-    </button>
-    <button class="header-btn" id="musicPlusBtn">
-      <svg viewBox="0 0 24 24" fill="none" stroke="#222" stroke-width="2.2" stroke-linecap="round"><path d="M12 5 V19 M5 12 H19"></path></svg>
-    </button>
+    <button class="header-btn" id="musicBackBtn"><svg viewBox="0 0 24 24" fill="none" stroke="#222" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M15 6 L9 12 L15 18"></path></svg></button>
+    <button class="header-btn" id="musicPlusBtn"><svg viewBox="0 0 24 24" fill="none" stroke="#222" stroke-width="2.2" stroke-linecap="round"><path d="M12 5 V19 M5 12 H19"></path></svg></button>
   </div>
   <div class="music-player-body">
     <div class="music-player-avatars">
-      <div class="avatar-wrap">
-        <div class="avatar-circle" id="playerTaAvatar">TA</div>
-      </div>
-      <div class="avatar-wrap">
-        <div class="avatar-circle" id="playerMyAvatar">我</div>
-      </div>
+      <div class="avatar-wrap"><div class="avatar-circle" id="playerTaAvatar">TA</div></div>
+      <div class="avatar-wrap"><div class="avatar-circle" id="playerMyAvatar">我</div></div>
     </div>
     <div class="music-player-together" id="musicTogetherText">TA就在你的身边，一起听了 0 分钟</div>
     <div class="music-disc-wrap">
       <div class="music-disc" id="musicDisc">
-        <div class="disc-ring"></div>
-        <div class="disc-ring r2"></div>
-        <div class="disc-ring r3"></div>
+        <div class="disc-ring"></div><div class="disc-ring r2"></div><div class="disc-ring r3"></div>
         <div class="cover" id="musicDiscCover"></div>
       </div>
     </div>
@@ -636,73 +486,41 @@
     <div class="music-lyric-line" id="musicLyricLine">—</div>
     <div class="music-progress">
       <span class="time" id="musicTimeCur">00:00</span>
-      <div class="bar-wrap" id="musicBarWrap">
-        <div class="bar-fill" id="musicBarFill"></div>
-        <div class="bar-dot" id="musicBarDot"></div>
-      </div>
+      <div class="bar-wrap" id="musicBarWrap"><div class="bar-fill" id="musicBarFill"></div><div class="bar-dot" id="musicBarDot"></div></div>
       <span class="time" id="musicTimeTotal">00:00</span>
     </div>
     <div class="music-controls">
-      <button class="ctrl" id="musicLoopBtn">
-        <svg viewBox="0 0 24 24" fill="none" stroke="#333" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M17 2 L21 6 L17 10"></path><path d="M3 11 V9 a4 4 0 0 1 4 -4 H21"></path><path d="M7 22 L3 18 L7 14"></path><path d="M21 13 V15 a4 4 0 0 1 -4 4 H3"></path></svg>
-      </button>
-      <button class="ctrl" id="musicPrevBtn">
-        <svg viewBox="0 0 24 24" fill="none" stroke="#333" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M19 20 L9 12 L19 4 Z"></path><path d="M5 4 V20"></path></svg>
-      </button>
-      <button class="play-big" id="musicPlayBtn">
-        <svg viewBox="0 0 24 24" id="musicPlayIcon"><path d="M8 5 V19 L19 12 Z"></path></svg>
-      </button>
-      <button class="ctrl" id="musicNextBtn">
-        <svg viewBox="0 0 24 24" fill="none" stroke="#333" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M5 4 L15 12 L5 20 Z"></path><path d="M19 4 V20"></path></svg>
-      </button>
-      <button class="ctrl" id="musicListBtn">
-        <svg viewBox="0 0 24 24" fill="none" stroke="#333" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M4 7 H20"></path><path d="M4 12 H20"></path><path d="M4 17 H20"></path></svg>
-      </button>
+      <button class="ctrl" id="musicLoopBtn"><svg viewBox="0 0 24 24" fill="none" stroke="#333" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M17 2 L21 6 L17 10"></path><path d="M3 11 V9 a4 4 0 0 1 4 -4 H21"></path><path d="M7 22 L3 18 L7 14"></path><path d="M21 13 V15 a4 4 0 0 1 -4 4 H3"></path></svg></button>
+      <button class="ctrl" id="musicPrevBtn"><svg viewBox="0 0 24 24" fill="none" stroke="#333" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M19 20 L9 12 L19 4 Z"></path><path d="M5 4 V20"></path></svg></button>
+      <button class="play-big" id="musicPlayBtn"><svg viewBox="0 0 24 24" id="musicPlayIcon"><path d="M8 5 V19 L19 12 Z"></path></svg></button>
+      <button class="ctrl" id="musicNextBtn"><svg viewBox="0 0 24 24" fill="none" stroke="#333" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M5 4 L15 12 L5 20 Z"></path><path d="M19 4 V20"></path></svg></button>
+      <button class="ctrl" id="musicListBtn"><svg viewBox="0 0 24 24" fill="none" stroke="#333" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M4 7 H20"></path><path d="M4 12 H20"></path><path d="M4 17 H20"></path></svg></button>
     </div>
   </div>
 </div>
 
 <div id="floatDisc" class="hidden">
-  <div class="float-disc-inner">
-    <div class="float-cover" id="floatCover"></div>
-  </div>
+  <div class="float-disc-inner"><div class="float-cover" id="floatCover"></div></div>
 </div>
-
 <div id="floatCard" class="hidden">
   <div class="float-card-top">
-    <button class="camera-btn" id="floatCameraBtn">
-      <svg viewBox="0 0 24 24" fill="none" stroke="#666" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M4 8 H7 L9 5 H15 L17 8 H20 V19 H4 Z"></path><circle cx="12" cy="13" r="3.5"></circle></svg>
-    </button>
-    <button class="up-btn" id="floatUpBtn">
-      <svg viewBox="0 0 24 24" fill="none" stroke="#666" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M6 15 L12 9 L18 15"></path></svg>
-    </button>
+    <button class="camera-btn" id="floatCameraBtn"><svg viewBox="0 0 24 24" fill="none" stroke="#666" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M4 8 H7 L9 5 H15 L17 8 H20 V19 H4 Z"></path><circle cx="12" cy="13" r="3.5"></circle></svg></button>
+    <button class="up-btn" id="floatUpBtn"><svg viewBox="0 0 24 24" fill="none" stroke="#666" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M6 15 L12 9 L18 15"></path></svg></button>
   </div>
   <div class="float-card-title" id="floatTitle">未播放</div>
   <div class="float-card-sub" id="floatSub">—</div>
-  <div class="float-card-progress">
-    <div class="fill" id="floatFill"></div>
-  </div>
+  <div class="float-card-progress"><div class="fill" id="floatFill"></div></div>
   <div class="float-card-controls">
-    <button class="ctrl" id="floatLoopBtn">
-      <svg viewBox="0 0 24 24" fill="none" stroke="#999" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M17 2 L21 6 L17 10"></path><path d="M3 11 V9 a4 4 0 0 1 4 -4 H21"></path><path d="M7 22 L3 18 L7 14"></path><path d="M21 13 V15 a4 4 0 0 1 -4 4 H3"></path></svg>
-    </button>
-    <button class="ctrl" id="floatPrevBtn">
-      <svg viewBox="0 0 24 24" fill="none" stroke="#999" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M19 20 L9 12 L19 4 Z"></path><path d="M5 4 V20"></path></svg>
-    </button>
-    <button class="play-big" id="floatPlayBtn">
-      <svg viewBox="0 0 24 24" id="floatPlayIcon"><path d="M8 5 V19 L19 12 Z"></path></svg>
-    </button>
-    <button class="ctrl" id="floatNextBtn">
-      <svg viewBox="0 0 24 24" fill="none" stroke="#999" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M5 4 L15 12 L5 20 Z"></path><path d="M19 4 V20"></path></svg>
-    </button>
-    <button class="ctrl" id="floatListBtn">
-      <svg viewBox="0 0 24 24" fill="none" stroke="#999" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M4 7 H20"></path><path d="M4 12 H20"></path><path d="M4 17 H20"></path></svg>
-    </button>
+    <button class="ctrl" id="floatLoopBtn"><svg viewBox="0 0 24 24" fill="none" stroke="#999" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M17 2 L21 6 L17 10"></path><path d="M3 11 V9 a4 4 0 0 1 4 -4 H21"></path><path d="M7 22 L3 18 L7 14"></path><path d="M21 13 V15 a4 4 0 0 1 -4 4 H3"></path></svg></button>
+    <button class="ctrl" id="floatPrevBtn"><svg viewBox="0 0 24 24" fill="none" stroke="#999" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M19 20 L9 12 L19 4 Z"></path><path d="M5 4 V20"></path></svg></button>
+    <button class="play-big" id="floatPlayBtn"><svg viewBox="0 0 24 24" id="floatPlayIcon"><path d="M8 5 V19 L19 12 Z"></path></svg></button>
+    <button class="ctrl" id="floatNextBtn"><svg viewBox="0 0 24 24" fill="none" stroke="#999" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M5 4 L15 12 L5 20 Z"></path><path d="M19 4 V20"></path></svg></button>
+    <button class="ctrl" id="floatListBtn"><svg viewBox="0 0 24 24" fill="none" stroke="#999" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M4 7 H20"></path><path d="M4 12 H20"></path><path d="M4 17 H20"></path></svg></button>
   </div>
 </div>
 
 <input type="file" id="floatCoverUpload" accept="image/*" style="display:none;">
-<!-- ★★★ index 段 6 结束 ★★★ --><!-- ★★★ index 段 7 开始 ★★★ -->
+<!-- ★★★ index 段 2 结束 ★★★ --><!-- ★★★ index 段 3 开始 ★★★ -->
 <script>
 /* ===== IndexedDB 封装 ===== */
 let _idb = null;
@@ -833,8 +651,22 @@ function addDateDivider(t) {
   div.textContent = formatDateFull(t);
   messagesEl.appendChild(div);
 }
+
+/* ===== 在线时长记录 ===== */
+function recordOnlineTime() {
+  const now = Date.now();
+  const lastActive = load('last_active_time', 0);
+  if (lastActive && now - lastActive < 60000) {
+    const total = load('total_online_time', 0);
+    save('total_online_time', total + (now - lastActive));
+  }
+  save('last_active_time', now);
+}
+setInterval(recordOnlineTime, 10000);
+window.addEventListener('beforeunload', recordOnlineTime);
+window.addEventListener('load', recordOnlineTime);
 </script>
-<!-- ★★★ index 段 7 结束 ★★★ --><!-- ★★★ index 段 8 开始 ★★★ -->
+<!-- ★★★ index 段 3 结束 ★★★ --><!-- ★★★ index 段 4 开始 ★★★ -->
 <script>
 function addMessage(sender, content, quote, store, msgId) {
   const row = document.createElement('div');
@@ -934,9 +766,7 @@ function addVoiceMessage(sender, voiceId, name, duration, store) {
     save('our_messages', msgs);
   }
 }
-</script>
-<!-- ★★★ index 段 8 结束 ★★★ --><!-- ★★★ index 段 9 开始 ★★★ -->
-<script>
+
 let currentAudio = null;
 let currentAudioEl = null;
 let currentAudioUrl = null;
@@ -1001,7 +831,9 @@ function hideTyping() {
     delete taNameEl.dataset.typing;
   }
 }
-
+</script>
+<!-- ★★★ index 段 4 结束 ★★★ --><!-- ★★★ index 段 5 开始 ★★★ -->
+<script>
 function drawCardText() {
   const mainCards = cards.filter(c => (c.type || 'main') === 'main' && !c.blocked);
   const emojiCards = cards.filter(c => c.type === 'emoji');
@@ -1095,10 +927,7 @@ function markAllRead() {
     }
   });
 }
-</script>
-<!-- ★★★ index 段 9 结束 ★★★ --><!-- ★★★ index 段 10 开始 ★★★ -->
-<script>
-/* ===== 转账卡片 ===== */
+
 function renderTransferCard(m) {
   const isMe = m.sender === 'me';
   const row = document.createElement('div');
@@ -1154,7 +983,9 @@ function makeTransferCard(amount, note) {
     refreshMessages();
   }, 2000 + Math.random() * 3000);
 }
-
+</script>
+<!-- ★★★ index 段 5 结束 ★★★ --><!-- ★★★ index 段 6 开始 ★★★ -->
+<script>
 function makeTaTransferCard(amount, note) {
   const transferId = Date.now() + '_ta_' + Math.random().toString(36).slice(2, 8);
   const t = Date.now();
@@ -1177,6 +1008,7 @@ function refreshMessages() {
     else if (m.type === 'systemtip') addSystemTip(m.text, false);
     else if (m.type === 'datedivider') addDateDivider(m.t);
     else if (m.type === 'surveycard') renderSurveyCard(m);
+    else if (m.type === 'questioncard') renderQuestionCard(m);
   });
   const rs = load('read_style', 'icon');
   document.querySelectorAll('.msg-row.me .bubble .read-mark').forEach(el => {
@@ -1196,9 +1028,7 @@ function refreshMessages() {
   });
   messagesEl.scrollTop = messagesEl.scrollHeight;
 }
-</script>
-<!-- ★★★ index 段 10 结束 ★★★ --><!-- ★★★ index 段 11 开始 ★★★ -->
-<script>
+
 let currentTransferId = null;
 function openReceiveModal(transferId) {
   const msgs = load('our_messages', []);
@@ -1319,7 +1149,9 @@ document.addEventListener('click', (e) => {
   if (e.target.closest('#longPressMenu')) return;
   document.getElementById('longPressMenu').classList.add('hidden');
 });
-
+</script>
+<!-- ★★★ index 段 6 结束 ★★★ --><!-- ★★★ index 段 7 开始 ★★★ -->
+<script>
 document.querySelectorAll('#longPressMenu .lp-item').forEach(item => {
   item.onclick = () => {
     const act = item.dataset.act;
@@ -1384,9 +1216,7 @@ document.querySelectorAll('#longPressMenu .lp-item').forEach(item => {
     }
   };
 });
-</script>
-<!-- ★★★ index 段 11 结束 ★★★ --><!-- ★★★ index 段 12 开始 ★★★ -->
-<script>
+
 function renderShopCard(m) {
   const row = document.createElement('div');
   row.className = 'msg-row ' + (m.sender === 'me' ? 'me' : 'ta');
@@ -1513,7 +1343,9 @@ let cardReturnPage = 'homePage';
     if (typeof window.openCardTab === 'function') window.openCardTab('main');
   };
 })();
-
+</script>
+<!-- ★★★ index 段 7 结束 ★★★ --><!-- ★★★ index 段 8 开始 ★★★ -->
+<script>
 (function() {
   const closeBtn = document.getElementById('closeTransferBtn');
   const confirmBtn = document.getElementById('confirmTransferBtn');
@@ -1549,13 +1381,12 @@ function openCardTab(tab) {
   if (tab === 'emoji') bindEmojiTab();
   if (tab === 'pat') bindPatTab();
   if (tab === 'voice') bindVoiceTab();
+  if (tab === 'question') bindQuestionTab();
 }
 document.querySelectorAll('#cardTabs .card-tab').forEach(btn => {
   btn.onclick = () => openCardTab(btn.dataset.tab);
 });
-</script>
-<!-- ★★★ index 段 12 结束 ★★★ --><!-- ★★★ index 段 13 开始 ★★★ -->
-<script>
+
 function parseCards(text) {
   const lines = text.split('\n').map(l => l.trim()).filter(l => l);
   if (lines.length === 0) return [];
@@ -1674,23 +1505,6 @@ function loadCards() {
       cards[card._idx].blocked = !cards[card._idx].blocked;
       save('our_cards', cards);
       loadCards();
-
-      let toast = document.getElementById('customToast');
-      if (!toast) {
-        toast = document.createElement('div');
-        toast.id = 'customToast';
-        toast.style.cssText = 'position:fixed;top:50%;left:50%;transform:translate(-50%,-50%);background:rgba(0,0,0,0.7);color:#fff;padding:12px 24px;border-radius:24px;font-size:14px;z-index:9999;text-align:center;pointer-events:none;transition:opacity 0.3s;';
-        document.body.appendChild(toast);
-      }
-      toast.textContent = cards[card._idx].blocked ? '已屏蔽，不会出现在随机回复中' : '已取消屏蔽，将正常回复';
-      toast.style.opacity = '1';
-      toast.style.display = 'block';
-
-      clearTimeout(window._toastTimer);
-      window._toastTimer = setTimeout(() => {
-        toast.style.opacity = '0';
-        setTimeout(() => { toast.style.display = 'none'; }, 300);
-      }, 2000);
     };
 
     const editBtn = document.createElement('button');
@@ -1761,8 +1575,119 @@ function loadEmojiList() {
   });
 }
 </script>
-<!-- ★★★ index 段 13 结束 ★★★ --><!-- ★★★ index 段 14 开始 ★★★ -->
+<!-- ★★★ index 段 8 结束 ★★★ --><!-- ★★★ index 段 9 开始 ★★★ -->
 <script>
+function bindQuestionTab() {
+  let currentQCat = 'all';
+  let currentQSearch = '';
+  
+  function renderQList() {
+    const listBox = document.getElementById('questionList');
+    if (!listBox) return;
+    let qs = load('our_question_bank', []);
+    // 如果题库为空，说明还没初始化，这里不做处理，由初始化逻辑统一处理
+    let filtered = qs;
+    if (currentQCat !== 'all') filtered = filtered.filter(q => q.category === currentQCat);
+    if (currentQSearch) filtered = filtered.filter(q => q.content.includes(currentQSearch));
+
+    if (filtered.length === 0) {
+      listBox.innerHTML = '<div style="color:#999;font-size:13px;text-align:center;padding:20px;">没有找到相关题目</div>';
+      return;
+    }
+
+    listBox.innerHTML = '';
+    filtered.forEach((q, index) => {
+      const div = document.createElement('div');
+      div.className = 'card-item';
+      
+      const wrap = document.createElement('div');
+      wrap.style.flex = '1'; wrap.style.wordBreak = 'break-word';
+      const s = document.createElement('div');
+      s.textContent = q.content;
+      s.style.fontSize = '14px';
+      s.style.color = q.blocked ? '#ccc' : '#333';
+      if (q.blocked) s.style.textDecoration = 'line-through';
+      wrap.appendChild(s);
+
+      const btnGroup = document.createElement('div');
+      btnGroup.style.display = 'flex';
+      btnGroup.style.alignItems = 'center';
+      btnGroup.style.gap = '10px';
+
+      // 隐藏(眼睛)
+      const eyeBtn = document.createElement('button');
+      eyeBtn.innerHTML = q.blocked
+        ? '<svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="#ccc" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M17.94 17.94A10.07 10.07 0 0 1 12 20c-7 0-11-8-11-8a18.45 18.45 0 0 1 5.06-5.94M9.9 4.24A9.12 9.12 0 0 1 12 4c7 0 11 8 11 8a18.5 18.5 0 0 1-2.16 3.19m-6.72-1.07a3 3 0 1 1-4.24-4.24"></path><line x1="1" y1="1" x2="23" y2="23"></line></svg>'
+        : '<svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="#666" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"></path><circle cx="12" cy="12" r="3"></circle></svg>';
+      eyeBtn.style.cssText = 'background:none; border:none; cursor:pointer; padding:4px;';
+      eyeBtn.onclick = (e) => {
+        e.stopPropagation();
+        const realIdx = qs.findIndex(x => x.id === q.id);
+        if (realIdx >= 0) {
+          qs[realIdx].blocked = !qs[realIdx].blocked;
+          save('our_question_bank', qs);
+          renderQList();
+        }
+      };
+
+      // 修改(笔)
+      const editBtn = document.createElement('button');
+      editBtn.innerHTML = '<svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="#666" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 20h9"></path><path d="M16.5 3.5a2.121 2.121 0 0 1 3 3L7 19l-4 1 1-4L16.5 3.5z"></path></svg>';
+      editBtn.style.cssText = 'background:none; border:none; cursor:pointer; padding:4px;';
+      editBtn.onclick = (e) => {
+        e.stopPropagation();
+        openTextInput('修改题目', q.content, (newContent) => {
+          if (newContent && newContent !== q.content) {
+            const realIdx = qs.findIndex(x => x.id === q.id);
+            if (realIdx >= 0) {
+              qs[realIdx].content = newContent;
+              save('our_question_bank', qs);
+              renderQList();
+            }
+          }
+        });
+      };
+
+      // 删除(垃圾桶)
+      const delBtn = document.createElement('button');
+      delBtn.innerHTML = '<svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="#e74c3c" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 6 H20"></path><path d="M9 6 V4 H15 V6"></path><path d="M6 6 L7 20 H17 L18 6"></path></svg>';
+      delBtn.style.cssText = 'background:none; border:none; cursor:pointer; padding:4px;';
+      delBtn.onclick = (e) => {
+        e.stopPropagation();
+        if(confirm('确定删除这道题吗？')) {
+          qs = qs.filter(x => x.id !== q.id);
+          save('our_question_bank', qs);
+          renderQList();
+        }
+      };
+
+      btnGroup.appendChild(eyeBtn);
+      btnGroup.appendChild(editBtn);
+      btnGroup.appendChild(delBtn);
+      
+      div.appendChild(wrap);
+      div.appendChild(btnGroup);
+      listBox.appendChild(div);
+    });
+  }
+
+  document.getElementById('questionSearchInput').oninput = (e) => {
+    currentQSearch = e.target.value.trim();
+    renderQList();
+  };
+
+  document.querySelectorAll('#questionCats .card-cat').forEach(btn => {
+    btn.onclick = () => {
+      document.querySelectorAll('#questionCats .card-cat').forEach(b => b.classList.remove('active'));
+      btn.classList.add('active');
+      currentQCat = btn.dataset.cat;
+      renderQList();
+    };
+  });
+
+  renderQList();
+}
+
 function bindPatTab() {
   const patToTa = load('pat_to_ta', ['{我} 拍了拍 {TA}']);
   const patToMe = load('pat_to_me', ['{TA} 拍了拍 {我}']);
@@ -1878,42 +1803,6 @@ function compressImage(file, maxSize, cb) {
   reader.readAsDataURL(file);
 }
 
-let autoMsgTimer = null;
-function scheduleAutoMessage() {
-  const min = load('auto_msg_min', 1) * 60 * 1000;
-  const max = load('auto_msg_max', 5) * 60 * 1000;
-  const delay = min + Math.random() * (max - min);
-  clearTimeout(autoMsgTimer);
-  autoMsgTimer = setTimeout(async () => {
-    const giftProb = load('gift_prob', 0);
-    if (Math.random() * 100 < giftProb && shopItems.length > 0) {
-      const it = shopItems[Math.floor(Math.random() * shopItems.length)];
-      showTyping();
-      await new Promise(r => setTimeout(r, 800 + Math.random() * 1200));
-      hideTyping();
-      taSendGift(it);
-      scheduleAutoMessage();
-      return;
-    }
-    const transProb = load('auto_trans_prob', 30);
-    if (Math.random() * 100 < transProb) {
-      const tMin = load('auto_trans_min', 5), tMax = load('auto_trans_max', 50);
-      const amount = tMin + Math.random() * (tMax - tMin);
-      makeTaTransferCard(Math.round(amount * 100) / 100, '');
-    } else {
-      showTyping();
-      await new Promise(r => setTimeout(r, 800 + Math.random() * 1200));
-      hideTyping();
-      if (!tryTaVoiceReply()) {
-        const reply = drawCardText();
-        const quote = drawQuote();
-        addMessage('ta', reply, quote, true);
-      }
-    }
-    scheduleAutoMessage();
-  }, delay);
-}
-
 function openTextInput(title, defaultValue, onConfirm) {
   let mask = document.getElementById('customInputMask');
   if (mask) mask.remove();
@@ -1944,7 +1833,7 @@ function openTextInput(title, defaultValue, onConfirm) {
   mask.onclick = (e) => { if (e.target === mask) mask.remove(); };
 }
 </script>
-<!-- ★★★ index 段 14 结束 ★★★ --><!-- ★★★ index 段 15 开始 ★★★ -->
+<!-- ★★★ index 段 9 结束 ★★★ --><!-- ★★★ index 段 10 开始 ★★★ -->
 <script>
 function applyHomeAssets() {
   const myA = document.getElementById('homeMyAvatar');
@@ -2127,7 +2016,7 @@ window.refreshMessages = refreshMessages;
 window.openCardTab = openCardTab;
 window.updateHomeAnnivNum = updateHomeAnnivNum;
 </script>
-<!-- ★★★ index 段 15 结束 ★★★ --><!-- ★★★ index 段 16 开始 ★★★ -->
+<!-- ★★★ index 段 10 结束 ★★★ --><!-- ★★★ index 段 11 开始 ★★★ -->
 <script>
 /* ===== 商店逻辑 ===== */
 let shopItems = load('our_shop_items', []);
@@ -2165,6 +2054,7 @@ function renderShopItems() {
     grid.appendChild(card);
   });
 }
+
 function renderShopOrders() {
   const box = document.getElementById('shopOrdersPanel');
   if (!box) return;
@@ -2178,6 +2068,7 @@ function renderShopOrders() {
     box.appendChild(div);
   });
 }
+
 function openShopEdit(item) {
   editingShopId = item ? item.id : null;
   pendingShopImage = item ? (item.img || '') : '';
@@ -2191,7 +2082,9 @@ function openShopEdit(item) {
   else { img.style.display = 'none'; plus.style.display = 'block'; }
   document.getElementById('shopEditModal').classList.remove('hidden');
 }
+
 function closeShopEdit() { document.getElementById('shopEditModal').classList.add('hidden'); }
+
 function openShopDetail(id) {
   const it = shopItems.find(x => x.id === id);
   if (!it) return;
@@ -2202,9 +2095,65 @@ function openShopDetail(id) {
   document.getElementById('detailDesc').textContent = it.desc || '（暂无介绍）';
   document.getElementById('shopDetailModal').classList.remove('hidden');
 }
+
 function closeShopDetail() { document.getElementById('shopDetailModal').classList.add('hidden'); }
+
+document.getElementById('backFromShopBtn').onclick = () => showPage(shopReturnPage);
+document.getElementById('backFromSurveyListBtn').onclick = () => showPage('chatPage');
+
+document.getElementById('shopAddBtn').onclick = () => openShopEdit(null);
+document.getElementById('closeShopEditBtn').onclick = closeShopEdit;
+document.getElementById('closeShopDetailBtn').onclick = closeShopDetail;
+
+document.querySelectorAll('.shop-tab').forEach(tab => {
+  tab.onclick = () => {
+    document.querySelectorAll('.shop-tab').forEach(t => t.classList.remove('active'));
+    tab.classList.add('active');
+    const k = tab.dataset.tab;
+    document.getElementById('shopItemsPanel').classList.toggle('hidden', k !== 'items');
+    document.getElementById('shopOrdersPanel').classList.toggle('hidden', k !== 'orders');
+    document.getElementById('shopAddBtn').style.display = k === 'items' ? '' : 'none';
+    if (k === 'orders') renderShopOrders(); else renderShopItems();
+  };
+});
+
+document.getElementById('shopImgPicker').onclick = () => document.getElementById('shopImgUpload').click();
+document.getElementById('shopImgUpload').onchange = (e) => {
+  const f = e.target.files[0]; if (!f) return;
+  const r = new FileReader();
+  r.onload = (ev) => {
+    pendingShopImage = ev.target.result;
+    const img = document.getElementById('shopImgPreview');
+    img.src = pendingShopImage; img.style.display = 'block';
+    document.getElementById('shopImgPlus').style.display = 'none';
+  };
+  r.readAsDataURL(f); e.target.value = '';
+};
+
+document.getElementById('shopSaveBtn').onclick = () => {
+  const name = document.getElementById('shopNameInput').value.trim();
+  const price = parseFloat(document.getElementById('shopPriceInput').value) || 0;
+  const desc = document.getElementById('shopDescInput').value.trim();
+  if (!name) { alert('请输入商品名称'); return; }
+  if (editingShopId) {
+    const it = shopItems.find(x => x.id === editingShopId);
+    if (it) { it.name = name; it.price = price; it.desc = desc; it.img = pendingShopImage; }
+  } else {
+    shopItems.push({ id: Date.now() + '_' + Math.random().toString(36).slice(2, 8), name, price, desc, img: pendingShopImage, t: Date.now() });
+  }
+  saveShopItems(); closeShopEdit(); renderShopItems();
+};
+
+document.getElementById('detailBuyBtn').onclick = () => { const it = shopItems.find(x => x.id === currentDetailId); if (!it) return; closeShopDetail(); buyForTa(it); };
+document.getElementById('detailHelpPayBtn').onclick = () => { const it = shopItems.find(x => x.id === currentDetailId); if (!it) return; closeShopDetail(); helpPay(it); };
+document.getElementById('detailEditBtn').onclick = () => { const it = shopItems.find(x => x.id === currentDetailId); if (!it) return; closeShopDetail(); openShopEdit(it); };
+document.getElementById('detailDeleteBtn').onclick = () => {
+  if (!confirm('确定删除这个商品吗？')) return;
+  shopItems = shopItems.filter(x => x.id !== currentDetailId);
+  saveShopItems(); closeShopDetail(); renderShopItems();
+};
 </script>
-<!-- ★★★ index 段 16 结束 ★★★ --><!-- ★★★ index 段 17 开始 ★★★ -->
+<!-- ★★★ index 段 11 结束 ★★★ --><!-- ★★★ index 段 12 开始 ★★★ -->
 <script>
 function buyForTa(it) {
   const taName = load('ta_name', 'TA');
@@ -2223,6 +2172,7 @@ function buyForTa(it) {
     addSystemTip('对方已收下', true);
   }, 3000 + Math.random() * 2000);
 }
+
 function helpPay(it) {
   const cardId = Date.now() + '_pay_' + Math.random().toString(36).slice(2, 8);
   const msg = { type: 'shopcard', sender: 'me', title: `我希望你帮付¥${it.price}`, sub: it.name, img: it.img, status: '未付款', cardId, t: Date.now() };
@@ -2239,6 +2189,7 @@ function helpPay(it) {
     saveShopOrders();
   }, 5000 + Math.random() * 1000);
 }
+
 function taSendGift(it) {
   const taName = load('ta_name', 'TA');
   const cardId = Date.now() + '_tagift_' + Math.random().toString(36).slice(2, 8);
@@ -2248,57 +2199,6 @@ function taSendGift(it) {
   shopOrders.push({ id: cardId, direction: 'ta_to_me', itemId: it.id, name: it.name, price: it.price, img: it.img, t: Date.now() });
   saveShopOrders();
 }
-
-document.getElementById('backFromShopBtn').onclick = () => showPage(shopReturnPage);
-document.getElementById('backFromSurveyListBtn').onclick = () => showPage('chatPage');
-
-document.getElementById('shopAddBtn').onclick = () => openShopEdit(null);
-document.getElementById('closeShopEditBtn').onclick = closeShopEdit;
-document.getElementById('closeShopDetailBtn').onclick = closeShopDetail;
-document.querySelectorAll('.shop-tab').forEach(tab => {
-  tab.onclick = () => {
-    document.querySelectorAll('.shop-tab').forEach(t => t.classList.remove('active'));
-    tab.classList.add('active');
-    const k = tab.dataset.tab;
-    document.getElementById('shopItemsPanel').classList.toggle('hidden', k !== 'items');
-    document.getElementById('shopOrdersPanel').classList.toggle('hidden', k !== 'orders');
-    document.getElementById('shopAddBtn').style.display = k === 'items' ? '' : 'none';
-    if (k === 'orders') renderShopOrders(); else renderShopItems();
-  };
-});
-document.getElementById('shopImgPicker').onclick = () => document.getElementById('shopImgUpload').click();
-document.getElementById('shopImgUpload').onchange = (e) => {
-  const f = e.target.files[0]; if (!f) return;
-  const r = new FileReader();
-  r.onload = (ev) => {
-    pendingShopImage = ev.target.result;
-    const img = document.getElementById('shopImgPreview');
-    img.src = pendingShopImage; img.style.display = 'block';
-    document.getElementById('shopImgPlus').style.display = 'none';
-  };
-  r.readAsDataURL(f); e.target.value = '';
-};
-document.getElementById('shopSaveBtn').onclick = () => {
-  const name = document.getElementById('shopNameInput').value.trim();
-  const price = parseFloat(document.getElementById('shopPriceInput').value) || 0;
-  const desc = document.getElementById('shopDescInput').value.trim();
-  if (!name) { alert('请输入商品名称'); return; }
-  if (editingShopId) {
-    const it = shopItems.find(x => x.id === editingShopId);
-    if (it) { it.name = name; it.price = price; it.desc = desc; it.img = pendingShopImage; }
-  } else {
-    shopItems.push({ id: Date.now() + '_' + Math.random().toString(36).slice(2, 8), name, price, desc, img: pendingShopImage, t: Date.now() });
-  }
-  saveShopItems(); closeShopEdit(); renderShopItems();
-};
-document.getElementById('detailBuyBtn').onclick = () => { const it = shopItems.find(x => x.id === currentDetailId); if (!it) return; closeShopDetail(); buyForTa(it); };
-document.getElementById('detailHelpPayBtn').onclick = () => { const it = shopItems.find(x => x.id === currentDetailId); if (!it) return; closeShopDetail(); helpPay(it); };
-document.getElementById('detailEditBtn').onclick = () => { const it = shopItems.find(x => x.id === currentDetailId); if (!it) return; closeShopDetail(); openShopEdit(it); };
-document.getElementById('detailDeleteBtn').onclick = () => {
-  if (!confirm('确定删除这个商品吗？')) return;
-  shopItems = shopItems.filter(x => x.id !== currentDetailId);
-  saveShopItems(); closeShopDetail(); renderShopItems();
-};
 
 function renderFavList() {
   const body = document.getElementById('favBody');
@@ -2310,17 +2210,51 @@ function renderFavList() {
     const realIdx = favs.length - 1 - i;
     const div = document.createElement('div');
     div.className = 'card-item';
-    div.innerHTML = `<div style="flex:1;word-break:break-word;">${f.text}</div><button>×</button>`;
+    const d = new Date(f.t || Date.now());
+    const dateStr = `${d.getMonth()+1}月${d.getDate()}日 ${String(d.getHours()).padStart(2,'0')}:${String(d.getMinutes()).padStart(2,'0')}`;
+    const who = f.from === 'me' ? load('my_name', '我') : load('ta_name', 'TA');
+    div.innerHTML = `<div style="flex:1;word-break:break-word;font-size:14px;color:#333;">
+      <div style="font-size:12px;color:#999;margin-bottom:4px;">[${dateStr}] ${who}：</div>
+      <div>${f.text}</div>
+    </div><button>×</button>`;
     div.querySelector('button').onclick = () => { favs.splice(realIdx, 1); save('our_favorites', favs); renderFavList(); };
     body.appendChild(div);
   });
 }
+
+const searchInp = document.getElementById('searchInput');
+const searchDatePanel = document.getElementById('searchDatePanel');
+const searchStartDate = document.getElementById('searchStartDate');
+const searchEndDate = document.getElementById('searchEndDate');
+
+document.getElementById('searchDateFilterBtn').onclick = () => {
+  searchDatePanel.classList.toggle('hidden');
+};
+document.getElementById('searchDateReset').onclick = () => {
+  searchStartDate.value = '';
+  searchEndDate.value = '';
+  renderSearchList(searchInp.value.trim());
+};
+searchStartDate.onchange = () => renderSearchList(searchInp.value.trim());
+searchEndDate.onchange = () => renderSearchList(searchInp.value.trim());
+
 function renderSearchList(kw) {
   const box = document.getElementById('searchResult');
   if (!box) return;
-  if (!kw) { box.innerHTML = ''; return; }
-  const msgs = load('our_messages', []).filter(m => m.type === 'text' && m.content && m.content.includes(kw));
-  if (msgs.length === 0) { box.innerHTML = '<div style="color:#999;text-align:center;padding:20px;">没找到</div>'; return; }
+  const startVal = searchStartDate.value ? new Date(searchStartDate.value + 'T00:00:00').getTime() : 0;
+  const endVal = searchEndDate.value ? new Date(searchEndDate.value + 'T23:59:59').getTime() : Infinity;
+
+  if (!kw && startVal === 0 && endVal === Infinity) { box.innerHTML = ''; return; }
+  
+  const msgs = load('our_messages', []).filter(m => {
+    if (m.type !== 'text' || !m.content) return false;
+    if (kw && !m.content.includes(kw)) return false;
+    if (m.t < startVal || m.t > endVal) return false;
+    return true;
+  });
+
+  if (msgs.length === 0) { box.innerHTML = '<div style="color:#999;text-align:center;padding:20px;">没找到相关记录</div>'; return; }
+  
   const groups = {};
   msgs.forEach(m => {
     const d = new Date(m.t);
@@ -2328,11 +2262,13 @@ function renderSearchList(kw) {
     if (!groups[key]) groups[key] = [];
     groups[key].push(m);
   });
+
   const keys = Object.keys(groups).sort((a, b) => {
     const [ay, am, ad] = a.split('-').map(Number);
     const [by, bm, bd] = b.split('-').map(Number);
     return new Date(by, bm - 1, bd) - new Date(ay, am - 1, ad);
   });
+
   box.innerHTML = '';
   keys.forEach(k => {
     const [y, mo, da] = k.split('-').map(Number);
@@ -2342,14 +2278,15 @@ function renderSearchList(kw) {
     title.className = 'search-date-title';
     title.textContent = `${mo}月${da}日`;
     group.appendChild(title);
+    
     groups[k].slice().reverse().forEach(m => {
       const div = document.createElement('div');
       div.className = 'search-msg-item';
       const d = new Date(m.t);
       const hh = String(d.getHours()).padStart(2, '0');
       const mm = String(d.getMinutes()).padStart(2, '0');
-      const who = m.sender === 'me' ? '我' : load('ta_name', 'TA');
-      div.innerHTML = `<span class="search-msg-time">${hh}:${mm} ${who}：</span>${m.content}`;
+      const who = m.sender === 'me' ? load('my_name', '我') : load('ta_name', 'TA');
+      div.innerHTML = `<span class="search-msg-time">[${hh}:${mm}] ${who}：</span>${m.content}`;
       div.onclick = () => jumpToMessage(m.msgId);
       group.appendChild(div);
     });
@@ -2369,17 +2306,17 @@ function jumpToMessage(msgId) {
   }, 200);
 }
 
+if (searchInp) searchInp.oninput = () => renderSearchList(searchInp.value.trim());
 document.getElementById('closeFavBtn').onclick = () => document.getElementById('favModal').classList.add('hidden');
 document.getElementById('closeSearchBtn').onclick = () => document.getElementById('searchModal').classList.add('hidden');
-const searchInp = document.getElementById('searchInput');
-if (searchInp) searchInp.oninput = () => renderSearchList(searchInp.value.trim());
 window.renderFavList = renderFavList;
 </script>
-<!-- ★★★ index 段 17 结束 ★★★ --><!-- ★★★ index 段 18 开始 ★★★ -->
+<!-- ★★★ index 段 12 结束 ★★★ --><!-- ★★★ index 段 13 开始 ★★★ -->
 <script>
 /* ===== 纪念日逻辑 ===== */
 function loadAnnivList() { try { return JSON.parse(localStorage.getItem('anniv_list') || '[]'); } catch (e) { return []; } }
 function saveAnnivList(list) { localStorage.setItem('anniv_list', JSON.stringify(list)); }
+
 function renderAnniv() {
   const start = localStorage.getItem('anniv_start') || '';
   const daysEl = document.getElementById('annivDays');
@@ -2495,10 +2432,8 @@ document.getElementById('addAnnivBtn').onclick = () => {
     openAnnivPicker('add', '');
   });
 };
-</script>
-<!-- ★★★ index 段 18 结束 ★★★ --><!-- ★★★ index 段 19 开始 ★★★ -->
-<script>
-/* ===== 问卷逻辑 ===== */
+
+/* ===== 问卷逻辑 (自己建问卷发给 TA) ===== */
 let surveyQuestions = [];
 let currentSurveyType = 'single';
 function showSurveyListPage() { showPage('surveyListPage'); renderSurveyList(); }
@@ -2517,6 +2452,9 @@ function renderSurveyList() {
     box.appendChild(div);
   });
 }
+</script>
+<!-- ★★★ index 段 13 结束 ★★★ --><!-- ★★★ index 段 14 开始 ★★★ -->
+<script>
 function renderSurveyQuestions() {
   const box = document.getElementById('surveyQuestions');
   if (!box) return;
@@ -2607,9 +2545,7 @@ function sendSurveyToChat(survey) {
   renderSurveyCard(msg);
   setTimeout(() => { autoAnswerSurvey(survey.id); }, 2000 + Math.random() * 1000);
 }
-</script>
-<!-- ★★★ index 段 19 结束 ★★★ --><!-- ★★★ index 段 20 开始 ★★★ -->
-<script>
+
 function autoAnswerSurvey(surveyId) {
   const surveys = load('our_surveys', []);
   const s = surveys.find(x => x.id === surveyId);
@@ -2638,6 +2574,7 @@ function autoAnswerSurvey(surveyId) {
   save('our_messages', all);
   refreshMessages();
 }
+
 function renderSurveyCard(m) {
   const row = document.createElement('div');
   row.className = 'msg-row ' + (m.sender === 'me' ? 'me' : 'ta');
@@ -2653,6 +2590,7 @@ function renderSurveyCard(m) {
   messagesEl.appendChild(row);
   messagesEl.scrollTop = messagesEl.scrollHeight;
 }
+
 function openSurveyAnswer(surveyId) {
   const surveys = load('our_surveys', []);
   const s = surveys.find(x => x.id === surveyId);
@@ -2684,8 +2622,125 @@ function openSurveyAnswer(surveyId) {
 }
 document.getElementById('closeSurveyAnswerBtn').onclick = () => document.getElementById('surveyAnswerModal').classList.add('hidden');
 </script>
-<!-- ★★★ index 段 20 结束 ★★★ --><!-- ★★★ index 段 21 开始 ★★★ -->
+<!-- ★★★ index 段 14 结束 ★★★ --><!-- ★★★ index 段 15 开始 ★★★ -->
 <script>
+/* ===== TA 给“我”发的问卷逻辑 ===== */
+function renderQuestionCard(m) {
+  const row = document.createElement('div');
+  row.className = 'msg-row ' + (m.sender === 'me' ? 'me' : 'ta');
+  row.dataset.msgId = m.cardId;
+  const avatar = buildAvatar(m.sender);
+  const card = document.createElement('div');
+  card.className = 'survey-card-msg';
+  card.dataset.questionId = m.questionId;
+  
+  card.innerHTML = `
+    <div class="survey-card-msg-top">
+      <div class="survey-card-msg-icon"><svg viewBox="0 0 24 24" fill="none" stroke="#666" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="4" y="4" width="16" height="18" rx="2"></rect><path d="M9 4 V7 H15 V4"></path><path d="M8 12 H16 M8 16 H14"></path></svg></div>
+      <div style="flex:1;">
+        <div class="survey-card-msg-title">${m.title}</div>
+        <div class="survey-card-msg-sub">${m.sub || ''}</div>
+      </div>
+    </div>
+    <div class="survey-card-msg-line"></div>
+    <div class="survey-card-msg-foot"><span>${m.count}个问题</span><span class="tag">${m.status}</span></div>
+  `;
+  card.style.cursor = 'pointer';
+  card.onclick = () => openQuestionAnswer(m.questionId);
+  row.appendChild(avatar); row.appendChild(card);
+  messagesEl.appendChild(row);
+  messagesEl.scrollTop = messagesEl.scrollHeight;
+}
+
+function openQuestionAnswer(qId) {
+  const qList = load('our_ta_questions_sent', []);
+  const q = qList.find(x => x.id === qId);
+  if (!q) return;
+  
+  const modal = document.getElementById('surveyAnswerModal');
+  document.getElementById('surveyAnswerTitle').textContent = 'TA的问卷';
+  const body = document.getElementById('surveyAnswerBody');
+  body.innerHTML = '';
+  
+  // 如果已经答过，直接展示结果
+  if (q.answered) {
+    q.questions.forEach((item, qi) => {
+      const block = document.createElement('div');
+      block.className = 'survey-answer-q';
+      block.innerHTML = `<div class="survey-answer-q-title">${(qi + 1)}. ${item.title}</div>`;
+      item.options.forEach((opt, oi) => {
+        const div = document.createElement('div');
+        div.className = 'survey-answer-opt' + (item.myAnswer === oi ? ' selected' : '');
+        div.innerHTML = `<div class="bullet"></div><div>${String.fromCharCode(65 + oi)}. ${opt}</div>`;
+        block.appendChild(div);
+      });
+      body.appendChild(block);
+    });
+    if (q.note) {
+      const noteBox = document.createElement('div');
+      noteBox.className = 'survey-note-box';
+      noteBox.innerHTML = `<div class="label">备注</div>${q.note}`;
+      body.appendChild(noteBox);
+    }
+  } else {
+    // 尚未回答，展示交互表单
+    q.questions.forEach((item, qi) => {
+      const block = document.createElement('div');
+      block.className = 'survey-answer-q';
+      block.innerHTML = `<div class="survey-answer-q-title">${(qi + 1)}. ${item.title}</div>`;
+      
+      item.options.forEach((opt, oi) => {
+        const div = document.createElement('div');
+        div.className = 'survey-answer-opt';
+        div.innerHTML = `<div class="bullet"></div><div>${String.fromCharCode(65 + oi)}. ${opt}</div>`;
+        div.onclick = () => {
+          // 单选逻辑
+          block.querySelectorAll('.survey-answer-opt').forEach(el => el.classList.remove('selected'));
+          div.classList.add('selected');
+          item.myAnswer = oi;
+        };
+        block.appendChild(div);
+      });
+      body.appendChild(block);
+    });
+    
+    const submitBtn = document.createElement('button');
+    submitBtn.className = 'btn-primary';
+    submitBtn.style.marginTop = '20px';
+    submitBtn.textContent = '提交答案';
+    submitBtn.onclick = () => {
+      // 检查是否全答了
+      for (let i = 0; i < q.questions.length; i++) {
+        if (q.questions[i].myAnswer === undefined || q.questions[i].myAnswer === null) {
+          alert(`请回答第 ${i+1} 题`);
+          return;
+        }
+      }
+      
+      q.answered = true;
+      // 从字卡库抽备注
+      const mainCards = cards.filter(c => (c.type || 'main') === 'main');
+      q.note = mainCards.length > 0 ? mainCards[Math.floor(Math.random() * mainCards.length)].content : '今天好累哦，抱抱我。';
+      
+      save('our_ta_questions_sent', qList);
+      
+      // 更新聊天卡片状态
+      const msgs = load('our_messages', []);
+      const cardMsg = msgs.find(m => m.type === 'questioncard' && m.questionId === qId);
+      if (cardMsg) {
+        cardMsg.status = '已回答';
+        save('our_messages', msgs);
+        refreshMessages();
+      }
+      
+      openQuestionAnswer(qId); // 重新打开显示结果
+    };
+    body.appendChild(submitBtn);
+  }
+  
+  modal.classList.remove('hidden');
+}
+
 /* ===== 信箱逻辑 ===== */
 let currentMailTab = 'sent';
 function showMailPage() {
@@ -2754,27 +2809,8 @@ document.getElementById('mailSendBtn').onclick = () => {
   document.querySelectorAll('.mail-tab').forEach(t => t.classList.toggle('active', t.dataset.tab === 'sent'));
   renderMailList();
 };
-let autoMailTimer = null;
-function scheduleAutoMail() {
-  const min = load('mail_auto_min', 3) * 60 * 60 * 1000;
-  const max = load('mail_auto_max', 6) * 60 * 60 * 1000;
-  const enabled = load('mail_auto_on', false);
-  clearTimeout(autoMailTimer);
-  if (!enabled) return;
-  const delay = min + Math.random() * (max - min);
-  autoMailTimer = setTimeout(() => {
-    if (!load('mail_auto_on', false)) return;
-    const mainCards = cards.filter(c => (c.type || 'main') === 'main');
-    const content = mainCards.length > 0 ? mainCards[Math.floor(Math.random() * mainCards.length)].content : '想你了。';
-    const mails = load('our_mails', []);
-    mails.push({ id: Date.now() + '_' + Math.random().toString(36).slice(2, 6), direction: 'received', title: '', content, t: Date.now(), read: false });
-    save('our_mails', mails);
-    scheduleAutoMail();
-  }, delay);
-}
-scheduleAutoMail();
 </script>
-<!-- ★★★ index 段 21 结束 ★★★ --><!-- ★★★ index 段 22 开始 ★★★ -->
+<!-- ★★★ index 段 15 结束 ★★★ --><!-- ★★★ index 段 16 开始 ★★★ -->
 <script>
 /* ===== 朋友圈逻辑 ===== */
 let momentListMode = 'all';
@@ -2898,6 +2934,7 @@ function renderMomentCard(m) {
   const dateStr = `${d.getMonth() + 1}月${d.getDate()}日 ${pad2(d.getHours())}:${pad2(d.getMinutes())}`;
   who.innerHTML = `<div class="name">${name}</div><div class="time">${dateStr}</div>`;
   a.appendChild(aImg); a.appendChild(who);
+  
   if (isMe) {
     const del = document.createElement('button');
     del.className = 'del-btn';
@@ -2913,6 +2950,7 @@ function renderMomentCard(m) {
     a.appendChild(del);
   }
   card.appendChild(a);
+  
   if (m.text) {
     const t = document.createElement('div');
     t.className = 'text';
@@ -2957,10 +2995,10 @@ function renderMomentCard(m) {
       save('our_moments', all);
       renderMomentsList();
       
-      // 触发 TA 的互动（可能不回，可能有延迟）
-      setTimeout(() => {
-        triggerTaMomentInteraction(m.id);
-      }, 3000 + Math.random() * 10000);
+      // 触发 TA 对这条动态的互动（在后面的段落实现）
+      if (typeof window.triggerTaMomentInteraction === 'function') {
+        window.triggerTaMomentInteraction(m.id);
+      }
     });
   };
   
@@ -2989,7 +3027,7 @@ function renderMomentCard(m) {
   return card;
 }
 </script>
-<!-- ★★★ index 段 22 结束 ★★★ --><!-- ★★★ index 段 23 开始 ★★★ -->
+<!-- ★★★ index 段 16 结束 ★★★ --><!-- ★★★ index 段 17 开始 ★★★ -->
 <script>
 document.getElementById('backFromMomentsBtn').onclick = () => showPage('homePage');
 document.getElementById('momentListBtn').onclick = () => {
@@ -3062,11 +3100,13 @@ function renderMomentPostImgs() {
   add.onclick = () => document.getElementById('momentImgUpload').click();
   box.appendChild(add);
 }
+
 document.getElementById('momentPostSend').onclick = () => {
   const text = document.getElementById('momentPostText').value.trim();
   if (!text && momentPostImgs.length === 0) { alert('写点什么或选张图吧'); return; }
+  const newId = Date.now() + '_' + Math.random().toString(36).slice(2, 6);
   const all = load('our_moments', []);
-  all.push({ id: Date.now() + '_' + Math.random().toString(36).slice(2, 6), sender: 'me', text: text, imgs: momentPostImgs.slice(), t: Date.now(), likes: [], comments: [] });
+  all.push({ id: newId, sender: 'me', text: text, imgs: momentPostImgs.slice(), t: Date.now(), likes: [], comments: [] });
   save('our_moments', all);
   document.getElementById('momentPostModal').classList.add('hidden');
   momentListMode = 'all';
@@ -3075,6 +3115,11 @@ document.getElementById('momentPostSend').onclick = () => {
   renderMomentsList();
   const box = document.getElementById('momentBody');
   if (box) box.scrollTop = 0;
+  
+  // 触发 TA 的延时互动（在段 19 实现）
+  if (typeof window.triggerTaMomentInteraction === 'function') {
+    window.triggerTaMomentInteraction(newId);
+  }
 };
 
 function loadMomentNotifies() { return load('our_moment_notifies', []); }
@@ -3085,6 +3130,7 @@ function updateBellDot() {
   const btn = document.getElementById('momentBellBtn');
   if (btn) btn.classList.toggle('has-new', hasUnread);
 }
+
 document.getElementById('momentBellBtn').onclick = () => {
   const list = loadMomentNotifies();
   list.forEach(n => n.read = true);
@@ -3098,11 +3144,27 @@ document.getElementById('momentBellBtn').onclick = () => {
     list.slice().reverse().forEach(n => {
       const div = document.createElement('div');
       div.className = 'notify-item';
+      div.style.cursor = 'pointer';
       const taAvatar = load('ta_avatar', '');
       const taName = load('ta_name', 'TA');
       const d = new Date(n.t);
       const dateStr = `${d.getMonth() + 1}月${d.getDate()}日 ${pad2(d.getHours())}:${pad2(d.getMinutes())}`;
       div.innerHTML = `<div class="a" ${taAvatar ? `style="background-image:url(${taAvatar})"` : ''}>${taAvatar ? '' : taName.charAt(0)}</div><div class="info"><div class="t">${n.text}</div><div class="d">${dateStr}</div></div>`;
+      
+      // 点击通知跳转到对应动态
+      div.onclick = () => {
+        if (n.momentId) {
+          document.getElementById('momentNotifyModal').classList.add('hidden');
+          const card = document.querySelector(`.moment-card[data-mid="${n.momentId}"]`);
+          if (card) {
+            card.scrollIntoView({ behavior: 'smooth', block: 'center' });
+            // 简单的高亮动画
+            card.style.transition = 'background-color 0.5s';
+            card.style.backgroundColor = '#f0f0f0';
+            setTimeout(() => { card.style.backgroundColor = '#fff'; }, 1500);
+          }
+        }
+      };
       body.appendChild(div);
     });
   }
@@ -3134,40 +3196,198 @@ document.getElementById('momentDelOk').onclick = () => {
   document.getElementById('momentTrashModal').classList.add('hidden');
   renderMomentsList();
 };
+</script>
+<!-- ★★★ index 段 17 结束 ★★★ --><!-- ★★★ index 段 18 开始 ★★★ -->
+<script>
+/* ===== 累计在线时长与朋友圈/问卷触发 ===== */
+let onlineTimer = null;
+let taInteractionTimer = null;
+let taQuestionTimer = null;
 
-let autoMomentTimer = null;
-function scheduleAutoMoment() {
-  const enabled = load('moment_auto_on', false);
-  const min = load('moment_auto_min', 30) * 60 * 1000;
-  const max = load('moment_auto_max', 60) * 60 * 1000;
-  clearTimeout(autoMomentTimer);
-  if (!enabled) return;
-  const delay = min + Math.random() * (max - min);
-  autoMomentTimer = setTimeout(() => {
-    if (!load('moment_auto_on', false)) return;
-    const mainCards = cards.filter(c => (c.type || 'main') === 'main');
-    const text = mainCards.length > 0 ? mainCards[Math.floor(Math.random() * mainCards.length)].content : '今天也想你。';
-    let imgs = [];
-    if (Math.random() < 0.3) {
-      const stickers = load('ta_stickers', []);
-      if (stickers.length > 0) imgs.push(stickers[Math.floor(Math.random() * stickers.length)]);
+function startOnlineTimer() {
+  // 每 10 秒检查一次
+  clearInterval(onlineTimer);
+  onlineTimer = setInterval(() => {
+    // 1. 朋友圈触发 (累计 30~60 分钟)
+    if (load('moment_auto_on', false) && !taInteractionTimer) {
+      const momentTriggerTime = load('moment_trigger_time', 0);
+      const totalOnline = load('total_online_time', 0);
+      
+      if (momentTriggerTime === 0) {
+        // 首次开启或重置，随机生成一个 30~60 分钟的目标
+        const target = (30 + Math.random() * 30) * 60 * 1000;
+        save('moment_trigger_time', totalOnline + target);
+      } else if (totalOnline >= momentTriggerTime) {
+        // 达到触发条件
+        triggerTaActivity();
+        save('moment_trigger_time', 0); // 重置
+      }
     }
-    const all = load('our_moments', []);
-    all.push({ id: Date.now() + '_' + Math.random().toString(36).slice(2, 6), sender: 'ta', text: text, imgs: imgs, t: Date.now(), likes: [], comments: [] });
+
+    // 2. TA 发问卷触发 (累计 1~4 小时)
+    if (load('question_auto_on', true) && !taQuestionTimer) {
+      const qTriggerTime = load('question_trigger_time', 0);
+      const totalOnline = load('total_online_time', 0);
+      
+      if (qTriggerTime === 0) {
+        // 目标 1~4 小时
+        const target = (1 + Math.random() * 3) * 60 * 60 * 1000;
+        save('question_trigger_time', totalOnline + target);
+      } else if (totalOnline >= qTriggerTime) {
+        // 达到触发条件
+        triggerTaQuestion();
+        save('question_trigger_time', 0); // 重置
+      }
+    }
+  }, 10000);
+}
+
+// TA 朋友圈活动综合逻辑
+function triggerTaActivity() {
+  const all = load('our_moments', []);
+  const myMoments = all.filter(m => m.sender === 'me');
+  
+  // 决定本次 TA 干什么：1 发新动态，2 点赞/评论，3 都干
+  const roll = Math.random();
+  let doPost = false;
+  let doInteract = false;
+  
+  if (roll < 0.3) doPost = true;
+  else if (roll < 0.7) doInteract = true;
+  else { doPost = true; doInteract = true; }
+
+  // 1. 发新动态
+  if (doPost) {
+    setTimeout(() => {
+      const mainCards = cards.filter(c => (c.type || 'main') === 'main' && !c.blocked);
+      const text = mainCards.length > 0 ? mainCards[Math.floor(Math.random() * mainCards.length)].content : '今天也想你。';
+      let imgs = [];
+      if (Math.random() < 0.3) {
+        const stickers = load('ta_stickers', []);
+        if (stickers.length > 0) imgs.push(stickers[Math.floor(Math.random() * stickers.length)]);
+      }
+      const newId = Date.now() + '_' + Math.random().toString(36).slice(2, 6);
+      const curAll = load('our_moments', []);
+      curAll.push({ id: newId, sender: 'ta', text: text, imgs: imgs, t: Date.now(), likes: [], comments: [] });
+      save('our_moments', curAll);
+      
+      const notifies = loadMomentNotifies();
+      notifies.push({ text: load('ta_name', 'TA') + ' 发布了一条新动态', t: Date.now(), read: false, momentId: newId });
+      saveMomentNotifies(notifies);
+      updateBellDot();
+      
+      const page = document.getElementById('momentsPage');
+      if (page && !page.classList.contains('hidden')) renderMomentsList();
+    }, 2000 + Math.random() * 5000);
+  }
+
+  // 2. 点赞/评论我的动态 (最多挑 1~2 条最近的)
+  if (doInteract && myMoments.length > 0) {
+    myMoments.sort((a, b) => b.t - a.t);
+    const targetCount = Math.min(myMoments.length, 1 + Math.floor(Math.random() * 2));
+    for (let i = 0; i < targetCount; i++) {
+      const targetM = myMoments[i];
+      setTimeout(() => {
+        window.triggerTaMomentInteraction(targetM.id);
+      }, 3000 + Math.random() * 6000);
+    }
+  }
+}
+
+// 针对单条动态的点赞/评论
+window.triggerTaMomentInteraction = function(momentId) {
+  if (!momentId) return;
+  const all = load('our_moments', []);
+  const m = all.find(x => x.id === momentId);
+  if (!m) return;
+
+  const taName = load('ta_name', 'TA');
+  let hasInteraction = false;
+  let isLike = false;
+  let commentText = '';
+
+  // 点赞判定
+  if (!m.likes) m.likes = [];
+  if (!m.likes.includes('ta') && Math.random() < 0.6) {
+    m.likes.push('ta');
+    hasInteraction = true;
+    isLike = true;
+  }
+
+  // 评论判定
+  if (Math.random() < 0.5) {
+    const mainCards = cards.filter(c => (c.type || 'main') === 'main' && !c.blocked);
+    if (mainCards.length > 0) {
+      commentText = mainCards[Math.floor(Math.random() * mainCards.length)].content;
+      if (!m.comments) m.comments = [];
+      // 检查是否已经是 TA 评论了，最多两条
+      const taCommentsCount = m.comments.filter(c => c.who === 'ta').length;
+      if (taCommentsCount < 2) {
+        m.comments.push({ who: 'ta', text: commentText, t: Date.now() });
+        hasInteraction = true;
+      }
+    }
+  }
+
+  if (hasInteraction) {
     save('our_moments', all);
     const notifies = loadMomentNotifies();
-    const taName = load('ta_name', 'TA');
-    notifies.push({ text: taName + ' 发布了一条新动态', t: Date.now(), read: false });
+    if (isLike) {
+      notifies.push({ text: `${taName} 赞了你的动态`, t: Date.now(), read: false, momentId: m.id });
+    }
+    if (commentText) {
+      notifies.push({ text: `${taName} 回复了你：${commentText}`, t: Date.now(), read: false, momentId: m.id });
+    }
     saveMomentNotifies(notifies);
     updateBellDot();
+    
     const page = document.getElementById('momentsPage');
     if (page && !page.classList.contains('hidden')) renderMomentsList();
-    scheduleAutoMoment();
-  }, delay);
+  }
+};
+
+// TA 给我发问卷
+function triggerTaQuestion() {
+  const bank = load('our_question_bank', []);
+  const validQs = bank.filter(q => !q.blocked);
+  if (validQs.length === 0) return;
+
+  // 随机抽 1~2 题
+  const count = 1 + Math.floor(Math.random() * 2);
+  const shuffled = validQs.sort(() => 0.5 - Math.random());
+  const selected = shuffled.slice(0, count);
+
+  const qId = Date.now() + '_q_' + Math.random().toString(36).slice(2, 6);
+  const questions = [];
+  
+  selected.forEach(q => {
+    let opts = [];
+    if (q.content.includes('吗') || q.content.includes('还是') || q.content.includes('选')) {
+      opts = ['是的', '不是', '看情况'];
+    } else {
+      opts = ['喜欢', '一般', '不喜欢'];
+    }
+    // 打乱选项
+    opts.sort(() => 0.5 - Math.random());
+    questions.push({ title: q.content, options: opts, myAnswer: null });
+  });
+
+  const qData = { id: qId, questions: questions, answered: false, t: Date.now() };
+  const sent = load('our_ta_questions_sent', []);
+  sent.push(qData);
+  save('our_ta_questions_sent', sent);
+
+  const taName = load('ta_name', 'TA');
+  const cardId = qId + '_card';
+  const msg = { type: 'questioncard', sender: 'ta', questionId: qId, title: `${taName}发来了一份问卷`, sub: `包含 ${count} 个问题`, count: count, status: '待回答', cardId, t: Date.now() };
+  const msgs = load('our_messages', []); msgs.push(msg); save('our_messages', msgs);
+  
+  if (!document.getElementById('chatPage').classList.contains('hidden')) {
+    renderQuestionCard(msg);
+  }
 }
-scheduleAutoMoment();
 </script>
-<!-- ★★★ index 段 23 结束 ★★★ --><!-- ★★★ index 段 24 开始 ★★★ -->
+<!-- ★★★ index 段 18 结束 ★★★ --><!-- ★★★ index 段 19 开始 ★★★ -->
 <script>
 /* ===== 音乐库 ===== */
 let musicList = [];
@@ -3184,9 +3404,11 @@ function showMusicLibrary() {
   document.querySelectorAll('.music-tab').forEach(t => t.classList.toggle('active', t.dataset.tab === 'mine'));
   loadMusicFromIDB();
 }
+
 function saveMusicMeta() {
   save('our_music_meta', musicList.map(m => ({ id: m.id, name: m.name, artist: m.artist, type: m.type, url: m.url, cover: m.cover, duration: m.duration, fav: m.fav || false })));
 }
+
 function loadMusicFromIDB() {
   const meta = load('our_music_meta', []);
   musicList = meta.map(m => ({ ...m, fav: m.fav || false }));
@@ -3244,6 +3466,7 @@ function musicItemHTML(m) {
     <button class="more">⋯</button>
   </div>`;
 }
+
 function renderMusicItems(sub) {
   const box = document.getElementById('musicListBox');
   if (!box) return;
@@ -3253,6 +3476,7 @@ function renderMusicItems(sub) {
   box.innerHTML = list.map(m => musicItemHTML(m)).join('');
   bindMusicItems();
 }
+
 function bindMusicItems() {
   document.querySelectorAll('.music-item').forEach(item => {
     const id = item.dataset.id;
@@ -3266,6 +3490,7 @@ function bindMusicItems() {
     if (musicBatchMode) item.classList.add('batch-mode');
   });
 }
+
 function showMusicItemMenu(id) {
   const m = musicList.find(x => x.id === id);
   if (!m) return;
@@ -3281,6 +3506,7 @@ function showMusicItemMenu(id) {
     }
   });
 }
+
 function bindMusicActions() {
   const uploadBtn = document.getElementById('musicUploadBtn');
   const linkBtn = document.getElementById('musicLinkBtn');
@@ -3335,6 +3561,7 @@ function bindMusicActions() {
     };
   });
 }
+
 document.getElementById('backFromMusicBtn').onclick = () => {
   showPage('homePage');
   if (musicCurrentId && musicAudio && !musicAudio.paused && musicFloatEnabled) showFloatDisc();
@@ -3350,6 +3577,7 @@ function uploadMusicFile() {
   };
   up.click();
 }
+
 function uploadMusicFiles() {
   const up = document.createElement('input');
   up.type = 'file'; up.accept = 'audio/*'; up.multiple = true;
@@ -3360,6 +3588,7 @@ function uploadMusicFiles() {
   };
   up.click();
 }
+
 async function addMusicFromFile(f) {
   const id = Date.now() + '_' + Math.random().toString(36).slice(2, 6);
   const buf = await f.arrayBuffer();
@@ -3378,7 +3607,9 @@ async function addMusicFromFile(f) {
   const name = f.name.replace(/\.[^.]+$/, '');
   musicList.push({ id, name, artist: '', type: 'local', duration });
 }
-
+</script>
+<!-- ★★★ index 段 19 结束 ★★★ --><!-- ★★★ index 段 20 开始 ★★★ -->
+<script>
 let musicInputMode = 'link';
 function openMusicInputModal(mode) {
   musicInputMode = mode;
@@ -3409,9 +3640,7 @@ function fmtTime(s) {
   const ss = s % 60;
   return String(m).padStart(2, '0') + ':' + String(ss).padStart(2, '0');
 }
-</script>
-<!-- ★★★ index 段 24 结束 ★★★ --><!-- ★★★ index 段 25 开始 ★★★ -->
-<script>
+
 /* ===== 音乐播放器 ===== */
 async function playMusic(id, isSilent = false) {
   const m = musicList.find(x => x.id === id);
@@ -3525,12 +3754,14 @@ function playNext() {
   const isSilent = !document.getElementById('floatCard').classList.contains('hidden') || !document.getElementById('floatDisc').classList.contains('hidden');
   playMusic(next.id, isSilent);
 }
+
 function playPrev() {
   if (musicList.length === 0) return;
   const idx = musicList.findIndex(m => m.id === musicCurrentId);
   const isSilent = !document.getElementById('floatCard').classList.contains('hidden') || !document.getElementById('floatDisc').classList.contains('hidden');
   playMusic(musicList[(idx - 1 + musicList.length) % musicList.length].id, isSilent);
 }
+
 function togglePlay() {
   if (!musicAudio) return;
   if (musicAudio.paused) {
@@ -3547,6 +3778,7 @@ function togglePlay() {
     stopTogetherTimer();
   }
 }
+
 function toggleLoop() {
   const modes = ['list', 'one', 'shuffle'];
   const i = modes.indexOf(musicLoopMode);
@@ -3605,7 +3837,7 @@ function updateTogetherTime() {
   document.getElementById('musicTogetherText').textContent = 'TA就在你的身边，一起听了 ' + mins + ' 分钟';
 }
 </script>
-<!-- ★★★ index 段 25 结束 ★★★ --><!-- ★★★ index 段 26 开始 ★★★ -->
+<!-- ★★★ index 段 20 结束 ★★★ --><!-- ★★★ index 段 21 开始 ★★★ -->
 <script>
 /* ===== 悬浮小圆唱片 ===== */
 function showFloatDisc() {
@@ -3730,6 +3962,7 @@ document.getElementById('floatUpBtn').onclick = () => {
   card.classList.add('hidden');
   disc.classList.remove('hidden');
 };
+
 document.getElementById('floatPlayBtn').onclick = togglePlay;
 document.getElementById('floatPrevBtn').onclick = () => {
   if (musicList.length === 0) return;
@@ -3764,8 +3997,10 @@ document.getElementById('floatCoverUpload').onchange = (e) => {
   });
   e.target.value = '';
 };
-
-/* ===== 表情包面板（补丁） ===== */
+</script>
+<!-- ★★★ index 段 21 结束 ★★★ --><!-- ★★★ index 段 22 开始 ★★★ -->
+<script>
+/* ===== 聊天表情包面板 ===== */
 let stickerTab = 'mine';
 
 function getStickers(which) {
@@ -3860,48 +4095,113 @@ function closeStickerPanel() {
   });
 })();
 
-/* ===== 朋友圈 TA 自动互动逻辑 ===== */
-function triggerTaMomentInteraction(momentId) {
-  if (!momentId) return;
-  const all = load('our_moments', []);
-  const m = all.find(x => x.id === momentId);
-  if (!m) return;
-
-  const taName = load('ta_name', 'TA');
-  let hasInteraction = false;
-
-  // 点赞 (80%概率)
-  if (!m.likes) m.likes = [];
-  if (!m.likes.includes('ta') && Math.random() < 0.8) {
-    m.likes.push('ta');
-    hasInteraction = true;
-  }
-
-  // 评论 (60%概率)
-  if (Math.random() < 0.6) {
-    const mainCards = cards.filter(c => (c.type || 'main') === 'main' && !c.blocked);
-    if (mainCards.length > 0) {
-      const replyText = mainCards[Math.floor(Math.random() * mainCards.length)].content;
-      if (!m.comments) m.comments = [];
-      m.comments.push({ who: 'ta', text: replyText, t: Date.now() });
-      hasInteraction = true;
-
-      const notifies = loadMomentNotifies();
-      notifies.push({ text: `${taName} 回复了你：${replyText}`, t: Date.now(), read: false });
-      saveMomentNotifies(notifies);
-      updateBellDot();
+/* ===== 自动消息 ===== */
+let autoMsgTimer = null;
+function scheduleAutoMessage() {
+  const min = load('auto_msg_min', 1) * 60 * 1000;
+  const max = load('auto_msg_max', 5) * 60 * 1000;
+  const delay = min + Math.random() * (max - min);
+  clearTimeout(autoMsgTimer);
+  autoMsgTimer = setTimeout(async () => {
+    const giftProb = load('gift_prob', 0);
+    if (Math.random() * 100 < giftProb && shopItems.length > 0) {
+      const it = shopItems[Math.floor(Math.random() * shopItems.length)];
+      showTyping();
+      await new Promise(r => setTimeout(r, 800 + Math.random() * 1200));
+      hideTyping();
+      taSendGift(it);
+      scheduleAutoMessage();
+      return;
     }
-  }
-
-  if (hasInteraction) {
-    save('our_moments', all);
-    const page = document.getElementById('momentsPage');
-    if (page && !page.classList.contains('hidden')) renderMomentsList();
-  }
+    const transProb = load('auto_trans_prob', 30);
+    if (Math.random() * 100 < transProb) {
+      const tMin = load('auto_trans_min', 5), tMax = load('auto_trans_max', 50);
+      const amount = tMin + Math.random() * (tMax - tMin);
+      makeTaTransferCard(Math.round(amount * 100) / 100, '');
+    } else {
+      showTyping();
+      await new Promise(r => setTimeout(r, 800 + Math.random() * 1200));
+      hideTyping();
+      if (!tryTaVoiceReply()) {
+        const reply = drawCardText();
+        const quote = drawQuote();
+        addMessage('ta', reply, quote, true);
+      }
+    }
+    scheduleAutoMessage();
+  }, delay);
 }
 
-/* ===== 初始化 ===== */
+/* ===== 初始化 120 道默认问卷题库 ===== */
+function initDefaultQuestions() {
+  if (localStorage.getItem('question_bank_inited')) return;
+  const defaults = [
+    // 生活习惯 (40)
+    "你最喜欢看我穿什么颜色的衣服？", "周末一般想宅在家里还是出去玩？", "你平时洗澡喜欢先洗头还是先洗身子？", 
+    "你的手机电量一般掉到多少才会去充电？", "喝奶茶的时候，你必加的配料是什么？", "你睡觉的时候喜欢侧卧还是平躺？", 
+    "如果在家里待一天，你会穿睡衣还是换常服？", "你吃西瓜的时候喜欢用勺子挖还是切块吃？", "你出门前大概需要花多长时间准备？", 
+    "你的房间通常是保持整洁还是稍微有点乱？", "你更喜欢早起还是熬夜？", "你吃饭的时候喜欢先吃肉还是先吃菜？", 
+    "你穿鞋的时候习惯先穿左脚还是右脚？", "洗完澡之后你会马上擦干身体还是先晾一会？", "你出门一定会带的三样东西是什么？",
+    "看电影的时候喜欢坐前排还是后排？", "吃面条的时候喜欢发出声音还是不发出声音？", "你对香菜的态度是喜欢还是讨厌？",
+    "你平时更常喝温水还是冰水？", "天气冷的时候，你出门会戴帽子还是围巾？", "你叠衣服的习惯是卷起来还是平铺？",
+    "洗碗的时候喜欢用热水还是冷水？", "你走路的速度是偏快还是偏慢？", "你玩手机的时候通常是躺着还是坐着？",
+    "你有多久换一次手机壁纸？", "你平时买东西更看重颜值还是实用性？", "你喜欢按计划行事还是随性而为？",
+    "紧张的时候你会有怎样的肢体小动作？", "下雨天你更喜欢打伞还是穿雨衣？", "在家听歌会外放还是戴耳机？",
+    "你一般早上起来第一时间是看手机还是去洗漱？", "你更喜欢硬的床还是软的床？", "吃东西口味偏重还是偏淡？",
+    "你平时怎么挤牙膏，从中间挤还是从底部挤？", "买东西的购物袋你会留着还是马上扔掉？", "你看视频喜欢开弹幕还是关弹幕？",
+    "你写错字的时候喜欢划掉还是用涂改液？", "换了新衣服你会先洗一遍再穿还是直接穿？", "晾衣服的时候你会把衣服翻过来吗？",
+    "你一般多久清理一次手机里的相册？",
+
+    // 情绪与偏好 (40)
+    "你生气的时候希望我哄你还是让你静一静？", "你难过的时候想让我抱你还是陪你说话？", "你最喜欢我夸你哪里？", 
+    "如果我惹你生气了，你最希望我怎么道歉？", "遇到烦心事的时候，你更倾向于自己消化还是找人倾诉？", 
+    "听到什么话会让你瞬间心情变好？", "你最受不了别人的什么小习惯？", "你觉得我做什么小动作的时候最可爱？", 
+    "你更喜欢打字聊天还是发语音？", "如果心情不好，你最想吃什么东西来缓解？", "你更喜欢收到文字消息还是收到语音消息？",
+    "你是一个喜欢分享日常的人吗？", "你更喜欢被夸奖还是被默默照顾？", "遇到喜欢的东西你会立刻买还是犹豫很久？",
+    "你更喜欢安静的环境还是热闹的环境？", "如果有一个周末完全空闲，你最想做什么？", "你相信一见钟情还是日久生情？",
+    "你更喜欢猫还是狗？", "你觉得一段关系里最重要的是什么？", "你过生日更看重礼物还是陪伴？", 
+    "如果遇到分歧，你更倾向于沟通还是冷战？", "你会在意别人对你的评价吗？", "如果你心情不好，最不想听到别人说什么？",
+    "你更喜欢早上洗澡还是晚上洗澡？", "你是个容易感动的人吗？", "你最害怕什么样的场景？",
+    "如果我不小心把你弄哭了，你会希望我怎么做？", "你觉得你是一个情绪化的人吗？", "你更喜欢惊喜还是平平淡淡？",
+    "被人误解时，你会马上解释还是懒得解释？", "你最讨厌什么类型的人？", "你觉得自己最大的优点是什么？",
+    "你觉得伴侣之间需要完全坦白吗？", "你做决定的时候更偏向理智还是直觉？", "你更容易因为什么事情感到焦虑？",
+    "你觉得自己是一个有耐心的人吗？", "你希望我给你多留点个人空间吗？", "你最喜欢哪种风格的约会？",
+    "收到手写信和买的礼物，你更喜欢哪个？",
+
+    // 日常二选一 (40)
+    "奶茶选加冰还是去冰？", "出去玩选看海还是爬山？", "晚饭选火锅还是烤肉？", "放假选宅家还是旅游？",
+    "饮料选可乐还是雪碧？", "看电影选爱情片还是悬疑片？", "天气热选吹空调还是吹电风扇？", "早起选定闹钟还是自然醒？",
+    "出行选坐地铁还是打车？", "聊天选文字还是语音？", "购物选线上还是线下？", "喝咖啡选加糖还是不加糖？",
+    "看比赛选现场还是屏幕前？", "散步选公园还是街道？", "住宿选酒店还是民宿？", "看剧选倍速看还是原速看？",
+    "拍照选拍人还是拍风景？", "发型选短发还是长发？", "穿搭选运动风还是休闲风？", "看书选纸质书还是电子书？",
+    "唱歌选KTV还是在家唱？", "早餐选包子还是面包？", "夜宵选烧烤还是泡面？", "海鲜选虾还是螃蟹？",
+    "吃鱼选清蒸还是红烧？", "吃鸡选鸡翅还是鸡腿？", "吃披萨选薄底还是厚底？", "喝水选白开水还是茶水？",
+    "洗澡选淋浴还是泡澡？", "吹头发选自然干还是电吹风？", "早晨选先刷牙还是先洗脸？", "看信息选马上回还是过会回？",
+    "吃水果选削皮还是不削皮？", "吃葡萄选吐籽还是直接吞？", "吃面选汤面还是拌面？", "豆腐脑选甜的还是咸的？",
+    "粽子选甜的肉粽还是甜粽？", "豆沙包选带颗粒的还是细腻的？", "吃菠萝选泡盐水还是直接吃？", "订外卖选准时达还是能等就行？"
+  ];
+
+  const bank = defaults.map((content, i) => ({
+    id: 'q_init_' + i,
+    content: content,
+    category: '默认问题',
+    blocked: false
+  }));
+
+  save('our_question_bank', bank);
+  localStorage.setItem('question_bank_inited', '1');
+}
+</script>
+<!-- ★★★ index 段 22 结束 ★★★ --><!-- ★★★ index 段 23 开始 ★★★ -->
+<script>
+/* ===== 初始化与全局事件 ===== */
 window.addEventListener('load', () => {
+  // 初始化 120 题题库
+  initDefaultQuestions();
+
+  // 重新读取最新的题库数据
+  cards = load('our_cards', []);
+
   refreshMessages();
   applyHomeAssets();
   applyHomeWallpaper();
@@ -3909,11 +4209,46 @@ window.addEventListener('load', () => {
   applyHomeTalks();
   applyHomeBigCard();
   updateHomeAnnivNum();
-  (function() { const t = document.getElementById('taName'); if (t) t.textContent = load('ta_name', 'TA'); })();
+  
+  const t = document.getElementById('taName'); 
+  if (t) t.textContent = load('ta_name', 'TA');
+  
+  // 启动各项后台任务
   scheduleAutoMessage();
   scheduleAutoMail();
-  scheduleAutoMoment();
+  startOnlineTimer();
+
+  // 处理关闭网页和切后台时的在线时长统计
+  const calculateOnline = () => {
+    recordOnlineTime();
+  };
+  window.addEventListener('beforeunload', calculateOnline);
+  document.addEventListener('visibilitychange', () => {
+    if (document.visibilityState === 'hidden') {
+      recordOnlineTime();
+    }
+  });
 });
+
+/* ===== 自动写信逻辑 ===== */
+let autoMailTimer = null;
+function scheduleAutoMail() {
+  const min = load('mail_auto_min', 3) * 60 * 60 * 1000;
+  const max = load('mail_auto_max', 6) * 60 * 60 * 1000;
+  const enabled = load('mail_auto_on', false);
+  clearTimeout(autoMailTimer);
+  if (!enabled) return;
+  const delay = min + Math.random() * (max - min);
+  autoMailTimer = setTimeout(() => {
+    if (!load('mail_auto_on', false)) return;
+    const mainCards = cards.filter(c => (c.type || 'main') === 'main');
+    const content = mainCards.length > 0 ? mainCards[Math.floor(Math.random() * mainCards.length)].content : '想你了。';
+    const mails = load('our_mails', []);
+    mails.push({ id: Date.now() + '_' + Math.random().toString(36).slice(2, 6), direction: 'received', title: '', content, t: Date.now(), read: false });
+    save('our_mails', mails);
+    scheduleAutoMail();
+  }, delay);
+}
 
 document.addEventListener('click', (e) => {
   const lp = document.getElementById('longPressMenu');
@@ -3925,4 +4260,4 @@ document.addEventListener('click', (e) => {
 <script src="settings.js"></script>
 </body>
 </html>
-<!-- ★★★ index 段 26 结束 ★★★ -->
+<!-- ★★★ index 段 23 结束 ★★★ -->
