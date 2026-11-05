@@ -6064,5 +6064,214 @@ function closeStickerPanel() {
 })();
 </script>
 <!-- ★★★ index 第 24 段 结束 ★★★ --><script src="settings.js"></script>
+<!-- ★★★ 终极修复补丁 ★★★ -->
+<style>
+  /* 修复看电影界面的聊天气泡和头像大小 */
+  #movieChatBox .msg-row { max-width: 85%; padding-bottom: 10px; display: flex; align-items: flex-start; gap: 8px; margin-bottom: 8px; }
+  #movieChatBox .msg-row.me { flex-direction: row-reverse; align-self: flex-end; }
+  #movieChatBox .msg-row .avatar { width: 36px; height: 36px; border-radius: 6px; font-size: 14px; flex-shrink: 0; display: flex; align-items: center; justify-content: center; background-color: #444; color: #fff; }
+  #movieChatBox .msg-row .bubble { padding: 10px 14px; border-radius: 10px; font-size: 15px; line-height: 1.5; word-break: break-word; }
+  #movieChatBox .msg-row.me .bubble { background: #95ec69; color: #111; }
+  #movieChatBox .msg-row.ta .bubble { background: #fff; color: #111; }
+  /* 灵魂问答新样式 */
+  .quiz-modal-card { background: #fff; border-radius: 16px; padding: 20px; width: 90%; max-width: 360px; box-shadow: 0 8px 24px rgba(0,0,0,0.15); }
+  .quiz-q-title { font-size: 16px; font-weight: 600; color: #333; margin-bottom: 20px; text-align: center; line-height: 1.5; }
+  .quiz-opt-btn { display: block; width: 100%; padding: 14px; margin-bottom: 12px; background: #f7f7f7; border: 2px solid transparent; border-radius: 12px; font-size: 15px; color: #333; text-align: left; cursor: pointer; transition: all 0.2s; }
+  .quiz-opt-btn:hover { background: #eee; }
+  .quiz-opt-btn:active { border-color: #222; background: #e8e8e8; }
+  .quiz-modal-result { text-align: center; }
+  .quiz-modal-result .pct { font-size: 48px; font-weight: bold; color: #e8a33d; margin: 10px 0; }
+</style>
+
+<script>
+document.addEventListener('DOMContentLoaded', () => {
+  
+  // ==========================================
+  // 修复 1：音乐播放器返回不了首页
+  // ==========================================
+  const musicBackBtn = document.getElementById('musicBackBtn');
+  if (musicBackBtn) {
+    musicBackBtn.onclick = (e) => {
+      e.stopPropagation();
+      if (typeof showPage === 'function') showPage('homePage');
+    };
+  }
+  const musicPlusBtn = document.getElementById('musicPlusBtn');
+  if (musicPlusBtn) {
+    musicPlusBtn.onclick = (e) => {
+      e.stopPropagation();
+      if (typeof showPage === 'function') showPage('homePage');
+    };
+  }
+
+  // ==========================================
+  // 修复 2：搞怪（戳脸/扔东西）没有任何反应
+  // ==========================================
+  // 直接覆写 doPrank 函数
+  window.doPrank = function(type) {
+    const iconMap = { tomato: '🍅', cake: '🍰', water: '💧' };
+    const nameMap = { tomato: '番茄', cake: '蛋糕', water: '水球' };
+    
+    if (type === 'poke') {
+      if (typeof playSound === 'function') playSound('poke');
+      // 动画：头像偏移（尝试找最后一个消息的TA头像，找不到就全局震动）
+      const taAvatars = document.querySelectorAll('.msg-row.ta .avatar');
+      if (taAvatars.length > 0) {
+        const lastAvatar = taAvatars[taAvatars.length - 1];
+        lastAvatar.style.transition = 'transform 0.15s ease';
+        lastAvatar.style.transform = 'translateX(10px) scaleX(0.9)';
+        setTimeout(() => { lastAvatar.style.transform = 'none'; }, 180);
+      }
+      if (navigator.vibrate) navigator.vibrate(50);
+      if (typeof addSystemTip === 'function') addSystemTip('[👉] 我戳了戳 TA 的脸', true);
+      return;
+    }
+    
+    // 扔东西
+    const icon = iconMap[type] || '🍅';
+    const name = nameMap[type] || '东西';
+    if (typeof playSound === 'function') playSound('send');
+    if (navigator.vibrate) navigator.vibrate(100);
+    if (typeof addSystemTip === 'function') addSystemTip(`[${icon}] 我朝 TA 扔了一个${name}`, true);
+    
+    const fly = document.createElement('div');
+    fly.textContent = icon;
+    fly.style.cssText = 'position:fixed; left:50%; bottom:120px; font-size:40px; z-index:9999; pointer-events:none; transition: transform 0.7s cubic-bezier(0.3,0.1,0.6,1), opacity 0.7s;';
+    document.body.appendChild(fly);
+    requestAnimationFrame(() => {
+      fly.style.transform = 'translate(-50%, -60vh) rotate(360deg) scale(1.5)';
+      fly.style.opacity = '0';
+    });
+    setTimeout(() => fly.remove(), 800);
+  };
+
+  // ==========================================
+  // 修复 3：灵魂问答（拒绝 confirm，用卡片弹窗）
+  // ==========================================
+  window.startQuiz = function() {
+    const bank = typeof QUIZ_BANK !== 'undefined' ? QUIZ_BANK : [];
+    if (bank.length === 0) { alert('题库为空'); return; }
+    
+    const quiz = bank[Math.floor(Math.random() * bank.length)];
+    const plusMenu = document.getElementById('plusMenu');
+    if (plusMenu) plusMenu.classList.add('hidden');
+
+    // 创建弹窗
+    const mask = document.createElement('div');
+    mask.className = 'modal';
+    mask.style.zIndex = '9999';
+    mask.innerHTML = `
+      <div class="quiz-modal-card">
+        <div class="quiz-q-title">${quiz.q}</div>
+        <button class="quiz-opt-btn" id="quizOptA">A：${quiz.a}</button>
+        <button class="quiz-opt-btn" id="quizOptB">B：${quiz.b}</button>
+      </div>
+    `;
+    document.body.appendChild(mask);
+
+    // 选 A
+    mask.querySelector('#quizOptA').onclick = () => {
+      const taChoice = Math.random() < 0.7 ? 'a' : 'b';
+      showQuizResult(mask, quiz, 'a', taChoice);
+    };
+    // 选 B
+    mask.querySelector('#quizOptB').onclick = () => {
+      const taChoice = Math.random() < 0.7 ? 'b' : 'a';
+      showQuizResult(mask, quiz, 'b', taChoice);
+    };
+  };
+
+  window.showQuizResult = function(mask, quiz, myChoice, taChoice) {
+    const match = myChoice === taChoice;
+    const pct = match ? 100 : 0;
+    const myText = myChoice === 'a' ? quiz.a : quiz.b;
+    const taText = taChoice === 'a' ? quiz.a : quiz.b;
+
+    mask.innerHTML = `
+      <div class="quiz-modal-card quiz-modal-result">
+        <div style="font-size:16px; color:#666; margin-bottom:12px;">🃏 灵魂问答</div>
+        <div style="font-size:15px; color:#333; margin-bottom:16px;">${quiz.q}</div>
+        <div style="display:flex; justify-content:center; gap:20px; font-size:14px; margin-bottom:16px;">
+          <div>我：<span style="color:#666;">${myText}</span></div>
+          <div>TA：<span style="color:#666;">${taText}</span></div>
+        </div>
+        <div class="pct">${pct}%</div>
+        <div style="font-size:14px; color:#999; margin-bottom:20px;">默契度</div>
+        <button id="quizResultClose" class="btn-primary" style="width:100%;">关闭</button>
+      </div>
+    `;
+
+    mask.querySelector('#quizResultClose').onclick = () => {
+      mask.remove();
+      // 写入聊天记录
+      if (typeof addSystemTip === 'function') {
+        addSystemTip(`[🃏] 灵魂问答\n默契度：${pct}%\n问题：${quiz.q}\n我：${myText}\nTA：${taText}`, true);
+      }
+      if (typeof playSound === 'function') playSound('receive');
+    };
+  };
+
+  // ==========================================
+  // 修复 4：看电影输入框打字遮挡视频
+  // ==========================================
+  const movieInput = document.getElementById('movieInput');
+  if (movieInput) {
+    movieInput.addEventListener('keydown', (e) => {
+      if (e.key === 'Enter') {
+        movieInput.blur(); // 回车后强制收起键盘
+      }
+    });
+  }
+
+  // ==========================================
+  // 修复 5：首页大卡保存不了（压缩容错）
+  // ==========================================
+  // 找到原本的大卡点击事件，替换为更稳定的事件
+  const homeBigCard = document.getElementById('homeBigCard');
+  if (homeBigCard) {
+    // 克隆节点来移除旧的 onclick
+    const newCard = homeBigCard.cloneNode(true);
+    homeBigCard.parentNode.replaceChild(newCard, homeBigCard);
+    
+    newCard.onclick = () => {
+      const upload = document.createElement('input');
+      upload.type = 'file';
+      upload.accept = 'image/*';
+      upload.onchange = (e) => {
+        const file = e.target.files[0];
+        if (!file) return;
+        const reader = new FileReader();
+        reader.onload = (ev) => {
+          const img = new Image();
+          img.onload = () => {
+            const canvas = document.createElement('canvas');
+            let w = img.width, h = img.height;
+            // 强行压缩到最大 600px 以内，保证不爆本地存储
+            if (w > h) { if (w > 600) { h = h * 600 / w; w = 600; } }
+            else { if (h > 600) { w = w * 600 / h; h = 600; } }
+            canvas.width = w; canvas.height = h;
+            canvas.getContext('2d').drawImage(img, 0, 0, w, h);
+            const url = canvas.toDataURL('image/jpeg', 0.8);
+            
+            try {
+              localStorage.setItem('home_card_img', JSON.stringify(url));
+              document.getElementById('homeBigCardImg').src = url;
+              document.getElementById('homeBigCardImg').style.display = 'block';
+              document.getElementById('homeBigCardTip').style.display = 'none';
+            } catch (err) {
+              alert('图片存储失败，可能是本地存储空间已满');
+            }
+          };
+          img.src = ev.target.result;
+        };
+        reader.readAsDataURL(file);
+      };
+      upload.click();
+    };
+  }
+
+});
+</script>
+<!-- ★★★ 终极修复补丁结束 ★★★ -->
 </body>
 </html>
