@@ -519,12 +519,12 @@ body { font-family: -apple-system, BlinkMacSystemFont, "Helvetica Neue", Arial, 
 .music-item .dur { font-size: 12px; color: #999; flex-shrink: 0; }
 .music-item .more { background: none; border: none; font-size: 18px; color: #999; cursor: pointer; padding: 4px; flex-shrink: 0; }
 .music-empty { text-align: center; padding: 60px 20px; color: #bbb; font-size: 14px; line-height: 1.8; }
-
+/* ★★★ css 第 3 段 结束 ★★★ *//* ★★★ css 第 4 段 开始 ★★★ */
 .music-input-field { margin-bottom: 14px; }
 .music-input-field .label { display: block; font-size: 13px; color: #888; margin-bottom: 6px; }
 .music-input-field input { width: 100%; padding: 12px 14px; border: 1px solid #eee; border-radius: 10px; font-size: 14px; outline: none; background: #fafafa; box-sizing: border-box; }
 .music-input-save { width: 100%; margin-top: 8px; padding: 14px; background: #222; color: #fff; border: none; border-radius: 12px; font-size: 15px; cursor: pointer; }
-/* ★★★ css 第 3 段 结束 ★★★ *//* ★★★ css 第 4 段 开始 ★★★ */
+
 #musicPlayerPage { background: linear-gradient(180deg, #fafafa 0%, #f0f0f0 100%); padding: 0 20px; }
 .music-player-top { display: flex; justify-content: space-between; align-items: center; padding: 12px 0 0; flex-shrink: 0; }
 .music-player-top .header-btn { background: rgba(255,255,255,0.8); border-radius: 50%; width: 38px; height: 38px; }
