@@ -119,14 +119,9 @@
     const replyMin = load('reply_min', 1), replyMax = load('reply_max', 2);
     const delayMin = load('delay_min', 5), delayMax = load('delay_max', 15);
     const emojiProb = load('emoji_prob', 10), stickerProb = load('sticker_prob', 20);
-    const transRecv = load('trans_recv', 60), transRef = load('trans_ref', 30), transIgn = load('trans_ign', 10);
-    const autoMsgMin = load('auto_msg_min', 1), autoMsgMax = load('auto_msg_max', 5);
-    const autoTransProb = load('auto_trans_prob', 30), autoTransMin = load('auto_trans_min', 5), autoTransMax = load('auto_trans_max', 50);
     const quoteProb = load('quote_prob', 30);
-    const giftProb = load('gift_prob', 0), giftMin = load('gift_min', 1), giftMax = load('gift_max', 5);
     const readReceipt = load('read_receipt', true), readStyle = load('read_style', 'icon'), readNoReply = load('read_no_reply', false);
-    const voiceProb = load('voice_prob', 0);
-
+    
     const transPool = load('trans_pool', [5.20, 13.14, 52.00, 99.99]);
 
     panel.innerHTML = `
@@ -138,18 +133,17 @@
         <div class="set-row"><span class="label">已读不回</span><input type="checkbox" id="readNoReplyInput" ${readNoReply ? 'checked' : ''}></div>
       </div>
       <div class="set-card">
-        <div class="set-card-title">回复速度</div>
+        <div class="set-card-title">回复速度 (秒)</div>
         <div class="set-row" style="flex-direction:column; align-items:flex-start;">
-          <span class="label" style="margin-bottom:8px;">最短等待时间 (秒)</span>
+          <span class="label" style="margin-bottom:8px;">最短等待</span>
           <input type="range" id="delayMinInput" min="0" max="60" value="${delayMin}" oninput="this.nextElementSibling.innerText=this.value+'s'">
           <span style="align-self:flex-end;font-size:12px;color:var(--theme-color);">${delayMin}s</span>
         </div>
         <div class="set-row" style="flex-direction:column; align-items:flex-start; border-bottom:none;">
-          <span class="label" style="margin-bottom:8px;">最长等待时间 (秒)</span>
+          <span class="label" style="margin-bottom:8px;">最长等待</span>
           <input type="range" id="delayMaxInput" min="0" max="120" value="${delayMax}" oninput="this.nextElementSibling.innerText=this.value+'s'">
           <span style="align-self:flex-end;font-size:12px;color:var(--theme-color);">${delayMax}s</span>
         </div>
-        <div class="set-row"><span class="label">回复条数</span><span style="font-size:13px;color:#666;">最少 ${replyMin} 条 / 最多 ${replyMax} 条</span></div>
       </div>
       <div class="set-card">
         <div class="set-card-title">转账金额池 (对方随机发给你)</div>
@@ -195,7 +189,6 @@
         curPool.push(val);
         document.getElementById('newTransPoolInput').value = '';
         save('trans_pool', curPool);
-        // 重新渲染列表
         document.getElementById('transPoolList').innerHTML = curPool.map(v => `<span style="background:#f5f5f5;padding:6px 12px;border-radius:8px;font-size:14px;color:#333;border:1px solid #eee;">¥${v}</span>`).join('');
       }
     };
