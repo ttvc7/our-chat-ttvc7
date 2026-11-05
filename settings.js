@@ -1,4 +1,4 @@
-/* ★★★ settings 段 1 开始 ★★★ */
+/* ★★★ js 第 1 段 开始 ★★★ */
 (function() {
   const settingsModal = document.getElementById('settingsModal');
   const settingsBody = document.querySelector('#settingsModal .modal-body');
@@ -73,7 +73,7 @@
     if (!s) { s = document.createElement('style'); s.id = 'userThemeColor'; document.head.appendChild(s); }
     s.textContent = `
       .btn-primary, .set-btn, .music-input-save, .shop-save-btn, .shop-btn-dark, 
-      .survey-header-btn.dark, .mail-send-btn, .moment-fab, .shop-fab, .mail-fab { 
+      .survey-header-btn.dark, .mail-send-btn, .moment-fab, .shop-fab, .mail-fab, .call-hangup { 
         background: ${color} !important; 
         border-color: ${color} !important;
       } 
@@ -81,6 +81,7 @@
         background: ${color} !important; 
         border-color: ${color} !important;
       }
+      input[type="range"]::-webkit-slider-thumb { background: ${color} !important; }
     `;
   }
 
@@ -90,6 +91,7 @@
         <div class="settings-tab active" data-tab="chat">聊天</div>
         <div class="settings-tab" data-tab="appearance">外观</div>
         <div class="settings-tab" data-tab="feature">功能</div>
+        <div class="settings-tab" data-tab="sound">音效</div>
         <div class="settings-tab" data-tab="other">其他</div>
       </div>
       <div style="padding:14px 16px;" id="settingsPanel"></div>
@@ -109,11 +111,12 @@
     if (tab === 'chat') return renderChatTab(panel);
     if (tab === 'appearance') return renderAppearanceTab(panel);
     if (tab === 'feature') return renderFeatureTab(panel);
+    if (tab === 'sound') return renderSoundTab(panel);
     if (tab === 'other') return renderOtherTab(panel);
   }
 
   function renderChatTab(panel) {
-    const replyMin = load('reply_min', 1), replyMax = load('reply_max', 1);
+    const replyMin = load('reply_min', 1), replyMax = load('reply_max', 2);
     const delayMin = load('delay_min', 5), delayMax = load('delay_max', 15);
     const emojiProb = load('emoji_prob', 10), stickerProb = load('sticker_prob', 20);
     const transRecv = load('trans_recv', 60), transRef = load('trans_ref', 30), transIgn = load('trans_ign', 10);
@@ -124,46 +127,39 @@
     const readReceipt = load('read_receipt', true), readStyle = load('read_style', 'icon'), readNoReply = load('read_no_reply', false);
     const voiceProb = load('voice_prob', 0);
 
+    const transPool = load('trans_pool', [5.20, 13.14, 52.00, 99.99]);
+
     panel.innerHTML = `
       <div class="set-card">
         <div class="set-card-title">消息交互</div>
-        <div class="set-row"><span class="label">引用回复</span><input type="number" id="quoteProbInput" value="${quoteProb}" min="0" max="100"><span style="color:#999;font-size:13px;">%</span></div>
+        <div class="set-row"><span class="label">引用回复概率</span><input type="number" id="quoteProbInput" value="${quoteProb}" min="0" max="100"><span style="color:#999;font-size:13px;">%</span></div>
         <div class="set-row"><span class="label">已读回执</span><input type="checkbox" id="readReceiptInput" ${readReceipt ? 'checked' : ''}></div>
         <div class="set-row"><span class="label">已读样式</span><div class="radio-group"><label><input type="radio" name="readStyle" value="icon" ${readStyle === 'icon' ? 'checked' : ''}>图形</label><label><input type="radio" name="readStyle" value="text" ${readStyle === 'text' ? 'checked' : ''}>文字</label></div></div>
         <div class="set-row"><span class="label">已读不回</span><input type="checkbox" id="readNoReplyInput" ${readNoReply ? 'checked' : ''}></div>
       </div>
       <div class="set-card">
-        <div class="set-card-title">回复条数 & 延迟</div>
-        <div class="set-row"><span class="label">最少条数</span><input type="number" id="replyMinInput" value="${replyMin}" min="1" max="10"></div>
-        <div class="set-row"><span class="label">最多条数</span><input type="number" id="replyMaxInput" value="${replyMax}" min="1" max="10"></div>
-        <div class="set-row"><span class="label">最短延迟（秒）</span><input type="number" id="delayMinInput" value="${delayMin}" min="0" max="300"></div>
-        <div class="set-row"><span class="label">最长延迟（秒）</span><input type="number" id="delayMaxInput" value="${delayMax}" min="0" max="300"></div>
+        <div class="set-card-title">回复速度</div>
+        <div class="set-row" style="flex-direction:column; align-items:flex-start;">
+          <span class="label" style="margin-bottom:8px;">最短等待时间 (秒)</span>
+          <input type="range" id="delayMinInput" min="0" max="60" value="${delayMin}" oninput="this.nextElementSibling.innerText=this.value+'s'">
+          <span style="align-self:flex-end;font-size:12px;color:var(--theme-color);">${delayMin}s</span>
+        </div>
+        <div class="set-row" style="flex-direction:column; align-items:flex-start; border-bottom:none;">
+          <span class="label" style="margin-bottom:8px;">最长等待时间 (秒)</span>
+          <input type="range" id="delayMaxInput" min="0" max="120" value="${delayMax}" oninput="this.nextElementSibling.innerText=this.value+'s'">
+          <span style="align-self:flex-end;font-size:12px;color:var(--theme-color);">${delayMax}s</span>
+        </div>
+        <div class="set-row"><span class="label">回复条数</span><span style="font-size:13px;color:#666;">最少 ${replyMin} 条 / 最多 ${replyMax} 条</span></div>
       </div>
       <div class="set-card">
-        <div class="set-card-title">额外概率</div>
-        <div class="set-row"><span class="label">颜文字</span><input type="number" id="emojiProbInput" value="${emojiProb}" min="0" max="100"><span style="color:#999;font-size:13px;">%</span></div>
-        <div class="set-row"><span class="label">表情包</span><input type="number" id="stickerProbInput" value="${stickerProb}" min="0" max="100"><span style="color:#999;font-size:13px;">%</span></div>
-        <div class="set-row"><span class="label">语音</span><input type="number" id="voiceProbInput" value="${voiceProb}" min="0" max="100"><span style="color:#999;font-size:13px;">%</span></div>
-      </div>
-      <div class="set-card">
-        <div class="set-card-title">转账反应（TA 收到你转账时）</div>
-        <div class="set-row"><span class="label">自动收款</span><input type="number" id="transRecvInput" value="${transRecv}" min="0" max="100"><span style="color:#999;font-size:13px;">%</span></div>
-        <div class="set-row"><span class="label">自动退还</span><input type="number" id="transRefInput" value="${transRef}" min="0" max="100"><span style="color:#999;font-size:13px;">%</span></div>
-        <div class="set-row"><span class="label">不理</span><input type="number" id="transIgnInput" value="${transIgn}" min="0" max="100"><span style="color:#999;font-size:13px;">%</span></div>
-      </div>
-      <div class="set-card">
-        <div class="set-card-title">自动消息（TA 主动）</div>
-        <div class="set-row"><span class="label">最短间隔（分钟）</span><input type="number" id="autoMsgMinInput" value="${autoMsgMin}" min="1" max="120"></div>
-        <div class="set-row"><span class="label">最长间隔（分钟）</span><input type="number" id="autoMsgMaxInput" value="${autoMsgMax}" min="1" max="120"></div>
-        <div class="set-row"><span class="label">TA 转账概率</span><input type="number" id="autoTransProbInput" value="${autoTransProb}" min="0" max="100"><span style="color:#999;font-size:13px;">%</span></div>
-        <div class="set-row"><span class="label">转账金额最少</span><input type="number" id="autoTransMinInput" value="${autoTransMin}" min="0"></div>
-        <div class="set-row"><span class="label">转账金额最多</span><input type="number" id="autoTransMaxInput" value="${autoTransMax}" min="0"></div>
-      </div>
-      <div class="set-card">
-        <div class="set-card-title">TA 送礼反应</div>
-        <div class="set-row"><span class="label">送礼概率</span><input type="number" id="giftProbInput" value="${giftProb}" min="0" max="100"><span style="color:#999;font-size:13px;">%</span></div>
-        <div class="set-row"><span class="label">最短间隔（分钟）</span><input type="number" id="giftMinInput" value="${giftMin}" min="1" max="120"></div>
-        <div class="set-row"><span class="label">最长间隔（分钟）</span><input type="number" id="giftMaxInput" value="${giftMax}" min="1" max="120"></div>
+        <div class="set-card-title">转账金额池 (对方随机发给你)</div>
+        <div id="transPoolList" style="display:flex; flex-wrap:wrap; gap:8px; margin-bottom:10px;">
+          ${transPool.map(v => `<span style="background:#f5f5f5;padding:6px 12px;border-radius:8px;font-size:14px;color:#333;border:1px solid #eee;">¥${v}</span>`).join('')}
+        </div>
+        <div style="display:flex; gap:8px;">
+          <input type="number" id="newTransPoolInput" class="shop-input" style="flex:1;" placeholder="输入金额如 5.20">
+          <button class="btn-secondary" id="addTransPoolBtn" style="width:auto; padding:0 16px;">添加</button>
+        </div>
       </div>
       <button class="set-btn" id="saveChatSettings">保存聊天设置</button>
       <div class="set-card">
@@ -175,30 +171,9 @@
 
     panel.querySelector('#saveChatSettings').onclick = () => {
       const g = id => parseInt(document.getElementById(id).value) || 0;
-      const rmin = g('replyMinInput'), rmax = g('replyMaxInput');
-      save('reply_min', Math.min(rmin, rmax));
-      save('reply_max', Math.max(rmin, rmax));
-      const dmin = g('delayMinInput'), dmax = g('delayMaxInput');
-      save('delay_min', Math.min(dmin, dmax));
-      save('delay_max', Math.max(dmin, dmax));
-      save('emoji_prob', Math.max(0, Math.min(100, g('emojiProbInput'))));
-      save('sticker_prob', Math.max(0, Math.min(100, g('stickerProbInput'))));
-      save('voice_prob', Math.max(0, Math.min(100, g('voiceProbInput'))));
-      save('quote_prob', Math.max(0, Math.min(100, g('quoteProbInput'))));
-      save('trans_recv', Math.max(0, Math.min(100, g('transRecvInput'))));
-      save('trans_ref', Math.max(0, Math.min(100, g('transRefInput'))));
-      save('trans_ign', Math.max(0, Math.min(100, g('transIgnInput'))));
-      const amn = g('autoMsgMinInput'), amx = g('autoMsgMaxInput');
-      save('auto_msg_min', Math.min(amn, amx));
-      save('auto_msg_max', Math.max(amn, amx));
-      save('auto_trans_prob', Math.max(0, Math.min(100, g('autoTransProbInput'))));
-      const atm = g('autoTransMinInput'), atM = g('autoTransMaxInput');
-      save('auto_trans_min', Math.min(atm, atM));
-      save('auto_trans_max', Math.max(atm, atM));
-      save('gift_prob', Math.max(0, Math.min(100, g('giftProbInput'))));
-      const gmn = g('giftMinInput'), gmx = g('giftMaxInput');
-      save('gift_min', Math.min(gmn, gmx));
-      save('gift_max', Math.max(gmn, gmx));
+      save('delay_min', g('delayMinInput'));
+      save('delay_max', g('delayMaxInput'));
+      save('quote_prob', g('quoteProbInput'));
       save('read_receipt', document.getElementById('readReceiptInput').checked);
       save('read_no_reply', document.getElementById('readNoReplyInput').checked);
       const rs = document.querySelector('input[name="readStyle"]:checked');
@@ -212,8 +187,43 @@
     panel.querySelector('#clearCards').onclick = () => {
       if (confirm('确定清空所有字卡吗？')) { localStorage.removeItem('our_cards'); alert('已清空，刷新页面生效'); }
     };
+    
+    let curPool = [...transPool];
+    panel.querySelector('#addTransPoolBtn').onclick = () => {
+      const val = parseFloat(document.getElementById('newTransPoolInput').value);
+      if (val > 0) {
+        curPool.push(val);
+        document.getElementById('newTransPoolInput').value = '';
+        save('trans_pool', curPool);
+        // 重新渲染列表
+        document.getElementById('transPoolList').innerHTML = curPool.map(v => `<span style="background:#f5f5f5;padding:6px 12px;border-radius:8px;font-size:14px;color:#333;border:1px solid #eee;">¥${v}</span>`).join('');
+      }
+    };
   }
-/* ★★★ settings 段 1 结束 ★★★ *//* ★★★ settings 段 2 开始 ★★★ */
+
+  function renderSoundTab(panel) {
+    const soundOn = load('sound_enabled', true);
+    const soundVol = load('sound_volume', 15);
+    panel.innerHTML = `
+      <div class="set-card">
+        <div class="set-card-title">音效设置</div>
+        <div class="set-row"><span class="label">开启全局音效</span><input type="checkbox" id="soundEnabledInput" ${soundOn ? 'checked' : ''}></div>
+        <div class="set-row" style="flex-direction:column; align-items:flex-start; border-bottom:none;">
+          <span class="label" style="margin-bottom:8px;">全局音量</span>
+          <input type="range" id="soundVolInput" min="0" max="100" value="${soundVol}" oninput="document.getElementById('soundVolVal').innerText=this.value+'%'; if(window.playSound) window.playSound('send');">
+          <span id="soundVolVal" style="align-self:flex-end;font-size:12px;color:var(--theme-color);">${soundVol}%</span>
+        </div>
+      </div>
+      <button class="set-btn" id="saveSoundSettings">保存音效设置</button>
+    `;
+    panel.querySelector('#saveSoundSettings').onclick = () => {
+      save('sound_enabled', document.getElementById('soundEnabledInput').checked);
+      save('sound_volume', parseInt(document.getElementById('soundVolInput').value));
+      alert('已保存音效设置');
+      if(window.playSound) window.playSound('send');
+    };
+  }
+/* ★★★ js 第 1 段 结束 ★★★ *//* ★★★ js 第 2 段 开始 ★★★ */
   function renderAppearanceTab(panel) {
     panel.innerHTML = `
       <div class="set-card">
@@ -334,11 +344,13 @@
     pickBgBtn.onclick = () => bgUpload.click();
     bgUpload.onchange = (e) => {
       const file = e.target.files[0]; if (!file) return;
-      compressImage(file, 800, (url) => {
-        document.getElementById('messages').style.background = `url(${url}) center/cover no-repeat`;
-        cfg.chatBgImage = url; cfg.chatBg = '';
-        save('chat_bg_image', url); save('chat_bg', '');
-      });
+      if (typeof compressImage === 'function') {
+        compressImage(file, 800, (url) => {
+          document.getElementById('messages').style.background = `url(${url}) center/cover no-repeat`;
+          cfg.chatBgImage = url; cfg.chatBg = '';
+          save('chat_bg_image', url); save('chat_bg', '');
+        });
+      }
     };
     panel.querySelectorAll('.opt-card').forEach(card => {
       card.onclick = () => {
@@ -381,16 +393,18 @@
     panel.querySelector('#myAvatarRow').onclick = () => { currentAvatarTarget = 'my'; avatarUpload.click(); };
     avatarUpload.onchange = (e) => {
       const file = e.target.files[0]; if (!file) return;
-      compressImage(file, 400, (url) => {
-        if (currentAvatarTarget === 'ta') {
-          cfg.taAvatar = url; save('ta_avatar', url);
-          panel.querySelector('#taAvatarPreview').style.backgroundImage = `url(${url})`;
-        } else {
-          cfg.myAvatar = url; save('my_avatar', url);
-          panel.querySelector('#myAvatarPreview').style.backgroundImage = `url(${url})`;
-        }
-        applyAll();
-      });
+      if (typeof compressImage === 'function') {
+        compressImage(file, 400, (url) => {
+          if (currentAvatarTarget === 'ta') {
+            cfg.taAvatar = url; save('ta_avatar', url);
+            panel.querySelector('#taAvatarPreview').style.backgroundImage = `url(${url})`;
+          } else {
+            cfg.myAvatar = url; save('my_avatar', url);
+            panel.querySelector('#myAvatarPreview').style.backgroundImage = `url(${url})`;
+          }
+          applyAll();
+        });
+      }
       avatarUpload.value = '';
     };
     panel.querySelector('#saveNames').onclick = () => {
@@ -423,13 +437,15 @@
       save('theme_css', css);
     };
   }
-/* ★★★ settings 段 2 结束 ★★★ *//* ★★★ settings 段 3 开始 ★★★ */
+/* ★★★ js 第 2 段 结束 ★★★ *//* ★★★ js 第 3 段 开始 ★★★ */
   function renderFeatureTab(panel) {
     const mailOn = load('mail_auto_on', false);
     const mailMin = load('mail_auto_min', 3);
     const mailMax = load('mail_auto_max', 6);
     const momentOn = load('moment_auto_on', true);
     const questionOn = load('question_auto_on', true);
+    const callOn = load('call_auto_on', true);
+    const prankOn = load('prank_auto_on', true);
     
     panel.innerHTML = `
       <div class="set-card">
@@ -439,28 +455,35 @@
         <div class="set-row"><span class="label">最长间隔（小时）</span><input type="number" id="mailAutoMax" value="${mailMax}" min="1" max="48"></div>
       </div>
       <div class="set-card">
-        <div class="set-card-title">朋友圈自动互动</div>
+        <div class="set-card-title">朋友圈互动</div>
         <div class="set-row">
           <span class="label">自动发动态 / 点赞评论</span>
           <input type="checkbox" id="momentAutoOn" ${momentOn ? 'checked' : ''}>
         </div>
-        <p style="font-size:12px;color:#999;margin-top:8px;">开启后，对方会根据累计在线时长（30~60分钟），不定时发动态或评论/点赞你。</p>
       </div>
       <div class="set-card">
-        <div class="set-card-title">对方发问卷</div>
+        <div class="set-card-title">主动互动</div>
         <div class="set-row">
-          <span class="label">开启问卷推送</span>
+          <span class="label">允许主动打电话</span>
+          <input type="checkbox" id="callAutoOn" ${callOn ? 'checked' : ''}>
+        </div>
+        <div class="set-row">
+          <span class="label">允许搞怪 (扔东西/戳脸)</span>
+          <input type="checkbox" id="prankAutoOn" ${prankOn ? 'checked' : ''}>
+        </div>
+        <div class="set-row">
+          <span class="label">允许发问卷</span>
           <input type="checkbox" id="questionAutoOn" ${questionOn ? 'checked' : ''}>
         </div>
-        <p style="font-size:12px;color:#999;margin-top:8px;">开启后，累计在线（1~4小时）会收到对方发来的一封问卷。</p>
       </div>
-      <button class="set-btn" id="saveFeatureSettings">保存</button>
+      <button class="set-btn" id="saveFeatureSettings">保存功能设置</button>
       <div class="set-card">
         <div class="set-card-title">收藏 & 搜索</div>
         <div class="set-row" id="openFavBtn" style="cursor:pointer;">打开收藏夹</div>
         <div class="set-row" id="openSearchBtn" style="cursor:pointer;">搜索聊天记录</div>
       </div>
     `;
+    
     panel.querySelector('#saveFeatureSettings').onclick = () => {
       save('mail_auto_on', panel.querySelector('#mailAutoOn').checked);
       const mn = parseInt(panel.querySelector('#mailAutoMin').value) || 3;
@@ -468,11 +491,18 @@
       save('mail_auto_min', Math.min(mn, mx));
       save('mail_auto_max', Math.max(mn, mx));
       save('moment_auto_on', panel.querySelector('#momentAutoOn').checked);
+      save('call_auto_on', panel.querySelector('#callAutoOn').checked);
+      save('prank_auto_on', panel.querySelector('#prankAutoOn').checked);
       save('question_auto_on', panel.querySelector('#questionAutoOn').checked);
       
       // 每次保存开关，重置一下触发时间，避免切回去马上触发
       save('moment_trigger_time', 0);
       save('question_trigger_time', 0);
+      save('call_trigger_time', 0);
+      save('call_trigger_count', 0);
+      save('prank_trigger_time', 0);
+      save('prank_trigger_count', 0);
+      save('prank_trigger_max', 0);
       
       alert('已保存');
       if (typeof scheduleAutoMail === 'function') scheduleAutoMail();
@@ -554,7 +584,6 @@
         if (data.annivList) localStorage.setItem('anniv_list', JSON.stringify(data.annivList));
         if (data.annivStart) localStorage.setItem('anniv_start', data.annivStart);
         
-        // 修复导入时多带了引号的问题，直接存原始值
         if (data.homeQuote) localStorage.setItem('home_quote', data.homeQuote);
         if (data.talkMine) localStorage.setItem('home_talk_mine', data.talkMine);
         if (data.talkTa) localStorage.setItem('home_talk_ta', data.talkTa);
@@ -619,4 +648,4 @@
   });
 
 })();
-/* ★★★ settings 段 3 结束 ★★★ */
+/* ★★★ js 第 3 段 结束 ★★★ */
