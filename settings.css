@@ -1,4 +1,4 @@
-/* ★★★ settings 段 1 开始 ★★★ */
+/* ★★★ css 第 1 段 开始 ★★★ */
 :root {
   --theme-color: #222222;
   --theme-color-light: rgba(34, 34, 34, 0.1);
@@ -129,7 +129,6 @@ body { font-family: -apple-system, BlinkMacSystemFont, "Helvetica Neue", Arial, 
 .plus-label { font-size: 13px; color: #666; }
 .plus-item:active .plus-icon { background: #eee; }
 
-/* ===== 朋友圈 ===== */
 .moment-header { position: relative; width: 100%; height: 260px; background: linear-gradient(135deg, #e8f0ff 0%, #d7e4f8 100%); background-size: cover; background-position: center; flex-shrink: 0; }
 .moment-header .avatar-block { position: absolute; right: 24px; bottom: -32px; display: flex; align-items: flex-start; gap: 10px; }
 .moment-header .avatar-block .avatar-name { font-size: 16px; color: #fff; font-weight: 800; line-height: 1; margin-top: 4px; max-width: 100px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; text-shadow: none; }
@@ -204,53 +203,74 @@ body { font-family: -apple-system, BlinkMacSystemFont, "Helvetica Neue", Arial, 
 .moment-del-actions button { flex: 1; padding: 12px; border: none; border-radius: 12px; font-size: 15px; cursor: pointer; }
 .moment-del-actions .cancel { background: #f0f0f0; color: #333; }
 .moment-del-actions .ok { background: #222; color: #fff; }
-/* ★★★ settings 段 1 结束 ★★★ *//* ★★★ settings 段 2 开始 ★★★ */
-/* ===== 商店 ===== */
-.shop-tabs { display: flex; background: #fff; border-bottom: 1px solid #eee; }
-.shop-tab { flex: 1; text-align: center; padding: 14px 0; font-size: 15px; color: #666; cursor: pointer; border-bottom: 2px solid transparent; }
-.shop-tab.active { color: #111; font-weight: 600; border-bottom-color: #111; }
-.shop-body { flex: 1; overflow-y: auto; padding: 16px; background: #f5f5f5; }
-.shop-body.hidden { display: none; }
-.shop-fab { position: fixed; right: 20px; bottom: 30px; width: 56px; height: 56px; border-radius: 50%; background: #1a1a1a; color: #fff; border: none; font-size: 30px; line-height: 1; box-shadow: 0 4px 16px rgba(0,0,0,0.25); cursor: pointer; z-index: 30; }
-.shop-item-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 12px; }
-.shop-item-card { background: #fff; border-radius: 14px; overflow: hidden; cursor: pointer; box-shadow: 0 1px 4px rgba(0,0,0,0.05); }
-.shop-item-card img { width: 100%; height: 120px; object-fit: cover; display: block; background: #eee; }
-.shop-item-name { font-size: 14px; color: #333; padding: 8px 10px 2px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
-.shop-item-price { font-size: 14px; color: #e74c3c; padding: 0 10px 10px; font-weight: 600; }
-.shop-empty { text-align: center; color: #999; font-size: 14px; padding: 60px 20px; line-height: 1.8; }
-.shop-order-item { background: #fff; border-radius: 12px; padding: 12px; display: flex; gap: 10px; align-items: center; margin-bottom: 10px; }
-.shop-order-item img { width: 48px; height: 48px; border-radius: 8px; object-fit: cover; background: #eee; }
-.shop-order-info { flex: 1; }
-.shop-order-title { font-size: 14px; color: #333; }
-.shop-order-sub { font-size: 12px; color: #999; margin-top: 2px; }
-.shop-edit-sheet, .shop-detail-sheet { position: absolute; left: 0; right: 0; bottom: 0; background: #fff; border-radius: 20px 20px 0 0; max-height: 92vh; display: flex; flex-direction: column; overflow: hidden; }
-.shop-edit-head { padding: 18px 20px 10px; font-size: 18px; font-weight: 600; color: #111; display: flex; justify-content: space-between; align-items: center; }
-.shop-edit-head button { width: 32px; height: 32px; border-radius: 50%; background: #f0f0f0; border: none; font-size: 18px; color: #666; cursor: pointer; }
-.shop-edit-body, .shop-detail-body { padding: 10px 20px 30px; overflow-y: auto; }
-.shop-field-label { font-size: 13px; color: #888; margin: 12px 0 8px; }
-.shop-img-picker { width: 100px; height: 100px; border-radius: 12px; border: 1.5px dashed #ccc; background: #fafafa; display: flex; align-items: center; justify-content: center; font-size: 30px; color: #bbb; cursor: pointer; overflow: hidden; }
-.shop-img-picker img { width: 100%; height: 100%; object-fit: cover; }
-.shop-input, .shop-textarea { width: 100%; border: none; background: #f5f5f5; border-radius: 12px; padding: 14px 16px; font-size: 15px; outline: none; color: #222; font-family: inherit; box-sizing: border-box; }
-.shop-textarea { min-height: 90px; resize: none; }
-.shop-save-btn { width: 100%; margin-top: 22px; padding: 15px; background: #222; color: #fff; border: none; border-radius: 14px; font-size: 16px; font-weight: 600; cursor: pointer; }
-.shop-detail-img { width: 120px; height: 120px; border-radius: 14px; object-fit: cover; display: block; margin: 10px auto 14px; background: #eee; }
-.shop-detail-name { text-align: center; font-size: 20px; font-weight: 600; color: #111; }
-.shop-detail-price { text-align: center; font-size: 18px; color: #e74c3c; font-weight: 600; margin: 8px 0 16px; }
-.shop-detail-desc-box { background: #f5f5f5; border-radius: 14px; padding: 14px 16px; margin-bottom: 18px; }
-.shop-detail-desc-label { font-size: 12px; color: #888; margin-bottom: 6px; }
-#detailDesc { font-size: 14px; color: #333; line-height: 1.5; }
-.shop-detail-actions { display: flex; gap: 12px; margin-bottom: 12px; }
-.shop-btn-outline, .shop-btn-dark { flex: 1; padding: 14px; border-radius: 14px; font-size: 15px; cursor: pointer; border: 1.5px solid #ddd; background: #fff; color: #333; }
-.shop-btn-dark { background: #1a1a1a; color: #fff; border-color: #1a1a1a; }
-.shop-btn-outline.danger { color: #e74c3c; border-color: #f0c8c8; }
-.shop-card { background: #fff; border-radius: 12px; padding: 12px; min-width: 220px; box-shadow: 0 1px 3px rgba(0,0,0,0.06); border: 1px solid #eee; }
-.shop-card-top { display: flex; gap: 10px; align-items: flex-start; }
-.shop-card-top img { width: 44px; height: 44px; border-radius: 8px; object-fit: cover; background: #eee; flex-shrink: 0; }
-.shop-card-title { font-size: 14px; color: #111; font-weight: 600; line-height: 1.3; }
-.shop-card-sub { font-size: 12px; color: #888; margin-top: 4px; }
-.shop-card-line { height: 1px; background: #f0f0f0; margin: 10px 0; }
-.shop-card-status { text-align: right; font-size: 12px; color: #555; }
-.shop-card-status .tag { display: inline-block; background: #f0f0f0; border-radius: 10px; padding: 3px 12px; color: #666; }
+/* ★★★ css 第 1 段 结束 ★★★ *//* ★★★ css 第 2 段 开始 ★★★ */
+/* ===== 字卡库全屏页面 ===== */
+#cardPage { background: #f5f5f5; }
+.card-tabs { display: flex; gap: 4px; padding: 10px 12px; border-bottom: 1px solid #f0f0f0; overflow-x: auto; background: #fff; flex-shrink: 0; }
+.card-tab { flex-shrink: 0; padding: 8px 16px; border-radius: 18px; background: transparent; font-size: 14px; color: #999; cursor: pointer; white-space: nowrap; border: none; }
+.card-tab.active { color: #111; font-weight: 600; background: #f0f0f0; }
+.card-body { flex: 1; overflow-y: auto; padding: 14px 16px 100px; }
+
+.card-item { padding: 12px 14px; background: #fff; border-radius: 10px; margin-bottom: 8px; font-size: 14px; display: flex; justify-content: space-between; align-items: center; gap: 8px; }
+.card-item button { background: none; border: none; color: #e74c3c; font-size: 18px; cursor: pointer; flex-shrink: 0; padding: 0 4px; }
+.card-cats { display: flex; flex-wrap: wrap; gap: 8px; margin: 10px 0; }
+.card-cat { padding: 5px 14px; border-radius: 14px; background: #f0f0f0; font-size: 13px; color: #666; cursor: pointer; user-select: none; border: none; }
+.card-cat.active { background: #222; color: #fff; }
+#cardInput, #emojiInput { width: 100%; height: 70px; border: 1px solid #eee; border-radius: 10px; padding: 10px 12px; font-size: 14px; resize: none; outline: none; font-family: inherit; box-sizing: border-box; background: #fafafa; }
+#addCardBtn, #addEmojiBtn { margin-top: 10px; width: 100%; padding: 11px; background: #222; color: #fff; border: none; border-radius: 10px; font-size: 15px; cursor: pointer; }
+.card-tools { display: flex; gap: 8px; margin: 10px 0; }
+#cardSearchInput, #questionSearchInput { flex: 1; padding: 9px 12px; border: 1px solid #eee; border-radius: 10px; font-size: 14px; outline: none; background: #fafafa; }
+#dedupBtn { padding: 9px 14px; background: #f0f0f0; color: #333; border: none; border-radius: 10px; font-size: 14px; cursor: pointer; flex-shrink: 0; }
+
+/* ===== 修复拍一拍输入框样式 ===== */
+.pat-item { display: flex; align-items: center; gap: 8px; margin-bottom: 10px; }
+.pat-item input { flex: 1; padding: 10px 12px; border: 1px solid #eee; border-radius: 8px; font-size: 14px; outline: none; background: #fafafa; color: #333; }
+.pat-item .remove { width: 30px; height: 30px; border: none; border-radius: 8px; background: #f0f0f0; color: #e74c3c; font-size: 18px; cursor: pointer; flex-shrink: 0; display: flex; align-items: center; justify-content: center; }
+.sec-title { font-size: 14px; color: #333; font-weight: 600; margin-bottom: 8px; }
+
+.voice-import-box { background: #fff; border-radius: 12px; padding: 16px; margin-bottom: 14px; border: 1px solid #f0f0f0; display: flex; align-items: center; gap: 12px; cursor: pointer; }
+.voice-import-icon { width: 44px; height: 44px; border-radius: 10px; background: #f0f0f0; display: flex; align-items: center; justify-content: center; flex-shrink: 0; }
+.voice-import-icon svg { width: 24px; height: 24px; stroke: #666; }
+.voice-import-text { flex: 1; }
+.voice-import-title { font-size: 15px; color: #111; font-weight: 600; }
+.voice-import-sub { font-size: 12px; color: #999; margin-top: 4px; line-height: 1.4; }
+.voice-count { text-align: center; font-size: 12px; color: #999; margin: 10px 0 14px; }
+.voice-item { display: flex; align-items: center; gap: 10px; padding: 12px 14px; background: #f7f7f7; border-radius: 10px; margin-bottom: 8px; }
+.voice-item .name { flex: 1; font-size: 13px; color: #333; word-break: break-all; }
+.voice-item .dur { font-size: 12px; color: #999; }
+.voice-item .del { background: none; border: none; color: #e74c3c; font-size: 18px; cursor: pointer; padding: 0 4px; }
+.voice-empty { text-align: center; padding: 50px 20px; color: #ccc; }
+.voice-empty svg { width: 40px; height: 40px; stroke: #ddd; display: block; margin: 0 auto 10px; }
+.voice-empty .text { font-size: 13px; color: #bbb; }
+.voice-bubble { background: #f0f0f0; border-radius: 10px; padding: 10px 14px; display: flex; align-items: center; gap: 10px; min-width: 130px; max-width: 200px; cursor: pointer; color: #333; position: relative; }
+.voice-bubble .play-btn { width: 24px; height: 24px; border-radius: 50%; background: #fff; display: flex; align-items: center; justify-content: center; flex-shrink: 0; }
+.voice-bubble .play-btn svg { width: 12px; height: 12px; fill: #666; }
+.voice-bubble .waves { flex: 1; display: flex; align-items: center; justify-content: space-between; gap: 3px; height: 18px; }
+.voice-bubble .waves span { display: block; width: 2px; height: 6px; background: #bbb; border-radius: 2px; transform-origin: center; }
+.voice-bubble.playing .waves span { background: #888; animation: voiceWave 1s ease-in-out infinite; }
+.voice-bubble.playing .waves span:nth-child(1) { animation-delay: 0s; }
+.voice-bubble.playing .waves span:nth-child(2) { animation-delay: 0.1s; }
+.voice-bubble.playing .waves span:nth-child(3) { animation-delay: 0.2s; }
+.voice-bubble.playing .waves span:nth-child(4) { animation-delay: 0.3s; }
+.voice-bubble.playing .waves span:nth-child(5) { animation-delay: 0.4s; }
+.voice-bubble.playing .waves span:nth-child(6) { animation-delay: 0.5s; }
+.voice-bubble.playing .waves span:nth-child(7) { animation-delay: 0.6s; }
+.voice-bubble.playing .waves span:nth-child(8) { animation-delay: 0.7s; }
+.voice-bubble.playing .waves span:nth-child(9) { animation-delay: 0.8s; }
+@keyframes voiceWave { 0%, 100% { height: 6px; } 50% { height: 16px; } }
+.voice-bubble .duration { font-size: 12px; color: #666; flex-shrink: 0; }
+
+/* ===== 聊天页表情面板 ===== */
+.sticker-panel { position: fixed; bottom: 0; left: 0; right: 0; height: 60vh; background: #fff; border-top: 1px solid #e0e0e0; border-radius: 16px 16px 0 0; display: flex; flex-direction: column; z-index: 80; box-shadow: 0 -4px 16px rgba(0,0,0,0.1); transition: transform 0.25s ease; }
+.sticker-panel.hidden { transform: translateY(100%); pointer-events: none; }
+.sticker-head { display: flex; align-items: center; gap: 6px; padding: 12px 14px; border-bottom: 1px solid #f0f0f0; }
+.sticker-tab { background: none; border: none; font-size: 14px; color: #999; padding: 6px 14px; border-radius: 16px; cursor: pointer; }
+.sticker-tab.active { color: #111; background: #f0f0f0; font-weight: 600; }
+.sticker-add-btn { margin-left: auto; background: #222; color: #fff; border: none; padding: 6px 14px; border-radius: 16px; font-size: 13px; cursor: pointer; }
+.sticker-body { flex: 1; overflow-y: auto; padding: 12px; display: grid; grid-template-columns: repeat(4, 1fr); gap: 8px; align-content: start; }
+.sticker-body .sticker-item { position: relative; aspect-ratio: 1; background: #f0f0f0; border-radius: 10px; background-size: cover; background-position: center; cursor: pointer; }
+.sticker-body .sticker-item .sticker-del { position: absolute; top: -6px; right: -6px; width: 20px; height: 20px; border-radius: 50%; background: #e74c3c; color: #fff; border: none; font-size: 12px; line-height: 1; display: flex; align-items: center; justify-content: center; cursor: pointer; padding: 0; }
+.sticker-body .sticker-empty { grid-column: 1 / -1; text-align: center; color: #999; font-size: 13px; padding: 40px 20px; }
 
 /* ===== 问卷 ===== */
 .survey-item { background: #fff; border-radius: 14px; padding: 16px; margin-bottom: 12px; cursor: pointer; }
@@ -336,6 +356,7 @@ body { font-family: -apple-system, BlinkMacSystemFont, "Helvetica Neue", Arial, 
 .anniv-item-date { font-size: 13px; color: #999; }
 .anniv-item-days { font-size: 15px; color: #e8a33d; font-weight: 600; }
 .anniv-item-del { background: none; border: none; color: #e74c3c; font-size: 18px; cursor: pointer; margin-left: 10px; }
+
 .anniv-date-picker { position: fixed; inset: 0; z-index: 400; background: rgba(0,0,0,0.4); display: flex; align-items: flex-end; justify-content: center; }
 .anniv-date-picker.hidden { display: none; }
 .anniv-date-box { width: 100%; background: #fff; border-radius: 20px 20px 0 0; padding: 20px; }
@@ -349,74 +370,54 @@ body { font-family: -apple-system, BlinkMacSystemFont, "Helvetica Neue", Arial, 
 .anniv-date-actions button { flex: 1; padding: 14px; border: none; border-radius: 12px; font-size: 15px; cursor: pointer; }
 .anniv-date-actions .cancel { background: #f0f0f0; color: #333; }
 .anniv-date-actions .ok { background: #222; color: #fff; }
+/* ★★★ css 第 2 段 结束 ★★★ *//* ★★★ css 第 3 段 开始 ★★★ */
+/* ===== 商店 ===== */
+.shop-tabs { display: flex; background: #fff; border-bottom: 1px solid #eee; }
+.shop-tab { flex: 1; text-align: center; padding: 14px 0; font-size: 15px; color: #666; cursor: pointer; border-bottom: 2px solid transparent; }
+.shop-tab.active { color: #111; font-weight: 600; border-bottom-color: #111; }
+.shop-body { flex: 1; overflow-y: auto; padding: 16px; background: #f5f5f5; }
+.shop-body.hidden { display: none; }
+.shop-fab { position: fixed; right: 20px; bottom: 30px; width: 56px; height: 56px; border-radius: 50%; background: #1a1a1a; color: #fff; border: none; font-size: 30px; line-height: 1; box-shadow: 0 4px 16px rgba(0,0,0,0.25); cursor: pointer; z-index: 30; }
+.shop-item-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 12px; }
+.shop-item-card { background: #fff; border-radius: 14px; overflow: hidden; cursor: pointer; box-shadow: 0 1px 4px rgba(0,0,0,0.05); }
+.shop-item-card img { width: 100%; height: 120px; object-fit: cover; display: block; background: #eee; }
+.shop-item-name { font-size: 14px; color: #333; padding: 8px 10px 2px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.shop-item-price { font-size: 14px; color: #e74c3c; padding: 0 10px 10px; font-weight: 600; }
+.shop-empty { text-align: center; color: #999; font-size: 14px; padding: 60px 20px; line-height: 1.8; }
+.shop-order-item { background: #fff; border-radius: 12px; padding: 12px; display: flex; gap: 10px; align-items: center; margin-bottom: 10px; }
+.shop-order-item img { width: 48px; height: 48px; border-radius: 8px; object-fit: cover; background: #eee; }
+.shop-order-info { flex: 1; }
+.shop-order-title { font-size: 14px; color: #333; }
+.shop-order-sub { font-size: 12px; color: #999; margin-top: 2px; }
+.shop-edit-sheet, .shop-detail-sheet { position: absolute; left: 0; right: 0; bottom: 0; background: #fff; border-radius: 20px 20px 0 0; max-height: 92vh; display: flex; flex-direction: column; overflow: hidden; }
+.shop-edit-head { padding: 18px 20px 10px; font-size: 18px; font-weight: 600; color: #111; display: flex; justify-content: space-between; align-items: center; }
+.shop-edit-head button { width: 32px; height: 32px; border-radius: 50%; background: #f0f0f0; border: none; font-size: 18px; color: #666; cursor: pointer; }
+.shop-edit-body, .shop-detail-body { padding: 10px 20px 30px; overflow-y: auto; }
+.shop-field-label { font-size: 13px; color: #888; margin: 12px 0 8px; }
+.shop-img-picker { width: 100px; height: 100px; border-radius: 12px; border: 1.5px dashed #ccc; background: #fafafa; display: flex; align-items: center; justify-content: center; font-size: 30px; color: #bbb; cursor: pointer; overflow: hidden; }
+.shop-img-picker img { width: 100%; height: 100%; object-fit: cover; }
+.shop-input, .shop-textarea { width: 100%; border: none; background: #f5f5f5; border-radius: 12px; padding: 14px 16px; font-size: 15px; outline: none; color: #222; font-family: inherit; box-sizing: border-box; }
+.shop-textarea { min-height: 90px; resize: none; }
+.shop-save-btn { width: 100%; margin-top: 22px; padding: 15px; background: #222; color: #fff; border: none; border-radius: 14px; font-size: 16px; font-weight: 600; cursor: pointer; }
+.shop-detail-img { width: 120px; height: 120px; border-radius: 14px; object-fit: cover; display: block; margin: 10px auto 14px; background: #eee; }
+.shop-detail-name { text-align: center; font-size: 20px; font-weight: 600; color: #111; }
+.shop-detail-price { text-align: center; font-size: 18px; color: #e74c3c; font-weight: 600; margin: 8px 0 16px; }
+.shop-detail-desc-box { background: #f5f5f5; border-radius: 14px; padding: 14px 16px; margin-bottom: 18px; }
+.shop-detail-desc-label { font-size: 12px; color: #888; margin-bottom: 6px; }
+#detailDesc { font-size: 14px; color: #333; line-height: 1.5; }
+.shop-detail-actions { display: flex; gap: 12px; margin-bottom: 12px; }
+.shop-btn-outline, .shop-btn-dark { flex: 1; padding: 14px; border-radius: 14px; font-size: 15px; cursor: pointer; border: 1.5px solid #ddd; background: #fff; color: #333; }
+.shop-btn-dark { background: #1a1a1a; color: #fff; border-color: #1a1a1a; }
+.shop-btn-outline.danger { color: #e74c3c; border-color: #f0c8c8; }
+.shop-card { background: #fff; border-radius: 12px; padding: 12px; min-width: 220px; box-shadow: 0 1px 3px rgba(0,0,0,0.06); border: 1px solid #eee; }
+.shop-card-top { display: flex; gap: 10px; align-items: flex-start; }
+.shop-card-top img { width: 44px; height: 44px; border-radius: 8px; object-fit: cover; background: #eee; flex-shrink: 0; }
+.shop-card-title { font-size: 14px; color: #111; font-weight: 600; line-height: 1.3; }
+.shop-card-sub { font-size: 12px; color: #888; margin-top: 4px; }
+.shop-card-line { height: 1px; background: #f0f0f0; margin: 10px 0; }
+.shop-card-status { text-align: right; font-size: 12px; color: #555; }
+.shop-card-status .tag { display: inline-block; background: #f0f0f0; border-radius: 10px; padding: 3px 12px; color: #666; }
 
-/* ===== 字卡库全屏页面 ===== */
-#cardPage { background: #f5f5f5; }
-.card-tabs { display: flex; gap: 4px; padding: 10px 12px; border-bottom: 1px solid #f0f0f0; overflow-x: auto; background: #fff; flex-shrink: 0; }
-.card-tab { flex-shrink: 0; padding: 8px 16px; border-radius: 18px; background: transparent; font-size: 14px; color: #999; cursor: pointer; white-space: nowrap; border: none; }
-.card-tab.active { color: #111; font-weight: 600; background: #f0f0f0; }
-.card-body { flex: 1; overflow-y: auto; padding: 14px 16px 100px; }
-.card-item { padding: 12px 14px; background: #fff; border-radius: 10px; margin-bottom: 8px; font-size: 14px; display: flex; justify-content: space-between; align-items: center; gap: 8px; }
-.card-item button { background: none; border: none; color: #e74c3c; font-size: 18px; cursor: pointer; flex-shrink: 0; padding: 0 4px; }
-.card-cats { display: flex; flex-wrap: wrap; gap: 8px; margin: 10px 0; }
-.card-cat { padding: 5px 14px; border-radius: 14px; background: #f0f0f0; font-size: 13px; color: #666; cursor: pointer; user-select: none; border: none; }
-.card-cat.active { background: #222; color: #fff; }
-#cardInput, #emojiInput { width: 100%; height: 70px; border: 1px solid #eee; border-radius: 10px; padding: 10px 12px; font-size: 14px; resize: none; outline: none; font-family: inherit; box-sizing: border-box; background: #fafafa; }
-#addCardBtn, #addEmojiBtn { margin-top: 10px; width: 100%; padding: 11px; background: #222; color: #fff; border: none; border-radius: 10px; font-size: 15px; cursor: pointer; }
-.card-tools { display: flex; gap: 8px; margin: 10px 0; }
-#cardSearchInput, #questionSearchInput { flex: 1; padding: 9px 12px; border: 1px solid #eee; border-radius: 10px; font-size: 14px; outline: none; background: #fafafa; }
-#dedupBtn { padding: 9px 14px; background: #f0f0f0; color: #333; border: none; border-radius: 10px; font-size: 14px; cursor: pointer; flex-shrink: 0; }
-
-/* ===== 修复拍一拍输入框样式 ===== */
-.pat-item { display: flex; align-items: center; gap: 8px; margin-bottom: 10px; }
-.pat-item input { flex: 1; padding: 10px 12px; border: 1px solid #eee; border-radius: 8px; font-size: 14px; outline: none; background: #fafafa; color: #333; }
-.pat-item .remove { width: 30px; height: 30px; border: none; border-radius: 8px; background: #f0f0f0; color: #e74c3c; font-size: 18px; cursor: pointer; flex-shrink: 0; display: flex; align-items: center; justify-content: center; }
-.sec-title { font-size: 14px; color: #333; font-weight: 600; margin-bottom: 8px; }
-
-.voice-import-box { background: #fff; border-radius: 12px; padding: 16px; margin-bottom: 14px; border: 1px solid #f0f0f0; display: flex; align-items: center; gap: 12px; cursor: pointer; }
-.voice-import-icon { width: 44px; height: 44px; border-radius: 10px; background: #f0f0f0; display: flex; align-items: center; justify-content: center; flex-shrink: 0; }
-.voice-import-icon svg { width: 24px; height: 24px; stroke: #666; }
-.voice-import-text { flex: 1; }
-.voice-import-title { font-size: 15px; color: #111; font-weight: 600; }
-.voice-import-sub { font-size: 12px; color: #999; margin-top: 4px; line-height: 1.4; }
-.voice-count { text-align: center; font-size: 12px; color: #999; margin: 10px 0 14px; }
-.voice-item { display: flex; align-items: center; gap: 10px; padding: 12px 14px; background: #f7f7f7; border-radius: 10px; margin-bottom: 8px; }
-.voice-item .name { flex: 1; font-size: 13px; color: #333; word-break: break-all; }
-.voice-item .dur { font-size: 12px; color: #999; }
-.voice-item .del { background: none; border: none; color: #e74c3c; font-size: 18px; cursor: pointer; padding: 0 4px; }
-.voice-empty { text-align: center; padding: 50px 20px; color: #ccc; }
-.voice-empty svg { width: 40px; height: 40px; stroke: #ddd; display: block; margin: 0 auto 10px; }
-.voice-empty .text { font-size: 13px; color: #bbb; }
-.voice-bubble { background: #f0f0f0; border-radius: 10px; padding: 10px 14px; display: flex; align-items: center; gap: 10px; min-width: 130px; max-width: 200px; cursor: pointer; color: #333; position: relative; }
-.voice-bubble .play-btn { width: 24px; height: 24px; border-radius: 50%; background: #fff; display: flex; align-items: center; justify-content: center; flex-shrink: 0; }
-.voice-bubble .play-btn svg { width: 12px; height: 12px; fill: #666; }
-.voice-bubble .waves { flex: 1; display: flex; align-items: center; justify-content: space-between; gap: 3px; height: 18px; }
-.voice-bubble .waves span { display: block; width: 2px; height: 6px; background: #bbb; border-radius: 2px; transform-origin: center; }
-.voice-bubble.playing .waves span { background: #888; animation: voiceWave 1s ease-in-out infinite; }
-.voice-bubble.playing .waves span:nth-child(1) { animation-delay: 0s; }
-.voice-bubble.playing .waves span:nth-child(2) { animation-delay: 0.1s; }
-.voice-bubble.playing .waves span:nth-child(3) { animation-delay: 0.2s; }
-.voice-bubble.playing .waves span:nth-child(4) { animation-delay: 0.3s; }
-.voice-bubble.playing .waves span:nth-child(5) { animation-delay: 0.4s; }
-.voice-bubble.playing .waves span:nth-child(6) { animation-delay: 0.5s; }
-.voice-bubble.playing .waves span:nth-child(7) { animation-delay: 0.6s; }
-.voice-bubble.playing .waves span:nth-child(8) { animation-delay: 0.7s; }
-.voice-bubble.playing .waves span:nth-child(9) { animation-delay: 0.8s; }
-@keyframes voiceWave { 0%, 100% { height: 6px; } 50% { height: 16px; } }
-.voice-bubble .duration { font-size: 12px; color: #666; flex-shrink: 0; }
-
-/* ===== 聊天页表情面板 ===== */
-.sticker-panel { position: fixed; bottom: 0; left: 0; right: 0; height: 60vh; background: #fff; border-top: 1px solid #e0e0e0; border-radius: 16px 16px 0 0; display: flex; flex-direction: column; z-index: 80; box-shadow: 0 -4px 16px rgba(0,0,0,0.1); transition: transform 0.25s ease; }
-.sticker-panel.hidden { transform: translateY(100%); pointer-events: none; }
-.sticker-head { display: flex; align-items: center; gap: 6px; padding: 12px 14px; border-bottom: 1px solid #f0f0f0; }
-.sticker-tab { background: none; border: none; font-size: 14px; color: #999; padding: 6px 14px; border-radius: 16px; cursor: pointer; }
-.sticker-tab.active { color: #111; background: #f0f0f0; font-weight: 600; }
-.sticker-add-btn { margin-left: auto; background: #222; color: #fff; border: none; padding: 6px 14px; border-radius: 16px; font-size: 13px; cursor: pointer; }
-.sticker-body { flex: 1; overflow-y: auto; padding: 12px; display: grid; grid-template-columns: repeat(4, 1fr); gap: 8px; align-content: start; }
-.sticker-body .sticker-item { position: relative; aspect-ratio: 1; background: #f0f0f0; border-radius: 10px; background-size: cover; background-position: center; cursor: pointer; }
-.sticker-body .sticker-item .sticker-del { position: absolute; top: -6px; right: -6px; width: 20px; height: 20px; border-radius: 50%; background: #e74c3c; color: #fff; border: none; font-size: 12px; line-height: 1; display: flex; align-items: center; justify-content: center; cursor: pointer; padding: 0; }
-.sticker-body .sticker-empty { grid-column: 1 / -1; text-align: center; color: #999; font-size: 13px; padding: 40px 20px; }
-/* ★★★ settings 段 2 结束 ★★★ *//* ★★★ settings 段 3 开始 ★★★ */
 /* ===== 通用 UI ===== */
 .modal { position: fixed; inset: 0; background: rgba(0,0,0,.4); display: flex; align-items: center; justify-content: center; z-index: 99; }
 .modal.hidden { display: none; }
@@ -523,7 +524,7 @@ body { font-family: -apple-system, BlinkMacSystemFont, "Helvetica Neue", Arial, 
 .music-input-field .label { display: block; font-size: 13px; color: #888; margin-bottom: 6px; }
 .music-input-field input { width: 100%; padding: 12px 14px; border: 1px solid #eee; border-radius: 10px; font-size: 14px; outline: none; background: #fafafa; box-sizing: border-box; }
 .music-input-save { width: 100%; margin-top: 8px; padding: 14px; background: #222; color: #fff; border: none; border-radius: 12px; font-size: 15px; cursor: pointer; }
-/* ★★★ settings 段 3 结束 ★★★ *//* ★★★ settings 段 4 开始 ★★★ */
+/* ★★★ css 第 3 段 结束 ★★★ *//* ★★★ css 第 4 段 开始 ★★★ */
 #musicPlayerPage { background: linear-gradient(180deg, #fafafa 0%, #f0f0f0 100%); padding: 0 20px; }
 .music-player-top { display: flex; justify-content: space-between; align-items: center; padding: 12px 0 0; flex-shrink: 0; }
 .music-player-top .header-btn { background: rgba(255,255,255,0.8); border-radius: 50%; width: 38px; height: 38px; }
@@ -581,6 +582,39 @@ body { font-family: -apple-system, BlinkMacSystemFont, "Helvetica Neue", Arial, 
 .float-card-controls .play-big { background: #111; border: none; width: 36px; height: 36px; border-radius: 50%; display: flex; align-items: center; justify-content: center; cursor: pointer; }
 .float-card-controls .play-big svg { width: 16px; height: 16px; fill: #fff; }
 
+/* ===== 语音/视频通话界面 ===== */
+.call-page { position: fixed; inset: 0; z-index: 500; display: flex; flex-direction: column; overflow: hidden; }
+.call-bg { position: absolute; inset: 0; background: linear-gradient(180deg, #1a1a1a, #333); background-size: cover; background-position: center; z-index: -1; }
+.call-header { padding: 40px 20px 10px; display: flex; justify-content: space-between; align-items: center; }
+.call-time { font-size: 16px; color: #fff; background: rgba(0,0,0,0.3); padding: 6px 14px; border-radius: 20px; backdrop-filter: blur(4px); }
+.call-top-actions button { background: rgba(255,255,255,0.2); border: none; width: 40px; height: 40px; border-radius: 50%; display: flex; align-items: center; justify-content: center; cursor: pointer; color: #fff; }
+.call-avatar-wrap { flex: 1; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 16px; }
+.call-avatar { width: 100px; height: 100px; border-radius: 50%; background: #444 center/cover no-repeat; display: flex; align-items: center; justify-content: center; font-size: 32px; color: #fff; box-shadow: 0 8px 32px rgba(0,0,0,0.3); }
+.call-name { font-size: 24px; color: #fff; font-weight: 600; letter-spacing: 2px; }
+.call-status { font-size: 15px; color: #aaa; }
+.call-bottom-actions { padding: 40px 30px 60px; display: flex; justify-content: space-between; align-items: center; }
+.call-btn { width: 56px; height: 56px; border-radius: 50%; background: rgba(255,255,255,0.2); border: none; display: flex; align-items: center; justify-content: center; cursor: pointer; color: #fff; backdrop-filter: blur(4px); }
+.call-btn svg { width: 26px; height: 26px; }
+.call-hangup { width: 70px; height: 70px; border-radius: 50%; background: #e74c3c; border: none; display: flex; align-items: center; justify-content: center; cursor: pointer; color: #fff; box-shadow: 0 4px 16px rgba(231,76,60,0.4); }
+.call-hangup svg { width: 32px; height: 32px; transform: rotate(135deg); }
+
+/* ===== 通话悬浮胶囊 ===== */
+.call-float { position: fixed; top: 70px; right: 20px; width: 140px; background: #1a1a1a; border-radius: 30px; padding: 8px 12px; display: flex; align-items: center; gap: 8px; z-index: 500; box-shadow: 0 4px 16px rgba(0,0,0,0.4); cursor: pointer; touch-action: none; }
+.call-float.hidden { display: none; }
+.call-float-avatar { width: 36px; height: 36px; border-radius: 50%; background: #444 center/cover no-repeat; display: flex; align-items: center; justify-content: center; font-size: 14px; color: #fff; flex-shrink: 0; }
+.call-float-info { flex: 1; min-width: 0; display: flex; flex-direction: column; justify-content: center; }
+.call-float-name { font-size: 13px; color: #fff; font-weight: 600; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.call-float-time { font-size: 11px; color: #aaa; }
+.call-float-status { width: 6px; height: 6px; border-radius: 50%; background: #07c160; flex-shrink: 0; }
+.call-float-hangup { width: 28px; height: 28px; border-radius: 50%; background: #e74c3c; border: none; display: flex; align-items: center; justify-content: center; cursor: pointer; flex-shrink: 0; padding: 0; }
+.call-float-hangup svg { width: 14px; height: 14px; transform: rotate(135deg); }
+
+/* ===== 看电影界面 ===== */
+.movie-screen { width: 100%; height: 260px; background: #000; display: flex; align-items: center; justify-content: center; flex-shrink: 0; }
+.movie-screen video { object-fit: contain; }
+#movieChatBox .msg-row { max-width: 80%; padding-bottom: 6px; gap: 6px; }
+#movieChatBox .system-tip { background: rgba(255,255,255,0.1); color: #aaa; border: none; }
+
 /* ===== 设置面板样式 ===== */
 .settings-tabs { display: flex; border-bottom: 1px solid #f0f0f0; background: #fff; position: sticky; top: 0; z-index: 5; }
 .settings-tab { flex: 1; text-align: center; padding: 14px 0; font-size: 14px; color: #666; cursor: pointer; border-bottom: 2px solid transparent; }
@@ -596,19 +630,38 @@ body { font-family: -apple-system, BlinkMacSystemFont, "Helvetica Neue", Arial, 
 .set-row input[type="checkbox"] { width: 20px; height: 20px; accent-color: var(--theme-color); cursor: pointer; flex-shrink: 0; }
 .set-row input[type="color"] { width: 40px; height: 28px; border: none; padding: 0; background: none; cursor: pointer; }
 
+/* 滑动条样式 */
+input[type="range"] {
+  -webkit-appearance: none;
+  width: 100%;
+  height: 6px;
+  border-radius: 3px;
+  background: #e0e0e0;
+  outline: none;
+  margin: 10px 0;
+}
+input[type="range"]::-webkit-slider-thumb {
+  -webkit-appearance: none;
+  appearance: none;
+  width: 20px;
+  height: 20px;
+  border-radius: 50%;
+  background: var(--theme-color);
+  cursor: pointer;
+  box-shadow: 0 1px 4px rgba(0,0,0,0.2);
+}
+
 .radio-group { display: flex; gap: 12px; }
 .radio-group label { display: flex; align-items: center; gap: 4px; font-size: 13px; color: #333; cursor: pointer; }
 .radio-group input[type="radio"] { accent-color: var(--theme-color); cursor: pointer; }
 
 .set-btn { width: 100%; padding: 14px; background: var(--theme-color); color: #fff; border: none; border-radius: 12px; font-size: 15px; font-weight: 600; cursor: pointer; margin: 8px 0 16px; }
-
 .btn-primary { width: 100%; padding: 12px; background: var(--theme-color); color: #fff; border: none; border-radius: 10px; font-size: 14px; font-weight: 600; cursor: pointer; }
 .btn-secondary { width: 100%; padding: 12px; background: #f0f0f0; color: #333; border: none; border-radius: 10px; font-size: 14px; cursor: pointer; }
 
 .wallpaper-row { display: flex; flex-wrap: wrap; gap: 10px; }
 .wallpaper-dot { width: 44px; height: 44px; border-radius: 10px; cursor: pointer; border: 2px solid #fff; box-shadow: 0 0 0 1px #eee; }
 .wallpaper-dot:active { transform: scale(0.94); }
-
 .color-row { display: flex; flex-wrap: wrap; gap: 10px; }
 .color-dot { width: 32px; height: 32px; border-radius: 50%; cursor: pointer; border: 2px solid #fff; box-shadow: 0 0 0 1px #eee; }
 .color-dot:active { transform: scale(0.92); }
@@ -620,16 +673,12 @@ body { font-family: -apple-system, BlinkMacSystemFont, "Helvetica Neue", Arial, 
 .avatar-row { display: flex; align-items: center; gap: 12px; padding: 10px 0; cursor: pointer; }
 .avatar-row .label { flex: 1; font-size: 14px; color: #333; }
 .avatar-preview { width: 44px; height: 44px; border-radius: 50%; background: #eee center/cover no-repeat; flex-shrink: 0; border: 1px solid #eee; }
-
 .input-row { display: flex; align-items: center; gap: 10px; padding: 10px 0; }
 .input-row .label { width: 90px; font-size: 14px; color: #333; flex-shrink: 0; }
 .input-row input { flex: 1; padding: 10px 12px; border: 1px solid #eee; border-radius: 8px; font-size: 14px; outline: none; background: #fafafa; color: #333; }
-
 .css-area { width: 100%; min-height: 80px; padding: 10px 12px; border: 1px solid #eee; border-radius: 10px; font-size: 13px; font-family: Menlo, Consolas, monospace; outline: none; background: #fafafa; color: #333; box-sizing: border-box; resize: vertical; }
-
 .color-slider { width: 100%; height: 36px; border: none; border-radius: 10px; background: none; cursor: pointer; padding: 0; }
-
 .about-box { text-align: center; font-size: 13px; color: #999; line-height: 1.8; }
 .about-box .title { font-size: 18px; font-weight: 600; color: #111; margin-bottom: 4px; }
 .about-box .divider { color: #e0e0e0; margin: 10px 0; font-size: 12px; }
-/* ★★★ settings 段 4 结束 ★★★ */
+/* ★★★ css 第 4 段 结束 ★★★ */
