@@ -1,4 +1,4 @@
-<!-- ★★★ index 段 1 开始 ★★★ -->
+<!-- ★★★ index 第 1 段 开始 ★★★ -->
 <!DOCTYPE html>
 <html lang="zh-CN">
 <head>
@@ -26,7 +26,6 @@
 
 <div id="homePage" class="page">
   <div class="home-time" id="homeTime">--:--</div>
-
   <div class="home-avatars">
     <div class="avatar-wrap">
       <div class="avatar-circle" id="homeTaAvatar">TA</div>
@@ -37,12 +36,10 @@
       <div class="avatar-name" id="homeMyName">我</div>
     </div>
   </div>
-
   <div class="home-quote" id="homeQuote">
     <div class="home-quote-box" id="homeQuoteBox">双击寄语</div>
     <div class="home-quote-text" id="homeQuoteText"></div>
   </div>
-
   <div class="home-main-area">
     <div class="home-big-card" id="homeBigCard">
       <img id="homeBigCardImg" src="" alt="" style="display:none;">
@@ -67,7 +64,6 @@
       </div>
     </div>
   </div>
-
   <div class="home-bottom-area">
     <div class="home-anniv-card" id="homeAnnivCard">
       <div class="anniv-title" style="font-size:12px;">我们已经在一起</div>
@@ -84,7 +80,6 @@
       </div>
     </div>
   </div>
-
   <div class="home-bottom-bar">
     <div class="bar-item" data-key="settings">设置</div>
     <div class="bar-item" data-key="cards">字卡库</div>
@@ -119,7 +114,7 @@
   <div class="moment-body" id="momentBody"></div>
   <button class="moment-fab" id="momentAddBtn">+</button>
 </div>
-<!-- ★★★ index 段 1 结束 ★★★ --><!-- ★★★ index 段 2 开始 ★★★ -->
+<!-- ★★★ index 第 1 段 结束 ★★★ --><!-- ★★★ index 第 2 段 开始 ★★★ -->
 <div id="momentPostModal" class="modal hidden">
   <div class="moment-post-sheet">
     <div class="moment-post-head">
@@ -191,7 +186,14 @@
       <button class="header-btn" id="openMenuBtn"><svg viewBox="0 0 24 24" fill="none" stroke="#666" stroke-width="2.5" stroke-linecap="round"><circle cx="5" cy="12" r="1.5" fill="#666" stroke="none"></circle><circle cx="12" cy="12" r="1.5" fill="#666" stroke="none"></circle><circle cx="19" cy="12" r="1.5" fill="#666" stroke="none"></circle></svg></button>
     </div>
   </header>
-  <div id="messages"></div>
+  
+  <div style="position:relative; flex:1; display:flex; flex-direction:column; overflow:hidden;">
+    <div id="messages" style="flex:1; overflow-y:auto; padding:16px 12px; display:flex; flex-direction:column; gap:16px;"></div>
+    <button id="scrollBottomBtn" class="hidden" style="position:absolute; right:20px; bottom:20px; width:36px; height:36px; border-radius:50%; background:#fff; border:1px solid #e0e0e0; box-shadow:0 2px 8px rgba(0,0,0,0.1); display:flex; align-items:center; justify-content:center; z-index:10; cursor:pointer;">
+      <svg viewBox="0 0 24 24" fill="none" stroke="#666" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="width:20px; height:20px;"><path d="M7 10 L12 15 L17 10"></path></svg>
+    </button>
+  </div>
+
   <footer class="chat-footer">
     <button class="footer-btn" id="plusBtn"><svg viewBox="0 0 24 24" fill="none" stroke="#666" stroke-width="2" stroke-linecap="round"><circle cx="12" cy="12" r="9"></circle><path d="M12 8 V16 M8 12 H16"></path></svg></button>
     <button class="footer-btn" id="emojiBtn"><svg viewBox="0 0 24 24" fill="none" stroke="#666" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"></circle><circle cx="9" cy="10" r="1" fill="#666"></circle><circle cx="15" cy="10" r="1" fill="#666"></circle><path d="M8.5 14.5 Q12 17 15.5 14.5"></path></svg></button>
@@ -202,7 +204,6 @@
 
 <div id="menuPopup"><div class="menu-item" id="menuSettings">设置</div><div class="menu-item" id="menuCards">字卡库</div></div>
 
-<!-- 扩充后的加号菜单 -->
 <div id="plusMenu" class="plus-menu hidden">
   <div class="plus-grid" style="grid-template-columns: repeat(4, 1fr); gap: 16px 10px;">
     <div class="plus-item" data-key="transfer"><div class="plus-icon"><svg viewBox="0 0 24 24" fill="none" stroke="#333" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 8 L14 8 M10 4 L14 8 L10 12"></path><path d="M20 16 L10 16 M14 12 L10 16 L14 20"></path></svg></div><div class="plus-label">转账</div></div>
@@ -217,7 +218,6 @@
   </div>
 </div>
 
-<!-- 搞怪子菜单 -->
 <div id="prankMenu" class="plus-menu hidden" style="bottom: 140px; padding: 12px;">
   <div style="display:flex; justify-content:space-around; align-items:center;">
     <div class="prank-item" data-type="tomato" style="text-align:center; cursor:pointer; font-size:24px;">🍅<div style="font-size:12px;color:#666;margin-top:4px;">番茄</div></div>
@@ -230,7 +230,7 @@
 <div id="longPressMenu" class="long-press-menu hidden">
   <div class="lp-item" data-act="copy">复制</div><div class="lp-item" data-act="quote">引用</div><div class="lp-item" data-act="fav">收藏</div><div class="lp-item" data-act="del">删除</div>
 </div>
-<!-- ★★★ index 段 2 结束 ★★★ --><!-- ★★★ index 段 3 开始 ★★★ -->
+<!-- ★★★ index 第 2 段 结束 ★★★ --><!-- ★★★ index 第 3 段 开始 ★★★ -->
 <div id="mailPage" class="page hidden">
   <header class="chat-header">
     <div class="header-left"><button class="header-btn" id="backFromMailBtn"><svg viewBox="0 0 24 24" fill="none" stroke="#666" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M15 6 L9 12 L15 18"></path></svg></button></div>
@@ -334,7 +334,7 @@
     </div>
   </div>
 </div>
-<!-- ★★★ index 段 3 结束 ★★★ --><!-- ★★★ index 段 4 开始 ★★★ -->
+<!-- ★★★ index 第 3 段 结束 ★★★ --><!-- ★★★ index 第 4 段 开始 ★★★ -->
 <div id="cardPage" class="page hidden">
   <header class="chat-header">
     <div class="header-left"><button class="header-btn" id="closeCardBtn"><svg viewBox="0 0 24 24" fill="none" stroke="#666" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M15 6 L9 12 L15 18"></path></svg></button></div>
@@ -390,7 +390,6 @@
   <div id="questionList" class="question-list"></div>
 </template>
 
-<!-- 问卷题库添加/修改弹窗 -->
 <div id="questionEditModal" class="modal hidden">
   <div class="modal-box">
     <div class="modal-head"><span id="questionEditTitle">添加题目</span><button id="closeQuestionEditBtn">×</button></div>
@@ -536,7 +535,7 @@
     </div>
   </div>
 </div>
-<!-- ★★★ index 段 4 结束 ★★★ --><!-- ★★★ index 段 5 开始 ★★★ -->
+<!-- ★★★ index 第 4 段 结束 ★★★ --><!-- ★★★ index 第 5 段 开始 ★★★ -->
 <div id="floatDisc" class="hidden">
   <div class="float-disc-inner"><div class="float-cover" id="floatCover"></div></div>
 </div>
@@ -558,7 +557,6 @@
 </div>
 <input type="file" id="floatCoverUpload" accept="image/*" style="display:none;">
 
-<!-- 语音/视频通话全屏界面 -->
 <div id="callPage" class="call-page hidden">
   <div class="call-bg" id="callBg"></div>
   <div class="call-header">
@@ -580,7 +578,6 @@
 </div>
 <input type="file" id="callBgUpload" accept="image/*" style="display:none;">
 
-<!-- 通话悬浮窗 -->
 <div id="callFloat" class="call-float hidden">
   <div class="call-float-avatar" id="callFloatAvatar">TA</div>
   <div class="call-float-info">
@@ -591,7 +588,6 @@
   <button class="call-float-hangup" id="callFloatHangup"><svg viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"></path></svg></button>
 </div>
 
-<!-- 看电影界面 -->
 <div id="moviePage" class="page hidden" style="background:#111;">
   <header class="chat-header" style="background:#222;border-bottom:none;">
     <div class="header-left"><button class="header-btn" id="backFromMovieBtn"><svg viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M15 6 L9 12 L15 18"></path></svg></button></div>
@@ -789,7 +785,7 @@ setInterval(recordOnlineTime, 10000);
 window.addEventListener('beforeunload', recordOnlineTime);
 window.addEventListener('load', recordOnlineTime);
 </script>
-<!-- ★★★ index 段 5 结束 ★★★ --><!-- ★★★ index 段 6 开始 ★★★ -->
+<!-- ★★★ index 第 5 段 结束 ★★★ --><!-- ★★★ index 第 6 段 开始 ★★★ -->
 <script>
 function addMessage(sender, content, quote, store, msgId) {
   const row = document.createElement('div');
@@ -820,6 +816,9 @@ function addMessage(sender, content, quote, store, msgId) {
   row.appendChild(bubble);
   messagesEl.appendChild(row);
   messagesEl.scrollTop = messagesEl.scrollHeight;
+  
+  const sb = document.getElementById('scrollBottomBtn');
+  if (sb) sb.classList.add('hidden');
 
   if (store !== false) {
     const msgs = load('our_messages', []);
@@ -1052,7 +1051,7 @@ function markAllRead() {
   });
 }
 </script>
-<!-- ★★★ index 段 6 结束 ★★★ --><!-- ★★★ index 段 7 开始 ★★★ -->
+<!-- ★★★ index 第 6 段 结束 ★★★ --><!-- ★★★ index 第 7 段 开始 ★★★ -->
 <script>
 function renderTransferCard(m) {
   const isMe = m.sender === 'me';
@@ -1097,7 +1096,6 @@ function makeTransferCard(amount, note) {
   renderTransferCard({ type: 'transfer', from: 'me', sender: 'me', transferId, amount, note, status: 'pending', t, msgId });
   playSound('receive');
   
-  // 50%概率
   setTimeout(() => {
     const isReceive = Math.random() < 0.5;
     const newStatus = isReceive ? 'received' : 'refunded';
@@ -1145,9 +1143,6 @@ function refreshMessages() {
     else if (m.type === 'datedivider') addDateDivider(m.t);
     else if (m.type === 'surveycard') renderSurveyCard(m);
     else if (m.type === 'questioncard') renderQuestionCard(m);
-    else if (m.type === 'callcard') renderCallCard(m);
-    else if (m.type === 'prankcard') renderPrankCard(m);
-    else if (m.type === 'quizcard') renderQuizCard(m);
   });
   const rs = load('read_style', 'icon');
   document.querySelectorAll('.msg-row.me .bubble .read-mark').forEach(el => {
@@ -1251,7 +1246,7 @@ document.addEventListener('dblclick', function(e) {
   playSound('poke');
 });
 </script>
-<!-- ★★★ index 段 7 结束 ★★★ --><!-- ★★★ index 段 8 开始 ★★★ -->
+<!-- ★★★ index 第 7 段 结束 ★★★ --><!-- ★★★ index 第 8 段 开始 ★★★ -->
 <script>
 let longPressTarget = null;
 let longPressTimer = null;
@@ -1440,8 +1435,27 @@ document.getElementById('closeCardBtn').onclick = () => { showPage(cardReturnPag
 let currentCardTab = 'main';
 let currentCat = 'all';
 let currentSearch = '';
+
+/* ===== 聊天页向下箭头逻辑 ===== */
+const chatScrollContainer = document.getElementById('messages');
+const scrollBottomBtn = document.getElementById('scrollBottomBtn');
+
+if (chatScrollContainer && scrollBottomBtn) {
+  chatScrollContainer.addEventListener('scroll', () => {
+    const distToBottom = chatScrollContainer.scrollHeight - chatScrollContainer.scrollTop - chatScrollContainer.clientHeight;
+    if (distToBottom > 150) {
+      scrollBottomBtn.classList.remove('hidden');
+    } else {
+      scrollBottomBtn.classList.add('hidden');
+    }
+  });
+
+  scrollBottomBtn.addEventListener('click', () => {
+    chatScrollContainer.scrollTo({ top: chatScrollContainer.scrollHeight, behavior: 'smooth' });
+  });
+}
 </script>
-<!-- ★★★ index 段 8 结束 ★★★ --><!-- ★★★ index 段 9 开始 ★★★ -->
+<!-- ★★★ index 第 8 段 结束 ★★★ --><!-- ★★★ index 第 9 段 开始 ★★★ -->
 <script>
 function openCardTab(tab) {
   currentCardTab = tab;
@@ -1748,8 +1762,55 @@ function renderVoiceList() {
   });
 }
 </script>
-<!-- ★★★ index 段 9 结束 ★★★ --><!-- ★★★ index 段 10 开始 ★★★ -->
+<!-- ★★★ index 第 9 段 结束 ★★★ --><!-- ★★★ index 第 10 段 开始 ★★★ -->
 <script>
+/* ===== 问卷题库逻辑 ===== */
+let editingQuestionId = null;
+
+function openQuestionEditModal(q) {
+  editingQuestionId = q ? q.id : null;
+  document.getElementById('questionEditTitle').textContent = q ? '修改题目' : '添加题目';
+  document.getElementById('questionCatInput').value = q ? (q.category || '') : '';
+  document.getElementById('questionTitleInput').value = q ? q.content : '';
+  
+  const optInput = document.getElementById('questionOptionsInput');
+  if (q && q.options && q.options.length > 0) {
+    optInput.value = q.options.join('\n');
+  } else if (!q) {
+    optInput.value = '是\n否\n看情况';
+  } else {
+    optInput.value = '';
+  }
+  document.getElementById('questionEditModal').classList.remove('hidden');
+}
+
+document.getElementById('closeQuestionEditBtn').onclick = () => {
+  document.getElementById('questionEditModal').classList.add('hidden');
+};
+
+document.getElementById('saveQuestionBtn').onclick = () => {
+  const cat = document.getElementById('questionCatInput').value.trim();
+  const title = document.getElementById('questionTitleInput').value.trim();
+  const optsText = document.getElementById('questionOptionsInput').value.trim();
+  if (!title) { alert('问题不能为空'); return; }
+  if (!optsText) { alert('选项不能为空'); return; }
+  const options = optsText.split('\n').map(l => l.trim()).filter(l => l);
+  if (options.length < 2) { alert('至少需要 2 个选项'); return; }
+  
+  let qs = load('our_question_bank', []);
+  if (editingQuestionId) {
+    const idx = qs.findIndex(x => x.id === editingQuestionId);
+    if (idx >= 0) { qs[idx].category = cat; qs[idx].content = title; qs[idx].options = options; }
+  } else {
+    qs.push({ id: 'q_' + Date.now() + '_' + Math.random().toString(36).slice(2, 6), category: cat, content: title, options: options, blocked: false });
+  }
+  save('our_question_bank', qs);
+  document.getElementById('questionEditModal').classList.add('hidden');
+  
+  // 刷新列表
+  bindQuestionTab();
+};
+
 function bindQuestionTab() {
   let currentQCat = 'all';
   let currentQSearch = '';
@@ -1834,6 +1895,7 @@ function bindQuestionTab() {
     });
   }
 
+  // 顶部菜单栏加一个添加按钮
   const toolsDiv = document.querySelector('#cardBody .card-tools');
   if (toolsDiv && !document.getElementById('addQuestionBtn')) {
     const addBtn = document.createElement('button');
@@ -1861,49 +1923,7 @@ function bindQuestionTab() {
   renderQList();
 }
 
-let editingQuestionId = null;
-function openQuestionEditModal(q) {
-  editingQuestionId = q ? q.id : null;
-  document.getElementById('questionEditTitle').textContent = q ? '修改题目' : '添加题目';
-  document.getElementById('questionCatInput').value = q ? (q.category || '') : '';
-  document.getElementById('questionTitleInput').value = q ? q.content : '';
-  
-  const optInput = document.getElementById('questionOptionsInput');
-  if (q && q.options && q.options.length > 0) {
-    optInput.value = q.options.join('\n');
-  } else if (!q) {
-    optInput.value = '是\n否\n看情况';
-  } else {
-    optInput.value = '';
-  }
-  document.getElementById('questionEditModal').classList.remove('hidden');
-}
-
-document.getElementById('closeQuestionEditBtn').onclick = () => {
-  document.getElementById('questionEditModal').classList.add('hidden');
-};
-
-document.getElementById('saveQuestionBtn').onclick = () => {
-  const cat = document.getElementById('questionCatInput').value.trim();
-  const title = document.getElementById('questionTitleInput').value.trim();
-  const optsText = document.getElementById('questionOptionsInput').value.trim();
-  if (!title) { alert('问题不能为空'); return; }
-  if (!optsText) { alert('选项不能为空'); return; }
-  const options = optsText.split('\n').map(l => l.trim()).filter(l => l);
-  if (options.length < 2) { alert('至少需要 2 个选项'); return; }
-  
-  let qs = load('our_question_bank', []);
-  if (editingQuestionId) {
-    const idx = qs.findIndex(x => x.id === editingQuestionId);
-    if (idx >= 0) { qs[idx].category = cat; qs[idx].content = title; qs[idx].options = options; }
-  } else {
-    qs.push({ id: 'q_' + Date.now() + '_' + Math.random().toString(36).slice(2, 6), category: cat, content: title, options: options, blocked: false });
-  }
-  save('our_question_bank', qs);
-  document.getElementById('questionEditModal').classList.add('hidden');
-  bindQuestionTab();
-};
-
+/* ===== 工具函数 ===== */
 function compressImage(file, maxSize, cb) {
   const reader = new FileReader();
   reader.onload = (e) => {
@@ -1951,7 +1971,7 @@ function openTextInput(title, defaultValue, onConfirm) {
   mask.onclick = (e) => { if (e.target === mask) mask.remove(); };
 }
 </script>
-<!-- ★★★ index 段 10 结束 ★★★ --><!-- ★★★ index 段 11 开始 ★★★ -->
+<!-- ★★★ index 第 10 段 结束 ★★★ --><!-- ★★★ index 第 11 段 开始 ★★★ -->
 <script>
 function applyHomeAssets() {
   const myA = document.getElementById('homeMyAvatar');
@@ -2051,6 +2071,50 @@ document.querySelectorAll('.home-bottom-bar .bar-item').forEach(btn => {
     else if (key === 'mail') showMailPage();
   };
 });
+
+(function() {
+  const cardEl = document.getElementById('homeBigCard');
+  const img = document.getElementById('homeBigCardImg');
+  const tip = document.getElementById('homeBigCardTip');
+  const upload = document.createElement('input');
+  upload.type = 'file';
+  upload.accept = 'image/*';
+  upload.style.display = 'none';
+  document.body.appendChild(upload);
+
+  cardEl.onclick = () => upload.click();
+
+  upload.onchange = (e) => {
+    const file = e.target.files[0];
+    if (!file) return;
+    compressImage(file, 900, (url) => {
+      try {
+        save('home_card_img', url);
+      } catch (err) {
+        alert('图片太大，换一张小一点的吧');
+        return;
+      }
+      img.src = url;
+      img.style.display = 'block';
+      if (tip) tip.style.display = 'none';
+    });
+    upload.value = '';
+  };
+})();
+
+(function() {
+  const box = document.getElementById('homeQuoteBox');
+  const txt = document.getElementById('homeQuoteText');
+  function edit() {
+    const cur = load('home_quote', '');
+    openTextInput('输入寄语', cur, (v) => {
+      save('home_quote', v);
+      applyHomeQuote();
+    });
+  }
+  box.ondblclick = edit;
+  txt.ondblclick = edit;
+})();
 
 document.getElementById('talkMineBubble').onclick = () => {
   const cur = load('home_talk_mine', '');
@@ -2206,7 +2270,7 @@ function scheduleAutoMessage() {
   }, delay);
 }
 </script>
-<!-- ★★★ index 段 11 结束 ★★★ --><!-- ★★★ index 段 12 开始 ★★★ -->
+<!-- ★★★ index 第 11 段 结束 ★★★ --><!-- ★★★ index 第 12 段 开始 ★★★ -->
 <script>
 /* ===== 商店逻辑 ===== */
 let shopItems = load('our_shop_items', []);
@@ -2391,8 +2455,525 @@ function taSendGift(it) {
   saveShopOrders();
   playSound('receive');
 }
+
+/* ===== 收藏夹 ===== */
+function renderFavList() {
+  const body = document.getElementById('favBody');
+  if (!body) return;
+  const favs = load('our_favorites', []);
+  if (favs.length === 0) { body.innerHTML = '<div style="text-align:center;color:#999;padding:40px 0;">收藏夹空空如也</div>'; return; }
+  body.innerHTML = '';
+  favs.slice().reverse().forEach((f, i) => {
+    const realIdx = favs.length - 1 - i;
+    const div = document.createElement('div');
+    div.className = 'card-item';
+    const d = new Date(f.t || Date.now());
+    const dateStr = `${d.getMonth()+1}月${d.getDate()}日 ${String(d.getHours()).padStart(2,'0')}:${String(d.getMinutes()).padStart(2,'0')}`;
+    const who = f.from === 'me' ? load('my_name', '我') : load('ta_name', 'TA');
+    div.innerHTML = `<div style="flex:1;word-break:break-word;font-size:14px;color:#333;">
+      <div style="font-size:12px;color:#999;margin-bottom:4px;">[${dateStr}] ${who}：</div>
+      <div>${f.text}</div>
+    </div><button>×</button>`;
+    div.querySelector('button').onclick = () => { favs.splice(realIdx, 1); save('our_favorites', favs); renderFavList(); };
+    body.appendChild(div);
+  });
+}
 </script>
-<!-- ★★★ index 段 12 结束 ★★★ --><!-- ★★★ index 段 13 开始 ★★★ -->
+<!-- ★★★ index 第 12 段 结束 ★★★ --><!-- ★★★ index 第 13 段 开始 ★★★ -->
+<script>
+/* ===== 搜索聊天 ===== */
+const searchInp = document.getElementById('searchInput');
+const searchDatePanel = document.getElementById('searchDatePanel');
+const searchStartDate = document.getElementById('searchStartDate');
+const searchEndDate = document.getElementById('searchEndDate');
+
+document.getElementById('searchDateFilterBtn').onclick = () => {
+  searchDatePanel.classList.toggle('hidden');
+};
+document.getElementById('searchDateReset').onclick = () => {
+  searchStartDate.value = '';
+  searchEndDate.value = '';
+  renderSearchList(searchInp.value.trim());
+};
+searchStartDate.onchange = () => renderSearchList(searchInp.value.trim());
+searchEndDate.onchange = () => renderSearchList(searchInp.value.trim());
+
+function renderSearchList(kw) {
+  const box = document.getElementById('searchResult');
+  if (!box) return;
+  const startVal = searchStartDate.value ? new Date(searchStartDate.value + 'T00:00:00').getTime() : 0;
+  const endVal = searchEndDate.value ? new Date(searchEndDate.value + 'T23:59:59').getTime() : Infinity;
+
+  if (!kw && startVal === 0 && endVal === Infinity) { box.innerHTML = ''; return; }
+  
+  const msgs = load('our_messages', []).filter(m => {
+    if (m.type !== 'text' || !m.content) return false;
+    if (kw && !m.content.includes(kw)) return false;
+    if (m.t < startVal || m.t > endVal) return false;
+    return true;
+  });
+
+  if (msgs.length === 0) { box.innerHTML = '<div style="color:#999;text-align:center;padding:20px;">没找到相关记录</div>'; return; }
+  
+  const groups = {};
+  msgs.forEach(m => {
+    const d = new Date(m.t);
+    const key = `${d.getFullYear()}-${d.getMonth() + 1}-${d.getDate()}`;
+    if (!groups[key]) groups[key] = [];
+    groups[key].push(m);
+  });
+
+  const keys = Object.keys(groups).sort((a, b) => {
+    const [ay, am, ad] = a.split('-').map(Number);
+    const [by, bm, bd] = b.split('-').map(Number);
+    return new Date(by, bm - 1, bd) - new Date(ay, am - 1, ad);
+  });
+
+  box.innerHTML = '';
+  keys.forEach(k => {
+    const [y, mo, da] = k.split('-').map(Number);
+    const group = document.createElement('div');
+    group.className = 'search-date-group';
+    const title = document.createElement('div');
+    title.className = 'search-date-title';
+    title.textContent = `${mo}月${da}日`;
+    group.appendChild(title);
+    
+    groups[k].slice().reverse().forEach(m => {
+      const div = document.createElement('div');
+      div.className = 'search-msg-item';
+      const d = new Date(m.t);
+      const hh = String(d.getHours()).padStart(2, '0');
+      const mm = String(d.getMinutes()).padStart(2, '0');
+      const who = m.sender === 'me' ? load('my_name', '我') : load('ta_name', 'TA');
+      div.innerHTML = `<span class="search-msg-time">[${hh}:${mm}] ${who}：</span>${m.content}`;
+      div.onclick = () => jumpToMessage(m.msgId);
+      group.appendChild(div);
+    });
+    box.appendChild(group);
+  });
+}
+
+function jumpToMessage(msgId) {
+  document.getElementById('searchModal').classList.add('hidden');
+  showPage('chatPage');
+  setTimeout(() => {
+    const row = document.querySelector(`.msg-row[data-msg-id="${msgId}"]`);
+    if (!row) return;
+    row.scrollIntoView({ behavior: 'smooth', block: 'center' });
+    row.classList.add('jump-highlight');
+    setTimeout(() => row.classList.remove('jump-highlight'), 2000);
+  }, 200);
+}
+
+if (searchInp) searchInp.oninput = () => renderSearchList(searchInp.value.trim());
+document.getElementById('closeFavBtn').onclick = () => document.getElementById('favModal').classList.add('hidden');
+document.getElementById('closeSearchBtn').onclick = () => document.getElementById('searchModal').classList.add('hidden');
+window.renderFavList = renderFavList;
+
+/* ===== 纪念日 ===== */
+function loadAnnivList() { try { return JSON.parse(localStorage.getItem('anniv_list') || '[]'); } catch (e) { return []; } }
+function saveAnnivList(list) { localStorage.setItem('anniv_list', JSON.stringify(list)); }
+function renderAnniv() {
+  const start = localStorage.getItem('anniv_start') || '';
+  const daysEl = document.getElementById('annivDays');
+  if (start) {
+    const diff = Math.floor((Date.now() - new Date(start).getTime()) / 86400000);
+    daysEl.textContent = diff >= 0 ? diff : 0;
+  } else daysEl.textContent = '--';
+  const list = loadAnnivList();
+  const listEl = document.getElementById('annivList');
+  if (list.length === 0) { listEl.innerHTML = '<div style="color:#999;font-size:13px;text-align:center;padding:20px;">还没有纪念日，点下面添加</div>'; updateHomeAnnivNum(); return; }
+  listEl.innerHTML = '';
+  list.forEach((item, idx) => {
+    const div = document.createElement('div');
+    div.className = 'anniv-item';
+    const now = new Date();
+    const target = new Date(now.getFullYear(), item.month - 1, item.day);
+    if (target < now) target.setFullYear(now.getFullYear() + 1);
+    const left = Math.ceil((target - now) / 86400000);
+    div.innerHTML = `<div class="anniv-item-info"><div class="anniv-item-name">${item.name}</div><div class="anniv-item-date">${item.month}月${item.day}日</div></div><div class="anniv-item-days">还有 ${left} 天</div><button class="anniv-item-del">×</button>`;
+    div.querySelector('.anniv-item-del').onclick = () => { list.splice(idx, 1); saveAnnivList(list); renderAnniv(); };
+    listEl.appendChild(div);
+  });
+  updateHomeAnnivNum();
+}
+document.getElementById('backFromAnnivBtn').onclick = () => showPage('homePage');
+
+let annivPickerMode = 'start';
+let annivPickerY = 2024, annivPickerM = 1, annivPickerD = 1;
+function daysInMonth(y, m) { return new Date(y, m, 0).getDate(); }
+function renderAnnivPicker() {
+  const maxD = daysInMonth(annivPickerY, annivPickerM);
+  if (annivPickerD > maxD) annivPickerD = maxD;
+  document.getElementById('annivYearCur').textContent = annivPickerY;
+  document.getElementById('annivYearTop').textContent = annivPickerY - 1;
+  document.getElementById('annivYearBot').textContent = annivPickerY + 1;
+  document.getElementById('annivMonthCur').textContent = pad2(annivPickerM);
+  document.getElementById('annivMonthTop').textContent = pad2(annivPickerM === 1 ? 12 : annivPickerM - 1);
+  document.getElementById('annivMonthBot').textContent = pad2(annivPickerM === 12 ? 1 : annivPickerM + 1);
+  document.getElementById('annivDayCur').textContent = pad2(annivPickerD);
+  document.getElementById('annivDayTop').textContent = pad2(annivPickerD === 1 ? maxD : annivPickerD - 1);
+  document.getElementById('annivDayBot').textContent = pad2(annivPickerD === maxD ? 1 : annivPickerD + 1);
+}
+function openAnnivPicker(mode, defVal) {
+  annivPickerMode = mode;
+  if (defVal) {
+    const m = defVal.match(/^(\d{4})-(\d{1,2})-(\d{1,2})$/);
+    if (m) { annivPickerY = parseInt(m[1]); annivPickerM = parseInt(m[2]); annivPickerD = parseInt(m[3]); }
+  } else {
+    const d = new Date();
+    annivPickerY = d.getFullYear();
+    annivPickerM = d.getMonth() + 1;
+    annivPickerD = d.getDate();
+  }
+  document.getElementById('annivDateTitle').textContent = mode === 'start' ? '设置起始日期' : '添加纪念日';
+  renderAnnivPicker();
+  document.getElementById('annivDatePicker').classList.remove('hidden');
+}
+function closeAnnivPicker() { document.getElementById('annivDatePicker').classList.add('hidden'); }
+
+(function() {
+  function bindCol(elId, fn) {
+    const el = document.getElementById(elId).parentElement;
+    let startY = 0;
+    function onStart(e) { startY = (e.touches ? e.touches[0].clientY : e.clientY); }
+    function onEnd(e) {
+      const endY = (e.changedTouches ? e.changedTouches[0].clientY : e.clientY);
+      const dy = endY - startY;
+      if (Math.abs(dy) < 12) return;
+      fn(dy > 0 ? -1 : 1);
+    }
+    el.addEventListener('touchstart', onStart, { passive: true });
+    el.addEventListener('touchend', onEnd);
+    el.addEventListener('mousedown', onStart);
+    el.addEventListener('mouseup', onEnd);
+  }
+  bindCol('annivYearCur', (dir) => { annivPickerY += dir; renderAnnivPicker(); });
+  bindCol('annivMonthCur', (dir) => {
+    annivPickerM += dir;
+    if (annivPickerM > 12) { annivPickerM = 1; annivPickerY += 1; }
+    if (annivPickerM < 1) { annivPickerM = 12; annivPickerY -= 1; }
+    renderAnnivPicker();
+  });
+  bindCol('annivDayCur', (dir) => {
+    const maxD = daysInMonth(annivPickerY, annivPickerM);
+    annivPickerD += dir;
+    if (annivPickerD > maxD) { annivPickerD = 1; }
+    if (annivPickerD < 1) { annivPickerD = maxD; }
+    renderAnnivPicker();
+  });
+})();
+
+document.getElementById('editStartBtn').onclick = () => { openAnnivPicker('start', localStorage.getItem('anniv_start') || ''); };
+document.getElementById('annivDateCancel').onclick = closeAnnivPicker;
+document.getElementById('annivDateOk').onclick = () => {
+  const dateStr = `${annivPickerY}-${pad2(annivPickerM)}-${pad2(annivPickerD)}`;
+  if (annivPickerMode === 'start') {
+    localStorage.setItem('anniv_start', dateStr);
+    renderAnniv();
+  } else {
+    const name = window._pendingAnnivName || '纪念日';
+    const list = loadAnnivList();
+    list.push({ name: name, month: annivPickerM, day: annivPickerD });
+    saveAnnivList(list);
+    renderAnniv();
+  }
+  closeAnnivPicker();
+};
+document.getElementById('addAnnivBtn').onclick = () => {
+  openTextInput('纪念日名称', '', (name) => {
+    if (!name.trim()) return;
+    window._pendingAnnivName = name.trim();
+    openAnnivPicker('add', '');
+  });
+};
+
+/* ===== 我发给 TA 的问卷列表 ===== */
+let surveyQuestions = [];
+let currentSurveyType = 'single';
+function showSurveyListPage() { showPage('surveyListPage'); renderSurveyList(); }
+function renderSurveyList() {
+  const box = document.getElementById('surveyListBody');
+  if (!box) return;
+  const surveys = load('our_surveys', []);
+  if (surveys.length === 0) { box.innerHTML = '<div class="shop-empty">暂无问卷<br>点击右上角 + 新建问卷</div>'; return; }
+  box.innerHTML = '';
+  surveys.slice().reverse().forEach(s => {
+    const div = document.createElement('div');
+    div.className = 'survey-item';
+    const dateStr = new Date(s.t).toLocaleString('zh-CN', { month: '2-digit', day: '2-digit', hour: '2-digit', minute: '2-digit' });
+    div.innerHTML = `<div class="survey-item-title">${s.title || '未命名问卷'}</div><div class="survey-item-meta">我创建的 · ${s.questions.length} 个问题 · ${dateStr}</div><div class="survey-item-status ${s.answered ? '' : 'unanswered'}">${s.answered ? '✓ 已回答' : '○ 未回答'}</div>`;
+    div.onclick = () => openSurveyAnswer(s.id);
+    box.appendChild(div);
+  });
+}
+</script>
+<!-- ★★★ index 第 13 段 结束 ★★★ --><!-- ★★★ index 第 14 段 开始 ★★★ -->
+<script>
+function renderSurveyQuestions() {
+  const box = document.getElementById('surveyQuestions');
+  if (!box) return;
+  box.innerHTML = '';
+  surveyQuestions.forEach((q, qi) => {
+    const block = document.createElement('div');
+    block.className = 'survey-q-block';
+    const isYesNo = currentSurveyType === 'yesno';
+    let optsHtml = '';
+    if (isYesNo) {
+      optsHtml = `<div class="survey-opt-row"><span class="survey-opt-key">A</span><input type="text" class="survey-opt-input" value="是" disabled></div><div class="survey-opt-row"><span class="survey-opt-key">B</span><input type="text" class="survey-opt-input" value="否" disabled></div>`;
+    } else {
+      optsHtml = q.options.map((opt, oi) => `<div class="survey-opt-row"><span class="survey-opt-key">${String.fromCharCode(65 + oi)}</span><input type="text" class="survey-opt-input" value="${opt}" data-qi="${qi}" data-oi="${oi}"><button class="survey-opt-del" data-qi="${qi}" data-oi="${oi}">×</button></div>`).join('');
+    }
+    block.innerHTML = `<div class="survey-q-row"><span class="survey-q-label">问题 ${qi + 1}</span><input type="text" class="survey-q-input" value="${q.title}" placeholder="请输入问题" data-qi="${qi}"></div><div class="survey-opts" data-qi="${qi}">${optsHtml}</div>${isYesNo ? '' : `<div class="survey-add-opt" data-qi="${qi}">+ 添加选项</div>`}`;
+    box.appendChild(block);
+  });
+  box.querySelectorAll('.survey-q-input').forEach(inp => { inp.oninput = () => { surveyQuestions[parseInt(inp.dataset.qi)].title = inp.value; }; });
+  box.querySelectorAll('.survey-opt-input').forEach(inp => { inp.oninput = () => { surveyQuestions[parseInt(inp.dataset.qi)].options[parseInt(inp.dataset.oi)] = inp.value; }; });
+  box.querySelectorAll('.survey-opt-del').forEach(btn => {
+    btn.onclick = () => {
+      const qi = parseInt(btn.dataset.qi), oi = parseInt(btn.dataset.oi);
+      if (surveyQuestions[qi].options.length <= 2) { alert('至少保留 2 个选项'); return; }
+      surveyQuestions[qi].options.splice(oi, 1); renderSurveyQuestions();
+    };
+  });
+  box.querySelectorAll('.survey-add-opt').forEach(el => {
+    el.onclick = () => { surveyQuestions[parseInt(el.dataset.qi)].options.push(''); renderSurveyQuestions(); };
+  });
+}
+function resetSurveyNew() {
+  currentSurveyType = 'single';
+  surveyQuestions = [{ title: '', options: ['', ''], optionsByType: { custom: ['', ''], yesno: ['是', '否'] } }];
+  document.getElementById('surveyTitleInput').value = '';
+  document.querySelectorAll('.survey-type-btn').forEach(b => b.classList.toggle('active', b.dataset.type === 'single'));
+  document.getElementById('surveyTypeTip').textContent = '单选：对方回答时只会选中一个选项';
+  renderSurveyQuestions();
+}
+
+document.querySelectorAll('.survey-type-btn').forEach(btn => {
+  btn.onclick = () => {
+    const newType = btn.dataset.type, oldType = currentSurveyType;
+    if (newType === oldType) return;
+    surveyQuestions.forEach(q => {
+      if (!q.optionsByType) q.optionsByType = {};
+      if (oldType === 'yesno') q.optionsByType.yesno = ['是', '否'];
+      else q.optionsByType.custom = q.options.slice();
+    });
+    currentSurveyType = newType;
+    document.querySelectorAll('.survey-type-btn').forEach(b => b.classList.remove('active'));
+    btn.classList.add('active');
+    const tip = document.getElementById('surveyTypeTip');
+    if (newType === 'single') tip.textContent = '单选：对方回答时只会选中一个选项';
+    if (newType === 'multi') tip.textContent = '多选：对方回答时会从你填写的选项中随机选中多项';
+    if (newType === 'yesno') tip.textContent = '是否：只需填写问题，选项固定为「是 / 否」';
+    surveyQuestions.forEach(q => {
+      if (!q.optionsByType) q.optionsByType = {};
+      if (newType === 'yesno') q.options = ['是', '否'];
+      else q.options = (q.optionsByType.custom && q.optionsByType.custom.length >= 2) ? q.optionsByType.custom.slice() : ['', ''];
+    });
+    renderSurveyQuestions();
+  };
+});
+document.getElementById('surveyNewBtn').onclick = () => { resetSurveyNew(); showPage('surveyNewPage'); };
+document.getElementById('surveyCancelBtn').onclick = () => showPage('surveyListPage');
+document.getElementById('surveyAddQBtn').onclick = () => { surveyQuestions.push({ title: '', options: currentSurveyType === 'yesno' ? ['是', '否'] : ['', ''], optionsByType: { custom: ['', ''], yesno: ['是', '否'] } }); renderSurveyQuestions(); };
+document.getElementById('surveySendBtn').onclick = () => {
+  const title = document.getElementById('surveyTitleInput').value.trim();
+  if (!title) { alert('请输入问卷标题'); return; }
+  for (let i = 0; i < surveyQuestions.length; i++) {
+    if (!surveyQuestions[i].title.trim()) { alert('问题 ' + (i + 1) + ' 还没有填写'); return; }
+    if (currentSurveyType !== 'yesno') {
+      for (let j = 0; j < surveyQuestions[i].options.length; j++) {
+        if (!surveyQuestions[i].options[j].trim()) { alert('问题 ' + (i + 1) + ' 的选项 ' + String.fromCharCode(65 + j) + ' 没有填写'); return; }
+      }
+    }
+  }
+  const surveys = load('our_surveys', []);
+  const survey = { id: Date.now() + '_' + Math.random().toString(36).slice(2, 8), title, type: currentSurveyType, questions: surveyQuestions.map(q => ({ title: q.title, options: q.options.slice() })), t: Date.now(), answered: false };
+  surveys.push(survey); save('our_surveys', surveys);
+  sendSurveyToChat(survey); showPage('chatPage');
+};
+function sendSurveyToChat(survey) {
+  const taName = load('ta_name', 'TA');
+  const cardId = survey.id + '_card';
+  const msg = { type: 'surveycard', sender: 'me', surveyId: survey.id, title: `邀请${taName}回答问卷`, sub: `问题：${survey.questions[0].title}`, count: survey.questions.length, status: '未回答', cardId, t: Date.now() };
+  const msgs = load('our_messages', []); msgs.push(msg); save('our_messages', msgs);
+  renderSurveyCard(msg);
+  playSound('send');
+  setTimeout(() => { autoAnswerSurvey(survey.id); }, 2000 + Math.random() * 1000);
+}
+function autoAnswerSurvey(surveyId) {
+  const surveys = load('our_surveys', []);
+  const s = surveys.find(x => x.id === surveyId);
+  if (!s || s.answered) return;
+  const answers = [];
+  s.questions.forEach(q => {
+    if (s.type === 'single') answers.push([Math.floor(Math.random() * q.options.length)]);
+    else if (s.type === 'multi') {
+      const n = q.options.length;
+      if (n <= 2) answers.push(q.options.map((_, i) => i));
+      else {
+        const cnt = 2 + Math.floor(Math.random() * 2); const idxs = [];
+        while (idxs.length < cnt) { const r = Math.floor(Math.random() * n); if (!idxs.includes(r)) idxs.push(r); }
+        idxs.sort((a, b) => a - b); answers.push(idxs);
+      }
+    } else answers.push([Math.floor(Math.random() * 2)]);
+  });
+  const mainCards = cards.filter(c => (c.type || 'main') === 'main');
+  const note = mainCards.length > 0 ? mainCards[Math.floor(Math.random() * mainCards.length)].content : '';
+  s.answered = true; s.answers = answers; s.note = note; s.answeredAt = Date.now();
+  save('our_surveys', surveys);
+  const all = load('our_messages', []);
+  const myCard = all.find(m => m.type === 'surveycard' && m.surveyId === surveyId && m.sender === 'me');
+  if (myCard) myCard.status = '已回答';
+  all.push({ type: 'surveycard', sender: 'ta', surveyId: surveyId, title: '我回答了问卷', sub: `问题：${s.questions[0].title}`, count: s.questions.length, status: '已回答', cardId: 'ta_' + surveyId + '_' + Math.random().toString(36).slice(2, 6), t: Date.now() });
+  save('our_messages', all);
+  refreshMessages();
+  playSound('receive');
+}
+function openSurveyAnswer(surveyId) {
+  const surveys = load('our_surveys', []);
+  const s = surveys.find(x => x.id === surveyId);
+  if (!s) return;
+  const modal = document.getElementById('surveyAnswerModal');
+  document.getElementById('surveyAnswerTitle').textContent = s.title;
+  const body = document.getElementById('surveyAnswerBody');
+  body.innerHTML = '';
+  s.questions.forEach((q, qi) => {
+    const block = document.createElement('div');
+    block.className = 'survey-answer-q';
+    block.innerHTML = `<div class="survey-answer-q-title">${(qi + 1)}. ${q.title}</div>`;
+    const selected = s.answers ? (s.answers[qi] || []) : [];
+    q.options.forEach((opt, oi) => {
+      const div = document.createElement('div');
+      div.className = 'survey-answer-opt' + (selected.includes(oi) ? ' selected' : '');
+      div.innerHTML = `<div class="bullet"></div><div>${String.fromCharCode(65 + oi)}. ${opt}</div>`;
+      block.appendChild(div);
+    });
+    body.appendChild(block);
+  });
+  if (s.note) {
+    const noteBox = document.createElement('div');
+    noteBox.className = 'survey-note-box';
+    noteBox.innerHTML = `<div class="label">备注</div>${s.note}`;
+    body.appendChild(noteBox);
+  }
+  modal.classList.remove('hidden');
+}
+document.getElementById('closeSurveyAnswerBtn').onclick = () => document.getElementById('surveyAnswerModal').classList.add('hidden');
+
+/* ===== TA 发问卷给我的渲染与作答 ===== */
+function renderQuestionCard(m) {
+  const row = document.createElement('div');
+  row.className = 'msg-row ' + (m.sender === 'me' ? 'me' : 'ta');
+  row.dataset.msgId = m.cardId;
+  const avatar = buildAvatar(m.sender);
+  const card = document.createElement('div');
+  card.className = 'survey-card-msg';
+  card.dataset.questionId = m.questionId;
+  
+  card.innerHTML = `
+    <div class="survey-card-msg-top">
+      <div class="survey-card-msg-icon"><svg viewBox="0 0 24 24" fill="none" stroke="#666" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="4" y="4" width="16" height="18" rx="2"></rect><path d="M9 4 V7 H15 V4"></path><path d="M8 12 H16 M8 16 H14"></path></svg></div>
+      <div style="flex:1;">
+        <div class="survey-card-msg-title">${m.title}</div>
+        <div class="survey-card-msg-sub">${m.sub || ''}</div>
+      </div>
+    </div>
+    <div class="survey-card-msg-line"></div>
+    <div class="survey-card-msg-foot"><span>${m.count}个问题</span><span class="tag">${m.status}</span></div>
+  `;
+  card.style.cursor = 'pointer';
+  card.onclick = () => openQuestionAnswer(m.questionId);
+  row.appendChild(avatar); row.appendChild(card);
+  messagesEl.appendChild(row);
+  messagesEl.scrollTop = messagesEl.scrollHeight;
+}
+
+function openQuestionAnswer(qId) {
+  const qList = load('our_ta_questions_sent', []);
+  const q = qList.find(x => x.id === qId);
+  if (!q) return;
+  
+  const modal = document.getElementById('surveyAnswerModal');
+  document.getElementById('surveyAnswerTitle').textContent = 'TA的问卷';
+  const body = document.getElementById('surveyAnswerBody');
+  body.innerHTML = '';
+  
+  if (q.answered) {
+    q.questions.forEach((item, qi) => {
+      const block = document.createElement('div');
+      block.className = 'survey-answer-q';
+      block.innerHTML = `<div class="survey-answer-q-title">${(qi + 1)}. ${item.title}</div>`;
+      item.options.forEach((opt, oi) => {
+        const div = document.createElement('div');
+        div.className = 'survey-answer-opt' + (item.myAnswer === oi ? ' selected' : '');
+        div.innerHTML = `<div class="bullet"></div><div>${String.fromCharCode(65 + oi)}. ${opt}</div>`;
+        block.appendChild(div);
+      });
+      body.appendChild(block);
+    });
+    if (q.note) {
+      const noteBox = document.createElement('div');
+      noteBox.className = 'survey-note-box';
+      noteBox.innerHTML = `<div class="label">备注</div>${q.note}`;
+      body.appendChild(noteBox);
+    }
+  } else {
+    q.questions.forEach((item, qi) => {
+      const block = document.createElement('div');
+      block.className = 'survey-answer-q';
+      block.innerHTML = `<div class="survey-answer-q-title">${(qi + 1)}. ${item.title}</div>`;
+      
+      item.options.forEach((opt, oi) => {
+        const div = document.createElement('div');
+        div.className = 'survey-answer-opt';
+        div.innerHTML = `<div class="bullet"></div><div>${String.fromCharCode(65 + oi)}. ${opt}</div>`;
+        div.onclick = () => {
+          block.querySelectorAll('.survey-answer-opt').forEach(el => el.classList.remove('selected'));
+          div.classList.add('selected');
+          item.myAnswer = oi;
+        };
+        block.appendChild(div);
+      });
+      body.appendChild(block);
+    });
+    
+    const submitBtn = document.createElement('button');
+    submitBtn.className = 'btn-primary';
+    submitBtn.style.marginTop = '20px';
+    submitBtn.textContent = '提交答案';
+    submitBtn.onclick = () => {
+      for (let i = 0; i < q.questions.length; i++) {
+        if (q.questions[i].myAnswer === undefined || q.questions[i].myAnswer === null) {
+          alert(`请回答第 ${i+1} 题`);
+          return;
+        }
+      }
+      
+      q.answered = true;
+      const mainCards = cards.filter(c => (c.type || 'main') === 'main');
+      q.note = mainCards.length > 0 ? mainCards[Math.floor(Math.random() * mainCards.length)].content : '今天好累哦，抱抱我。';
+      
+      save('our_ta_questions_sent', qList);
+      
+      const msgs = load('our_messages', []);
+      const cardMsg = msgs.find(m => m.type === 'questioncard' && m.questionId === qId);
+      if (cardMsg) {
+        cardMsg.status = '已回答';
+        save('our_messages', msgs);
+        refreshMessages();
+      }
+      
+      openQuestionAnswer(qId);
+    };
+    body.appendChild(submitBtn);
+  }
+  
+  modal.classList.remove('hidden');
+}
+</script>
+<!-- ★★★ index 第 14 段 结束 ★★★ --><!-- ★★★ index 第 15 段 开始 ★★★ -->
 <script>
 /* ===== 朋友圈逻辑 ===== */
 let momentListMode = 'all';
@@ -2747,9 +3328,7 @@ document.getElementById('momentBellBtn').onclick = () => {
   document.getElementById('momentNotifyModal').classList.remove('hidden');
 };
 document.getElementById('closeMomentNotifyBtn').onclick = () => document.getElementById('momentNotifyModal').classList.add('hidden');
-</script>
-<!-- ★★★ index 段 13 结束 ★★★ --><!-- ★★★ index 段 14 开始 ★★★ -->
-<script>
+
 let momentDelType = 'all';
 document.getElementById('momentTrashBtn').onclick = () => {
   momentDelType = 'all';
@@ -2823,120 +3402,8 @@ window.triggerTaMomentInteraction = function(momentId) {
     if (page && !page.classList.contains('hidden')) renderMomentsList();
   }
 };
-
-/* ===== 搞怪逻辑 ===== */
-let prankMenuEl = document.getElementById('prankMenu');
-document.getElementById('plusMenu').addEventListener('click', (e) => {
-  const prankBtn = e.target.closest('[data-key="prank"]');
-  if (prankBtn) {
-    prankMenuEl.classList.toggle('hidden');
-  } else {
-    prankMenuEl.classList.add('hidden');
-  }
-});
-
-document.querySelectorAll('.prank-item').forEach(item => {
-  item.onclick = () => {
-    prankMenuEl.classList.add('hidden');
-    const type = item.dataset.type;
-    
-    if (type === 'poke') {
-      playSound('poke');
-      const rows = document.querySelectorAll('.msg-row');
-      if (rows.length > 0) {
-        const lastAvatar = rows[rows.length-1].querySelector('.avatar');
-        if (lastAvatar) {
-          lastAvatar.style.transition = 'transform 0.1s';
-          lastAvatar.style.transform = 'translateX(10px) scaleX(0.9)';
-          setTimeout(() => { lastAvatar.style.transform = 'none'; }, 150);
-        }
-      }
-      addSystemTip(`[👉] 我戳了戳 TA 的脸`, true);
-    } else {
-      const iconMap = { tomato: '🍅', cake: '🍰', water: '💧' };
-      const nameMap = { tomato: '番茄', cake: '蛋糕', water: '水球' };
-      addSystemTip(`[${iconMap[type]}] 我朝 TA 扔了一个${nameMap[type]}`, true);
-      playSound('send');
-      if (navigator.vibrate) navigator.vibrate(100);
-    }
-  };
-});
-
-/* ===== 灵魂问答逻辑 ===== */
-const defaultQuizzes = [
-  { q: '周末更想我陪你去逛街，还是两个人窝在家里看剧？', a: '去逛街', b: '窝在家里' },
-  { q: '如果我不小心惹你生气了，你更希望我马上哄你，还是给你买好吃的？', a: '马上哄我', b: '买好吃的' },
-  { q: '晚上睡觉前，你更想听我说一句晚安，还是听我唱一首歌？', a: '说晚安', b: '唱首歌' },
-  { q: '你觉得我们刚认识的时候，谁先动的心？', a: '我先', b: '你先' },
-  { q: '如果我们吵架了，你更希望我冷战还是主动低头？', a: '冷战', b: '主动低头' }
-];
-
-document.querySelector('[data-key="quiz"]').addEventListener('click', () => {
-  document.getElementById('plusMenu').classList.add('hidden');
-  const quiz = defaultQuizzes[Math.floor(Math.random() * defaultQuizzes.length)];
-  const myChoice = confirm(`${quiz.q}\n\n点【确定】选：${quiz.a}\n点【取消】选：${quiz.b}`) ? 'a' : 'b';
-  const taChoice = Math.random() < 0.7 ? myChoice : (myChoice === 'a' ? 'b' : 'a'); 
-  
-  const resultText = `[🃏] 灵魂问答\n\n默契度：${myChoice === taChoice ? '100%' : '0%'}\n\n问题：${quiz.q}\n\n我： ${myChoice === 'a' ? quiz.a : quiz.b}\nTA： ${taChoice === 'a' ? quiz.a : quiz.b}`;
-  addSystemTip(resultText, true);
-});
-
-/* ===== 看电影逻辑 ===== */
-document.querySelector('[data-key="movie"]').addEventListener('click', () => {
-  document.getElementById('plusMenu').classList.add('hidden');
-  showPage('moviePage');
-  document.getElementById('movieVideo').style.display = 'none';
-  document.getElementById('moviePlaceholder').style.display = 'block';
-  document.getElementById('movieChatBox').innerHTML = '';
-});
-
-document.getElementById('backFromMovieBtn').onclick = () => {
-  showPage('chatPage');
-  const vid = document.getElementById('movieVideo');
-  vid.pause();
-};
-document.getElementById('movieUploadBtn').onclick = () => {
-  document.getElementById('movieVideoUpload').click();
-};
-document.getElementById('movieVideoUpload').onchange = (e) => {
-  const f = e.target.files[0]; if (!f) return;
-  const url = URL.createObjectURL(f);
-  const vid = document.getElementById('movieVideo');
-  vid.src = url;
-  vid.style.display = 'block';
-  document.getElementById('moviePlaceholder').style.display = 'none';
-  vid.play();
-  e.target.value = '';
-  
-  let msgTimer = setInterval(() => {
-    if (vid.paused) return;
-    const mainCards = cards.filter(c => (c.type || 'main') === 'main');
-    if (mainCards.length > 0) {
-      const text = mainCards[Math.floor(Math.random() * mainCards.length)].content;
-      const div = document.createElement('div');
-      div.className = 'msg-row ta';
-      div.innerHTML = `<div class="avatar" style="width:24px;height:24px;font-size:12px;">TA</div><div class="bubble" style="background:#333;color:#fff;font-size:13px;padding:6px 10px;">${text}</div>`;
-      document.getElementById('movieChatBox').appendChild(div);
-      document.getElementById('movieChatBox').scrollTop = document.getElementById('movieChatBox').scrollHeight;
-    }
-  }, 8000);
-  
-  vid.onpause = () => clearInterval(msgTimer);
-});
-
-document.getElementById('movieSendBtn').onclick = () => {
-  const inp = document.getElementById('movieInput');
-  const text = inp.value.trim();
-  if (!text) return;
-  inp.value = '';
-  const div = document.createElement('div');
-  div.className = 'msg-row me';
-  div.innerHTML = `<div class="avatar" style="width:24px;height:24px;font-size:12px;">我</div><div class="bubble" style="background:#95ec69;color:#111;font-size:13px;padding:6px 10px;">${text}</div>`;
-  document.getElementById('movieChatBox').appendChild(div);
-  document.getElementById('movieChatBox').scrollTop = document.getElementById('movieChatBox').scrollHeight;
-};
 </script>
-<!-- ★★★ index 段 14 结束 ★★★ --><!-- ★★★ index 段 15 开始 ★★★ -->
+<!-- ★★★ index 第 15 段 结束 ★★★ --><!-- ★★★ index 第 16 段 开始 ★★★ -->
 <script>
 /* ===== 语音/视频通话逻辑 ===== */
 let callTimer = null;
@@ -3033,297 +3500,177 @@ document.getElementById('callBgUpload').onchange = (e) => {
 document.getElementById('callMuteBtn').onclick = function() {
   this.style.opacity = this.style.opacity === '0.5' ? '1' : '0.5';
 };
-</script>
-<!-- ★★★ index 段 15 结束 ★★★ --><!-- ★★★ index 段 16 开始 ★★★ -->
-<script>
-/* ===== 问卷列表与新建 (我发给 TA) ===== */
-let surveyQuestions = [];
-let currentSurveyType = 'single';
-function showSurveyListPage() { showPage('surveyListPage'); renderSurveyList(); }
-function renderSurveyList() {
-  const box = document.getElementById('surveyListBody');
-  if (!box) return;
-  const surveys = load('our_surveys', []);
-  if (surveys.length === 0) { box.innerHTML = '<div class="shop-empty">暂无问卷<br>点击右上角 + 新建问卷</div>'; return; }
-  box.innerHTML = '';
-  surveys.slice().reverse().forEach(s => {
-    const div = document.createElement('div');
-    div.className = 'survey-item';
-    const dateStr = new Date(s.t).toLocaleString('zh-CN', { month: '2-digit', day: '2-digit', hour: '2-digit', minute: '2-digit' });
-    div.innerHTML = `<div class="survey-item-title">${s.title || '未命名问卷'}</div><div class="survey-item-meta">我创建的 · ${s.questions.length} 个问题 · ${dateStr}</div><div class="survey-item-status ${s.answered ? '' : 'unanswered'}">${s.answered ? '✓ 已回答' : '○ 未回答'}</div>`;
-    div.onclick = () => openSurveyAnswer(s.id);
-    box.appendChild(div);
-  });
-}
 
-function renderSurveyQuestions() {
-  const box = document.getElementById('surveyQuestions');
-  if (!box) return;
-  box.innerHTML = '';
-  surveyQuestions.forEach((q, qi) => {
-    const block = document.createElement('div');
-    block.className = 'survey-q-block';
-    const isYesNo = currentSurveyType === 'yesno';
-    let optsHtml = '';
-    if (isYesNo) {
-      optsHtml = `<div class="survey-opt-row"><span class="survey-opt-key">A</span><input type="text" class="survey-opt-input" value="是" disabled></div><div class="survey-opt-row"><span class="survey-opt-key">B</span><input type="text" class="survey-opt-input" value="否" disabled></div>`;
-    } else {
-      optsHtml = q.options.map((opt, oi) => `<div class="survey-opt-row"><span class="survey-opt-key">${String.fromCharCode(65 + oi)}</span><input type="text" class="survey-opt-input" value="${opt}" data-qi="${qi}" data-oi="${oi}"><button class="survey-opt-del" data-qi="${qi}" data-oi="${oi}">×</button></div>`).join('');
-    }
-    block.innerHTML = `<div class="survey-q-row"><span class="survey-q-label">问题 ${qi + 1}</span><input type="text" class="survey-q-input" value="${q.title}" placeholder="请输入问题" data-qi="${qi}"></div><div class="survey-opts" data-qi="${qi}">${optsHtml}</div>${isYesNo ? '' : `<div class="survey-add-opt" data-qi="${qi}">+ 添加选项</div>`}`;
-    box.appendChild(block);
-  });
-  box.querySelectorAll('.survey-q-input').forEach(inp => { inp.oninput = () => { surveyQuestions[parseInt(inp.dataset.qi)].title = inp.value; }; });
-  box.querySelectorAll('.survey-opt-input').forEach(inp => { inp.oninput = () => { surveyQuestions[parseInt(inp.dataset.qi)].options[parseInt(inp.dataset.oi)] = inp.value; }; });
-  box.querySelectorAll('.survey-opt-del').forEach(btn => {
-    btn.onclick = () => {
-      const qi = parseInt(btn.dataset.qi), oi = parseInt(btn.dataset.oi);
-      if (surveyQuestions[qi].options.length <= 2) { alert('至少保留 2 个选项'); return; }
-      surveyQuestions[qi].options.splice(oi, 1); renderSurveyQuestions();
-    };
-  });
-  box.querySelectorAll('.survey-add-opt').forEach(el => {
-    el.onclick = () => { surveyQuestions[parseInt(el.dataset.qi)].options.push(''); renderSurveyQuestions(); };
-  });
-}
-
-function resetSurveyNew() {
-  currentSurveyType = 'single';
-  surveyQuestions = [{ title: '', options: ['', ''], optionsByType: { custom: ['', ''], yesno: ['是', '否'] } }];
-  document.getElementById('surveyTitleInput').value = '';
-  document.querySelectorAll('.survey-type-btn').forEach(b => b.classList.toggle('active', b.dataset.type === 'single'));
-  document.getElementById('surveyTypeTip').textContent = '单选：对方回答时只会选中一个选项';
-  renderSurveyQuestions();
-}
-
-document.querySelectorAll('.survey-type-btn').forEach(btn => {
-  btn.onclick = () => {
-    const newType = btn.dataset.type, oldType = currentSurveyType;
-    if (newType === oldType) return;
-    surveyQuestions.forEach(q => {
-      if (!q.optionsByType) q.optionsByType = {};
-      if (oldType === 'yesno') q.optionsByType.yesno = ['是', '否'];
-      else q.optionsByType.custom = q.options.slice();
-    });
-    currentSurveyType = newType;
-    document.querySelectorAll('.survey-type-btn').forEach(b => b.classList.remove('active'));
-    btn.classList.add('active');
-    const tip = document.getElementById('surveyTypeTip');
-    if (newType === 'single') tip.textContent = '单选：对方回答时只会选中一个选项';
-    if (newType === 'multi') tip.textContent = '多选：对方回答时会从你填写的选项中随机选中多项';
-    if (newType === 'yesno') tip.textContent = '是否：只需填写问题，选项固定为「是 / 否」';
-    surveyQuestions.forEach(q => {
-      if (!q.optionsByType) q.optionsByType = {};
-      if (newType === 'yesno') q.options = ['是', '否'];
-      else q.options = (q.optionsByType.custom && q.optionsByType.custom.length >= 2) ? q.optionsByType.custom.slice() : ['', ''];
-    });
-    renderSurveyQuestions();
-  };
-});
-document.getElementById('surveyNewBtn').onclick = () => { resetSurveyNew(); showPage('surveyNewPage'); };
-document.getElementById('surveyCancelBtn').onclick = () => showPage('surveyListPage');
-document.getElementById('surveyAddQBtn').onclick = () => { surveyQuestions.push({ title: '', options: currentSurveyType === 'yesno' ? ['是', '否'] : ['', ''], optionsByType: { custom: ['', ''], yesno: ['是', '否'] } }); renderSurveyQuestions(); };
-document.getElementById('surveySendBtn').onclick = () => {
-  const title = document.getElementById('surveyTitleInput').value.trim();
-  if (!title) { alert('请输入问卷标题'); return; }
-  for (let i = 0; i < surveyQuestions.length; i++) {
-    if (!surveyQuestions[i].title.trim()) { alert('问题 ' + (i + 1) + ' 还没有填写'); return; }
-    if (currentSurveyType !== 'yesno') {
-      for (let j = 0; j < surveyQuestions[i].options.length; j++) {
-        if (!surveyQuestions[i].options[j].trim()) { alert('问题 ' + (i + 1) + ' 的选项 ' + String.fromCharCode(65 + j) + ' 没有填写'); return; }
-      }
-    }
-  }
-  const surveys = load('our_surveys', []);
-  const survey = { id: Date.now() + '_' + Math.random().toString(36).slice(2, 8), title, type: currentSurveyType, questions: surveyQuestions.map(q => ({ title: q.title, options: q.options.slice() })), t: Date.now(), answered: false };
-  surveys.push(survey); save('our_surveys', surveys);
-  sendSurveyToChat(survey); showPage('chatPage');
-};
-
-function sendSurveyToChat(survey) {
-  const taName = load('ta_name', 'TA');
-  const cardId = survey.id + '_card';
-  const msg = { type: 'surveycard', sender: 'me', surveyId: survey.id, title: `邀请${taName}回答问卷`, sub: `问题：${survey.questions[0].title}`, count: survey.questions.length, status: '未回答', cardId, t: Date.now() };
-  const msgs = load('our_messages', []); msgs.push(msg); save('our_messages', msgs);
-  renderSurveyCard(msg);
-  playSound('send');
-  setTimeout(() => { autoAnswerSurvey(survey.id); }, 2000 + Math.random() * 1000);
-}
-
-function autoAnswerSurvey(surveyId) {
-  const surveys = load('our_surveys', []);
-  const s = surveys.find(x => x.id === surveyId);
-  if (!s || s.answered) return;
-  const answers = [];
-  s.questions.forEach(q => {
-    if (s.type === 'single') answers.push([Math.floor(Math.random() * q.options.length)]);
-    else if (s.type === 'multi') {
-      const n = q.options.length;
-      if (n <= 2) answers.push(q.options.map((_, i) => i));
-      else {
-        const cnt = 2 + Math.floor(Math.random() * 2); const idxs = [];
-        while (idxs.length < cnt) { const r = Math.floor(Math.random() * n); if (!idxs.includes(r)) idxs.push(r); }
-        idxs.sort((a, b) => a - b); answers.push(idxs);
-      }
-    } else answers.push([Math.floor(Math.random() * 2)]);
-  });
-  const mainCards = cards.filter(c => (c.type || 'main') === 'main');
-  const note = mainCards.length > 0 ? mainCards[Math.floor(Math.random() * mainCards.length)].content : '';
-  s.answered = true; s.answers = answers; s.note = note; s.answeredAt = Date.now();
-  save('our_surveys', surveys);
-  const all = load('our_messages', []);
-  const myCard = all.find(m => m.type === 'surveycard' && m.surveyId === surveyId && m.sender === 'me');
-  if (myCard) myCard.status = '已回答';
-  all.push({ type: 'surveycard', sender: 'ta', surveyId: surveyId, title: '我回答了问卷', sub: `问题：${s.questions[0].title}`, count: s.questions.length, status: '已回答', cardId: 'ta_' + surveyId + '_' + Math.random().toString(36).slice(2, 6), t: Date.now() });
-  save('our_messages', all);
-  refreshMessages();
-  playSound('receive');
-}
-
-function openSurveyAnswer(surveyId) {
-  const surveys = load('our_surveys', []);
-  const s = surveys.find(x => x.id === surveyId);
-  if (!s) return;
-  const modal = document.getElementById('surveyAnswerModal');
-  document.getElementById('surveyAnswerTitle').textContent = s.title;
-  const body = document.getElementById('surveyAnswerBody');
-  body.innerHTML = '';
-  s.questions.forEach((q, qi) => {
-    const block = document.createElement('div');
-    block.className = 'survey-answer-q';
-    block.innerHTML = `<div class="survey-answer-q-title">${(qi + 1)}. ${q.title}</div>`;
-    const selected = s.answers ? (s.answers[qi] || []) : [];
-    q.options.forEach((opt, oi) => {
-      const div = document.createElement('div');
-      div.className = 'survey-answer-opt' + (selected.includes(oi) ? ' selected' : '');
-      div.innerHTML = `<div class="bullet"></div><div>${String.fromCharCode(65 + oi)}. ${opt}</div>`;
-      block.appendChild(div);
-    });
-    body.appendChild(block);
-  });
-  if (s.note) {
-    const noteBox = document.createElement('div');
-    noteBox.className = 'survey-note-box';
-    noteBox.innerHTML = `<div class="label">备注</div>${s.note}`;
-    body.appendChild(noteBox);
-  }
-  modal.classList.remove('hidden');
-}
-document.getElementById('closeSurveyAnswerBtn').onclick = () => document.getElementById('surveyAnswerModal').classList.add('hidden');
-
-/* ===== TA 发问卷给我的渲染与作答 ===== */
-function renderQuestionCard(m) {
-  const row = document.createElement('div');
-  row.className = 'msg-row ' + (m.sender === 'me' ? 'me' : 'ta');
-  row.dataset.msgId = m.cardId;
-  const avatar = buildAvatar(m.sender);
-  const card = document.createElement('div');
-  card.className = 'survey-card-msg';
-  card.dataset.questionId = m.questionId;
-  
-  card.innerHTML = `
-    <div class="survey-card-msg-top">
-      <div class="survey-card-msg-icon"><svg viewBox="0 0 24 24" fill="none" stroke="#666" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="4" y="4" width="16" height="18" rx="2"></rect><path d="M9 4 V7 H15 V4"></path><path d="M8 12 H16 M8 16 H14"></path></svg></div>
-      <div style="flex:1;">
-        <div class="survey-card-msg-title">${m.title}</div>
-        <div class="survey-card-msg-sub">${m.sub || ''}</div>
-      </div>
-    </div>
-    <div class="survey-card-msg-line"></div>
-    <div class="survey-card-msg-foot"><span>${m.count}个问题</span><span class="tag">${m.status}</span></div>
-  `;
-  card.style.cursor = 'pointer';
-  card.onclick = () => openQuestionAnswer(m.questionId);
-  row.appendChild(avatar); row.appendChild(card);
-  messagesEl.appendChild(row);
-  messagesEl.scrollTop = messagesEl.scrollHeight;
-}
-
-function openQuestionAnswer(qId) {
-  const qList = load('our_ta_questions_sent', []);
-  const q = qList.find(x => x.id === qId);
-  if (!q) return;
-  
-  const modal = document.getElementById('surveyAnswerModal');
-  document.getElementById('surveyAnswerTitle').textContent = 'TA的问卷';
-  const body = document.getElementById('surveyAnswerBody');
-  body.innerHTML = '';
-  
-  if (q.answered) {
-    q.questions.forEach((item, qi) => {
-      const block = document.createElement('div');
-      block.className = 'survey-answer-q';
-      block.innerHTML = `<div class="survey-answer-q-title">${(qi + 1)}. ${item.title}</div>`;
-      item.options.forEach((opt, oi) => {
-        const div = document.createElement('div');
-        div.className = 'survey-answer-opt' + (item.myAnswer === oi ? ' selected' : '');
-        div.innerHTML = `<div class="bullet"></div><div>${String.fromCharCode(65 + oi)}. ${opt}</div>`;
-        block.appendChild(div);
-      });
-      body.appendChild(block);
-    });
-    if (q.note) {
-      const noteBox = document.createElement('div');
-      noteBox.className = 'survey-note-box';
-      noteBox.innerHTML = `<div class="label">备注</div>${q.note}`;
-      body.appendChild(noteBox);
-    }
+/* ===== 搞怪逻辑 ===== */
+let prankMenuEl = document.getElementById('prankMenu');
+document.getElementById('plusMenu').addEventListener('click', (e) => {
+  const prankBtn = e.target.closest('[data-key="prank"]');
+  if (prankBtn) {
+    prankMenuEl.classList.toggle('hidden');
   } else {
-    q.questions.forEach((item, qi) => {
-      const block = document.createElement('div');
-      block.className = 'survey-answer-q';
-      block.innerHTML = `<div class="survey-answer-q-title">${(qi + 1)}. ${item.title}</div>`;
-      
-      item.options.forEach((opt, oi) => {
-        const div = document.createElement('div');
-        div.className = 'survey-answer-opt';
-        div.innerHTML = `<div class="bullet"></div><div>${String.fromCharCode(65 + oi)}. ${opt}</div>`;
-        div.onclick = () => {
-          block.querySelectorAll('.survey-answer-opt').forEach(el => el.classList.remove('selected'));
-          div.classList.add('selected');
-          item.myAnswer = oi;
-        };
-        block.appendChild(div);
-      });
-      body.appendChild(block);
-    });
+    prankMenuEl.classList.add('hidden');
+  }
+});
+
+document.querySelectorAll('.prank-item').forEach(item => {
+  item.onclick = () => {
+    prankMenuEl.classList.add('hidden');
+    document.getElementById('plusMenu').classList.add('hidden');
+    const type = item.dataset.type;
     
-    const submitBtn = document.createElement('button');
-    submitBtn.className = 'btn-primary';
-    submitBtn.style.marginTop = '20px';
-    submitBtn.textContent = '提交答案';
-    submitBtn.onclick = () => {
-      for (let i = 0; i < q.questions.length; i++) {
-        if (q.questions[i].myAnswer === undefined || q.questions[i].myAnswer === null) {
-          alert(`请回答第 ${i+1} 题`);
-          return;
+    if (type === 'poke') {
+      playSound('poke');
+      const rows = document.querySelectorAll('.msg-row');
+      if (rows.length > 0) {
+        const lastAvatar = rows[rows.length-1].querySelector('.avatar');
+        if (lastAvatar) {
+          lastAvatar.style.transition = 'transform 0.1s';
+          lastAvatar.style.transform = 'translateX(10px) scaleX(0.9)';
+          setTimeout(() => { lastAvatar.style.transform = 'none'; }, 150);
         }
       }
-      
-      q.answered = true;
-      const mainCards = cards.filter(c => (c.type || 'main') === 'main');
-      q.note = mainCards.length > 0 ? mainCards[Math.floor(Math.random() * mainCards.length)].content : '今天好累哦，抱抱我。';
-      
-      save('our_ta_questions_sent', qList);
-      
-      const msgs = load('our_messages', []);
-      const cardMsg = msgs.find(m => m.type === 'questioncard' && m.questionId === qId);
-      if (cardMsg) {
-        cardMsg.status = '已回答';
-        save('our_messages', msgs);
-        refreshMessages();
-      }
-      
-      openQuestionAnswer(qId);
-    };
-    body.appendChild(submitBtn);
-  }
-  
-  modal.classList.remove('hidden');
-}
+      addSystemTip(`[👉] 我戳了戳 TA 的脸`, true);
+    } else {
+      const iconMap = { tomato: '🍅', cake: '🍰', water: '💧' };
+      const nameMap = { tomato: '番茄', cake: '蛋糕', water: '水球' };
+      addSystemTip(`[${iconMap[type]}] 我朝 TA 扔了一个${nameMap[type]}`, true);
+      playSound('send');
+      if (navigator.vibrate) navigator.vibrate(100);
+    }
+  };
+});
 </script>
-<!-- ★★★ index 段 16 结束 ★★★ --><!-- ★★★ index 段 17 开始 ★★★ -->
+<!-- ★★★ index 第 16 段 结束 ★★★ --><!-- ★★★ index 第 17 段 开始 ★★★ -->
 <script>
+/* ===== 灵魂问答逻辑 ===== */
+const defaultQuizzes = [
+  { q: '周末更想我陪你去逛街，还是两个人窝在家里看剧？', a: '去逛街', b: '窝在家里' },
+  { q: '如果我不小心惹你生气了，你更希望我马上哄你，还是给你买好吃的？', a: '马上哄我', b: '买好吃的' },
+  { q: '晚上睡觉前，你更想听我说一句晚安，还是听我唱一首歌？', a: '说晚安', b: '唱首歌' },
+  { q: '你觉得我们刚认识的时候，谁先动的心？', a: '我先', b: '你先' },
+  { q: '如果我们吵架了，你更希望我冷战还是主动低头？', a: '冷战', b: '主动低头' },
+  { q: '如果我们一起去旅行，你更想去海边还是去山里？', a: '去海边', b: '去山里' },
+  { q: '平时吃饭，你更喜欢重口味还是清淡一点？', a: '重口味', b: '清淡' },
+  { q: '我送你的礼物，你更看重心意还是实用性？', a: '心意', b: '实用性' },
+  { q: '你更喜欢我穿休闲装还是正装？', a: '休闲装', b: '正装' },
+  { q: '如果有一整天的时间，你更想跟我待在家还是出去玩？', a: '待在家', b: '出去玩' },
+  { q: '你觉得情侣之间需要每天都说“我爱你”吗？', a: '需要', b: '不需要' },
+  { q: '我生病的时候，你更希望我怎么照顾你？', a: '陪着你', b: '给你买药倒水' },
+  { q: '你更喜欢我平时话多一点还是少一点？', a: '多一点', b: '少一点' },
+  { q: '看恐怖电影的时候，你希望我抱着你还是我们自己看？', a: '抱着我', b: '自己看' },
+  { q: '如果我的手机没电关机了，你会着急吗？', a: '会', b: '不会' },
+  { q: '你更喜欢哪种约会方式？', a: '精心安排', b: '随性散步' },
+  { q: '关于未来的计划，你更喜欢提前规划还是走一步看一步？', a: '提前规划', b: '走一步看一步' },
+  { q: '你希望我多陪你一会儿还是多留点私人空间？', a: '多陪我', b: '留点空间' },
+  { q: '如果我们异地恋，你更需要每天打电话还是偶尔发消息？', a: '打电话', b: '发消息' },
+  { q: '你更喜欢我称呼你的昵称还是直接叫名字？', a: '叫昵称', b: '叫名字' },
+  { q: '逛街的时候，你希望我牵着你的手还是搂着肩膀？', a: '牵手', b: '搂肩膀' },
+  { q: '我们出去吃饭，你更偏好去熟悉的店还是尝试新店？', a: '熟悉的店', b: '尝试新店' },
+  { q: '你更喜欢收到惊喜的礼物还是提前告诉你再买？', a: '惊喜', b: '提前告诉' },
+  { q: '平时在家，你更喜欢听歌还是看剧？', a: '听歌', b: '看剧' },
+  { q: '我心情不好的时候，你希望我直接告诉你还是自己消化？', a: '直接告诉', b: '自己消化' },
+  { q: '我们一起玩游戏，你更看重赢还是开心？', a: '赢', b: '开心' },
+  { q: '你觉得我们最理想的同居状态是每天腻在一起还是各自忙碌？', a: '每天腻在一起', b: '各自忙碌' },
+  { q: '如果我再胖十斤，你还会觉得我可爱吗？', a: '会', b: '当然会' },
+  { q: '你更愿意我常跟你分享日常琐事还是只分享重要的事？', a: '日常琐事', b: '重要的事' },
+  { q: '每天早上醒来，你最希望看到我发的第一句话是什么？', a: '早安', b: '昨晚梦到你了' },
+  { q: '你更希望我在你难过的时候给你讲道理还是陪你一起吐槽？', a: '讲道理', b: '一起吐槽' },
+  { q: '我们出去旅游，你更愿意做计划还是跟着走？', a: '做计划', b: '跟着走' },
+  { q: '如果我忘了我们的纪念日，你会原谅我吗？', a: '会', b: '看表现' },
+  { q: '你更愿意我把钱花在买礼物上还是存在卡里？', a: '买礼物', b: '存起来' },
+  { q: '你觉得我们每天聊天的时间算多还是少？', a: '刚好', b: '再多点' },
+  { q: '如果可以瞬间移动，你最想穿到我身边做什么？', a: '抱抱', b: '看看你' },
+  { q: '你觉得是一见钟情靠谱还是日久生情更靠谱？', a: '一见钟情', b: '日久生情' },
+  { q: '你更希望我有了小情绪能及时说出来还是自己默默消化？', a: '及时说', b: '默默消化' },
+  { q: '如果我们吵架了，你觉得谁先低头比较合适？', a: '我先', b: '你先' },
+  { q: '你更喜欢我粘你一点还是独立一点？', a: '粘一点', b: '独立一点' },
+  { q: '我们出去看电影，你更喜欢坐在哪个位置？', a: '正中间', b: '靠后排' },
+  { q: '你觉得两个人在一起，最重要的是三观相合还是性格互补？', a: '三观相合', b: '性格互补' },
+  { q: '我给你发消息，你更希望我发文字还是语音？', a: '文字', b: '语音' },
+  { q: '如果你有一天的超能力，你最想用来做什么？', a: '带我去任何地方', b: '保护我' },
+  { q: '你希望我们的婚礼是隆重一点还是简单一点？', a: '隆重', b: '简单' },
+  { q: '晚上睡觉的时候，你喜欢抱着我睡还是各睡各的？', a: '抱着', b: '各睡各的' },
+  { q: '你觉得我们是更偏向浪漫型还是更偏向务实型？', a: '浪漫', b: '务实' },
+  { q: '假如我生气了，你最常用的哄人办法是什么？', a: '撒娇', b: '讲道理' },
+  { q: '你更希望我多关注你的优点还是多提醒你的缺点？', a: '优点', b: '缺点' },
+  { q: '你觉得两个人在一起，仪式感重要吗？', a: '很重要', b: '无所谓' },
+  { q: '周末早上，你更喜欢睡懒觉还是早起吃早餐？', a: '睡懒觉', b: '早起' },
+  { q: '如果我做了一桌子黑乎乎的面包，你会怎么做？', a: '吃一点鼓励我', b: '带我去外面吃' },
+  { q: '你觉得情侣之间应该有秘密吗？', a: '可以有', b: '不该有' },
+  { q: '我们如果可以养宠物，你更喜欢养猫还是养狗？', a: '猫', b: '狗' },
+  { q: '你希望我多陪你看爱情片还是动作片？', a: '爱情片', b: '动作片' },
+  { q: '跟你出去玩，你希望我做攻略还是随遇而安？', a: '做攻略', b: '随遇而安' },
+  { q: '如果要送我一份礼物，你更愿意自己挑还是带我去选？', a: '自己挑', b: '带我去' },
+  { q: '你觉得爱情里是需要多一份理智还是多一份冲动？', a: '理智', b: '冲动' },
+  { q: '如果我很累不想说话，你觉得我给你倒杯水好还是安静不打扰好？', a: '倒杯水', b: '安静不打扰' },
+  { q: '在你看来，两个人在一起最常见的小确幸是什么？', a: '一起吃饭', b: '散步聊天' }
+];
+
+document.querySelector('[data-key="quiz"]').addEventListener('click', () => {
+  document.getElementById('plusMenu').classList.add('hidden');
+  const quiz = defaultQuizzes[Math.floor(Math.random() * defaultQuizzes.length)];
+  const myChoice = confirm(`${quiz.q}\n\n点【确定】选：${quiz.a}\n点【取消】选：${quiz.b}`) ? 'a' : 'b';
+  const taChoice = Math.random() < 0.7 ? myChoice : (myChoice === 'a' ? 'b' : 'a'); 
+  
+  const resultText = `[🃏] 灵魂问答\n\n默契度：${myChoice === taChoice ? '100%' : '0%'}\n\n问题：${quiz.q}\n\n我： ${myChoice === 'a' ? quiz.a : quiz.b}\nTA： ${taChoice === 'a' ? quiz.a : quiz.b}`;
+  addSystemTip(resultText, true);
+});
+
+/* ===== 看电影逻辑 ===== */
+document.querySelector('[data-key="movie"]').addEventListener('click', () => {
+  document.getElementById('plusMenu').classList.add('hidden');
+  showPage('moviePage');
+  document.getElementById('movieVideo').style.display = 'none';
+  document.getElementById('moviePlaceholder').style.display = 'block';
+  document.getElementById('movieChatBox').innerHTML = '';
+});
+
+document.getElementById('backFromMovieBtn').onclick = () => {
+  showPage('chatPage');
+  const vid = document.getElementById('movieVideo');
+  vid.pause();
+};
+document.getElementById('movieUploadBtn').onclick = () => {
+  document.getElementById('movieVideoUpload').click();
+};
+document.getElementById('movieVideoUpload').onchange = (e) => {
+  const f = e.target.files[0]; if (!f) return;
+  const url = URL.createObjectURL(f);
+  const vid = document.getElementById('movieVideo');
+  vid.src = url;
+  vid.style.display = 'block';
+  document.getElementById('moviePlaceholder').style.display = 'none';
+  vid.play();
+  e.target.value = '';
+  
+  let msgTimer = setInterval(() => {
+    if (vid.paused) return;
+    const mainCards = cards.filter(c => (c.type || 'main') === 'main');
+    if (mainCards.length > 0) {
+      const text = mainCards[Math.floor(Math.random() * mainCards.length)].content;
+      const div = document.createElement('div');
+      div.className = 'msg-row ta';
+      div.innerHTML = `<div class="avatar" style="width:24px;height:24px;font-size:12px;">TA</div><div class="bubble" style="background:#333;color:#fff;font-size:13px;padding:6px 10px;">${text}</div>`;
+      document.getElementById('movieChatBox').appendChild(div);
+      document.getElementById('movieChatBox').scrollTop = document.getElementById('movieChatBox').scrollHeight;
+    }
+  }, 8000);
+  
+  vid.onpause = () => clearInterval(msgTimer);
+});
+
+document.getElementById('movieSendBtn').onclick = () => {
+  const inp = document.getElementById('movieInput');
+  const text = inp.value.trim();
+  if (!text) return;
+  inp.value = '';
+  const div = document.createElement('div');
+  div.className = 'msg-row me';
+  div.innerHTML = `<div class="avatar" style="width:24px;height:24px;font-size:12px;">我</div><div class="bubble" style="background:#95ec69;color:#111;font-size:13px;padding:6px 10px;">${text}</div>`;
+  document.getElementById('movieChatBox').appendChild(div);
+  document.getElementById('movieChatBox').scrollTop = document.getElementById('movieChatBox').scrollHeight;
+};
+
 /* ===== 信箱逻辑 ===== */
 let currentMailTab = 'sent';
 function showMailPage() {
@@ -3394,7 +3741,7 @@ document.getElementById('mailSendBtn').onclick = () => {
   playSound('send');
 };
 
-/* ===== 音乐库 ===== */
+/* ===== 音乐库基础 ===== */
 let musicList = [];
 let musicCurrentId = null;
 let musicAudio = null;
@@ -3510,7 +3857,7 @@ function showMusicItemMenu(id) {
   });
 }
 </script>
-<!-- ★★★ index 段 17 结束 ★★★ --><!-- ★★★ index 段 18 开始 ★★★ -->
+<!-- ★★★ index 第 17 段 结束 ★★★ --><!-- ★★★ index 第 18 段 开始 ★★★ -->
 <script>
 function bindMusicActions() {
   const uploadBtn = document.getElementById('musicUploadBtn');
@@ -3719,222 +4066,36 @@ function openFloatCardFromDisc() {
   disc.classList.add('hidden');
 }
 
-/* ===== 自动互动触发 ===== */
-let onlineTimer = null;
-let callTriggerTime = 0;
-let prankTriggerTime = 0;
+document.getElementById('floatUpBtn').onclick = () => {
+  const disc = document.getElementById('floatDisc');
+  const card = document.getElementById('floatCard');
+  const cardLeft = parseInt(card.style.left || 0, 10);
+  const cardTop = parseInt(card.style.top || 0, 10);
+  const discLeft = cardLeft + 110 - 32;
+  const discTop = cardTop + 10;
+  disc.style.left = Math.max(0, Math.min(window.innerWidth - 64, discLeft)) + 'px';
+  disc.style.top = Math.max(0, Math.min(window.innerHeight - 64, discTop)) + 'px';
+  save('float_disc_x', parseInt(disc.style.left, 10));
+  save('float_disc_y', parseInt(disc.style.top, 10));
+  card.classList.add('hidden');
+  disc.classList.remove('hidden');
+};
 
-function startOnlineTimer() {
-  clearInterval(onlineTimer);
-  onlineTimer = setInterval(() => {
-    const totalOnline = load('total_online_time', 0);
-
-    if (load('moment_auto_on', true)) {
-      let mTrigger = load('moment_trigger_time', 0);
-      if (mTrigger === 0) {
-        save('moment_trigger_time', totalOnline + (30 + Math.random() * 30) * 60 * 1000);
-      } else if (totalOnline >= mTrigger) {
-        triggerTaActivity();
-        save('moment_trigger_time', 0);
-      }
-    }
-
-    if (load('call_auto_on', true)) {
-      let cTrigger = load('call_trigger_time', 0);
-      let cCount = load('call_trigger_count', 0);
-      if (cCount < 2) {
-        if (cTrigger === 0) {
-          save('call_trigger_time', totalOnline + (30 + Math.random() * 30) * 60 * 1000);
-        } else if (totalOnline >= cTrigger) {
-          triggerTaCall();
-          save('call_trigger_time', 0);
-          save('call_trigger_count', cCount + 1);
-        }
-      }
-    }
-
-    if (load('prank_auto_on', true)) {
-      let pTrigger = load('prank_trigger_time', 0);
-      let pCount = load('prank_trigger_count', 0);
-      let pMax = load('prank_trigger_max', 0);
-      if (pMax === 0) {
-        pMax = 2 + Math.floor(Math.random() * 4);
-        save('prank_trigger_max', pMax);
-      }
-      if (pCount < pMax) {
-        if (pTrigger === 0) {
-          save('prank_trigger_time', totalOnline + (20 + Math.random() * 40) * 60 * 1000);
-        } else if (totalOnline >= pTrigger) {
-          triggerTaPrank();
-          save('prank_trigger_time', 0);
-          save('prank_trigger_count', pCount + 1);
-        }
-      }
-    }
-
-    if (load('question_auto_on', true)) {
-      let qTrigger = load('question_trigger_time', 0);
-      if (qTrigger === 0) {
-        save('question_trigger_time', totalOnline + (60 + Math.random() * 180) * 60 * 1000);
-      } else if (totalOnline >= qTrigger) {
-        triggerTaQuestion();
-        save('question_trigger_time', 0);
-      }
-    }
-  }, 10000);
-}
-</script>
-<!-- ★★★ index 段 18 结束 ★★★ --><!-- ★★★ index 段 19 开始 ★★★ -->
-<script>
-function triggerTaActivity() {
-  const all = load('our_moments', []);
-  const myMoments = all.filter(m => m.sender === 'me');
-  const roll = Math.random();
-  let doPost = false, doInteract = false;
-  if (roll < 0.3) doPost = true;
-  else if (roll < 0.7) doInteract = true;
-  else { doPost = true; doInteract = true; }
-
-  if (doPost) {
-    setTimeout(() => {
-      const mainCards = cards.filter(c => (c.type || 'main') === 'main' && !c.blocked);
-      const text = mainCards.length > 0 ? mainCards[Math.floor(Math.random() * mainCards.length)].content : '今天也想你。';
-      const newId = Date.now() + '_' + Math.random().toString(36).slice(2, 6);
-      const curAll = load('our_moments', []);
-      curAll.push({ id: newId, sender: 'ta', text: text, imgs: [], t: Date.now(), likes: [], comments: [] });
-      save('our_moments', curAll);
-      const notifies = loadMomentNotifies();
-      notifies.push({ text: load('ta_name', 'TA') + ' 发布了一条新动态', t: Date.now(), read: false, momentId: newId });
-      saveMomentNotifies(notifies);
-      updateBellDot();
-      playSound('receive');
-      const page = document.getElementById('momentsPage');
-      if (page && !page.classList.contains('hidden')) renderMomentsList();
-    }, 2000 + Math.random() * 5000);
-  }
-
-  if (doInteract && myMoments.length > 0) {
-    myMoments.sort((a, b) => b.t - a.t);
-    const targetCount = Math.min(myMoments.length, 1 + Math.floor(Math.random() * 2));
-    for (let i = 0; i < targetCount; i++) {
-      setTimeout(() => { window.triggerTaMomentInteraction(myMoments[i].id); }, 3000 + Math.random() * 6000);
-    }
-  }
-}
-
-function triggerTaCall() {
-  if (document.getElementById('callPage').classList.contains('hidden')) {
-    startCall(true);
-  }
-}
-
-function triggerTaPrank() {
-  const pranks = [
-    { icon: '🍅', name: '番茄' },
-    { icon: '🍰', name: '蛋糕' },
-    { icon: '💧', name: '水球' },
-    { icon: '👉', name: '戳脸' }
-  ];
-  const p = pranks[Math.floor(Math.random() * pranks.length)];
-  if (p.name === '戳脸') {
-    addSystemTip(`[👉] TA 戳了戳我的脸`, true);
-  } else {
-    addSystemTip(`[${p.icon}] TA 朝我扔了一个${p.name}`, true);
-  }
-  playSound('poke');
-}
-
-function triggerTaQuestion() {
-  const bank = load('our_question_bank', []);
-  const validQs = bank.filter(q => !q.blocked);
-  if (validQs.length === 0) return;
-  const count = 1 + Math.floor(Math.random() * 2);
-  const shuffled = validQs.sort(() => 0.5 - Math.random());
-  const selected = shuffled.slice(0, count);
-  const qId = Date.now() + '_q_' + Math.random().toString(36).slice(2, 6);
-  const questions = [];
-  
-  selected.forEach(q => {
-    let opts = q.options && q.options.length >= 2 ? q.options : ['是的', '不是', '看情况'];
-    opts = opts.sort(() => 0.5 - Math.random());
-    questions.push({ title: q.content, options: opts, myAnswer: null });
+document.getElementById('floatCameraBtn').onclick = () => {
+  document.getElementById('floatCoverUpload').click();
+};
+document.getElementById('floatCoverUpload').onchange = (e) => {
+  const f = e.target.files[0]; if (!f) return;
+  compressImage(f, 400, (url) => {
+    const m = musicList.find(x => x.id === musicCurrentId);
+    if (m) { m.cover = url; saveMusicMeta(); }
+    document.getElementById('floatCover').style.background = `url(${url}) center/cover no-repeat`;
+    document.getElementById('musicDiscCover').style.background = `url(${url}) center/cover no-repeat`;
   });
-
-  const qData = { id: qId, questions: questions, answered: false, t: Date.now() };
-  const sent = load('our_ta_questions_sent', []);
-  sent.push(qData);
-  save('our_ta_questions_sent', sent);
-
-  const taName = load('ta_name', 'TA');
-  const cardId = qId + '_card';
-  const msg = { type: 'questioncard', sender: 'ta', questionId: qId, title: `${taName}发来了一份问卷`, sub: `包含 ${count} 个问题`, count: count, status: '待回答', cardId, t: Date.now() };
-  const msgs = load('our_messages', []); msgs.push(msg); save('our_messages', msgs);
-  playSound('receive');
-  
-  if (!document.getElementById('chatPage').classList.contains('hidden')) {
-    renderQuestionCard(msg);
-  }
-}
-
-/* ===== 初始化 120 道默认问卷题库 ===== */
-function initDefaultQuestions() {
-  if (localStorage.getItem('question_bank_inited')) return;
-  const defaults = [
-    "你最喜欢看我穿什么颜色的衣服？", "周末一般想宅在家里还是出去玩？", "你平时洗澡喜欢先洗头还是先洗身子？", 
-    "你的手机电量一般掉到多少才会去充电？", "喝奶茶的时候，你必加的配料是什么？", "你睡觉的时候喜欢侧卧还是平躺？", 
-    "如果在家里待一天，你会穿睡衣还是换常服？", "你吃西瓜的时候喜欢用勺子挖还是切块吃？", "你出门前大概需要花多长时间准备？", 
-    "你的房间通常是保持整洁还是稍微有点乱？", "你更喜欢早起还是熬夜？", "你吃饭的时候喜欢先吃肉还是先吃菜？", 
-    "你穿鞋的时候习惯先穿左脚还是右脚？", "洗完澡之后你会马上擦干身体还是先晾一会？", "你出门一定会带的三样东西是什么？",
-    "看电影的时候喜欢坐前排还是后排？", "吃面条的时候喜欢发出声音还是不发出声音？", "你对香菜的态度是喜欢还是讨厌？",
-    "你平时更常喝温水还是冰水？", "天气冷的时候，你出门会戴帽子还是围巾？", "你叠衣服的习惯是卷起来还是平铺？",
-    "洗碗的时候喜欢用热水还是冷水？", "你走路的速度是偏快还是偏慢？", "你玩手机的时候通常是躺着还是坐着？",
-    "你有多久换一次手机壁纸？", "你平时买东西更看重颜值还是实用性？", "你喜欢按计划行事还是随性而为？",
-    "紧张的时候你会有怎样的肢体小动作？", "下雨天你更喜欢打伞还是穿雨衣？", "在家听歌会外放还是戴耳机？",
-    "你一般早上起来第一时间是看手机还是去洗漱？", "你更喜欢硬的床还是软的床？", "吃东西口味偏重还是偏淡？",
-    "你平时怎么挤牙膏，从中间挤还是从底部挤？", "买东西的购物袋你会留着还是马上扔掉？", "你看视频喜欢开弹幕还是关弹幕？",
-    "你写错字的时候喜欢划掉还是用涂改液？", "换了新衣服你会先洗一遍再穿还是直接穿？", "晾衣服的时候你会把衣服翻过来吗？",
-    "你一般多久清理一次手机里的相册？",
-
-    "你生气的时候希望我哄你还是让你静一静？", "你难过的时候想让我抱你还是陪你说话？", "你最喜欢我夸你哪里？", 
-    "如果我惹你生气了，你最希望我怎么道歉？", "遇到烦心事的时候，你更倾向于自己消化还是找人倾诉？", 
-    "听到什么话会让你瞬间心情变好？", "你最受不了别人的什么小习惯？", "你觉得我做什么小动作的时候最可爱？", 
-    "你更喜欢打字聊天还是发语音？", "如果心情不好，你最想吃什么东西来缓解？", "你更喜欢收到文字消息还是收到语音消息？",
-    "你是一个喜欢分享日常的人吗？", "你更喜欢被夸奖还是被默默照顾？", "遇到喜欢的东西你会立刻买还是犹豫很久？",
-    "你更喜欢安静的环境还是热闹的环境？", "如果有一个周末完全空闲，你最想做什么？", "你相信一见钟情还是日久生情？",
-    "你更喜欢猫还是狗？", "你觉得一段关系里最重要的是什么？", "你过生日更看重礼物还是陪伴？", 
-    "如果遇到分歧，你更倾向于沟通还是冷战？", "你会在意别人对你的评价吗？", "如果你心情不好，最不想听到别人说什么？",
-    "你更喜欢早上洗澡还是晚上洗澡？", "你是个容易感动的人吗？", "你最害怕什么样的场景？",
-    "如果我不小心把你弄哭了，你会希望我怎么做？", "你觉得你是一个情绪化的人吗？", "你更喜欢惊喜还是平平淡淡？",
-    "被人误解时，你会马上解释还是懒得解释？", "你最讨厌什么类型的人？", "你觉得自己最大的优点是什么？",
-    "你觉得伴侣之间需要完全坦白吗？", "你做决定的时候更偏向理智还是直觉？", "你更容易因为什么事情感到焦虑？",
-    "你觉得自己是一个有耐心的人吗？", "你希望我给你多留点个人空间吗？", "你最喜欢哪种风格的约会？",
-    "收到手写信和买的礼物，你更喜欢哪个？",
-
-    "奶茶选加冰还是去冰？", "出去玩选看海还是爬山？", "晚饭选火锅还是烤肉？", "放假选宅家还是旅游？",
-    "饮料选可乐还是雪碧？", "看电影选爱情片还是悬疑片？", "天气热选吹空调还是吹电风扇？", "早起选定闹钟还是自然醒？",
-    "出行选坐地铁还是打车？", "聊天选文字还是语音？", "购物选线上还是线下？", "喝咖啡选加糖还是不加糖？",
-    "看比赛选现场还是屏幕前？", "散步选公园还是街道？", "住宿选酒店还是民宿？", "看剧选倍速看还是原速看？",
-    "拍照选拍人还是拍风景？", "发型选短发还是长发？", "穿搭选运动风还是休闲风？", "看书选纸质书还是电子书？",
-    "唱歌选KTV还是在家唱？", "早餐选包子还是面包？", "夜宵选烧烤还是泡面？", "海鲜选虾还是螃蟹？",
-    "吃鱼选清蒸还是红烧？", "吃鸡选鸡翅还是鸡腿？", "吃披萨选薄底还是厚底？", "喝水选白开水还是茶水？",
-    "洗澡选淋浴还是泡澡？", "吹头发选自然干还是电吹风？", "早晨选先刷牙还是先洗脸？", "看信息选马上回还是过会回？",
-    "吃水果选削皮还是不削皮？", "吃葡萄选吐籽还是直接吞？", "吃面选汤面还是拌面？", "豆腐脑选甜的还是咸的？",
-    "粽子选甜的肉粽还是甜粽？", "豆沙包选带颗粒的还是细腻的？", "吃菠萝选泡盐水还是直接吃？", "订外卖选准时达还是能等就行？"
-  ];
-
-  const bank = defaults.map((content, i) => ({
-    id: 'q_init_' + i,
-    content: content,
-    category: '默认问题',
-    options: ['是的', '不是', '看情况'],
-    blocked: false
-  }));
-
-  save('our_question_bank', bank);
-  localStorage.setItem('question_bank_inited', '1');
-}
+  e.target.value = '';
+};
 </script>
-<!-- ★★★ index 段 19 结束 ★★★ --><!-- ★★★ index 段 20 开始 ★★★ -->
+<!-- ★★★ index 第 18 段 结束 ★★★ --><!-- ★★★ index 第 19 段 开始 ★★★ -->
 <script>
 /* ===== 音乐播放器核心 ===== */
 async function playMusic(id, isSilent = false) {
@@ -4120,19 +4281,16 @@ document.getElementById('floatListBtn').onclick = () => {
   if (typeof renderMusicList === 'function') renderMusicList();
 };
 
-document.getElementById('floatCameraBtn').onclick = () => {
-  document.getElementById('floatCoverUpload').click();
-};
-document.getElementById('floatCoverUpload').onchange = (e) => {
-  const f = e.target.files[0]; if (!f) return;
-  compressImage(f, 400, (url) => {
-    const m = musicList.find(x => x.id === musicCurrentId);
-    if (m) { m.cover = url; saveMusicMeta(); }
-    document.getElementById('floatCover').style.background = `url(${url}) center/cover no-repeat`;
-    document.getElementById('musicDiscCover').style.background = `url(${url}) center/cover no-repeat`;
+(function() {
+  const wrap = document.getElementById('musicBarWrap');
+  if (!wrap) return;
+  wrap.addEventListener('click', (e) => {
+    if (!musicAudio || !musicAudio.duration) return;
+    const rect = wrap.getBoundingClientRect();
+    const pct = Math.max(0, Math.min(1, (e.clientX - rect.left) / rect.width));
+    musicAudio.currentTime = pct * musicAudio.duration;
   });
-  e.target.value = '';
-};
+})();
 
 let togetherStartTime = 0;
 let togetherTimer = null;
@@ -4150,6 +4308,218 @@ function updateTogetherTime() {
   if (!togetherStartTime) return;
   const mins = Math.floor((Date.now() - togetherStartTime) / 60000);
   document.getElementById('musicTogetherText').textContent = 'TA就在你的身边，一起听了 ' + mins + ' 分钟';
+}
+
+/* ===== 在线时长与定时触发 ===== */
+let onlineTimer = null;
+function startOnlineTimer() {
+  clearInterval(onlineTimer);
+  onlineTimer = setInterval(() => {
+    const totalOnline = load('total_online_time', 0);
+
+    if (load('moment_auto_on', true)) {
+      let mTrigger = load('moment_trigger_time', 0);
+      if (mTrigger === 0) {
+        save('moment_trigger_time', totalOnline + (30 + Math.random() * 30) * 60 * 1000);
+      } else if (totalOnline >= mTrigger) {
+        triggerTaActivity();
+        save('moment_trigger_time', 0);
+      }
+    }
+
+    if (load('call_auto_on', true)) {
+      let cTrigger = load('call_trigger_time', 0);
+      let cCount = load('call_trigger_count', 0);
+      if (cCount < 2) {
+        if (cTrigger === 0) {
+          save('call_trigger_time', totalOnline + (30 + Math.random() * 30) * 60 * 1000);
+        } else if (totalOnline >= cTrigger) {
+          triggerTaCall();
+          save('call_trigger_time', 0);
+          save('call_trigger_count', cCount + 1);
+        }
+      }
+    }
+
+    if (load('prank_auto_on', true)) {
+      let pTrigger = load('prank_trigger_time', 0);
+      let pCount = load('prank_trigger_count', 0);
+      let pMax = load('prank_trigger_max', 0);
+      if (pMax === 0) {
+        pMax = 2 + Math.floor(Math.random() * 4);
+        save('prank_trigger_max', pMax);
+      }
+      if (pCount < pMax) {
+        if (pTrigger === 0) {
+          save('prank_trigger_time', totalOnline + (20 + Math.random() * 40) * 60 * 1000);
+        } else if (totalOnline >= pTrigger) {
+          triggerTaPrank();
+          save('prank_trigger_time', 0);
+          save('prank_trigger_count', pCount + 1);
+        }
+      }
+    }
+
+    if (load('question_auto_on', true)) {
+      let qTrigger = load('question_trigger_time', 0);
+      if (qTrigger === 0) {
+        save('question_trigger_time', totalOnline + (60 + Math.random() * 180) * 60 * 1000);
+      } else if (totalOnline >= qTrigger) {
+        triggerTaQuestion();
+        save('question_trigger_time', 0);
+      }
+    }
+  }, 10000);
+}
+
+function triggerTaActivity() {
+  const all = load('our_moments', []);
+  const myMoments = all.filter(m => m.sender === 'me');
+  const roll = Math.random();
+  let doPost = false, doInteract = false;
+  if (roll < 0.3) doPost = true;
+  else if (roll < 0.7) doInteract = true;
+  else { doPost = true; doInteract = true; }
+
+  if (doPost) {
+    setTimeout(() => {
+      const mainCards = cards.filter(c => (c.type || 'main') === 'main' && !c.blocked);
+      const text = mainCards.length > 0 ? mainCards[Math.floor(Math.random() * mainCards.length)].content : '今天也想你。';
+      const newId = Date.now() + '_' + Math.random().toString(36).slice(2, 6);
+      const curAll = load('our_moments', []);
+      curAll.push({ id: newId, sender: 'ta', text: text, imgs: [], t: Date.now(), likes: [], comments: [] });
+      save('our_moments', curAll);
+      const notifies = loadMomentNotifies();
+      notifies.push({ text: load('ta_name', 'TA') + ' 发布了一条新动态', t: Date.now(), read: false, momentId: newId });
+      saveMomentNotifies(notifies);
+      updateBellDot();
+      playSound('receive');
+      const page = document.getElementById('momentsPage');
+      if (page && !page.classList.contains('hidden')) renderMomentsList();
+    }, 2000 + Math.random() * 5000);
+  }
+
+  if (doInteract && myMoments.length > 0) {
+    myMoments.sort((a, b) => b.t - a.t);
+    const targetCount = Math.min(myMoments.length, 1 + Math.floor(Math.random() * 2));
+    for (let i = 0; i < targetCount; i++) {
+      setTimeout(() => { window.triggerTaMomentInteraction(myMoments[i].id); }, 3000 + Math.random() * 6000);
+    }
+  }
+}
+
+function triggerTaCall() {
+  if (document.getElementById('callPage').classList.contains('hidden')) {
+    startCall(true);
+  }
+}
+
+function triggerTaPrank() {
+  const pranks = [
+    { icon: '🍅', name: '番茄' },
+    { icon: '🍰', name: '蛋糕' },
+    { icon: '💧', name: '水球' },
+    { icon: '👉', name: '戳脸' }
+  ];
+  const p = pranks[Math.floor(Math.random() * pranks.length)];
+  if (p.name === '戳脸') {
+    addSystemTip(`[👉] TA 戳了戳我的脸`, true);
+  } else {
+    addSystemTip(`[${p.icon}] TA 朝我扔了一个${p.name}`, true);
+  }
+  playSound('poke');
+}
+
+function triggerTaQuestion() {
+  const bank = load('our_question_bank', []);
+  const validQs = bank.filter(q => !q.blocked);
+  if (validQs.length === 0) return;
+  const count = 1 + Math.floor(Math.random() * 2);
+  const shuffled = validQs.sort(() => 0.5 - Math.random());
+  const selected = shuffled.slice(0, count);
+  const qId = Date.now() + '_q_' + Math.random().toString(36).slice(2, 6);
+  const questions = [];
+  
+  selected.forEach(q => {
+    let opts = q.options && q.options.length >= 2 ? q.options : ['是的', '不是', '看情况'];
+    opts = opts.sort(() => 0.5 - Math.random());
+    questions.push({ title: q.content, options: opts, myAnswer: null });
+  });
+
+  const qData = { id: qId, questions: questions, answered: false, t: Date.now() };
+  const sent = load('our_ta_questions_sent', []);
+  sent.push(qData);
+  save('our_ta_questions_sent', sent);
+
+  const taName = load('ta_name', 'TA');
+  const cardId = qId + '_card';
+  const msg = { type: 'questioncard', sender: 'ta', questionId: qId, title: `${taName}发来了一份问卷`, sub: `包含 ${count} 个问题`, count: count, status: '待回答', cardId, t: Date.now() };
+  const msgs = load('our_messages', []); msgs.push(msg); save('our_messages', msgs);
+  playSound('receive');
+  
+  if (!document.getElementById('chatPage').classList.contains('hidden')) {
+    renderQuestionCard(msg);
+  }
+}
+</script>
+<!-- ★★★ index 第 19 段 结束 ★★★ --><!-- ★★★ index 第 20 段 开始 ★★★ -->
+<script>
+/* ===== 初始化 120 道默认问卷题库 ===== */
+function initDefaultQuestions() {
+  if (localStorage.getItem('question_bank_inited')) return;
+  const defaults = [
+    "你最喜欢看我穿什么颜色的衣服？", "周末一般想宅在家里还是出去玩？", "你平时洗澡喜欢洗多久？", 
+    "你的手机电量一般掉到多少才会去充电？", "喝奶茶的时候，你必加的配料是什么？", "你睡觉的时候喜欢侧卧还是平躺？", 
+    "如果在家里待一天，你会穿睡衣还是换常服？", "你吃西瓜的时候喜欢用勺子挖还是切块吃？", "你出门前大概需要花多长时间准备？", 
+    "你的房间通常是保持整洁还是稍微有点乱？", "你更喜欢早起还是熬夜？", "你吃饭的时候喜欢先吃肉还是先吃菜？", 
+    "你穿鞋的时候习惯先穿左脚还是右脚？", "洗完澡之后你会马上擦干身体还是先晾一会？", "你出门一定会带的三样东西是什么？",
+    "看电影的时候喜欢坐前排还是后排？", "吃面条的时候喜欢发出声音还是不发出声音？", "你对香菜的态度是喜欢还是讨厌？",
+    "你平时更常喝温水还是冰水？", "天气冷的时候，你出门会戴帽子还是围巾？", "你叠衣服的习惯是卷起来还是平铺？",
+    "洗碗的时候喜欢用热水还是冷水？", "你走路的速度是偏快还是偏慢？", "你玩手机的时候通常是躺着还是坐着？",
+    "你有多久换一次手机壁纸？", "你平时买东西更看重颜值还是实用性？", "你喜欢按计划行事还是随性而为？",
+    "紧张的时候你会有怎样的肢体小动作？", "下雨天你更喜欢打伞还是穿雨衣？", "在家听歌会外放还是戴耳机？",
+    "你一般早上起来第一时间是看手机还是去洗漱？", "你更喜欢硬的床还是软的床？", "吃东西口味偏重还是偏淡？",
+    "你平时怎么挤牙膏，从中间挤还是从底部挤？", "买东西的购物袋你会留着还是马上扔掉？", "你看视频喜欢开弹幕还是关弹幕？",
+    "你写错字的时候喜欢划掉还是用涂改液？", "换了新衣服你会先洗一遍再穿还是直接穿？", "晾衣服的时候你会把衣服翻过来吗？",
+    "你一般多久清理一次手机里的相册？",
+
+    "你生气的时候希望我哄你还是让你静一静？", "你难过的时候想让我抱你还是陪你说话？", "你最喜欢我夸你哪里？", 
+    "如果我惹你生气了，你最希望我怎么道歉？", "遇到烦心事的时候，你更倾向于自己消化还是找人倾诉？", 
+    "听到什么话会让你瞬间心情变好？", "你最受不了别人的什么小习惯？", "你觉得我做什么小动作的时候最可爱？", 
+    "你更喜欢打字聊天还是发语音？", "如果心情不好，你最想吃什么东西来缓解？", "你更喜欢收到文字消息还是收到语音消息？",
+    "你是一个喜欢分享日常的人吗？", "你更喜欢被夸奖还是被默默照顾？", "遇到喜欢的东西你会立刻买还是犹豫很久？",
+    "你更喜欢安静的环境还是热闹的环境？", "如果有一个周末完全空闲，你最想做什么？", "你相信一见钟情还是日久生情？",
+    "你更喜欢猫还是狗？", "你觉得一段关系里最重要的是什么？", "你过生日更看重礼物还是陪伴？", 
+    "如果遇到分歧，你更倾向于沟通还是冷战？", "你会在意别人对你的评价吗？", "如果你心情不好，最不想听到别人说什么？",
+    "你更喜欢早上洗澡还是晚上洗澡？", "你是个容易感动的人吗？", "你最害怕什么样的场景？",
+    "如果我不小心把你弄哭了，你会希望我怎么做？", "你觉得你是一个情绪化的人吗？", "你更喜欢惊喜还是平平淡淡？",
+    "被人误解时，你会马上解释还是懒得解释？", "你最讨厌什么类型的人？", "你觉得自己最大的优点是什么？",
+    "你觉得伴侣之间需要完全坦白吗？", "你做决定的时候更偏向理智还是直觉？", "你更容易因为什么事情感到焦虑？",
+    "你觉得自己是一个有耐心的人吗？", "你希望我给你多留点个人空间吗？", "你最喜欢哪种风格的约会？",
+    "收到手写信和买的礼物，你更喜欢哪个？",
+
+    "奶茶选加冰还是去冰？", "出去玩选看海还是爬山？", "晚饭选火锅还是烤肉？", "放假选宅家还是旅游？",
+    "饮料选可乐还是雪碧？", "看电影选爱情片还是悬疑片？", "天气热选吹空调还是吹电风扇？", "早起选定闹钟还是自然醒？",
+    "出行选坐地铁还是打车？", "聊天选文字还是语音？", "购物选线上还是线下？", "喝咖啡选加糖还是不加糖？",
+    "看比赛选现场还是屏幕前？", "散步选公园还是街道？", "住宿选酒店还是民宿？", "看剧选倍速看还是原速看？",
+    "拍照选拍人还是拍风景？", "发型选短发还是长发？", "穿搭选运动风还是休闲风？", "看书选纸质书还是电子书？",
+    "唱歌选KTV还是在家唱？", "早餐选包子还是面包？", "夜宵选烧烤还是泡面？", "海鲜选虾还是螃蟹？",
+    "吃鱼选清蒸还是红烧？", "吃鸡选鸡翅还是鸡腿？", "吃披萨选薄底还是厚底？", "喝水选白开水还是茶水？",
+    "洗澡选淋浴还是泡澡？", "吹头发选自然干还是电吹风？", "早晨选先刷牙还是先洗脸？", "看信息选马上回还是过会回？",
+    "吃水果选削皮还是不削皮？", "吃葡萄选吐籽还是直接吞？", "吃面选汤面还是拌面？", "豆腐脑选甜的还是咸的？",
+    "粽子选甜的肉粽还是甜粽？", "豆沙包选带颗粒的还是细腻的？", "吃菠萝选泡盐水还是直接吃？", "订外卖选准时达还是能等就行？"
+  ];
+
+  const bank = defaults.map((content, i) => ({
+    id: 'q_init_' + i,
+    content: content,
+    category: '默认问题',
+    options: ['是的', '不是', '看情况'],
+    blocked: false
+  }));
+
+  save('our_question_bank', bank);
+  localStorage.setItem('question_bank_inited', '1');
 }
 
 /* ===== 自动写信逻辑 ===== */
@@ -4172,7 +4542,15 @@ function scheduleAutoMail() {
   }, delay);
 }
 
-/* ===== 初始化 ===== */
+/* ===== 弹窗全局点击关闭 ===== */
+document.addEventListener('click', (e) => {
+  const lp = document.getElementById('longPressMenu');
+  if (lp && !lp.classList.contains('hidden') && !e.target.closest('#longPressMenu')) {
+    lp.classList.add('hidden');
+  }
+});
+
+/* ===== 全局页面加载初始化 ===== */
 window.addEventListener('load', () => {
   if (typeof initDefaultQuestions === 'function') initDefaultQuestions();
   cards = load('our_cards', []);
@@ -4190,15 +4568,8 @@ window.addEventListener('load', () => {
   if (typeof scheduleAutoMail === 'function') scheduleAutoMail();
   startOnlineTimer();
 });
-
-document.addEventListener('click', (e) => {
-  const lp = document.getElementById('longPressMenu');
-  if (lp && !lp.classList.contains('hidden') && !e.target.closest('#longPressMenu')) {
-    lp.classList.add('hidden');
-  }
-});
 </script>
 <script src="settings.js"></script>
 </body>
 </html>
-<!-- ★★★ index 段 20 结束 ★★★ -->
+<!-- ★★★ index 第 20 段 结束 ★★★ -->
