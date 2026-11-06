@@ -995,295 +995,18 @@ startOnlineTicker();
 </script>
 <!-- ★★★ index 第 8 段 结束 ★★★ --><!-- ★★★ 修正版 index 第 9 段 开始 ★★★ -->
 <script>
-/* ============================================================
-   统一渲染层（终极修正版）
-   ============================================================ */
-
+/* 统一渲染层（部分代码） */
 function escHtml(s) {
-  return String(s == null ? '' : s)
-    .replace(/&/g, '&amp;')
-    .replace(/</g, '&lt;')
-    .replace(/>/g, '&gt;')
-    .replace(/"/g, '&quot;')
-    .replace(/'/g, '&#39;');
+  return String(s == null ? '' : s).replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;').replace(/'/g, '&#39;');
 }
 
-function addMessage(sender, content, quote, store, msgId) {
-  const row = document.createElement('div');
-  row.className = 'msg-row ' + (sender === 'me' ? 'me' : 'ta');
-  row.dataset.msgId = msgId || (Date.now() + '_' + Math.random().toString(36).slice(2, 8));
-  const avatar = buildAvatar(sender);
-  const bubble = document.createElement('div');
-  bubble.className = 'bubble';
-
-  if (quote) {
-    const q = document.createElement('span');
-    q.className = 'quote-block';
-    q.textContent = quote;
-    bubble.appendChild(q);
-  }
-  bubble.appendChild(document.createTextNode(content));
-
-  if (sender === 'me' && load('read_receipt', true)) {
-    const readMark = document.createElement('div');
-    readMark.className = 'read-mark unread';
-    const rs = load('read_style', 'icon');
-    if (rs === 'icon') readMark.innerHTML = '';
-    else readMark.textContent = '未读';
-    bubble.appendChild(readMark);
-  }
-
-  row.appendChild(avatar);
-  row.appendChild(bubble);
-  messagesEl.appendChild(row);
-  messagesEl.scrollTop = messagesEl.scrollHeight;
-
-  const sb = document.getElementById('scrollBottomBtn');
-  if (sb) sb.classList.add('hidden');
-
-  if (store !== false) {
-    const msgs = load('our_messages', []);
-    if (ensureDateDivider()) {
-      const div = { type: 'datedivider', text: formatDateFull(Date.now()), t: Date.now() - 1 };
-      msgs.push(div);
-      const dividerEl = document.createElement('div');
-      dividerEl.className = 'date-divider';
-      dividerEl.textContent = div.text;
-      messagesEl.insertBefore(dividerEl, row);
-    }
-    msgs.push({ type: 'text', sender, content, quote: quote || '', t: Date.now(), msgId: row.dataset.msgId, read: false });
-    save('our_messages', msgs);
-  }
-}
-
-function addImage(sender, url, store) {
-  const row = document.createElement('div');
-  row.className = 'msg-row ' + (sender === 'me' ? 'me' : 'ta');
-  row.dataset.msgId = Date.now() + '_' + Math.random().toString(36).slice(2, 8);
-  const avatar = buildAvatar(sender);
-  const img = document.createElement('img');
-  img.src = url;
-  img.style.maxWidth = '120px';
-  img.style.maxHeight = '120px';
-  img.style.borderRadius = '8px';
-  row.appendChild(avatar);
-  row.appendChild(img);
-  messagesEl.appendChild(row);
-  messagesEl.scrollTop = messagesEl.scrollHeight;
-  if (store !== false) {
-    const msgs = load('our_messages', []);
-    msgs.push({ type: 'image', sender, url, t: Date.now(), msgId: row.dataset.msgId });
-    save('our_messages', msgs);
-  }
-}
-
-function addVoiceMessage(sender, voiceId, name, duration, store) {
-  const row = document.createElement('div');
-  row.className = 'msg-row ' + (sender === 'me' ? 'me' : 'ta');
-  row.dataset.msgId = Date.now() + '_' + Math.random().toString(36).slice(2, 8);
-  const avatar = buildAvatar(sender);
-  const bubble = document.createElement('div');
-  bubble.className = 'voice-bubble';
-  bubble.dataset.voiceId = voiceId;
-  bubble.innerHTML = `
-    <div class="play-btn"><svg viewBox="0 0 24 24"><path d="M8 5 V19 L19 12 Z"></path></svg></div>
-    <div class="waves">${'<span></span>'.repeat(9)}</div>
-    <div class="duration">${escHtml(duration)}</div>
-  `;
-  bubble.onclick = (e) => { e.stopPropagation(); playVoice(bubble, voiceId); };
-  row.appendChild(avatar);
-  row.appendChild(bubble);
-  messagesEl.appendChild(row);
-  messagesEl.scrollTop = messagesEl.scrollHeight;
-  if (store !== false) {
-    const msgs = load('our_messages', []);
-    msgs.push({ type: 'voice', sender, voiceId, name, duration, t: Date.now(), msgId: row.dataset.msgId });
-    save('our_messages', msgs);
-  }
-}
-
-let currentAudio = null;
-let currentAudioEl = null;
-let currentAudioUrl = null;
-async function playVoice(bubbleEl, voiceId) {
-  const rec = await idbGet('voices', voiceId);
-  if (!rec) return;
-  if (currentAudioEl === bubbleEl && currentAudio) {
-    currentAudio.pause();
-    if (currentAudioUrl) URL.revokeObjectURL(currentAudioUrl);
-    bubbleEl.classList.remove('playing');
-    bubbleEl.querySelector('.play-btn').innerHTML = '<svg viewBox="0 0 24 24"><path d="M8 5 V19 L19 12 Z"></path></svg>';
-    currentAudio = null; currentAudioEl = null; currentAudioUrl = null;
-    return;
-  }
-  if (currentAudio) {
-    currentAudio.pause();
-    if (currentAudioEl) {
-      currentAudioEl.classList.remove('playing');
-      currentAudioEl.querySelector('.play-btn').innerHTML = '<svg viewBox="0 0 24 24"><path d="M8 5 V19 L19 12 Z"></path></svg>';
-    }
-    if (currentAudioUrl) URL.revokeObjectURL(currentAudioUrl);
-  }
-  currentAudioUrl = URL.createObjectURL(rec.blob);
-  currentAudio = new Audio(currentAudioUrl);
-  currentAudioEl = bubbleEl;
-  bubbleEl.classList.add('playing');
-  bubbleEl.querySelector('.play-btn').innerHTML = '<svg viewBox="0 0 24 24"><path d="M7 5 H10 V19 H7 Z"></path><path d="M14 5 H17 V19 H14 Z"></path></svg>';
-  currentAudio.onended = () => {
-    bubbleEl.classList.remove('playing');
-    bubbleEl.querySelector('.play-btn').innerHTML = '<svg viewBox="0 0 24 24"><path d="M8 5 V19 L19 12 Z"></path></svg>';
-    if (currentAudioUrl) URL.revokeObjectURL(currentAudioUrl);
-    currentAudio = null; currentAudioEl = null; currentAudioUrl = null;
-  };
-  currentAudio.play().catch(() => {
-    bubbleEl.classList.remove('playing');
-    bubbleEl.querySelector('.play-btn').innerHTML = '<svg viewBox="0 0 24 24"><path d="M8 5 V19 L19 12 Z"></path></svg>';
-  });
-}
-
-function addSystemTip(text, store) {
-  const sys = document.createElement('div');
-  sys.className = 'system-tip';
-  sys.textContent = text;
-  messagesEl.appendChild(sys);
-  messagesEl.scrollTop = messagesEl.scrollHeight;
-  if (store !== false) {
-    const msgs = load('our_messages', []);
-    msgs.push({ type: 'systemtip', text, t: Date.now() });
-    save('our_messages', msgs);
-  }
-}
-
-function renderTransferCard(m) {
-  const isMe = m.sender === 'me';
-  const row = document.createElement('div');
-  row.className = 'msg-row ' + (isMe ? 'me' : 'ta');
-  row.dataset.msgId = m.msgId || (Date.now() + '_' + Math.random().toString(36).slice(2, 8));
-  row.style.maxWidth = '70%';
-  const avatar = buildAvatar(m.sender);
-  const card = document.createElement('div');
-  card.className = 'transfer-card';
-  if (m.status === 'received') card.classList.add('received');
-  if (m.status === 'refunded') card.classList.add('refunded');
-  const icon = document.createElement('div');
-  icon.className = 'transfer-card-icon';
-  if (m.status === 'received') icon.innerHTML = '<svg viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12 L10 17 L19 7"></path></svg>';
-  else if (m.status === 'refunded') icon.innerHTML = '<svg viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M19 12 A7 7 0 1 1 12 5"></path><path d="M12 5 L12 1 M12 5 L16 5"></path></svg>';
-  else icon.innerHTML = '<svg viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 8 L14 8 M10 4 L14 8 L10 12"></path><path d="M20 16 L10 16 M14 12 L10 16 L14 20"></path></svg>';
-  const info = document.createElement('div');
-  info.className = 'transfer-card-info';
-  const statusText = m.status === 'received' ? '已收款' : (m.status === 'refunded' ? '已退还' : '待收款');
-  info.innerHTML = `<div class="tc-amount">¥${(m.amount || 0).toFixed(2)}</div><div class="tc-status">${statusText}</div>`;
-  card.appendChild(icon); card.appendChild(info);
-  const label = document.createElement('div');
-  label.className = 'transfer-card-label';
-  label.textContent = '转账';
-  card.appendChild(label);
-  card.onclick = () => openReceiveModal(m.transferId);
-  row.appendChild(avatar); row.appendChild(card);
-  messagesEl.appendChild(row);
-}
-
-function renderShopCard(m) {
-  const row = document.createElement('div');
-  row.className = 'msg-row ' + (m.sender === 'me' ? 'me' : 'ta');
-  row.dataset.msgId = m.cardId;
-  if (m.cardId) row.dataset.shopCard = m.cardId;
-  const avatar = buildAvatar(m.sender);
-  const card = document.createElement('div');
-  card.className = 'shop-card';
-  const top = document.createElement('div');
-  top.className = 'shop-card-top';
-  const img = document.createElement('img'); img.src = m.img || ''; img.alt = '';
-  const txtWrap = document.createElement('div'); txtWrap.style.flex = '1';
-  const titleEl = document.createElement('div'); titleEl.className = 'shop-card-title'; titleEl.textContent = m.title || '';
-  const subEl = document.createElement('div'); subEl.className = 'shop-card-sub'; subEl.textContent = m.sub || '';
-  txtWrap.appendChild(titleEl); txtWrap.appendChild(subEl);
-  top.appendChild(img); top.appendChild(txtWrap);
-  const line = document.createElement('div'); line.className = 'shop-card-line';
-  const statusEl = document.createElement('div'); statusEl.className = 'shop-card-status';
-  const tag = document.createElement('span'); tag.className = 'tag'; tag.textContent = m.status || '';
-  statusEl.appendChild(tag);
-  card.appendChild(top); card.appendChild(line); card.appendChild(statusEl);
-  if (m.clickable) {
-    card.style.cursor = 'pointer';
-    card.onclick = () => {
-      const t = card.querySelector('.tag');
-      if (t && t.textContent === '接收') {
-        t.textContent = '已接收';
-        const all = load('our_messages', []);
-        const x = all.find(y => y.cardId === m.cardId);
-        if (x) { x.status = '已接收'; save('our_messages', all); }
-        addSystemTip('我已收下', true);
-      }
-    };
-  }
-  row.appendChild(avatar); row.appendChild(card);
-  messagesEl.appendChild(row);
-}
-
-function renderSurveyCard(m) {
-  const row = document.createElement('div');
-  row.className = 'msg-row ' + (m.sender === 'me' ? 'me' : 'ta');
-  row.dataset.msgId = m.cardId;
-  const avatar = buildAvatar(m.sender);
-  const card = document.createElement('div');
-  card.className = 'survey-card-msg';
-  card.dataset.surveyId = m.surveyId;
-  const top = document.createElement('div'); top.className = 'survey-card-msg-top';
-  const icon = document.createElement('div'); icon.className = 'survey-card-msg-icon';
-  icon.innerHTML = '<svg viewBox="0 0 24 24" fill="none" stroke="#666" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="4" y="4" width="16" height="18" rx="2"></rect><path d="M9 4 V7 H15 V4"></path><path d="M8 12 H16 M8 16 H14"></path></svg>';
-  const txtWrap = document.createElement('div'); txtWrap.style.flex = '1';
-  const titleEl = document.createElement('div'); titleEl.className = 'survey-card-msg-title'; titleEl.textContent = m.title || '';
-  const subEl = document.createElement('div'); subEl.className = 'survey-card-msg-sub'; subEl.textContent = m.sub || '';
-  txtWrap.appendChild(titleEl); txtWrap.appendChild(subEl);
-  top.appendChild(icon); top.appendChild(txtWrap);
-  const line = document.createElement('div'); line.className = 'survey-card-msg-line';
-  const foot = document.createElement('div'); foot.className = 'survey-card-msg-foot';
-  const cnt = document.createElement('span'); cnt.textContent = (m.count || 0) + '个问题';
-  const tag = document.createElement('span'); tag.className = 'tag'; tag.textContent = m.status || '';
-  foot.appendChild(cnt); foot.appendChild(tag);
-  card.appendChild(top); card.appendChild(line); card.appendChild(foot);
-  card.style.cursor = 'pointer';
-  card.onclick = () => openSurveyAnswer(m.surveyId);
-  row.appendChild(avatar); row.appendChild(card);
-  messagesEl.appendChild(row);
-}
-
-function renderQuestionCard(m) {
-  const row = document.createElement('div');
-  row.className = 'msg-row ' + (m.sender === 'me' ? 'me' : 'ta');
-  row.dataset.msgId = m.cardId;
-  const avatar = buildAvatar(m.sender);
-  const card = document.createElement('div');
-  card.className = 'survey-card-msg';
-  card.dataset.questionId = m.questionId;
-  const top = document.createElement('div'); top.className = 'survey-card-msg-top';
-  const icon = document.createElement('div'); icon.className = 'survey-card-msg-icon';
-  icon.innerHTML = '<svg viewBox="0 0 24 24" fill="none" stroke="#666" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="4" y="4" width="16" height="18" rx="2"></rect><path d="M9 4 V7 H15 V4"></path><path d="M8 12 H16 M8 16 H14"></path></svg>';
-  const txtWrap = document.createElement('div'); txtWrap.style.flex = '1';
-  const titleEl = document.createElement('div'); titleEl.className = 'survey-card-msg-title'; titleEl.textContent = m.title || '';
-  const subEl = document.createElement('div'); subEl.className = 'survey-card-msg-sub'; subEl.textContent = m.sub || '';
-  txtWrap.appendChild(titleEl); txtWrap.appendChild(subEl);
-  top.appendChild(icon); top.appendChild(txtWrap);
-  const line = document.createElement('div'); line.className = 'survey-card-msg-line';
-  const foot = document.createElement('div'); foot.className = 'survey-card-msg-foot';
-  const cnt = document.createElement('span'); cnt.textContent = (m.count || 0) + '个问题';
-  const tag = document.createElement('span'); tag.className = 'tag'; tag.textContent = m.status || '';
-  foot.appendChild(cnt); foot.appendChild(tag);
-  card.appendChild(top); card.appendChild(line); card.appendChild(foot);
-  card.style.cursor = 'pointer';
-  card.onclick = () => openQuestionAnswer(m.questionId);
-  row.appendChild(avatar); row.appendChild(card);
-  messagesEl.appendChild(row);
-}
-
-/* ---------- 新增：问答卡片与电影卡片 ---------- */
+/* 渲染灵魂问答（无头像，居中） */
 function renderQuizCard(m) {
   const row = document.createElement('div');
-  row.className = 'msg-row ta';
-  row.style.maxWidth = '85%';
-  const avatar = buildAvatar('ta');
+  row.className = 'msg-row system'; // 特殊标记，去掉左右对齐
+  row.style.alignSelf = 'center';
+  row.style.maxWidth = '92%';
+  
   const card = document.createElement('div');
   card.className = 'quiz-msg-card';
   card.innerHTML = `
@@ -1295,10 +1018,13 @@ function renderQuizCard(m) {
     </div>
     <div class="q-score">${m.payload.pct}% <span>默契度</span></div>
   `;
-  row.appendChild(avatar); row.appendChild(card);
+  
+  // 卡片不带头像
+  row.appendChild(card);
   messagesEl.appendChild(row);
 }
 
+/* 渲染电影卡片（带头像，不变） */
 function renderMovieInviteCard(m) {
   const row = document.createElement('div');
   row.className = 'msg-row ' + (m.sender === 'me' ? 'me' : 'ta');
@@ -1329,10 +1055,8 @@ function renderMovieResultCard(m) {
   messagesEl.appendChild(row);
 }
 
-/* ============================================================
-   refreshMessages（彻底修复排序逻辑，按时间戳渲染）
-   ============================================================ */
-function refreshMessages() {
+/* 重建整个渲染函数（修复排序） */
+window.refreshMessages = function() {
   messagesEl.innerHTML = '';
   const msgs = load('our_messages', []);
   msgs.sort((a, b) => (a.t || 0) - (b.t || 0)).forEach(m => {
@@ -1365,7 +1089,7 @@ function refreshMessages() {
     }
   });
   messagesEl.scrollTop = messagesEl.scrollHeight;
-}
+};
 </script>
 <!-- ★★★ 修正版 index 第 9 段 结束 ★★★ --><!-- ★★★ 修正版 index 第 10 段 开始 ★★★ -->
 <script>
@@ -2945,14 +2669,12 @@ function taPostMoment() {
 </script>
 <!-- ★★★ index 第 13 段 结束 ★★★ --><!-- ★★★ 修正版 index 第 14 段 开始 ★★★ -->
 <script>
-/* 通话 */
-let callTimer = null;
-let callSeconds = 0;
+/* 通话逻辑（原样保留） */
+let callTimer = null; let callSeconds = 0;
 function startCall(isIncoming = false) {
   const plusMenu = document.getElementById('plusMenu'); if (plusMenu) plusMenu.classList.add('hidden');
   const callPage = document.getElementById('callPage'), callFloat = document.getElementById('callFloat');
-  if (!callPage) return;
-  callPage.classList.remove('hidden'); if (callFloat) callFloat.classList.add('hidden');
+  if (!callPage) return; callPage.classList.remove('hidden'); if (callFloat) callFloat.classList.add('hidden');
   const callBg = document.getElementById('callBg'), bgUrl = load('call_bg', '');
   if (callBg) callBg.style.backgroundImage = bgUrl ? `url(${bgUrl})` : 'linear-gradient(180deg, #1a1a1a, #333)';
   const taName = load('ta_name', 'TA'), taAvatar = load('ta_avatar', '');
@@ -2974,8 +2696,7 @@ function connectCall() {
   if (document.getElementById('callStatus')) document.getElementById('callStatus').textContent = '通话中';
   playSound('receive'); clearInterval(callTimer);
   callTimer = setInterval(() => {
-    callSeconds++;
-    const m = String(Math.floor(callSeconds / 60)).padStart(2, '0'), s = String(callSeconds % 60).padStart(2, '0'), str = `${m}:${s}`;
+    callSeconds++; const m = String(Math.floor(callSeconds / 60)).padStart(2, '0'), s = String(callSeconds % 60).padStart(2, '0'), str = `${m}:${s}`;
     if (document.getElementById('callTime')) document.getElementById('callTime').textContent = str;
     if (document.getElementById('callFloatTime')) document.getElementById('callFloatTime').textContent = str;
   }, 1000);
@@ -3003,16 +2724,7 @@ function endCall(showTip = true) {
     if (document.getElementById('callPage')) document.getElementById('callPage').classList.remove('hidden');
   };
   const bgBtn = document.getElementById('callBgBtn'), bgUpload = document.getElementById('callBgUpload');
-  if (bgBtn && bgUpload) {
-    bgBtn.onclick = () => bgUpload.click();
-    bgUpload.onchange = (e) => {
-      const f = e.target.files[0]; if (!f) return;
-      compressImage(f, 800, (url) => {
-        save('call_bg', url); if (document.getElementById('callBg')) document.getElementById('callBg').style.backgroundImage = `url(${url})`;
-      });
-      e.target.value = '';
-    };
-  }
+  if (bgBtn && bgUpload) { bgBtn.onclick = () => bgUpload.click(); bgUpload.onchange = (e) => { const f = e.target.files[0]; if (!f) return; compressImage(f, 800, (url) => { save('call_bg', url); if (document.getElementById('callBg')) document.getElementById('callBg').style.backgroundImage = `url(${url})`; }); e.target.value = ''; }; }
   if(document.getElementById('callMuteBtn')) document.getElementById('callMuteBtn').onclick = function() { this.style.opacity = this.style.opacity === '0.5' ? '1' : '0.5'; };
 })();
 (function bindCallFloatDrag() {
@@ -3037,53 +2749,80 @@ function endCall(showTip = true) {
     if (touching && moved) { const rect = el.getBoundingClientRect(); save('call_float_x', rect.left); save('call_float_y', rect.top); }
     touching = false;
   }
-  el.addEventListener('touchstart', onStart, { passive: true });
-  el.addEventListener('touchmove', onMove, { passive: true });
-  el.addEventListener('touchend', onEnd);
-  el.addEventListener('mousedown', onStart);
-  document.addEventListener('mousemove', onMove);
-  document.addEventListener('mouseup', onEnd);
+  el.addEventListener('touchstart', onStart, { passive: true }); el.addEventListener('touchmove', onMove, { passive: true }); el.addEventListener('touchend', onEnd);
+  el.addEventListener('mousedown', onStart); document.addEventListener('mousemove', onMove); document.addEventListener('mouseup', onEnd);
 })();
 
 /* ============================================================
-   搞怪（恢复飞行动画）
+   搞怪（抛物线砸向最后一条消息的头像）
    ============================================================ */
+function throwAnimation(startEl, targetEl, icon) {
+  if (!targetEl) return;
+  const startRect = startEl.getBoundingClientRect();
+  const targetRect = targetEl.getBoundingClientRect();
+  
+  // 计算起点和终点
+  const startX = startRect.left + startRect.width / 2;
+  const startY = startRect.top;
+  const endX = targetRect.left + targetRect.width / 2;
+  const endY = targetRect.top + targetRect.height / 2;
+
+  // 创建飞行的图标
+  const fly = document.createElement('div');
+  fly.textContent = icon;
+  fly.style.cssText = `position:fixed; left:${startX}px; top:${startY}px; font-size:40px; z-index:9999; pointer-events:none; transition: transform 0.6s cubic-bezier(0.25, 0.46, 0.45, 0.94), opacity 0.6s;`;
+  document.body.appendChild(fly);
+
+  // 计算弧线顶点（控制点）
+  const ctrlX = (startX + endX) / 2;
+  const ctrlY = Math.min(startY, endY) - 150; // 向上抛起150px
+
+  // 简单的两段式动画模拟抛物线
+  requestAnimationFrame(() => {
+    fly.style.transform = `translate(${ctrlX - startX}px, ${ctrlY - startY}px) scale(1.5) rotate(180deg)`;
+    setTimeout(() => {
+      fly.style.transform = `translate(${endX - startX}px, ${endY - startY}px) scale(1) rotate(360deg)`;
+      fly.style.opacity = '0';
+    }, 300);
+  });
+  
+  setTimeout(() => fly.remove(), 700);
+}
+
 function doPrank(type) {
+  const plusMenu = document.getElementById('plusMenu'); if (plusMenu) plusMenu.classList.add('hidden');
+  const plusBtn = document.getElementById('plusBtn');
+  
   const iconMap = { tomato: '🍅', cake: '🍰', water: '💧' };
   const nameMap = { tomato: '番茄', cake: '蛋糕', water: '水球' };
+
   if (type === 'poke') {
     playSound('poke');
-    const rows = document.querySelectorAll('#messages .msg-row');
-    if (rows.length > 0) {
-      const lastAvatar = rows[rows.length - 1].querySelector('.avatar');
-      if (lastAvatar) {
-        lastAvatar.style.transition = 'transform 0.15s ease';
-        lastAvatar.style.transform = 'translateX(10px) scaleX(0.9)';
-        setTimeout(() => { lastAvatar.style.transform = 'none'; }, 180);
-      }
-    }
     addSystemTip('[👉] 我戳了戳 TA 的脸', true);
     return;
   }
+
   const icon = iconMap[type] || '🍅';
   const name = nameMap[type] || '东西';
-  addSystemTip(`[${icon}] 我朝 TA 扔了一个${name}`, true);
+  
+  // 找到最后一条消息
+  const allRows = document.querySelectorAll('#messages .msg-row');
+  const lastRow = allRows.length > 0 ? allRows[allRows.length - 1] : null;
+  const targetAvatar = lastRow ? lastRow.querySelector('.avatar') : null;
+
+  if (lastRow) {
+    addSystemTip(`[${icon}] 我朝 TA 扔了一个${name}`, true);
+    // 从加号按钮飞向最后一条消息的头像
+    throwAnimation(plusBtn, targetAvatar, icon);
+  } else {
+    addSystemTip(`[${icon}] 我朝 TA 扔了一个${name}`, true);
+  }
   playSound('send');
   if (navigator.vibrate) navigator.vibrate(100);
-  // 动画效果
-  const fly = document.createElement('div');
-  fly.textContent = icon;
-  fly.style.cssText = 'position:fixed; left:50%; bottom:20%; font-size:50px; z-index:9999; pointer-events:none; transition: transform 0.8s cubic-bezier(0.2, 0.8, 0.2, 1), opacity 0.8s;';
-  document.body.appendChild(fly);
-  requestAnimationFrame(() => {
-    fly.style.transform = 'translate(-150%, -300px) rotate(720deg) scale(0.5)';
-    fly.style.opacity = '0';
-  });
-  setTimeout(() => fly.remove(), 900);
 }
 
 /* ============================================================
-   灵魂问答（自定义卡片+持久化）
+   灵魂问答（半透明卡片，无头像）
    ============================================================ */
 const QUIZ_BANK = [
   { q: '周末更想我陪你去逛街，还是两个人窝在家里看剧？', a: '去逛街', b: '窝在家里' },
@@ -3164,8 +2903,18 @@ window.startQuiz = function() {
     inner.innerHTML = `<div style="font-size:16px;color:#666;margin-bottom:12px;">🃏 灵魂问答</div><div style="font-size:15px;color:#333;margin-bottom:16px;font-weight:600;">${escHtml(quiz.q)}</div><div class="choices"><div>我：<span>${escHtml(myText)}</span></div><div>TA：<span>${escHtml(taText)}</span></div></div><div class="pct">${pct}%</div><div class="desc">默契度</div><button class="quiz-accept-btn" id="quizAcceptBtn">收下结果</button>`;
     inner.querySelector('#quizAcceptBtn').onclick = () => {
       modal.classList.remove('show'); setTimeout(() => modal.remove(), 200);
-      const msgs = load('our_messages', []); msgs.push({ type: 'quizcard', sender: 'ta', payload: { q: quiz.q, myText, taText, pct }, t: Date.now() }); save('our_messages', msgs);
-      renderQuizCard({ payload: { q: quiz.q, myText, taText, pct } }); messagesEl.scrollTop = messagesEl.scrollHeight; playSound('receive');
+      
+      // 存入聊天记录并渲染为无头像的半透明卡片
+      const msgs = load('our_messages', []); 
+      msgs.push({ type: 'quizcard', sender: 'system', payload: { q: quiz.q, myText, taText, pct }, t: Date.now() }); 
+      save('our_messages', msgs);
+      
+      // 局部渲染
+      if (typeof renderQuizCard === 'function') {
+        renderQuizCard({ payload: { q: quiz.q, myText, taText, pct } }); 
+        messagesEl.scrollTop = messagesEl.scrollHeight;
+      }
+      playSound('receive');
     };
   };
   modal.querySelector('#quizOptA').onclick = () => doResult('a'); modal.querySelector('#quizOptB').onclick = () => doResult('b');
