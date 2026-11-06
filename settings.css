@@ -682,3 +682,704 @@ input[type="range"]::-webkit-slider-thumb {
 .about-box .title { font-size: 18px; font-weight: 600; color: #111; margin-bottom: 4px; }
 .about-box .divider { color: #e0e0e0; margin: 10px 0; font-size: 12px; }
 /* ★★★ css 第 4 段 结束 ★★★ */
+/* ★★★ CSS 第 1 段 开始：看电影界面基础修复 ★★★ */
+
+/* 1. 电影页整体布局：用 100dvh 防止键盘顶飞，且严格控制高度 */
+#moviePage {
+  height: 100vh;
+  height: 100dvh; /* 兼容移动端键盘 */
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+}
+
+/* 2. 视频区域：保持图中的高度（260px），绝对不缩水 */
+.movie-screen {
+  width: 100%;
+  height: 260px; /* 保持你现在的效果 */
+  flex-shrink: 0; /* 严禁被压缩 */
+  background: #000;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+/* 3. 聊天区域：独立滚动，占满剩余空间 */
+#movieChatBox {
+  flex: 1;
+  overflow-y: auto;
+  padding: 10px 14px;
+  background: #1a1a1a;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  -webkit-overflow-scrolling: touch;
+}
+
+/* 4. 聊天行和头像/气泡放大（符合你截图的需求） */
+#movieChatBox .msg-row {
+  display: flex;
+  align-items: flex-start;
+  gap: 10px;
+  max-width: 85%;
+  padding-bottom: 6px;
+}
+#movieChatBox .msg-row.me {
+  align-self: flex-end;
+  flex-direction: row-reverse;
+}
+#movieChatBox .msg-row.ta {
+  align-self: flex-start;
+}
+
+/* 头像放大到 36px */
+#movieChatBox .avatar {
+  width: 36px;
+  height: 36px;
+  border-radius: 8px;
+  font-size: 15px;
+  flex-shrink: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-color: #444;
+  color: #fff;
+}
+
+/* 气泡放大，字号 15px */
+#movieChatBox .bubble {
+  padding: 10px 14px;
+  border-radius: 10px;
+  font-size: 15px;
+  line-height: 1.5;
+  word-break: break-word;
+}
+#movieChatBox .msg-row.me .bubble {
+  background: #95ec69;
+  color: #111;
+}
+#movieChatBox .msg-row.ta .bubble {
+  background: #333;
+  color: #fff;
+}
+
+/* 5. 底部输入框：固定高度，不再缩水变小 */
+#moviePage .chat-footer {
+  flex-shrink: 0; /* 防止输入框被压缩变小 */
+  padding: 8px 12px;
+  background: #222;
+  border-top: 1px solid #333;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding-bottom: calc(8px + env(safe-area-inset-bottom, 0px));
+}
+#movieInput {
+  flex: 1;
+  height: 40px; /* 固定输入框高度 */
+  padding: 0 14px;
+  background: #333;
+  color: #fff;
+  border: none;
+  border-radius: 8px;
+  font-size: 15px;
+  outline: none;
+}
+#moviePage .send-btn {
+  height: 40px;
+  width: 40px;
+  flex-shrink: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+/* 电影页的顶栏也固定住 */
+#moviePage .chat-header {
+  flex-shrink: 0;
+}
+
+/* ★★★ CSS 第 1 段 结束 ★★★ *//* ★★★ CSS 第 2 段 开始：横屏全屏与聊天抽屉 ★★★ */
+
+/* 1. 电影页右上角控制按钮（横屏图标等） */
+.movie-top-actions {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+.movie-top-actions .icon-btn {
+  background: none;
+  border: none;
+  padding: 4px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.movie-top-actions .icon-btn svg {
+  width: 22px;
+  height: 22px;
+  stroke: #fff;
+}
+
+/* 2. 横屏全屏状态下的布局调整 */
+/* 当 body 加上 .movie-fullscreen 时，隐藏页面其他部分，电影页铺满 */
+body.movie-fullscreen #moviePage {
+  position: fixed;
+  inset: 0;
+  z-index: 1000;
+  background: #000;
+  height: 100vh;
+  height: 100dvh;
+}
+
+/* 横屏全屏时，视频区域占满整个屏幕 */
+body.movie-fullscreen .movie-screen {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  z-index: 1;
+}
+
+/* 横屏全屏时，默认隐藏底部原有的输入框和聊天记录列表，只保留右侧抽屉 */
+body.movie-fullscreen #movieChatBox,
+body.movie-fullscreen #moviePage .chat-footer {
+  display: none !important;
+}
+
+/* 3. 横屏专属：右侧半透明毛玻璃聊天抽屉 */
+.movie-side-drawer {
+  position: fixed;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  width: 32%; /* 约占屏幕1/3，不挡中间视频 */
+  min-width: 280px;
+  background: rgba(20, 20, 20, 0.65); /* 半透明深色 */
+  backdrop-filter: blur(12px); /* 毛玻璃效果 */
+  -webkit-backdrop-filter: blur(12px);
+  border-left: 1px solid rgba(255, 255, 255, 0.1);
+  display: flex;
+  flex-direction: column;
+  z-index: 10;
+  transform: translateX(100%);
+  transition: transform 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
+  box-shadow: -4px 0 20px rgba(0,0,0,0.5);
+}
+
+/* 抽屉打开状态 */
+.movie-side-drawer.open {
+  transform: translateX(0);
+}
+
+/* 抽屉里的聊天记录区 */
+.movie-side-drawer .side-chat-box {
+  flex: 1;
+  overflow-y: auto;
+  padding: 16px 12px;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  color: #fff;
+}
+
+/* 抽屉里的头像和气泡稍微缩小一点点，适配窄抽屉，但依然清晰 */
+.movie-side-drawer .msg-row {
+  max-width: 90%;
+}
+.movie-side-drawer .avatar {
+  width: 32px;
+  height: 32px;
+  border-radius: 6px;
+}
+.movie-side-drawer .bubble {
+  font-size: 14px;
+  padding: 8px 12px;
+}
+
+/* 抽屉里的底部输入框 */
+.movie-side-drawer .side-chat-footer {
+  padding: 12px;
+  background: rgba(0, 0, 0, 0.4);
+  border-top: 1px solid rgba(255,255,255,0.1);
+  display: flex;
+  gap: 8px;
+  align-items: center;
+  flex-shrink: 0;
+}
+.movie-side-drawer .side-chat-footer input {
+  flex: 1;
+  height: 36px;
+  padding: 0 12px;
+  border-radius: 18px;
+  border: none;
+  background: rgba(255,255,255,0.15);
+  color: #fff;
+  font-size: 14px;
+  outline: none;
+}
+.movie-side-drawer .side-chat-footer input::placeholder {
+  color: rgba(255,255,255,0.4);
+}
+.movie-side-drawer .side-chat-footer button {
+  height: 36px;
+  padding: 0 16px;
+  border-radius: 18px;
+  background: #95ec69;
+  color: #111;
+  border: none;
+  font-size: 14px;
+  font-weight: 600;
+  cursor: pointer;
+}
+
+/* 4. 横屏全屏下的底部控制栏（播放、聊天开关、退出全屏） */
+body.movie-fullscreen .movie-fs-controls {
+  position: fixed;
+  bottom: 24px;
+  left: 50%;
+  transform: translateX(-50%);
+  display: flex;
+  align-items: center;
+  gap: 24px;
+  background: rgba(0, 0, 0, 0.6);
+  backdrop-filter: blur(8px);
+  padding: 10px 24px;
+  border-radius: 30px;
+  z-index: 10;
+}
+body.movie-fullscreen .movie-fs-controls button {
+  background: none;
+  border: none;
+  color: #fff;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+body.movie-fullscreen .movie-fs-controls button svg {
+  width: 24px;
+  height: 24px;
+  fill: currentColor;
+}
+body.movie-fullscreen .movie-fs-controls button:active {
+  opacity: 0.7;
+}
+
+/* 当抽屉打开时，让控制栏稍微往左移一点，避免被遮挡 */
+body.movie-fullscreen .movie-fs-controls.drawer-open {
+  left: calc(50% - 16vw);
+}
+
+/* ★★★ CSS 第 2 段 结束 ★★★ *//* ★★★ CSS 第 3 段 开始：弹窗与聊天卡片样式 ★★★ */
+
+/* ============================================================
+   1. 通用小弹窗（无遮罩，浮在页面上）
+   ============================================================ */
+.custom-light-popup {
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%) scale(0.95);
+  background: #fff;
+  border-radius: 14px;
+  padding: 24px 20px 20px;
+  width: 80%;
+  max-width: 300px;
+  box-shadow: 0 10px 30px rgba(0,0,0,0.15);
+  z-index: 10000;
+  text-align: center;
+  opacity: 0;
+  pointer-events: none;
+  transition: all 0.2s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+}
+.custom-light-popup.show {
+  opacity: 1;
+  pointer-events: auto;
+  transform: translate(-50%, -50%) scale(1);
+}
+.custom-light-popup .close-x {
+  position: absolute;
+  top: 10px;
+  right: 12px;
+  font-size: 22px;
+  color: #999;
+  cursor: pointer;
+  line-height: 1;
+  padding: 4px;
+}
+.custom-light-popup .popup-text {
+  font-size: 16px;
+  color: #333;
+  font-weight: 500;
+  margin-top: 8px;
+  line-height: 1.5;
+}
+
+/* ============================================================
+   2. 灵魂问答自定义弹窗
+   ============================================================ */
+.quiz-custom-modal {
+  position: fixed;
+  inset: 0;
+  background: rgba(0,0,0,0.4);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 10001;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.2s;
+}
+.quiz-custom-modal.show {
+  opacity: 1;
+  pointer-events: auto;
+}
+.quiz-custom-card {
+  background: #fff;
+  border-radius: 16px;
+  width: 86%;
+  max-width: 340px;
+  padding: 24px;
+  box-shadow: 0 8px 24px rgba(0,0,0,0.15);
+  transform: scale(0.9);
+  transition: transform 0.2s;
+}
+.quiz-custom-modal.show .quiz-custom-card {
+  transform: scale(1);
+}
+.quiz-custom-title {
+  font-size: 17px;
+  font-weight: 600;
+  color: #333;
+  text-align: center;
+  margin-bottom: 20px;
+  line-height: 1.5;
+}
+.quiz-option-btn {
+  display: block;
+  width: 100%;
+  padding: 14px 18px;
+  margin-bottom: 12px;
+  background: #f7f7f7;
+  border: 2px solid transparent;
+  border-radius: 12px;
+  font-size: 15px;
+  color: #333;
+  text-align: left;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+.quiz-option-btn:active {
+  background: #eee;
+  border-color: #222;
+}
+/* 问答结果视图 */
+.quiz-result-view {
+  text-align: center;
+}
+.quiz-result-view .pct {
+  font-size: 48px;
+  font-weight: bold;
+  color: #e8a33d;
+  margin: 10px 0;
+  line-height: 1;
+}
+.quiz-result-view .desc {
+  font-size: 14px;
+  color: #999;
+  margin-bottom: 24px;
+}
+.quiz-result-view .choices {
+  display: flex;
+  justify-content: center;
+  gap: 16px;
+  font-size: 14px;
+  margin-bottom: 24px;
+  color: #666;
+  background: #fafafa;
+  padding: 12px;
+  border-radius: 10px;
+}
+.quiz-result-view .choices span {
+  color: #333;
+  font-weight: 600;
+}
+.quiz-accept-btn {
+  width: 100%;
+  padding: 14px;
+  background: #222;
+  color: #fff;
+  border: none;
+  border-radius: 12px;
+  font-size: 16px;
+  font-weight: 600;
+  cursor: pointer;
+}
+
+/* ============================================================
+   3. 聊天里的问答卡片 (代替之前的 system-tip 文字)
+   ============================================================ */
+.quiz-msg-card {
+  background: #fff;
+  border-radius: 12px;
+  padding: 16px;
+  min-width: 240px;
+  max-width: 85%;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.06);
+  border: 1px solid #f0f0f0;
+}
+.quiz-msg-card .q-title {
+  font-size: 12px;
+  color: #e8a33d;
+  font-weight: 600;
+  margin-bottom: 8px;
+  display: flex;
+  align-items: center;
+  gap: 4px;
+}
+.quiz-msg-card .q-text {
+  font-size: 15px;
+  color: #333;
+  font-weight: 600;
+  margin-bottom: 12px;
+  line-height: 1.4;
+}
+.quiz-msg-card .q-choices {
+  font-size: 13px;
+  color: #666;
+  line-height: 1.6;
+  margin-bottom: 12px;
+}
+.quiz-msg-card .q-choices .me { color: #576b95; }
+.quiz-msg-card .q-choices .ta { color: #e8a33d; }
+.quiz-msg-card .q-score {
+  background: #fff9f0;
+  border-radius: 8px;
+  padding: 10px;
+  text-align: center;
+  font-size: 18px;
+  font-weight: bold;
+  color: #e8a33d;
+  border: 1px dashed #f5d4b3;
+}
+.quiz-msg-card .q-score span {
+  font-size: 12px;
+  font-weight: normal;
+  color: #999;
+  margin-left: 4px;
+}
+
+/* ============================================================
+   4. 看电影邀请/结果 大卡片（比问卷大）
+   ============================================================ */
+.movie-invite-card, .movie-result-card {
+  background: #fff;
+  border-radius: 14px;
+  padding: 18px;
+  width: 82%; /* 宽度占比 82% */
+  min-width: 260px;
+  min-height: 140px; /* 高度约 140px */
+  box-shadow: 0 2px 10px rgba(0,0,0,0.08);
+  border: 1px solid #eee;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+.movie-invite-card .mc-top, .movie-result-card .mc-top {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin-bottom: 12px;
+}
+.movie-invite-card .mc-icon, .movie-result-card .mc-icon {
+  width: 48px;
+  height: 48px;
+  border-radius: 12px;
+  background: #f0f0f0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 24px;
+  flex-shrink: 0;
+}
+.movie-invite-card .mc-icon {
+  background: #fff3e0;
+  color: #f5a623;
+}
+.movie-result-card.agreed .mc-icon {
+  background: #e8f5e9;
+  color: #4caf50;
+}
+.movie-result-card.refused .mc-icon {
+  background: #ffebee;
+  color: #f44336;
+}
+.movie-invite-card .mc-title, .movie-result-card .mc-title {
+  font-size: 16px;
+  font-weight: 600;
+  color: #111;
+}
+.movie-invite-card .mc-sub, .movie-result-card .mc-sub {
+  font-size: 13px;
+  color: #888;
+  margin-top: 4px;
+}
+.movie-invite-card .mc-line, .movie-result-card .mc-line {
+  height: 1px;
+  background: #f5f5f5;
+  margin: 12px 0;
+}
+.movie-invite-card .mc-foot, .movie-result-card .mc-foot {
+  display: flex;
+  justify-content: space-between;
+  font-size: 12px;
+  color: #999;
+}
+
+/* ★★★ CSS 第 3 段 结束 ★★★ *//* ★★★ CSS 第 4 段 开始：弹窗细节与终极防御 ★★★ */
+
+/* ============================================================
+   1. “是否现在观看” 弹窗（无遮罩，点外面无效）
+   ============================================================ */
+.movie-watch-popup {
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%) scale(0.95);
+  background: #fff;
+  border-radius: 16px;
+  width: 78%;
+  max-width: 300px;
+  padding: 24px 20px;
+  box-shadow: 0 12px 36px rgba(0,0,0,0.2);
+  z-index: 10005;
+  text-align: center;
+  opacity: 0;
+  pointer-events: none;
+  transition: all 0.2s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+  border: 1px solid rgba(0,0,0,0.05);
+}
+.movie-watch-popup.show {
+  opacity: 1;
+  pointer-events: auto;
+  transform: translate(-50%, -50%) scale(1);
+}
+.movie-watch-popup .popup-title {
+  font-size: 17px;
+  font-weight: 600;
+  color: #111;
+  margin-bottom: 20px;
+}
+.movie-watch-popup .popup-actions {
+  display: flex;
+  gap: 12px;
+}
+.movie-watch-popup .popup-btn {
+  flex: 1;
+  padding: 12px 0;
+  border-radius: 10px;
+  font-size: 15px;
+  font-weight: 600;
+  cursor: pointer;
+  border: none;
+  transition: background 0.2s;
+}
+.movie-watch-popup .btn-yes {
+  background: #222;
+  color: #fff;
+}
+.movie-watch-popup .btn-yes:active {
+  background: #000;
+}
+.movie-watch-popup .btn-no {
+  background: #f0f0f0;
+  color: #333;
+}
+.movie-watch-popup .btn-no:active {
+  background: #e0e0e0;
+}
+
+/* ============================================================
+   2. 聊天页 / 电影页 键盘防顶飞终极防御
+   ============================================================ */
+/* 强制让页面使用动态视口高度，确保键盘弹起时不会把整个页面顶上去 */
+html, body {
+  height: 100%;
+  height: 100dvh; 
+  overflow: hidden;
+}
+
+/* 确保 #chatPage 的输入框不会被键盘挤变形 */
+#chatPage {
+  height: 100vh;
+  height: 100dvh;
+}
+#chatPage footer.chat-footer {
+  flex-shrink: 0;
+}
+#chatPage #messages {
+  flex: 1;
+  overflow-y: auto;
+}
+
+/* 确保电影聊天界面的输入框绝对不被挤压 */
+#moviePage {
+  height: 100vh;
+  height: 100dvh;
+}
+#moviePage .movie-screen {
+  flex-shrink: 0 !important; /* 视频必须死守高度 */
+}
+#moviePage #movieChatBox {
+  flex: 1;
+  overflow-y: auto;
+}
+#moviePage footer.chat-footer {
+  flex-shrink: 0 !important;
+}
+
+/* ============================================================
+   3. 覆盖 index.html 底部“终极修复补丁”里部分乱写的样式
+   ============================================================ */
+/* 清除那个补丁里把头像写死的 24px，改用 36px，且不要影响全局 */
+#movieChatBox .msg-row .avatar {
+  width: 36px !important;
+  height: 36px !important;
+  border-radius: 8px !important;
+  font-size: 15px !important;
+  background-color: #444 !important;
+}
+#movieChatBox .msg-row .bubble {
+  font-size: 15px !important;
+  padding: 10px 14px !important;
+}
+
+/* 电影页横屏按钮图标 */
+.icon-btn .fullscreen-icon {
+  width: 22px;
+  height: 22px;
+  fill: #fff;
+}
+
+/* 聊天抽屉底部的输入框和发送按钮对齐 */
+.movie-side-drawer .side-chat-footer {
+  align-items: center !important;
+}
+
+/* ============================================================
+   4. 隐藏电影页在竖屏时的多余元素（防止加多了导致排版乱）
+   ============================================================ */
+.movie-side-drawer,
+.movie-fs-controls {
+  display: none; /* 默认隐藏，横屏 JS 触发后再显示 */
+}
+body.movie-fullscreen .movie-side-drawer {
+  display: flex;
+}
+body.movie-fullscreen .movie-fs-controls {
+  display: flex;
+}
+
+/* ★★★ CSS 第 4 段 结束 ★★★ */
