@@ -234,7 +234,7 @@ html, body { height: 100%; overflow: hidden; background: #f5f5f5; font-family: -
 .sticker-body .sticker-item { position: relative; aspect-ratio: 1; background: #f0f0f0; border-radius: 10px; background-size: cover; background-position: center; cursor: pointer; }
 .sticker-body .sticker-item .sticker-del { position: absolute; top: -6px; right: -6px; width: 20px; height: 20px; border-radius: 50%; background: #e74c3c; color: #fff; border: none; font-size: 12px; display: flex; align-items: center; justify-content: center; cursor: pointer; padding: 0; }
 .sticker-body .sticker-empty { grid-column: 1 / -1; text-align: center; color: #999; font-size: 13px; padding: 40px 20px; }
-
+/* ★★★ 完整 settings.css 第 2 段 结束 ★★★ *//* ★★★ 完整 settings.css 第 3 段 开始 ★★★ */
 /* 问卷 */
 .survey-item { background: #fff; border-radius: 14px; padding: 16px; margin-bottom: 12px; cursor: pointer; }
 .survey-item-title { font-size: 16px; font-weight: 600; color: #222; margin-bottom: 6px; }
@@ -277,7 +277,7 @@ html, body { height: 100%; overflow: hidden; background: #f5f5f5; font-family: -
 .survey-card-msg-line { height: 1px; background: #f0f0f0; }
 .survey-card-msg-foot { display: flex; justify-content: space-between; align-items: center; font-size: 12px; color: #999; }
 .survey-card-msg-foot .tag { display: inline-block; background: #f0f0f0; border-radius: 10px; padding: 3px 12px; color: #666; }
-/* ★★★ 完整 settings.css 第 2 段 结束 ★★★ *//* ★★★ 完整 settings.css 第 3-1 段 开始 ★★★ */
+
 /* 信箱 */
 .mail-tabs { display: flex; gap: 10px; padding: 14px 16px 8px; }
 .mail-tab { flex: 1; padding: 12px; text-align: center; font-size: 15px; border-radius: 10px; background: #fff; color: #666; border: 1px solid #eee; cursor: pointer; }
@@ -301,20 +301,6 @@ html, body { height: 100%; overflow: hidden; background: #f5f5f5; font-family: -
 .mail-read-title { font-size: 18px; font-weight: 600; color: #111; margin-bottom: 14px; }
 .mail-read-content { font-size: 15px; color: #333; line-height: 1.8; white-space: pre-wrap; word-break: break-word; }
 .mail-read-date { font-size: 12px; color: #aaa; margin-top: 18px; text-align: right; }
-
-/* 纪念日 */
-.anniv-body { flex: 1; overflow-y: auto; padding: 20px; }
-.anniv-main { display: flex; flex-direction: column; align-items: center; padding: 40px 20px; background: #fff; border-radius: 16px; margin-bottom: 24px; }
-.anniv-label { font-size: 14px; color: #999; margin-bottom: 8px; }
-.anniv-days { font-size: 56px; font-weight: 300; color: #444; letter-spacing: 2px; }
-.anniv-list-title { font-size: 14px; color: #999; margin-bottom: 12px; }
-.anniv-list { display: flex; flex-direction: column; gap: 10px; }
-.anniv-item { background: #fff; border-radius: 12px; padding: 14px 16px; display: flex; justify-content: space-between; align-items: center; }
-.anniv-item-info { flex: 1; }
-.anniv-item-name { font-size: 15px; color: #333; margin-bottom: 4px; }
-.anniv-item-date { font-size: 13px; color: #999; }
-.anniv-item-days { font-size: 15px; color: #e8a33d; font-weight: 600; }
-.anniv-item-del { background: none; border: none; color: #e74c3c; font-size: 18px; cursor: pointer; margin-left: 10px; }
 
 /* 商店 */
 .shop-tabs { display: flex; background: #fff; border-bottom: 1px solid #eee; }
@@ -391,14 +377,28 @@ html, body { height: 100%; overflow: hidden; background: #f5f5f5; font-family: -
 .receive-tip { margin-top: 20px; font-size: 12px; color: #999; }
 #refundLink { color: #1E9BFF; cursor: pointer; }
 
-/* 搜索与高亮 */
+/* 搜索 */
 .search-date-group { margin-bottom: 16px; }
 .search-date-title { font-size: 13px; color: #999; padding: 6px 4px 8px; border-bottom: 1px solid #f0f0f0; margin-bottom: 6px; }
 .search-msg-item { padding: 10px 12px; background: #f7f7f7; border-radius: 10px; margin-bottom: 6px; font-size: 14px; color: #333; cursor: pointer; word-break: break-word; line-height: 1.5; }
 .search-msg-time { font-size: 11px; color: #999; margin-right: 8px; }
 .msg-row.jump-highlight .bubble, .msg-row.jump-highlight .voice-bubble, .msg-row.jump-highlight .shop-card, .msg-row.jump-highlight .transfer-card { background: #d9d9d9 !important; transition: background 0.3s; }
-/* ★★★ 完整 settings.css 第 3-1 段 结束 ★★★ *//* ★★★ 完整 settings.css 第 3-2 段 开始 ★★★ */
-/* 音乐库与播放器 */
+/* ★★★ 完整 settings.css 第 3 段 结束 ★★★ *//* ★★★ 完整 settings.css 第 4 段 开始 ★★★ */
+/* 纪念日 */
+.anniv-body { flex: 1; overflow-y: auto; padding: 20px; }
+.anniv-main { display: flex; flex-direction: column; align-items: center; padding: 40px 20px; background: #fff; border-radius: 16px; margin-bottom: 24px; }
+.anniv-label { font-size: 14px; color: #999; margin-bottom: 8px; }
+.anniv-days { font-size: 56px; font-weight: 300; color: #444; letter-spacing: 2px; }
+.anniv-list-title { font-size: 14px; color: #999; margin-bottom: 12px; }
+.anniv-list { display: flex; flex-direction: column; gap: 10px; }
+.anniv-item { background: #fff; border-radius: 12px; padding: 14px 16px; display: flex; justify-content: space-between; align-items: center; }
+.anniv-item-info { flex: 1; }
+.anniv-item-name { font-size: 15px; color: #333; margin-bottom: 4px; }
+.anniv-item-date { font-size: 13px; color: #999; }
+.anniv-item-days { font-size: 15px; color: #e8a33d; font-weight: 600; }
+.anniv-item-del { background: none; border: none; color: #e74c3c; font-size: 18px; cursor: pointer; margin-left: 10px; }
+
+/* 音乐库 */
 #musicLibraryPage { background: #f5f5f5; }
 .music-float-toggle { display: flex; align-items: center; justify-content: space-between; padding: 12px 18px; background: #fff; border-bottom: 1px solid #f0f0f0; flex-shrink: 0; }
 .music-float-toggle .label { font-size: 14px; color: #333; }
@@ -413,7 +413,19 @@ html, body { height: 100%; overflow: hidden; background: #f5f5f5; font-family: -
 .music-actions { display: grid; grid-template-columns: repeat(4, 1fr); gap: 8px; margin-bottom: 12px; }
 .music-action-btn { display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 6px; padding: 12px 6px; background: #fff; border: none; border-radius: 12px; font-size: 12px; color: #333; cursor: pointer; }
 .music-action-btn svg { width: 22px; height: 22px; }
-.music-clean-btn { width: 100%; padding: 12px; background: #fff; border: none; border-radius: 12px; font-size: 14px; color: #e74c3c; cursor: pointer; margin-bottom: 12px; display: flex; align-items: center; justify-content: center; gap: 6px; }
+
+/* 修复音乐库清理按钮图标巨大 */
+.music-clean-btn { width: 100%; padding: 12px; background: #fff; border: none; border-radius: 12px; font-size: 14px; color: #e74c3c; cursor: pointer; margin-bottom: 12px; display: flex; justify-content: center; align-items: center; gap: 6px; }
+.music-clean-btn svg { width: 18px !important; height: 18px !important; flex-shrink: 0; }
+
+/* 批量管理 */
+.music-batch-bar { display: flex; gap: 8px; margin-bottom: 12px; }
+.music-batch-bar button { flex: 1; padding: 10px; border: none; border-radius: 10px; font-size: 14px; cursor: pointer; background: #fff; color: #333; }
+.music-batch-bar button.danger { background: #e74c3c; color: #fff; }
+.music-item .checkbox { display: none; width: 18px; height: 18px; border-radius: 50%; border: 2px solid #ccc; flex-shrink: 0; }
+.music-item.batch-mode .checkbox { display: block; }
+.music-item.checked .checkbox { background: #222; border-color: #222; }
+
 .music-sub-tabs { display: flex; gap: 8px; margin-bottom: 12px; }
 .music-sub-tab { padding: 8px 16px; border-radius: 16px; background: #fff; border: none; font-size: 13px; color: #666; cursor: pointer; }
 .music-sub-tab.active { background: #222; color: #fff; }
@@ -540,7 +552,7 @@ body.movie-fullscreen .movie-fs-controls button { background: none; border: none
 body.movie-fullscreen .movie-fs-controls svg { width: 24px; height: 24px; fill: currentColor; }
 body.movie-fullscreen .movie-fs-controls.drawer-open { left: calc(50% - 16vw); }
 
-/* 自定义弹窗与卡片 */
+/* 弹窗与卡片 */
 .movie-exit-popup { position: fixed; top: 50%; left: 50%; transform: translate(-50%, -50%) scale(0.95); background: #fff; border-radius: 16px; width: 80%; max-width: 320px; padding: 24px 20px; box-shadow: 0 12px 36px rgba(0,0,0,0.2); z-index: 10005; text-align: center; opacity: 0; pointer-events: none; transition: all 0.2s cubic-bezier(0.175, 0.885, 0.32, 1.275); border: 1px solid rgba(0,0,0,0.05); }
 .movie-exit-popup.show { opacity: 1; pointer-events: auto; transform: translate(-50%, -50%) scale(1); }
 .movie-exit-popup .popup-title { font-size: 17px; font-weight: 600; color: #111; margin-bottom: 12px; }
@@ -575,7 +587,6 @@ body.movie-fullscreen .movie-fs-controls.drawer-open { left: calc(50% - 16vw); }
 .quiz-result-view .choices { display: flex; justify-content: center; gap: 16px; font-size: 14px; margin-bottom: 24px; color: #666; background: #fafafa; padding: 12px; border-radius: 10px; }
 .quiz-result-view .choices span { color: #333; font-weight: 600; }
 .quiz-accept-btn { width: 100%; padding: 14px; background: #222; color: #fff; border: none; border-radius: 12px; font-size: 16px; font-weight: 600; cursor: pointer; }
-
 .quiz-msg-card { background: #fff; border-radius: 12px; padding: 16px; min-width: 240px; max-width: 85%; box-shadow: 0 2px 8px rgba(0,0,0,0.06); border: 1px solid #f0f0f0; }
 .quiz-msg-card .q-title { font-size: 12px; color: #e8a33d; font-weight: 600; margin-bottom: 8px; display: flex; align-items: center; gap: 4px; }
 .quiz-msg-card .q-text { font-size: 15px; color: #333; font-weight: 600; margin-bottom: 12px; line-height: 1.4; }
@@ -584,7 +595,6 @@ body.movie-fullscreen .movie-fs-controls.drawer-open { left: calc(50% - 16vw); }
 .quiz-msg-card .q-choices .ta { color: #e8a33d; }
 .quiz-msg-card .q-score { background: #fff9f0; border-radius: 8px; padding: 10px; text-align: center; font-size: 18px; font-weight: bold; color: #e8a33d; border: 1px dashed #f5d4b3; }
 .quiz-msg-card .q-score span { font-size: 12px; font-weight: normal; color: #999; margin-left: 4px; }
-
 .movie-invite-card, .movie-result-card { background: #fff; border-radius: 14px; padding: 18px; width: 82%; min-width: 260px; min-height: 140px; box-shadow: 0 2px 10px rgba(0,0,0,0.08); border: 1px solid #eee; display: flex; flex-direction: column; justify-content: center; }
 .movie-invite-card .mc-top, .movie-result-card .mc-top { display: flex; align-items: center; gap: 12px; margin-bottom: 12px; }
 .movie-invite-card .mc-icon, .movie-result-card .mc-icon { width: 48px; height: 48px; border-radius: 12px; background: #f0f0f0; display: flex; align-items: center; justify-content: center; font-size: 24px; flex-shrink: 0; }
@@ -627,4 +637,4 @@ input[type="range"]::-webkit-slider-thumb { -webkit-appearance: none; width: 20p
 .wallpaper-dot { width: 44px; height: 44px; border-radius: 10px; cursor: pointer; border: 2px solid #fff; }
 .color-row { display: flex; flex-wrap: wrap; gap: 10px; }
 .color-dot { width: 32px; height: 32px; border-radius: 50%; cursor: pointer; border: 2px solid #fff; }
-/* ★★★ 完整 settings.css 第 3-2 段 结束 ★★★ */
+/* ★★★ 完整 settings.css 第 4 段 结束 ★★★ */
