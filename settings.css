@@ -1,4 +1,4 @@
-/* ★★★ css 第 1 段 开始 ★★★ */
+/* ★★★ 完整 settings.css 第 1 段 开始 ★★★ */
 :root {
   --theme-color: #222222;
   --theme-color-light: rgba(34, 34, 34, 0.1);
@@ -128,22 +128,20 @@ body { font-family: -apple-system, BlinkMacSystemFont, "Helvetica Neue", Arial, 
 .plus-icon svg { width: 26px; height: 26px; }
 .plus-label { font-size: 13px; color: #666; }
 .plus-item:active .plus-icon { background: #eee; }
+/* ★★★ 完整 settings.css 第 1 段 结束 ★★★ *//* ★★★ 完整 settings.css 第 2 段 开始 ★★★ */
 
+/* ===== 朋友圈 ===== */
 .moment-header { position: relative; width: 100%; height: 260px; background: linear-gradient(135deg, #e8f0ff 0%, #d7e4f8 100%); background-size: cover; background-position: center; flex-shrink: 0; }
 .moment-header .avatar-block { position: absolute; right: 24px; bottom: -32px; display: flex; align-items: flex-start; gap: 10px; }
 .moment-header .avatar-block .avatar-name { font-size: 16px; color: #fff; font-weight: 800; line-height: 1; margin-top: 4px; max-width: 100px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; text-shadow: none; }
 .moment-header .avatar-block .avatar-img { width: 64px; height: 64px; border-radius: 14px; background: #ddd center/cover no-repeat; border: 3px solid #fff; display: flex; align-items: center; justify-content: center; font-size: 22px; color: #666; box-shadow: 0 2px 8px rgba(0,0,0,0.1); flex-shrink: 0; }
-
 .moment-bg-tools { display: flex; justify-content: center; padding: 44px 16px 12px; background: #f5f5f5; flex-shrink: 0; }
 .moment-bg-tools button { background: rgba(255,255,255,0.95); border: 1px solid #eee; padding: 8px 20px; border-radius: 18px; font-size: 14px; color: #333; cursor: pointer; box-shadow: 0 1px 4px rgba(0,0,0,0.05); }
-
 .moment-divider { display: flex; align-items: center; justify-content: center; gap: 12px; padding: 12px 20px; background: #f5f5f5; flex-shrink: 0; position: relative; z-index: 5; }
 .moment-divider::before, .moment-divider::after { content: ""; flex: 1; height: 1px; background: #e0e0e0; }
 .moment-divider .divider-text { font-size: 13px; color: #999; flex-shrink: 0; }
-
 .moment-body { flex: 1; overflow-y: auto; padding: 10px 16px 100px; background: #f5f5f5; -webkit-overflow-scrolling: touch; }
 .moment-empty { text-align: center; padding: 60px 20px; color: #bbb; font-size: 14px; }
-
 .moment-card { background: #fff; border-radius: 14px; padding: 16px; margin-bottom: 12px; box-shadow: 0 1px 3px rgba(0,0,0,0.03); }
 .moment-card .head { display: flex; align-items: center; gap: 10px; margin-bottom: 10px; }
 .moment-card .head .a { width: 40px; height: 40px; border-radius: 8px; background: #ddd center/cover no-repeat; display: flex; align-items: center; justify-content: center; font-size: 16px; color: #666; flex-shrink: 0; }
@@ -163,9 +161,7 @@ body { font-family: -apple-system, BlinkMacSystemFont, "Helvetica Neue", Arial, 
 .moment-card .comments { margin-top: 8px; }
 .moment-card .comments .c { font-size: 13px; color: #333; line-height: 1.6; padding: 4px 0; }
 .moment-card .comments .c .who { color: #576b95; font-weight: 600; }
-
 .moment-fab { position: fixed; right: 20px; bottom: 30px; width: 56px; height: 56px; border-radius: 50%; background: #1a1a1a; color: #fff; border: none; font-size: 28px; line-height: 1; box-shadow: 0 4px 16px rgba(0,0,0,0.25); cursor: pointer; z-index: 30; }
-
 .moment-post-sheet { position: absolute; left: 0; right: 0; bottom: 0; background: #fff; border-radius: 20px 20px 0 0; max-height: 90vh; display: flex; flex-direction: column; overflow: hidden; }
 .moment-post-head { padding: 16px 18px; display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid #f0f0f0; }
 .moment-post-head span { font-size: 17px; font-weight: 600; color: #111; }
@@ -178,7 +174,6 @@ body { font-family: -apple-system, BlinkMacSystemFont, "Helvetica Neue", Arial, 
 .moment-post-imgs .img-box { position: relative; aspect-ratio: 1; }
 .moment-post-imgs .img-box img { width: 100%; height: 100%; object-fit: cover; border-radius: 10px; }
 .moment-post-imgs .img-box .del { position: absolute; top: -6px; right: -6px; width: 20px; height: 20px; border-radius: 50%; background: #e74c3c; color: #fff; border: none; font-size: 12px; line-height: 1; display: flex; align-items: center; justify-content: center; cursor: pointer; padding: 0; }
-
 .moment-top-icons { display: flex; align-items: center; gap: 8px; }
 .moment-top-icons button { position: relative; background: #fff; border: 1px solid #eee; border-radius: 50%; width: 36px; height: 36px; display: flex; align-items: center; justify-content: center; cursor: pointer; }
 .moment-top-icons button svg { width: 18px; height: 18px; stroke: #333; }
@@ -186,7 +181,6 @@ body { font-family: -apple-system, BlinkMacSystemFont, "Helvetica Neue", Arial, 
 .moment-top-icons button.active svg { stroke: #fff; }
 .moment-top-icons .red-dot { position: absolute; top: 4px; right: 4px; width: 8px; height: 8px; border-radius: 50%; background: #e74c3c; display: none; }
 .moment-top-icons button.has-new .red-dot { display: block; }
-
 .notify-list { padding: 4px; }
 .notify-item { display: flex; align-items: flex-start; gap: 10px; padding: 12px 4px; border-bottom: 1px solid #f5f5f5; }
 .notify-item:last-child { border-bottom: none; }
@@ -195,7 +189,6 @@ body { font-family: -apple-system, BlinkMacSystemFont, "Helvetica Neue", Arial, 
 .notify-item .info .t { font-size: 14px; color: #333; line-height: 1.4; }
 .notify-item .info .d { font-size: 11px; color: #999; margin-top: 4px; }
 .notify-empty { text-align: center; padding: 50px 20px; color: #bbb; font-size: 14px; }
-
 .moment-del-options { display: flex; gap: 8px; flex-wrap: wrap; margin-bottom: 12px; }
 .moment-del-options button { flex: 1; min-width: 100px; padding: 10px 8px; background: #fff; border: 1.5px solid #ddd; border-radius: 12px; font-size: 14px; color: #333; cursor: pointer; }
 .moment-del-options button.active { border-color: #222; color: #222; font-weight: 600; }
@@ -203,14 +196,13 @@ body { font-family: -apple-system, BlinkMacSystemFont, "Helvetica Neue", Arial, 
 .moment-del-actions button { flex: 1; padding: 12px; border: none; border-radius: 12px; font-size: 15px; cursor: pointer; }
 .moment-del-actions .cancel { background: #f0f0f0; color: #333; }
 .moment-del-actions .ok { background: #222; color: #fff; }
-/* ★★★ css 第 1 段 结束 ★★★ *//* ★★★ css 第 2 段 开始 ★★★ */
+
 /* ===== 字卡库全屏页面 ===== */
 #cardPage { background: #f5f5f5; }
 .card-tabs { display: flex; gap: 4px; padding: 10px 12px; border-bottom: 1px solid #f0f0f0; overflow-x: auto; background: #fff; flex-shrink: 0; }
 .card-tab { flex-shrink: 0; padding: 8px 16px; border-radius: 18px; background: transparent; font-size: 14px; color: #999; cursor: pointer; white-space: nowrap; border: none; }
 .card-tab.active { color: #111; font-weight: 600; background: #f0f0f0; }
 .card-body { flex: 1; overflow-y: auto; padding: 14px 16px 100px; }
-
 .card-item { padding: 12px 14px; background: #fff; border-radius: 10px; margin-bottom: 8px; font-size: 14px; display: flex; justify-content: space-between; align-items: center; gap: 8px; }
 .card-item button { background: none; border: none; color: #e74c3c; font-size: 18px; cursor: pointer; flex-shrink: 0; padding: 0 4px; }
 .card-cats { display: flex; flex-wrap: wrap; gap: 8px; margin: 10px 0; }
@@ -221,13 +213,10 @@ body { font-family: -apple-system, BlinkMacSystemFont, "Helvetica Neue", Arial, 
 .card-tools { display: flex; gap: 8px; margin: 10px 0; }
 #cardSearchInput, #questionSearchInput { flex: 1; padding: 9px 12px; border: 1px solid #eee; border-radius: 10px; font-size: 14px; outline: none; background: #fafafa; }
 #dedupBtn { padding: 9px 14px; background: #f0f0f0; color: #333; border: none; border-radius: 10px; font-size: 14px; cursor: pointer; flex-shrink: 0; }
-
-/* ===== 修复拍一拍输入框样式 ===== */
 .pat-item { display: flex; align-items: center; gap: 8px; margin-bottom: 10px; }
 .pat-item input { flex: 1; padding: 10px 12px; border: 1px solid #eee; border-radius: 8px; font-size: 14px; outline: none; background: #fafafa; color: #333; }
 .pat-item .remove { width: 30px; height: 30px; border: none; border-radius: 8px; background: #f0f0f0; color: #e74c3c; font-size: 18px; cursor: pointer; flex-shrink: 0; display: flex; align-items: center; justify-content: center; }
 .sec-title { font-size: 14px; color: #333; font-weight: 600; margin-bottom: 8px; }
-
 .voice-import-box { background: #fff; border-radius: 12px; padding: 16px; margin-bottom: 14px; border: 1px solid #f0f0f0; display: flex; align-items: center; gap: 12px; cursor: pointer; }
 .voice-import-icon { width: 44px; height: 44px; border-radius: 10px; background: #f0f0f0; display: flex; align-items: center; justify-content: center; flex-shrink: 0; }
 .voice-import-icon svg { width: 24px; height: 24px; stroke: #666; }
@@ -271,6 +260,17 @@ body { font-family: -apple-system, BlinkMacSystemFont, "Helvetica Neue", Arial, 
 .sticker-body .sticker-item { position: relative; aspect-ratio: 1; background: #f0f0f0; border-radius: 10px; background-size: cover; background-position: center; cursor: pointer; }
 .sticker-body .sticker-item .sticker-del { position: absolute; top: -6px; right: -6px; width: 20px; height: 20px; border-radius: 50%; background: #e74c3c; color: #fff; border: none; font-size: 12px; line-height: 1; display: flex; align-items: center; justify-content: center; cursor: pointer; padding: 0; }
 .sticker-body .sticker-empty { grid-column: 1 / -1; text-align: center; color: #999; font-size: 13px; padding: 40px 20px; }
+
+/* ===== 通用 UI ===== */
+.modal { position: fixed; inset: 0; background: rgba(0,0,0,.4); display: flex; align-items: center; justify-content: center; z-index: 99; }
+.modal.hidden { display: none; }
+.modal-box { width: 90%; max-width: 400px; max-height: 80vh; background: #fff; border-radius: 12px; display: flex; flex-direction: column; overflow: hidden; }
+.modal-head { padding: 14px 16px; border-bottom: 1px solid #eee; display: flex; justify-content: space-between; align-items: center; font-weight: 600; }
+.modal-head button { background: none; border: none; font-size: 22px; color: #999; }
+.modal-body { padding: 16px; overflow-y: auto; }
+.system-tip { align-self: center; font-size: 12px; color: #7a7a7a; background: rgba(255, 255, 255, 0.65); backdrop-filter: blur(4px); -webkit-backdrop-filter: blur(4px); padding: 6px 16px; border-radius: 12px; margin: 4px 0; text-align: center; max-width: 80%; word-break: break-word; border: 0.5px solid rgba(255, 255, 255, 0.5); }
+.hidden { display: none !important; }
+/* ★★★ 完整 settings.css 第 2 段 结束 ★★★ *//* ★★★ 完整 settings.css 第 3 段 开始 ★★★ */
 
 /* ===== 问卷 ===== */
 .survey-item { background: #fff; border-radius: 14px; padding: 16px; margin-bottom: 12px; cursor: pointer; }
@@ -356,7 +356,6 @@ body { font-family: -apple-system, BlinkMacSystemFont, "Helvetica Neue", Arial, 
 .anniv-item-date { font-size: 13px; color: #999; }
 .anniv-item-days { font-size: 15px; color: #e8a33d; font-weight: 600; }
 .anniv-item-del { background: none; border: none; color: #e74c3c; font-size: 18px; cursor: pointer; margin-left: 10px; }
-
 .anniv-date-picker { position: fixed; inset: 0; z-index: 400; background: rgba(0,0,0,0.4); display: flex; align-items: flex-end; justify-content: center; }
 .anniv-date-picker.hidden { display: none; }
 .anniv-date-box { width: 100%; background: #fff; border-radius: 20px 20px 0 0; padding: 20px; }
@@ -370,7 +369,7 @@ body { font-family: -apple-system, BlinkMacSystemFont, "Helvetica Neue", Arial, 
 .anniv-date-actions button { flex: 1; padding: 14px; border: none; border-radius: 12px; font-size: 15px; cursor: pointer; }
 .anniv-date-actions .cancel { background: #f0f0f0; color: #333; }
 .anniv-date-actions .ok { background: #222; color: #fff; }
-/* ★★★ css 第 2 段 结束 ★★★ *//* ★★★ css 第 3 段 开始 ★★★ */
+
 /* ===== 商店 ===== */
 .shop-tabs { display: flex; background: #fff; border-bottom: 1px solid #eee; }
 .shop-tab { flex: 1; text-align: center; padding: 14px 0; font-size: 15px; color: #666; cursor: pointer; border-bottom: 2px solid transparent; }
@@ -418,16 +417,7 @@ body { font-family: -apple-system, BlinkMacSystemFont, "Helvetica Neue", Arial, 
 .shop-card-status { text-align: right; font-size: 12px; color: #555; }
 .shop-card-status .tag { display: inline-block; background: #f0f0f0; border-radius: 10px; padding: 3px 12px; color: #666; }
 
-/* ===== 通用 UI ===== */
-.modal { position: fixed; inset: 0; background: rgba(0,0,0,.4); display: flex; align-items: center; justify-content: center; z-index: 99; }
-.modal.hidden { display: none; }
-.modal-box { width: 90%; max-width: 400px; max-height: 80vh; background: #fff; border-radius: 12px; display: flex; flex-direction: column; overflow: hidden; }
-.modal-head { padding: 14px 16px; border-bottom: 1px solid #eee; display: flex; justify-content: space-between; align-items: center; font-weight: 600; }
-.modal-head button { background: none; border: none; font-size: 22px; color: #999; }
-.modal-body { padding: 16px; overflow-y: auto; }
-
-.system-tip { align-self: center; font-size: 12px; color: #7a7a7a; background: rgba(255, 255, 255, 0.65); backdrop-filter: blur(4px); -webkit-backdrop-filter: blur(4px); padding: 6px 16px; border-radius: 12px; margin: 4px 0; text-align: center; max-width: 80%; word-break: break-word; border: 0.5px solid rgba(255, 255, 255, 0.5); }
-
+/* ===== 转账与收款 ===== */
 .transfer-target { display: flex; align-items: center; gap: 12px; padding: 12px 0; border-bottom: 1px solid #eee; margin-bottom: 16px; }
 .transfer-avatar { width: 44px; height: 44px; border-radius: 8px; background: #e8a33d; color: #fff; display: flex; align-items: center; justify-content: center; font-size: 18px; font-weight: 600; background-size: cover; background-position: center; }
 .transfer-name { font-size: 16px; color: #333; font-weight: 600; }
@@ -450,7 +440,6 @@ body { font-family: -apple-system, BlinkMacSystemFont, "Helvetica Neue", Arial, 
 .tc-amount { font-size: 18px; font-weight: 600; line-height: 1.2; }
 .tc-status { font-size: 13px; opacity: 0.9; margin-top: 2px; }
 .transfer-card-label { position: absolute; bottom: 6px; left: 16px; font-size: 11px; opacity: 0.8; }
-
 #receiveModal { position: fixed; inset: 0; background: #fff; z-index: 200; display: flex; align-items: stretch; justify-content: stretch; }
 #receiveModal.hidden { display: none; }
 .receive-box { width: 100%; height: 100%; display: flex; flex-direction: column; position: relative; }
@@ -468,22 +457,21 @@ body { font-family: -apple-system, BlinkMacSystemFont, "Helvetica Neue", Arial, 
 .receive-tip { margin-top: 20px; font-size: 12px; color: #999; }
 #refundLink { color: #1E9BFF; cursor: pointer; }
 
+/* ===== 长按菜单与搜索 ===== */
 .long-press-menu { position: fixed; z-index: 300; display: flex; gap: 4px; background: #333; border-radius: 10px; padding: 6px; box-shadow: 0 4px 20px rgba(0,0,0,0.3); }
 .long-press-menu.hidden { display: none; }
 .long-press-menu .lp-item { color: #fff; font-size: 13px; padding: 8px 12px; border-radius: 6px; cursor: pointer; white-space: nowrap; }
 .long-press-menu .lp-item:active { background: #555; }
 #input.quoting { background: #fff8e1; }
-
 .search-date-group { margin-bottom: 16px; }
 .search-date-title { font-size: 13px; color: #999; padding: 6px 4px 8px; border-bottom: 1px solid #f0f0f0; margin-bottom: 6px; }
 .search-msg-item { padding: 10px 12px; background: #f7f7f7; border-radius: 10px; margin-bottom: 6px; font-size: 14px; color: #333; cursor: pointer; word-break: break-word; line-height: 1.5; }
 .search-msg-item:active { background: #eee; }
 .search-msg-time { font-size: 11px; color: #999; margin-right: 8px; }
 .msg-row.jump-highlight .bubble, .msg-row.jump-highlight .voice-bubble, .msg-row.jump-highlight .shop-card, .msg-row.jump-highlight .transfer-card { background: #d9d9d9 !important; transition: background 0.3s; }
+/* ★★★ 完整 settings.css 第 3 段 结束 ★★★ *//* ★★★ 完整 settings.css 第 4 段 开始 ★★★ */
 
-.hidden { display: none !important; }
-
-/* ===== 音乐库 ===== */
+/* ===== 音乐库与播放器 ===== */
 #musicLibraryPage { background: #f5f5f5; }
 .music-float-toggle { display: flex; align-items: center; justify-content: space-between; padding: 12px 18px; background: #fff; border-bottom: 1px solid #f0f0f0; flex-shrink: 0; }
 .music-float-toggle .label { font-size: 14px; color: #333; }
@@ -519,7 +507,6 @@ body { font-family: -apple-system, BlinkMacSystemFont, "Helvetica Neue", Arial, 
 .music-item .dur { font-size: 12px; color: #999; flex-shrink: 0; }
 .music-item .more { background: none; border: none; font-size: 18px; color: #999; cursor: pointer; padding: 4px; flex-shrink: 0; }
 .music-empty { text-align: center; padding: 60px 20px; color: #bbb; font-size: 14px; line-height: 1.8; }
-/* ★★★ css 第 3 段 结束 ★★★ *//* ★★★ css 第 4 段 开始 ★★★ */
 .music-input-field { margin-bottom: 14px; }
 .music-input-field .label { display: block; font-size: 13px; color: #888; margin-bottom: 6px; }
 .music-input-field input { width: 100%; padding: 12px 14px; border: 1px solid #eee; border-radius: 10px; font-size: 14px; outline: none; background: #fafafa; box-sizing: border-box; }
@@ -565,7 +552,6 @@ body { font-family: -apple-system, BlinkMacSystemFont, "Helvetica Neue", Arial, 
 .float-disc-inner { width: 64px; height: 64px; border-radius: 50%; display: flex; align-items: center; justify-content: center; position: relative; }
 .float-disc-inner::before { content: ""; position: absolute; inset: 6px; border-radius: 50%; border: 1px solid rgba(255,255,255,0.1); }
 .float-cover { width: 36px; height: 36px; border-radius: 50%; background: #333 center/cover no-repeat; border: 2px solid #222; }
-
 #floatCard { position: fixed; z-index: 150; width: 220px; background: #fff; border-radius: 16px; padding: 14px 16px; box-shadow: 0 8px 32px rgba(0,0,0,0.2); touch-action: none; }
 #floatCard.hidden { display: none; }
 .float-card-top { display: flex; justify-content: space-between; align-items: center; margin-bottom: 10px; }
@@ -582,7 +568,7 @@ body { font-family: -apple-system, BlinkMacSystemFont, "Helvetica Neue", Arial, 
 .float-card-controls .play-big { background: #111; border: none; width: 36px; height: 36px; border-radius: 50%; display: flex; align-items: center; justify-content: center; cursor: pointer; }
 .float-card-controls .play-big svg { width: 16px; height: 16px; fill: #fff; }
 
-/* ===== 语音/视频通话界面 ===== */
+/* ===== 通话界面 ===== */
 .call-page { position: fixed; inset: 0; z-index: 500; display: flex; flex-direction: column; overflow: hidden; }
 .call-bg { position: absolute; inset: 0; background: linear-gradient(180deg, #1a1a1a, #333); background-size: cover; background-position: center; z-index: -1; }
 .call-header { padding: 40px 20px 10px; display: flex; justify-content: space-between; align-items: center; }
@@ -597,8 +583,6 @@ body { font-family: -apple-system, BlinkMacSystemFont, "Helvetica Neue", Arial, 
 .call-btn svg { width: 26px; height: 26px; }
 .call-hangup { width: 70px; height: 70px; border-radius: 50%; background: #e74c3c; border: none; display: flex; align-items: center; justify-content: center; cursor: pointer; color: #fff; box-shadow: 0 4px 16px rgba(231,76,60,0.4); }
 .call-hangup svg { width: 32px; height: 32px; transform: rotate(135deg); }
-
-/* ===== 通话悬浮胶囊 ===== */
 .call-float { position: fixed; top: 70px; right: 20px; width: 140px; background: #1a1a1a; border-radius: 30px; padding: 8px 12px; display: flex; align-items: center; gap: 8px; z-index: 500; box-shadow: 0 4px 16px rgba(0,0,0,0.4); cursor: pointer; touch-action: none; }
 .call-float.hidden { display: none; }
 .call-float-avatar { width: 36px; height: 36px; border-radius: 50%; background: #444 center/cover no-repeat; display: flex; align-items: center; justify-content: center; font-size: 14px; color: #fff; flex-shrink: 0; }
@@ -609,17 +593,49 @@ body { font-family: -apple-system, BlinkMacSystemFont, "Helvetica Neue", Arial, 
 .call-float-hangup { width: 28px; height: 28px; border-radius: 50%; background: #e74c3c; border: none; display: flex; align-items: center; justify-content: center; cursor: pointer; flex-shrink: 0; padding: 0; }
 .call-float-hangup svg { width: 14px; height: 14px; transform: rotate(135deg); }
 
-/* ===== 看电影界面 ===== */
-.movie-screen { width: 100%; height: 260px; background: #000; display: flex; align-items: center; justify-content: center; flex-shrink: 0; }
-.movie-screen video { object-fit: contain; }
-#movieChatBox .msg-row { max-width: 80%; padding-bottom: 6px; gap: 6px; }
-#movieChatBox .system-tip { background: rgba(255,255,255,0.1); color: #aaa; border: none; }
+/* ===== 看电影（修复布局+防键盘+横屏抽屉） ===== */
+#moviePage { position: relative; width: 100%; height: 100vh; height: 100dvh; overflow: hidden; background: #111; display: flex; flex-direction: column; }
+#moviePage .chat-header { flex-shrink: 0; }
+.movie-screen { width: 100%; height: 260px !important; flex-shrink: 0; background: #000; display: flex; align-items: center; justify-content: center; position: relative; z-index: 10; overflow: hidden; }
+.movie-screen video { width: 100%; height: 100%; object-fit: contain; }
+#movieChatBox { flex: 1; overflow-y: auto; padding: 12px; background: #1a1a1a; display: flex; flex-direction: column; gap: 12px; -webkit-overflow-scrolling: touch; }
+#movieChatBox::before { content: ""; flex: 1 0 auto; }
+#movieChatBox .msg-row { display: flex; align-items: flex-start; gap: 10px; max-width: 85%; }
+#movieChatBox .msg-row.me { align-self: flex-end; flex-direction: row-reverse; }
+#movieChatBox .msg-row.ta { align-self: flex-start; }
+#movieChatBox .avatar { width: 36px; height: 36px; border-radius: 8px; font-size: 15px; flex-shrink: 0; display: flex; align-items: center; justify-content: center; background: #555 center/cover no-repeat; color: #fff; border: 1px solid #444; }
+#movieChatBox .bubble { padding: 10px 14px; border-radius: 10px; font-size: 15px; line-height: 1.5; word-break: break-word; }
+#movieChatBox .msg-row.me .bubble { background: #95ec69; color: #111; }
+#movieChatBox .msg-row.ta .bubble { background: #333; color: #fff; }
+#moviePage .chat-footer { flex-shrink: 0; padding: 8px 12px; background: #222; border-top: 1px solid #333; display: flex; align-items: center; gap: 8px; padding-bottom: calc(8px + env(safe-area-inset-bottom, 0px)); position: relative; z-index: 20; }
+#movieInput { flex: 1; height: 40px; padding: 0 14px; background: #333; color: #fff; border: none; border-radius: 8px; font-size: 15px; outline: none; }
+#moviePage .send-btn { height: 40px; width: 40px; flex-shrink: 0; display: flex; align-items: center; justify-content: center; }
+body.movie-fullscreen #moviePage { position: fixed; inset: 0; z-index: 1000; }
+body.movie-fullscreen .movie-screen { position: absolute; inset: 0; height: 100% !important; z-index: 1; }
+body.movie-fullscreen #movieChatBox, body.movie-fullscreen #moviePage .chat-footer { display: none !important; }
+.movie-side-drawer { position: fixed; top: 0; right: 0; bottom: 0; width: 32%; min-width: 280px; background: rgba(20,20,20,0.65); backdrop-filter: blur(12px); border-left: 1px solid rgba(255,255,255,0.1); display: flex; flex-direction: column; z-index: 10; transform: translateX(100%); transition: transform 0.3s; box-shadow: -4px 0 20px rgba(0,0,0,0.5); }
+.movie-side-drawer.open { transform: translateX(0); }
+.movie-side-drawer .side-chat-box { flex: 1; overflow-y: auto; padding: 16px 12px; display: flex; flex-direction: column; gap: 12px; color: #fff; }
+.movie-side-drawer .side-chat-box::before { content: ""; flex: 1 0 auto; }
+.movie-side-drawer .avatar { width: 32px; height: 32px; border-radius: 6px; }
+.movie-side-drawer .bubble { font-size: 14px; padding: 8px 12px; }
+.movie-side-drawer .msg-row { display: flex; align-items: flex-start; gap: 8px; max-width: 90%; }
+.movie-side-drawer .msg-row.me { align-self: flex-end; flex-direction: row-reverse; }
+.movie-side-drawer .msg-row.ta { align-self: flex-start; }
+.movie-side-drawer .msg-row.me .bubble { background: #95ec69; color: #111; }
+.movie-side-drawer .msg-row.ta .bubble { background: #333; color: #fff; }
+.movie-side-drawer .side-chat-footer { padding: 12px; background: rgba(0,0,0,0.4); border-top: 1px solid rgba(255,255,255,0.1); display: flex; gap: 8px; align-items: center; flex-shrink: 0; }
+.movie-side-drawer .side-chat-footer input { flex: 1; height: 36px; padding: 0 12px; border-radius: 18px; border: none; background: rgba(255,255,255,0.15); color: #fff; font-size: 14px; outline: none; }
+.movie-side-drawer .side-chat-footer button { height: 36px; padding: 0 16px; border-radius: 18px; background: #95ec69; color: #111; border: none; font-size: 14px; font-weight: 600; }
+body.movie-fullscreen .movie-fs-controls { position: fixed; bottom: 24px; left: 50%; transform: translateX(-50%); display: flex; align-items: center; gap: 24px; background: rgba(0,0,0,0.6); backdrop-filter: blur(8px); padding: 10px 24px; border-radius: 30px; z-index: 10; }
+body.movie-fullscreen .movie-fs-controls button { background: none; border: none; color: #fff; }
+body.movie-fullscreen .movie-fs-controls svg { width: 24px; height: 24px; fill: currentColor; }
+body.movie-fullscreen .movie-fs-controls.drawer-open { left: calc(50% - 16vw); }
 
 /* ===== 设置面板样式 ===== */
 .settings-tabs { display: flex; border-bottom: 1px solid #f0f0f0; background: #fff; position: sticky; top: 0; z-index: 5; }
 .settings-tab { flex: 1; text-align: center; padding: 14px 0; font-size: 14px; color: #666; cursor: pointer; border-bottom: 2px solid transparent; }
 .settings-tab.active { color: #111; font-weight: 600; border-bottom-color: #111; }
-
 .set-card { background: #fff; border-radius: 12px; padding: 14px 16px; margin-bottom: 12px; box-shadow: 0 1px 3px rgba(0,0,0,0.03); }
 .set-card-title { font-size: 14px; font-weight: 600; color: #111; margin-bottom: 10px; }
 .set-row { display: flex; align-items: center; justify-content: space-between; gap: 10px; padding: 8px 0; font-size: 14px; color: #333; border-bottom: 1px solid #f7f7f7; }
@@ -629,47 +645,23 @@ body { font-family: -apple-system, BlinkMacSystemFont, "Helvetica Neue", Arial, 
 .set-row input[type="text"] { flex: 1; padding: 8px 10px; border: 1px solid #eee; border-radius: 8px; font-size: 14px; outline: none; background: #fafafa; color: #333; }
 .set-row input[type="checkbox"] { width: 20px; height: 20px; accent-color: var(--theme-color); cursor: pointer; flex-shrink: 0; }
 .set-row input[type="color"] { width: 40px; height: 28px; border: none; padding: 0; background: none; cursor: pointer; }
-
-/* 滑动条样式 */
-input[type="range"] {
-  -webkit-appearance: none;
-  width: 100%;
-  height: 6px;
-  border-radius: 3px;
-  background: #e0e0e0;
-  outline: none;
-  margin: 10px 0;
-}
-input[type="range"]::-webkit-slider-thumb {
-  -webkit-appearance: none;
-  appearance: none;
-  width: 20px;
-  height: 20px;
-  border-radius: 50%;
-  background: var(--theme-color);
-  cursor: pointer;
-  box-shadow: 0 1px 4px rgba(0,0,0,0.2);
-}
-
+input[type="range"] { -webkit-appearance: none; width: 100%; height: 6px; border-radius: 3px; background: #e0e0e0; outline: none; margin: 10px 0; }
+input[type="range"]::-webkit-slider-thumb { -webkit-appearance: none; appearance: none; width: 20px; height: 20px; border-radius: 50%; background: var(--theme-color); cursor: pointer; box-shadow: 0 1px 4px rgba(0,0,0,0.2); }
 .radio-group { display: flex; gap: 12px; }
 .radio-group label { display: flex; align-items: center; gap: 4px; font-size: 13px; color: #333; cursor: pointer; }
 .radio-group input[type="radio"] { accent-color: var(--theme-color); cursor: pointer; }
-
 .set-btn { width: 100%; padding: 14px; background: var(--theme-color); color: #fff; border: none; border-radius: 12px; font-size: 15px; font-weight: 600; cursor: pointer; margin: 8px 0 16px; }
 .btn-primary { width: 100%; padding: 12px; background: var(--theme-color); color: #fff; border: none; border-radius: 10px; font-size: 14px; font-weight: 600; cursor: pointer; }
 .btn-secondary { width: 100%; padding: 12px; background: #f0f0f0; color: #333; border: none; border-radius: 10px; font-size: 14px; cursor: pointer; }
-
 .wallpaper-row { display: flex; flex-wrap: wrap; gap: 10px; }
 .wallpaper-dot { width: 44px; height: 44px; border-radius: 10px; cursor: pointer; border: 2px solid #fff; box-shadow: 0 0 0 1px #eee; }
 .wallpaper-dot:active { transform: scale(0.94); }
 .color-row { display: flex; flex-wrap: wrap; gap: 10px; }
 .color-dot { width: 32px; height: 32px; border-radius: 50%; cursor: pointer; border: 2px solid #fff; box-shadow: 0 0 0 1px #eee; }
 .color-dot:active { transform: scale(0.92); }
-
 .opt-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 8px; }
 .opt-card { padding: 12px; text-align: center; background: #f7f7f7; border: 1.5px solid transparent; border-radius: 10px; font-size: 14px; color: #333; cursor: pointer; }
 .opt-card.active { border-color: var(--theme-color); background: #fff; font-weight: 600; color: var(--theme-color); }
-
 .avatar-row { display: flex; align-items: center; gap: 12px; padding: 10px 0; cursor: pointer; }
 .avatar-row .label { flex: 1; font-size: 14px; color: #333; }
 .avatar-preview { width: 44px; height: 44px; border-radius: 50%; background: #eee center/cover no-repeat; flex-shrink: 0; border: 1px solid #eee; }
@@ -681,705 +673,50 @@ input[type="range"]::-webkit-slider-thumb {
 .about-box { text-align: center; font-size: 13px; color: #999; line-height: 1.8; }
 .about-box .title { font-size: 18px; font-weight: 600; color: #111; margin-bottom: 4px; }
 .about-box .divider { color: #e0e0e0; margin: 10px 0; font-size: 12px; }
-/* ★★★ css 第 4 段 结束 ★★★ */
-/* ★★★ CSS 第 1 段 开始：看电影界面基础修复 ★★★ */
 
-/* 1. 电影页整体布局：用 100dvh 防止键盘顶飞，且严格控制高度 */
-#moviePage {
-  height: 100vh;
-  height: 100dvh; /* 兼容移动端键盘 */
-  display: flex;
-  flex-direction: column;
-  overflow: hidden;
-}
-
-/* 2. 视频区域：保持图中的高度（260px），绝对不缩水 */
-.movie-screen {
-  width: 100%;
-  height: 260px; /* 保持你现在的效果 */
-  flex-shrink: 0; /* 严禁被压缩 */
-  background: #000;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-}
-
-/* 3. 聊天区域：独立滚动，占满剩余空间 */
-#movieChatBox {
-  flex: 1;
-  overflow-y: auto;
-  padding: 10px 14px;
-  background: #1a1a1a;
-  display: flex;
-  flex-direction: column;
-  gap: 12px;
-  -webkit-overflow-scrolling: touch;
-}
-
-/* 4. 聊天行和头像/气泡放大（符合你截图的需求） */
-#movieChatBox .msg-row {
-  display: flex;
-  align-items: flex-start;
-  gap: 10px;
-  max-width: 85%;
-  padding-bottom: 6px;
-}
-#movieChatBox .msg-row.me {
-  align-self: flex-end;
-  flex-direction: row-reverse;
-}
-#movieChatBox .msg-row.ta {
-  align-self: flex-start;
-}
-
-/* 头像放大到 36px */
-#movieChatBox .avatar {
-  width: 36px;
-  height: 36px;
-  border-radius: 8px;
-  font-size: 15px;
-  flex-shrink: 0;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  background-color: #444;
-  color: #fff;
-}
-
-/* 气泡放大，字号 15px */
-#movieChatBox .bubble {
-  padding: 10px 14px;
-  border-radius: 10px;
-  font-size: 15px;
-  line-height: 1.5;
-  word-break: break-word;
-}
-#movieChatBox .msg-row.me .bubble {
-  background: #95ec69;
-  color: #111;
-}
-#movieChatBox .msg-row.ta .bubble {
-  background: #333;
-  color: #fff;
-}
-
-/* 5. 底部输入框：固定高度，不再缩水变小 */
-#moviePage .chat-footer {
-  flex-shrink: 0; /* 防止输入框被压缩变小 */
-  padding: 8px 12px;
-  background: #222;
-  border-top: 1px solid #333;
-  display: flex;
-  align-items: center;
-  gap: 8px;
-  padding-bottom: calc(8px + env(safe-area-inset-bottom, 0px));
-}
-#movieInput {
-  flex: 1;
-  height: 40px; /* 固定输入框高度 */
-  padding: 0 14px;
-  background: #333;
-  color: #fff;
-  border: none;
-  border-radius: 8px;
-  font-size: 15px;
-  outline: none;
-}
-#moviePage .send-btn {
-  height: 40px;
-  width: 40px;
-  flex-shrink: 0;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-}
-
-/* 电影页的顶栏也固定住 */
-#moviePage .chat-header {
-  flex-shrink: 0;
-}
-
-/* ★★★ CSS 第 1 段 结束 ★★★ *//* ★★★ CSS 第 2 段 开始：横屏全屏与聊天抽屉 ★★★ */
-
-/* 1. 电影页右上角控制按钮（横屏图标等） */
-.movie-top-actions {
-  display: flex;
-  align-items: center;
-  gap: 12px;
-}
-.movie-top-actions .icon-btn {
-  background: none;
-  border: none;
-  padding: 4px;
-  cursor: pointer;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-}
-.movie-top-actions .icon-btn svg {
-  width: 22px;
-  height: 22px;
-  stroke: #fff;
-}
-
-/* 2. 横屏全屏状态下的布局调整 */
-/* 当 body 加上 .movie-fullscreen 时，隐藏页面其他部分，电影页铺满 */
-body.movie-fullscreen #moviePage {
-  position: fixed;
-  inset: 0;
-  z-index: 1000;
-  background: #000;
-  height: 100vh;
-  height: 100dvh;
-}
-
-/* 横屏全屏时，视频区域占满整个屏幕 */
-body.movie-fullscreen .movie-screen {
-  position: absolute;
-  inset: 0;
-  width: 100%;
-  height: 100%;
-  z-index: 1;
-}
-
-/* 横屏全屏时，默认隐藏底部原有的输入框和聊天记录列表，只保留右侧抽屉 */
-body.movie-fullscreen #movieChatBox,
-body.movie-fullscreen #moviePage .chat-footer {
-  display: none !important;
-}
-
-/* 3. 横屏专属：右侧半透明毛玻璃聊天抽屉 */
-.movie-side-drawer {
-  position: fixed;
-  top: 0;
-  right: 0;
-  bottom: 0;
-  width: 32%; /* 约占屏幕1/3，不挡中间视频 */
-  min-width: 280px;
-  background: rgba(20, 20, 20, 0.65); /* 半透明深色 */
-  backdrop-filter: blur(12px); /* 毛玻璃效果 */
-  -webkit-backdrop-filter: blur(12px);
-  border-left: 1px solid rgba(255, 255, 255, 0.1);
-  display: flex;
-  flex-direction: column;
-  z-index: 10;
-  transform: translateX(100%);
-  transition: transform 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
-  box-shadow: -4px 0 20px rgba(0,0,0,0.5);
-}
-
-/* 抽屉打开状态 */
-.movie-side-drawer.open {
-  transform: translateX(0);
-}
-
-/* 抽屉里的聊天记录区 */
-.movie-side-drawer .side-chat-box {
-  flex: 1;
-  overflow-y: auto;
-  padding: 16px 12px;
-  display: flex;
-  flex-direction: column;
-  gap: 12px;
-  color: #fff;
-}
-
-/* 抽屉里的头像和气泡稍微缩小一点点，适配窄抽屉，但依然清晰 */
-.movie-side-drawer .msg-row {
-  max-width: 90%;
-}
-.movie-side-drawer .avatar {
-  width: 32px;
-  height: 32px;
-  border-radius: 6px;
-}
-.movie-side-drawer .bubble {
-  font-size: 14px;
-  padding: 8px 12px;
-}
-
-/* 抽屉里的底部输入框 */
-.movie-side-drawer .side-chat-footer {
-  padding: 12px;
-  background: rgba(0, 0, 0, 0.4);
-  border-top: 1px solid rgba(255,255,255,0.1);
-  display: flex;
-  gap: 8px;
-  align-items: center;
-  flex-shrink: 0;
-}
-.movie-side-drawer .side-chat-footer input {
-  flex: 1;
-  height: 36px;
-  padding: 0 12px;
-  border-radius: 18px;
-  border: none;
-  background: rgba(255,255,255,0.15);
-  color: #fff;
-  font-size: 14px;
-  outline: none;
-}
-.movie-side-drawer .side-chat-footer input::placeholder {
-  color: rgba(255,255,255,0.4);
-}
-.movie-side-drawer .side-chat-footer button {
-  height: 36px;
-  padding: 0 16px;
-  border-radius: 18px;
-  background: #95ec69;
-  color: #111;
-  border: none;
-  font-size: 14px;
-  font-weight: 600;
-  cursor: pointer;
-}
-
-/* 4. 横屏全屏下的底部控制栏（播放、聊天开关、退出全屏） */
-body.movie-fullscreen .movie-fs-controls {
-  position: fixed;
-  bottom: 24px;
-  left: 50%;
-  transform: translateX(-50%);
-  display: flex;
-  align-items: center;
-  gap: 24px;
-  background: rgba(0, 0, 0, 0.6);
-  backdrop-filter: blur(8px);
-  padding: 10px 24px;
-  border-radius: 30px;
-  z-index: 10;
-}
-body.movie-fullscreen .movie-fs-controls button {
-  background: none;
-  border: none;
-  color: #fff;
-  cursor: pointer;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-}
-body.movie-fullscreen .movie-fs-controls button svg {
-  width: 24px;
-  height: 24px;
-  fill: currentColor;
-}
-body.movie-fullscreen .movie-fs-controls button:active {
-  opacity: 0.7;
-}
-
-/* 当抽屉打开时，让控制栏稍微往左移一点，避免被遮挡 */
-body.movie-fullscreen .movie-fs-controls.drawer-open {
-  left: calc(50% - 16vw);
-}
-
-/* ★★★ CSS 第 2 段 结束 ★★★ *//* ★★★ CSS 第 3 段 开始：弹窗与聊天卡片样式 ★★★ */
-
-/* ============================================================
-   1. 通用小弹窗（无遮罩，浮在页面上）
-   ============================================================ */
-.custom-light-popup {
-  position: fixed;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%) scale(0.95);
-  background: #fff;
-  border-radius: 14px;
-  padding: 24px 20px 20px;
-  width: 80%;
-  max-width: 300px;
-  box-shadow: 0 10px 30px rgba(0,0,0,0.15);
-  z-index: 10000;
-  text-align: center;
-  opacity: 0;
-  pointer-events: none;
-  transition: all 0.2s cubic-bezier(0.175, 0.885, 0.32, 1.275);
-}
-.custom-light-popup.show {
-  opacity: 1;
-  pointer-events: auto;
-  transform: translate(-50%, -50%) scale(1);
-}
-.custom-light-popup .close-x {
-  position: absolute;
-  top: 10px;
-  right: 12px;
-  font-size: 22px;
-  color: #999;
-  cursor: pointer;
-  line-height: 1;
-  padding: 4px;
-}
-.custom-light-popup .popup-text {
-  font-size: 16px;
-  color: #333;
-  font-weight: 500;
-  margin-top: 8px;
-  line-height: 1.5;
-}
-
-/* ============================================================
-   2. 灵魂问答自定义弹窗
-   ============================================================ */
-.quiz-custom-modal {
-  position: fixed;
-  inset: 0;
-  background: rgba(0,0,0,0.4);
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  z-index: 10001;
-  opacity: 0;
-  pointer-events: none;
-  transition: opacity 0.2s;
-}
-.quiz-custom-modal.show {
-  opacity: 1;
-  pointer-events: auto;
-}
-.quiz-custom-card {
-  background: #fff;
-  border-radius: 16px;
-  width: 86%;
-  max-width: 340px;
-  padding: 24px;
-  box-shadow: 0 8px 24px rgba(0,0,0,0.15);
-  transform: scale(0.9);
-  transition: transform 0.2s;
-}
-.quiz-custom-modal.show .quiz-custom-card {
-  transform: scale(1);
-}
-.quiz-custom-title {
-  font-size: 17px;
-  font-weight: 600;
-  color: #333;
-  text-align: center;
-  margin-bottom: 20px;
-  line-height: 1.5;
-}
-.quiz-option-btn {
-  display: block;
-  width: 100%;
-  padding: 14px 18px;
-  margin-bottom: 12px;
-  background: #f7f7f7;
-  border: 2px solid transparent;
-  border-radius: 12px;
-  font-size: 15px;
-  color: #333;
-  text-align: left;
-  cursor: pointer;
-  transition: all 0.2s;
-}
-.quiz-option-btn:active {
-  background: #eee;
-  border-color: #222;
-}
-/* 问答结果视图 */
-.quiz-result-view {
-  text-align: center;
-}
-.quiz-result-view .pct {
-  font-size: 48px;
-  font-weight: bold;
-  color: #e8a33d;
-  margin: 10px 0;
-  line-height: 1;
-}
-.quiz-result-view .desc {
-  font-size: 14px;
-  color: #999;
-  margin-bottom: 24px;
-}
-.quiz-result-view .choices {
-  display: flex;
-  justify-content: center;
-  gap: 16px;
-  font-size: 14px;
-  margin-bottom: 24px;
-  color: #666;
-  background: #fafafa;
-  padding: 12px;
-  border-radius: 10px;
-}
-.quiz-result-view .choices span {
-  color: #333;
-  font-weight: 600;
-}
-.quiz-accept-btn {
-  width: 100%;
-  padding: 14px;
-  background: #222;
-  color: #fff;
-  border: none;
-  border-radius: 12px;
-  font-size: 16px;
-  font-weight: 600;
-  cursor: pointer;
-}
-
-/* ============================================================
-   3. 聊天里的问答卡片 (代替之前的 system-tip 文字)
-   ============================================================ */
-.quiz-msg-card {
-  background: #fff;
-  border-radius: 12px;
-  padding: 16px;
-  min-width: 240px;
-  max-width: 85%;
-  box-shadow: 0 2px 8px rgba(0,0,0,0.06);
-  border: 1px solid #f0f0f0;
-}
-.quiz-msg-card .q-title {
-  font-size: 12px;
-  color: #e8a33d;
-  font-weight: 600;
-  margin-bottom: 8px;
-  display: flex;
-  align-items: center;
-  gap: 4px;
-}
-.quiz-msg-card .q-text {
-  font-size: 15px;
-  color: #333;
-  font-weight: 600;
-  margin-bottom: 12px;
-  line-height: 1.4;
-}
-.quiz-msg-card .q-choices {
-  font-size: 13px;
-  color: #666;
-  line-height: 1.6;
-  margin-bottom: 12px;
-}
+/* ===== 终极新增：问答卡片、电影卡片、弹窗 ===== */
+.custom-light-popup { position: fixed; top: 50%; left: 50%; transform: translate(-50%, -50%) scale(0.95); background: #fff; border-radius: 14px; padding: 24px 20px 20px; width: 80%; max-width: 300px; box-shadow: 0 10px 30px rgba(0,0,0,0.15); z-index: 10000; text-align: center; opacity: 0; pointer-events: none; transition: all 0.2s cubic-bezier(0.175, 0.885, 0.32, 1.275); }
+.custom-light-popup.show { opacity: 1; pointer-events: auto; transform: translate(-50%, -50%) scale(1); }
+.custom-light-popup .close-x { position: absolute; top: 10px; right: 12px; font-size: 22px; color: #999; cursor: pointer; line-height: 1; padding: 4px; }
+.custom-light-popup .popup-text { font-size: 16px; color: #333; font-weight: 500; margin-top: 8px; line-height: 1.5; }
+.quiz-custom-modal { position: fixed; inset: 0; background: rgba(0,0,0,0.4); display: flex; align-items: center; justify-content: center; z-index: 10001; opacity: 0; pointer-events: none; transition: opacity 0.2s; }
+.quiz-custom-modal.show { opacity: 1; pointer-events: auto; }
+.quiz-custom-card { background: #fff; border-radius: 16px; width: 86%; max-width: 340px; padding: 24px; box-shadow: 0 8px 24px rgba(0,0,0,0.15); transform: scale(0.9); transition: transform 0.2s; }
+.quiz-custom-modal.show .quiz-custom-card { transform: scale(1); }
+.quiz-custom-title { font-size: 17px; font-weight: 600; color: #333; text-align: center; margin-bottom: 20px; line-height: 1.5; }
+.quiz-option-btn { display: block; width: 100%; padding: 14px 18px; margin-bottom: 12px; background: #f7f7f7; border: 2px solid transparent; border-radius: 12px; font-size: 15px; color: #333; text-align: left; cursor: pointer; transition: all 0.2s; }
+.quiz-option-btn:active { background: #eee; border-color: #222; }
+.quiz-result-view { text-align: center; }
+.quiz-result-view .pct { font-size: 48px; font-weight: bold; color: #e8a33d; margin: 10px 0; line-height: 1; }
+.quiz-result-view .desc { font-size: 14px; color: #999; margin-bottom: 24px; }
+.quiz-result-view .choices { display: flex; justify-content: center; gap: 16px; font-size: 14px; margin-bottom: 24px; color: #666; background: #fafafa; padding: 12px; border-radius: 10px; }
+.quiz-result-view .choices span { color: #333; font-weight: 600; }
+.quiz-accept-btn { width: 100%; padding: 14px; background: #222; color: #fff; border: none; border-radius: 12px; font-size: 16px; font-weight: 600; cursor: pointer; }
+.quiz-msg-card { background: #fff; border-radius: 12px; padding: 16px; min-width: 240px; max-width: 85%; box-shadow: 0 2px 8px rgba(0,0,0,0.06); border: 1px solid #f0f0f0; }
+.quiz-msg-card .q-title { font-size: 12px; color: #e8a33d; font-weight: 600; margin-bottom: 8px; display: flex; align-items: center; gap: 4px; }
+.quiz-msg-card .q-text { font-size: 15px; color: #333; font-weight: 600; margin-bottom: 12px; line-height: 1.4; }
+.quiz-msg-card .q-choices { font-size: 13px; color: #666; line-height: 1.6; margin-bottom: 12px; }
 .quiz-msg-card .q-choices .me { color: #576b95; }
 .quiz-msg-card .q-choices .ta { color: #e8a33d; }
-.quiz-msg-card .q-score {
-  background: #fff9f0;
-  border-radius: 8px;
-  padding: 10px;
-  text-align: center;
-  font-size: 18px;
-  font-weight: bold;
-  color: #e8a33d;
-  border: 1px dashed #f5d4b3;
-}
-.quiz-msg-card .q-score span {
-  font-size: 12px;
-  font-weight: normal;
-  color: #999;
-  margin-left: 4px;
-}
-
-/* ============================================================
-   4. 看电影邀请/结果 大卡片（比问卷大）
-   ============================================================ */
-.movie-invite-card, .movie-result-card {
-  background: #fff;
-  border-radius: 14px;
-  padding: 18px;
-  width: 82%; /* 宽度占比 82% */
-  min-width: 260px;
-  min-height: 140px; /* 高度约 140px */
-  box-shadow: 0 2px 10px rgba(0,0,0,0.08);
-  border: 1px solid #eee;
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-}
-.movie-invite-card .mc-top, .movie-result-card .mc-top {
-  display: flex;
-  align-items: center;
-  gap: 12px;
-  margin-bottom: 12px;
-}
-.movie-invite-card .mc-icon, .movie-result-card .mc-icon {
-  width: 48px;
-  height: 48px;
-  border-radius: 12px;
-  background: #f0f0f0;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  font-size: 24px;
-  flex-shrink: 0;
-}
-.movie-invite-card .mc-icon {
-  background: #fff3e0;
-  color: #f5a623;
-}
-.movie-result-card.agreed .mc-icon {
-  background: #e8f5e9;
-  color: #4caf50;
-}
-.movie-result-card.refused .mc-icon {
-  background: #ffebee;
-  color: #f44336;
-}
-.movie-invite-card .mc-title, .movie-result-card .mc-title {
-  font-size: 16px;
-  font-weight: 600;
-  color: #111;
-}
-.movie-invite-card .mc-sub, .movie-result-card .mc-sub {
-  font-size: 13px;
-  color: #888;
-  margin-top: 4px;
-}
-.movie-invite-card .mc-line, .movie-result-card .mc-line {
-  height: 1px;
-  background: #f5f5f5;
-  margin: 12px 0;
-}
-.movie-invite-card .mc-foot, .movie-result-card .mc-foot {
-  display: flex;
-  justify-content: space-between;
-  font-size: 12px;
-  color: #999;
-}
-
-/* ★★★ CSS 第 3 段 结束 ★★★ *//* ★★★ CSS 第 4 段 开始：弹窗细节与终极防御 ★★★ */
-
-/* ============================================================
-   1. “是否现在观看” 弹窗（无遮罩，点外面无效）
-   ============================================================ */
-.movie-watch-popup {
-  position: fixed;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%) scale(0.95);
-  background: #fff;
-  border-radius: 16px;
-  width: 78%;
-  max-width: 300px;
-  padding: 24px 20px;
-  box-shadow: 0 12px 36px rgba(0,0,0,0.2);
-  z-index: 10005;
-  text-align: center;
-  opacity: 0;
-  pointer-events: none;
-  transition: all 0.2s cubic-bezier(0.175, 0.885, 0.32, 1.275);
-  border: 1px solid rgba(0,0,0,0.05);
-}
-.movie-watch-popup.show {
-  opacity: 1;
-  pointer-events: auto;
-  transform: translate(-50%, -50%) scale(1);
-}
-.movie-watch-popup .popup-title {
-  font-size: 17px;
-  font-weight: 600;
-  color: #111;
-  margin-bottom: 20px;
-}
-.movie-watch-popup .popup-actions {
-  display: flex;
-  gap: 12px;
-}
-.movie-watch-popup .popup-btn {
-  flex: 1;
-  padding: 12px 0;
-  border-radius: 10px;
-  font-size: 15px;
-  font-weight: 600;
-  cursor: pointer;
-  border: none;
-  transition: background 0.2s;
-}
-.movie-watch-popup .btn-yes {
-  background: #222;
-  color: #fff;
-}
-.movie-watch-popup .btn-yes:active {
-  background: #000;
-}
-.movie-watch-popup .btn-no {
-  background: #f0f0f0;
-  color: #333;
-}
-.movie-watch-popup .btn-no:active {
-  background: #e0e0e0;
-}
-
-/* ============================================================
-   2. 聊天页 / 电影页 键盘防顶飞终极防御
-   ============================================================ */
-/* 强制让页面使用动态视口高度，确保键盘弹起时不会把整个页面顶上去 */
-html, body {
-  height: 100%;
-  height: 100dvh; 
-  overflow: hidden;
-}
-
-/* 确保 #chatPage 的输入框不会被键盘挤变形 */
-#chatPage {
-  height: 100vh;
-  height: 100dvh;
-}
-#chatPage footer.chat-footer {
-  flex-shrink: 0;
-}
-#chatPage #messages {
-  flex: 1;
-  overflow-y: auto;
-}
-
-/* 确保电影聊天界面的输入框绝对不被挤压 */
-#moviePage {
-  height: 100vh;
-  height: 100dvh;
-}
-#moviePage .movie-screen {
-  flex-shrink: 0 !important; /* 视频必须死守高度 */
-}
-#moviePage #movieChatBox {
-  flex: 1;
-  overflow-y: auto;
-}
-#moviePage footer.chat-footer {
-  flex-shrink: 0 !important;
-}
-
-/* ============================================================
-   3. 覆盖 index.html 底部“终极修复补丁”里部分乱写的样式
-   ============================================================ */
-/* 清除那个补丁里把头像写死的 24px，改用 36px，且不要影响全局 */
-#movieChatBox .msg-row .avatar {
-  width: 36px !important;
-  height: 36px !important;
-  border-radius: 8px !important;
-  font-size: 15px !important;
-  background-color: #444 !important;
-}
-#movieChatBox .msg-row .bubble {
-  font-size: 15px !important;
-  padding: 10px 14px !important;
-}
-
-/* 电影页横屏按钮图标 */
-.icon-btn .fullscreen-icon {
-  width: 22px;
-  height: 22px;
-  fill: #fff;
-}
-
-/* 聊天抽屉底部的输入框和发送按钮对齐 */
-.movie-side-drawer .side-chat-footer {
-  align-items: center !important;
-}
-
-/* ============================================================
-   4. 隐藏电影页在竖屏时的多余元素（防止加多了导致排版乱）
-   ============================================================ */
-.movie-side-drawer,
-.movie-fs-controls {
-  display: none; /* 默认隐藏，横屏 JS 触发后再显示 */
-}
-body.movie-fullscreen .movie-side-drawer {
-  display: flex;
-}
-body.movie-fullscreen .movie-fs-controls {
-  display: flex;
-}
-
-/* ★★★ CSS 第 4 段 结束 ★★★ */
+.quiz-msg-card .q-score { background: #fff9f0; border-radius: 8px; padding: 10px; text-align: center; font-size: 18px; font-weight: bold; color: #e8a33d; border: 1px dashed #f5d4b3; }
+.quiz-msg-card .q-score span { font-size: 12px; font-weight: normal; color: #999; margin-left: 4px; }
+.movie-invite-card, .movie-result-card { background: #fff; border-radius: 14px; padding: 18px; width: 82%; min-width: 260px; min-height: 140px; box-shadow: 0 2px 10px rgba(0,0,0,0.08); border: 1px solid #eee; display: flex; flex-direction: column; justify-content: center; }
+.movie-invite-card .mc-top, .movie-result-card .mc-top { display: flex; align-items: center; gap: 12px; margin-bottom: 12px; }
+.movie-invite-card .mc-icon, .movie-result-card .mc-icon { width: 48px; height: 48px; border-radius: 12px; background: #f0f0f0; display: flex; align-items: center; justify-content: center; font-size: 24px; flex-shrink: 0; }
+.movie-invite-card .mc-icon { background: #fff3e0; color: #f5a623; }
+.movie-result-card.agreed .mc-icon { background: #e8f5e9; color: #4caf50; }
+.movie-result-card.refused .mc-icon { background: #ffebee; color: #f44336; }
+.movie-invite-card .mc-title, .movie-result-card .mc-title { font-size: 16px; font-weight: 600; color: #111; }
+.movie-invite-card .mc-sub, .movie-result-card .mc-sub { font-size: 13px; color: #888; margin-top: 4px; }
+.movie-invite-card .mc-line, .movie-result-card .mc-line { height: 1px; background: #f5f5f5; margin: 12px 0; }
+.movie-invite-card .mc-foot, .movie-result-card .mc-foot { display: flex; justify-content: space-between; font-size: 12px; color: #999; }
+.movie-watch-popup { position: fixed; top: 50%; left: 50%; transform: translate(-50%, -50%) scale(0.95); background: #fff; border-radius: 16px; width: 78%; max-width: 300px; padding: 24px 20px; box-shadow: 0 12px 36px rgba(0,0,0,0.2); z-index: 10005; text-align: center; opacity: 0; pointer-events: none; transition: all 0.2s cubic-bezier(0.175, 0.885, 0.32, 1.275); border: 1px solid rgba(0,0,0,0.05); }
+.movie-watch-popup.show { opacity: 1; pointer-events: auto; transform: translate(-50%, -50%) scale(1); }
+.movie-watch-popup .popup-title { font-size: 17px; font-weight: 600; color: #111; margin-bottom: 20px; }
+.movie-watch-popup .popup-actions { display: flex; gap: 12px; }
+.movie-watch-popup .popup-btn { flex: 1; padding: 12px 0; border-radius: 10px; font-size: 15px; font-weight: 600; cursor: pointer; border: none; transition: background 0.2s; }
+.movie-watch-popup .btn-yes { background: #222; color: #fff; }
+.movie-watch-popup .btn-yes:active { background: #000; }
+.movie-watch-popup .btn-no { background: #f0f0f0; color: #333; }
+.movie-watch-popup .btn-no:active { background: #e0e0e0; }
+/* ★★★ 完整 settings.css 第 4 段 结束 ★★★ */
