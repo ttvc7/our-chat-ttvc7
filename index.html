@@ -3298,29 +3298,20 @@ window.openMoviePage = function() {
   const plusMenu = document.getElementById('plusMenu');
   if (plusMenu) plusMenu.classList.add('hidden');
 
-  // 检查是否已经同意但选了"否"，等会看的
   if (localStorage.getItem('movie_agreed_pending') === 'true') {
     showPage('moviePage'); movieInit(); return;
   }
-
-  // 如果没有挂起，就发起邀请
   startMovieInvite();
 };
 
 function startMovieInvite() {
   if (document.getElementById('movie-invite-pending')) return;
-
   const t = Date.now();
   const msg = { type: 'movie_invite', sender: 'me', status: 'pending', t, msgId: 'mi_' + t };
-  const msgs = load('our_messages', []);
-  msgs.push(msg);
-  save('our_messages', msgs);
-  refreshMessages();
-  playSound('send');
+  const msgs = load('our_messages', []); msgs.push(msg); save('our_messages', msgs); refreshMessages(); playSound('send');
 
-  // 2~3 秒后 TA 回复
   setTimeout(() => {
-    const isAgree = Math.random() < 0.85; // 85%同意，15%拒绝
+    const isAgree = Math.random() < 0.85;
     handleMovieTaReply(isAgree);
   }, 2000 + Math.random() * 1000);
 }
@@ -3328,16 +3319,10 @@ function startMovieInvite() {
 function handleMovieTaReply(isAgree) {
   const msgs = load('our_messages', []);
   const inviteMsg = msgs.find(m => m.type === 'movie_invite' && m.status === 'pending');
-  if (inviteMsg) {
-    inviteMsg.status = isAgree ? 'agreed' : 'refused';
-    save('our_messages', msgs);
-  }
+  if (inviteMsg) { inviteMsg.status = isAgree ? 'agreed' : 'refused'; save('our_messages', msgs); }
 
   const resMsg = { type: 'movie_result', sender: 'ta', status: isAgree ? 'agreed' : 'refused', t: Date.now(), msgId: 'mr_' + Date.now() };
-  msgs.push(resMsg);
-  save('our_messages', msgs);
-  refreshMessages();
-  playSound('receive');
+  msgs.push(resMsg); save('our_messages', msgs); refreshMessages(); playSound('receive');
 
   if (isAgree) {
     setTimeout(() => {
@@ -3355,7 +3340,6 @@ window.movieWatchYes = function() {
   localStorage.removeItem('movie_agreed_pending');
   showPage('moviePage'); movieInit();
 };
-
 window.movieWatchNo = function() {
   document.getElementById('movieWatchPopup').classList.remove('show');
   localStorage.setItem('movie_agreed_pending', 'true');
@@ -3363,16 +3347,22 @@ window.movieWatchNo = function() {
 };
 
 window.movieInit = function() {
-  // 每次进入清空聊天记录
+  // 1. 清空记录
   save('our_movie_chat', []);
   document.body.classList.remove('movie-fullscreen');
+  
+  // 2. 清空视频（解决视频残留问题）
+  const vid = document.getElementById('movieVideo');
+  const ph = document.getElementById('moviePlaceholder');
+  if (vid) { vid.pause(); vid.src = ''; vid.style.display = 'none'; }
+  if (ph) ph.style.display = 'block';
+
   renderMovieChat();
   
-  // 自动回复定时器
   clearInterval(movieMsgTimer);
   movieMsgTimer = setInterval(() => {
-    const vid = document.getElementById('movieVideo');
-    if (!vid || vid.paused || vid.style.display === 'none') return;
+    const vidEl = document.getElementById('movieVideo');
+    if (!vidEl || vidEl.paused || vidEl.style.display === 'none') return;
     const mainCards = cards.filter(c => (c.type || 'main') === 'main' && !c.blocked);
     if (mainCards.length > 0) pushMovieChat('ta', mainCards[Math.floor(Math.random() * mainCards.length)].content);
   }, 15000);
@@ -3386,12 +3376,7 @@ function renderMovieChat() {
     const avatarUrl = isMe ? load('my_avatar', '') : load('ta_avatar', '');
     const avatarStyle = avatarUrl ? `background-image:url('${avatarUrl}'); background-size:cover; background-position:center;` : '';
     const avatarText = avatarUrl ? '' : (isMe ? myName.charAt(0) : taName.charAt(0));
-    return `
-      <div class="msg-row ${isMe ? 'me' : 'ta'}">
-        <div class="avatar" style="${avatarStyle}">${avatarText}</div>
-        <div class="bubble">${escHtml(m.text)}</div>
-      </div>
-    `;
+    return `<div class="msg-row ${isMe ? 'me' : 'ta'}"><div class="avatar" style="${avatarStyle}">${avatarText}</div><div class="bubble">${escHtml(m.text)}</div></div>`;
   }).join('');
   const vBox = document.getElementById('movieChatBox'); if (vBox) { vBox.innerHTML = html; vBox.scrollTop = vBox.scrollHeight; }
   const dBox = document.getElementById('movieDrawerChatBox'); if (dBox) { dBox.innerHTML = html; dBox.scrollTop = dBox.scrollHeight; }
@@ -3405,241 +3390,182 @@ window.pushMovieChat = function(sender, text) {
   if (sender === 'me') playSound('send'); else playSound('receive');
 };
 
-// 绑定发送
-const bindMovieSend = (inputId, btnId) => {
-  const input = document.getElementById(inputId), btn = document.getElementById(btnId);
-  if (btn && input) {
-    btn.onclick = () => { const val = input.value.trim(); if (val) { pushMovieChat('me', val); input.value = ''; input.blur(); } };
-    input.onkeydown = (e) => { if (e.key === 'Enter') btn.click(); };
-  }
-};
-bindMovieSend('movieInput', 'movieSendBtn');
-bindMovieSend('drawerMovieInput', 'drawerMovieSendBtn');
-
-// 键盘弹起时，防止视频被顶上天
-const mInput = document.getElementById('movieInput');
-if (mInput) {
-  mInput.addEventListener('focus', () => {
-    const screen = document.querySelector('.movie-screen');
-    if (screen) screen.style.height = '260px';
-  });
-}
-
-// 全屏切换
-const fsBtn = document.getElementById('toggleFullscreenBtn');
-if (fsBtn) {
-  fsBtn.onclick = () => {
-    const isFs = document.body.classList.contains('movie-fullscreen');
-    if (isFs) { document.body.classList.remove('movie-fullscreen'); closeDrawer(); }
-    else { document.body.classList.add('movie-fullscreen'); closeDrawer(); }
-  };
-}
-
-// 抽屉
-const toggleDrawerBtn = document.getElementById('toggleDrawerBtn');
-const drawer = document.getElementById('movieSideDrawer');
-function openDrawer() { if (drawer) drawer.classList.add('open'); const c = document.querySelector('.movie-fs-controls'); if (c) c.classList.add('drawer-open'); renderMovieChat(); }
-window.closeDrawer = function() { if (drawer) drawer.classList.remove('open'); const c = document.querySelector('.movie-fs-controls'); if (c) c.classList.remove('drawer-open'); };
-if (toggleDrawerBtn) toggleDrawerBtn.onclick = () => drawer.classList.contains('open') ? closeDrawer() : openDrawer();
-
-// 返回按钮
-const backMovieBtn = document.getElementById('backFromMovieBtn');
-if (backMovieBtn) {
-  backMovieBtn.onclick = () => {
-    if (confirm('是否确定退出观看？\n\n退出后将清空当前聊天记录，下次需要重新发送邀请。')) {
-      localStorage.removeItem('movie_agreed_pending');
-      save('our_movie_chat', []); 
-      document.body.classList.remove('movie-fullscreen');
-      showPage('chatPage');
-      const vid = document.getElementById('movieVideo');
-      if (vid) vid.pause();
-      clearInterval(movieMsgTimer);
+// 页面加载完成后执行一次（防止找不到元素）
+document.addEventListener('DOMContentLoaded', () => {
+  // 绑定发送
+  const bindMovieSend = (inputId, btnId) => {
+    const input = document.getElementById(inputId), btn = document.getElementById(btnId);
+    if (btn && input) {
+      btn.onclick = () => { const val = input.value.trim(); if (val) { pushMovieChat('me', val); input.value = ''; input.blur(); } };
+      input.onkeydown = (e) => { if (e.key === 'Enter') btn.click(); };
     }
   };
-}
+  bindMovieSend('movieInput', 'movieSendBtn');
+  bindMovieSend('drawerMovieInput', 'drawerMovieSendBtn');
 
-// 选视频
-const uploadBtn = document.getElementById('movieUploadBtn'), videoUpload = document.getElementById('movieVideoUpload');
-if (uploadBtn && videoUpload) {
-  uploadBtn.onclick = () => videoUpload.click();
-  videoUpload.onchange = (e) => {
-    const f = e.target.files[0]; if (!f) return;
-    const url = URL.createObjectURL(f);
-    const vid = document.getElementById('movieVideo'), ph = document.getElementById('moviePlaceholder');
-    if (vid) { vid.src = url; vid.style.display = 'block'; vid.play().catch(() => {}); }
-    if (ph) ph.style.display = 'none';
-    e.target.value = '';
+  // 全屏切换
+  const fsBtn = document.getElementById('toggleFullscreenBtn');
+  if (fsBtn) {
+    fsBtn.onclick = () => {
+      const isFs = document.body.classList.contains('movie-fullscreen');
+      if (isFs) { document.body.classList.remove('movie-fullscreen'); closeDrawer(); }
+      else { document.body.classList.add('movie-fullscreen'); closeDrawer(); }
+    };
+  }
+
+  // 抽屉
+  const toggleDrawerBtn = document.getElementById('toggleDrawerBtn');
+  const drawer = document.getElementById('movieSideDrawer');
+  function openDrawer() { if (drawer) drawer.classList.add('open'); const c = document.querySelector('.movie-fs-controls'); if (c) c.classList.add('drawer-open'); renderMovieChat(); }
+  window.closeDrawer = function() { if (drawer) drawer.classList.remove('open'); const c = document.querySelector('.movie-fs-controls'); if (c) c.classList.remove('drawer-open'); };
+  if (toggleDrawerBtn) toggleDrawerBtn.onclick = () => drawer.classList.contains('open') ? closeDrawer() : openDrawer();
+
+  // 退出按钮（改为自定义弹窗）
+  const backMovieBtn = document.getElementById('backFromMovieBtn');
+  if (backMovieBtn) {
+    backMovieBtn.onclick = () => {
+      document.getElementById('movieExitPopup').classList.add('show');
+    };
+  }
+  window.movieExitYes = function() {
+    document.getElementById('movieExitPopup').classList.remove('show');
+    localStorage.removeItem('movie_agreed_pending');
+    save('our_movie_chat', []); 
+    document.body.classList.remove('movie-fullscreen');
+    showPage('chatPage');
+    const vid = document.getElementById('movieVideo');
+    if (vid) vid.pause();
+    clearInterval(movieMsgTimer);
   };
-}
+  window.movieExitNo = function() {
+    document.getElementById('movieExitPopup').classList.remove('show');
+  };
 
-// 全屏工具栏、抽屉、横屏图标的 HTML 注入
-const headerRight = document.querySelector('#moviePage .header-right');
-if (headerRight && !document.getElementById('toggleFullscreenBtn')) {
-  const fsBtn = document.createElement('button');
-  fsBtn.id = 'toggleFullscreenBtn'; fsBtn.className = 'header-btn icon-btn';
-  fsBtn.innerHTML = '<svg class="fullscreen-icon" viewBox="0 0 24 24"><path d="M7 14H5v5h5v-2H7v-3zm-2-4h2V7h3V5H5v5zm12 7h-3v2h5v-5h-2v3zM14 5v2h3v3h2V5h-5z"/></svg>';
-  headerRight.insertBefore(fsBtn, headerRight.firstChild);
-}
-if (!document.getElementById('movieSideDrawer')) {
-  const moviePage = document.getElementById('moviePage');
-  moviePage.insertAdjacentHTML('beforeend', `
-    <div id="movieSideDrawer" class="movie-side-drawer">
-      <div class="side-chat-box" id="movieDrawerChatBox"></div>
-      <div class="side-chat-footer">
-        <input type="text" id="drawerMovieInput" placeholder="边看边聊...">
-        <button id="drawerMovieSendBtn">发送</button>
-      </div>
-    </div>
-    <div class="movie-fs-controls">
-      <button id="toggleDrawerBtn"><svg viewBox="0 0 24 24"><path d="M20 2H4c-1.1 0-2 .9-2 2v18l4-4h14c1.1 0 2-.9 2-2V4c0-1.1-.9-2-2-2z"/></svg></button>
-      <button onclick="document.getElementById('toggleFullscreenBtn').click()" title="退出全屏"><svg viewBox="0 0 24 24"><path d="M5 16h3v3h2v-5H5v2zm3-8H5v2h5V5H8v3zm6 11h2v-3h3v-2h-5v5zm2-11V5h-2v5h5V8h-3z"/></svg></button>
-    </div>
-  `);
-}
+  // 选视频
+  const uploadBtn = document.getElementById('movieUploadBtn'), videoUpload = document.getElementById('movieVideoUpload');
+  if (uploadBtn && videoUpload) {
+    uploadBtn.onclick = () => videoUpload.click();
+    videoUpload.onchange = (e) => {
+      const f = e.target.files[0]; if (!f) return;
+      const url = URL.createObjectURL(f);
+      const vid = document.getElementById('movieVideo'), ph = document.getElementById('moviePlaceholder');
+      if (vid) { vid.src = url; vid.style.display = 'block'; vid.play().catch(() => {}); }
+      if (ph) ph.style.display = 'none';
+      e.target.value = '';
+    };
+  }
 
-// 注入“是否现在观看”弹窗
-if (!document.getElementById('movieWatchPopup')) {
-  document.body.insertAdjacentHTML('beforeend', `
-    <div id="movieWatchPopup" class="movie-watch-popup">
-      <div class="popup-title">是否现在观看？</div>
-      <div class="popup-actions">
-        <button class="popup-btn btn-no" onclick="movieWatchNo()">否</button>
-        <button class="popup-btn btn-yes" onclick="movieWatchYes()">是</button>
+  // 注入右上角全屏按钮
+  const headerRight = document.querySelector('#moviePage .header-right');
+  if (headerRight && !document.getElementById('toggleFullscreenBtn')) {
+    const fsBtn = document.createElement('button');
+    fsBtn.id = 'toggleFullscreenBtn'; fsBtn.className = 'header-btn icon-btn';
+    fsBtn.innerHTML = '<svg class="fullscreen-icon" viewBox="0 0 24 24"><path d="M7 14H5v5h5v-2H7v-3zm-2-4h2V7h3V5H5v5zm12 7h-3v2h5v-5h-2v3zM14 5v2h3v3h2V5h-5z"/></svg>';
+    headerRight.insertBefore(fsBtn, headerRight.firstChild);
+  }
+
+  // 注入电影页侧边抽屉、控制条
+  if (!document.getElementById('movieSideDrawer')) {
+    const moviePage = document.getElementById('moviePage');
+    moviePage.insertAdjacentHTML('beforeend', `
+      <div id="movieSideDrawer" class="movie-side-drawer">
+        <div class="side-chat-box" id="movieDrawerChatBox"></div>
+        <div class="side-chat-footer">
+          <input type="text" id="drawerMovieInput" placeholder="边看边聊...">
+          <button id="drawerMovieSendBtn">发送</button>
+        </div>
       </div>
-    </div>
-  `);
-}
+      <div class="movie-fs-controls">
+        <button id="toggleDrawerBtn"><svg viewBox="0 0 24 24"><path d="M20 2H4c-1.1 0-2 .9-2 2v18l4-4h14c1.1 0 2-.9 2-2V4c0-1.1-.9-2-2-2z"/></svg></button>
+        <button onclick="document.getElementById('toggleFullscreenBtn').click()" title="退出全屏"><svg viewBox="0 0 24 24"><path d="M5 16h3v3h2v-5H5v2zm3-8H5v2h5V5H8v3zm6 11h2v-3h3v-2h-5v5zm2-11V5h-2v5h5V8h-3z"/></svg></button>
+      </div>
+    `);
+  }
+
+  // 注入“是否现在观看”弹窗
+  if (!document.getElementById('movieWatchPopup')) {
+    document.body.insertAdjacentHTML('beforeend', `
+      <div id="movieWatchPopup" class="movie-watch-popup">
+        <div class="popup-title">是否现在观看？</div>
+        <div class="popup-actions">
+          <button class="popup-btn btn-no" onclick="movieWatchNo()">否</button>
+          <button class="popup-btn btn-yes" onclick="movieWatchYes()">是</button>
+        </div>
+      </div>
+    `);
+  }
+
+  // 注入“退出确认”自定义弹窗
+  if (!document.getElementById('movieExitPopup')) {
+    document.body.insertAdjacentHTML('beforeend', `
+      <div id="movieExitPopup" class="movie-exit-popup">
+        <div class="popup-title">是否确定退出观看？</div>
+        <div class="popup-desc">退出后将清空当前聊天记录，下次需要重新发送邀请。</div>
+        <div class="popup-actions">
+          <button class="popup-btn btn-no" onclick="movieExitNo()">取消</button>
+          <button class="popup-btn btn-yes" onclick="movieExitYes()">确定</button>
+        </div>
+      </div>
+    `);
+  }
+});
 
 /* ============================================================
    信箱
    ============================================================ */
 let currentMailTab = 'sent';
-
-function showMailPage() {
-  showPage('mailPage');
-  currentMailTab = 'sent';
-  document.querySelectorAll('.mail-tab').forEach(t => t.classList.toggle('active', t.dataset.tab === 'sent'));
-  renderMailList();
-}
-
+function showMailPage() { showPage('mailPage'); currentMailTab = 'sent'; document.querySelectorAll('.mail-tab').forEach(t => t.classList.toggle('active', t.dataset.tab === 'sent')); renderMailList(); }
 function renderMailList() {
-  const box = document.getElementById('mailBody');
-  if (!box) return;
+  const box = document.getElementById('mailBody'); if (!box) return;
   const mails = load('our_mails', []).filter(m => m.direction === currentMailTab);
-  if (mails.length === 0) {
-    box.innerHTML = '<div class="mail-empty">' + (currentMailTab === 'sent' ? '还没有寄出过信，写下你的第一封信吧' : '还没有收到过信') + '</div>';
-    return;
-  }
+  if (mails.length === 0) { box.innerHTML = '<div class="mail-empty">' + (currentMailTab === 'sent' ? '还没有寄出过信，写下你的第一封信吧' : '还没有收到过信') + '</div>'; return; }
   box.innerHTML = '';
   mails.slice().reverse().forEach(m => {
-    const div = document.createElement('div');
-    div.className = 'mail-item';
+    const div = document.createElement('div'); div.className = 'mail-item';
     const fromText = m.direction === 'sent' ? '我寄给 ' + load('ta_name', 'TA') : load('ta_name', 'TA') + ' 寄给我';
     const statusText = m.direction === 'sent' ? '已寄出' : (m.read ? '已读' : '未读');
     const statusCls = m.direction === 'sent' ? 'sent' : (m.read ? '' : 'unread');
-    const fromEl = document.createElement('div');
-    fromEl.className = 'from';
-    fromEl.textContent = fromText;
-    const previewEl = document.createElement('div');
-    previewEl.className = 'preview';
-    previewEl.textContent = (m.title ? '【' + m.title + '】' : '') + (m.content || '');
-    const dateEl = document.createElement('div');
-    dateEl.className = 'date';
-    dateEl.textContent = new Date(m.t).toLocaleString('zh-CN');
-    const statusEl = document.createElement('div');
-    statusEl.className = 'status ' + statusCls;
-    statusEl.textContent = statusText;
-    div.appendChild(fromEl);
-    div.appendChild(previewEl);
-    div.appendChild(dateEl);
-    div.appendChild(statusEl);
-    div.onclick = () => openMailRead(m.id);
-    box.appendChild(div);
+    const fromEl = document.createElement('div'); fromEl.className = 'from'; fromEl.textContent = fromText;
+    const previewEl = document.createElement('div'); previewEl.className = 'preview'; previewEl.textContent = (m.title ? '【' + m.title + '】' : '') + (m.content || '');
+    const dateEl = document.createElement('div'); dateEl.className = 'date'; dateEl.textContent = new Date(m.t).toLocaleString('zh-CN');
+    const statusEl = document.createElement('div'); statusEl.className = 'status ' + statusCls; statusEl.textContent = statusText;
+    div.appendChild(fromEl); div.appendChild(previewEl); div.appendChild(dateEl); div.appendChild(statusEl);
+    div.onclick = () => openMailRead(m.id); box.appendChild(div);
   });
 }
-
 function openMailRead(mailId) {
-  const mails = load('our_mails', []);
-  const m = mails.find(x => x.id === mailId);
-  if (!m) return;
+  const mails = load('our_mails', []); const m = mails.find(x => x.id === mailId); if (!m) return;
   if (m.direction === 'received' && !m.read) { m.read = true; save('our_mails', mails); renderMailList(); }
   const from = m.direction === 'sent' ? '我寄给 ' + load('ta_name', 'TA') : load('ta_name', 'TA') + ' 寄给我';
-  const fromEl = document.getElementById('mailReadFrom');
-  const titleEl = document.getElementById('mailReadTitle');
-  const contentEl = document.getElementById('mailReadContent');
-  const dateEl = document.getElementById('mailReadDate');
-  if (fromEl) fromEl.textContent = from;
-  if (titleEl) titleEl.textContent = m.title || '（无题）';
-  if (contentEl) contentEl.textContent = m.content || '';
-  if (dateEl) dateEl.textContent = new Date(m.t).toLocaleString('zh-CN');
-  const modal = document.getElementById('mailReadModal');
-  if (modal) modal.classList.remove('hidden');
+  document.getElementById('mailReadFrom').textContent = from;
+  document.getElementById('mailReadTitle').textContent = m.title || '（无题）';
+  document.getElementById('mailReadContent').textContent = m.content || '';
+  document.getElementById('mailReadDate').textContent = new Date(m.t).toLocaleString('zh-CN');
+  document.getElementById('mailReadModal').classList.remove('hidden');
 }
-
 (function bindMailUI() {
-  document.querySelectorAll('.mail-tab').forEach(tab => {
-    tab.onclick = () => {
-      currentMailTab = tab.dataset.tab;
-      document.querySelectorAll('.mail-tab').forEach(t => t.classList.remove('active'));
-      tab.classList.add('active');
-      renderMailList();
-    };
-  });
-
-  const closeReadBtn = document.getElementById('closeMailReadBtn');
-  if (closeReadBtn) closeReadBtn.onclick = () => document.getElementById('mailReadModal').classList.add('hidden');
-
-  const backBtn = document.getElementById('backFromMailBtn');
-  if (backBtn) backBtn.onclick = () => showPage('homePage');
-
-  const writeBtn = document.getElementById('mailWriteBtn');
-  if (writeBtn) writeBtn.onclick = () => {
-    const toEl = document.getElementById('mailWriteTo');
-    if (toEl) toEl.textContent = '收件人：' + load('ta_name', 'TA');
-    document.getElementById('mailTitleInput').value = '';
-    document.getElementById('mailContentInput').value = '';
-    showPage('mailWritePage');
-  };
-
-  const cancelBtn = document.getElementById('mailWriteCancelBtn');
-  if (cancelBtn) cancelBtn.onclick = () => showPage('mailPage');
-
-  const sendBtn = document.getElementById('mailSendBtn');
-  if (sendBtn) sendBtn.onclick = () => {
-    const title = document.getElementById('mailTitleInput').value.trim();
-    const content = document.getElementById('mailContentInput').value.trim();
+  document.querySelectorAll('.mail-tab').forEach(tab => { tab.onclick = () => { currentMailTab = tab.dataset.tab; document.querySelectorAll('.mail-tab').forEach(t => t.classList.remove('active')); tab.classList.add('active'); renderMailList(); }; });
+  const closeReadBtn = document.getElementById('closeMailReadBtn'); if (closeReadBtn) closeReadBtn.onclick = () => document.getElementById('mailReadModal').classList.add('hidden');
+  const backBtn = document.getElementById('backFromMailBtn'); if (backBtn) backBtn.onclick = () => showPage('homePage');
+  const writeBtn = document.getElementById('mailWriteBtn'); if (writeBtn) writeBtn.onclick = () => { const toEl = document.getElementById('mailWriteTo'); if (toEl) toEl.textContent = '收件人：' + load('ta_name', 'TA'); document.getElementById('mailTitleInput').value = ''; document.getElementById('mailContentInput').value = ''; showPage('mailWritePage'); };
+  const cancelBtn = document.getElementById('mailWriteCancelBtn'); if (cancelBtn) cancelBtn.onclick = () => showPage('mailPage');
+  const sendBtn = document.getElementById('mailSendBtn'); if (sendBtn) sendBtn.onclick = () => {
+    const title = document.getElementById('mailTitleInput').value.trim(); const content = document.getElementById('mailContentInput').value.trim();
     if (!content) { alert('还没写内容'); return; }
-    const mails = load('our_mails', []);
-    mails.push({ id: Date.now() + '_' + Math.random().toString(36).slice(2, 6), direction: 'sent', title, content, t: Date.now() });
-    save('our_mails', mails);
-    showPage('mailPage');
-    currentMailTab = 'sent';
-    document.querySelectorAll('.mail-tab').forEach(t => t.classList.toggle('active', t.dataset.tab === 'sent'));
-    renderMailList();
-    playSound('send');
+    const mails = load('our_mails', []); mails.push({ id: Date.now() + '_' + Math.random().toString(36).slice(2, 6), direction: 'sent', title, content, t: Date.now() });
+    save('our_mails', mails); showPage('mailPage'); currentMailTab = 'sent'; document.querySelectorAll('.mail-tab').forEach(t => t.classList.toggle('active', t.dataset.tab === 'sent')); renderMailList(); playSound('send');
   };
 })();
-
-/* ============================================================
-   TA 自动写信
-   ============================================================ */
 let autoMailTimer = null;
 function scheduleAutoMail() {
-  clearTimeout(autoMailTimer);
-  if (!load('mail_auto_on', false)) return;
-  const min = load('mail_auto_min', 3) * 60 * 60 * 1000;
-  const max = load('mail_auto_max', 6) * 60 * 60 * 1000;
-  const delay = min + Math.random() * (max - min);
+  clearTimeout(autoMailTimer); if (!load('mail_auto_on', false)) return;
+  const min = load('mail_auto_min', 3) * 60 * 60 * 1000; const max = load('mail_auto_max', 6) * 60 * 60 * 1000; const delay = min + Math.random() * (max - min);
   autoMailTimer = setTimeout(() => {
     if (!load('mail_auto_on', false)) return;
-    const mainCards = cards.filter(c => (c.type || 'main') === 'main' && !c.blocked);
-    const content = mainCards.length > 0 ? mainCards[Math.floor(Math.random() * mainCards.length)].content : '想你了。';
-    const mails = load('our_mails', []);
-    mails.push({ id: Date.now() + '_' + Math.random().toString(36).slice(2, 6), direction: 'received', title: '', content, t: Date.now(), read: false });
-    save('our_mails', mails);
-    playSound('receive');
-    const page = document.getElementById('mailPage');
-    if (page && !page.classList.contains('hidden')) renderMailList();
+    const mainCards = cards.filter(c => (c.type || 'main') === 'main' && !c.blocked); const content = mainCards.length > 0 ? mainCards[Math.floor(Math.random() * mainCards.length)].content : '想你了。';
+    const mails = load('our_mails', []); mails.push({ id: Date.now() + '_' + Math.random().toString(36).slice(2, 6), direction: 'received', title: '', content, t: Date.now(), read: false });
+    save('our_mails', mails); playSound('receive');
+    const page = document.getElementById('mailPage'); if (page && !page.classList.contains('hidden')) renderMailList();
     scheduleAutoMail();
   }, delay);
 }
