@@ -993,73 +993,397 @@ window.addEventListener('pagehide', stopVisibleTime);
 if (_isPageVisible()) startVisibleTime();
 startOnlineTicker();
 </script>
-<!-- ★★★ index 第 8 段 结束 ★★★ --><!-- ★★★ 修正版 index 第 9 段 开始 ★★★ -->
+<!-- ★★★ index 第 8 段 结束 ★★★ --><!-- ★★★ index 第 9 段 开始 ★★★ -->
 <script>
-/* 统一渲染层（部分代码） */
+/* ============================================================
+   统一渲染层
+   - 所有消息卡片渲染函数在此集中定义，每个函数唯一
+   - refreshMessages 只调用这些函数，不内联拼接
+   - 用户内容一律用 textContent 或转义，杜绝 DOM 破坏
+   ============================================================ */
+
+/* ---------- 小工具：转义 HTML ---------- */
 function escHtml(s) {
-  return String(s == null ? '' : s).replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;').replace(/'/g, '&#39;');
+  return String(s == null ? '' : s)
+    .replace(/&/g, '&amp;')
+    .replace(/</g, '&lt;')
+    .replace(/>/g, '&gt;')
+    .replace(/"/g, '&quot;')
+    .replace(/'/g, '&#39;');
 }
 
-/* 渲染灵魂问答（无头像，居中） */
-function renderQuizCard(m) {
+/* ---------- 文字消息 ---------- */
+function addMessage(sender, content, quote, store, msgId) {
   const row = document.createElement('div');
-  row.className = 'msg-row system'; // 特殊标记，去掉左右对齐
-  row.style.alignSelf = 'center';
-  row.style.maxWidth = '92%';
-  
-  const card = document.createElement('div');
-  card.className = 'quiz-msg-card';
-  card.innerHTML = `
-    <div class="q-title">🃏 灵魂问答</div>
-    <div class="q-text">${escHtml(m.payload.q)}</div>
-    <div class="q-choices">
-      <div class="me">我：${escHtml(m.payload.myText)}</div>
-      <div class="ta">TA：${escHtml(m.payload.taText)}</div>
-    </div>
-    <div class="q-score">${m.payload.pct}% <span>默契度</span></div>
+  row.className = 'msg-row ' + (sender === 'me' ? 'me' : 'ta');
+  row.dataset.msgId = msgId || (Date.now() + '_' + Math.random().toString(36).slice(2, 8));
+
+  const avatar = buildAvatar(sender);
+  const bubble = document.createElement('div');
+  bubble.className = 'bubble';
+
+  if (quote) {
+    const q = document.createElement('span');
+    q.className = 'quote-block';
+    q.textContent = quote;
+    bubble.appendChild(q);
+  }
+  bubble.appendChild(document.createTextNode(content));
+
+  if (sender === 'me' && load('read_receipt', true)) {
+    const readMark = document.createElement('div');
+    readMark.className = 'read-mark unread';
+    const rs = load('read_style', 'icon');
+    if (rs === 'icon') readMark.innerHTML = '';
+    else readMark.textContent = '未读';
+    bubble.appendChild(readMark);
+  }
+
+  row.appendChild(avatar);
+  row.appendChild(bubble);
+  messagesEl.appendChild(row);
+  messagesEl.scrollTop = messagesEl.scrollHeight;
+
+  const sb = document.getElementById('scrollBottomBtn');
+  if (sb) sb.classList.add('hidden');
+
+  if (store !== false) {
+    const msgs = load('our_messages', []);
+    if (ensureDateDivider()) {
+      const div = { type: 'datedivider', text: formatDateFull(Date.now()), t: Date.now() - 1 };
+      msgs.push(div);
+      const dividerEl = document.createElement('div');
+      dividerEl.className = 'date-divider';
+      dividerEl.textContent = div.text;
+      messagesEl.insertBefore(dividerEl, row);
+    }
+    msgs.push({ type: 'text', sender, content, quote: quote || '', t: Date.now(), msgId: row.dataset.msgId, read: false });
+    save('our_messages', msgs);
+  }
+}
+
+/* ---------- 图片消息 ---------- */
+function addImage(sender, url, store) {
+  const row = document.createElement('div');
+  row.className = 'msg-row ' + (sender === 'me' ? 'me' : 'ta');
+  row.dataset.msgId = Date.now() + '_' + Math.random().toString(36).slice(2, 8);
+
+  const avatar = buildAvatar(sender);
+  const img = document.createElement('img');
+  img.src = url;
+  img.style.maxWidth = '120px';
+  img.style.maxHeight = '120px';
+  img.style.borderRadius = '8px';
+
+  row.appendChild(avatar);
+  row.appendChild(img);
+  messagesEl.appendChild(row);
+  messagesEl.scrollTop = messagesEl.scrollHeight;
+
+  if (store !== false) {
+    const msgs = load('our_messages', []);
+    msgs.push({ type: 'image', sender, url, t: Date.now(), msgId: row.dataset.msgId });
+    save('our_messages', msgs);
+  }
+}
+
+/* ---------- 语音消息 ---------- */
+function addVoiceMessage(sender, voiceId, name, duration, store) {
+  const row = document.createElement('div');
+  row.className = 'msg-row ' + (sender === 'me' ? 'me' : 'ta');
+  row.dataset.msgId = Date.now() + '_' + Math.random().toString(36).slice(2, 8);
+  const avatar = buildAvatar(sender);
+
+  const bubble = document.createElement('div');
+  bubble.className = 'voice-bubble';
+  bubble.dataset.voiceId = voiceId;
+  bubble.innerHTML = `
+    <div class="play-btn"><svg viewBox="0 0 24 24"><path d="M8 5 V19 L19 12 Z"></path></svg></div>
+    <div class="waves">${'<span></span>'.repeat(9)}</div>
+    <div class="duration">${escHtml(duration)}</div>
   `;
-  
-  // 卡片不带头像
+  bubble.onclick = (e) => {
+    e.stopPropagation();
+    playVoice(bubble, voiceId);
+  };
+  row.appendChild(avatar);
+  row.appendChild(bubble);
+  messagesEl.appendChild(row);
+  messagesEl.scrollTop = messagesEl.scrollHeight;
+
+  if (store !== false) {
+    const msgs = load('our_messages', []);
+    msgs.push({ type: 'voice', sender, voiceId, name, duration, t: Date.now(), msgId: row.dataset.msgId });
+    save('our_messages', msgs);
+  }
+}
+
+/* ---------- 语音播放 ---------- */
+let currentAudio = null;
+let currentAudioEl = null;
+let currentAudioUrl = null;
+
+async function playVoice(bubbleEl, voiceId) {
+  const rec = await idbGet('voices', voiceId);
+  if (!rec) return;
+
+  if (currentAudioEl === bubbleEl && currentAudio) {
+    currentAudio.pause();
+    if (currentAudioUrl) URL.revokeObjectURL(currentAudioUrl);
+    bubbleEl.classList.remove('playing');
+    bubbleEl.querySelector('.play-btn').innerHTML = '<svg viewBox="0 0 24 24"><path d="M8 5 V19 L19 12 Z"></path></svg>';
+    currentAudio = null;
+    currentAudioEl = null;
+    currentAudioUrl = null;
+    return;
+  }
+
+  if (currentAudio) {
+    currentAudio.pause();
+    if (currentAudioEl) {
+      currentAudioEl.classList.remove('playing');
+      currentAudioEl.querySelector('.play-btn').innerHTML = '<svg viewBox="0 0 24 24"><path d="M8 5 V19 L19 12 Z"></path></svg>';
+    }
+    if (currentAudioUrl) URL.revokeObjectURL(currentAudioUrl);
+  }
+
+  currentAudioUrl = URL.createObjectURL(rec.blob);
+  currentAudio = new Audio(currentAudioUrl);
+  currentAudioEl = bubbleEl;
+  bubbleEl.classList.add('playing');
+  bubbleEl.querySelector('.play-btn').innerHTML = '<svg viewBox="0 0 24 24"><path d="M7 5 H10 V19 H7 Z"></path><path d="M14 5 H17 V19 H14 Z"></path></svg>';
+
+  currentAudio.onended = () => {
+    bubbleEl.classList.remove('playing');
+    bubbleEl.querySelector('.play-btn').innerHTML = '<svg viewBox="0 0 24 24"><path d="M8 5 V19 L19 12 Z"></path></svg>';
+    if (currentAudioUrl) URL.revokeObjectURL(currentAudioUrl);
+    currentAudio = null;
+    currentAudioEl = null;
+    currentAudioUrl = null;
+  };
+  currentAudio.play().catch(() => {
+    bubbleEl.classList.remove('playing');
+    bubbleEl.querySelector('.play-btn').innerHTML = '<svg viewBox="0 0 24 24"><path d="M8 5 V19 L19 12 Z"></path></svg>';
+  });
+}
+
+/* ---------- 系统提示 ---------- */
+function addSystemTip(text, store) {
+  const sys = document.createElement('div');
+  sys.className = 'system-tip';
+  sys.textContent = text;
+  messagesEl.appendChild(sys);
+  messagesEl.scrollTop = messagesEl.scrollHeight;
+  if (store !== false) {
+    const msgs = load('our_messages', []);
+    msgs.push({ type: 'systemtip', text, t: Date.now() });
+    save('our_messages', msgs);
+  }
+}
+
+/* ---------- 转账卡片 ---------- */
+function renderTransferCard(m) {
+  const isMe = m.sender === 'me';
+  const row = document.createElement('div');
+  row.className = 'msg-row ' + (isMe ? 'me' : 'ta');
+  row.dataset.msgId = m.msgId || (Date.now() + '_' + Math.random().toString(36).slice(2, 8));
+  row.style.maxWidth = '70%';
+  const avatar = buildAvatar(m.sender);
+  const card = document.createElement('div');
+  card.className = 'transfer-card';
+  if (m.status === 'received') card.classList.add('received');
+  if (m.status === 'refunded') card.classList.add('refunded');
+  const icon = document.createElement('div');
+  icon.className = 'transfer-card-icon';
+  if (m.status === 'received') icon.innerHTML = '<svg viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12 L10 17 L19 7"></path></svg>';
+  else if (m.status === 'refunded') icon.innerHTML = '<svg viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M19 12 A7 7 0 1 1 12 5"></path><path d="M12 5 L12 1 M12 5 L16 5"></path></svg>';
+  else icon.innerHTML = '<svg viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 8 L14 8 M10 4 L14 8 L10 12"></path><path d="M20 16 L10 16 M14 12 L10 16 L14 20"></path></svg>';
+  const info = document.createElement('div');
+  info.className = 'transfer-card-info';
+  const statusText = m.status === 'received' ? '已收款' : (m.status === 'refunded' ? '已退还' : '待收款');
+  info.innerHTML = `<div class="tc-amount">¥${(m.amount || 0).toFixed(2)}</div><div class="tc-status">${statusText}</div>`;
+  card.appendChild(icon); card.appendChild(info);
+  const label = document.createElement('div');
+  label.className = 'transfer-card-label';
+  label.textContent = '转账';
+  card.appendChild(label);
+  card.onclick = () => openReceiveModal(m.transferId);
+  row.appendChild(avatar);
   row.appendChild(card);
   messagesEl.appendChild(row);
+  messagesEl.scrollTop = messagesEl.scrollHeight;
 }
 
-/* 渲染电影卡片（带头像，不变） */
-function renderMovieInviteCard(m) {
+/* ---------- 商店卡片 ---------- */
+function renderShopCard(m) {
   const row = document.createElement('div');
   row.className = 'msg-row ' + (m.sender === 'me' ? 'me' : 'ta');
-  row.style.maxWidth = '85%';
+  row.dataset.msgId = m.cardId;
+  if (m.cardId) row.dataset.shopCard = m.cardId;
+  const avatar = buildAvatar(m.sender);
   const card = document.createElement('div');
-  card.className = 'movie-invite-card';
-  card.innerHTML = `
-    <div class="mc-top"><div class="mc-icon">🎬</div><div><div class="mc-title">一起看电影</div><div class="mc-sub">${m.status === 'pending' ? '等待 TA 确认…' : (m.status === 'agreed' ? 'TA 已同意' : 'TA 拒绝了')}</div></div></div>
-    <div class="mc-line"></div>
-    <div class="mc-foot"><span>邀请</span><span>${new Date(m.t).toLocaleTimeString('zh-CN', {hour:'2-digit', minute:'2-digit'})}</span></div>
-  `;
-  row.appendChild(buildAvatar(m.sender)); row.appendChild(card);
+  card.className = 'shop-card';
+
+  const top = document.createElement('div');
+  top.className = 'shop-card-top';
+  const img = document.createElement('img');
+  img.src = m.img || '';
+  img.alt = '';
+  const txtWrap = document.createElement('div');
+  txtWrap.style.flex = '1';
+  const titleEl = document.createElement('div');
+  titleEl.className = 'shop-card-title';
+  titleEl.textContent = m.title || '';
+  const subEl = document.createElement('div');
+  subEl.className = 'shop-card-sub';
+  subEl.textContent = m.sub || '';
+  txtWrap.appendChild(titleEl);
+  txtWrap.appendChild(subEl);
+  top.appendChild(img);
+  top.appendChild(txtWrap);
+
+  const line = document.createElement('div');
+  line.className = 'shop-card-line';
+
+  const statusEl = document.createElement('div');
+  statusEl.className = 'shop-card-status';
+  const tag = document.createElement('span');
+  tag.className = 'tag';
+  tag.textContent = m.status || '';
+  statusEl.appendChild(tag);
+
+  card.appendChild(top);
+  card.appendChild(line);
+  card.appendChild(statusEl);
+
+  if (m.clickable) {
+    card.style.cursor = 'pointer';
+    card.onclick = () => {
+      const t = card.querySelector('.tag');
+      if (t && t.textContent === '接收') {
+        t.textContent = '已接收';
+        const all = load('our_messages', []);
+        const x = all.find(y => y.cardId === m.cardId);
+        if (x) { x.status = '已接收'; save('our_messages', all); }
+        addSystemTip('我已收下', true);
+      }
+    };
+  }
+  row.appendChild(avatar);
+  row.appendChild(card);
   messagesEl.appendChild(row);
+  messagesEl.scrollTop = messagesEl.scrollHeight;
 }
 
-function renderMovieResultCard(m) {
+/* ---------- 问卷卡片 ---------- */
+function renderSurveyCard(m) {
   const row = document.createElement('div');
   row.className = 'msg-row ' + (m.sender === 'me' ? 'me' : 'ta');
-  row.style.maxWidth = '85%';
+  row.dataset.msgId = m.cardId;
+  const avatar = buildAvatar(m.sender);
   const card = document.createElement('div');
-  card.className = 'movie-result-card ' + m.status;
-  card.innerHTML = `
-    <div class="mc-top"><div class="mc-icon">${m.status === 'agreed' ? '✅' : '❌'}</div><div><div class="mc-title">${m.status === 'agreed' ? '已同意看电影' : '拒绝了邀请'}</div><div class="mc-sub">${m.status === 'agreed' ? '马上一起看吧' : '下次再一起看吧'}</div></div></div>
-    <div class="mc-line"></div>
-    <div class="mc-foot"><span>回复</span><span>${new Date(m.t).toLocaleTimeString('zh-CN', {hour:'2-digit', minute:'2-digit'})}</span></div>
-  `;
-  row.appendChild(buildAvatar(m.sender)); row.appendChild(card);
+  card.className = 'survey-card-msg';
+  card.dataset.surveyId = m.surveyId;
+
+  const top = document.createElement('div');
+  top.className = 'survey-card-msg-top';
+  const icon = document.createElement('div');
+  icon.className = 'survey-card-msg-icon';
+  icon.innerHTML = '<svg viewBox="0 0 24 24" fill="none" stroke="#666" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="4" y="4" width="16" height="18" rx="2"></rect><path d="M9 4 V7 H15 V4"></path><path d="M8 12 H16 M8 16 H14"></path></svg>';
+  const txtWrap = document.createElement('div');
+  txtWrap.style.flex = '1';
+  const titleEl = document.createElement('div');
+  titleEl.className = 'survey-card-msg-title';
+  titleEl.textContent = m.title || '';
+  const subEl = document.createElement('div');
+  subEl.className = 'survey-card-msg-sub';
+  subEl.textContent = m.sub || '';
+  txtWrap.appendChild(titleEl);
+  txtWrap.appendChild(subEl);
+  top.appendChild(icon);
+  top.appendChild(txtWrap);
+
+  const line = document.createElement('div');
+  line.className = 'survey-card-msg-line';
+
+  const foot = document.createElement('div');
+  foot.className = 'survey-card-msg-foot';
+  const cnt = document.createElement('span');
+  cnt.textContent = (m.count || 0) + '个问题';
+  const tag = document.createElement('span');
+  tag.className = 'tag';
+  tag.textContent = m.status || '';
+  foot.appendChild(cnt);
+  foot.appendChild(tag);
+
+  card.appendChild(top);
+  card.appendChild(line);
+  card.appendChild(foot);
+  card.style.cursor = 'pointer';
+  card.onclick = () => openSurveyAnswer(m.surveyId);
+  row.appendChild(avatar); row.appendChild(card);
   messagesEl.appendChild(row);
+  messagesEl.scrollTop = messagesEl.scrollHeight;
 }
 
-/* 重建整个渲染函数（修复排序） */
-window.refreshMessages = function() {
+/* ---------- TA 发来的问卷卡片 ---------- */
+function renderQuestionCard(m) {
+  const row = document.createElement('div');
+  row.className = 'msg-row ' + (m.sender === 'me' ? 'me' : 'ta');
+  row.dataset.msgId = m.cardId;
+  const avatar = buildAvatar(m.sender);
+  const card = document.createElement('div');
+  card.className = 'survey-card-msg';
+  card.dataset.questionId = m.questionId;
+
+  const top = document.createElement('div');
+  top.className = 'survey-card-msg-top';
+  const icon = document.createElement('div');
+  icon.className = 'survey-card-msg-icon';
+  icon.innerHTML = '<svg viewBox="0 0 24 24" fill="none" stroke="#666" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="4" y="4" width="16" height="18" rx="2"></rect><path d="M9 4 V7 H15 V4"></path><path d="M8 12 H16 M8 16 H14"></path></svg>';
+  const txtWrap = document.createElement('div');
+  txtWrap.style.flex = '1';
+  const titleEl = document.createElement('div');
+  titleEl.className = 'survey-card-msg-title';
+  titleEl.textContent = m.title || '';
+  const subEl = document.createElement('div');
+  subEl.className = 'survey-card-msg-sub';
+  subEl.textContent = m.sub || '';
+  txtWrap.appendChild(titleEl);
+  txtWrap.appendChild(subEl);
+  top.appendChild(icon);
+  top.appendChild(txtWrap);
+
+  const line = document.createElement('div');
+  line.className = 'survey-card-msg-line';
+
+  const foot = document.createElement('div');
+  foot.className = 'survey-card-msg-foot';
+  const cnt = document.createElement('span');
+  cnt.textContent = (m.count || 0) + '个问题';
+  const tag = document.createElement('span');
+  tag.className = 'tag';
+  tag.textContent = m.status || '';
+  foot.appendChild(cnt);
+  foot.appendChild(tag);
+
+  card.appendChild(top);
+  card.appendChild(line);
+  card.appendChild(foot);
+  card.style.cursor = 'pointer';
+  card.onclick = () => openQuestionAnswer(m.questionId);
+  row.appendChild(avatar); row.appendChild(card);
+  messagesEl.appendChild(row);
+  messagesEl.scrollTop = messagesEl.scrollHeight;
+}
+
+/* ============================================================
+   refreshMessages：只调用上面的渲染函数，不内联拼接
+   ============================================================ */
+function refreshMessages() {
   messagesEl.innerHTML = '';
   const msgs = load('our_messages', []);
-  msgs.sort((a, b) => (a.t || 0) - (b.t || 0)).forEach(m => {
+  msgs.forEach(m => {
     if (m.type === 'transfer') renderTransferCard(m);
     else if (m.type === 'image') addImage(m.sender, m.url, false);
     else if (m.type === 'text') addMessage(m.sender, m.content, m.quote, false, m.msgId);
@@ -1069,9 +1393,6 @@ window.refreshMessages = function() {
     else if (m.type === 'datedivider') addDateDivider(m.t);
     else if (m.type === 'surveycard') renderSurveyCard(m);
     else if (m.type === 'questioncard') renderQuestionCard(m);
-    else if (m.type === 'quizcard') renderQuizCard(m);
-    else if (m.type === 'movie_invite') renderMovieInviteCard(m);
-    else if (m.type === 'movie_result') renderMovieResultCard(m);
   });
 
   const rs = load('read_style', 'icon');
@@ -1079,24 +1400,27 @@ window.refreshMessages = function() {
     const row = el.closest('.msg-row');
     const m = msgs.find(x => x.msgId === row.dataset.msgId);
     if (m && m.read) {
-      el.classList.remove('unread'); el.classList.add('read');
+      el.classList.remove('unread');
+      el.classList.add('read');
       if (rs === 'icon') el.innerHTML = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M2 13 L7 18 L15 8"></path><path d="M9 13 L12 16 L20 6"></path></svg>';
       else el.textContent = '已读';
     } else {
-      el.classList.add('unread'); el.classList.remove('read');
+      el.classList.add('unread');
+      el.classList.remove('read');
       if (rs === 'icon') el.innerHTML = '';
       else el.textContent = '未读';
     }
   });
   messagesEl.scrollTop = messagesEl.scrollHeight;
-};
+}
 </script>
-<!-- ★★★ 修正版 index 第 9 段 结束 ★★★ --><!-- ★★★ 修正版 index 第 10 段 开始 ★★★ -->
+<!-- ★★★ index 第 9 段 结束 ★★★ --><!-- ★★★ index 第 10 段 开始 ★★★ -->
 <script>
 /* ============================================================
    聊天发送 / 回复 / 抽卡 / 引用
    ============================================================ */
 
+/* ---------- 输入中状态 ---------- */
 function showTyping() {
   const taNameEl = document.getElementById('taName');
   if (taNameEl && !taNameEl.dataset.typing) {
@@ -1114,6 +1438,7 @@ function hideTyping() {
   }
 }
 
+/* ---------- 抽卡 ---------- */
 function drawCardText() {
   const mainCards = cards.filter(c => (c.type || 'main') === 'main' && !c.blocked);
   const emojiCards = cards.filter(c => c.type === 'emoji');
@@ -1128,6 +1453,7 @@ function drawCardText() {
   return '（字卡库还是空的，点右上角添加一些吧）';
 }
 
+/* ---------- 引用回复 ---------- */
 function drawQuote() {
   const quoteProb = load('quote_prob', 30);
   if (Math.random() * 100 >= quoteProb) return '';
@@ -1137,6 +1463,7 @@ function drawQuote() {
   return '你：' + pick.content;
 }
 
+/* ---------- 语音回复 ---------- */
 function tryTaVoiceReply() {
   const voiceProb = load('voice_prob', 0);
   const voices = load('our_voices_meta', []);
@@ -1148,6 +1475,7 @@ function tryTaVoiceReply() {
   return true;
 }
 
+/* ---------- 发送消息 ---------- */
 async function sendMessage() {
   const text = inputEl.value.trim();
   if (!text) return;
@@ -1191,6 +1519,7 @@ async function sendMessage() {
 inputEl.addEventListener('keydown', e => { if (e.key === 'Enter') sendMessage(); });
 document.getElementById('sendBtn').onclick = sendMessage;
 
+/* ---------- 已读回填 ---------- */
 function markAllRead() {
   if (!load('read_receipt', true)) return;
   const all = load('our_messages', []);
@@ -1211,6 +1540,9 @@ function markAllRead() {
   });
 }
 
+/* ============================================================
+   自动消息调度
+   ============================================================ */
 let autoMsgTimer = null;
 function scheduleAutoMessage() {
   const min = load('auto_msg_min', 1) * 60 * 1000;
@@ -1248,6 +1580,9 @@ function scheduleAutoMessage() {
   }, delay);
 }
 
+/* ============================================================
+   向下箭头（滚动容器内）
+   ============================================================ */
 (function bindScrollBottom() {
   const sc = document.getElementById('messages');
   const btn = document.getElementById('scrollBottomBtn');
@@ -1263,7 +1598,11 @@ function scheduleAutoMessage() {
 })();
 
 /* ============================================================
-   加号菜单 8 项绑定（重写分发逻辑，完全防冲突）
+   加号菜单 8 项绑定（独立 IIFE，addEventListener，防覆盖）
+   - plusBtn 点击切换 plusMenu
+   - 点击外部关闭
+   - 8 项分发
+   - 搞怪项打开 prankMenu
    ============================================================ */
 (function bindPlusMenu() {
   const plusBtn = document.getElementById('plusBtn');
@@ -1279,7 +1618,9 @@ function scheduleAutoMessage() {
   plusBtn.addEventListener('click', (e) => {
     e.stopPropagation();
     plusMenu.classList.toggle('hidden');
-    if (plusMenu.classList.contains('hidden') && prankMenu) prankMenu.classList.add('hidden');
+    if (plusMenu.classList.contains('hidden') && prankMenu) {
+      prankMenu.classList.add('hidden');
+    }
   });
 
   plusMenu.addEventListener('click', (e) => {
@@ -1287,8 +1628,6 @@ function scheduleAutoMessage() {
     const item = e.target.closest('.plus-item');
     if (!item) return;
     const key = item.dataset.key;
-
-    // 搞怪子菜单单独处理
     if (key === 'prank') {
       if (prankMenu) prankMenu.classList.toggle('hidden');
       return;
@@ -1296,14 +1635,41 @@ function scheduleAutoMessage() {
     if (prankMenu) prankMenu.classList.add('hidden');
 
     switch (key) {
-      case 'transfer': if (typeof openTransferModal === 'function') openTransferModal(); closeAll(); break;
-      case 'gift': if (typeof showShopPage === 'function') showShopPage(true); closeAll(); break;
-      case 'survey': if (typeof showSurveyListPage === 'function') showSurveyListPage(); closeAll(); break;
-      case 'continue': if (typeof continueTalk === 'function') continueTalk(); closeAll(); break;
-      case 'call': if (typeof startCall === 'function') startCall(false); closeAll(); break;
-      case 'movie': if (typeof openMoviePage === 'function') openMoviePage(); closeAll(); break;
-      case 'quiz': if (typeof startQuiz === 'function') startQuiz(); closeAll(); break;
-      default: closeAll();
+      case 'transfer':
+        if (typeof openTransferModal === 'function') openTransferModal();
+        else {
+          const m = document.getElementById('transferModal');
+          if (m) m.classList.remove('hidden');
+        }
+        closeAll();
+        break;
+      case 'gift':
+        if (typeof showShopPage === 'function') showShopPage(true);
+        closeAll();
+        break;
+      case 'survey':
+        if (typeof showSurveyListPage === 'function') showSurveyListPage();
+        closeAll();
+        break;
+      case 'continue':
+        if (typeof continueTalk === 'function') continueTalk();
+        closeAll();
+        break;
+      case 'call':
+        if (typeof startCall === 'function') startCall(false);
+        closeAll();
+        break;
+      case 'movie':
+        if (typeof openMoviePage === 'function') openMoviePage();
+        else showPage('moviePage');
+        closeAll();
+        break;
+      case 'quiz':
+        if (typeof startQuiz === 'function') startQuiz();
+        closeAll();
+        break;
+      default:
+        closeAll();
     }
   });
 
@@ -1313,6 +1679,9 @@ function scheduleAutoMessage() {
   });
 })();
 
+/* ============================================================
+   搞怪子菜单绑定
+   ============================================================ */
 (function bindPrankMenu() {
   const prankMenu = document.getElementById('prankMenu');
   if (!prankMenu) return;
@@ -1328,7 +1697,7 @@ function scheduleAutoMessage() {
   });
 })();
 </script>
-<!-- ★★★ 修正版 index 第 10 段 结束 ★★★ --><!-- ★★★ index 第 11 段 开始 ★★★ -->
+<!-- ★★★ index 第 10 段 结束 ★★★ --><!-- ★★★ index 第 11 段 开始 ★★★ -->
 <script>
 /* ============================================================
    转账
@@ -2667,162 +3036,239 @@ function taPostMoment() {
   if (page && !page.classList.contains('hidden')) renderMomentsList();
 }
 </script>
-<!-- ★★★ index 第 13 段 结束 ★★★ --><!-- ★★★ 修正版 index 第 14 段 开始 ★★★ -->
+<!-- ★★★ index 第 13 段 结束 ★★★ --><!-- ★★★ index 第 14 段 开始 ★★★ -->
 <script>
-/* 通话逻辑（原样保留） */
-let callTimer = null; let callSeconds = 0;
+/* ============================================================
+   通话
+   ============================================================ */
+let callTimer = null;
+let callSeconds = 0;
+
 function startCall(isIncoming = false) {
-  const plusMenu = document.getElementById('plusMenu'); if (plusMenu) plusMenu.classList.add('hidden');
-  const callPage = document.getElementById('callPage'), callFloat = document.getElementById('callFloat');
-  if (!callPage) return; callPage.classList.remove('hidden'); if (callFloat) callFloat.classList.add('hidden');
-  const callBg = document.getElementById('callBg'), bgUrl = load('call_bg', '');
+  const plusMenu = document.getElementById('plusMenu');
+  if (plusMenu) plusMenu.classList.add('hidden');
+  const callPage = document.getElementById('callPage');
+  const callFloat = document.getElementById('callFloat');
+  if (!callPage) return;
+  callPage.classList.remove('hidden');
+  if (callFloat) callFloat.classList.add('hidden');
+
+  const callBg = document.getElementById('callBg');
+  const bgUrl = load('call_bg', '');
   if (callBg) callBg.style.backgroundImage = bgUrl ? `url(${bgUrl})` : 'linear-gradient(180deg, #1a1a1a, #333)';
-  const taName = load('ta_name', 'TA'), taAvatar = load('ta_avatar', '');
-  if (document.getElementById('callName')) document.getElementById('callName').textContent = taName;
-  if (document.getElementById('callFloatName')) document.getElementById('callFloatName').textContent = taName;
+
+  const taName = load('ta_name', 'TA');
+  const taAvatar = load('ta_avatar', '');
+  const nameEl = document.getElementById('callName');
+  const floatNameEl = document.getElementById('callFloatName');
+  if (nameEl) nameEl.textContent = taName;
+  if (floatNameEl) floatNameEl.textContent = taName;
+
   const av = document.getElementById('callAvatar');
-  if (av) { if (taAvatar) { av.style.background = `url(${taAvatar}) center/cover`; av.textContent = ''; } else { av.style.background = '#444'; av.textContent = taName.charAt(0); } }
+  if (av) {
+    if (taAvatar) { av.style.background = `url(${taAvatar}) center/cover`; av.textContent = ''; }
+    else { av.style.background = '#444'; av.textContent = taName.charAt(0); }
+  }
   const fav = document.getElementById('callFloatAvatar');
-  if (fav) { if (taAvatar) { fav.style.background = `url(${taAvatar}) center/cover`; fav.textContent = ''; } else { fav.style.background = '#444'; fav.textContent = taName.charAt(0); } }
+  if (fav) {
+    if (taAvatar) { fav.style.background = `url(${taAvatar}) center/cover`; fav.textContent = ''; }
+    else { fav.style.background = '#444'; fav.textContent = taName.charAt(0); }
+  }
+
   callSeconds = 0;
-  if (document.getElementById('callTime')) document.getElementById('callTime').textContent = '00:00';
-  if (document.getElementById('callFloatTime')) document.getElementById('callFloatTime').textContent = '00:00';
+  const callTime = document.getElementById('callTime');
+  const callFloatTime = document.getElementById('callFloatTime');
+  if (callTime) callTime.textContent = '00:00';
+  if (callFloatTime) callFloatTime.textContent = '00:00';
+
   if (!isIncoming) {
-    if (document.getElementById('callStatus')) document.getElementById('callStatus').textContent = '正在呼叫...';
-    setTimeout(() => { if (Math.random() < 0.1) { endCall(false); addSystemTip('[📞] 对方已拒绝', true); } else { connectCall(); } }, 3000 + Math.random() * 3000);
-  } else { connectCall(); }
+    const statusEl = document.getElementById('callStatus');
+    if (statusEl) statusEl.textContent = '正在呼叫...';
+    setTimeout(() => {
+      if (Math.random() < 0.1) {
+        endCall(false);
+        addSystemTip('[📞] 对方已拒绝', true);
+      } else {
+        connectCall();
+      }
+    }, 3000 + Math.random() * 3000);
+  } else {
+    connectCall();
+  }
 }
+
 function connectCall() {
-  if (document.getElementById('callStatus')) document.getElementById('callStatus').textContent = '通话中';
-  playSound('receive'); clearInterval(callTimer);
+  const statusEl = document.getElementById('callStatus');
+  if (statusEl) statusEl.textContent = '通话中';
+  playSound('receive');
+  clearInterval(callTimer);
   callTimer = setInterval(() => {
-    callSeconds++; const m = String(Math.floor(callSeconds / 60)).padStart(2, '0'), s = String(callSeconds % 60).padStart(2, '0'), str = `${m}:${s}`;
-    if (document.getElementById('callTime')) document.getElementById('callTime').textContent = str;
-    if (document.getElementById('callFloatTime')) document.getElementById('callFloatTime').textContent = str;
+    callSeconds++;
+    const m = String(Math.floor(callSeconds / 60)).padStart(2, '0');
+    const s = String(callSeconds % 60).padStart(2, '0');
+    const str = `${m}:${s}`;
+    const callTime = document.getElementById('callTime');
+    const callFloatTime = document.getElementById('callFloatTime');
+    if (callTime) callTime.textContent = str;
+    if (callFloatTime) callFloatTime.textContent = str;
   }, 1000);
 }
+
 function endCall(showTip = true) {
-  clearInterval(callTimer); callTimer = null;
-  if (document.getElementById('callPage')) document.getElementById('callPage').classList.add('hidden');
-  if (document.getElementById('callFloat')) document.getElementById('callFloat').classList.add('hidden');
+  clearInterval(callTimer);
+  callTimer = null;
+  const callPage = document.getElementById('callPage');
+  const callFloat = document.getElementById('callFloat');
+  if (callPage) callPage.classList.add('hidden');
+  if (callFloat) callFloat.classList.add('hidden');
   if (showTip) {
-    const m = String(Math.floor(callSeconds / 60)).padStart(2, '0'), s = String(callSeconds % 60).padStart(2, '0');
+    const m = String(Math.floor(callSeconds / 60)).padStart(2, '0');
+    const s = String(callSeconds % 60).padStart(2, '0');
     addSystemTip(`[📞] 语音通话已结束 · ${m}:${s}`, true);
   }
   callSeconds = 0;
 }
+
 (function bindCallUI() {
-  if(document.getElementById('callHangupBtn')) document.getElementById('callHangupBtn').onclick = () => endCall(true);
-  if(document.getElementById('callFloatHangup')) document.getElementById('callFloatHangup').onclick = (e) => { e.stopPropagation(); endCall(true); };
-  if(document.getElementById('callMinimizeBtn')) document.getElementById('callMinimizeBtn').onclick = () => {
-    if (document.getElementById('callPage')) document.getElementById('callPage').classList.add('hidden');
-    const f = document.getElementById('callFloat'); if (f) { f.style.right = '20px'; f.style.left = 'auto'; f.style.top = '70px'; f.classList.remove('hidden'); }
+  const hangup = document.getElementById('callHangupBtn');
+  if (hangup) hangup.onclick = () => endCall(true);
+  const floatHangup = document.getElementById('callFloatHangup');
+  if (floatHangup) floatHangup.onclick = (e) => { e.stopPropagation(); endCall(true); };
+
+  const minimize = document.getElementById('callMinimizeBtn');
+  if (minimize) minimize.onclick = () => {
+    const callPage = document.getElementById('callPage');
+    const callFloat = document.getElementById('callFloat');
+    if (callPage) callPage.classList.add('hidden');
+    if (callFloat) {
+      callFloat.style.right = '20px';
+      callFloat.style.left = 'auto';
+      callFloat.style.top = '70px';
+      callFloat.classList.remove('hidden');
+    }
   };
-  if(document.getElementById('callFloat')) document.getElementById('callFloat').onclick = (e) => {
-    if (e.target.closest('#callFloatHangup')) return;
-    if (document.getElementById('callFloat')) document.getElementById('callFloat').classList.add('hidden');
-    if (document.getElementById('callPage')) document.getElementById('callPage').classList.remove('hidden');
+
+  const floatEl = document.getElementById('callFloat');
+  if (floatEl) {
+    floatEl.onclick = (e) => {
+      if (e.target.closest('#callFloatHangup')) return;
+      const callPage = document.getElementById('callPage');
+      const callFloat = document.getElementById('callFloat');
+      if (callFloat) callFloat.classList.add('hidden');
+      if (callPage) callPage.classList.remove('hidden');
+    };
+  }
+
+  const bgBtn = document.getElementById('callBgBtn');
+  const bgUpload = document.getElementById('callBgUpload');
+  if (bgBtn && bgUpload) {
+    bgBtn.onclick = () => bgUpload.click();
+    bgUpload.onchange = (e) => {
+      const f = e.target.files[0]; if (!f) return;
+      compressImage(f, 800, (url) => {
+        save('call_bg', url);
+        const callBg = document.getElementById('callBg');
+        if (callBg) callBg.style.backgroundImage = `url(${url})`;
+      });
+      e.target.value = '';
+    };
+  }
+
+  const muteBtn = document.getElementById('callMuteBtn');
+  if (muteBtn) muteBtn.onclick = function() {
+    this.style.opacity = this.style.opacity === '0.5' ? '1' : '0.5';
   };
-  const bgBtn = document.getElementById('callBgBtn'), bgUpload = document.getElementById('callBgUpload');
-  if (bgBtn && bgUpload) { bgBtn.onclick = () => bgUpload.click(); bgUpload.onchange = (e) => { const f = e.target.files[0]; if (!f) return; compressImage(f, 800, (url) => { save('call_bg', url); if (document.getElementById('callBg')) document.getElementById('callBg').style.backgroundImage = `url(${url})`; }); e.target.value = ''; }; }
-  if(document.getElementById('callMuteBtn')) document.getElementById('callMuteBtn').onclick = function() { this.style.opacity = this.style.opacity === '0.5' ? '1' : '0.5'; };
-})();
-(function bindCallFloatDrag() {
-  const el = document.getElementById('callFloat'); if (!el) return;
-  let startX = 0, startY = 0, startLeft = 0, startTop = 0, moved = false, touching = false;
-  function onStart(e) {
-    if (e.target.closest('#callFloatHangup')) return;
-    const p = e.touches ? e.touches[0] : e; touching = true; moved = false;
-    const rect = el.getBoundingClientRect(); startX = p.clientX; startY = p.clientY; startLeft = rect.left; startTop = rect.top;
-    el.style.right = 'auto'; el.style.left = rect.left + 'px'; el.style.top = rect.top + 'px';
-  }
-  function onMove(e) {
-    if (!touching) return;
-    const p = e.touches ? e.touches[0] : e, dx = p.clientX - startX, dy = p.clientY - startY;
-    if (Math.abs(dx) > 4 || Math.abs(dy) > 4) moved = true;
-    if (!moved) return;
-    const w = el.offsetWidth, h = el.offsetHeight;
-    el.style.left = Math.max(0, Math.min(window.innerWidth - w, startLeft + dx)) + 'px';
-    el.style.top = Math.max(0, Math.min(window.innerHeight - h, startTop + dy)) + 'px';
-  }
-  function onEnd() {
-    if (touching && moved) { const rect = el.getBoundingClientRect(); save('call_float_x', rect.left); save('call_float_y', rect.top); }
-    touching = false;
-  }
-  el.addEventListener('touchstart', onStart, { passive: true }); el.addEventListener('touchmove', onMove, { passive: true }); el.addEventListener('touchend', onEnd);
-  el.addEventListener('mousedown', onStart); document.addEventListener('mousemove', onMove); document.addEventListener('mouseup', onEnd);
 })();
 
 /* ============================================================
-   搞怪（抛物线砸向最后一条消息的头像）
+   通话悬浮胶囊拖拽
    ============================================================ */
-function throwAnimation(startEl, targetEl, icon) {
-  if (!targetEl) return;
-  const startRect = startEl.getBoundingClientRect();
-  const targetRect = targetEl.getBoundingClientRect();
-  
-  // 计算起点和终点
-  const startX = startRect.left + startRect.width / 2;
-  const startY = startRect.top;
-  const endX = targetRect.left + targetRect.width / 2;
-  const endY = targetRect.top + targetRect.height / 2;
+(function bindCallFloatDrag() {
+  const el = document.getElementById('callFloat');
+  if (!el) return;
+  let startX = 0, startY = 0, startLeft = 0, startTop = 0, moved = false, touching = false;
 
-  // 创建飞行的图标
-  const fly = document.createElement('div');
-  fly.textContent = icon;
-  fly.style.cssText = `position:fixed; left:${startX}px; top:${startY}px; font-size:40px; z-index:9999; pointer-events:none; transition: transform 0.6s cubic-bezier(0.25, 0.46, 0.45, 0.94), opacity 0.6s;`;
-  document.body.appendChild(fly);
+  function onStart(e) {
+    if (e.target.closest('#callFloatHangup')) return;
+    const p = e.touches ? e.touches[0] : e;
+    touching = true; moved = false;
+    const rect = el.getBoundingClientRect();
+    startX = p.clientX; startY = p.clientY;
+    startLeft = rect.left; startTop = rect.top;
+    el.style.right = 'auto';
+    el.style.left = rect.left + 'px';
+    el.style.top = rect.top + 'px';
+  }
+  function onMove(e) {
+    if (!touching) return;
+    const p = e.touches ? e.touches[0] : e;
+    const dx = p.clientX - startX;
+    const dy = p.clientY - startY;
+    if (Math.abs(dx) > 4 || Math.abs(dy) > 4) moved = true;
+    if (!moved) return;
+    const w = el.offsetWidth, h = el.offsetHeight;
+    let nx = Math.max(0, Math.min(window.innerWidth - w, startLeft + dx));
+    let ny = Math.max(0, Math.min(window.innerHeight - h, startTop + dy));
+    el.style.left = nx + 'px';
+    el.style.top = ny + 'px';
+  }
+  function onEnd() {
+    if (touching && moved) {
+      const rect = el.getBoundingClientRect();
+      save('call_float_x', rect.left);
+      save('call_float_y', rect.top);
+    }
+    touching = false;
+  }
+  el.addEventListener('touchstart', onStart, { passive: true });
+  el.addEventListener('touchmove', onMove, { passive: true });
+  el.addEventListener('touchend', onEnd);
+  el.addEventListener('mousedown', onStart);
+  document.addEventListener('mousemove', onMove);
+  document.addEventListener('mouseup', onEnd);
+})();
 
-  // 计算弧线顶点（控制点）
-  const ctrlX = (startX + endX) / 2;
-  const ctrlY = Math.min(startY, endY) - 150; // 向上抛起150px
-
-  // 简单的两段式动画模拟抛物线
-  requestAnimationFrame(() => {
-    fly.style.transform = `translate(${ctrlX - startX}px, ${ctrlY - startY}px) scale(1.5) rotate(180deg)`;
-    setTimeout(() => {
-      fly.style.transform = `translate(${endX - startX}px, ${endY - startY}px) scale(1) rotate(360deg)`;
-      fly.style.opacity = '0';
-    }, 300);
-  });
-  
-  setTimeout(() => fly.remove(), 700);
-}
-
+/* ============================================================
+   搞怪
+   ============================================================ */
 function doPrank(type) {
-  const plusMenu = document.getElementById('plusMenu'); if (plusMenu) plusMenu.classList.add('hidden');
-  const plusBtn = document.getElementById('plusBtn');
-  
   const iconMap = { tomato: '🍅', cake: '🍰', water: '💧' };
   const nameMap = { tomato: '番茄', cake: '蛋糕', water: '水球' };
 
   if (type === 'poke') {
     playSound('poke');
+    const rows = document.querySelectorAll('#messages .msg-row');
+    if (rows.length > 0) {
+      const lastAvatar = rows[rows.length - 1].querySelector('.avatar');
+      if (lastAvatar) {
+        lastAvatar.style.transition = 'transform 0.15s ease';
+        lastAvatar.style.transform = 'translateX(10px) scaleX(0.9)';
+        setTimeout(() => { lastAvatar.style.transform = 'none'; }, 180);
+      }
+    }
     addSystemTip('[👉] 我戳了戳 TA 的脸', true);
     return;
   }
 
   const icon = iconMap[type] || '🍅';
   const name = nameMap[type] || '东西';
-  
-  // 找到最后一条消息
-  const allRows = document.querySelectorAll('#messages .msg-row');
-  const lastRow = allRows.length > 0 ? allRows[allRows.length - 1] : null;
-  const targetAvatar = lastRow ? lastRow.querySelector('.avatar') : null;
-
-  if (lastRow) {
-    addSystemTip(`[${icon}] 我朝 TA 扔了一个${name}`, true);
-    // 从加号按钮飞向最后一条消息的头像
-    throwAnimation(plusBtn, targetAvatar, icon);
-  } else {
-    addSystemTip(`[${icon}] 我朝 TA 扔了一个${name}`, true);
-  }
+  addSystemTip(`[${icon}] 我朝 TA 扔了一个${name}`, true);
   playSound('send');
   if (navigator.vibrate) navigator.vibrate(100);
+
+  const fly = document.createElement('div');
+  fly.textContent = icon;
+  fly.style.cssText = 'position:fixed; left:50%; bottom:120px; font-size:36px; z-index:600; pointer-events:none; transition: transform 0.7s cubic-bezier(0.3,0.1,0.6,1), opacity 0.7s;';
+  document.body.appendChild(fly);
+  requestAnimationFrame(() => {
+    fly.style.transform = 'translate(-50%, -60vh) rotate(360deg) scale(1.4)';
+    fly.style.opacity = '0';
+  });
+  setTimeout(() => fly.remove(), 800);
 }
 
 /* ============================================================
-   灵魂问答（半透明卡片，无头像）
+   灵魂问答（60 题 + 默契度卡片）
    ============================================================ */
 const QUIZ_BANK = [
   { q: '周末更想我陪你去逛街，还是两个人窝在家里看剧？', a: '去逛街', b: '窝在家里' },
@@ -2887,324 +3333,296 @@ const QUIZ_BANK = [
   { q: '在你看来，两个人在一起最常见的小确幸是什么？', a: '一起吃饭', b: '散步聊天' }
 ];
 
-window.startQuiz = function() {
+function startQuiz() {
   const quiz = QUIZ_BANK[Math.floor(Math.random() * QUIZ_BANK.length)];
-  const plusMenu = document.getElementById('plusMenu'); if (plusMenu) plusMenu.classList.add('hidden');
-  let modal = document.getElementById('customQuizModal'); if (modal) modal.remove();
-  modal = document.createElement('div'); modal.id = 'customQuizModal'; modal.className = 'quiz-custom-modal';
-  modal.innerHTML = `<div class="quiz-custom-card" id="quizCardInner"><div class="quiz-custom-title">${escHtml(quiz.q)}</div><button class="quiz-option-btn" id="quizOptA">A：${escHtml(quiz.a)}</button><button class="quiz-option-btn" id="quizOptB">B：${escHtml(quiz.b)}</button></div>`;
-  document.body.appendChild(modal); setTimeout(() => modal.classList.add('show'), 10);
-
-  const doResult = (myChoice) => {
-    const taChoice = Math.random() < 0.7 ? myChoice : (myChoice === 'a' ? 'b' : 'a');
-    const match = myChoice === taChoice, pct = match ? 100 : (Math.random() < 0.5 ? 50 : 0);
-    const myText = myChoice === 'a' ? quiz.a : quiz.b, taText = taChoice === 'a' ? quiz.a : quiz.b;
-    const inner = modal.querySelector('#quizCardInner'); inner.className = 'quiz-custom-card quiz-result-view';
-    inner.innerHTML = `<div style="font-size:16px;color:#666;margin-bottom:12px;">🃏 灵魂问答</div><div style="font-size:15px;color:#333;margin-bottom:16px;font-weight:600;">${escHtml(quiz.q)}</div><div class="choices"><div>我：<span>${escHtml(myText)}</span></div><div>TA：<span>${escHtml(taText)}</span></div></div><div class="pct">${pct}%</div><div class="desc">默契度</div><button class="quiz-accept-btn" id="quizAcceptBtn">收下结果</button>`;
-    inner.querySelector('#quizAcceptBtn').onclick = () => {
-      modal.classList.remove('show'); setTimeout(() => modal.remove(), 200);
-      
-      // 存入聊天记录并渲染为无头像的半透明卡片
-      const msgs = load('our_messages', []); 
-      msgs.push({ type: 'quizcard', sender: 'system', payload: { q: quiz.q, myText, taText, pct }, t: Date.now() }); 
-      save('our_messages', msgs);
-      
-      // 局部渲染
-      if (typeof renderQuizCard === 'function') {
-        renderQuizCard({ payload: { q: quiz.q, myText, taText, pct } }); 
-        messagesEl.scrollTop = messagesEl.scrollHeight;
-      }
-      playSound('receive');
-    };
-  };
-  modal.querySelector('#quizOptA').onclick = () => doResult('a'); modal.querySelector('#quizOptB').onclick = () => doResult('b');
-};
-</script>
-<!-- ★★★ 修正版 index 第 14 段 结束 ★★★ --><!-- ★★★ 修正版 index 第 15 段 开始 ★★★ -->
-<script>
-/* ============================================================
-   一起看电影（双向邀请、弹窗确认、防键盘缩水、横屏抽屉）
-   ============================================================ */
-let movieMsgTimer = null;
-
-// 加号菜单点击“看电影”入口
-window.openMoviePage = function() {
   const plusMenu = document.getElementById('plusMenu');
   if (plusMenu) plusMenu.classList.add('hidden');
 
-  if (localStorage.getItem('movie_agreed_pending') === 'true') {
-    showPage('moviePage'); movieInit(); return;
-  }
-  startMovieInvite();
-};
+  const choice = confirm(`${quiz.q}\n\n点【确定】选：${quiz.a}\n点【取消】选：${quiz.b}`);
+  const myChoice = choice ? 'a' : 'b';
+  const taChoice = Math.random() < 0.7 ? myChoice : (myChoice === 'a' ? 'b' : 'a');
+  const match = myChoice === taChoice;
+  const pct = match ? 100 : 0;
 
-function startMovieInvite() {
-  if (document.getElementById('movie-invite-pending')) return;
-  const t = Date.now();
-  const msg = { type: 'movie_invite', sender: 'me', status: 'pending', t, msgId: 'mi_' + t };
-  const msgs = load('our_messages', []); msgs.push(msg); save('our_messages', msgs); refreshMessages(); playSound('send');
+  const card = document.createElement('div');
+  card.className = 'system-tip';
+  card.style.cssText = 'max-width:86%; padding:14px 18px; text-align:left; line-height:1.7;';
+  const qEl = document.createElement('div');
+  qEl.textContent = '🃏 灵魂问答';
+  qEl.style.cssText = 'font-weight:600; margin-bottom:6px;';
+  const qText = document.createElement('div');
+  qText.textContent = quiz.q;
+  qText.style.cssText = 'font-size:13px; margin-bottom:8px;';
+  const myLine = document.createElement('div');
+  myLine.textContent = '我：' + (myChoice === 'a' ? quiz.a : quiz.b);
+  myLine.style.cssText = 'font-size:13px;';
+  const taLine = document.createElement('div');
+  taLine.textContent = 'TA：' + (taChoice === 'a' ? quiz.a : quiz.b);
+  taLine.style.cssText = 'font-size:13px;';
+  const pctEl = document.createElement('div');
+  pctEl.textContent = '默契度：' + pct + '%';
+  pctEl.style.cssText = 'font-size:15px; font-weight:700; color:#e8a33d; margin-top:8px;';
+  card.appendChild(qEl);
+  card.appendChild(qText);
+  card.appendChild(myLine);
+  card.appendChild(taLine);
+  card.appendChild(pctEl);
+  messagesEl.appendChild(card);
+  messagesEl.scrollTop = messagesEl.scrollHeight;
 
-  setTimeout(() => {
-    const isAgree = Math.random() < 0.85;
-    handleMovieTaReply(isAgree);
-  }, 2000 + Math.random() * 1000);
-}
-
-function handleMovieTaReply(isAgree) {
   const msgs = load('our_messages', []);
-  const inviteMsg = msgs.find(m => m.type === 'movie_invite' && m.status === 'pending');
-  if (inviteMsg) { inviteMsg.status = isAgree ? 'agreed' : 'refused'; save('our_messages', msgs); }
-
-  const resMsg = { type: 'movie_result', sender: 'ta', status: isAgree ? 'agreed' : 'refused', t: Date.now(), msgId: 'mr_' + Date.now() };
-  msgs.push(resMsg); save('our_messages', msgs); refreshMessages(); playSound('receive');
-
-  if (isAgree) {
-    setTimeout(() => {
-      const popup = document.getElementById('movieWatchPopup');
-      if (popup) {
-        if (typeof showPage === 'function') showPage('chatPage');
-        setTimeout(() => popup.classList.add('show'), 100);
-      }
-    }, 2000);
-  }
+  msgs.push({ type: 'systemtip', text: `[🃏] 灵魂问答\n\n默契度：${pct}%\n问题：${quiz.q}\n我：${myChoice === 'a' ? quiz.a : quiz.b}\nTA：${taChoice === 'a' ? quiz.a : quiz.b}`, t: Date.now() });
+  save('our_messages', msgs);
+  playSound('receive');
 }
+</script>
+<!-- ★★★ index 第 14 段 结束 ★★★ --><!-- ★★★ index 第 15 段 开始 ★★★ -->
+<script>
+/* ============================================================
+   一起看电影
+   ============================================================ */
+let movieMsgTimer = null;
 
-window.movieWatchYes = function() {
-  document.getElementById('movieWatchPopup').classList.remove('show');
-  localStorage.removeItem('movie_agreed_pending');
-  showPage('moviePage'); movieInit();
-};
-window.movieWatchNo = function() {
-  document.getElementById('movieWatchPopup').classList.remove('show');
-  localStorage.setItem('movie_agreed_pending', 'true');
-  addSystemTip('[🎬] 好的，等你想看的时候点加号里的看电影即可', true);
-};
-
-window.movieInit = function() {
-  // 1. 清空记录
-  save('our_movie_chat', []);
-  document.body.classList.remove('movie-fullscreen');
-  
-  // 2. 清空视频（解决视频残留问题）
+function openMoviePage() {
+  showPage('moviePage');
   const vid = document.getElementById('movieVideo');
-  const ph = document.getElementById('moviePlaceholder');
-  if (vid) { vid.pause(); vid.src = ''; vid.style.display = 'none'; }
-  if (ph) ph.style.display = 'block';
-
+  const placeholder = document.getElementById('moviePlaceholder');
+  const chatBox = document.getElementById('movieChatBox');
+  if (vid) { vid.style.display = 'none'; vid.pause(); }
+  if (placeholder) placeholder.style.display = 'block';
+  if (chatBox) chatBox.innerHTML = '';
   renderMovieChat();
-  
   clearInterval(movieMsgTimer);
-  movieMsgTimer = setInterval(() => {
-    const vidEl = document.getElementById('movieVideo');
-    if (!vidEl || vidEl.paused || vidEl.style.display === 'none') return;
-    const mainCards = cards.filter(c => (c.type || 'main') === 'main' && !c.blocked);
-    if (mainCards.length > 0) pushMovieChat('ta', mainCards[Math.floor(Math.random() * mainCards.length)].content);
-  }, 15000);
-};
+  movieMsgTimer = null;
+}
 
 function renderMovieChat() {
+  const box = document.getElementById('movieChatBox');
+  if (!box) return;
   const list = load('our_movie_chat', []);
-  const html = list.map(m => {
+  box.innerHTML = '';
+  list.forEach(m => {
+    const div = document.createElement('div');
+    div.className = 'msg-row ' + (m.sender === 'me' ? 'me' : 'ta');
+    div.style.maxWidth = '80%';
+    const avatar = document.createElement('div');
+    avatar.className = 'avatar';
+    avatar.style.cssText = 'width:24px;height:24px;font-size:12px;';
     const isMe = m.sender === 'me';
-    const taName = load('ta_name', 'TA'), myName = load('my_name', '我');
     const avatarUrl = isMe ? load('my_avatar', '') : load('ta_avatar', '');
-    const avatarStyle = avatarUrl ? `background-image:url('${avatarUrl}'); background-size:cover; background-position:center;` : '';
-    const avatarText = avatarUrl ? '' : (isMe ? myName.charAt(0) : taName.charAt(0));
-    return `<div class="msg-row ${isMe ? 'me' : 'ta'}"><div class="avatar" style="${avatarStyle}">${avatarText}</div><div class="bubble">${escHtml(m.text)}</div></div>`;
-  }).join('');
-  const vBox = document.getElementById('movieChatBox'); if (vBox) { vBox.innerHTML = html; vBox.scrollTop = vBox.scrollHeight; }
-  const dBox = document.getElementById('movieDrawerChatBox'); if (dBox) { dBox.innerHTML = html; dBox.scrollTop = dBox.scrollHeight; }
+    if (avatarUrl) avatar.style.background = `url(${avatarUrl}) center/cover no-repeat`;
+    else avatar.textContent = isMe ? load('my_name', '我').charAt(0) : load('ta_name', 'TA').charAt(0);
+    const bubble = document.createElement('div');
+    bubble.className = 'bubble';
+    bubble.style.cssText = 'font-size:13px; padding:6px 10px; ' + (isMe ? 'background:#95ec69; color:#111;' : 'background:#333; color:#fff;');
+    bubble.textContent = m.text;
+    div.appendChild(avatar);
+    div.appendChild(bubble);
+    box.appendChild(div);
+  });
+  box.scrollTop = box.scrollHeight;
 }
 
-window.pushMovieChat = function(sender, text) {
+function pushMovieChat(sender, text) {
   const list = load('our_movie_chat', []);
   list.push({ sender, text, t: Date.now() });
+  if (list.length > 200) list.splice(0, list.length - 200);
   save('our_movie_chat', list);
   renderMovieChat();
-  if (sender === 'me') playSound('send'); else playSound('receive');
-};
+}
 
-// 页面加载完成后执行一次（防止找不到元素）
-document.addEventListener('DOMContentLoaded', () => {
-  // 绑定发送
-  const bindMovieSend = (inputId, btnId) => {
-    const input = document.getElementById(inputId), btn = document.getElementById(btnId);
-    if (btn && input) {
-      btn.onclick = () => { const val = input.value.trim(); if (val) { pushMovieChat('me', val); input.value = ''; input.blur(); } };
-      input.onkeydown = (e) => { if (e.key === 'Enter') btn.click(); };
-    }
-  };
-  bindMovieSend('movieInput', 'movieSendBtn');
-  bindMovieSend('drawerMovieInput', 'drawerMovieSendBtn');
-
-  // 全屏切换
-  const fsBtn = document.getElementById('toggleFullscreenBtn');
-  if (fsBtn) {
-    fsBtn.onclick = () => {
-      const isFs = document.body.classList.contains('movie-fullscreen');
-      if (isFs) { document.body.classList.remove('movie-fullscreen'); closeDrawer(); }
-      else { document.body.classList.add('movie-fullscreen'); closeDrawer(); }
-    };
-  }
-
-  // 抽屉
-  const toggleDrawerBtn = document.getElementById('toggleDrawerBtn');
-  const drawer = document.getElementById('movieSideDrawer');
-  function openDrawer() { if (drawer) drawer.classList.add('open'); const c = document.querySelector('.movie-fs-controls'); if (c) c.classList.add('drawer-open'); renderMovieChat(); }
-  window.closeDrawer = function() { if (drawer) drawer.classList.remove('open'); const c = document.querySelector('.movie-fs-controls'); if (c) c.classList.remove('drawer-open'); };
-  if (toggleDrawerBtn) toggleDrawerBtn.onclick = () => drawer.classList.contains('open') ? closeDrawer() : openDrawer();
-
-  // 退出按钮（改为自定义弹窗）
-  const backMovieBtn = document.getElementById('backFromMovieBtn');
-  if (backMovieBtn) {
-    backMovieBtn.onclick = () => {
-      document.getElementById('movieExitPopup').classList.add('show');
-    };
-  }
-  window.movieExitYes = function() {
-    document.getElementById('movieExitPopup').classList.remove('show');
-    localStorage.removeItem('movie_agreed_pending');
-    save('our_movie_chat', []); 
-    document.body.classList.remove('movie-fullscreen');
+(function bindMovieUI() {
+  const backBtn = document.getElementById('backFromMovieBtn');
+  if (backBtn) backBtn.onclick = () => {
     showPage('chatPage');
     const vid = document.getElementById('movieVideo');
     if (vid) vid.pause();
     clearInterval(movieMsgTimer);
-  };
-  window.movieExitNo = function() {
-    document.getElementById('movieExitPopup').classList.remove('show');
+    movieMsgTimer = null;
   };
 
-  // 选视频
-  const uploadBtn = document.getElementById('movieUploadBtn'), videoUpload = document.getElementById('movieVideoUpload');
+  const uploadBtn = document.getElementById('movieUploadBtn');
+  const videoUpload = document.getElementById('movieVideoUpload');
   if (uploadBtn && videoUpload) {
     uploadBtn.onclick = () => videoUpload.click();
     videoUpload.onchange = (e) => {
-      const f = e.target.files[0]; if (!f) return;
+      const f = e.target.files[0];
+      if (!f) return;
       const url = URL.createObjectURL(f);
-      const vid = document.getElementById('movieVideo'), ph = document.getElementById('moviePlaceholder');
-      if (vid) { vid.src = url; vid.style.display = 'block'; vid.play().catch(() => {}); }
-      if (ph) ph.style.display = 'none';
+      const vid = document.getElementById('movieVideo');
+      const placeholder = document.getElementById('moviePlaceholder');
+      if (vid) {
+        vid.src = url;
+        vid.style.display = 'block';
+        vid.play().catch(() => {});
+      }
+      if (placeholder) placeholder.style.display = 'none';
       e.target.value = '';
+
+      clearInterval(movieMsgTimer);
+      movieMsgTimer = setInterval(() => {
+        if (!vid || vid.paused) return;
+        const mainCards = cards.filter(c => (c.type || 'main') === 'main' && !c.blocked);
+        if (mainCards.length > 0) {
+          const text = mainCards[Math.floor(Math.random() * mainCards.length)].content;
+          pushMovieChat('ta', text);
+          playSound('receive');
+        }
+      }, 8000);
     };
   }
 
-  // 注入右上角全屏按钮
-  const headerRight = document.querySelector('#moviePage .header-right');
-  if (headerRight && !document.getElementById('toggleFullscreenBtn')) {
-    const fsBtn = document.createElement('button');
-    fsBtn.id = 'toggleFullscreenBtn'; fsBtn.className = 'header-btn icon-btn';
-    fsBtn.innerHTML = '<svg class="fullscreen-icon" viewBox="0 0 24 24"><path d="M7 14H5v5h5v-2H7v-3zm-2-4h2V7h3V5H5v5zm12 7h-3v2h5v-5h-2v3zM14 5v2h3v3h2V5h-5z"/></svg>';
-    headerRight.insertBefore(fsBtn, headerRight.firstChild);
+  const sendBtn = document.getElementById('movieSendBtn');
+  const input = document.getElementById('movieInput');
+  if (sendBtn && input) {
+    sendBtn.onclick = () => {
+      const text = input.value.trim();
+      if (!text) return;
+      input.value = '';
+      pushMovieChat('me', text);
+      playSound('send');
+    };
+    input.addEventListener('keydown', (e) => {
+      if (e.key === 'Enter') sendBtn.click();
+    });
   }
-
-  // 注入电影页侧边抽屉、控制条
-  if (!document.getElementById('movieSideDrawer')) {
-    const moviePage = document.getElementById('moviePage');
-    moviePage.insertAdjacentHTML('beforeend', `
-      <div id="movieSideDrawer" class="movie-side-drawer">
-        <div class="side-chat-box" id="movieDrawerChatBox"></div>
-        <div class="side-chat-footer">
-          <input type="text" id="drawerMovieInput" placeholder="边看边聊...">
-          <button id="drawerMovieSendBtn">发送</button>
-        </div>
-      </div>
-      <div class="movie-fs-controls">
-        <button id="toggleDrawerBtn"><svg viewBox="0 0 24 24"><path d="M20 2H4c-1.1 0-2 .9-2 2v18l4-4h14c1.1 0 2-.9 2-2V4c0-1.1-.9-2-2-2z"/></svg></button>
-        <button onclick="document.getElementById('toggleFullscreenBtn').click()" title="退出全屏"><svg viewBox="0 0 24 24"><path d="M5 16h3v3h2v-5H5v2zm3-8H5v2h5V5H8v3zm6 11h2v-3h3v-2h-5v5zm2-11V5h-2v5h5V8h-3z"/></svg></button>
-      </div>
-    `);
-  }
-
-  // 注入“是否现在观看”弹窗
-  if (!document.getElementById('movieWatchPopup')) {
-    document.body.insertAdjacentHTML('beforeend', `
-      <div id="movieWatchPopup" class="movie-watch-popup">
-        <div class="popup-title">是否现在观看？</div>
-        <div class="popup-actions">
-          <button class="popup-btn btn-no" onclick="movieWatchNo()">否</button>
-          <button class="popup-btn btn-yes" onclick="movieWatchYes()">是</button>
-        </div>
-      </div>
-    `);
-  }
-
-  // 注入“退出确认”自定义弹窗
-  if (!document.getElementById('movieExitPopup')) {
-    document.body.insertAdjacentHTML('beforeend', `
-      <div id="movieExitPopup" class="movie-exit-popup">
-        <div class="popup-title">是否确定退出观看？</div>
-        <div class="popup-desc">退出后将清空当前聊天记录，下次需要重新发送邀请。</div>
-        <div class="popup-actions">
-          <button class="popup-btn btn-no" onclick="movieExitNo()">取消</button>
-          <button class="popup-btn btn-yes" onclick="movieExitYes()">确定</button>
-        </div>
-      </div>
-    `);
-  }
-});
+})();
 
 /* ============================================================
    信箱
    ============================================================ */
 let currentMailTab = 'sent';
-function showMailPage() { showPage('mailPage'); currentMailTab = 'sent'; document.querySelectorAll('.mail-tab').forEach(t => t.classList.toggle('active', t.dataset.tab === 'sent')); renderMailList(); }
+
+function showMailPage() {
+  showPage('mailPage');
+  currentMailTab = 'sent';
+  document.querySelectorAll('.mail-tab').forEach(t => t.classList.toggle('active', t.dataset.tab === 'sent'));
+  renderMailList();
+}
+
 function renderMailList() {
-  const box = document.getElementById('mailBody'); if (!box) return;
+  const box = document.getElementById('mailBody');
+  if (!box) return;
   const mails = load('our_mails', []).filter(m => m.direction === currentMailTab);
-  if (mails.length === 0) { box.innerHTML = '<div class="mail-empty">' + (currentMailTab === 'sent' ? '还没有寄出过信，写下你的第一封信吧' : '还没有收到过信') + '</div>'; return; }
+  if (mails.length === 0) {
+    box.innerHTML = '<div class="mail-empty">' + (currentMailTab === 'sent' ? '还没有寄出过信，写下你的第一封信吧' : '还没有收到过信') + '</div>';
+    return;
+  }
   box.innerHTML = '';
   mails.slice().reverse().forEach(m => {
-    const div = document.createElement('div'); div.className = 'mail-item';
+    const div = document.createElement('div');
+    div.className = 'mail-item';
     const fromText = m.direction === 'sent' ? '我寄给 ' + load('ta_name', 'TA') : load('ta_name', 'TA') + ' 寄给我';
     const statusText = m.direction === 'sent' ? '已寄出' : (m.read ? '已读' : '未读');
     const statusCls = m.direction === 'sent' ? 'sent' : (m.read ? '' : 'unread');
-    const fromEl = document.createElement('div'); fromEl.className = 'from'; fromEl.textContent = fromText;
-    const previewEl = document.createElement('div'); previewEl.className = 'preview'; previewEl.textContent = (m.title ? '【' + m.title + '】' : '') + (m.content || '');
-    const dateEl = document.createElement('div'); dateEl.className = 'date'; dateEl.textContent = new Date(m.t).toLocaleString('zh-CN');
-    const statusEl = document.createElement('div'); statusEl.className = 'status ' + statusCls; statusEl.textContent = statusText;
-    div.appendChild(fromEl); div.appendChild(previewEl); div.appendChild(dateEl); div.appendChild(statusEl);
-    div.onclick = () => openMailRead(m.id); box.appendChild(div);
+    const fromEl = document.createElement('div');
+    fromEl.className = 'from';
+    fromEl.textContent = fromText;
+    const previewEl = document.createElement('div');
+    previewEl.className = 'preview';
+    previewEl.textContent = (m.title ? '【' + m.title + '】' : '') + (m.content || '');
+    const dateEl = document.createElement('div');
+    dateEl.className = 'date';
+    dateEl.textContent = new Date(m.t).toLocaleString('zh-CN');
+    const statusEl = document.createElement('div');
+    statusEl.className = 'status ' + statusCls;
+    statusEl.textContent = statusText;
+    div.appendChild(fromEl);
+    div.appendChild(previewEl);
+    div.appendChild(dateEl);
+    div.appendChild(statusEl);
+    div.onclick = () => openMailRead(m.id);
+    box.appendChild(div);
   });
 }
+
 function openMailRead(mailId) {
-  const mails = load('our_mails', []); const m = mails.find(x => x.id === mailId); if (!m) return;
+  const mails = load('our_mails', []);
+  const m = mails.find(x => x.id === mailId);
+  if (!m) return;
   if (m.direction === 'received' && !m.read) { m.read = true; save('our_mails', mails); renderMailList(); }
   const from = m.direction === 'sent' ? '我寄给 ' + load('ta_name', 'TA') : load('ta_name', 'TA') + ' 寄给我';
-  document.getElementById('mailReadFrom').textContent = from;
-  document.getElementById('mailReadTitle').textContent = m.title || '（无题）';
-  document.getElementById('mailReadContent').textContent = m.content || '';
-  document.getElementById('mailReadDate').textContent = new Date(m.t).toLocaleString('zh-CN');
-  document.getElementById('mailReadModal').classList.remove('hidden');
+  const fromEl = document.getElementById('mailReadFrom');
+  const titleEl = document.getElementById('mailReadTitle');
+  const contentEl = document.getElementById('mailReadContent');
+  const dateEl = document.getElementById('mailReadDate');
+  if (fromEl) fromEl.textContent = from;
+  if (titleEl) titleEl.textContent = m.title || '（无题）';
+  if (contentEl) contentEl.textContent = m.content || '';
+  if (dateEl) dateEl.textContent = new Date(m.t).toLocaleString('zh-CN');
+  const modal = document.getElementById('mailReadModal');
+  if (modal) modal.classList.remove('hidden');
 }
+
 (function bindMailUI() {
-  document.querySelectorAll('.mail-tab').forEach(tab => { tab.onclick = () => { currentMailTab = tab.dataset.tab; document.querySelectorAll('.mail-tab').forEach(t => t.classList.remove('active')); tab.classList.add('active'); renderMailList(); }; });
-  const closeReadBtn = document.getElementById('closeMailReadBtn'); if (closeReadBtn) closeReadBtn.onclick = () => document.getElementById('mailReadModal').classList.add('hidden');
-  const backBtn = document.getElementById('backFromMailBtn'); if (backBtn) backBtn.onclick = () => showPage('homePage');
-  const writeBtn = document.getElementById('mailWriteBtn'); if (writeBtn) writeBtn.onclick = () => { const toEl = document.getElementById('mailWriteTo'); if (toEl) toEl.textContent = '收件人：' + load('ta_name', 'TA'); document.getElementById('mailTitleInput').value = ''; document.getElementById('mailContentInput').value = ''; showPage('mailWritePage'); };
-  const cancelBtn = document.getElementById('mailWriteCancelBtn'); if (cancelBtn) cancelBtn.onclick = () => showPage('mailPage');
-  const sendBtn = document.getElementById('mailSendBtn'); if (sendBtn) sendBtn.onclick = () => {
-    const title = document.getElementById('mailTitleInput').value.trim(); const content = document.getElementById('mailContentInput').value.trim();
+  document.querySelectorAll('.mail-tab').forEach(tab => {
+    tab.onclick = () => {
+      currentMailTab = tab.dataset.tab;
+      document.querySelectorAll('.mail-tab').forEach(t => t.classList.remove('active'));
+      tab.classList.add('active');
+      renderMailList();
+    };
+  });
+
+  const closeReadBtn = document.getElementById('closeMailReadBtn');
+  if (closeReadBtn) closeReadBtn.onclick = () => document.getElementById('mailReadModal').classList.add('hidden');
+
+  const backBtn = document.getElementById('backFromMailBtn');
+  if (backBtn) backBtn.onclick = () => showPage('homePage');
+
+  const writeBtn = document.getElementById('mailWriteBtn');
+  if (writeBtn) writeBtn.onclick = () => {
+    const toEl = document.getElementById('mailWriteTo');
+    if (toEl) toEl.textContent = '收件人：' + load('ta_name', 'TA');
+    document.getElementById('mailTitleInput').value = '';
+    document.getElementById('mailContentInput').value = '';
+    showPage('mailWritePage');
+  };
+
+  const cancelBtn = document.getElementById('mailWriteCancelBtn');
+  if (cancelBtn) cancelBtn.onclick = () => showPage('mailPage');
+
+  const sendBtn = document.getElementById('mailSendBtn');
+  if (sendBtn) sendBtn.onclick = () => {
+    const title = document.getElementById('mailTitleInput').value.trim();
+    const content = document.getElementById('mailContentInput').value.trim();
     if (!content) { alert('还没写内容'); return; }
-    const mails = load('our_mails', []); mails.push({ id: Date.now() + '_' + Math.random().toString(36).slice(2, 6), direction: 'sent', title, content, t: Date.now() });
-    save('our_mails', mails); showPage('mailPage'); currentMailTab = 'sent'; document.querySelectorAll('.mail-tab').forEach(t => t.classList.toggle('active', t.dataset.tab === 'sent')); renderMailList(); playSound('send');
+    const mails = load('our_mails', []);
+    mails.push({ id: Date.now() + '_' + Math.random().toString(36).slice(2, 6), direction: 'sent', title, content, t: Date.now() });
+    save('our_mails', mails);
+    showPage('mailPage');
+    currentMailTab = 'sent';
+    document.querySelectorAll('.mail-tab').forEach(t => t.classList.toggle('active', t.dataset.tab === 'sent'));
+    renderMailList();
+    playSound('send');
   };
 })();
+
+/* ============================================================
+   TA 自动写信
+   ============================================================ */
 let autoMailTimer = null;
 function scheduleAutoMail() {
-  clearTimeout(autoMailTimer); if (!load('mail_auto_on', false)) return;
-  const min = load('mail_auto_min', 3) * 60 * 60 * 1000; const max = load('mail_auto_max', 6) * 60 * 60 * 1000; const delay = min + Math.random() * (max - min);
+  clearTimeout(autoMailTimer);
+  if (!load('mail_auto_on', false)) return;
+  const min = load('mail_auto_min', 3) * 60 * 60 * 1000;
+  const max = load('mail_auto_max', 6) * 60 * 60 * 1000;
+  const delay = min + Math.random() * (max - min);
   autoMailTimer = setTimeout(() => {
     if (!load('mail_auto_on', false)) return;
-    const mainCards = cards.filter(c => (c.type || 'main') === 'main' && !c.blocked); const content = mainCards.length > 0 ? mainCards[Math.floor(Math.random() * mainCards.length)].content : '想你了。';
-    const mails = load('our_mails', []); mails.push({ id: Date.now() + '_' + Math.random().toString(36).slice(2, 6), direction: 'received', title: '', content, t: Date.now(), read: false });
-    save('our_mails', mails); playSound('receive');
-    const page = document.getElementById('mailPage'); if (page && !page.classList.contains('hidden')) renderMailList();
+    const mainCards = cards.filter(c => (c.type || 'main') === 'main' && !c.blocked);
+    const content = mainCards.length > 0 ? mainCards[Math.floor(Math.random() * mainCards.length)].content : '想你了。';
+    const mails = load('our_mails', []);
+    mails.push({ id: Date.now() + '_' + Math.random().toString(36).slice(2, 6), direction: 'received', title: '', content, t: Date.now(), read: false });
+    save('our_mails', mails);
+    playSound('receive');
+    const page = document.getElementById('mailPage');
+    if (page && !page.classList.contains('hidden')) renderMailList();
     scheduleAutoMail();
   }, delay);
 }
 </script>
-<!-- ★★★ 修正版 index 第 15 段 结束 ★★★ --><!-- ★★★ index 第 16 段 开始 ★★★ -->
+<!-- ★★★ index 第 15 段 结束 ★★★ --><!-- ★★★ index 第 16 段 开始 ★★★ -->
 <script>
 /* ============================================================
    商店
@@ -3592,10 +4010,10 @@ function jumpToMessage(msgId) {
   if (closeSearch) closeSearch.onclick = () => document.getElementById('searchModal').classList.add('hidden');
 })();
 </script>
-<!-- ★★★ index 第 16 段 结束 ★★★ --><!-- ★★★ 修正版 index 第 17 段 开始 ★★★ -->
+<!-- ★★★ index 第 16 段 结束 ★★★ --><!-- ★★★ index 第 17 段 开始 ★★★ -->
 <script>
 /* ============================================================
-   音乐库（完整版）
+   音乐库
    ============================================================ */
 let musicList = [];
 let musicCurrentId = null;
@@ -3611,12 +4029,6 @@ function showMusicLibrary() {
   document.querySelectorAll('.music-tab').forEach(t => t.classList.toggle('active', t.dataset.tab === 'mine'));
   loadMusicFromIDB();
 }
-
-// ★ 修复：音乐库的左上角返回，直接回首页
-(function bindMusicLibraryBack() {
-  const backBtn = document.getElementById('backFromMusicBtn');
-  if (backBtn) backBtn.onclick = () => showPage('homePage');
-})();
 
 function saveMusicMeta() {
   save('our_music_meta', musicList.map(m => ({ id: m.id, name: m.name, artist: m.artist, type: m.type, url: m.url, cover: m.cover, duration: m.duration, fav: m.fav || false })));
@@ -3978,7 +4390,7 @@ function openFloatCardFromDisc() {
   }
 })();
 </script>
-<!-- ★★★ 修正版 index 第 17 段 结束 ★★★ --><!-- ★★★ 修正版 index 第 18 段 开始 ★★★ -->
+<!-- ★★★ index 第 17 段 结束 ★★★ --><!-- ★★★ index 第 18 段 开始 ★★★ -->
 <script>
 /* ============================================================
    音乐播放器核心
@@ -4157,14 +4569,12 @@ function toggleLoop() {
 }
 
 (function bindPlayerUI() {
-  // ★ 修复：播放器左上角返回，回音乐库列表
   const backBtn = document.getElementById('musicBackBtn');
   if (backBtn) backBtn.onclick = () => {
     showPage('musicLibraryPage');
     if (typeof renderMusicList === 'function') renderMusicList();
     if (musicAudio && !musicAudio.paused && musicFloatEnabled) showFloatDisc();
   };
-  
   const plusBtn = document.getElementById('musicPlusBtn');
   if (plusBtn) plusBtn.onclick = () => {
     showPage('musicLibraryPage');
@@ -4352,7 +4762,7 @@ function triggerTaPrank() {
   playSound('poke');
 }
 </script>
-<!-- ★★★ 修正版 index 第 18 段 结束 ★★★ --><!-- ★★★ index 第 19 段 开始 ★★★ -->
+<!-- ★★★ index 第 18 段 结束 ★★★ --><!-- ★★★ index 第 19 段 开始 ★★★ -->
 <script>
 /* ============================================================
    TA 发问卷给我（从 120 题库抽 1~2 题）
@@ -4634,128 +5044,196 @@ function initDefaultQuestions() {
    首页资源应用（头像 / 壁纸 / 寄语 / 对话 / 大卡 / 天数）
    ============================================================ */
 function applyHomeAssets() {
-  const myA = document.getElementById('homeMyAvatar'), taA = document.getElementById('homeTaAvatar'), myNameEl = document.getElementById('homeMyName'), taNameEl = document.getElementById('homeTaName');
-  const myUrl = load('my_avatar', ''), taUrl = load('ta_avatar', ''), myName = load('my_name', '我'), taName = load('ta_name', 'TA');
-  if (myA) { if (myUrl) { myA.style.background = 'url(' + myUrl + ') center/cover no-repeat'; myA.textContent = ''; } else { myA.style.background = '#e5e5e5'; myA.textContent = myName.charAt(0); } }
-  if (taA) { if (taUrl) { taA.style.background = 'url(' + taUrl + ') center/cover no-repeat'; taA.textContent = ''; } else { taA.style.background = '#e5e5e5'; taA.textContent = taName.charAt(0); } }
-  if (myNameEl) myNameEl.textContent = myName; if (taNameEl) taNameEl.textContent = taName;
-  const talkMyA = document.getElementById('talkMyAvatar'), talkTaA = document.getElementById('talkTaAvatar');
-  if (talkMyA) { if (myUrl) { talkMyA.style.background = 'url(' + myUrl + ') center/cover no-repeat'; talkMyA.textContent = ''; } else { talkMyA.style.background = '#e5e5e5'; talkMyA.textContent = myName.charAt(0); } }
-  if (talkTaA) { if (taUrl) { talkTaA.style.background = 'url(' + taUrl + ') center/cover no-repeat'; talkTaA.textContent = ''; } else { talkTaA.style.background = '#e5e5e5'; talkTaA.textContent = taName.charAt(0); } }
+  const myA = document.getElementById('homeMyAvatar');
+  const taA = document.getElementById('homeTaAvatar');
+  const myNameEl = document.getElementById('homeMyName');
+  const taNameEl = document.getElementById('homeTaName');
+  const myUrl = load('my_avatar', ''), taUrl = load('ta_avatar', '');
+  const myName = load('my_name', '我'), taName = load('ta_name', 'TA');
+
+  if (myA) {
+    if (myUrl) { myA.style.background = 'url(' + myUrl + ') center/cover no-repeat'; myA.textContent = ''; }
+    else { myA.style.background = '#e5e5e5'; myA.textContent = myName.charAt(0); }
+  }
+  if (taA) {
+    if (taUrl) { taA.style.background = 'url(' + taUrl + ') center/cover no-repeat'; taA.textContent = ''; }
+    else { taA.style.background = '#e5e5e5'; taA.textContent = taName.charAt(0); }
+  }
+  if (myNameEl) myNameEl.textContent = myName;
+  if (taNameEl) taNameEl.textContent = taName;
+
+  const talkMyA = document.getElementById('talkMyAvatar');
+  const talkTaA = document.getElementById('talkTaAvatar');
+  if (talkMyA) {
+    if (myUrl) { talkMyA.style.background = 'url(' + myUrl + ') center/cover no-repeat'; talkMyA.textContent = ''; }
+    else { talkMyA.style.background = '#e5e5e5'; talkMyA.textContent = myName.charAt(0); }
+  }
+  if (talkTaA) {
+    if (taUrl) { talkTaA.style.background = 'url(' + taUrl + ') center/cover no-repeat'; talkTaA.textContent = ''; }
+    else { talkTaA.style.background = '#e5e5e5'; talkTaA.textContent = taName.charAt(0); }
+  }
 }
+
 function applyHomeWallpaper() {
-  const wp = load('home_wallpaper', ''), homePage = document.getElementById('homePage'); if (!homePage) return;
+  const wp = load('home_wallpaper', '');
+  const homePage = document.getElementById('homePage');
+  if (!homePage) return;
   if (wp) homePage.style.background = (wp.indexOf('linear') === 0 || wp.indexOf('#') === 0) ? wp : 'url(' + wp + ') center/cover no-repeat';
   else homePage.style.background = '#f5f5f5';
 }
+
 function applyHomeQuote() {
-  const q = load('home_quote', ''), box = document.getElementById('homeQuoteBox'), txt = document.getElementById('homeQuoteText'), wrap = document.getElementById('homeQuote'); if (!wrap) return;
-  if (q) { wrap.classList.add('filled'); if (txt) txt.textContent = q; } else { wrap.classList.remove('filled'); if (box) box.textContent = '双击寄语'; if (txt) txt.textContent = ''; }
+  const q = load('home_quote', '');
+  const box = document.getElementById('homeQuoteBox');
+  const txt = document.getElementById('homeQuoteText');
+  const wrap = document.getElementById('homeQuote');
+  if (!wrap) return;
+  if (q) {
+    wrap.classList.add('filled');
+    if (txt) txt.textContent = q;
+  } else {
+    wrap.classList.remove('filled');
+    if (box) box.textContent = '双击寄语';
+    if (txt) txt.textContent = '';
+  }
 }
+
 function applyHomeTalks() {
-  const mine = document.getElementById('talkMineBubble'), ta = document.getElementById('talkTaBubble'), mv = load('home_talk_mine', ''), tv = load('home_talk_ta', '');
-  if (mine) { if (mv) mine.textContent = mv; else mine.innerHTML = '<span class="placeholder">点击输入</span>'; }
-  if (ta) { if (tv) ta.textContent = tv; else ta.innerHTML = '<span class="placeholder">点击输入</span>'; }
+  const mine = document.getElementById('talkMineBubble');
+  const ta = document.getElementById('talkTaBubble');
+  const mv = load('home_talk_mine', '');
+  const tv = load('home_talk_ta', '');
+  if (mine) {
+    if (mv) mine.textContent = mv;
+    else mine.innerHTML = '<span class="placeholder">点击输入</span>';
+  }
+  if (ta) {
+    if (tv) ta.textContent = tv;
+    else ta.innerHTML = '<span class="placeholder">点击输入</span>';
+  }
 }
+
 function applyHomeBigCard() {
-  const img = document.getElementById('homeBigCardImg'), tip = document.getElementById('homeBigCardTip'); if (!img) return;
+  const img = document.getElementById('homeBigCardImg');
+  const tip = document.getElementById('homeBigCardTip');
+  if (!img) return;
   const saved = load('home_card_img', '');
-  if (saved) { img.src = saved; img.style.display = 'block'; if (tip) tip.style.display = 'none'; } else { img.style.display = 'none'; if (tip) tip.style.display = 'block'; }
+  if (saved) {
+    img.src = saved;
+    img.style.display = 'block';
+    if (tip) tip.style.display = 'none';
+  } else {
+    img.style.display = 'none';
+    if (tip) tip.style.display = 'block';
+  }
 }
+
 function updateHomeTime() {
-  const el = document.getElementById('homeTime'); if (!el) return;
-  const d = new Date(); el.textContent = pad2(d.getHours()) + ':' + pad2(d.getMinutes());
+  const el = document.getElementById('homeTime');
+  if (!el) return;
+  const d = new Date();
+  el.textContent = pad2(d.getHours()) + ':' + pad2(d.getMinutes());
 }
-setInterval(updateHomeTime, 30000); updateHomeTime();
+setInterval(updateHomeTime, 30000);
+updateHomeTime();
+
 function updateHomeAnnivNum() {
-  const el = document.getElementById('homeAnnivNum'); if (!el) return;
+  const el = document.getElementById('homeAnnivNum');
+  if (!el) return;
   const start = localStorage.getItem('anniv_start') || '';
-  if (start) { const diff = Math.floor((Date.now() - new Date(start).getTime()) / 86400000); el.textContent = diff >= 0 ? diff : 0; } else el.textContent = '0';
+  if (start) {
+    const diff = Math.floor((Date.now() - new Date(start).getTime()) / 86400000);
+    el.textContent = diff >= 0 ? diff : 0;
+  } else el.textContent = '0';
 }
 
 /* ============================================================
-   纪念日（恢复三列滑动选择器）
+   纪念日（简化版，与首页天数联动）
    ============================================================ */
-function loadAnnivList() { try { return JSON.parse(localStorage.getItem('anniv_list') || '[]'); } catch (e) { return []; } }
+function loadAnnivList() {
+  try { return JSON.parse(localStorage.getItem('anniv_list') || '[]'); } catch (e) { return []; }
+}
 function saveAnnivList(list) { localStorage.setItem('anniv_list', JSON.stringify(list)); }
+
 function renderAnniv() {
-  const start = localStorage.getItem('anniv_start') || '', daysEl = document.getElementById('annivDays');
-  if (daysEl) { if (start) { const diff = Math.floor((Date.now() - new Date(start).getTime()) / 86400000); daysEl.textContent = diff >= 0 ? diff : 0; } else daysEl.textContent = '--'; }
-  const list = loadAnnivList(), listEl = document.getElementById('annivList'); if (!listEl) return;
-  if (list.length === 0) { listEl.innerHTML = '<div style="color:#999;font-size:13px;text-align:center;padding:20px;">还没有纪念日，点下面添加</div>'; updateHomeAnnivNum(); return; }
+  const start = localStorage.getItem('anniv_start') || '';
+  const daysEl = document.getElementById('annivDays');
+  if (daysEl) {
+    if (start) {
+      const diff = Math.floor((Date.now() - new Date(start).getTime()) / 86400000);
+      daysEl.textContent = diff >= 0 ? diff : 0;
+    } else daysEl.textContent = '--';
+  }
+  const list = loadAnnivList();
+  const listEl = document.getElementById('annivList');
+  if (!listEl) return;
+  if (list.length === 0) {
+    listEl.innerHTML = '<div style="color:#999;font-size:13px;text-align:center;padding:20px;">还没有纪念日，点下面添加</div>';
+    updateHomeAnnivNum();
+    return;
+  }
   listEl.innerHTML = '';
   list.forEach((item, idx) => {
-    const div = document.createElement('div'); div.className = 'anniv-item';
-    const now = new Date(), target = new Date(now.getFullYear(), item.month - 1, item.day); if (target < now) target.setFullYear(now.getFullYear() + 1);
+    const div = document.createElement('div');
+    div.className = 'anniv-item';
+    const now = new Date();
+    const target = new Date(now.getFullYear(), item.month - 1, item.day);
+    if (target < now) target.setFullYear(now.getFullYear() + 1);
     const left = Math.ceil((target - now) / 86400000);
-    const info = document.createElement('div'); info.className = 'anniv-item-info';
-    const nameEl = document.createElement('div'); nameEl.className = 'anniv-item-name'; nameEl.textContent = item.name;
-    const dateEl = document.createElement('div'); dateEl.className = 'anniv-item-date'; dateEl.textContent = item.month + '月' + item.day + '日';
-    info.appendChild(nameEl); info.appendChild(dateEl);
-    const days = document.createElement('div'); days.className = 'anniv-item-days'; days.textContent = '还有 ' + left + ' 天';
-    const delBtn = document.createElement('button'); delBtn.className = 'anniv-item-del'; delBtn.textContent = '×';
+    const info = document.createElement('div');
+    info.className = 'anniv-item-info';
+    const nameEl = document.createElement('div');
+    nameEl.className = 'anniv-item-name';
+    nameEl.textContent = item.name;
+    const dateEl = document.createElement('div');
+    dateEl.className = 'anniv-item-date';
+    dateEl.textContent = item.month + '月' + item.day + '日';
+    info.appendChild(nameEl);
+    info.appendChild(dateEl);
+    const days = document.createElement('div');
+    days.className = 'anniv-item-days';
+    days.textContent = '还有 ' + left + ' 天';
+    const delBtn = document.createElement('button');
+    delBtn.className = 'anniv-item-del';
+    delBtn.textContent = '×';
     delBtn.onclick = () => { list.splice(idx, 1); saveAnnivList(list); renderAnniv(); };
-    div.appendChild(info); div.appendChild(days); div.appendChild(delBtn); listEl.appendChild(div);
+    div.appendChild(info);
+    div.appendChild(days);
+    div.appendChild(delBtn);
+    listEl.appendChild(div);
   });
   updateHomeAnnivNum();
 }
 
+/* ============================================================
+   纪念日日期选择器（简化版：直接 prompt 输入）
+   ============================================================ */
 (function bindAnnivPicker() {
-  const backBtn = document.getElementById('backFromAnnivBtn'); if (backBtn) backBtn.onclick = () => showPage('homePage');
-  let pickerY = new Date().getFullYear(), pickerM = 1, pickerD = 1;
-  
-  function updatePickerDisplay() {
-    document.getElementById('annivYearCur').textContent = pickerY;
-    document.getElementById('annivMonthCur').textContent = String(pickerM).padStart(2, '0');
-    document.getElementById('annivDayCur').textContent = String(pickerD).padStart(2, '0');
-    document.getElementById('annivYearTop').textContent = pickerY - 1;
-    document.getElementById('annivYearBot').textContent = pickerY + 1;
-    document.getElementById('annivMonthTop').textContent = String(pickerM === 1 ? 12 : pickerM - 1).padStart(2, '0');
-    document.getElementById('annivMonthBot').textContent = String(pickerM === 12 ? 1 : pickerM + 1).padStart(2, '0');
-    const maxD = new Date(pickerY, pickerM, 0).getDate();
-    document.getElementById('annivDayTop').textContent = String(pickerD === 1 ? maxD : pickerD - 1).padStart(2, '0');
-    document.getElementById('annivDayBot').textContent = String(pickerD === maxD ? 1 : pickerD + 1).padStart(2, '0');
-  }
-  
-  const bindPicker = (idTop, idCur, idBot, isYear) => {
-    const elTop = document.getElementById(idTop), elBot = document.getElementById(idBot); if(!elTop || !elBot) return;
-    elTop.onclick = () => {
-      if(isYear) pickerY--; else if(idTop.includes('Month')) pickerM = pickerM === 1 ? 12 : pickerM - 1; else if(idTop.includes('Day')) { const maxD = new Date(pickerY, pickerM, 0).getDate(); pickerD = pickerD === 1 ? maxD : pickerD - 1; }
-      updatePickerDisplay();
-    };
-    elBot.onclick = () => {
-      if(isYear) pickerY++; else if(idBot.includes('Month')) pickerM = pickerM === 12 ? 1 : pickerM + 1; else if(idBot.includes('Day')) { const maxD = new Date(pickerY, pickerM, 0).getDate(); pickerD = pickerD === maxD ? 1 : pickerD + 1; }
-      updatePickerDisplay();
-    };
-  };
-  bindPicker('annivYearTop', 'annivYearCur', 'annivYearBot', true);
-  bindPicker('annivMonthTop', 'annivMonthCur', 'annivMonthBot', false);
-  bindPicker('annivDayTop', 'annivDayCur', 'annivDayBot', false);
+  const backBtn = document.getElementById('backFromAnnivBtn');
+  if (backBtn) backBtn.onclick = () => showPage('homePage');
 
   const editStartBtn = document.getElementById('editStartBtn');
   if (editStartBtn) editStartBtn.onclick = () => {
-    const cur = localStorage.getItem('anniv_start') || '', parts = cur.split('-');
-    if (parts.length === 3) { pickerY = parseInt(parts[0]); pickerM = parseInt(parts[1]); pickerD = parseInt(parts[2]); }
-    else { const d = new Date(); pickerY = d.getFullYear(); pickerM = d.getMonth() + 1; pickerD = d.getDate(); }
-    updatePickerDisplay(); document.getElementById('annivDatePicker').classList.remove('hidden');
+    const cur = localStorage.getItem('anniv_start') || '';
+    openTextInput('输入起始日期（YYYY-MM-DD）', cur, (v) => {
+      if (!/^\d{4}-\d{1,2}-\d{1,2}$/.test(v)) { alert('格式不对，示例 2024-01-01'); return; }
+      localStorage.setItem('anniv_start', v);
+      renderAnniv();
+      updateHomeAnnivNum();
+    });
   };
-  const annivCancel = document.getElementById('annivDateCancel'); if(annivCancel) annivCancel.onclick = () => document.getElementById('annivDatePicker').classList.add('hidden');
-  const annivOk = document.getElementById('annivDateOk'); if(annivOk) {
-    const newOk = annivOk.cloneNode(true); annivOk.parentNode.replaceChild(newOk, annivOk);
-    newOk.onclick = () => {
-      const finalStr = `${pickerY}-${String(pickerM).padStart(2, '0')}-${String(pickerD).padStart(2, '0')}`;
-      localStorage.setItem('anniv_start', finalStr); document.getElementById('annivDatePicker').classList.add('hidden');
-      renderAnniv(); updateHomeAnnivNum();
-    };
-  }
+
   const addBtn = document.getElementById('addAnnivBtn');
   if (addBtn) addBtn.onclick = () => {
     openTextInput('输入纪念日名称', '', (name) => {
       if (!name.trim()) return;
       openTextInput('输入日期（MM-DD）', '', (dateStr) => {
-        const m = dateStr.match(/^(\d{1,2})-(\d{1,2})$/); if (!m) { alert('格式不对，示例 05-20'); return; }
-        const list = loadAnnivList(); list.push({ name: name.trim(), month: parseInt(m[1]), day: parseInt(m[2]) });
-        saveAnnivList(list); renderAnniv();
+        const m = dateStr.match(/^(\d{1,2})-(\d{1,2})$/);
+        if (!m) { alert('格式不对，示例 05-20'); return; }
+        const list = loadAnnivList();
+        list.push({ name: name.trim(), month: parseInt(m[1]), day: parseInt(m[2]) });
+        saveAnnivList(list);
+        renderAnniv();
       });
     });
   };
@@ -4774,73 +5252,114 @@ function renderAnniv() {
       else if (key === 'shop') showShopPage(false);
     };
   });
+
   document.querySelectorAll('.home-bottom-bar .bar-item').forEach(btn => {
     btn.onclick = () => {
       const key = btn.dataset.key;
       if (key === 'settings') document.getElementById('settingsModal').classList.remove('hidden');
-      else if (key === 'cards') { cardReturnPage = 'homePage'; showPage('cardPage'); if (typeof window.openCardTab === 'function') window.openCardTab('main'); }
+      else if (key === 'cards') {
+        cardReturnPage = 'homePage';
+        showPage('cardPage');
+        if (typeof window.openCardTab === 'function') window.openCardTab('main');
+      }
       else if (key === 'anniversary') { showPage('annivPage'); renderAnniv(); }
       else if (key === 'mail') showMailPage();
     };
   });
-  const annivCard = document.getElementById('homeAnnivCard'); if (annivCard) annivCard.onclick = () => { showPage('annivPage'); renderAnniv(); };
-  const cardEl = document.getElementById('homeBigCard'), img = document.getElementById('homeBigCardImg'), tip = document.getElementById('homeBigCardTip');
+
+  const annivCard = document.getElementById('homeAnnivCard');
+  if (annivCard) annivCard.onclick = () => { showPage('annivPage'); renderAnniv(); };
+
+  /* 大卡上传 */
+  const cardEl = document.getElementById('homeBigCard');
+  const img = document.getElementById('homeBigCardImg');
+  const tip = document.getElementById('homeBigCardTip');
   if (cardEl) {
-    const upload = document.createElement('input'); upload.type = 'file'; upload.accept = 'image/*'; upload.style.display = 'none'; document.body.appendChild(upload);
+    const upload = document.createElement('input');
+    upload.type = 'file';
+    upload.accept = 'image/*';
+    upload.style.display = 'none';
+    document.body.appendChild(upload);
     cardEl.onclick = () => upload.click();
     upload.onchange = (e) => {
-      const file = e.target.files[0]; if (!file) return;
+      const file = e.target.files[0];
+      if (!file) return;
       compressImage(file, 900, (url) => {
-        try { save('home_card_img', url); } catch (err) { alert('图片太大，换一张小一点的吧'); return; }
-        if (img) { img.src = url; img.style.display = 'block'; } if (tip) tip.style.display = 'none';
+        try { save('home_card_img', url); }
+        catch (err) { alert('图片太大，换一张小一点的吧'); return; }
+        if (img) { img.src = url; img.style.display = 'block'; }
+        if (tip) tip.style.display = 'none';
       });
       upload.value = '';
     };
   }
-  const quoteBox = document.getElementById('homeQuoteBox'), quoteTxt = document.getElementById('homeQuoteText');
-  function editQuote() { const cur = load('home_quote', ''); openTextInput('输入寄语', cur, (v) => { save('home_quote', v); applyHomeQuote(); }); }
-  if (quoteBox) quoteBox.ondblclick = editQuote; if (quoteTxt) quoteTxt.ondblclick = editQuote;
+
+  /* 寄语双击 */
+  const quoteBox = document.getElementById('homeQuoteBox');
+  const quoteTxt = document.getElementById('homeQuoteText');
+  function editQuote() {
+    const cur = load('home_quote', '');
+    openTextInput('输入寄语', cur, (v) => { save('home_quote', v); applyHomeQuote(); });
+  }
+  if (quoteBox) quoteBox.ondblclick = editQuote;
+  if (quoteTxt) quoteTxt.ondblclick = editQuote;
+
+  /* 对话气泡点击 */
   const mineBubble = document.getElementById('talkMineBubble');
-  if (mineBubble) mineBubble.onclick = () => { const cur = load('home_talk_mine', ''); openTextInput('输入我说的话', cur, (v) => { save('home_talk_mine', v); applyHomeTalks(); }); };
+  if (mineBubble) mineBubble.onclick = () => {
+    const cur = load('home_talk_mine', '');
+    openTextInput('输入我说的话', cur, (v) => { save('home_talk_mine', v); applyHomeTalks(); });
+  };
   const taBubble = document.getElementById('talkTaBubble');
-  if (taBubble) taBubble.onclick = () => { const cur = load('home_talk_ta', ''); openTextInput('输入对方说的话', cur, (v) => { save('home_talk_ta', v); applyHomeTalks(); }); };
+  if (taBubble) taBubble.onclick = () => {
+    const cur = load('home_talk_ta', '');
+    openTextInput('输入对方说的话', cur, (v) => { save('home_talk_ta', v); applyHomeTalks(); });
+  };
 })();
 
 /* ============================================================
-   信箱按在线时长发信逻辑 & 全局初始化
+   全局初始化
    ============================================================ */
-let onlineMailTimer = setInterval(() => {
-  if (localStorage.getItem('mail_auto_on') === 'false') return;
-  const totalOnline = parseInt(localStorage.getItem('total_online_time') || '0', 10);
-  const minH = parseInt(localStorage.getItem('mail_auto_min') || '3', 10), maxH = parseInt(localStorage.getItem('mail_auto_max') || '6', 10);
-  const intervalMs = (minH + Math.random() * (maxH - minH)) * 3600 * 1000;
-  let lastMailTime = parseInt(localStorage.getItem('last_auto_mail_time') || '0', 10);
-  if (lastMailTime === 0) { localStorage.setItem('last_auto_mail_time', totalOnline.toString()); return; }
-  if (totalOnline - lastMailTime >= intervalMs) {
-    localStorage.setItem('last_auto_mail_time', totalOnline.toString());
-    const taName = load('ta_name', 'TA'), mails = load('our_mails', []);
-    mails.push({ id: Date.now() + '_' + Math.random().toString(36).slice(2, 6), direction: 'received', title: '', content: '叮咚！' + taName + ' 又给你写了一封信，快点开看看吧~', t: Date.now(), read: false });
-    save('our_mails', mails); playSound('receive');
-    const mailPage = document.getElementById('mailPage');
-    if (mailPage && !mailPage.classList.contains('hidden') && typeof renderMailList === 'function') renderMailList();
-  }
-}, 10000);
-
 window.addEventListener('load', () => {
   if (typeof initDefaultQuestions === 'function') initDefaultQuestions();
-  cards = load('our_cards', []); refreshMessages();
-  applyHomeAssets(); applyHomeWallpaper(); applyHomeQuote(); applyHomeTalks(); applyHomeBigCard(); updateHomeAnnivNum();
-  const t = document.getElementById('taName'); if (t) t.textContent = load('ta_name', 'TA');
+  cards = load('our_cards', []);
+  refreshMessages();
+  applyHomeAssets();
+  applyHomeWallpaper();
+  applyHomeQuote();
+  applyHomeTalks();
+  applyHomeBigCard();
+  updateHomeAnnivNum();
+  const t = document.getElementById('taName');
+  if (t) t.textContent = load('ta_name', 'TA');
   if (typeof scheduleAutoMessage === 'function') scheduleAutoMessage();
+  if (typeof scheduleAutoMail === 'function') scheduleAutoMail();
   if (typeof startOnlineTimer === 'function') startOnlineTimer();
 });
 </script>
+<script src="settings.js"></script>
+</body>
+</html>
 <!-- ★★★ index 第 20 段 结束 ★★★ --><!-- ★★★ index 第 21 段 开始 ★★★ -->
 <script>
+/* ============================================================
+   音效 Tab 完整 UI（劫持 settings.js 的 sound tab）
+   - 全局开启开关
+   - 全局音量滑动条
+   - 4 分类下拉预设（发消息/收消息/拍一拍/系统提示）
+   - ▶ 试听
+   - 自定义上传（存 IndexedDB voices，key 前缀 custom_）
+   ============================================================ */
 (function hijackSoundTab() {
   let lastInjectedAt = 0;
-  function getCustomSounds() { return load('custom_sounds', []); }
-  function saveCustomSounds(list) { save('custom_sounds', list); }
+
+  function getCustomSounds() {
+    return load('custom_sounds', []);
+  }
+  function saveCustomSounds(list) {
+    save('custom_sounds', list);
+  }
+
   function buildPresetOptions(cat, currentVal) {
     let html = '';
     Object.keys(SOUND_PRESETS).forEach(k => {
@@ -4851,11 +5370,16 @@ window.addEventListener('load', () => {
     });
     return html;
   }
+
   function renderFullSoundTab() {
     const panel = document.getElementById('settingsPanel');
     if (!panel) return;
     lastInjectedAt = Date.now();
-    const soundOn = load('sound_enabled', true), soundVol = load('sound_volume', 15), customs = getCustomSounds();
+
+    const soundOn = load('sound_enabled', true);
+    const soundVol = load('sound_volume', 15);
+    const customs = getCustomSounds();
+
     let categoriesHTML = '';
     SOUND_CATEGORIES.forEach(cat => {
       const cur = getSoundPreset(cat.key);
@@ -4864,172 +5388,669 @@ window.addEventListener('load', () => {
         + '<span class="label">' + escHtml(cat.label) + '</span>'
         + '<div style="display:flex; width:100%; gap:8px; align-items:center;">'
         +   '<select class="sound-preset-select" data-cat="' + cat.key + '" style="flex:1; padding:10px 12px; border:1px solid #eee; border-radius:10px; font-size:14px; background:#fafafa; color:#333; outline:none;">'
-        +     buildPresetOptions(cat.key, cur) + '</select>'
+        +     buildPresetOptions(cat.key, cur)
+        +   '</select>'
         +   '<button class="btn-secondary sound-test-btn" data-cat="' + cat.key + '" style="width:auto; padding:10px 14px; flex-shrink:0;">▶ 试听</button>'
-        + '</div></div>';
+        + '</div>'
+        + '</div>';
     });
+
     let customListHTML = '';
-    if (customs.length === 0) customListHTML = '<div style="font-size:13px;color:#999;padding:8px 0;">还没有自定义音效</div>';
-    else customs.forEach(c => {
-      customListHTML += '<div class="card-item" style="padding:10px 12px;"><div style="flex:1; font-size:14px; color:#333; word-break:break-all;">' + escHtml(c.name) + '</div>'
-        + '<button class="sound-custom-play" data-id="' + escHtml(c.id) + '" style="background:none;border:none;color:#333;font-size:14px;cursor:pointer;padding:4px 8px;">▶</button>'
-        + '<button class="sound-custom-del" data-id="' + escHtml(c.id) + '" style="background:none;border:none;color:#e74c3c;font-size:18px;cursor:pointer;padding:0 4px;">×</button></div>';
-    });
+    if (customs.length === 0) {
+      customListHTML = '<div style="font-size:13px;color:#999;padding:8px 0;">还没有自定义音效</div>';
+    } else {
+      customs.forEach(c => {
+        customListHTML +=
+          '<div class="card-item" style="padding:10px 12px;">'
+          + '<div style="flex:1; font-size:14px; color:#333; word-break:break-all;">' + escHtml(c.name) + '</div>'
+          + '<button class="sound-custom-play" data-id="' + escHtml(c.id) + '" style="background:none;border:none;color:#333;font-size:14px;cursor:pointer;padding:4px 8px;">▶</button>'
+          + '<button class="sound-custom-del" data-id="' + escHtml(c.id) + '" style="background:none;border:none;color:#e74c3c;font-size:18px;cursor:pointer;padding:0 4px;">×</button>'
+          + '</div>';
+      });
+    }
+
     panel.innerHTML =
-      '<div class="set-card"><div class="set-card-title">音效总开关</div>'
+      '<div class="set-card">'
+      +   '<div class="set-card-title">音效总开关</div>'
       +   '<div class="set-row"><span class="label">开启全局音效</span><input type="checkbox" id="soundEnabledInput"' + (soundOn ? ' checked' : '') + '></div>'
       +   '<div class="set-row" style="flex-direction:column; align-items:flex-start; border-bottom:none;">'
       +     '<span class="label" style="margin-bottom:8px;">全局音量</span>'
       +     '<input type="range" id="soundVolInput" min="0" max="100" value="' + soundVol + '">'
       +     '<span id="soundVolVal" style="align-self:flex-end;font-size:12px;color:var(--theme-color);">' + soundVol + '%</span>'
-      +   '</div></div>'
-      + '<div class="set-card"><div class="set-card-title">分类音效预设</div>' + categoriesHTML + '</div>'
-      + '<div class="set-card"><div class="set-card-title">自定义音效</div>'
-      +   '<div style="margin-bottom:10px;"><button class="btn-secondary" id="soundCustomUploadBtn" style="width:100%;">+ 上传自定义音效（mp3/wav）</button><input type="file" id="soundCustomUpload" accept="audio/*" multiple style="display:none;"></div>'
-      +   '<div id="soundCustomList">' + customListHTML + '</div></div>'
+      +   '</div>'
+      + '</div>'
+      + '<div class="set-card">'
+      +   '<div class="set-card-title">分类音效预设</div>'
+      +   categoriesHTML
+      + '</div>'
+      + '<div class="set-card">'
+      +   '<div class="set-card-title">自定义音效</div>'
+      +   '<div style="margin-bottom:10px;">'
+      +     '<button class="btn-secondary" id="soundCustomUploadBtn" style="width:100%;">+ 上传自定义音效（mp3/wav）</button>'
+      +     '<input type="file" id="soundCustomUpload" accept="audio/*" multiple style="display:none;">'
+      +   '</div>'
+      +   '<div id="soundCustomList">' + customListHTML + '</div>'
+      + '</div>'
       + '<button class="set-btn" id="saveFullSoundSettings">保存音效设置</button>';
-    const volInput = document.getElementById('soundVolInput'), volVal = document.getElementById('soundVolVal');
-    if (volInput) { volInput.oninput = () => { if (volVal) volVal.textContent = volInput.value + '%'; }; volInput.onchange = () => { if (window.playSound) window.playSound('send'); }; }
-    panel.querySelectorAll('.sound-preset-select').forEach(sel => { sel.onchange = () => { save('sound_preset_' + sel.dataset.cat, sel.value); if (window.playSound) window.playSound(sel.dataset.cat); }; });
-    panel.querySelectorAll('.sound-test-btn').forEach(btn => { btn.onclick = () => { if (window.playSound) window.playSound(btn.dataset.cat); btn.textContent = '▶ 已播放'; setTimeout(() => { btn.textContent = '▶ 试听'; }, 900); }; });
-    panel.querySelectorAll('.sound-custom-play').forEach(btn => { btn.onclick = () => { if (window.playSound) { const saved = getSoundPreset('send'); save('sound_preset_send', 'custom_' + btn.dataset.id); window.playSound('send'); save('sound_preset_send', saved); } }; });
+
+    /* 绑定：开关 + 音量 */
+    const enabledInput = document.getElementById('soundEnabledInput');
+    const volInput = document.getElementById('soundVolInput');
+    const volVal = document.getElementById('soundVolVal');
+    if (volInput) {
+      volInput.oninput = () => {
+        if (volVal) volVal.textContent = volInput.value + '%';
+      };
+      volInput.onchange = () => { if (window.playSound) window.playSound('send'); };
+    }
+
+    /* 绑定：分类下拉 */
+    panel.querySelectorAll('.sound-preset-select').forEach(sel => {
+      sel.onchange = () => {
+        save('sound_preset_' + sel.dataset.cat, sel.value);
+        if (window.playSound) window.playSound(sel.dataset.cat);
+      };
+    });
+
+    /* 绑定：试听 */
+    panel.querySelectorAll('.sound-test-btn').forEach(btn => {
+      btn.onclick = () => {
+        const cat = btn.dataset.cat;
+        if (window.playSound) window.playSound(cat);
+        btn.textContent = '▶ 已播放';
+        setTimeout(() => { btn.textContent = '▶ 试听'; }, 900);
+      };
+    });
+
+    /* 绑定：自定义播放 / 删除 */
+    panel.querySelectorAll('.sound-custom-play').forEach(btn => {
+      btn.onclick = () => {
+        if (window.playSound) {
+          const saved = getSoundPreset('send');
+          save('sound_preset_send', 'custom_' + btn.dataset.id);
+          window.playSound('send');
+          save('sound_preset_send', saved);
+        }
+      };
+    });
     panel.querySelectorAll('.sound-custom-del').forEach(btn => {
       btn.onclick = async () => {
         if (!confirm('删除这个自定义音效？')) return;
-        const id = btn.dataset.id; try { await idbDelete('voices', id); } catch (e) {}
-        const list = getCustomSounds().filter(c => c.id !== id); saveCustomSounds(list);
-        SOUND_CATEGORIES.forEach(cat => { if (getSoundPreset(cat.key) === 'custom_' + id) save('sound_preset_' + cat.key, 'drop'); });
+        const id = btn.dataset.id;
+        try { await idbDelete('voices', id); } catch (e) {}
+        const list = getCustomSounds().filter(c => c.id !== id);
+        saveCustomSounds(list);
+        SOUND_CATEGORIES.forEach(cat => {
+          if (getSoundPreset(cat.key) === 'custom_' + id) save('sound_preset_' + cat.key, 'drop');
+        });
         renderFullSoundTab();
       };
     });
-    const uploadBtn = document.getElementById('soundCustomUploadBtn'), uploadInput = document.getElementById('soundCustomUpload');
+
+    /* 绑定：自定义上传 */
+    const uploadBtn = document.getElementById('soundCustomUploadBtn');
+    const uploadInput = document.getElementById('soundCustomUpload');
     if (uploadBtn && uploadInput) {
       uploadBtn.onclick = () => uploadInput.click();
       uploadInput.onchange = async (e) => {
-        const files = Array.from(e.target.files || []); if (files.length === 0) return; uploadInput.value = '';
+        const files = Array.from(e.target.files || []);
+        if (files.length === 0) return;
+        uploadInput.value = '';
         for (const f of files) {
           if (f.size > 5 * 1024 * 1024) { alert(f.name + ' 超过5MB，已跳过'); continue; }
-          try { const buf = await f.arrayBuffer(); const blob = new Blob([buf], { type: f.type || 'audio/mpeg' }); const id = 'cs_' + Date.now() + '_' + Math.random().toString(36).slice(2, 6); await idbPut('voices', { id, name: f.name, blob, duration: '' }); const list = getCustomSounds(); list.push({ id, name: f.name }); saveCustomSounds(list); }
-          catch (err) { alert(f.name + ' 读取失败：' + err.message); }
+          try {
+            const buf = await f.arrayBuffer();
+            const blob = new Blob([buf], { type: f.type || 'audio/mpeg' });
+            const id = 'cs_' + Date.now() + '_' + Math.random().toString(36).slice(2, 6);
+            await idbPut('voices', { id, name: f.name, blob, duration: '' });
+            const list = getCustomSounds();
+            list.push({ id, name: f.name });
+            saveCustomSounds(list);
+          } catch (err) {
+            alert(f.name + ' 读取失败：' + err.message);
+          }
         }
         renderFullSoundTab();
       };
     }
+
+    /* 绑定：保存 */
     const saveBtn = document.getElementById('saveFullSoundSettings');
-    if (saveBtn) saveBtn.onclick = () => { save('sound_enabled', document.getElementById('soundEnabledInput').checked); save('sound_volume', parseInt(document.getElementById('soundVolInput').value, 10)); alert('音效设置已保存'); if (window.playSound) window.playSound('send'); };
+    if (saveBtn) saveBtn.onclick = () => {
+      const en = document.getElementById('soundEnabledInput');
+      const vol = document.getElementById('soundVolInput');
+      save('sound_enabled', en ? en.checked : true);
+      save('sound_volume', vol ? parseInt(vol.value, 10) : 15);
+      alert('音效设置已保存');
+      if (window.playSound) window.playSound('send');
+    };
   }
-  document.addEventListener('click', (e) => { const tab = e.target.closest('.settings-tab'); if (!tab || tab.dataset.tab !== 'sound') return; setTimeout(() => { if (Date.now() - lastInjectedAt > 100) renderFullSoundTab(); }, 30); });
+
+  /* 事件委托：监听所有 .settings-tab 点击 */
+  document.addEventListener('click', (e) => {
+    const tab = e.target.closest('.settings-tab');
+    if (!tab) return;
+    if (tab.dataset.tab !== 'sound') return;
+    /* 延迟注入，等 settings.js 的 renderTab 先跑完 */
+    setTimeout(() => {
+      if (Date.now() - lastInjectedAt < 100) return;
+      renderFullSoundTab();
+    }, 30);
+  });
 })();
 </script>
 <!-- ★★★ index 第 21 段 结束 ★★★ --><!-- ★★★ index 第 22 段 开始 ★★★ -->
 <script>
-function showSurveyListPage() { showPage('surveyListPage'); renderSurveyList(); }
+/* ============================================================
+   问卷列表页
+   ============================================================ */
+function showSurveyListPage() {
+  showPage('surveyListPage');
+  renderSurveyList();
+}
+
 function renderSurveyList() {
-  const box = document.getElementById('surveyListBody'); if (!box) return;
+  const box = document.getElementById('surveyListBody');
+  if (!box) return;
   const surveys = load('our_surveys', []);
-  if (surveys.length === 0) { box.innerHTML = '<div class="shop-empty">暂无问卷<br>点击右上角 + 新建问卷</div>'; return; }
+  if (surveys.length === 0) {
+    box.innerHTML = '<div class="shop-empty">暂无问卷<br>点击右上角 + 新建问卷</div>';
+    return;
+  }
   box.innerHTML = '';
   surveys.slice().reverse().forEach(s => {
-    const div = document.createElement('div'); div.className = 'survey-item';
-    const titleEl = document.createElement('div'); titleEl.className = 'survey-item-title'; titleEl.textContent = s.title || '未命名问卷';
-    const metaEl = document.createElement('div'); metaEl.className = 'survey-item-meta'; metaEl.textContent = '我创建的 · ' + s.questions.length + ' 个问题';
-    const statusEl = document.createElement('div'); statusEl.className = 'survey-item-status' + (s.answered ? '' : ' unanswered'); statusEl.textContent = s.answered ? '✓ 已回答' : '○ 未回答';
-    div.appendChild(titleEl); div.appendChild(metaEl); div.appendChild(statusEl); div.onclick = () => openSurveyAnswer(s.id); box.appendChild(div);
+    const div = document.createElement('div');
+    div.className = 'survey-item';
+    const titleEl = document.createElement('div');
+    titleEl.className = 'survey-item-title';
+    titleEl.textContent = s.title || '未命名问卷';
+    const metaEl = document.createElement('div');
+    metaEl.className = 'survey-item-meta';
+    const dateStr = new Date(s.t).toLocaleString('zh-CN', { month: '2-digit', day: '2-digit', hour: '2-digit', minute: '2-digit' });
+    metaEl.textContent = '我创建的 · ' + s.questions.length + ' 个问题 · ' + dateStr;
+    const statusEl = document.createElement('div');
+    statusEl.className = 'survey-item-status' + (s.answered ? '' : ' unanswered');
+    statusEl.textContent = s.answered ? '✓ 已回答' : '○ 未回答';
+    div.appendChild(titleEl);
+    div.appendChild(metaEl);
+    div.appendChild(statusEl);
+    div.onclick = () => openSurveyAnswer(s.id);
+    box.appendChild(div);
   });
 }
+
 (function bindSurveyListUI() {
-  const backBtn = document.getElementById('backFromSurveyListBtn'); if (backBtn) backBtn.onclick = () => showPage('chatPage');
-  const newBtn = document.getElementById('surveyNewBtn'); if (newBtn) newBtn.onclick = () => { if (typeof resetSurveyNew === 'function') resetSurveyNew(); showPage('surveyNewPage'); };
+  const backBtn = document.getElementById('backFromSurveyListBtn');
+  if (backBtn) backBtn.onclick = () => showPage('chatPage');
+  const newBtn = document.getElementById('surveyNewBtn');
+  if (newBtn) newBtn.onclick = () => { resetSurveyNew(); showPage('surveyNewPage'); };
 })();
 
+/* ============================================================
+   新建问卷
+   ============================================================ */
+let surveyQuestions = [];
+let currentSurveyType = 'single';
+
+function resetSurveyNew() {
+  currentSurveyType = 'single';
+  surveyQuestions = [{ title: '', options: ['', ''], optionsByType: { custom: ['', ''], yesno: ['是', '否'] } }];
+  const titleInput = document.getElementById('surveyTitleInput');
+  if (titleInput) titleInput.value = '';
+  document.querySelectorAll('.survey-type-btn').forEach(b => b.classList.toggle('active', b.dataset.type === 'single'));
+  const tip = document.getElementById('surveyTypeTip');
+  if (tip) tip.textContent = '单选：对方回答时只会选中一个选项';
+  renderSurveyQuestions();
+}
+
+function renderSurveyQuestions() {
+  const box = document.getElementById('surveyQuestions');
+  if (!box) return;
+  box.innerHTML = '';
+  surveyQuestions.forEach((q, qi) => {
+    const block = document.createElement('div');
+    block.className = 'survey-q-block';
+    const row = document.createElement('div');
+    row.className = 'survey-q-row';
+    const label = document.createElement('span');
+    label.className = 'survey-q-label';
+    label.textContent = '问题 ' + (qi + 1);
+    const input = document.createElement('input');
+    input.type = 'text';
+    input.className = 'survey-q-input';
+    input.value = q.title || '';
+    input.placeholder = '请输入问题';
+    input.dataset.qi = qi;
+    input.oninput = () => { surveyQuestions[qi].title = input.value; };
+    row.appendChild(label);
+    row.appendChild(input);
+    block.appendChild(row);
+
+    const isYesNo = currentSurveyType === 'yesno';
+    if (isYesNo) {
+      ['是', '否'].forEach((opt, oi) => {
+        const optRow = document.createElement('div');
+        optRow.className = 'survey-opt-row';
+        const key = document.createElement('span');
+        key.className = 'survey-opt-key';
+        key.textContent = String.fromCharCode(65 + oi);
+        const optInput = document.createElement('input');
+        optInput.type = 'text';
+        optInput.className = 'survey-opt-input';
+        optInput.value = opt;
+        optInput.disabled = true;
+        optRow.appendChild(key);
+        optRow.appendChild(optInput);
+        block.appendChild(optRow);
+      });
+    } else {
+      q.options.forEach((opt, oi) => {
+        const optRow = document.createElement('div');
+        optRow.className = 'survey-opt-row';
+        const key = document.createElement('span');
+        key.className = 'survey-opt-key';
+        key.textContent = String.fromCharCode(65 + oi);
+        const optInput = document.createElement('input');
+        optInput.type = 'text';
+        optInput.className = 'survey-opt-input';
+        optInput.value = opt || '';
+        optInput.dataset.qi = qi;
+        optInput.dataset.oi = oi;
+        optInput.oninput = () => { surveyQuestions[qi].options[oi] = optInput.value; };
+        const delBtn = document.createElement('button');
+        delBtn.className = 'survey-opt-del';
+        delBtn.textContent = '×';
+        delBtn.onclick = () => {
+          if (surveyQuestions[qi].options.length <= 2) { alert('至少保留 2 个选项'); return; }
+          surveyQuestions[qi].options.splice(oi, 1);
+          renderSurveyQuestions();
+        };
+        optRow.appendChild(key);
+        optRow.appendChild(optInput);
+        optRow.appendChild(delBtn);
+        block.appendChild(optRow);
+      });
+      const addOpt = document.createElement('div');
+      addOpt.className = 'survey-add-opt';
+      addOpt.textContent = '+ 添加选项';
+      addOpt.onclick = () => { surveyQuestions[qi].options.push(''); renderSurveyQuestions(); };
+      block.appendChild(addOpt);
+    }
+    box.appendChild(block);
+  });
+}
+
+(function bindSurveyNewUI() {
+  document.querySelectorAll('.survey-type-btn').forEach(btn => {
+    btn.onclick = () => {
+      const newType = btn.dataset.type, oldType = currentSurveyType;
+      if (newType === oldType) return;
+      surveyQuestions.forEach(q => {
+        if (!q.optionsByType) q.optionsByType = {};
+        if (oldType === 'yesno') q.optionsByType.yesno = ['是', '否'];
+        else q.optionsByType.custom = q.options.slice();
+      });
+      currentSurveyType = newType;
+      document.querySelectorAll('.survey-type-btn').forEach(b => b.classList.remove('active'));
+      btn.classList.add('active');
+      const tip = document.getElementById('surveyTypeTip');
+      if (tip) {
+        if (newType === 'single') tip.textContent = '单选：对方回答时只会选中一个选项';
+        if (newType === 'multi') tip.textContent = '多选：对方回答时会从你填写的选项中随机选中多项';
+        if (newType === 'yesno') tip.textContent = '是否：只需填写问题，选项固定为「是 / 否」';
+      }
+      surveyQuestions.forEach(q => {
+        if (!q.optionsByType) q.optionsByType = {};
+        if (newType === 'yesno') q.options = ['是', '否'];
+        else q.options = (q.optionsByType.custom && q.optionsByType.custom.length >= 2) ? q.optionsByType.custom.slice() : ['', ''];
+      });
+      renderSurveyQuestions();
+    };
+  });
+
+  const cancelBtn = document.getElementById('surveyCancelBtn');
+  if (cancelBtn) cancelBtn.onclick = () => showPage('surveyListPage');
+
+  const addQBtn = document.getElementById('surveyAddQBtn');
+  if (addQBtn) addQBtn.onclick = () => {
+    surveyQuestions.push({ title: '', options: currentSurveyType === 'yesno' ? ['是', '否'] : ['', ''], optionsByType: { custom: ['', ''], yesno: ['是', '否'] } });
+    renderSurveyQuestions();
+  };
+
+  const sendBtn = document.getElementById('surveySendBtn');
+  if (sendBtn) sendBtn.onclick = () => {
+    const title = document.getElementById('surveyTitleInput').value.trim();
+    if (!title) { alert('请输入问卷标题'); return; }
+    for (let i = 0; i < surveyQuestions.length; i++) {
+      if (!surveyQuestions[i].title.trim()) { alert('问题 ' + (i + 1) + ' 还没有填写'); return; }
+      if (currentSurveyType !== 'yesno') {
+        for (let j = 0; j < surveyQuestions[i].options.length; j++) {
+          if (!surveyQuestions[i].options[j].trim()) { alert('问题 ' + (i + 1) + ' 的选项 ' + String.fromCharCode(65 + j) + ' 没有填写'); return; }
+        }
+      }
+    }
+    const surveys = load('our_surveys', []);
+    const survey = {
+      id: Date.now() + '_' + Math.random().toString(36).slice(2, 8),
+      title, type: currentSurveyType,
+      questions: surveyQuestions.map(q => ({ title: q.title, options: q.options.slice() })),
+      t: Date.now(), answered: false
+    };
+    surveys.push(survey);
+    save('our_surveys', surveys);
+    sendSurveyToChat(survey);
+    showPage('chatPage');
+  };
+})();
+
+/* ============================================================
+   发问卷到聊天 + TA 自动作答
+   ============================================================ */
 function sendSurveyToChat(survey) {
-  const taName = load('ta_name', 'TA'), cardId = survey.id + '_card';
-  const msg = { type: 'surveycard', sender: 'me', surveyId: survey.id, title: '邀请' + taName + '回答问卷', sub: '问题：' + survey.questions[0].title, count: survey.questions.length, status: '未回答', cardId, t: Date.now() };
-  const msgs = load('our_messages', []); msgs.push(msg); save('our_messages', msgs); renderSurveyCard(msg); playSound('send');
+  const taName = load('ta_name', 'TA');
+  const cardId = survey.id + '_card';
+  const msg = {
+    type: 'surveycard', sender: 'me', surveyId: survey.id,
+    title: '邀请' + taName + '回答问卷',
+    sub: '问题：' + survey.questions[0].title,
+    count: survey.questions.length, status: '未回答', cardId, t: Date.now()
+  };
+  const msgs = load('our_messages', []);
+  msgs.push(msg);
+  save('our_messages', msgs);
+  renderSurveyCard(msg);
+  playSound('send');
   setTimeout(() => { autoAnswerSurvey(survey.id); }, 2000 + Math.random() * 1000);
 }
+
 function autoAnswerSurvey(surveyId) {
-  const surveys = load('our_surveys', []); const s = surveys.find(x => x.id === surveyId); if (!s || s.answered) return;
+  const surveys = load('our_surveys', []);
+  const s = surveys.find(x => x.id === surveyId);
+  if (!s || s.answered) return;
   const answers = [];
   s.questions.forEach(q => {
     if (s.type === 'single') answers.push([Math.floor(Math.random() * q.options.length)]);
-    else if (s.type === 'multi') { const n = q.options.length; if (n <= 2) answers.push(q.options.map((_, i) => i)); else { const cnt = 2 + Math.floor(Math.random() * 2); const idxs = []; while (idxs.length < cnt) { const r = Math.floor(Math.random() * n); if (idxs.indexOf(r) < 0) idxs.push(r); } idxs.sort((a, b) => a - b); answers.push(idxs); } }
-    else answers.push([Math.floor(Math.random() * 2)]);
+    else if (s.type === 'multi') {
+      const n = q.options.length;
+      if (n <= 2) answers.push(q.options.map((_, i) => i));
+      else {
+        const cnt = 2 + Math.floor(Math.random() * 2);
+        const idxs = [];
+        while (idxs.length < cnt) { const r = Math.floor(Math.random() * n); if (idxs.indexOf(r) < 0) idxs.push(r); }
+        idxs.sort((a, b) => a - b);
+        answers.push(idxs);
+      }
+    } else answers.push([Math.floor(Math.random() * 2)]);
   });
   const mainCards = cards.filter(c => (c.type || 'main') === 'main');
-  s.answered = true; s.answers = answers; s.note = mainCards.length > 0 ? mainCards[Math.floor(Math.random() * mainCards.length)].content : ''; s.answeredAt = Date.now(); save('our_surveys', surveys);
-  const all = load('our_messages', []); const myCard = all.find(m => m.type === 'surveycard' && m.surveyId === surveyId && m.sender === 'me'); if (myCard) myCard.status = '已回答';
-  all.push({ type: 'surveycard', sender: 'ta', surveyId: surveyId, title: '我回答了问卷', sub: '问题：' + s.questions[0].title, count: s.questions.length, status: '已回答', cardId: 'ta_' + surveyId + '_' + Math.random().toString(36).slice(2, 6), t: Date.now() });
-  save('our_messages', all); refreshMessages(); playSound('receive');
+  const note = mainCards.length > 0 ? mainCards[Math.floor(Math.random() * mainCards.length)].content : '';
+  s.answered = true; s.answers = answers; s.note = note; s.answeredAt = Date.now();
+  save('our_surveys', surveys);
+  const all = load('our_messages', []);
+  const myCard = all.find(m => m.type === 'surveycard' && m.surveyId === surveyId && m.sender === 'me');
+  if (myCard) myCard.status = '已回答';
+  all.push({
+    type: 'surveycard', sender: 'ta', surveyId: surveyId,
+    title: '我回答了问卷', sub: '问题：' + s.questions[0].title,
+    count: s.questions.length, status: '已回答',
+    cardId: 'ta_' + surveyId + '_' + Math.random().toString(36).slice(2, 6), t: Date.now()
+  });
+  save('our_messages', all);
+  refreshMessages();
+  playSound('receive');
 }
 </script>
 <!-- ★★★ index 第 22 段 结束 ★★★ --><!-- ★★★ index 第 23 段 开始 ★★★ -->
 <script>
+/* ============================================================
+   字卡库返回页变量（第 8 段 menuCards / 第 20 段 bar-item cards 依赖）
+   ============================================================ */
 let cardReturnPage = 'homePage';
+
+/* ============================================================
+   聊天页右上角菜单（设置 / 字卡库）
+   ============================================================ */
 (function bindChatMenuPopup() {
-  const menuPopup = document.getElementById('menuPopup'), openMenuBtn = document.getElementById('openMenuBtn');
+  const menuPopup = document.getElementById('menuPopup');
+  const openMenuBtn = document.getElementById('openMenuBtn');
   if (openMenuBtn && menuPopup) {
-    openMenuBtn.addEventListener('click', (e) => { e.stopPropagation(); menuPopup.classList.toggle('show'); });
+    openMenuBtn.addEventListener('click', (e) => {
+      e.stopPropagation();
+      menuPopup.classList.toggle('show');
+    });
     document.addEventListener('click', () => menuPopup.classList.remove('show'));
     menuPopup.addEventListener('click', (e) => e.stopPropagation());
   }
+
   const menuSettings = document.getElementById('menuSettings');
-  if (menuSettings) menuSettings.onclick = () => { if (menuPopup) menuPopup.classList.remove('show'); const m = document.getElementById('settingsModal'); if (m) m.classList.remove('hidden'); };
+  if (menuSettings) menuSettings.onclick = () => {
+    if (menuPopup) menuPopup.classList.remove('show');
+    const m = document.getElementById('settingsModal');
+    if (m) m.classList.remove('hidden');
+  };
+
   const menuCards = document.getElementById('menuCards');
   if (menuCards) menuCards.onclick = () => {
     if (menuPopup) menuPopup.classList.remove('show');
-    cardReturnPage = 'chatPage'; showPage('cardPage');
+    cardReturnPage = 'chatPage';
+    showPage('cardPage');
     if (typeof window.openCardTab === 'function') window.openCardTab('main');
   };
+
   const closeCardBtn = document.getElementById('closeCardBtn');
   if (closeCardBtn) closeCardBtn.onclick = () => showPage(cardReturnPage);
 })();
 
+/* ============================================================
+   表情面板
+   ============================================================ */
 let stickerTab = 'mine';
-function getStickers(which) { return load(which === 'ta' ? 'ta_stickers' : 'my_stickers', []); }
-function saveStickers(which, list) { save(which === 'ta' ? 'ta_stickers' : 'my_stickers', list); }
+
+function getStickers(which) {
+  return load(which === 'ta' ? 'ta_stickers' : 'my_stickers', []);
+}
+function saveStickers(which, list) {
+  save(which === 'ta' ? 'ta_stickers' : 'my_stickers', list);
+}
+
 function renderStickerPanel() {
-  const body = document.getElementById('stickerBody'); if (!body) return;
+  const body = document.getElementById('stickerBody');
+  if (!body) return;
   const list = getStickers(stickerTab);
-  if (list.length === 0) { body.innerHTML = '<div class="sticker-empty">' + (stickerTab === 'ta' ? '对方还没有表情包，点右上角 + 添加' : '我还没有表情包，点右上角 + 添加') + '</div>'; return; }
+  if (list.length === 0) {
+    body.innerHTML = '<div class="sticker-empty">' + (stickerTab === 'ta' ? '对方还没有表情包，点右上角 + 添加' : '我还没有表情包，点右上角 + 添加') + '</div>';
+    return;
+  }
   body.innerHTML = '';
   list.forEach((url, i) => {
-    const d = document.createElement('div'); d.className = 'sticker-item'; d.style.backgroundImage = 'url(' + url + ')';
-    const del = document.createElement('button'); del.className = 'sticker-del'; del.textContent = '×';
-    del.onclick = (e) => { e.stopPropagation(); const arr = getStickers(stickerTab); arr.splice(i, 1); saveStickers(stickerTab, arr); renderStickerPanel(); };
+    const d = document.createElement('div');
+    d.className = 'sticker-item';
+    d.style.backgroundImage = 'url(' + url + ')';
+    const del = document.createElement('button');
+    del.className = 'sticker-del';
+    del.textContent = '×';
+    del.onclick = (e) => {
+      e.stopPropagation();
+      const arr = getStickers(stickerTab);
+      arr.splice(i, 1);
+      saveStickers(stickerTab, arr);
+      renderStickerPanel();
+    };
     d.appendChild(del);
-    d.onclick = () => { if (stickerTab === 'mine') { addImage('me', url, true); closeStickerPanel(); playSound('send'); } else { addImage('ta', url, true); closeStickerPanel(); playSound('receive'); } };
+    d.onclick = () => {
+      if (stickerTab === 'mine') {
+        addImage('me', url, true);
+        closeStickerPanel();
+        playSound('send');
+      } else {
+        addImage('ta', url, true);
+        closeStickerPanel();
+        playSound('receive');
+      }
+    };
     body.appendChild(d);
   });
 }
+
 function openStickerPanel() {
-  renderStickerPanel(); const panel = document.getElementById('stickerPanel'); if (panel) panel.classList.remove('hidden');
-  if (document.getElementById('plusMenu')) document.getElementById('plusMenu').classList.add('hidden');
-  if (document.getElementById('prankMenu')) document.getElementById('prankMenu').classList.add('hidden');
+  renderStickerPanel();
+  const panel = document.getElementById('stickerPanel');
+  if (panel) panel.classList.remove('hidden');
+  const pm = document.getElementById('plusMenu');
+  if (pm) pm.classList.add('hidden');
+  const prm = document.getElementById('prankMenu');
+  if (prm) prm.classList.add('hidden');
 }
-function closeStickerPanel() { const panel = document.getElementById('stickerPanel'); if (panel) panel.classList.add('hidden'); }
+
+function closeStickerPanel() {
+  const panel = document.getElementById('stickerPanel');
+  if (panel) panel.classList.add('hidden');
+}
+
 (function bindStickerPanel() {
-  const emojiBtn = document.getElementById('emojiBtn'), panel = document.getElementById('stickerPanel');
-  if (emojiBtn && panel) emojiBtn.onclick = (e) => { e.stopPropagation(); if (panel.classList.contains('hidden')) openStickerPanel(); else closeStickerPanel(); };
-  document.querySelectorAll('#stickerPanel .sticker-tab').forEach(t => { t.onclick = () => { stickerTab = t.dataset.tab; document.querySelectorAll('#stickerPanel .sticker-tab').forEach(x => x.classList.toggle('active', x === t)); renderStickerPanel(); }; });
-  const addBtn = document.getElementById('stickerAddBtnChat'), upload = document.getElementById('stickerUploadChat');
+  const emojiBtn = document.getElementById('emojiBtn');
+  const panel = document.getElementById('stickerPanel');
+  if (emojiBtn && panel) {
+    emojiBtn.onclick = (e) => {
+      e.stopPropagation();
+      if (panel.classList.contains('hidden')) openStickerPanel();
+      else closeStickerPanel();
+    };
+  }
+
+  document.querySelectorAll('#stickerPanel .sticker-tab').forEach(t => {
+    t.onclick = () => {
+      stickerTab = t.dataset.tab;
+      document.querySelectorAll('#stickerPanel .sticker-tab').forEach(x => x.classList.toggle('active', x === t));
+      renderStickerPanel();
+    };
+  });
+
+  const addBtn = document.getElementById('stickerAddBtnChat');
+  const upload = document.getElementById('stickerUploadChat');
   if (addBtn && upload) {
     addBtn.onclick = () => upload.click();
-    upload.onchange = (e) => { const files = Array.from(e.target.files || []); if (!files.length) return; e.target.value = ''; let done = 0; files.forEach(f => { compressImage(f, 400, (url) => { const arr = getStickers(stickerTab); arr.push(url); saveStickers(stickerTab, arr); done++; if (done === files.length) renderStickerPanel(); }); }); };
+    upload.onchange = (e) => {
+      const files = Array.from(e.target.files || []);
+      if (!files.length) return;
+      e.target.value = '';
+      let done = 0;
+      files.forEach(f => {
+        compressImage(f, 400, (url) => {
+          const arr = getStickers(stickerTab);
+          arr.push(url);
+          saveStickers(stickerTab, arr);
+          done++;
+          if (done === files.length) renderStickerPanel();
+        });
+      });
+    };
   }
-  document.addEventListener('click', (e) => { if (!panel || panel.classList.contains('hidden')) return; if (e.target.closest('#stickerPanel') || e.target.closest('#emojiBtn')) return; closeStickerPanel(); });
+
+  document.addEventListener('click', (e) => {
+    if (!panel || panel.classList.contains('hidden')) return;
+    if (e.target.closest('#stickerPanel') || e.target.closest('#emojiBtn')) return;
+    closeStickerPanel();
+  });
 })();
 </script>
 <!-- ★★★ index 第 23 段 结束 ★★★ --><!-- ★★★ index 第 24 段 开始 ★★★ -->
 <script>
-(function patchGlobalClose() {
-  document.addEventListener('click', (e) => {
-    if (e.target.closest('#plusBtn') || e.target.closest('#plusMenu') || e.target.closest('#prankMenu')) return;
-    if (document.getElementById('plusMenu') && !document.getElementById('plusMenu').classList.contains('hidden')) document.getElementById('plusMenu').classList.add('hidden');
-    if (document.getElementById('prankMenu') && !document.getElementById('prankMenu').classList.contains('hidden')) document.getElementById('prankMenu').classList.add('hidden');
+/* ============================================================
+   补丁：修复 plusMenu 子项交互 + 防御性检查
+   - 用事件委托重新处理 plusMenu 点击（不覆盖第 10 段，只补 prank 分支）
+   ============================================================ */
+(function patchPlusMenu() {
+  const plusMenu = document.getElementById('plusMenu');
+  const prankMenu = document.getElementById('prankMenu');
+  if (!plusMenu) return;
+
+  /* 捕获阶段先处理 prank：关闭 plusMenu，只留 prankMenu */
+  plusMenu.addEventListener('click', (e) => {
+    const item = e.target.closest('.plus-item');
+    if (!item) return;
+    if (item.dataset.key === 'prank') {
+      plusMenu.classList.add('hidden');
+      if (prankMenu) prankMenu.classList.remove('hidden');
+    }
+  }, true);
+
+  /* 礼物项：shopItems 为空时提示 */
+  plusMenu.addEventListener('click', (e) => {
+    const item = e.target.closest('.plus-item');
+    if (!item) return;
+    if (item.dataset.key === 'gift') {
+      if (typeof shopItems !== 'undefined' && shopItems.length === 0) {
+        /* 延迟一点点，等 showShopPage 执行完再提示（showShopPage 会渲染空态） */
+        setTimeout(() => {
+          const panel = document.getElementById('shopItemsPanel');
+          if (panel && panel.querySelector('.shop-empty')) {
+            /* 已经有空态提示，不重复 alert */
+          }
+        }, 50);
+      }
+    }
+  });
+
+  /* 通话项：通话中不重复开 */
+  plusMenu.addEventListener('click', (e) => {
+    const item = e.target.closest('.plus-item');
+    if (!item) return;
+    if (item.dataset.key === 'call') {
+      const callPage = document.getElementById('callPage');
+      if (callPage && !callPage.classList.contains('hidden')) {
+        e.stopImmediatePropagation();
+        plusMenu.classList.add('hidden');
+      }
+    }
+  }, true);
+
+  /* 看电影项：已打开不重复初始化 */
+  plusMenu.addEventListener('click', (e) => {
+    const item = e.target.closest('.plus-item');
+    if (!item) return;
+    if (item.dataset.key === 'movie') {
+      const moviePage = document.getElementById('moviePage');
+      if (moviePage && !moviePage.classList.contains('hidden')) {
+        e.stopImmediatePropagation();
+        plusMenu.classList.add('hidden');
+      }
+    }
+  }, true);
+})();
+
+/* ============================================================
+   补丁：prankMenu 关闭时同步关闭 plusMenu（防止残留）
+   ============================================================ */
+(function patchPrankMenu() {
+  const prankMenu = document.getElementById('prankMenu');
+  if (!prankMenu) return;
+  /* 点击 prank 项后关闭两个浮层 */
+  prankMenu.addEventListener('click', (e) => {
+    const item = e.target.closest('.prank-item');
+    if (!item) return;
+    prankMenu.classList.add('hidden');
+    const pm = document.getElementById('plusMenu');
+    if (pm) pm.classList.add('hidden');
   });
 })();
 
+/* ============================================================
+   补丁：全局点击时，若 plusMenu 和 prankMenu 都开着但点的是外部，一起关
+   ============================================================ */
+(function patchGlobalClose() {
+  document.addEventListener('click', (e) => {
+    if (e.target.closest('#plusBtn') || e.target.closest('#plusMenu') || e.target.closest('#prankMenu')) return;
+    const pm = document.getElementById('plusMenu');
+    const prm = document.getElementById('prankMenu');
+    if (pm && !pm.classList.contains('hidden')) pm.classList.add('hidden');
+    if (prm && !prm.classList.contains('hidden')) prm.classList.add('hidden');
+  });
+})();
+
+/* ============================================================
+   补丁：初始化时确保 loading 淡出后首页可见（防御）
+   ============================================================ */
 (function patchInitialPage() {
   window.addEventListener('load', () => {
     setTimeout(() => {
@@ -5042,7 +6063,4 @@ function closeStickerPanel() { const panel = document.getElementById('stickerPan
   });
 })();
 </script>
-<script src="settings.js"></script>
-</body>
-</html>
 <!-- ★★★ index 第 24 段 结束 ★★★ -->
