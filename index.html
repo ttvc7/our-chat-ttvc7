@@ -6274,5 +6274,717 @@ document.addEventListener('DOMContentLoaded', () => {
 });
 </script>
 <!-- ★★★ 终极修复补丁结束 ★★★ -->
+<!-- ★★★ JS 第 1 段 开始：搞怪与灵魂问答修复 ★★★ -->
+<script>
+document.addEventListener('DOMContentLoaded', () => {
+
+  // ==========================================
+  // 1. 搞怪功能（点击四个功能，弹“开发中”小窗）
+  // ==========================================
+  window.doPrank = function(type) {
+    // 关闭菜单
+    const pm = document.getElementById('plusMenu');
+    const prm = document.getElementById('prankMenu');
+    if (pm) pm.classList.add('hidden');
+    if (prm) prm.classList.add('hidden');
+
+    // 创建/复用弹窗
+    let popup = document.getElementById('prankDevPopup');
+    if (!popup) {
+      popup = document.createElement('div');
+      popup.id = 'prankDevPopup';
+      popup.className = 'custom-light-popup';
+      popup.innerHTML = `
+        <div class="close-x" onclick="document.getElementById('prankDevPopup').classList.remove('show')">×</div>
+        <div class="popup-text">功能开发中</div>
+      `;
+      document.body.appendChild(popup);
+    }
+    // 显示弹窗
+    setTimeout(() => popup.classList.add('show'), 10);
+  };
+
+  // ==========================================
+  // 2. 灵魂问答（自定义弹窗 + 卡片持久化）
+  // ==========================================
+  window.startQuiz = function() {
+    const bank = typeof QUIZ_BANK !== 'undefined' ? QUIZ_BANK : [];
+    if (bank.length === 0) { alert('题库为空'); return; }
+    
+    const quiz = bank[Math.floor(Math.random() * bank.length)];
+    const plusMenu = document.getElementById('plusMenu');
+    if (plusMenu) plusMenu.classList.add('hidden');
+
+    // 移除旧弹窗（如果有）
+    const oldModal = document.getElementById('customQuizModal');
+    if (oldModal) oldModal.remove();
+
+    // 创建新弹窗
+    const modal = document.createElement('div');
+    modal.id = 'customQuizModal';
+    modal.className = 'quiz-custom-modal';
+    modal.innerHTML = `
+      <div class="quiz-custom-card" id="quizCardInner">
+        <div class="quiz-custom-title">${escHtml(quiz.q)}</div>
+        <button class="quiz-option-btn" id="quizOptA">A：${escHtml(quiz.a)}</button>
+        <button class="quiz-option-btn" id="quizOptB">B：${escHtml(quiz.b)}</button>
+      </div>
+    `;
+    document.body.appendChild(modal);
+    
+    // 触发动画
+    setTimeout(() => modal.classList.add('show'), 10);
+
+    // 点击选A
+    modal.querySelector('#quizOptA').onclick = () => {
+      const taChoice = Math.random() < 0.7 ? 'a' : 'b';
+      showQuizResultModal(modal, quiz, 'a', taChoice);
+    };
+    // 点击选B
+    modal.querySelector('#quizOptB').onclick = () => {
+      const taChoice = Math.random() < 0.7 ? 'b' : 'a';
+      showQuizResultModal(modal, quiz, 'b', taChoice);
+    };
+  };
+
+  // 显示问答结果
+  window.showQuizResultModal = function(modal, quiz, myChoice, taChoice) {
+    const match = myChoice === taChoice;
+    const pct = match ? 100 : (Math.random() < 0.5 ? 50 : 0); // 默契度：相同100%，不同给50%或0%
+    const myText = myChoice === 'a' ? quiz.a : quiz.b;
+    const taText = taChoice === 'a' ? quiz.a : quiz.b;
+    const inner = modal.querySelector('#quizCardInner');
+
+    inner.className = 'quiz-custom-card quiz-result-view';
+    inner.innerHTML = `
+      <div style="font-size:16px; color:#666; margin-bottom:12px;">🃏 灵魂问答</div>
+      <div style="font-size:15px; color:#333; margin-bottom:16px; font-weight:600;">${escHtml(quiz.q)}</div>
+      <div class="choices">
+        <div>我：<span>${escHtml(myText)}</span></div>
+        <div>TA：<span>${escHtml(taText)}</span></div>
+      </div>
+      <div class="pct">${pct}%</div>
+      <div class="desc">默契度</div>
+      <button class="quiz-accept-btn" id="quizAcceptBtn">收下结果</button>
+    `;
+
+    inner.querySelector('#quizAcceptBtn').onclick = () => {
+      modal.classList.remove('show');
+      setTimeout(() => modal.remove(), 200);
+
+      // 1. 存入 localStorage (卡片类型)
+      const msgs = load('our_messages', []);
+      msgs.push({
+        type: 'quizcard',
+        sender: 'ta', // 相当于系统或者TA发来的卡片
+        payload: {
+          q: quiz.q,
+          myText: myText,
+          taText: taText,
+          pct: pct
+        },
+        t: Date.now()
+      });
+      save('our_messages', msgs);
+
+      // 2. 在聊天界面直接渲染出来
+      renderQuizCardMsg({
+        type: 'quizcard',
+        payload: { q: quiz.q, myText, taText, pct }
+      });
+      
+      if (typeof playSound === 'function') playSound('receive');
+    };
+  };
+
+  // 渲染问答卡片
+  window.renderQuizCardMsg = function(m) {
+    const row = document.createElement('div');
+    row.className = 'msg-row ta'; // 统一当做对方/系统发来的
+    row.style.maxWidth = '85%';
+    
+    // 构造头像
+    const avatar = document.createElement('div');
+    avatar.className = 'avatar';
+    const taUrl = load('ta_avatar', '');
+    if (taUrl) {
+      avatar.style.background = `url(${taUrl}) center/cover no-repeat`;
+    } else {
+      avatar.textContent = load('ta_name', 'TA').charAt(0);
+    }
+
+    // 构造卡片
+    const card = document.createElement('div');
+    card.className = 'quiz-msg-card';
+    card.innerHTML = `
+      <div class="q-title">🃏 灵魂问答</div>
+      <div class="q-text">${escHtml(m.payload.q)}</div>
+      <div class="q-choices">
+        <div class="me">我：${escHtml(m.payload.myText)}</div>
+        <div class="ta">TA：${escHtml(m.payload.taText)}</div>
+      </div>
+      <div class="q-score">${m.payload.pct}% <span>默契度</span></div>
+    `;
+
+    row.appendChild(avatar);
+    row.appendChild(card);
+    messagesEl.appendChild(row);
+    messagesEl.scrollTop = messagesEl.scrollHeight;
+  };
+
+  // 劫持 refreshMessages 以支持渲染历史问答卡片
+  const originalRefresh = window.refreshMessages;
+  window.refreshMessages = function() {
+    if (typeof originalRefresh === 'function') originalRefresh();
+    
+    // 重新遍历并补充渲染 quizcard
+    const msgs = load('our_messages', []);
+    msgs.forEach(m => {
+      if (m.type === 'quizcard') {
+        renderQuizCardMsg(m);
+      }
+    });
+    messagesEl.scrollTop = messagesEl.scrollHeight;
+  };
+
+});
+</script>
+<!-- ★★★ JS 第 1 段 结束 ★★★ --><!-- ★★★ JS 第 2 段 开始：看电影双向邀请逻辑 ★★★ -->
+<script>
+document.addEventListener('DOMContentLoaded', () => {
+
+  // ==========================================
+  // 1. 劫持加号菜单里的【看电影】按钮
+  // ==========================================
+  window.openMoviePage = function() {
+    const plusMenu = document.getElementById('plusMenu');
+    if (plusMenu) plusMenu.classList.add('hidden');
+
+    // 检查是否已经同意但选了"否"，等会看的
+    if (localStorage.getItem('movie_agreed_pending') === 'true') {
+      showPage('moviePage');
+      if (typeof movieInit === 'function') movieInit();
+      return;
+    }
+
+    // 如果没有挂起，就发起邀请
+    startMovieInvite();
+  };
+
+  // ==========================================
+  // 2. 发起邀请
+  // ==========================================
+  function startMovieInvite() {
+    // 防止重复发
+    if (document.getElementById('movie-invite-pending')) return;
+
+    const t = Date.now();
+    const msg = {
+      type: 'movie_invite',
+      sender: 'me',
+      status: 'pending',
+      t: t,
+      msgId: 'mi_' + t
+    };
+    
+    // 存入记录并渲染
+    const msgs = load('our_messages', []);
+    msgs.push(msg);
+    save('our_messages', msgs);
+    renderMovieInviteCard(msg, true);
+    playSound('send');
+
+    // 2~3 秒后 TA 回复
+    const delay = 2000 + Math.random() * 1000;
+    setTimeout(() => {
+      const isAgree = Math.random() < 0.85; // 85%同意，15%拒绝
+      handleMovieTaReply(isAgree);
+    }, delay);
+  }
+
+  // ==========================================
+  // 3. TA 的回复处理
+  // ==========================================
+  function handleMovieTaReply(isAgree) {
+    // 更新原先的邀请卡片状态
+    const msgs = load('our_messages', []);
+    const inviteMsg = msgs.find(m => m.type === 'movie_invite' && m.status === 'pending');
+    if (inviteMsg) {
+      inviteMsg.status = isAgree ? 'agreed' : 'refused';
+      save('our_messages', msgs);
+      
+      // 如果还在聊天页，更新 DOM
+      const oldCard = document.getElementById('movie-invite-pending');
+      if (oldCard) oldCard.id = 'movie-invite-done'; // 移除 pending id
+    }
+
+    // 插入结果卡片
+    const resMsg = {
+      type: 'movie_result',
+      sender: 'ta',
+      status: isAgree ? 'agreed' : 'refused',
+      t: Date.now(),
+      msgId: 'mr_' + Date.now()
+    };
+    msgs.push(resMsg);
+    save('our_messages', msgs);
+    
+    if (typeof refreshMessages === 'function') refreshMessages();
+    playSound('receive');
+
+    // 如果同意，2秒后弹窗
+    if (isAgree) {
+      setTimeout(() => showWatchNowPopup(), 2000);
+    }
+  }
+
+  // ==========================================
+  // 4. 弹出“是否现在观看？”
+  // ==========================================
+  function showWatchNowPopup() {
+    const popup = document.getElementById('movieWatchPopup');
+    if (!popup) return;
+    
+    // 确保弹窗显示在聊天页
+    if (typeof showPage === 'function') showPage('chatPage');
+    setTimeout(() => popup.classList.add('show'), 100);
+  }
+
+  // 处理弹窗上的 是 / 否
+  window.movieWatchYes = function() {
+    document.getElementById('movieWatchPopup').classList.remove('show');
+    localStorage.removeItem('movie_agreed_pending');
+    showPage('moviePage');
+    if (typeof movieInit === 'function') movieInit();
+  };
+
+  window.movieWatchNo = function() {
+    document.getElementById('movieWatchPopup').classList.remove('show');
+    localStorage.setItem('movie_agreed_pending', 'true');
+    // 提示已经存下
+    if (typeof addSystemTip === 'function') {
+      addSystemTip('[🎬] 好的，等你想看的时候点加号里的看电影即可', true);
+    }
+  };
+
+  // ==========================================
+  // 5. 渲染卡片函数
+  // ==========================================
+  window.renderMovieInviteCard = function(m, isAnim) {
+    const row = document.createElement('div');
+    row.className = 'msg-row ' + (m.sender === 'me' ? 'me' : 'ta');
+    row.style.maxWidth = '85%';
+    if (m.status === 'pending') row.id = 'movie-invite-pending';
+
+    const avatar = buildAvatar(m.sender);
+    
+    const card = document.createElement('div');
+    card.className = 'movie-invite-card';
+    card.innerHTML = `
+      <div class="mc-top">
+        <div class="mc-icon">🎬</div>
+        <div>
+          <div class="mc-title">一起看电影</div>
+          <div class="mc-sub">${m.status === 'pending' ? '等待 TA 确认…' : (m.status === 'agreed' ? 'TA 已同意' : 'TA 拒绝了')}</div>
+        </div>
+      </div>
+      <div class="mc-line"></div>
+      <div class="mc-foot">
+        <span>邀请</span>
+        <span>${new Date(m.t).toLocaleTimeString('zh-CN', {hour:'2-digit', minute:'2-digit'})}</span>
+      </div>
+    `;
+    row.appendChild(avatar);
+    row.appendChild(card);
+    messagesEl.appendChild(row);
+    if (isAnim) messagesEl.scrollTop = messagesEl.scrollHeight;
+  };
+
+  window.renderMovieResultCard = function(m) {
+    const row = document.createElement('div');
+    row.className = 'msg-row ' + (m.sender === 'me' ? 'me' : 'ta');
+    row.style.maxWidth = '85%';
+
+    const avatar = buildAvatar(m.sender);
+    
+    const card = document.createElement('div');
+    card.className = 'movie-result-card ' + m.status;
+    card.innerHTML = `
+      <div class="mc-top">
+        <div class="mc-icon">${m.status === 'agreed' ? '✅' : '❌'}</div>
+        <div>
+          <div class="mc-title">${m.status === 'agreed' ? '已同意看电影' : '拒绝了邀请'}</div>
+          <div class="mc-sub">${m.status === 'agreed' ? '马上一起看吧' : '下次再一起看吧'}</div>
+        </div>
+      </div>
+      <div class="mc-line"></div>
+      <div class="mc-foot">
+        <span>回复</span>
+        <span>${new Date(m.t).toLocaleTimeString('zh-CN', {hour:'2-digit', minute:'2-digit'})}</span>
+      </div>
+    `;
+    row.appendChild(avatar);
+    row.appendChild(card);
+    messagesEl.appendChild(row);
+    messagesEl.scrollTop = messagesEl.scrollHeight;
+  };
+
+  // 劫持 refreshMessages 支持渲染电影卡片
+  const originalRefresh2 = window.refreshMessages;
+  window.refreshMessages = function() {
+    if (typeof originalRefresh2 === 'function') originalRefresh2();
+    const msgs = load('our_messages', []);
+    msgs.forEach(m => {
+      if (m.type === 'movie_invite') renderMovieInviteCard(m, false);
+      if (m.type === 'movie_result') renderMovieResultCard(m);
+    });
+    messagesEl.scrollTop = messagesEl.scrollHeight;
+  };
+
+});
+</script>
+
+<!-- 插入“是否现在观看”弹窗的 HTML 结构 -->
+<div id="movieWatchPopup" class="movie-watch-popup">
+  <div class="popup-title">是否现在观看？</div>
+  <div class="popup-actions">
+    <button class="popup-btn btn-no" onclick="movieWatchNo()">否</button>
+    <button class="popup-btn btn-yes" onclick="movieWatchYes()">是</button>
+  </div>
+</div>
+<!-- ★★★ JS 第 2 段 结束 ★★★ --><!-- ★★★ JS 第 3 段 开始：电影播放页与横屏逻辑 ★★★ -->
+<script>
+document.addEventListener('DOMContentLoaded', () => {
+
+  // ==========================================
+  // 1. 电影页面初始化（进入页面时调用）
+  // ==========================================
+  window.movieInit = function() {
+    // 每次进入重置为竖屏模式，移除全屏 class
+    document.body.classList.remove('movie-fullscreen');
+    exitFullscreen();
+    
+    // 渲染聊天记录
+    renderMovieChatBox();
+    
+    // 清理旧定时器，启动 TA 自动回复
+    clearInterval(window.movieMsgTimer);
+    window.movieMsgTimer = setInterval(() => {
+      const vid = document.getElementById('movieVideo');
+      // 只有在视频播放且抽屉没关的时候才自动回复
+      if (!vid || vid.paused || vid.style.display === 'none') return;
+      
+      const mainCards = cards.filter(c => (c.type || 'main') === 'main' && !c.blocked);
+      if (mainCards.length > 0) {
+        const text = mainCards[Math.floor(Math.random() * mainCards.length)].content;
+        pushMovieChat('ta', text);
+      }
+    }, 15000);
+  };
+
+  // ==========================================
+  // 2. 渲染电影聊天记录（同步竖屏和抽屉）
+  // ==========================================
+  function renderMovieChatBox() {
+    const list = load('our_movie_chat', []);
+    const html = list.map(m => {
+      const isMe = m.sender === 'me';
+      const avatarUrl = isMe ? load('my_avatar', '') : load('ta_avatar', '');
+      const avatarStyle = avatarUrl ? `background-image:url(${avatarUrl})` : '';
+      const avatarText = avatarUrl ? '' : (isMe ? load('my_name', '我').charAt(0) : load('ta_name', 'TA').charAt(0));
+      
+      return `
+        <div class="msg-row ${isMe ? 'me' : 'ta'}">
+          <div class="avatar" style="${avatarStyle}">${avatarText}</div>
+          <div class="bubble">${escHtml(m.text)}</div>
+        </div>
+      `;
+    }).join('');
+
+    // 1. 渲染到竖屏的底部聊天框
+    const vBox = document.getElementById('movieChatBox');
+    if (vBox) {
+      vBox.innerHTML = html;
+      vBox.scrollTop = vBox.scrollHeight;
+    }
+    // 2. 渲染到横屏的右侧抽屉
+    const dBox = document.getElementById('movieDrawerChatBox');
+    if (dBox) {
+      dBox.innerHTML = html;
+      dBox.scrollTop = dBox.scrollHeight;
+    }
+  }
+
+  // ==========================================
+  // 3. 发送电影聊天消息
+  // ==========================================
+  window.pushMovieChat = function(sender, text) {
+    const list = load('our_movie_chat', []);
+    list.push({ sender, text, t: Date.now() });
+    if (list.length > 200) list.splice(0, list.length - 200);
+    save('our_movie_chat', list);
+    
+    // 局部追加而非全量渲染，提升性能
+    const isMe = sender === 'me';
+    const avatarUrl = isMe ? load('my_avatar', '') : load('ta_avatar', '');
+    const avatarStyle = avatarUrl ? `background-image:url(${avatarUrl})` : '';
+    const avatarText = avatarUrl ? '' : (isMe ? load('my_name', '我').charAt(0) : load('ta_name', 'TA').charAt(0));
+    const html = `
+      <div class="msg-row ${isMe ? 'me' : 'ta'}">
+        <div class="avatar" style="${avatarStyle}">${avatarText}</div>
+        <div class="bubble">${escHtml(text)}</div>
+      </div>
+    `;
+    
+    const vBox = document.getElementById('movieChatBox');
+    if (vBox) {
+      vBox.insertAdjacentHTML('beforeend', html);
+      vBox.scrollTop = vBox.scrollHeight;
+    }
+    const dBox = document.getElementById('movieDrawerChatBox');
+    if (dBox) {
+      dBox.insertAdjacentHTML('beforeend', html);
+      dBox.scrollTop = dBox.scrollHeight;
+    }
+    if (sender === 'me') playSound('send');
+    else playSound('receive');
+  };
+
+  // 绑定发送按钮
+  const bindSend = (inputId, btnId) => {
+    const input = document.getElementById(inputId);
+    const btn = document.getElementById(btnId);
+    if (btn && input) {
+      btn.onclick = () => {
+        const val = input.value.trim();
+        if (val) {
+          pushMovieChat('me', val);
+          input.value = '';
+          // 回车后强制收起键盘
+          input.blur();
+        }
+      };
+      input.onkeydown = (e) => {
+        if (e.key === 'Enter') {
+          btn.click();
+        }
+      };
+    }
+  };
+  bindSend('movieInput', 'movieSendBtn');
+  bindSend('drawerMovieInput', 'drawerMovieSendBtn');
+
+  // ==========================================
+  // 4. 竖屏/横屏切换 (全屏)
+  // ==========================================
+  const fsBtn = document.getElementById('toggleFullscreenBtn');
+  if (fsBtn) {
+    fsBtn.onclick = () => {
+      const isFs = document.body.classList.contains('movie-fullscreen');
+      if (isFs) {
+        // 退出全屏
+        document.body.classList.remove('movie-fullscreen');
+        closeDrawer();
+        exitFullscreen();
+      } else {
+        // 进入全屏
+        document.body.classList.add('movie-fullscreen');
+        requestFullscreen();
+        // 横屏默认关着抽屉
+        closeDrawer();
+      }
+    };
+  }
+
+  // 屏幕方向 API 封装
+  function requestFullscreen() {
+    const el = document.getElementById('moviePage');
+    if (el.requestFullscreen) {
+      el.requestFullscreen().catch(()=>{});
+    } else if (el.webkitRequestFullscreen) {
+      el.webkitRequestFullscreen();
+    }
+    // 尝试锁定横屏
+    if (screen.orientation && screen.orientation.lock) {
+      screen.orientation.lock('landscape').catch(()=>{});
+    }
+  }
+  
+  function exitFullscreen() {
+    if (document.fullscreenElement) {
+      document.exitFullscreen().catch(()=>{});
+    } else if (document.webkitFullscreenElement) {
+      document.webkitExitFullscreen();
+    }
+    if (screen.orientation && screen.orientation.unlock) {
+      screen.orientation.unlock();
+    }
+  }
+
+  // ==========================================
+  // 5. 横屏下的右侧聊天抽屉
+  // ==========================================
+  const toggleDrawerBtn = document.getElementById('toggleDrawerBtn');
+  const drawer = document.getElementById('movieSideDrawer');
+  
+  function openDrawer() {
+    if (drawer) drawer.classList.add('open');
+    const ctrls = document.querySelector('.movie-fs-controls');
+    if (ctrls) ctrls.classList.add('drawer-open');
+    renderMovieChatBox(); // 打开时刷新最新消息
+  }
+  
+  window.closeDrawer = function() {
+    if (drawer) drawer.classList.remove('open');
+    const ctrls = document.querySelector('.movie-fs-controls');
+    if (ctrls) ctrls.classList.remove('drawer-open');
+  };
+  
+  if (toggleDrawerBtn) {
+    toggleDrawerBtn.onclick = () => {
+      if (drawer.classList.contains('open')) closeDrawer();
+      else openDrawer();
+    };
+  }
+
+  // ==========================================
+  // 6. 修复上一版代码遗留的选视频按钮逻辑
+  // ==========================================
+  const uploadBtn = document.getElementById('movieUploadBtn');
+  const videoUpload = document.getElementById('movieVideoUpload');
+  if (uploadBtn && videoUpload) {
+    uploadBtn.onclick = () => videoUpload.click();
+    videoUpload.onchange = (e) => {
+      const f = e.target.files[0];
+      if (!f) return;
+      const url = URL.createObjectURL(f);
+      const vid = document.getElementById('movieVideo');
+      const placeholder = document.getElementById('moviePlaceholder');
+      if (vid) {
+        vid.src = url;
+        vid.style.display = 'block';
+        vid.play().catch(() => {});
+      }
+      if (placeholder) placeholder.style.display = 'none';
+      e.target.value = '';
+    };
+  }
+
+});
+</script>
+
+<!-- ============================================================
+     添加进入全屏的按钮、横屏控制条、以及右侧抽屉的 HTML 结构
+     （这些直接插入到 index.html 的 body 里）
+     ============================================================ -->
+<script>
+document.addEventListener('DOMContentLoaded', () => {
+  // 在顶栏加“全屏切换”图标
+  const headerRight = document.querySelector('#moviePage .header-right');
+  if (headerRight && !document.getElementById('toggleFullscreenBtn')) {
+    const fsBtn = document.createElement('button');
+    fsBtn.id = 'toggleFullscreenBtn';
+    fsBtn.className = 'header-btn icon-btn';
+    fsBtn.innerHTML = '<svg class="fullscreen-icon" viewBox="0 0 24 24"><path d="M7 14H5v5h5v-2H7v-3zm-2-4h2V7h3V5H5v5zm12 7h-3v2h5v-5h-2v3zM14 5v2h3v3h2V5h-5z"/></svg>';
+    headerRight.insertBefore(fsBtn, headerRight.firstChild);
+  }
+
+  // 在电影页内部（body 级）挂载抽屉和全屏控制栏
+  if (!document.getElementById('movieSideDrawer')) {
+    const moviePage = document.getElementById('moviePage');
+    // 左侧抽屉 HTML
+    const drawerHTML = `
+      <div id="movieSideDrawer" class="movie-side-drawer">
+        <div class="side-chat-box" id="movieDrawerChatBox"></div>
+        <div class="side-chat-footer">
+          <input type="text" id="drawerMovieInput" placeholder="边看边聊...">
+          <button id="drawerMovieSendBtn">发送</button>
+        </div>
+      </div>
+    `;
+    moviePage.insertAdjacentHTML('beforeend', drawerHTML);
+
+    // 横屏时的悬浮控制条
+    const ctrlsHTML = `
+      <div class="movie-fs-controls">
+        <button id="toggleDrawerBtn" title="聊天">
+          <svg viewBox="0 0 24 24"><path d="M20 2H4c-1.1 0-2 .9-2 2v18l4-4h14c1.1 0 2-.9 2-2V4c0-1.1-.9-2-2-2z"/></svg>
+        </button>
+        <button onclick="document.getElementById('toggleFullscreenBtn').click()" title="退出全屏">
+          <svg viewBox="0 0 24 24"><path d="M5 16h3v3h2v-5H5v2zm3-8H5v2h5V5H8v3zm6 11h2v-3h3v-2h-5v5zm2-11V5h-2v5h5V8h-3z"/></svg>
+        </button>
+      </div>
+    `;
+    moviePage.insertAdjacentHTML('beforeend', ctrlsHTML);
+  }
+});
+</script>
+<!-- ★★★ JS 第 3 段 结束 ★★★ --><!-- ★★★ JS 第 4 段 开始：音乐返回逻辑及收尾 ★★★ -->
+<script>
+document.addEventListener('DOMContentLoaded', () => {
+
+  // ==========================================
+  // 1. 修复音乐返回逻辑（两级返回）
+  // ==========================================
+  // 播放器左上角返回：回到音乐库列表
+  const musicBackBtn = document.getElementById('musicBackBtn');
+  if (musicBackBtn) {
+    musicBackBtn.onclick = (e) => {
+      e.stopPropagation();
+      if (typeof showPage === 'function') showPage('musicLibraryPage');
+      if (typeof renderMusicList === 'function') renderMusicList();
+      if (window.musicAudio && !window.musicAudio.paused && window.musicFloatEnabled !== false) {
+        if (typeof showFloatDisc === 'function') showFloatDisc();
+      }
+    };
+  }
+
+  // 播放器右上角加号：回到音乐库列表（原有逻辑，规范一下）
+  const musicPlusBtn = document.getElementById('musicPlusBtn');
+  if (musicPlusBtn) {
+    musicPlusBtn.onclick = (e) => {
+      e.stopPropagation();
+      if (typeof showPage === 'function') showPage('musicLibraryPage');
+      if (typeof renderMusicList === 'function') renderMusicList();
+    };
+  }
+
+  // 音乐库列表左上角返回：回到首页
+  const backFromMusicBtn = document.getElementById('backFromMusicBtn');
+  if (backFromMusicBtn) {
+    backFromMusicBtn.onclick = (e) => {
+      e.stopPropagation();
+      if (typeof showPage === 'function') showPage('homePage');
+    };
+  }
+
+  // ==========================================
+  // 2. 清理之前“终极补丁”遗留的错误覆盖代码
+  // ==========================================
+  // 你原来在 index.html 最底部有一个“终极修复补丁”的 <script>，
+  // 里面把 musicBackBtn 指向了 homePage，这里已经用新逻辑覆盖。
+  // 同时那个补丁还强行覆写了 doPrank 飞行动画，我们已经在第 1 段
+  // 将 doPrank 改成了弹窗“功能开发中”，无需再动。
+
+  // ==========================================
+  // 3. 保证首页/聊天的电影入口走新逻辑
+  // ==========================================
+  // 原来 index.html 里的加号菜单绑定的是 openMoviePage（老函数），
+  // 我们已经在第 2 段重新定义了 window.openMoviePage。
+  // 但为了防止局部作用域问题，这里再兜底拦截一次点击。
+  const plusMenu = document.getElementById('plusMenu');
+  if (plusMenu) {
+    plusMenu.addEventListener('click', (e) => {
+      const item = e.target.closest('.plus-item[data-key="movie"]');
+      if (item) {
+        e.stopImmediatePropagation();
+        if (typeof window.openMoviePage === 'function') window.openMoviePage();
+      }
+    }, true);
+  }
+
+});
+</script>
+<!-- ★★★ JS 第 4 段 结束 ★★★ -->
 </body>
 </html>
