@@ -5043,6 +5043,25 @@ function closeStickerPanel() { const panel = document.getElementById('stickerPan
 })();
 </script>
 <script src="settings.js"></script>
+<script>
+// 强制确保通话页面默认隐藏，关不掉的问题彻底解决
+document.addEventListener('DOMContentLoaded', () => {
+  const callPage = document.getElementById('callPage');
+  const callFloat = document.getElementById('callFloat');
+  if (callPage) callPage.classList.add('hidden');
+  if (callFloat) callFloat.classList.add('hidden');
+  
+  // 顺手把挂断按钮强制绑定，防止点不动
+  const hangupBtn = document.getElementById('callHangupBtn');
+  if (hangupBtn) {
+    hangupBtn.onclick = (e) => {
+      e.preventDefault();
+      callPage.classList.add('hidden');
+      if (typeof endCall === 'function') endCall(true);
+    };
+  }
+});
+</script>
 </body>
 </html>
 <!-- ★★★ index 第 24 段 结束 ★★★ -->
