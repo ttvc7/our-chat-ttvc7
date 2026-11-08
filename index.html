@@ -1729,6 +1729,11 @@ function refreshMessages() {
       showTime = true;
     }
 
+    // 测距卡片本身带有“点击查看”，不需要底部时间（但灵魂问答需要居中时间）
+    if (currentMsg && currentMsg.type === 'distance') {
+       return; 
+    }
+
     if (showTime) {
       const timeEl = document.createElement('div');
       timeEl.className = 'msg-time-stamp';
