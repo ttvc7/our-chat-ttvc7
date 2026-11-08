@@ -32,7 +32,7 @@
   }
   .plus-menu.hidden { transform: none; opacity: 1; pointer-events: auto; }
   
-  /* 时间与已读的绝对定位 */
+  /* 统一时间戳定位：全部在右下角 */
   .msg-time-stamp {
     font-size: 11px;
     color: #999;
@@ -40,48 +40,38 @@
     bottom: -20px;
     white-space: nowrap;
     pointer-events: none;
-    right: 0; /* 默认靠右 */
+    right: 0; 
   }
-  /* 灵魂问答时间强制居中 */
+  
+  /* 灵魂问答专属：时间强制居中 */
   .soulqa-card .msg-time-stamp {
     left: 50% !important;
     right: auto !important;
     transform: translateX(-50%);
   }
 
-  /* 电影横屏不拉伸、不乱码 */
-  body.movie-landscape #moviePage {
-    transform: rotate(90deg);
-    transform-origin: left top;
-    width: 100vh; height: 100vw;
-    position: fixed; top: 0; left: 100vw;
-    z-index: 9999;
-    background: #000;
-  }
-  body.movie-landscape #moviePage .chat-header { display: none !important; }
-  body.movie-landscape .movie-screen { 
-    height: 100vh !important; 
+  /* 电影原生全屏样式 */
+  #moviePage:fullscreen, #moviePage:-webkit-full-screen {
     width: 100vw !important;
-    position: absolute; top: 0; left: 0; 
+    height: 100vh !important;
+    background: #000 !important;
   }
-  /* 保持原比例，绝不拉伸 */
-  body.movie-landscape .movie-screen video {
-    object-fit: contain !important; 
-  }
-  body.movie-landscape #movieChatBox, body.movie-landscape #moviePage .chat-footer {
-    display: none !important;
-  }
-  body.movie-landscape .movie-fs-exit-btn {
-    display: flex !important;
-    position: absolute; top: 16px; right: 16px;
-    width: 36px; height: 36px; border-radius: 50%;
-    background: rgba(0,0,0,0.5); color: #fff;
+  #moviePage:fullscreen .chat-header, #moviePage:-webkit-full-screen .chat-header { display: none !important; }
+  #moviePage:fullscreen .movie-screen, #moviePage:-webkit-full-screen .movie-screen { height: 100vh !important; width: 100vw !important; }
+  #moviePage:fullscreen .movie-screen video, #moviePage:-webkit-full-screen .movie-screen video { object-fit: contain !important; }
+  #moviePage:fullscreen #movieChatBox, #moviePage:-webkit-full-screen #movieChatBox,
+  #moviePage:fullscreen .chat-footer, #moviePage:-webkit-full-screen .chat-footer { display: none !important; }
+  
+  /* 退出全屏按钮 */
+  #movieFsExitBtn {
+    display: none;
+    position: absolute; top: 20px; right: 20px;
+    width: 40px; height: 40px; border-radius: 50%;
+    background: rgba(0,0,0,0.6); color: #fff;
     align-items: center; justify-content: center;
-    z-index: 10000; border: none; font-size: 20px;
+    z-index: 10000; border: none; font-size: 20px; cursor: pointer;
   }
-  .movie-fs-exit-btn { display: none; }
-
-  .msg-row .bubble { position: relative; }
+  #moviePage:fullscreen #movieFsExitBtn, #moviePage:-webkit-full-screen #movieFsExitBtn { display: flex !important; }
 </style>
 </head>
 <body>
@@ -1291,10 +1281,6 @@ function checkOnlineEvents() {
 </script>
 <!-- ★★★ 第 6 段 结束 ★★★ --><!-- ★★★ 第 7 段 开始 ★★★ -->
 <script>
-/* ============================================================
-   统一渲染层 & 时间戳折叠逻辑
-   ============================================================ */
-
 function addMessage(sender, content, quote, store, msgId, t) {
   const row = document.createElement('div');
   row.className = 'msg-row ' + (sender === 'me' ? 'me' : 'ta');
@@ -1709,6 +1695,9 @@ function refreshMessages() {
     const msgId = row.dataset.msgId;
     const currentMsg = msgs.find(x => x.msgId === msgId);
 
+    // 强制特殊卡片：电影卡片绝对不显示任何底部信息
+    if (currentMsg && currentMsg.type === 'moviecard') return;
+
     let showTime = false;
     if (i === rows.length - 1) {
       showTime = true;
@@ -1730,22 +1719,15 @@ function refreshMessages() {
       
       let stampStr = formatTimestamp(t);
       
-      // 判断是否是电影卡片，电影卡片只显示已读，不显示时间（时间在卡片里）
-      if (currentMsg && currentMsg.type === 'moviecard') {
-          stampStr = currentMsg.sender === 'me' ? '已读' : ''; 
-          if (stampStr === '') return; // 对方电影卡片不需要底下的字
-      } else if (sender === 'me' && currentMsg && currentMsg.type === 'text' && load('read_receipt', true)) {
-          // 普通文字消息
+      if (sender === 'me' && currentMsg && currentMsg.type === 'text' && load('read_receipt', true)) {
           stampStr += currentMsg.read ? ' 已读' : ' 未读';
       }
       
       timeEl.textContent = stampStr;
       
-      // 移除原来隐藏的已读
       const oldMark = row.querySelector('.read-mark');
       if (oldMark) oldMark.remove();
 
-      // 找到卡片或气泡容器
       const target = row.querySelector('.bubble, .transfer-card, .shop-card, .survey-card-msg, .voice-bubble, .movie-invite-card, .distance-wrap, .soulqa-card') || row;
       target.style.position = 'relative';
       target.appendChild(timeEl);
@@ -2036,9 +2018,6 @@ function continueTalk() {
 </script>
 <!-- ★★★ 第 8 段 结束 ★★★ --><!-- ★★★ 第 9 段 开始 ★★★ -->
 <script>
-/* ============================================================
-   灵魂问答（精美弹窗 + 持久化）
-   ============================================================ */
 const QUIZ_BANK = [
   { q: '周末更想我陪你去逛街，还是两个人窝在家里看剧？', a: '去逛街', b: '窝在家里' },
   { q: '如果我不小心惹你生气了，你更希望我马上哄你，还是给你买好吃的？', a: '马上哄我', b: '买好吃的' },
@@ -2103,12 +2082,8 @@ function startQuiz() {
   });
 }
 
-/* ============================================================
-   一起看电影
-   ============================================================ */
 let movieInviteTimeout = null;
 let movieChatTimer = null; 
-let movieChatCount = 0; // 计数，防止刷屏
 
 function startMovieInvite() {
   const taName = load('ta_name', 'TA');
@@ -2172,8 +2147,8 @@ function showMovieConfirmPopup() {
 
 function enterMoviePage() {
   showPage('moviePage');
+  // 清理横屏状态
   document.body.classList.remove('movie-landscape');
-  movieChatCount = 0;
   
   const vid = document.getElementById('movieVideo');
   const placeholder = document.getElementById('moviePlaceholder');
@@ -2247,6 +2222,7 @@ function loopMovieChat() {
   const sendBtn = document.getElementById('movieSendBtn');
   const input = document.getElementById('movieInput');
   const vid = document.getElementById('movieVideo');
+  const moviePage = document.getElementById('moviePage');
 
   if (backBtn) backBtn.onclick = () => {
     const mask = document.createElement('div');
@@ -2265,15 +2241,37 @@ function loopMovieChat() {
       if (vid) { vid.pause(); vid.src = ''; vid.style.display = 'none'; }
       document.getElementById('moviePlaceholder').style.display = 'block';
       save('our_movie_chat', []);
-      document.body.classList.remove('movie-landscape');
       clearTimeout(movieChatTimer);
+      if (document.fullscreenElement) document.exitFullscreen().catch(()=>{});
       showPage('chatPage');
     };
     mask.querySelector('#exitNo').onclick = () => mask.remove();
   };
 
-  if (fsBtn) fsBtn.onclick = () => { document.body.classList.add('movie-landscape'); };
-  if (exitFsBtn) exitFsBtn.onclick = () => { document.body.classList.remove('movie-landscape'); };
+  // 真正的原生全屏和锁定横屏
+  if (fsBtn) fsBtn.onclick = async () => {
+    try {
+      if (moviePage.requestFullscreen) {
+        await moviePage.requestFullscreen();
+      } else if (moviePage.webkitRequestFullscreen) {
+        await moviePage.webkitRequestFullscreen();
+      }
+      if (screen.orientation && screen.orientation.lock) {
+        await screen.orientation.lock('landscape').catch(()=>{});
+      }
+    } catch (e) {
+      console.warn('全屏失败', e);
+    }
+  };
+
+  if (exitFsBtn) exitFsBtn.onclick = () => {
+    if (document.fullscreenElement) {
+      document.exitFullscreen().catch(()=>{});
+    }
+    if (screen.orientation && screen.orientation.unlock) {
+      screen.orientation.unlock();
+    }
+  };
 
   if (uploadBtn && videoUpload) {
     uploadBtn.onclick = () => videoUpload.click();
@@ -2305,9 +2303,6 @@ function loopMovieChat() {
 </script>
 <!-- ★★★ 第 9 段 结束 ★★★ --><!-- ★★★ 第 10 段 开始 ★★★ -->
 <script>
-/* ============================================================
-   转账功能
-   ============================================================ */
 function openTransferModal() {
   const taName = load('ta_name', 'TA');
   const taAvatar = load('ta_avatar', '');
@@ -2466,9 +2461,6 @@ function openReceiveModal(transferId) {
   };
 })();
 
-/* ============================================================
-   长按菜单
-   ============================================================ */
 let longPressTarget = null;
 let longPressTimer = null;
 
