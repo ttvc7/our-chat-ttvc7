@@ -34,20 +34,22 @@
   }
   .plus-menu.hidden { transform: none; opacity: 1; pointer-events: auto; }
   
-  /* 聊天内时间戳样式 */
+  /* 聊天内时间戳与已读合并样式 */
   .msg-time-stamp {
-    font-size: 10px;
-    color: #bbb;
+    font-size: 11px;
+    color: #999; /* 颜色加深 */
     position: absolute;
-    bottom: -18px;
+    bottom: -20px;
     white-space: nowrap;
     pointer-events: none;
+    right: 0;
   }
-  .msg-row.me .msg-time-stamp { right: 0; }
-  .msg-row.ta .msg-time-stamp { left: 0; }
-  /* 避免与已读回执冲突，如果开启了已读回执，时间戳往右偏移一点或者就挤在一起 */
+  .msg-row.ta .msg-time-stamp {
+    left: 0;
+    right: auto;
+  }
 
-  /* 电影横屏强制旋转 */
+  /* 电影横屏强制旋转 & 彻底去掉黑边 */
   body.movie-landscape #moviePage {
     transform: rotate(90deg);
     transform-origin: left top;
@@ -57,7 +59,17 @@
     background: #000;
   }
   body.movie-landscape #moviePage .chat-header { display: none !important; }
-  body.movie-landscape .movie-screen { height: 100vh !important; }
+  body.movie-landscape .movie-screen { 
+    height: 100vh !important; 
+    width: 100vw !important;
+    position: absolute; top: 0; left: 0; 
+  }
+  body.movie-landscape .movie-screen video {
+    object-fit: cover !important; /* 撑满不留黑边 */
+  }
+  body.movie-landscape #movieChatBox, body.movie-landscape #moviePage .chat-footer {
+    display: none !important;
+  }
   body.movie-landscape .movie-fs-exit-btn {
     display: flex !important;
     position: absolute; top: 16px; right: 16px;
@@ -151,6 +163,156 @@
     <div class="bar-item" data-key="anniversary">纪念日</div>
     <div class="bar-item" data-key="mail">信箱</div>
   </div>
+</div>
+
+<!-- ===== 朋友圈 ===== -->
+<div id="momentsPage" class="page hidden">
+  <header class="chat-header">
+    <div class="header-left">
+      <button class="header-btn" id="backFromMomentsBtn"><svg viewBox="0 0 24 24" fill="none" stroke="#666" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M15 6 L9 12 L15 18"></path></svg></button>
+    </div>
+    <span>朋友圈</span>
+    <div class="header-right moment-top-icons">
+      <button id="momentBellBtn">
+        <svg viewBox="0 0 24 24" fill="none" stroke="#333" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M18 8 A6 6 0 0 0 6 8 C6 15 4 17 4 17 H20 C20 17 18 15 18 8"></path><path d="M10 20 A2 2 0 0 0 14 20"></path></svg>
+        <span class="red-dot" id="momentBellRedDot"></span>
+      </button>
+      <button id="momentTrashBtn"><svg viewBox="0 0 24 24" fill="none" stroke="#333" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M4 6 H20"></path><path d="M9 6 V4 H15 V6"></path><path d="M6 6 L7 20 H17 L18 6"></path></svg></button>
+      <button id="momentListBtn"><svg viewBox="0 0 24 24" fill="none" stroke="#333" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 7 H20"></path><path d="M4 12 H20"></path><path d="M4 17 H20"></path></svg></button>
+    </div>
+  </header>
+  <div class="moment-header" id="momentHeader">
+    <div class="avatar-block">
+      <div class="avatar-name" id="momentMyName">我</div>
+      <div class="avatar-img" id="momentMyAvatar">我</div>
+    </div>
+  </div>
+  <div class="moment-bg-tools"><button id="momentChangeBgBtn">换背景</button></div>
+  <div class="moment-divider"><span class="divider-text" id="momentDividerText">今天</span></div>
+  <div class="moment-body" id="momentBody"></div>
+  <button class="moment-fab" id="momentAddBtn">+</button>
+</div>
+
+<!-- 朋友圈发帖 -->
+<div id="momentPostModal" class="modal hidden">
+  <div class="moment-post-sheet">
+    <div class="moment-post-head">
+      <button id="momentPostCancel">取消</button><span>发表动态</span><button class="primary" id="momentPostSend">发表</button>
+    </div>
+    <div class="moment-post-body">
+      <textarea id="momentPostText" placeholder="这一刻的想法…"></textarea>
+      <div class="moment-post-imgs" id="momentPostImgs"><div class="add-img" id="momentAddImgBtn">+</div></div>
+      <input type="file" id="momentImgUpload" accept="image/*" style="display:none;">
+    </div>
+  </div>
+</div>
+
+<!-- 朋友圈通知 -->
+<div id="momentNotifyModal" class="modal hidden">
+  <div class="modal-box">
+    <div class="modal-head"><span>通知提醒</span><button id="closeMomentNotifyBtn">×</button></div>
+    <div class="modal-body" style="padding:0;"><div id="momentNotifyBody" class="notify-list"></div></div>
+  </div>
+</div>
+
+<!-- 朋友圈删除 -->
+<div id="momentTrashModal" class="modal hidden">
+  <div class="modal-box">
+    <div class="modal-head"><span>删除朋友圈动态</span><button id="closeMomentTrashBtn">×</button></div>
+    <div class="modal-body">
+      <p style="font-size:13px;color:#999;margin-bottom:12px;">删除后无法恢复。</p>
+      <div class="moment-del-options" id="momentDelOptions">
+        <button data-type="all">全部删除</button><button data-type="mine">仅我的动态</button><button data-type="ta">对方动态</button>
+      </div>
+      <div class="moment-del-actions"><button class="cancel" id="momentDelCancel">取消</button><button class="ok" id="momentDelOk">确定</button></div>
+    </div>
+  </div>
+</div>
+
+<!-- ===== 纪念日 ===== -->
+<div id="annivPage" class="page hidden">
+  <header class="chat-header">
+    <div class="header-left"><button class="header-btn" id="backFromAnnivBtn"><svg viewBox="0 0 24 24" fill="none" stroke="#666" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M15 6 L9 12 L15 18"></path></svg></button></div>
+    <span>纪念日</span><div class="header-right"></div>
+  </header>
+  <div class="anniv-body">
+    <div class="anniv-main">
+      <div class="anniv-label">我们已经在一起</div>
+      <div class="anniv-days" id="annivDays">0</div>
+      <div class="anniv-label">天</div>
+      <button class="btn-secondary" id="editStartBtn" style="max-width:200px;margin-top:20px;">设置起始日期</button>
+    </div>
+    <div class="anniv-list-title">纪念日列表</div>
+    <div class="anniv-list" id="annivList"></div>
+    <button class="btn-primary" id="addAnnivBtn" style="margin-top:10px;">+ 添加纪念日</button>
+  </div>
+</div>
+
+<!-- 纪念日日期选择器 -->
+<div id="annivDatePicker" class="anniv-date-picker hidden">
+  <div class="anniv-date-box">
+    <div class="anniv-date-title" id="annivDateTitle">设置起始日期</div>
+    <div class="anniv-date-row">
+      <div class="anniv-date-col"><div class="top" id="annivYearTop">--</div><div class="cur" id="annivYearCur">2024</div><div class="bottom" id="annivYearBot">--</div><div class="anniv-date-label">年</div></div>
+      <div class="anniv-date-col"><div class="top" id="annivMonthTop">--</div><div class="cur" id="annivMonthCur">01</div><div class="bottom" id="annivMonthBot">--</div><div class="anniv-date-label">月</div></div>
+      <div class="anniv-date-col"><div class="top" id="annivDayTop">--</div><div class="cur" id="annivDayCur">01</div><div class="bottom" id="annivDayBot">--</div><div class="anniv-date-label">日</div></div>
+    </div>
+    <div class="anniv-date-actions"><button class="cancel" id="annivDateCancel">取消</button><button class="ok" id="annivDateOk">确定</button></div>
+  </div>
+</div>
+
+<!-- ===== 聊天页 ===== -->
+<div id="chatPage" class="page hidden">
+  <header class="chat-header">
+    <div class="header-left"><button class="header-btn" id="backHomeBtn"><svg viewBox="0 0 24 24" fill="none" stroke="#666" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M15 6 L9 12 L15 18"></path></svg></button></div>
+    <span id="taName">TA</span>
+    <div class="header-right">
+      <button class="header-btn" id="openMenuBtn"><svg viewBox="0 0 24 24" fill="none" stroke="#666" stroke-width="2.5" stroke-linecap="round"><circle cx="5" cy="12" r="1.5" fill="#666" stroke="none"></circle><circle cx="12" cy="12" r="1.5" fill="#666" stroke="none"></circle><circle cx="19" cy="12" r="1.5" fill="#666" stroke="none"></circle></svg></button>
+    </div>
+  </header>
+
+  <div style="position:relative; flex:1; display:flex; flex-direction:column; overflow:hidden;">
+    <div id="messages" style="flex:1; overflow-y:auto; padding:16px 12px; display:flex; flex-direction:column; gap:16px;"></div>
+    <button id="scrollBottomBtn" class="hidden" style="position:absolute; right:20px; bottom:20px; width:36px; height:36px; border-radius:50%; background:#fff; border:1px solid #e0e0e0; box-shadow:0 2px 8px rgba(0,0,0,0.1); display:flex; align-items:center; justify-content:center; z-index:10; cursor:pointer;">
+      <svg viewBox="0 0 24 24" fill="none" stroke="#666" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="width:20px; height:20px;"><path d="M7 10 L12 15 L17 10"></path></svg>
+    </button>
+  </div>
+
+  <footer class="chat-footer">
+    <button class="footer-btn" id="plusBtn"><svg viewBox="0 0 24 24" fill="none" stroke="#666" stroke-width="2" stroke-linecap="round"><circle cx="12" cy="12" r="9"></circle><path d="M12 8 V16 M8 12 H16"></path></svg></button>
+    <button class="footer-btn" id="emojiBtn"><svg viewBox="0 0 24 24" fill="none" stroke="#666" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"></circle><circle cx="9" cy="10" r="1" fill="#666"></circle><circle cx="15" cy="10" r="1" fill="#666"></circle><path d="M8.5 14.5 Q12 17 15.5 14.5"></path></svg></button>
+    <input id="input" type="text" placeholder="输入消息…" autocomplete="off">
+    <button class="footer-btn send-btn" id="sendBtn"><svg viewBox="0 0 24 24" fill="none" stroke="#222" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 2 L11 13"></path><path d="M22 2 L15 22 L11 13 L2 9 Z"></path></svg></button>
+  </footer>
+
+  <!-- 加号菜单移入 chatPage 内部，实现流式挤出 -->
+  <div id="plusMenu" class="plus-menu hidden">
+    <div class="plus-grid" style="grid-template-columns: repeat(4, 1fr); gap: 16px 10px;">
+      <div class="plus-item" data-key="transfer"><div class="plus-icon"><svg viewBox="0 0 24 24" fill="none" stroke="#333" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 8 L14 8 M10 4 L14 8 L10 12"></path><path d="M20 16 L10 16 M14 12 L10 16 L14 20"></path></svg></div><div class="plus-label">转账</div></div>
+      <div class="plus-item" data-key="gift"><div class="plus-icon"><svg viewBox="0 0 24 24" fill="none" stroke="#333" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="8" width="18" height="13" rx="2"></rect><path d="M12 8 V21 M3 12 H21"></path><path d="M8 8 Q5 4 8 4 Q11 4 12 8"></path><path d="M16 8 Q19 4 16 4 Q13 4 12 8"></path></svg></div><div class="plus-label">礼物</div></div>
+      <div class="plus-item" data-key="survey"><div class="plus-icon"><svg viewBox="0 0 24 24" fill="none" stroke="#333" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="4" y="4" width="16" height="18" rx="2"></rect><path d="M9 4 V7 H15 V4"></path><path d="M8 12 H16 M8 16 H14"></path></svg></div><div class="plus-label">问卷</div></div>
+      <div class="plus-item" data-key="continue"><div class="plus-icon"><svg viewBox="0 0 24 24" fill="none" stroke="#333" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 12 A8 8 0 1 1 12 20"></path><path d="M4 12 L2 9 M4 12 L7 10"></path></svg></div><div class="plus-label">继续说</div></div>
+
+      <div class="plus-item" data-key="call"><div class="plus-icon"><svg viewBox="0 0 24 24" fill="none" stroke="#333" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"></path></svg></div><div class="plus-label">通话</div></div>
+      
+      <!-- 替换搞怪为测距 -->
+      <div class="plus-item" data-key="distance"><div class="plus-icon"><svg viewBox="0 0 24 24" fill="none" stroke="#333" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"></circle><circle cx="12" cy="12" r="4"></circle><path d="M12 2v4M12 18v4M2 12h4M18 12h4"></path></svg></div><div class="plus-label">测距</div></div>
+      
+      <div class="plus-item" data-key="movie"><div class="plus-icon"><svg viewBox="0 0 24 24" fill="none" stroke="#333" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="2" width="20" height="20" rx="2.18"></rect><line x1="7" y1="2" x2="7" y2="22"></line><line x1="17" y1="2" x2="17" y2="22"></line><line x1="2" y1="12" x2="22" y2="12"></line><line x1="2" y1="7" x2="7" y2="7"></line><line x1="2" y1="17" x2="7" y2="17"></line><line x1="17" y1="17" x2="22" y2="17"></line><line x1="17" y1="7" x2="22" y2="7"></line></svg></div><div class="plus-label">看电影</div></div>
+      <div class="plus-item" data-key="quiz"><div class="plus-icon"><svg viewBox="0 0 24 24" fill="none" stroke="#333" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"></path></svg></div><div class="plus-label">灵魂问答</div></div>
+    </div>
+  </div>
+</div>
+
+<!-- 聊天页右上角菜单 -->
+<div id="menuPopup">
+  <div class="menu-item" id="menuSettings">设置</div>
+  <div class="menu-item" id="menuCards">字卡库</div>
+</div>
+
+<!-- 长按菜单 -->
+<div id="longPressMenu" class="long-press-menu hidden">
+  <div class="lp-item" data-act="copy">复制</div><div class="lp-item" data-act="quote">引用</div><div class="lp-item" data-act="fav">收藏</div><div class="lp-item" data-act="del">删除</div>
 </div>
 <!-- ★★★ 第 1 段 结束 ★★★ --><!-- ★★★ 第 2 段 开始 ★★★ -->
 
@@ -1146,39 +1308,7 @@ function checkOnlineEvents() {
    统一渲染层 & 时间戳折叠逻辑
    ============================================================ */
 
-/* ---------- 核心时间戳追加函数 ---------- */
-// 传入当前行元素、发送者、时间戳、消息列表，判断是否显示时间
-function appendTimestampIfNeeded(row, sender, t, msgs, idx) {
-  // 清理可能存在的旧时间戳
-  const oldStamp = row.querySelector('.msg-time-stamp');
-  if (oldStamp) oldStamp.remove();
-
-  let showTime = false;
-  // 如果是最后一条消息，必定显示时间
-  if (idx === msgs.length - 1) {
-    showTime = true;
-  } else {
-    const nextMsg = msgs[idx + 1];
-    // 下一条消息如果换人了，或者中间隔了超过3分钟（180000毫秒），或者夹了系统提示/特殊卡片，则显示时间
-    if (!nextMsg || nextMsg.sender !== sender || (nextMsg.t - t > 180000) || nextMsg.type === 'systemtip' || nextMsg.type === 'datedivider') {
-      showTime = true;
-    } else {
-      // 如果下一条是同一个人发的，且不超过3分钟，则把下一条的时间抹掉（如果它存在）
-      // 但因为在重构渲染时是从上往下，所以我们不处理，由渲染后的统一清理来搞定
-    }
-  }
-
-  if (showTime) {
-    const timeEl = document.createElement('div');
-    timeEl.className = 'msg-time-stamp';
-    timeEl.textContent = formatTimestamp(t);
-    // 找气泡或卡片
-    const bubble = row.querySelector('.bubble, .shop-card, .transfer-card, .survey-card-msg, .voice-bubble, .movie-invite-card, .distance-wrap') || row;
-    // 保证父元素 relative
-    bubble.style.position = 'relative';
-    bubble.appendChild(timeEl);
-  }
-}
+// 删除单独追加时间戳的函数，统一在 refreshMessages 末尾处理
 
 /* ---------- 文字消息 ---------- */
 function addMessage(sender, content, quote, store, msgId, t) {
@@ -1204,9 +1334,7 @@ function addMessage(sender, content, quote, store, msgId, t) {
   if (sender === 'me' && load('read_receipt', true)) {
     const readMark = document.createElement('div');
     readMark.className = 'read-mark unread';
-    const rs = load('read_style', 'icon');
-    if (rs === 'icon') readMark.innerHTML = '';
-    else readMark.textContent = '未读';
+    readMark.style.display = 'none'; // 隐藏原有单独的回执，统一用 time-stamp
     bubble.appendChild(readMark);
   }
 
@@ -1329,22 +1457,21 @@ function addSystemTip(text, store, t) {
   }
 }
 
-/* ---------- 测距卡片 ---------- */
+/* ---------- 测距卡片（横向加宽） ---------- */
 function renderDistanceCard(m) {
   const row = document.createElement('div');
   row.className = 'msg-row ' + (m.sender === 'me' ? 'me' : 'ta');
   row.dataset.msgId = m.msgId;
   row.dataset.sender = m.sender;
   row.dataset.t = m.t;
-  // 无头像，居中
-  row.style.cssText = 'justify-content:center; max-width:100%; padding-bottom:25px;';
+  row.style.cssText = 'justify-content:center; max-width:100%; width:100%; padding-bottom:25px;'; // 居中
   
   const card = document.createElement('div');
   card.className = 'distance-wrap';
-  card.style.cssText = 'width:78%; background:rgba(255,255,255,.55); backdrop-filter:blur(10px); border:1px solid rgba(255,255,255,.6); border-radius:16px; padding:16px; text-align:center; box-shadow:0 4px 16px rgba(0,0,0,.06); cursor:pointer; position:relative;';
+  card.style.cssText = 'width:75%; max-width:280px; background:rgba(255,255,255,.65); backdrop-filter:blur(10px); border:1px solid rgba(255,255,255,.8); border-radius:16px; padding:16px; text-align:center; box-shadow:0 4px 16px rgba(0,0,0,.06); cursor:pointer; position:relative;';
   card.innerHTML = `
     <div style="font-size:13px; color:#888; margin-bottom:8px;">📍 测距</div>
-    <div style="font-size:24px; font-weight:700; color:#333; line-height:1.2; margin-bottom:4px;">${m.distance} <span style="font-size:14px;font-weight:normal;">米</span></div>
+    <div style="font-size:22px; font-weight:700; color:#333; line-height:1.2; margin-bottom:6px;">${m.distance} 米</div>
     <div style="font-size:11px; color:#aaa;">点击查看</div>
   `;
   card.onclick = () => openDistancePopup(m);
@@ -1352,17 +1479,14 @@ function renderDistanceCard(m) {
   messagesEl.appendChild(row);
 }
 
-/* 测距弹窗 */
 function openDistancePopup(m) {
   const mask = document.createElement('div');
   mask.className = 'modal';
   mask.style.zIndex = '9999';
-  
   const myA = load('my_avatar', '');
   const taA = load('ta_avatar', '');
   const myName = load('my_name', '我').charAt(0);
   const taName = load('ta_name', 'TA').charAt(0);
-  
   const myAvatarHTML = myA ? `<div style="width:50px;height:50px;border-radius:50%;background:url(${myA}) center/cover;"></div>` : `<div style="width:50px;height:50px;border-radius:50%;background:#ccc;color:#fff;display:flex;align-items:center;justify-content:center;font-weight:bold;font-size:18px;">${myName}</div>`;
   const taAvatarHTML = taA ? `<div style="width:50px;height:50px;border-radius:50%;background:url(${taA}) center/cover;"></div>` : `<div style="width:50px;height:50px;border-radius:50%;background:#e8a33d;color:#fff;display:flex;align-items:center;justify-content:center;font-weight:bold;font-size:18px;">${taName}</div>`;
 
@@ -1384,17 +1508,17 @@ function openDistancePopup(m) {
   mask.onclick = (e) => { if(e.target === mask) mask.remove(); };
 }
 
-/* ---------- 灵魂问答卡片 ---------- */
+/* ---------- 灵魂问答卡片（居中） ---------- */
 function renderSoulQA(record, t, msgId, sender) {
   const wrap = document.createElement('div');
   wrap.className = 'msg-row ' + (sender === 'me' ? 'me' : 'ta');
   wrap.dataset.msgId = msgId;
   wrap.dataset.sender = sender;
   wrap.dataset.t = t;
-  wrap.style.cssText = 'justify-content:center; max-width:100%; padding-bottom:25px;';
+  wrap.style.cssText = 'justify-content:center; max-width:100%; width:100%; padding-bottom:25px;'; // 居中
 
   wrap.innerHTML = `
-    <div class="soulqa-card" style="width:78%; background:rgba(255,255,255,.55); backdrop-filter:blur(10px); border:1px solid rgba(255,255,255,.6); border-radius:16px; padding:16px; text-align:center; box-shadow:0 4px 16px rgba(0,0,0,.06);">
+    <div class="soulqa-card" style="width:75%; max-width:280px; background:rgba(255,255,255,.65); backdrop-filter:blur(10px); border:1px solid rgba(255,255,255,.8); border-radius:16px; padding:16px; text-align:center; box-shadow:0 4px 16px rgba(0,0,0,.06);">
       <div style="font-size:13px; color:#888; margin-bottom:8px;">🃏 灵魂问答</div>
       <div style="font-size:14px; color:#333; line-height:1.5; margin-bottom:10px;">${escHtml(record.question)}</div>
       <div style="display:flex; justify-content:center; gap:16px; font-size:13px; color:#666; margin-bottom:10px;">
@@ -1475,6 +1599,7 @@ function renderShopCard(m) {
         const x = all.find(y => y.cardId === m.cardId);
         if (x) { x.status = '已接收'; save('our_messages', all); }
         addSystemTip('我已收下', true);
+        if (!document.getElementById('chatPage').classList.contains('hidden')) refreshMessages();
       }
     };
   }
@@ -1548,7 +1673,7 @@ function renderQuestionCard(m) {
   messagesEl.appendChild(row);
 }
 
-/* ---------- 电影邀请卡片（全新样式） ---------- */
+/* ---------- 电影邀请卡片 ---------- */
 function renderMovieCard(m) {
   const row = document.createElement('div');
   row.className = 'msg-row ' + (m.sender === 'me' ? 'me' : 'ta');
@@ -1584,16 +1709,16 @@ function renderMovieCard(m) {
 }
 
 /* ============================================================
-   refreshMessages（核心：按时间排序、折叠时间戳）
+   refreshMessages（核心：按时间排序、折叠时间戳与已读）
    ============================================================ */
 function refreshMessages() {
   messagesEl.innerHTML = '';
   const msgs = load('our_messages', []);
   
-  // 核心修复：按时间严格升序排列！
+  // 按时间严格升序排列
   msgs.sort((a, b) => a.t - b.t);
 
-  msgs.forEach((m, idx) => {
+  msgs.forEach((m) => {
     if (m.type === 'transfer') renderTransferCard(m);
     else if (m.type === 'image') addImage(m.sender, m.url, false, m.t);
     else if (m.type === 'text') addMessage(m.sender, m.content, m.quote, false, m.msgId, m.t);
@@ -1608,12 +1733,15 @@ function refreshMessages() {
     else if (m.type === 'moviecard') renderMovieCard(m);
   });
 
-  // 渲染完毕后，统一处理时间戳折叠
+  // 渲染完毕后，统一处理时间戳折叠与已读
   const rows = Array.from(messagesEl.children).filter(el => el.classList.contains('msg-row'));
   rows.forEach((row, i) => {
     const sender = row.dataset.sender;
     const t = parseInt(row.dataset.t);
-    
+    const msgId = row.dataset.msgId;
+    const currentMsg = msgs.find(x => x.msgId === msgId);
+
+    // 判断是否显示时间
     let showTime = false;
     if (i === rows.length - 1) {
       showTime = true;
@@ -1633,26 +1761,24 @@ function refreshMessages() {
     if (showTime) {
       const timeEl = document.createElement('div');
       timeEl.className = 'msg-time-stamp';
-      timeEl.textContent = formatTimestamp(t);
+      
+      // 基础时间
+      let stampStr = formatTimestamp(t);
+      
+      // 只有纯文字消息，且是“我”发的，且有开启已读回执，才加上“已读”
+      if (sender === 'me' && currentMsg && currentMsg.type === 'text' && load('read_receipt', true)) {
+        const isRead = currentMsg.read;
+        stampStr += isRead ? ' 已读' : ' 未读';
+        // 把原气泡里隐藏的已读图标彻底删掉（防止占位）
+        const oldMark = row.querySelector('.read-mark');
+        if (oldMark) oldMark.remove();
+      }
+      
+      timeEl.textContent = stampStr;
+
       const target = row.querySelector('.bubble, .transfer-card, .shop-card, .survey-card-msg, .voice-bubble, .movie-invite-card, .distance-wrap, .soulqa-card') || row;
       target.style.position = 'relative';
       target.appendChild(timeEl);
-    }
-  });
-
-  // 已读回执渲染
-  const rs = load('read_style', 'icon');
-  document.querySelectorAll('.msg-row.me .bubble .read-mark').forEach(el => {
-    const row = el.closest('.msg-row');
-    const m = msgs.find(x => x.msgId === row.dataset.msgId);
-    if (m && m.read) {
-      el.classList.remove('unread'); el.classList.add('read');
-      if (rs === 'icon') el.innerHTML = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M2 13 L7 18 L15 8"></path><path d="M9 13 L12 16 L20 6"></path></svg>';
-      else el.textContent = '已读';
-    } else {
-      el.classList.add('unread'); el.classList.remove('read');
-      if (rs === 'icon') el.innerHTML = '';
-      else el.textContent = '未读';
     }
   });
   messagesEl.scrollTop = messagesEl.scrollHeight;
@@ -2058,9 +2184,10 @@ function startQuiz() {
 }
 
 /* ============================================================
-   一起看电影（全新状态机、无黑边横屏、彻底清空）
+   一起看电影
    ============================================================ */
 let movieInviteTimeout = null;
+let movieChatTimer = null; // 替代 setInterval 防止挂掉
 
 function startMovieInvite() {
   const taName = load('ta_name', 'TA');
@@ -2088,9 +2215,7 @@ function startMovieInvite() {
     
     if (isAgree) {
       playSound('receive');
-      // 1. 在聊天记录补一条胶囊提示
       addSystemTip('[🎬] 对方已同意邀请', true);
-      // 2. 弹窗确认
       showMovieConfirmPopup();
     } else {
       addSystemTip(`[🎬] ${taName} 拒绝了看电影邀请`, true);
@@ -2126,7 +2251,7 @@ function showMovieConfirmPopup() {
 
 function enterMoviePage() {
   showPage('moviePage');
-  document.body.classList.remove('movie-landscape'); // 确保一开始是竖屏
+  document.body.classList.remove('movie-landscape');
   
   const vid = document.getElementById('movieVideo');
   const placeholder = document.getElementById('moviePlaceholder');
@@ -2134,7 +2259,7 @@ function enterMoviePage() {
   if (vid) { vid.style.display = 'none'; vid.pause(); vid.src = ''; }
   if (placeholder) placeholder.style.display = 'block';
   if (chatBox) chatBox.innerHTML = '';
-  save('our_movie_chat', []); // 清空边看边聊记录
+  save('our_movie_chat', []);
   renderMovieChat();
 }
 
@@ -2168,6 +2293,24 @@ function pushMovieChat(sender, text) {
   renderMovieChat();
 }
 
+// 循环发送弹幕逻辑
+function loopMovieChat() {
+  clearTimeout(movieChatTimer);
+  const vid = document.getElementById('movieVideo');
+  if (!vid || vid.paused) {
+    movieChatTimer = setTimeout(loopMovieChat, 3000); // 暂停时每3秒查一次
+    return;
+  }
+  
+  const mainCards = cards.filter(c => (c.type || 'main') === 'main' && !c.blocked);
+  if (mainCards.length > 0) {
+    const text = mainCards[Math.floor(Math.random() * mainCards.length)].content;
+    pushMovieChat('ta', text);
+    playSound('receive');
+  }
+  movieChatTimer = setTimeout(loopMovieChat, 8000 + Math.random() * 7000);
+}
+
 (function bindMovieUI() {
   const backBtn = document.getElementById('backFromMovieBtn');
   const fsBtn = document.getElementById('movieFullscreenBtn');
@@ -2196,6 +2339,7 @@ function pushMovieChat(sender, text) {
       document.getElementById('moviePlaceholder').style.display = 'block';
       save('our_movie_chat', []);
       document.body.classList.remove('movie-landscape');
+      clearTimeout(movieChatTimer);
       showPage('chatPage');
     };
     mask.querySelector('#exitNo').onclick = () => mask.remove();
@@ -2213,6 +2357,9 @@ function pushMovieChat(sender, text) {
       if (vid) { vid.src = url; vid.style.display = 'block'; vid.play().catch(()=>{}); }
       document.getElementById('moviePlaceholder').style.display = 'none';
       e.target.value = '';
+      
+      // 启动循环
+      loopMovieChat();
     };
   }
 
@@ -2258,20 +2405,31 @@ function makeTransferCard(amount, note) {
   const t = Date.now();
   const msgId = Date.now() + '_' + Math.random().toString(36).slice(2, 8);
   const msgs = load('our_messages', []);
+  // 一开始只生成“我”的卡面
   msgs.push({ type: 'transfer', from: 'me', sender: 'me', transferId, amount, note, status: 'pending', t, msgId });
-  msgs.push({ type: 'transfer', from: 'me', sender: 'ta', transferId, amount, note, status: 'pending', t: t + 1, msgId: msgId + '_ta' });
   save('our_messages', msgs);
   if (!document.getElementById('chatPage').classList.contains('hidden')) refreshMessages();
   playSound('send');
 
+  // 等几秒，对方收下/退回，此时同时追加一条对方的卡面
   setTimeout(() => {
     const isReceive = Math.random() < 0.5;
     const newStatus = isReceive ? 'received' : 'refunded';
     const all = load('our_messages', []);
+    
+    // 更改我的卡面状态
     all.forEach(m => { if (m.type === 'transfer' && m.transferId === transferId) m.status = newStatus; });
+    
+    // 插入对方的卡面，时间稍微延后一点点，但状态同步
+    all.push({ 
+      type: 'transfer', from: 'me', sender: 'ta', 
+      transferId, amount, note, status: newStatus, 
+      t: t + 3000, msgId: msgId + '_ta' 
+    });
+    
     save('our_messages', all);
     if (!document.getElementById('chatPage').classList.contains('hidden')) refreshMessages();
-  }, 2000 + Math.random() * 3000);
+  }, 3000 + Math.random() * 2000);
 }
 
 function makeTaTransferCard(amount, note) {
@@ -2279,10 +2437,29 @@ function makeTaTransferCard(amount, note) {
   const t = Date.now();
   const msgId = Date.now() + '_' + Math.random().toString(36).slice(2, 8);
   const msgs = load('our_messages', []);
+  // TA 主动给我转账，初始状态
   msgs.push({ type: 'transfer', from: 'ta', sender: 'ta', transferId, amount, note, status: 'pending', t, msgId });
   save('our_messages', msgs);
   if (!document.getElementById('chatPage').classList.contains('hidden')) refreshMessages();
   playSound('receive');
+
+  // 等几秒，我收下/退回，追加我的卡面
+  setTimeout(() => {
+    const isReceive = Math.random() < 0.5;
+    const newStatus = isReceive ? 'received' : 'refunded';
+    const all = load('our_messages', []);
+    
+    all.forEach(m => { if (m.type === 'transfer' && m.transferId === transferId) m.status = newStatus; });
+    
+    all.push({ 
+      type: 'transfer', from: 'ta', sender: 'me', 
+      transferId, amount, note, status: newStatus, 
+      t: t + 3000, msgId: msgId + '_me' 
+    });
+    
+    save('our_messages', all);
+    if (!document.getElementById('chatPage').classList.contains('hidden')) refreshMessages();
+  }, 3000 + Math.random() * 2000);
 }
 
 let currentTransferId = null;
