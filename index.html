@@ -32,7 +32,7 @@
   }
   .plus-menu.hidden { transform: none; opacity: 1; pointer-events: auto; }
   
-  /* 统一时间戳定位：全部在右下角 */
+  /* 时间戳基础定位：靠右 */
   .msg-time-stamp {
     font-size: 11px;
     color: #999;
@@ -43,8 +43,15 @@
     right: 0; 
   }
   
-  /* 灵魂问答专属：时间强制居中 */
-  .soulqa-card .msg-time-stamp {
+  /* 对方的消息：强制靠左 */
+  .msg-row.ta .msg-time-stamp {
+    left: 0;
+    right: auto;
+  }
+  
+  /* 灵魂问答和测距：强制居中 */
+  .soulqa-card .msg-time-stamp,
+  .distance-wrap .msg-time-stamp {
     left: 50% !important;
     right: auto !important;
     transform: translateX(-50%);
@@ -1670,7 +1677,6 @@ function renderMovieCard(m) {
 function refreshMessages() {
   messagesEl.innerHTML = '';
   const msgs = load('our_messages', []);
-  
   msgs.sort((a, b) => a.t - b.t);
 
   msgs.forEach((m) => {
@@ -1689,13 +1695,21 @@ function refreshMessages() {
   });
 
   const rows = Array.from(messagesEl.children).filter(el => el.classList.contains('msg-row'));
+  
+  // 清理所有旧时间戳
+  rows.forEach(row => {
+    const old = row.querySelector('.msg-time-stamp');
+    if (old) old.remove();
+  });
+
+  // 分配新时间戳
   rows.forEach((row, i) => {
     const sender = row.dataset.sender;
     const t = parseInt(row.dataset.t);
     const msgId = row.dataset.msgId;
     const currentMsg = msgs.find(x => x.msgId === msgId);
 
-    // 强制特殊卡片：电影卡片绝对不显示任何底部信息
+    // 电影卡片绝对不显示底部时间（因为卡片里已经有时间了）
     if (currentMsg && currentMsg.type === 'moviecard') return;
 
     let showTime = false;
@@ -1710,8 +1724,10 @@ function refreshMessages() {
       }
     }
 
-    const old = row.querySelector('.msg-time-stamp');
-    if (old) old.remove();
+    // 灵魂问答、测距、转账、问卷等特殊卡片，强制保留时间，不受前后消息折叠影响
+    if (currentMsg && (currentMsg.type === 'soulqa' || currentMsg.type === 'distance' || currentMsg.type === 'transfer' || currentMsg.type === 'surveycard' || currentMsg.type === 'questioncard')) {
+      showTime = true;
+    }
 
     if (showTime) {
       const timeEl = document.createElement('div');
@@ -1719,7 +1735,8 @@ function refreshMessages() {
       
       let stampStr = formatTimestamp(t);
       
-      if (sender === 'me' && currentMsg && currentMsg.type === 'text' && load('read_receipt', true)) {
+      // 纯文字才带已读
+      if (currentMsg && currentMsg.type === 'text' && sender === 'me' && load('read_receipt', true)) {
           stampStr += currentMsg.read ? ' 已读' : ' 未读';
       }
       
@@ -2018,6 +2035,9 @@ function continueTalk() {
 </script>
 <!-- ★★★ 第 8 段 结束 ★★★ --><!-- ★★★ 第 9 段 开始 ★★★ -->
 <script>
+/* ============================================================
+   灵魂问答（精美弹窗 + 持久化）
+   ============================================================ */
 const QUIZ_BANK = [
   { q: '周末更想我陪你去逛街，还是两个人窝在家里看剧？', a: '去逛街', b: '窝在家里' },
   { q: '如果我不小心惹你生气了，你更希望我马上哄你，还是给你买好吃的？', a: '马上哄我', b: '买好吃的' },
@@ -2082,6 +2102,9 @@ function startQuiz() {
   });
 }
 
+/* ============================================================
+   一起看电影
+   ============================================================ */
 let movieInviteTimeout = null;
 let movieChatTimer = null; 
 
@@ -2147,7 +2170,6 @@ function showMovieConfirmPopup() {
 
 function enterMoviePage() {
   showPage('moviePage');
-  // 清理横屏状态
   document.body.classList.remove('movie-landscape');
   
   const vid = document.getElementById('movieVideo');
@@ -2248,7 +2270,6 @@ function loopMovieChat() {
     mask.querySelector('#exitNo').onclick = () => mask.remove();
   };
 
-  // 真正的原生全屏和锁定横屏
   if (fsBtn) fsBtn.onclick = async () => {
     try {
       if (moviePage.requestFullscreen) {
@@ -2303,6 +2324,9 @@ function loopMovieChat() {
 </script>
 <!-- ★★★ 第 9 段 结束 ★★★ --><!-- ★★★ 第 10 段 开始 ★★★ -->
 <script>
+/* ============================================================
+   转账功能
+   ============================================================ */
 function openTransferModal() {
   const taName = load('ta_name', 'TA');
   const taAvatar = load('ta_avatar', '');
@@ -2461,6 +2485,9 @@ function openReceiveModal(transferId) {
   };
 })();
 
+/* ============================================================
+   长按菜单
+   ============================================================ */
 let longPressTarget = null;
 let longPressTimer = null;
 
@@ -5831,6 +5858,27 @@ function closeStickerPanel() {
     closeStickerPanel();
   });
 })();
+
+/* ============================================================
+   全局初始化
+   ============================================================ */
+window.addEventListener('load', () => {
+  if (typeof initDefaultQuestions === 'function') initDefaultQuestions();
+  cards = load('our_cards', []);
+  refreshMessages();
+  applyHomeAssets();
+  applyHomeWallpaper();
+  applyHomeQuote();
+  applyHomeTalks();
+  applyHomeBigCard();
+  updateHomeAnnivNum();
+  
+  const t = document.getElementById('taName');
+  if (t) t.textContent = load('ta_name', 'TA');
+  
+  if (typeof scheduleAutoMessage === 'function') scheduleAutoMessage();
+  if (typeof startOnlineTicker === 'function') startOnlineTicker();
+});
 </script>
 <!-- ★★★ 第 19 段 结束 ★★★ --><!-- ★★★ 第 20 段 开始 ★★★ -->
 <script>
