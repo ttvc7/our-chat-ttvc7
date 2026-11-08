@@ -1,5 +1,55 @@
-/* ★★★ js 第 1 段 开始 ★★★ */
+/* ★★★ settings.js 第 1 段 开始 ★★★ */
 (function() {
+  // ==========================================
+  // 1. 注入全局自定义样式（气泡小角、浅灰白配色）
+  // ==========================================
+  const styleInject = document.createElement('style');
+  styleInject.textContent = `
+    /* 我的气泡：浅灰色 */
+    .msg-row.me .bubble, .msg-row.me .voice-bubble {
+      background-color: #e8e8e8 !important;
+      color: #111 !important;
+      border-radius: 10px;
+      position: relative;
+    }
+    /* 对方气泡：纯白色 */
+    .msg-row.ta .bubble, .msg-row.ta .voice-bubble {
+      background-color: #ffffff !important;
+      color: #111 !important;
+      border-radius: 10px;
+      position: relative;
+      box-shadow: 0 1px 3px rgba(0,0,0,0.05);
+    }
+    
+    /* 我的气泡小角（指向右侧头像） */
+    .msg-row.me .bubble::after, .msg-row.me .voice-bubble::after {
+      content: "";
+      position: absolute;
+      right: -8px;
+      top: 14px;
+      width: 0; height: 0;
+      border-top: 6px solid transparent;
+      border-bottom: 6px solid transparent;
+      border-left: 8px solid #e8e8e8;
+    }
+
+    /* 对方气泡小角（指向左侧头像） */
+    .msg-row.ta .bubble::after, .msg-row.ta .voice-bubble::after {
+      content: "";
+      position: absolute;
+      left: -8px;
+      top: 14px;
+      width: 0; height: 0;
+      border-top: 6px solid transparent;
+      border-bottom: 6px solid transparent;
+      border-right: 8px solid #ffffff;
+    }
+
+    /* 隐藏已经作废的“允许搞怪”设置项（双保险） */
+    #prankAutoOn { display: none !important; }
+  `;
+  document.head.appendChild(styleInject);
+
   const settingsModal = document.getElementById('settingsModal');
   const settingsBody = document.querySelector('#settingsModal .modal-body');
   const closeBtn = document.getElementById('closeSettingsBtn');
@@ -36,14 +86,7 @@
     const taNameEl = document.getElementById('taName');
     if (taNameEl && !taNameEl.dataset.typing) taNameEl.textContent = cfg.taName;
     document.querySelectorAll('.bubble').forEach(b => b.style.color = cfg.textColor);
-    if (cfg.bubbleShape) {
-      let radius = '8px';
-      if (cfg.bubbleShape === 'round') radius = '18px';
-      if (cfg.bubbleShape === 'pill') radius = '24px';
-      if (cfg.bubbleShape === 'square') radius = '0';
-      document.querySelectorAll('.bubble').forEach(b => b.style.borderRadius = radius);
-    }
-    if (cfg.fontSize) document.querySelectorAll('.bubble').forEach(b => b.style.fontSize = cfg.fontSize + 'px');
+    
     const messagesEl = document.getElementById('messages');
     if (messagesEl) {
       if (cfg.chatBgImage) messagesEl.style.background = `url(${cfg.chatBgImage}) center/cover no-repeat`;
@@ -115,10 +158,11 @@
     if (tab === 'other') return renderOtherTab(panel);
   }
 
+  // 注意：这段代码最后要保留 (function() { ... 的闭合，请等待第 2 段发完后再统一闭合！
+/* ★★★ settings.js 第 1 段 结束 ★★★ *//* ★★★ settings.js 第 2 段 开始 ★★★ */
   function renderChatTab(panel) {
     const replyMin = load('reply_min', 1), replyMax = load('reply_max', 2);
     const delayMin = load('delay_min', 5), delayMax = load('delay_max', 15);
-    const emojiProb = load('emoji_prob', 10), stickerProb = load('sticker_prob', 20);
     const quoteProb = load('quote_prob', 30);
     const readReceipt = load('read_receipt', true), readStyle = load('read_style', 'icon'), readNoReply = load('read_no_reply', false);
     
@@ -143,16 +187,6 @@
           <span class="label" style="margin-bottom:8px;">最长等待</span>
           <input type="range" id="delayMaxInput" min="0" max="120" value="${delayMax}" oninput="this.nextElementSibling.innerText=this.value+'s'">
           <span style="align-self:flex-end;font-size:12px;color:var(--theme-color);">${delayMax}s</span>
-        </div>
-      </div>
-      <div class="set-card">
-        <div class="set-card-title">转账金额池 (对方随机发给你)</div>
-        <div id="transPoolList" style="display:flex; flex-wrap:wrap; gap:8px; margin-bottom:10px;">
-          ${transPool.map(v => `<span style="background:#f5f5f5;padding:6px 12px;border-radius:8px;font-size:14px;color:#333;border:1px solid #eee;">¥${v}</span>`).join('')}
-        </div>
-        <div style="display:flex; gap:8px;">
-          <input type="number" id="newTransPoolInput" class="shop-input" style="flex:1;" placeholder="输入金额如 5.20">
-          <button class="btn-secondary" id="addTransPoolBtn" style="width:auto; padding:0 16px;">添加</button>
         </div>
       </div>
       <button class="set-btn" id="saveChatSettings">保存聊天设置</button>
@@ -181,42 +215,176 @@
     panel.querySelector('#clearCards').onclick = () => {
       if (confirm('确定清空所有字卡吗？')) { localStorage.removeItem('our_cards'); alert('已清空，刷新页面生效'); }
     };
-    
-    let curPool = [...transPool];
-    panel.querySelector('#addTransPoolBtn').onclick = () => {
-      const val = parseFloat(document.getElementById('newTransPoolInput').value);
-      if (val > 0) {
-        curPool.push(val);
-        document.getElementById('newTransPoolInput').value = '';
-        save('trans_pool', curPool);
-        document.getElementById('transPoolList').innerHTML = curPool.map(v => `<span style="background:#f5f5f5;padding:6px 12px;border-radius:8px;font-size:14px;color:#333;border:1px solid #eee;">¥${v}</span>`).join('');
-      }
-    };
   }
 
+  /* ===== 音效 Tab 完整版（恢复你原来的） ===== */
   function renderSoundTab(panel) {
+    const SOUND_PRESETS = {
+      drop: '内置：清脆水滴',
+      bell: '内置：柔和风铃',
+      ding: '内置：轻快叮咚',
+      wood: '内置：温柔木鱼'
+    };
+    const SOUND_CATEGORIES = [
+      { key: 'send', label: '发消息' },
+      { key: 'receive', label: '收消息' },
+      { key: 'poke', label: '拍一拍' },
+      { key: 'system', label: '系统提示' }
+    ];
+    function getCustomSounds() { return load('custom_sounds', []); }
+    function saveCustomSounds(list) { save('custom_sounds', list); }
+    function getPreset(cat) { return load('sound_preset_' + cat, 'drop'); }
+    function esc(s) {
+      return String(s == null ? '' : s).replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;');
+    }
+
     const soundOn = load('sound_enabled', true);
     const soundVol = load('sound_volume', 15);
-    panel.innerHTML = `
-      <div class="set-card">
-        <div class="set-card-title">音效设置</div>
-        <div class="set-row"><span class="label">开启全局音效</span><input type="checkbox" id="soundEnabledInput" ${soundOn ? 'checked' : ''}></div>
-        <div class="set-row" style="flex-direction:column; align-items:flex-start; border-bottom:none;">
-          <span class="label" style="margin-bottom:8px;">全局音量</span>
-          <input type="range" id="soundVolInput" min="0" max="100" value="${soundVol}" oninput="document.getElementById('soundVolVal').innerText=this.value+'%'; if(window.playSound) window.playSound('send');">
-          <span id="soundVolVal" style="align-self:flex-end;font-size:12px;color:var(--theme-color);">${soundVol}%</span>
-        </div>
-      </div>
-      <button class="set-btn" id="saveSoundSettings">保存音效设置</button>
-    `;
-    panel.querySelector('#saveSoundSettings').onclick = () => {
-      save('sound_enabled', document.getElementById('soundEnabledInput').checked);
-      save('sound_volume', parseInt(document.getElementById('soundVolInput').value));
-      alert('已保存音效设置');
-      if(window.playSound) window.playSound('send');
+    const customs = getCustomSounds();
+
+    let categoriesHTML = '';
+    SOUND_CATEGORIES.forEach(cat => {
+      const cur = getPreset(cat.key);
+      let opts = '';
+      Object.keys(SOUND_PRESETS).forEach(k => {
+        opts += '<option value="' + k + '"' + (cur === k ? ' selected' : '') + '>' + SOUND_PRESETS[k] + '</option>';
+      });
+      customs.forEach(c => {
+        const v = 'custom_' + c.id;
+        opts += '<option value="' + esc(v) + '"' + (cur === v ? ' selected' : '') + '>自定义：' + esc(c.name) + '</option>';
+      });
+      categoriesHTML +=
+        '<div class="set-row" style="flex-direction:column; align-items:flex-start; gap:8px;">'
+        + '<span class="label">' + cat.label + '</span>'
+        + '<div style="display:flex; width:100%; gap:8px; align-items:center;">'
+        +   '<select class="sound-preset-select" data-cat="' + cat.key + '" style="flex:1; padding:10px 12px; border:1px solid #eee; border-radius:10px; font-size:14px; background:#fafafa; color:#333; outline:none;">' + opts + '</select>'
+        +   '<button class="btn-secondary sound-test-btn" data-cat="' + cat.key + '" style="width:auto; padding:10px 14px; flex-shrink:0;">▶ 试听</button>'
+        + '</div>'
+        + '</div>';
+    });
+
+    let customListHTML = '';
+    if (customs.length === 0) {
+      customListHTML = '<div style="font-size:13px;color:#999;padding:8px 0;">还没有自定义音效</div>';
+    } else {
+      customs.forEach(c => {
+        customListHTML +=
+          '<div class="card-item" style="padding:10px 12px;">'
+          + '<div style="flex:1; font-size:14px; color:#333; word-break:break-all;">' + esc(c.name) + '</div>'
+          + '<button class="sound-custom-play" data-id="' + esc(c.id) + '" style="background:none;border:none;color:#333;font-size:14px;cursor:pointer;padding:4px 8px;">▶</button>'
+          + '<button class="sound-custom-del" data-id="' + esc(c.id) + '" style="background:none;border:none;color:#e74c3c;font-size:18px;cursor:pointer;padding:0 4px;">×</button>'
+          + '</div>';
+      });
+    }
+
+    panel.innerHTML =
+      '<div class="set-card">'
+      +   '<div class="set-card-title">音效总开关</div>'
+      +   '<div class="set-row"><span class="label">开启全局音效</span><input type="checkbox" id="soundEnabledInput"' + (soundOn ? ' checked' : '') + '></div>'
+      +   '<div class="set-row" style="flex-direction:column; align-items:flex-start; border-bottom:none;">'
+      +     '<span class="label" style="margin-bottom:8px;">全局音量</span>'
+      +     '<input type="range" id="soundVolInput" min="0" max="100" value="' + soundVol + '">'
+      +     '<span id="soundVolVal" style="align-self:flex-end;font-size:12px;color:var(--theme-color);">' + soundVol + '%</span>'
+      +   '</div>'
+      + '</div>'
+      + '<div class="set-card">'
+      +   '<div class="set-card-title">分类音效预设</div>'
+      +   categoriesHTML
+      + '</div>'
+      + '<div class="set-card">'
+      +   '<div class="set-card-title">自定义音效</div>'
+      +   '<div style="margin-bottom:10px;">'
+      +     '<button class="btn-secondary" id="soundCustomUploadBtn" style="width:100%;">+ 上传自定义音效（mp3/wav）</button>'
+      +     '<input type="file" id="soundCustomUpload" accept="audio/*" multiple style="display:none;">'
+      +   '</div>'
+      +   '<div id="soundCustomList">' + customListHTML + '</div>'
+      + '</div>'
+      + '<button class="set-btn" id="saveFullSoundSettings">保存音效设置</button>';
+
+    const volInput = document.getElementById('soundVolInput');
+    const volVal = document.getElementById('soundVolVal');
+    if (volInput) {
+      volInput.oninput = () => { if (volVal) volVal.textContent = volInput.value + '%'; };
+      volInput.onchange = () => { if (window.playSound) window.playSound('send'); };
+    }
+
+    panel.querySelectorAll('.sound-preset-select').forEach(sel => {
+      sel.onchange = () => {
+        save('sound_preset_' + sel.dataset.cat, sel.value);
+        if (window.playSound) window.playSound(sel.dataset.cat);
+      };
+    });
+
+    panel.querySelectorAll('.sound-test-btn').forEach(btn => {
+      btn.onclick = () => {
+        if (window.playSound) window.playSound(btn.dataset.cat);
+        const old = btn.textContent;
+        btn.textContent = '▶ 已播放';
+        setTimeout(() => { btn.textContent = old; }, 900);
+      };
+    });
+
+    panel.querySelectorAll('.sound-custom-play').forEach(btn => {
+      btn.onclick = () => {
+        if (!window.playSound) return;
+        const saved = getPreset('send');
+        save('sound_preset_send', 'custom_' + btn.dataset.id);
+        window.playSound('send');
+        save('sound_preset_send', saved);
+      };
+    });
+
+    panel.querySelectorAll('.sound-custom-del').forEach(btn => {
+      btn.onclick = async () => {
+        if (!confirm('删除这个自定义音效？')) return;
+        const id = btn.dataset.id;
+        try { if (window.idbDelete) await window.idbDelete('voices', id); } catch (e) {}
+        const list = getCustomSounds().filter(c => c.id !== id);
+        saveCustomSounds(list);
+        SOUND_CATEGORIES.forEach(cat => {
+          if (getPreset(cat.key) === 'custom_' + id) save('sound_preset_' + cat.key, 'drop');
+        });
+        renderSoundTab(panel);
+      };
+    });
+
+    const uploadBtn = document.getElementById('soundCustomUploadBtn');
+    const uploadInput = document.getElementById('soundCustomUpload');
+    if (uploadBtn && uploadInput) {
+      uploadBtn.onclick = () => uploadInput.click();
+      uploadInput.onchange = async (e) => {
+        const files = Array.from(e.target.files || []);
+        if (files.length === 0) return;
+        uploadInput.value = '';
+        for (const f of files) {
+          if (f.size > 5 * 1024 * 1024) { alert(f.name + ' 超过5MB，已跳过'); continue; }
+          try {
+            const buf = await f.arrayBuffer();
+            const blob = new Blob([buf], { type: f.type || 'audio/mpeg' });
+            const id = 'cs_' + Date.now() + '_' + Math.random().toString(36).slice(2, 6);
+            if (window.idbPut) await window.idbPut('voices', { id, name: f.name, blob, duration: '' });
+            const list = getCustomSounds();
+            list.push({ id, name: f.name });
+            saveCustomSounds(list);
+          } catch (err) {
+            alert(f.name + ' 读取失败：' + err.message);
+          }
+        }
+        renderSoundTab(panel);
+      };
+    }
+
+    const saveBtn = document.getElementById('saveFullSoundSettings');
+    if (saveBtn) saveBtn.onclick = () => {
+      const en = document.getElementById('soundEnabledInput');
+      const vol = document.getElementById('soundVolInput');
+      save('sound_enabled', en ? en.checked : true);
+      save('sound_volume', vol ? parseInt(vol.value, 10) : 15);
+      alert('音效设置已保存');
+      if (window.playSound) window.playSound('send');
     };
   }
-/* ★★★ js 第 1 段 结束 ★★★ *//* ★★★ js 第 2 段 开始 ★★★ */
+/* ★★★ settings.js 第 2 段 结束 ★★★ *//* ★★★ settings.js 第 3 段 开始 ★★★ */
   function renderAppearanceTab(panel) {
     panel.innerHTML = `
       <div class="set-card">
@@ -327,7 +495,7 @@
       dot.onclick = () => {
         const bg = dot.dataset.bg;
         const messagesEl = document.getElementById('messages');
-        messagesEl.style.background = bg;
+        if (messagesEl) messagesEl.style.background = bg;
         cfg.chatBg = bg; cfg.chatBgImage = '';
         save('chat_bg', bg); save('chat_bg_image', '');
       };
@@ -339,7 +507,8 @@
       const file = e.target.files[0]; if (!file) return;
       if (typeof compressImage === 'function') {
         compressImage(file, 800, (url) => {
-          document.getElementById('messages').style.background = `url(${url}) center/cover no-repeat`;
+          const messagesEl = document.getElementById('messages');
+          if (messagesEl) messagesEl.style.background = `url(${url}) center/cover no-repeat`;
           cfg.chatBgImage = url; cfg.chatBg = '';
           save('chat_bg_image', url); save('chat_bg', '');
         });
@@ -430,7 +599,7 @@
       save('theme_css', css);
     };
   }
-/* ★★★ js 第 2 段 结束 ★★★ *//* ★★★ js 第 3 段 开始 ★★★ */
+
   function renderFeatureTab(panel) {
     const mailOn = load('mail_auto_on', false);
     const mailMin = load('mail_auto_min', 3);
@@ -438,7 +607,6 @@
     const momentOn = load('moment_auto_on', true);
     const questionOn = load('question_auto_on', true);
     const callOn = load('call_auto_on', true);
-    const prankOn = load('prank_auto_on', true);
     
     panel.innerHTML = `
       <div class="set-card">
@@ -460,10 +628,7 @@
           <span class="label">允许主动打电话</span>
           <input type="checkbox" id="callAutoOn" ${callOn ? 'checked' : ''}>
         </div>
-        <div class="set-row">
-          <span class="label">允许搞怪 (扔东西/戳脸)</span>
-          <input type="checkbox" id="prankAutoOn" ${prankOn ? 'checked' : ''}>
-        </div>
+        <!-- 搞怪已被彻底删掉 -->
         <div class="set-row">
           <span class="label">允许发问卷</span>
           <input type="checkbox" id="questionAutoOn" ${questionOn ? 'checked' : ''}>
@@ -485,17 +650,12 @@
       save('mail_auto_max', Math.max(mn, mx));
       save('moment_auto_on', panel.querySelector('#momentAutoOn').checked);
       save('call_auto_on', panel.querySelector('#callAutoOn').checked);
-      save('prank_auto_on', panel.querySelector('#prankAutoOn').checked);
       save('question_auto_on', panel.querySelector('#questionAutoOn').checked);
       
-      // 每次保存开关，重置一下触发时间，避免切回去马上触发
       save('moment_trigger_time', 0);
       save('question_trigger_time', 0);
       save('call_trigger_time', 0);
       save('call_trigger_count', 0);
-      save('prank_trigger_time', 0);
-      save('prank_trigger_count', 0);
-      save('prank_trigger_max', 0);
       
       alert('已保存');
       if (typeof scheduleAutoMail === 'function') scheduleAutoMail();
@@ -512,11 +672,10 @@
   function renderOtherTab(panel) {
     panel.innerHTML = `
       <div class="set-card">
-        <div class="set-card-title">备份</div>
-        <p style="font-size:13px;color:#999;padding:6px 2px 12px;">导出后请把文字存到备忘录。</p>
-        <button class="btn-primary" id="exportBtn" style="margin:4px 0;">导出备份</button>
-        <button class="btn-secondary" id="importBtn" style="margin:4px 0;">导入备份</button>
-        <textarea class="css-area" id="backupArea" placeholder="备份内容会显示在这里" style="height:160px;margin-top:10px;"></textarea>
+        <div class="set-card-title">备份与导出</div>
+        <p style="font-size:13px;color:#999;padding:6px 2px 12px;">只导出主字卡、Emoji、拍一拍、问卷题库。不包含语音和聊天记录。</p>
+        <button class="btn-primary" id="exportBtn" style="margin:4px 0;">一键导出字卡库</button>
+        <textarea class="css-area" id="backupArea" placeholder="点击上方导出后，内容会显示在这里，请复制保存" style="height:160px;margin-top:10px;"></textarea>
       </div>
       <div class="set-card">
         <div class="set-card-title">关于</div>
@@ -524,67 +683,21 @@
           <div class="title">Echo</div>
           你和 TA 的专属聊天室
           <div class="divider">────────────</div>
-          版本  v1.0<br>作者  ttvc7<br>始于  2026 年 9 月 24 日
+          版本 v1.0<br>作者 ttvc7
         </div>
       </div>
     `;
+    
     panel.querySelector('#exportBtn').onclick = () => {
       const data = {
-        messages: JSON.parse(localStorage.getItem('our_messages') || '[]'),
-        cards: JSON.parse(localStorage.getItem('our_cards') || '[]'),
-        questionBank: JSON.parse(localStorage.getItem('our_question_bank') || '[]'),
-        taQuestionsSent: JSON.parse(localStorage.getItem('our_ta_questions_sent') || '[]'),
-        mails: JSON.parse(localStorage.getItem('our_mails') || '[]'),
-        surveys: JSON.parse(localStorage.getItem('our_surveys') || '[]'),
-        moments: JSON.parse(localStorage.getItem('our_moments') || '[]'),
-        voices: JSON.parse(localStorage.getItem('our_voices_meta') || '[]'),
-        shopItems: JSON.parse(localStorage.getItem('our_shop_items') || '[]'),
-        shopOrders: JSON.parse(localStorage.getItem('our_shop_orders') || '[]'),
-        favorites: JSON.parse(localStorage.getItem('our_favorites') || '[]'),
-        annivList: JSON.parse(localStorage.getItem('anniv_list') || '[]'),
-        annivStart: localStorage.getItem('anniv_start') || '',
-        homeQuote: localStorage.getItem('home_quote') || '',
-        talkMine: localStorage.getItem('home_talk_mine') || '',
-        talkTa: localStorage.getItem('home_talk_ta') || '',
-        taName: localStorage.getItem('ta_name') || '"TA"',
-        myName: localStorage.getItem('my_name') || '"我"'
+        mainCards: JSON.parse(localStorage.getItem('our_cards') || '[]'),
+        patToTa: localStorage.getItem('pat_to_ta') || '["{我} 拍了拍 {TA}"]',
+        patToMe: localStorage.getItem('pat_to_me') || '["{TA} 拍了拍 {我}"]',
+        questionBank: localStorage.getItem('our_question_bank') || '[]'
       };
-      
-      let text = '=== ttvc7 备份 ===\n';
-      text += '=== 原始数据（勿改） ===\n';
-      text += JSON.stringify(data);
-      panel.querySelector('#backupArea').value = text;
-      alert('已生成，请复制保存');
-    };
-    
-    panel.querySelector('#importBtn').onclick = () => {
-      const text = panel.querySelector('#backupArea').value;
-      const match = text.match(/=== 原始数据（勿改） ===\s*(\{[\s\S]*\})/);
-      if (!match) { alert('备份格式不对'); return; }
-      try {
-        const data = JSON.parse(match[1]);
-        if (data.messages) localStorage.setItem('our_messages', JSON.stringify(data.messages));
-        if (data.cards) localStorage.setItem('our_cards', JSON.stringify(data.cards));
-        if (data.questionBank) localStorage.setItem('our_question_bank', JSON.stringify(data.questionBank));
-        if (data.taQuestionsSent) localStorage.setItem('our_ta_questions_sent', JSON.stringify(data.taQuestionsSent));
-        if (data.mails) localStorage.setItem('our_mails', JSON.stringify(data.mails));
-        if (data.surveys) localStorage.setItem('our_surveys', JSON.stringify(data.surveys));
-        if (data.moments) localStorage.setItem('our_moments', JSON.stringify(data.moments));
-        if (data.voices) localStorage.setItem('our_voices_meta', JSON.stringify(data.voices));
-        if (data.shopItems) localStorage.setItem('our_shop_items', JSON.stringify(data.shopItems));
-        if (data.shopOrders) localStorage.setItem('our_shop_orders', JSON.stringify(data.shopOrders));
-        if (data.favorites) localStorage.setItem('our_favorites', JSON.stringify(data.favorites));
-        if (data.annivList) localStorage.setItem('anniv_list', JSON.stringify(data.annivList));
-        if (data.annivStart) localStorage.setItem('anniv_start', data.annivStart);
-        
-        if (data.homeQuote) localStorage.setItem('home_quote', data.homeQuote);
-        if (data.talkMine) localStorage.setItem('home_talk_mine', data.talkMine);
-        if (data.talkTa) localStorage.setItem('home_talk_ta', data.talkTa);
-        if (data.taName) localStorage.setItem('ta_name', data.taName);
-        if (data.myName) localStorage.setItem('my_name', data.myName);
-        
-        alert('导入成功，刷新页面生效');
-      } catch (e) { alert('导入失败：' + e.message); }
+      const jsonStr = JSON.stringify(data, null, 2);
+      panel.querySelector('#backupArea').value = jsonStr;
+      alert('已导出纯字卡库，请复制文本框内容');
     };
   }
 
@@ -614,31 +727,7 @@
 
     const savedThemeColor = localStorage.getItem('theme_color');
     if (savedThemeColor) applyThemeColor(JSON.parse(savedThemeColor));
-
-    const bubbleCss = localStorage.getItem('bubble_css');
-    if (bubbleCss) {
-      const s = document.createElement('style');
-      s.id = 'userBubbleCss';
-      s.textContent = JSON.parse(bubbleCss);
-      document.head.appendChild(s);
-    }
-
-    const fontCss = localStorage.getItem('font_css');
-    if (fontCss) {
-      const s = document.createElement('style');
-      s.id = 'userFontCss';
-      s.textContent = JSON.parse(fontCss);
-      document.head.appendChild(s);
-    }
-
-    const themeCss = localStorage.getItem('theme_css');
-    if (themeCss) {
-      const s = document.createElement('style');
-      s.id = 'userThemeCss';
-      s.textContent = JSON.parse(themeCss);
-      document.head.appendChild(s);
-    }
   });
 
 })();
-/* ★★★ js 第 3 段 结束 ★★★ */
+/* ★★★ settings.js 第 3 段 结束 ★★★ */
