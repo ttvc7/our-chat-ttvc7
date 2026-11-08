@@ -12,7 +12,8 @@
   /* 补充修复：加号菜单流式挤出 & 看电影全屏 */
   #chatPage { display: flex; flex-direction: column; height: 100vh; height: 100dvh; overflow: hidden; }
   #chatPage .chat-footer { flex-shrink: 0; }
-  /* 将 plusMenu 放入流式布局 */
+  
+  /* 加号菜单：改成从底部弹起挤压聊天记录 */
   #plusMenu {
     position: static !important;
     width: 100% !important;
@@ -31,8 +32,21 @@
     padding: 16px !important;
     border-top: 1px solid #e0e0e0;
   }
-  .plus-menu.hidden { transform: none; opacity: 1; pointer-events: auto; } /* 覆盖原动画 */
+  .plus-menu.hidden { transform: none; opacity: 1; pointer-events: auto; }
   
+  /* 聊天内时间戳样式 */
+  .msg-time-stamp {
+    font-size: 10px;
+    color: #bbb;
+    position: absolute;
+    bottom: -18px;
+    white-space: nowrap;
+    pointer-events: none;
+  }
+  .msg-row.me .msg-time-stamp { right: 0; }
+  .msg-row.ta .msg-time-stamp { left: 0; }
+  /* 避免与已读回执冲突，如果开启了已读回执，时间戳往右偏移一点或者就挤在一起 */
+
   /* 电影横屏强制旋转 */
   body.movie-landscape #moviePage {
     transform: rotate(90deg);
@@ -40,7 +54,22 @@
     width: 100vh; height: 100vw;
     position: fixed; top: 0; left: 100vw;
     z-index: 9999;
+    background: #000;
   }
+  body.movie-landscape #moviePage .chat-header { display: none !important; }
+  body.movie-landscape .movie-screen { height: 100vh !important; }
+  body.movie-landscape .movie-fs-exit-btn {
+    display: flex !important;
+    position: absolute; top: 16px; right: 16px;
+    width: 36px; height: 36px; border-radius: 50%;
+    background: rgba(0,0,0,0.5); color: #fff;
+    align-items: center; justify-content: center;
+    z-index: 10000; border: none; font-size: 20px;
+  }
+  .movie-fs-exit-btn { display: none; }
+
+  /* 聊天气泡相对定位用于时间戳 */
+  .msg-row .bubble { position: relative; }
 </style>
 </head>
 <body>
@@ -123,6 +152,7 @@
     <div class="bar-item" data-key="mail">信箱</div>
   </div>
 </div>
+<!-- ★★★ 第 1 段 结束 ★★★ --><!-- ★★★ 第 2 段 开始 ★★★ -->
 
 <!-- ===== 朋友圈 ===== -->
 <div id="momentsPage" class="page hidden">
@@ -187,7 +217,6 @@
     </div>
   </div>
 </div>
-<!-- ★★★ 第 1 段 结束 ★★★ --><!-- ★★★ 第 2 段 开始 ★★★ -->
 
 <!-- ===== 纪念日 ===== -->
 <div id="annivPage" class="page hidden">
@@ -254,7 +283,10 @@
       <div class="plus-item" data-key="continue"><div class="plus-icon"><svg viewBox="0 0 24 24" fill="none" stroke="#333" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 12 A8 8 0 1 1 12 20"></path><path d="M4 12 L2 9 M4 12 L7 10"></path></svg></div><div class="plus-label">继续说</div></div>
 
       <div class="plus-item" data-key="call"><div class="plus-icon"><svg viewBox="0 0 24 24" fill="none" stroke="#333" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"></path></svg></div><div class="plus-label">通话</div></div>
-      <div class="plus-item" data-key="prank"><div class="plus-icon"><svg viewBox="0 0 24 24" fill="none" stroke="#333" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"></circle><path d="M8 14s1.5 2 4 2 4-2 4-2"></path><line x1="9" y1="9" x2="9.01" y2="9"></line><line x1="15" y1="9" x2="15.01" y2="9"></line></svg></div><div class="plus-label">搞怪</div></div>
+      
+      <!-- 替换搞怪为测距 -->
+      <div class="plus-item" data-key="distance"><div class="plus-icon"><svg viewBox="0 0 24 24" fill="none" stroke="#333" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"></circle><circle cx="12" cy="12" r="4"></circle><path d="M12 2v4M12 18v4M2 12h4M18 12h4"></path></svg></div><div class="plus-label">测距</div></div>
+      
       <div class="plus-item" data-key="movie"><div class="plus-icon"><svg viewBox="0 0 24 24" fill="none" stroke="#333" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="2" width="20" height="20" rx="2.18"></rect><line x1="7" y1="2" x2="7" y2="22"></line><line x1="17" y1="2" x2="17" y2="22"></line><line x1="2" y1="12" x2="22" y2="12"></line><line x1="2" y1="7" x2="7" y2="7"></line><line x1="2" y1="17" x2="7" y2="17"></line><line x1="17" y1="17" x2="22" y2="17"></line><line x1="17" y1="7" x2="22" y2="7"></line></svg></div><div class="plus-label">看电影</div></div>
       <div class="plus-item" data-key="quiz"><div class="plus-icon"><svg viewBox="0 0 24 24" fill="none" stroke="#333" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"></path></svg></div><div class="plus-label">灵魂问答</div></div>
     </div>
@@ -267,20 +299,11 @@
   <div class="menu-item" id="menuCards">字卡库</div>
 </div>
 
-<!-- 搞怪子菜单（保持 fixed 浮层，因为它是 plusMenu 的子功能） -->
-<div id="prankMenu" class="plus-menu hidden" style="position:fixed; left:auto; right:14px; bottom:120px; width:280px; padding:14px 12px; z-index:95;">
-  <div style="display:flex; justify-content:space-around; align-items:center;">
-    <div class="prank-item" data-type="tomato" style="text-align:center; cursor:pointer; font-size:26px; padding:4px 8px;">🍅<div style="font-size:12px;color:#666;margin-top:4px;">番茄</div></div>
-    <div class="prank-item" data-type="cake" style="text-align:center; cursor:pointer; font-size:26px; padding:4px 8px;">🍰<div style="font-size:12px;color:#666;margin-top:4px;">蛋糕</div></div>
-    <div class="prank-item" data-type="water" style="text-align:center; cursor:pointer; font-size:26px; padding:4px 8px;">💧<div style="font-size:12px;color:#666;margin-top:4px;">水球</div></div>
-    <div class="prank-item" data-type="poke" style="text-align:center; cursor:pointer; font-size:26px; padding:4px 8px;">👉<div style="font-size:12px;color:#666;margin-top:4px;">戳脸</div></div>
-  </div>
-</div>
-
 <!-- 长按菜单 -->
 <div id="longPressMenu" class="long-press-menu hidden">
   <div class="lp-item" data-act="copy">复制</div><div class="lp-item" data-act="quote">引用</div><div class="lp-item" data-act="fav">收藏</div><div class="lp-item" data-act="del">删除</div>
 </div>
+
 <!-- ★★★ 第 2 段 结束 ★★★ --><!-- ★★★ 第 3 段 开始 ★★★ -->
 
 <!-- ===== 信箱 ===== -->
@@ -681,6 +704,7 @@
 
 <!-- ===== 看电影 ===== -->
 <div id="moviePage" class="page hidden" style="background:#111;">
+  <button class="movie-fs-exit-btn" id="movieFsExitBtn">✕</button>
   <header class="chat-header" style="background:#222;border-bottom:none;">
     <div class="header-left"><button class="header-btn" id="backFromMovieBtn"><svg viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M15 6 L9 12 L15 18"></path></svg></button></div>
     <span style="color:#fff;">一起看电影</span>
@@ -756,12 +780,8 @@ function load(key, def) {
   catch (e) { return def; }
 }
 function save(key, val) {
-  try {
-    localStorage.setItem(key, JSON.stringify(val));
-  } catch (e) {
-    console.error('保存失败', key, e);
-    alert('本地存储已满，请清理一些图片或表情');
-  }
+  try { localStorage.setItem(key, JSON.stringify(val)); }
+  catch (e) { console.error('保存失败', key, e); alert('本地存储已满，请清理一些图片或表情'); }
 }
 
 /* ===== 全局卡片数组 ===== */
@@ -776,41 +796,39 @@ function showPage(id) {
   if (page) page.classList.remove('hidden');
   if (id === 'chatPage') {
     setTimeout(() => {
-      const el = document.getElementById('messages');
-      if (el && typeof refreshMessages === 'function') {
-        refreshMessages();
-        el.scrollTop = el.scrollHeight;
-      }
+      if (typeof refreshMessages === 'function') refreshMessages();
     }, 50);
   }
 }
 
-/* ===== 日期工具 ===== */
+/* ===== 日期时间格式化工具 ===== */
+function pad2(n) { return String(n).padStart(2, '0'); }
+
+// 格式化时间为 6:30 PM / AM
+function formatTimestamp(t) {
+  const d = new Date(t);
+  let h = d.getHours();
+  const m = pad2(d.getMinutes());
+  const ampm = h >= 12 ? 'PM' : 'AM';
+  h = h % 12;
+  if (h === 0) h = 12;
+  return `${h}:${m} ${ampm}`;
+}
+
+// 完整日期(用于分割线)
+function formatDateFull(t) {
+  const d = new Date(t);
+  return `${d.getMonth() + 1}月${d.getDate()}日`;
+}
+
 function todayKey() {
   const d = new Date();
   return `${d.getFullYear()}-${d.getMonth() + 1}-${d.getDate()}`;
 }
-function formatDateFull(t) {
-  const d = new Date(t);
-  const hh = String(d.getHours()).padStart(2, '0');
-  const mm = String(d.getMinutes()).padStart(2, '0');
-  return `${d.getMonth() + 1}月${d.getDate()}日 ${hh}:${mm}`;
-}
-function pad2(n) { return String(n).padStart(2, '0'); }
-function fmtTime(s) {
-  s = Math.floor(s || 0);
-  const m = Math.floor(s / 60);
-  const ss = s % 60;
-  return String(m).padStart(2, '0') + ':' + String(ss).padStart(2, '0');
-}
-
 function ensureDateDivider() {
   const last = load('last_msg_day', '');
   const key = todayKey();
-  if (key !== last) {
-    save('last_msg_day', key);
-    return true;
-  }
+  if (key !== last) { save('last_msg_day', key); return true; }
   return false;
 }
 function addDateDivider(t) {
@@ -818,6 +836,13 @@ function addDateDivider(t) {
   div.className = 'date-divider';
   div.textContent = formatDateFull(t);
   messagesEl.appendChild(div);
+}
+
+function fmtTime(s) {
+  s = Math.floor(s || 0);
+  const m = Math.floor(s / 60);
+  const ss = s % 60;
+  return String(m).padStart(2, '0') + ':' + String(ss).padStart(2, '0');
 }
 
 /* ===== 头像构造 ===== */
@@ -1033,7 +1058,6 @@ function startOnlineTicker() {
     if (_isPageVisible() && _visibleSince) {
       settleVisibleTime();
       _visibleSince = performance.now();
-      // 触发基于时长的互动检查
       if (typeof checkOnlineEvents === 'function') checkOnlineEvents();
     }
   }, 5000);
@@ -1081,43 +1105,37 @@ function checkOnlineEvents() {
     }
   }
 
-  // 3. 搞怪
-  if (load('prank_auto_on', true)) {
-    let pTrigger = load('prank_trigger_time', 0);
-    let pCount = load('prank_trigger_count', 0);
-    let pMax = load('prank_trigger_max', 0);
-    if (pMax === 0) { pMax = 2 + Math.floor(Math.random() * 4); save('prank_trigger_max', pMax); }
-    if (pCount < pMax) {
-      if (pTrigger === 0) {
-        save('prank_trigger_time', totalOnline + (20 + Math.random() * 40) * 60 * 1000);
-      } else if (totalOnline >= pTrigger) {
-        if (typeof triggerTaPrank === 'function') triggerTaPrank();
-        save('prank_trigger_time', 0);
-        save('prank_trigger_count', pCount + 1);
-      }
-    }
-  }
-
-  // 4. 问卷
+  // 3. 问卷
   if (load('question_auto_on', true)) {
     let qTrigger = load('question_trigger_time', 0);
     if (qTrigger === 0) {
-      save('question_trigger_time', totalOnline + (60 + Math.random() * 180) * 60 * 1000);
+      save('question_trigger_time', totalOnline + (60 + Math.random() * 120) * 60 * 1000);
     } else if (totalOnline >= qTrigger) {
       if (typeof triggerTaQuestion === 'function') triggerTaQuestion();
       save('question_trigger_time', 0);
     }
   }
 
-  // 5. 自动写信 (新逻辑：按累计在线 1~2 小时触发，带冷却上限)
+  // 4. 礼物 (30 ~ 60 分钟)
+  if (load('gift_auto_on', true)) {
+    let gTrigger = load('gift_trigger_time', 0);
+    if (gTrigger === 0) {
+      save('gift_trigger_time', totalOnline + (30 + Math.random() * 30) * 60 * 1000);
+    } else if (totalOnline >= gTrigger) {
+      if (typeof triggerTaGift === 'function') triggerTaGift();
+      save('gift_trigger_time', 0);
+    }
+  }
+
+  // 5. 信箱 (1 ~ 2 小时)
   if (load('mail_auto_on', false)) {
     let mailTrigger = load('mail_trigger_time', 0);
     if (mailTrigger === 0) {
-      const delayHrs = 1 + Math.random() * 1; // 1~2小时
+      const delayHrs = 1 + Math.random() * 1;
       save('mail_trigger_time', totalOnline + delayHrs * 3600 * 1000);
     } else if (totalOnline >= mailTrigger) {
       if (typeof triggerTaMail === 'function') triggerTaMail();
-      save('mail_trigger_time', 0); // 重置，等下一次触发前重新随机
+      save('mail_trigger_time', 0); 
     }
   }
 }
@@ -1125,14 +1143,51 @@ function checkOnlineEvents() {
 <!-- ★★★ 第 6 段 结束 ★★★ --><!-- ★★★ 第 7 段 开始 ★★★ -->
 <script>
 /* ============================================================
-   统一渲染层
+   统一渲染层 & 时间戳折叠逻辑
    ============================================================ */
 
+/* ---------- 核心时间戳追加函数 ---------- */
+// 传入当前行元素、发送者、时间戳、消息列表，判断是否显示时间
+function appendTimestampIfNeeded(row, sender, t, msgs, idx) {
+  // 清理可能存在的旧时间戳
+  const oldStamp = row.querySelector('.msg-time-stamp');
+  if (oldStamp) oldStamp.remove();
+
+  let showTime = false;
+  // 如果是最后一条消息，必定显示时间
+  if (idx === msgs.length - 1) {
+    showTime = true;
+  } else {
+    const nextMsg = msgs[idx + 1];
+    // 下一条消息如果换人了，或者中间隔了超过3分钟（180000毫秒），或者夹了系统提示/特殊卡片，则显示时间
+    if (!nextMsg || nextMsg.sender !== sender || (nextMsg.t - t > 180000) || nextMsg.type === 'systemtip' || nextMsg.type === 'datedivider') {
+      showTime = true;
+    } else {
+      // 如果下一条是同一个人发的，且不超过3分钟，则把下一条的时间抹掉（如果它存在）
+      // 但因为在重构渲染时是从上往下，所以我们不处理，由渲染后的统一清理来搞定
+    }
+  }
+
+  if (showTime) {
+    const timeEl = document.createElement('div');
+    timeEl.className = 'msg-time-stamp';
+    timeEl.textContent = formatTimestamp(t);
+    // 找气泡或卡片
+    const bubble = row.querySelector('.bubble, .shop-card, .transfer-card, .survey-card-msg, .voice-bubble, .movie-invite-card, .distance-wrap') || row;
+    // 保证父元素 relative
+    bubble.style.position = 'relative';
+    bubble.appendChild(timeEl);
+  }
+}
+
 /* ---------- 文字消息 ---------- */
-function addMessage(sender, content, quote, store, msgId) {
+function addMessage(sender, content, quote, store, msgId, t) {
   const row = document.createElement('div');
   row.className = 'msg-row ' + (sender === 'me' ? 'me' : 'ta');
   row.dataset.msgId = msgId || (Date.now() + '_' + Math.random().toString(36).slice(2, 8));
+  row.dataset.sender = sender;
+  const useT = t || Date.now();
+  row.dataset.t = useT;
 
   const avatar = buildAvatar(sender);
   const bubble = document.createElement('div');
@@ -1158,31 +1213,22 @@ function addMessage(sender, content, quote, store, msgId) {
   row.appendChild(avatar);
   row.appendChild(bubble);
   messagesEl.appendChild(row);
-  messagesEl.scrollTop = messagesEl.scrollHeight;
-
-  const sb = document.getElementById('scrollBottomBtn');
-  if (sb) sb.classList.add('hidden');
 
   if (store !== false) {
     const msgs = load('our_messages', []);
-    if (ensureDateDivider()) {
-      const div = { type: 'datedivider', text: formatDateFull(Date.now()), t: Date.now() - 1 };
-      msgs.push(div);
-      const dividerEl = document.createElement('div');
-      dividerEl.className = 'date-divider';
-      dividerEl.textContent = div.text;
-      messagesEl.insertBefore(dividerEl, row);
-    }
-    msgs.push({ type: 'text', sender, content, quote: quote || '', t: Date.now(), msgId: row.dataset.msgId, read: false });
+    msgs.push({ type: 'text', sender, content, quote: quote || '', t: useT, msgId: row.dataset.msgId, read: false });
     save('our_messages', msgs);
   }
 }
 
 /* ---------- 图片消息 ---------- */
-function addImage(sender, url, store) {
+function addImage(sender, url, store, t) {
   const row = document.createElement('div');
   row.className = 'msg-row ' + (sender === 'me' ? 'me' : 'ta');
   row.dataset.msgId = Date.now() + '_' + Math.random().toString(36).slice(2, 8);
+  row.dataset.sender = sender;
+  const useT = t || Date.now();
+  row.dataset.t = useT;
 
   const avatar = buildAvatar(sender);
   const img = document.createElement('img');
@@ -1194,22 +1240,24 @@ function addImage(sender, url, store) {
   row.appendChild(avatar);
   row.appendChild(img);
   messagesEl.appendChild(row);
-  messagesEl.scrollTop = messagesEl.scrollHeight;
 
   if (store !== false) {
     const msgs = load('our_messages', []);
-    msgs.push({ type: 'image', sender, url, t: Date.now(), msgId: row.dataset.msgId });
+    msgs.push({ type: 'image', sender, url, t: useT, msgId: row.dataset.msgId });
     save('our_messages', msgs);
   }
 }
 
 /* ---------- 语音消息 ---------- */
-function addVoiceMessage(sender, voiceId, name, duration, store) {
+function addVoiceMessage(sender, voiceId, name, duration, store, t) {
   const row = document.createElement('div');
   row.className = 'msg-row ' + (sender === 'me' ? 'me' : 'ta');
   row.dataset.msgId = Date.now() + '_' + Math.random().toString(36).slice(2, 8);
-  const avatar = buildAvatar(sender);
+  row.dataset.sender = sender;
+  const useT = t || Date.now();
+  row.dataset.t = useT;
 
+  const avatar = buildAvatar(sender);
   const bubble = document.createElement('div');
   bubble.className = 'voice-bubble';
   bubble.dataset.voiceId = voiceId;
@@ -1218,31 +1266,22 @@ function addVoiceMessage(sender, voiceId, name, duration, store) {
     <div class="waves">${'<span></span>'.repeat(9)}</div>
     <div class="duration">${escHtml(duration)}</div>
   `;
-  bubble.onclick = (e) => {
-    e.stopPropagation();
-    playVoice(bubble, voiceId);
-  };
-  row.appendChild(avatar);
-  row.appendChild(bubble);
+  bubble.onclick = (e) => { e.stopPropagation(); playVoice(bubble, voiceId); };
+  row.appendChild(avatar); row.appendChild(bubble);
   messagesEl.appendChild(row);
-  messagesEl.scrollTop = messagesEl.scrollHeight;
 
   if (store !== false) {
     const msgs = load('our_messages', []);
-    msgs.push({ type: 'voice', sender, voiceId, name, duration, t: Date.now(), msgId: row.dataset.msgId });
+    msgs.push({ type: 'voice', sender, voiceId, name, duration, t: useT, msgId: row.dataset.msgId });
     save('our_messages', msgs);
   }
 }
 
 /* ---------- 语音播放 ---------- */
-let currentAudio = null;
-let currentAudioEl = null;
-let currentAudioUrl = null;
-
+let currentAudio = null, currentAudioEl = null, currentAudioUrl = null;
 async function playVoice(bubbleEl, voiceId) {
   const rec = await idbGet('voices', voiceId);
   if (!rec) return;
-
   if (currentAudioEl === bubbleEl && currentAudio) {
     currentAudio.pause();
     if (currentAudioUrl) URL.revokeObjectURL(currentAudioUrl);
@@ -1251,7 +1290,6 @@ async function playVoice(bubbleEl, voiceId) {
     currentAudio = null; currentAudioEl = null; currentAudioUrl = null;
     return;
   }
-
   if (currentAudio) {
     currentAudio.pause();
     if (currentAudioEl) {
@@ -1260,45 +1298,100 @@ async function playVoice(bubbleEl, voiceId) {
     }
     if (currentAudioUrl) URL.revokeObjectURL(currentAudioUrl);
   }
-
   currentAudioUrl = URL.createObjectURL(rec.blob);
   currentAudio = new Audio(currentAudioUrl);
   currentAudioEl = bubbleEl;
   bubbleEl.classList.add('playing');
   bubbleEl.querySelector('.play-btn').innerHTML = '<svg viewBox="0 0 24 24"><path d="M7 5 H10 V19 H7 Z"></path><path d="M14 5 H17 V19 H14 Z"></path></svg>';
-
   currentAudio.onended = () => {
     bubbleEl.classList.remove('playing');
     bubbleEl.querySelector('.play-btn').innerHTML = '<svg viewBox="0 0 24 24"><path d="M8 5 V19 L19 12 Z"></path></svg>';
     if (currentAudioUrl) URL.revokeObjectURL(currentAudioUrl);
     currentAudio = null; currentAudioEl = null; currentAudioUrl = null;
   };
-  currentAudio.play().catch(() => {
-    bubbleEl.classList.remove('playing');
-    bubbleEl.querySelector('.play-btn').innerHTML = '<svg viewBox="0 0 24 24"><path d="M8 5 V19 L19 12 Z"></path></svg>';
-  });
+  currentAudio.play().catch(() => { bubbleEl.classList.remove('playing'); });
 }
 
-/* ---------- 系统提示 (胶囊样式) ---------- */
-function addSystemTip(text, store) {
+/* ---------- 系统提示 ---------- */
+function addSystemTip(text, store, t) {
   const sys = document.createElement('div');
   sys.className = 'system-tip';
   sys.textContent = text;
+  sys.dataset.sender = 'system';
+  const useT = t || Date.now();
+  sys.dataset.t = useT;
   messagesEl.appendChild(sys);
-  messagesEl.scrollTop = messagesEl.scrollHeight;
+
   if (store !== false) {
     const msgs = load('our_messages', []);
-    msgs.push({ type: 'systemtip', text, t: Date.now() });
+    msgs.push({ type: 'systemtip', text, t: useT });
     save('our_messages', msgs);
   }
 }
 
+/* ---------- 测距卡片 ---------- */
+function renderDistanceCard(m) {
+  const row = document.createElement('div');
+  row.className = 'msg-row ' + (m.sender === 'me' ? 'me' : 'ta');
+  row.dataset.msgId = m.msgId;
+  row.dataset.sender = m.sender;
+  row.dataset.t = m.t;
+  // 无头像，居中
+  row.style.cssText = 'justify-content:center; max-width:100%; padding-bottom:25px;';
+  
+  const card = document.createElement('div');
+  card.className = 'distance-wrap';
+  card.style.cssText = 'width:78%; background:rgba(255,255,255,.55); backdrop-filter:blur(10px); border:1px solid rgba(255,255,255,.6); border-radius:16px; padding:16px; text-align:center; box-shadow:0 4px 16px rgba(0,0,0,.06); cursor:pointer; position:relative;';
+  card.innerHTML = `
+    <div style="font-size:13px; color:#888; margin-bottom:8px;">📍 测距</div>
+    <div style="font-size:24px; font-weight:700; color:#333; line-height:1.2; margin-bottom:4px;">${m.distance} <span style="font-size:14px;font-weight:normal;">米</span></div>
+    <div style="font-size:11px; color:#aaa;">点击查看</div>
+  `;
+  card.onclick = () => openDistancePopup(m);
+  row.appendChild(card);
+  messagesEl.appendChild(row);
+}
+
+/* 测距弹窗 */
+function openDistancePopup(m) {
+  const mask = document.createElement('div');
+  mask.className = 'modal';
+  mask.style.zIndex = '9999';
+  
+  const myA = load('my_avatar', '');
+  const taA = load('ta_avatar', '');
+  const myName = load('my_name', '我').charAt(0);
+  const taName = load('ta_name', 'TA').charAt(0);
+  
+  const myAvatarHTML = myA ? `<div style="width:50px;height:50px;border-radius:50%;background:url(${myA}) center/cover;"></div>` : `<div style="width:50px;height:50px;border-radius:50%;background:#ccc;color:#fff;display:flex;align-items:center;justify-content:center;font-weight:bold;font-size:18px;">${myName}</div>`;
+  const taAvatarHTML = taA ? `<div style="width:50px;height:50px;border-radius:50%;background:url(${taA}) center/cover;"></div>` : `<div style="width:50px;height:50px;border-radius:50%;background:#e8a33d;color:#fff;display:flex;align-items:center;justify-content:center;font-weight:bold;font-size:18px;">${taName}</div>`;
+
+  mask.innerHTML = `
+    <div style="background:#fff; border-radius:20px; width:82%; max-width:320px; padding:24px; text-align:center; box-shadow:0 12px 40px rgba(0,0,0,0.12);">
+      <div style="font-size:15px; color:#666; margin-bottom:20px;">我们之间的距离</div>
+      <div style="display:flex; align-items:center; justify-content:center; gap:16px; margin-bottom:20px;">
+        ${myAvatarHTML}
+        <div style="flex:1; border-bottom:2px dashed #ddd; height:1px;"></div>
+        ${taAvatarHTML}
+      </div>
+      <div style="font-size:32px; font-weight:bold; color:#333; margin-bottom:10px;">${m.distance} 米</div>
+      <div style="font-size:13px; color:#888; margin-bottom:24px;">“${m.text}”</div>
+      <button id="closeDistanceBtn" style="width:100%; padding:12px; background:#f0f0f0; color:#333; border:none; border-radius:12px; font-size:15px; font-weight:600; cursor:pointer;">关闭</button>
+    </div>
+  `;
+  document.body.appendChild(mask);
+  mask.querySelector('#closeDistanceBtn').onclick = () => mask.remove();
+  mask.onclick = (e) => { if(e.target === mask) mask.remove(); };
+}
+
 /* ---------- 灵魂问答卡片 ---------- */
-function renderSoulQA(record) {
+function renderSoulQA(record, t, msgId, sender) {
   const wrap = document.createElement('div');
-  wrap.className = 'soulqa-wrap';
-  wrap.style.cssText = 'display:flex; justify-content:center; margin:12px 0;';
-  wrap.dataset.msgId = 'sqa_' + record.id;
+  wrap.className = 'msg-row ' + (sender === 'me' ? 'me' : 'ta');
+  wrap.dataset.msgId = msgId;
+  wrap.dataset.sender = sender;
+  wrap.dataset.t = t;
+  wrap.style.cssText = 'justify-content:center; max-width:100%; padding-bottom:25px;';
 
   wrap.innerHTML = `
     <div class="soulqa-card" style="width:78%; background:rgba(255,255,255,.55); backdrop-filter:blur(10px); border:1px solid rgba(255,255,255,.6); border-radius:16px; padding:16px; text-align:center; box-shadow:0 4px 16px rgba(0,0,0,.06);">
@@ -1314,40 +1407,37 @@ function renderSoulQA(record) {
     </div>
   `;
   messagesEl.appendChild(wrap);
-  messagesEl.scrollTop = messagesEl.scrollHeight;
 }
 
 /* ---------- 转账卡片 ---------- */
 function renderTransferCard(m) {
-  const isMe = m.sender === 'me';
   const row = document.createElement('div');
-  row.className = 'msg-row ' + (isMe ? 'me' : 'ta');
-  row.dataset.msgId = m.msgId || (Date.now() + '_' + Math.random().toString(36).slice(2, 8));
+  row.className = 'msg-row ' + (m.sender === 'me' ? 'me' : 'ta');
+  row.dataset.msgId = m.msgId;
+  row.dataset.sender = m.sender;
+  row.dataset.t = m.t;
   row.style.maxWidth = '70%';
+  row.style.paddingBottom = '25px';
   const avatar = buildAvatar(m.sender);
   const card = document.createElement('div');
   card.className = 'transfer-card';
   if (m.status === 'received') card.classList.add('received');
   if (m.status === 'refunded') card.classList.add('refunded');
-  const icon = document.createElement('div');
-  icon.className = 'transfer-card-icon';
-  if (m.status === 'received') icon.innerHTML = '<svg viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12 L10 17 L19 7"></path></svg>';
-  else if (m.status === 'refunded') icon.innerHTML = '<svg viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M19 12 A7 7 0 1 1 12 5"></path><path d="M12 5 L12 1 M12 5 L16 5"></path></svg>';
-  else icon.innerHTML = '<svg viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 8 L14 8 M10 4 L14 8 L10 12"></path><path d="M20 16 L10 16 M14 12 L10 16 L14 20"></path></svg>';
-  const info = document.createElement('div');
-  info.className = 'transfer-card-info';
+  
   const statusText = m.status === 'received' ? '已收款' : (m.status === 'refunded' ? '已退还' : '待收款');
-  info.innerHTML = `<div class="tc-amount">¥${(m.amount || 0).toFixed(2)}</div><div class="tc-status">${statusText}</div>`;
-  card.appendChild(icon); card.appendChild(info);
-  const label = document.createElement('div');
-  label.className = 'transfer-card-label';
-  label.textContent = '转账';
-  card.appendChild(label);
+  card.innerHTML = `
+    <div class="transfer-card-icon">
+      ${m.status === 'received' ? '<svg viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12 L10 17 L19 7"></path></svg>' : (m.status === 'refunded' ? '<svg viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M19 12 A7 7 0 1 1 12 5"></path><path d="M12 5 L12 1 M12 5 L16 5"></path></svg>' : '<svg viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 8 L14 8 M10 4 L14 8 L10 12"></path><path d="M20 16 L10 16 M14 12 L10 16 L14 20"></path></svg>')}
+    </div>
+    <div class="transfer-card-info">
+      <div class="tc-amount">¥${(m.amount || 0).toFixed(2)}</div>
+      <div class="tc-status">${statusText}</div>
+    </div>
+    <div class="transfer-card-label">转账</div>
+  `;
   card.onclick = () => openReceiveModal(m.transferId);
-  row.appendChild(avatar);
-  row.appendChild(card);
+  row.appendChild(avatar); row.appendChild(card);
   messagesEl.appendChild(row);
-  messagesEl.scrollTop = messagesEl.scrollHeight;
 }
 
 /* ---------- 商店卡片 ---------- */
@@ -1355,38 +1445,25 @@ function renderShopCard(m) {
   const row = document.createElement('div');
   row.className = 'msg-row ' + (m.sender === 'me' ? 'me' : 'ta');
   row.dataset.msgId = m.cardId;
-  if (m.cardId) row.dataset.shopCard = m.cardId;
+  row.dataset.shopCard = m.cardId;
+  row.dataset.sender = m.sender;
+  row.dataset.t = m.t;
+  row.style.paddingBottom = '25px';
   const avatar = buildAvatar(m.sender);
   const card = document.createElement('div');
   card.className = 'shop-card';
 
-  const top = document.createElement('div');
-  top.className = 'shop-card-top';
-  const img = document.createElement('img');
-  img.src = m.img || '';
-  img.alt = '';
-  const txtWrap = document.createElement('div');
-  txtWrap.style.flex = '1';
-  const titleEl = document.createElement('div');
-  titleEl.className = 'shop-card-title';
-  titleEl.textContent = m.title || '';
-  const subEl = document.createElement('div');
-  subEl.className = 'shop-card-sub';
-  subEl.textContent = m.sub || '';
-  txtWrap.appendChild(titleEl); txtWrap.appendChild(subEl);
-  top.appendChild(img); top.appendChild(txtWrap);
-
-  const line = document.createElement('div');
-  line.className = 'shop-card-line';
-
-  const statusEl = document.createElement('div');
-  statusEl.className = 'shop-card-status';
-  const tag = document.createElement('span');
-  tag.className = 'tag';
-  tag.textContent = m.status || '';
-  statusEl.appendChild(tag);
-
-  card.appendChild(top); card.appendChild(line); card.appendChild(statusEl);
+  card.innerHTML = `
+    <div class="shop-card-top">
+      <img src="${m.img || ''}" alt="">
+      <div style="flex:1;">
+        <div class="shop-card-title">${escHtml(m.title)}</div>
+        <div class="shop-card-sub">${escHtml(m.sub)}</div>
+      </div>
+    </div>
+    <div class="shop-card-line"></div>
+    <div class="shop-card-status"><span class="tag">${escHtml(m.status)}</span></div>
+  `;
 
   if (m.clickable) {
     card.style.cursor = 'pointer';
@@ -1403,7 +1480,6 @@ function renderShopCard(m) {
   }
   row.appendChild(avatar); row.appendChild(card);
   messagesEl.appendChild(row);
-  messagesEl.scrollTop = messagesEl.scrollHeight;
 }
 
 /* ---------- 问卷卡片 ---------- */
@@ -1411,110 +1487,157 @@ function renderSurveyCard(m) {
   const row = document.createElement('div');
   row.className = 'msg-row ' + (m.sender === 'me' ? 'me' : 'ta');
   row.dataset.msgId = m.cardId;
+  row.dataset.sender = m.sender;
+  row.dataset.t = m.t;
+  row.style.paddingBottom = '25px';
   const avatar = buildAvatar(m.sender);
   const card = document.createElement('div');
   card.className = 'survey-card-msg';
   card.dataset.surveyId = m.surveyId;
 
-  const top = document.createElement('div');
-  top.className = 'survey-card-msg-top';
-  const icon = document.createElement('div');
-  icon.className = 'survey-card-msg-icon';
-  icon.innerHTML = '<svg viewBox="0 0 24 24" fill="none" stroke="#666" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="4" y="4" width="16" height="18" rx="2"></rect><path d="M9 4 V7 H15 V4"></path><path d="M8 12 H16 M8 16 H14"></path></svg>';
-  const txtWrap = document.createElement('div');
-  txtWrap.style.flex = '1';
-  const titleEl = document.createElement('div');
-  titleEl.className = 'survey-card-msg-title';
-  titleEl.textContent = m.title || '';
-  const subEl = document.createElement('div');
-  subEl.className = 'survey-card-msg-sub';
-  subEl.textContent = m.sub || '';
-  txtWrap.appendChild(titleEl); txtWrap.appendChild(subEl);
-  top.appendChild(icon); top.appendChild(txtWrap);
-
-  const line = document.createElement('div');
-  line.className = 'survey-card-msg-line';
-
-  const foot = document.createElement('div');
-  foot.className = 'survey-card-msg-foot';
-  const cnt = document.createElement('span');
-  cnt.textContent = (m.count || 0) + '个问题';
-  const tag = document.createElement('span');
-  tag.className = 'tag';
-  tag.textContent = m.status || '';
-  foot.appendChild(cnt); foot.appendChild(tag);
-
-  card.appendChild(top); card.appendChild(line); card.appendChild(foot);
+  card.innerHTML = `
+    <div class="survey-card-msg-top">
+      <div class="survey-card-msg-icon"><svg viewBox="0 0 24 24" fill="none" stroke="#666" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="4" y="4" width="16" height="18" rx="2"></rect><path d="M9 4 V7 H15 V4"></path><path d="M8 12 H16 M8 16 H14"></path></svg></div>
+      <div style="flex:1;">
+        <div class="survey-card-msg-title">${escHtml(m.title)}</div>
+        <div class="survey-card-msg-sub">${escHtml(m.sub)}</div>
+      </div>
+    </div>
+    <div class="survey-card-msg-line"></div>
+    <div class="survey-card-msg-foot">
+      <span>${m.count || 0}个问题</span>
+      <span class="tag">${escHtml(m.status)}</span>
+    </div>
+  `;
   card.style.cursor = 'pointer';
   card.onclick = () => openSurveyAnswer(m.surveyId);
   row.appendChild(avatar); row.appendChild(card);
   messagesEl.appendChild(row);
-  messagesEl.scrollTop = messagesEl.scrollHeight;
 }
 
-/* ---------- TA 发来的问卷卡片 ---------- */
+/* ---------- TA 问卷卡片 ---------- */
 function renderQuestionCard(m) {
   const row = document.createElement('div');
   row.className = 'msg-row ' + (m.sender === 'me' ? 'me' : 'ta');
   row.dataset.msgId = m.cardId;
+  row.dataset.sender = m.sender;
+  row.dataset.t = m.t;
+  row.style.paddingBottom = '25px';
   const avatar = buildAvatar(m.sender);
   const card = document.createElement('div');
   card.className = 'survey-card-msg';
   card.dataset.questionId = m.questionId;
 
-  const top = document.createElement('div');
-  top.className = 'survey-card-msg-top';
-  const icon = document.createElement('div');
-  icon.className = 'survey-card-msg-icon';
-  icon.innerHTML = '<svg viewBox="0 0 24 24" fill="none" stroke="#666" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="4" y="4" width="16" height="18" rx="2"></rect><path d="M9 4 V7 H15 V4"></path><path d="M8 12 H16 M8 16 H14"></path></svg>';
-  const txtWrap = document.createElement('div');
-  txtWrap.style.flex = '1';
-  const titleEl = document.createElement('div');
-  titleEl.className = 'survey-card-msg-title';
-  titleEl.textContent = m.title || '';
-  const subEl = document.createElement('div');
-  subEl.className = 'survey-card-msg-sub';
-  subEl.textContent = m.sub || '';
-  txtWrap.appendChild(titleEl); txtWrap.appendChild(subEl);
-  top.appendChild(icon); top.appendChild(txtWrap);
-
-  const line = document.createElement('div');
-  line.className = 'survey-card-msg-line';
-
-  const foot = document.createElement('div');
-  foot.className = 'survey-card-msg-foot';
-  const cnt = document.createElement('span');
-  cnt.textContent = (m.count || 0) + '个问题';
-  const tag = document.createElement('span');
-  tag.className = 'tag';
-  tag.textContent = m.status || '';
-  foot.appendChild(cnt); foot.appendChild(tag);
-
-  card.appendChild(top); card.appendChild(line); card.appendChild(foot);
+  card.innerHTML = `
+    <div class="survey-card-msg-top">
+      <div class="survey-card-msg-icon"><svg viewBox="0 0 24 24" fill="none" stroke="#666" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="4" y="4" width="16" height="18" rx="2"></rect><path d="M9 4 V7 H15 V4"></path><path d="M8 12 H16 M8 16 H14"></path></svg></div>
+      <div style="flex:1;">
+        <div class="survey-card-msg-title">${escHtml(m.title)}</div>
+        <div class="survey-card-msg-sub">${escHtml(m.sub)}</div>
+      </div>
+    </div>
+    <div class="survey-card-msg-line"></div>
+    <div class="survey-card-msg-foot">
+      <span>${m.count || 0}个问题</span>
+      <span class="tag">${escHtml(m.status)}</span>
+    </div>
+  `;
   card.style.cursor = 'pointer';
   card.onclick = () => openQuestionAnswer(m.questionId);
   row.appendChild(avatar); row.appendChild(card);
   messagesEl.appendChild(row);
-  messagesEl.scrollTop = messagesEl.scrollHeight;
+}
+
+/* ---------- 电影邀请卡片（全新样式） ---------- */
+function renderMovieCard(m) {
+  const row = document.createElement('div');
+  row.className = 'msg-row ' + (m.sender === 'me' ? 'me' : 'ta');
+  row.dataset.msgId = m.cardId;
+  row.dataset.sender = m.sender;
+  row.dataset.t = m.t;
+  row.style.paddingBottom = '25px';
+  const avatar = buildAvatar(m.sender);
+  const card = document.createElement('div');
+  card.className = 'movie-invite-card';
+  card.style.cssText = 'background:#fff; border-radius:14px; padding:16px; min-width:230px; box-shadow:0 2px 10px rgba(0,0,0,0.05); border:1px solid #eee;';
+  
+  let icon = '🎬';
+  if (m.status === 'agreed') icon = '✅';
+  if (m.status === 'refused') icon = '❌';
+
+  card.innerHTML = `
+    <div style="display:flex; align-items:center; gap:10px; margin-bottom:12px;">
+      <div style="font-size:28px; flex-shrink:0;">${icon}</div>
+      <div style="flex:1;">
+        <div style="font-size:15px; font-weight:600; color:#111;">邀请你一起看电影</div>
+        <div style="font-size:13px; color:#888; margin-top:4px;">${escHtml(m.sub)}</div>
+      </div>
+    </div>
+    <div style="height:1px; background:#f5f5f5; margin:12px 0;"></div>
+    <div style="font-size:12px; color:#999; display:flex; justify-content:space-between;">
+      <span>看电影</span>
+      <span>${formatTimestamp(m.t)}</span>
+    </div>
+  `;
+  row.appendChild(avatar); row.appendChild(card);
+  messagesEl.appendChild(row);
 }
 
 /* ============================================================
-   refreshMessages
+   refreshMessages（核心：按时间排序、折叠时间戳）
    ============================================================ */
 function refreshMessages() {
   messagesEl.innerHTML = '';
   const msgs = load('our_messages', []);
-  msgs.forEach(m => {
+  
+  // 核心修复：按时间严格升序排列！
+  msgs.sort((a, b) => a.t - b.t);
+
+  msgs.forEach((m, idx) => {
     if (m.type === 'transfer') renderTransferCard(m);
-    else if (m.type === 'image') addImage(m.sender, m.url, false);
-    else if (m.type === 'text') addMessage(m.sender, m.content, m.quote, false, m.msgId);
-    else if (m.type === 'voice') addVoiceMessage(m.sender, m.voiceId, m.name, m.duration, false);
+    else if (m.type === 'image') addImage(m.sender, m.url, false, m.t);
+    else if (m.type === 'text') addMessage(m.sender, m.content, m.quote, false, m.msgId, m.t);
+    else if (m.type === 'voice') addVoiceMessage(m.sender, m.voiceId, m.name, m.duration, false, m.t);
     else if (m.type === 'shopcard') renderShopCard(m);
-    else if (m.type === 'systemtip') addSystemTip(m.text, false);
+    else if (m.type === 'systemtip') addSystemTip(m.text, false, m.t);
     else if (m.type === 'datedivider') addDateDivider(m.t);
     else if (m.type === 'surveycard') renderSurveyCard(m);
     else if (m.type === 'questioncard') renderQuestionCard(m);
-    else if (m.type === 'soulqa') renderSoulQA(m.record); /* 渲染灵魂问答 */
+    else if (m.type === 'soulqa') renderSoulQA(m.record, m.t, m.msgId, m.sender);
+    else if (m.type === 'distance') renderDistanceCard(m);
+    else if (m.type === 'moviecard') renderMovieCard(m);
+  });
+
+  // 渲染完毕后，统一处理时间戳折叠
+  const rows = Array.from(messagesEl.children).filter(el => el.classList.contains('msg-row'));
+  rows.forEach((row, i) => {
+    const sender = row.dataset.sender;
+    const t = parseInt(row.dataset.t);
+    
+    let showTime = false;
+    if (i === rows.length - 1) {
+      showTime = true;
+    } else {
+      const nextRow = rows[i + 1];
+      const nextT = parseInt(nextRow.dataset.t);
+      const nextSender = nextRow.dataset.sender;
+      if (nextSender !== sender || (nextT - t) > 180000) {
+        showTime = true;
+      }
+    }
+
+    // 移除旧时间戳
+    const old = row.querySelector('.msg-time-stamp');
+    if (old) old.remove();
+
+    if (showTime) {
+      const timeEl = document.createElement('div');
+      timeEl.className = 'msg-time-stamp';
+      timeEl.textContent = formatTimestamp(t);
+      const target = row.querySelector('.bubble, .transfer-card, .shop-card, .survey-card-msg, .voice-bubble, .movie-invite-card, .distance-wrap, .soulqa-card') || row;
+      target.style.position = 'relative';
+      target.appendChild(timeEl);
+    }
   });
 
   // 已读回执渲染
@@ -1600,7 +1723,10 @@ async function sendMessage() {
   quoteTarget = null;
   inputEl.placeholder = '输入消息…';
   inputEl.classList.remove('quoting');
+  
+  // 添加消息并记录时间戳
   addMessage('me', text, q || '', true);
+  refreshMessages(); // 刷新并重新渲染时间戳
   playSound('send');
 
   const rMin = load('reply_min', 1);
@@ -1631,6 +1757,7 @@ async function sendMessage() {
     }
   }
   hideTyping();
+  refreshMessages(); // 再次刷新以显示对方最后一条的时间
 }
 inputEl.addEventListener('keydown', e => { if (e.key === 'Enter') sendMessage(); });
 document.getElementById('sendBtn').onclick = sendMessage;
@@ -1650,6 +1777,40 @@ function markAllRead() {
       el.innerHTML = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M2 13 L7 18 L15 8"></path><path d="M9 13 L12 16 L20 6"></path></svg>';
     } else { el.textContent = '已读'; }
   });
+}
+
+/* ============================================================
+   测距功能 (替换搞怪)
+   ============================================================ */
+function triggerDistance() {
+  document.getElementById('plusMenu').classList.add('hidden');
+  
+  const distance = (Math.random() * 2.5 + 0.5).toFixed(1); // 0.5 ~ 3.0
+  
+  const texts = [
+    "就在你身边", "就在你身后", "一抬头就能看到", 
+    "你转过头看看", "近得能听见你呼吸", 
+    "想一把抱住你", "一伸手就能够到", "你就在我心上"
+  ];
+  const text = texts[Math.floor(Math.random() * texts.length)];
+  
+  const record = {
+    type: 'distance',
+    sender: 'me',
+    distance: distance,
+    text: text,
+    t: Date.now(),
+    msgId: 'dist_' + Date.now()
+  };
+  
+  const msgs = load('our_messages', []);
+  msgs.push(record);
+  save('our_messages', msgs);
+  
+  if (!document.getElementById('chatPage').classList.contains('hidden')) {
+    refreshMessages();
+  }
+  playSound('send');
 }
 
 /* ============================================================
@@ -1685,6 +1846,7 @@ function scheduleAutoMessage() {
         const reply = drawCardText();
         const quote = drawQuote();
         addMessage('ta', reply, quote, true);
+        refreshMessages();
         playSound('receive');
       }
     }
@@ -1710,27 +1872,19 @@ function scheduleAutoMessage() {
 })();
 
 /* ============================================================
-   加号菜单：流式挤出 & 子项绑定
+   加号菜单绑定
    ============================================================ */
 (function bindPlusMenu() {
   const plusBtn = document.getElementById('plusBtn');
   const plusMenu = document.getElementById('plusMenu');
-  const prankMenu = document.getElementById('prankMenu');
   if (!plusBtn || !plusMenu) return;
 
-  function closeAll() {
-    plusMenu.classList.add('hidden');
-    if (prankMenu) prankMenu.classList.add('hidden');
-  }
+  function closeAll() { plusMenu.classList.add('hidden'); }
 
   plusBtn.addEventListener('click', (e) => {
     e.stopPropagation();
-    // 点击加号时如果键盘开着，最好先收起键盘
     inputEl.blur(); 
     plusMenu.classList.toggle('hidden');
-    if (plusMenu.classList.contains('hidden') && prankMenu) {
-      prankMenu.classList.add('hidden');
-    }
   });
 
   plusMenu.addEventListener('click', (e) => {
@@ -1738,128 +1892,25 @@ function scheduleAutoMessage() {
     const item = e.target.closest('.plus-item');
     if (!item) return;
     const key = item.dataset.key;
-    
-    // 搞怪子菜单独立处理
-    if (key === 'prank') {
-      if (prankMenu) prankMenu.classList.toggle('hidden');
-      return;
-    }
-    if (prankMenu) prankMenu.classList.add('hidden');
 
     switch (key) {
-      case 'transfer':
-        if (typeof openTransferModal === 'function') openTransferModal();
-        closeAll();
-        break;
-      case 'gift':
-        if (typeof showShopPage === 'function') showShopPage(true);
-        closeAll();
-        break;
-      case 'survey':
-        if (typeof showSurveyListPage === 'function') showSurveyListPage();
-        closeAll();
-        break;
-      case 'continue':
-        if (typeof continueTalk === 'function') continueTalk();
-        closeAll();
-        break;
-      case 'call':
-        if (typeof startCall === 'function') startCall(false);
-        closeAll();
-        break;
-      case 'movie':
-        if (typeof startMovieInvite === 'function') startMovieInvite();
-        closeAll();
-        break;
-      case 'quiz':
-        if (typeof startQuiz === 'function') startQuiz();
-        closeAll();
-        break;
-      default:
-        closeAll();
+      case 'transfer': if (typeof openTransferModal === 'function') openTransferModal(); closeAll(); break;
+      case 'gift': if (typeof showShopPage === 'function') showShopPage(true); closeAll(); break;
+      case 'survey': if (typeof showSurveyListPage === 'function') showSurveyListPage(); closeAll(); break;
+      case 'continue': if (typeof continueTalk === 'function') continueTalk(); closeAll(); break;
+      case 'call': if (typeof startCall === 'function') startCall(false); closeAll(); break;
+      case 'movie': if (typeof startMovieInvite === 'function') startMovieInvite(); closeAll(); break;
+      case 'quiz': if (typeof startQuiz === 'function') startQuiz(); closeAll(); break;
+      case 'distance': if (typeof triggerDistance === 'function') triggerDistance(); closeAll(); break;
+      default: closeAll();
     }
   });
 
   document.addEventListener('click', (e) => {
-    if (e.target.closest('#plusBtn') || e.target.closest('#plusMenu') || e.target.closest('#prankMenu')) return;
+    if (e.target.closest('#plusBtn') || e.target.closest('#plusMenu')) return;
     closeAll();
   });
 })();
-
-/* ============================================================
-   搞怪功能：抛物线准确飞向对方头像
-   ============================================================ */
-(function bindPrankMenu() {
-  const prankMenu = document.getElementById('prankMenu');
-  if (!prankMenu) return;
-  prankMenu.addEventListener('click', (e) => {
-    e.stopPropagation();
-    const item = e.target.closest('.prank-item');
-    if (!item) return;
-    const type = item.dataset.type;
-    prankMenu.classList.add('hidden');
-    const pm = document.getElementById('plusMenu');
-    if (pm) pm.classList.add('hidden');
-    doPrank(type);
-  });
-})();
-
-function doPrank(type, sender = 'me') {
-  const iconMap = { tomato: '🍅', cake: '🍰', water: '💧' };
-  const nameMap = { tomato: '番茄', cake: '蛋糕', water: '水球' };
-  
-  const isMe = sender === 'me';
-  const targetClass = isMe ? '.msg-row.ta' : '.msg-row.me';
-  const taRows = document.querySelectorAll(`#messages ${targetClass}`);
-  const lastAvatar = taRows.length ? taRows[taRows.length - 1].querySelector('.avatar') : null;
-
-  if (type === 'poke') {
-    playSound('poke');
-    if (lastAvatar) {
-      lastAvatar.style.transition = 'transform 0.15s ease';
-      lastAvatar.style.transform = 'translateX(10px) scaleX(0.9)';
-      setTimeout(() => { lastAvatar.style.transform = 'none'; }, 180);
-    }
-    if (navigator.vibrate) navigator.vibrate(50);
-    addSystemTip(`[👉] ${isMe ? '我戳了戳 TA' : 'TA 戳了戳我'} 的脸`, true);
-    return;
-  }
-
-  const icon = iconMap[type] || '🍅';
-  const name = nameMap[type] || '东西';
-  addSystemTip(`[${icon}] ${isMe ? '我朝 TA' : 'TA 朝我'} 扔了一个${name}`, true);
-  playSound('send');
-  if (navigator.vibrate) navigator.vibrate(100);
-
-  // 计算起点和终点
-  const from = isMe 
-    ? { x: window.innerWidth / 2, y: window.innerHeight - 80 } 
-    : { x: window.innerWidth / 2, y: 100 }; // 对方扔东西起点在顶部附近
-  const to = lastAvatar
-    ? (() => { const r = lastAvatar.getBoundingClientRect(); return { x: r.left + r.width / 2, y: r.top + r.height / 2 }; })()
-    : { x: window.innerWidth / 2, y: window.innerHeight / 2 };
-
-  const fly = document.createElement('div');
-  fly.textContent = icon;
-  fly.style.cssText = `position:fixed;left:${from.x}px;top:${from.y}px;font-size:38px;z-index:9999;pointer-events:none;transform:translate(-50%,-50%);`;
-  document.body.appendChild(fly);
-
-  const dx = to.x - from.x, dy = to.y - from.y;
-  const midX = from.x + dx * 0.5, midY = from.y + dy * 0.5 - 150; // 顶点
-  const start = performance.now(), dur = 800;
-  
-  function frame(t) {
-    const p = Math.min(1, (t - start) / dur);
-    const x = (1 - p) * (1 - p) * from.x + 2 * (1 - p) * p * midX + p * p * to.x;
-    const y = (1 - p) * (1 - p) * from.y + 2 * (1 - p) * p * midY + p * p * to.y;
-    fly.style.left = x + 'px'; fly.style.top = y + 'px';
-    fly.style.transform = `translate(-50%,-50%) rotate(${p * 360}deg) scale(${1 + p * 0.4})`;
-    fly.style.opacity = String(1 - p * 0.5);
-    if (p < 1) requestAnimationFrame(frame);
-    else fly.remove();
-  }
-  requestAnimationFrame(frame);
-}
 
 /* ============================================================
    继续说 & 返回首页
@@ -1877,6 +1928,7 @@ function continueTalk() {
     hideTyping();
     const reply = drawCardText();
     addMessage('ta', reply, lastTa ? '你：'+lastTa : '', true);
+    refreshMessages();
     playSound('receive');
   }, 800 + Math.random() * 1200);
 }
@@ -1889,7 +1941,7 @@ function continueTalk() {
 <!-- ★★★ 第 8 段 结束 ★★★ --><!-- ★★★ 第 9 段 开始 ★★★ -->
 <script>
 /* ============================================================
-   灵魂问答（替换原生 confirm，实现精美弹窗和持久化卡片）
+   灵魂问答（精美弹窗 + 持久化）
    ============================================================ */
 const QUIZ_BANK = [
   { q: '周末更想我陪你去逛街，还是两个人窝在家里看剧？', a: '去逛街', b: '窝在家里' },
@@ -1998,17 +2050,188 @@ function startQuiz() {
         const list = load('our_messages', []);
         list.push({ type: 'soulqa', sender: 'me', record, t: Date.now(), msgId: 'sqa_' + record.id });
         save('our_messages', list);
-        
-        // 如果当前在聊天页面，立即渲染卡片
-        if (!document.getElementById('chatPage').classList.contains('hidden')) {
-          renderSoulQA(record);
-        }
+        if (!document.getElementById('chatPage').classList.contains('hidden')) refreshMessages();
         playSound('receive');
       };
     };
   });
 }
 
+/* ============================================================
+   一起看电影（全新状态机、无黑边横屏、彻底清空）
+   ============================================================ */
+let movieInviteTimeout = null;
+
+function startMovieInvite() {
+  const taName = load('ta_name', 'TA');
+  const cardId = Date.now() + '_movie_inv_' + Math.random().toString(36).slice(2, 8);
+  const msg = {
+    type: 'moviecard', sender: 'me', status: 'waiting', cardId, t: Date.now(),
+    title: '邀请你一起看电影', sub: '等待对方接受...'
+  };
+  const msgs = load('our_messages', []);
+  msgs.push(msg);
+  save('our_messages', msgs);
+  if (!document.getElementById('chatPage').classList.contains('hidden')) refreshMessages();
+  playSound('send');
+
+  clearTimeout(movieInviteTimeout);
+  movieInviteTimeout = setTimeout(() => {
+    const isAgree = Math.random() < 0.8;
+    const all = load('our_messages', []);
+    const target = all.find(x => x.cardId === cardId);
+    if (target) {
+      target.status = isAgree ? 'agreed' : 'refused';
+      target.sub = isAgree ? '对方同意了邀请' : '对方拒绝了邀请';
+      save('our_messages', all);
+    }
+    
+    if (isAgree) {
+      playSound('receive');
+      // 1. 在聊天记录补一条胶囊提示
+      addSystemTip('[🎬] 对方已同意邀请', true);
+      // 2. 弹窗确认
+      showMovieConfirmPopup();
+    } else {
+      addSystemTip(`[🎬] ${taName} 拒绝了看电影邀请`, true);
+    }
+    if (!document.getElementById('chatPage').classList.contains('hidden')) refreshMessages();
+  }, 3000 + Math.random() * 3000);
+}
+
+function showMovieConfirmPopup() {
+  const mask = document.createElement('div');
+  mask.className = 'modal';
+  mask.style.zIndex = '10005';
+  mask.innerHTML = `
+    <div style="background:#fff; border-radius:16px; width:78%; max-width:300px; padding:24px 20px; box-shadow:0 12px 36px rgba(0,0,0,0.2); text-align:center;">
+      <div style="font-size:17px; font-weight:600; color:#111; margin-bottom:20px;">对方同意了邀请，是否现在观看？</div>
+      <div style="display:flex; gap:12px;">
+        <button id="movieNowBtn" style="flex:1; padding:12px 0; border-radius:10px; font-size:15px; font-weight:600; cursor:pointer; border:none; background:#222; color:#fff;">是</button>
+        <button id="movieLaterBtn" style="flex:1; padding:12px 0; border-radius:10px; font-size:15px; font-weight:600; cursor:pointer; border:none; background:#f0f0f0; color:#333;">否</button>
+      </div>
+    </div>
+  `;
+  document.body.appendChild(mask);
+
+  mask.querySelector('#movieNowBtn').onclick = () => {
+    mask.remove();
+    enterMoviePage();
+  };
+  mask.querySelector('#movieLaterBtn').onclick = () => {
+    mask.remove();
+    addSystemTip('稍后再一起看吧', true);
+  };
+}
+
+function enterMoviePage() {
+  showPage('moviePage');
+  document.body.classList.remove('movie-landscape'); // 确保一开始是竖屏
+  
+  const vid = document.getElementById('movieVideo');
+  const placeholder = document.getElementById('moviePlaceholder');
+  const chatBox = document.getElementById('movieChatBox');
+  if (vid) { vid.style.display = 'none'; vid.pause(); vid.src = ''; }
+  if (placeholder) placeholder.style.display = 'block';
+  if (chatBox) chatBox.innerHTML = '';
+  save('our_movie_chat', []); // 清空边看边聊记录
+  renderMovieChat();
+}
+
+function renderMovieChat() {
+  const box = document.getElementById('movieChatBox');
+  if (!box) return;
+  const list = load('our_movie_chat', []);
+  box.innerHTML = '';
+  list.forEach(m => {
+    const div = document.createElement('div');
+    div.className = 'msg-row ' + (m.sender === 'me' ? 'me' : 'ta');
+    const isMe = m.sender === 'me';
+    const avatarUrl = isMe ? load('my_avatar', '') : load('ta_avatar', '');
+    const av = document.createElement('div');
+    av.className = 'avatar';
+    if (avatarUrl) av.style.background = `url(${avatarUrl}) center/cover no-repeat`;
+    else av.textContent = isMe ? load('my_name', '我').charAt(0) : load('ta_name', 'TA').charAt(0);
+    const bubble = document.createElement('div');
+    bubble.className = 'bubble';
+    bubble.textContent = m.text;
+    div.appendChild(av); div.appendChild(bubble);
+    box.appendChild(div);
+  });
+  box.scrollTop = box.scrollHeight;
+}
+
+function pushMovieChat(sender, text) {
+  const list = load('our_movie_chat', []);
+  list.push({ sender, text, t: Date.now() });
+  save('our_movie_chat', list);
+  renderMovieChat();
+}
+
+(function bindMovieUI() {
+  const backBtn = document.getElementById('backFromMovieBtn');
+  const fsBtn = document.getElementById('movieFullscreenBtn');
+  const exitFsBtn = document.getElementById('movieFsExitBtn');
+  const uploadBtn = document.getElementById('movieUploadBtn');
+  const videoUpload = document.getElementById('movieVideoUpload');
+  const sendBtn = document.getElementById('movieSendBtn');
+  const input = document.getElementById('movieInput');
+  const vid = document.getElementById('movieVideo');
+
+  if (backBtn) backBtn.onclick = () => {
+    const mask = document.createElement('div');
+    mask.className = 'modal'; mask.style.zIndex = '10005';
+    mask.innerHTML = `
+      <div style="background:#fff; border-radius:16px; width:78%; max-width:300px; padding:24px 20px; text-align:center;">
+        <div style="font-size:17px; font-weight:600; color:#111; margin-bottom:20px;">确定退出观看？</div>
+        <div style="display:flex; gap:12px;">
+          <button id="exitYes" style="flex:1; padding:12px 0; border-radius:10px; background:#222; color:#fff; font-weight:600; border:none;">退出</button>
+          <button id="exitNo" style="flex:1; padding:12px 0; border-radius:10px; background:#f0f0f0; color:#333; font-weight:600; border:none;">取消</button>
+        </div>
+      </div>`;
+    document.body.appendChild(mask);
+    mask.querySelector('#exitYes').onclick = () => {
+      mask.remove();
+      if (vid) { vid.pause(); vid.src = ''; vid.style.display = 'none'; }
+      document.getElementById('moviePlaceholder').style.display = 'block';
+      save('our_movie_chat', []);
+      document.body.classList.remove('movie-landscape');
+      showPage('chatPage');
+    };
+    mask.querySelector('#exitNo').onclick = () => mask.remove();
+  };
+
+  if (fsBtn) fsBtn.onclick = () => { document.body.classList.add('movie-landscape'); };
+  if (exitFsBtn) exitFsBtn.onclick = () => { document.body.classList.remove('movie-landscape'); };
+
+  if (uploadBtn && videoUpload) {
+    uploadBtn.onclick = () => videoUpload.click();
+    videoUpload.onchange = (e) => {
+      const f = e.target.files[0];
+      if (!f) return;
+      const url = URL.createObjectURL(f);
+      if (vid) { vid.src = url; vid.style.display = 'block'; vid.play().catch(()=>{}); }
+      document.getElementById('moviePlaceholder').style.display = 'none';
+      e.target.value = '';
+    };
+  }
+
+  if (sendBtn && input) {
+    sendBtn.onclick = () => {
+      const text = input.value.trim();
+      if (!text) return;
+      input.value = '';
+      pushMovieChat('me', text);
+      playSound('send');
+    };
+    input.addEventListener('keydown', (e) => {
+      if (e.key === 'Enter') { sendBtn.click(); input.blur(); }
+    });
+  }
+})();
+</script>
+<!-- ★★★ 第 9 段 结束 ★★★ --><!-- ★★★ 第 10 段 开始 ★★★ -->
+<script>
 /* ============================================================
    转账功能
    ============================================================ */
@@ -2038,7 +2261,7 @@ function makeTransferCard(amount, note) {
   msgs.push({ type: 'transfer', from: 'me', sender: 'me', transferId, amount, note, status: 'pending', t, msgId });
   msgs.push({ type: 'transfer', from: 'me', sender: 'ta', transferId, amount, note, status: 'pending', t: t + 1, msgId: msgId + '_ta' });
   save('our_messages', msgs);
-  renderTransferCard({ type: 'transfer', from: 'me', sender: 'me', transferId, amount, note, status: 'pending', t, msgId });
+  if (!document.getElementById('chatPage').classList.contains('hidden')) refreshMessages();
   playSound('send');
 
   setTimeout(() => {
@@ -2058,9 +2281,7 @@ function makeTaTransferCard(amount, note) {
   const msgs = load('our_messages', []);
   msgs.push({ type: 'transfer', from: 'ta', sender: 'ta', transferId, amount, note, status: 'pending', t, msgId });
   save('our_messages', msgs);
-  if (!document.getElementById('chatPage').classList.contains('hidden')) {
-    renderTransferCard({ type: 'transfer', from: 'ta', sender: 'ta', transferId, amount, note, status: 'pending', t, msgId });
-  }
+  if (!document.getElementById('chatPage').classList.contains('hidden')) refreshMessages();
   playSound('receive');
 }
 
@@ -2149,11 +2370,9 @@ function openReceiveModal(transferId) {
     if (!document.getElementById('chatPage').classList.contains('hidden')) refreshMessages();
   };
 })();
-</script>
-<!-- ★★★ 第 9 段 结束 ★★★ --><!-- ★★★ 第 10 段 开始 ★★★ -->
-<script>
+
 /* ============================================================
-   长按菜单（复制 / 引用 / 收藏 / 删除）
+   长按菜单
    ============================================================ */
 let longPressTarget = null;
 let longPressTimer = null;
@@ -2171,14 +2390,13 @@ function startLongPress(target) {
   menu.style.left = left + 'px';
   menu.style.top = (rect.bottom + 6) + 'px';
 }
-
 function hideLongPressMenu() {
   const menu = document.getElementById('longPressMenu');
   if (menu) menu.classList.add('hidden');
 }
 
 document.addEventListener('touchstart', (e) => {
-  const bubble = e.target.closest('.bubble, .shop-card, .transfer-card, .voice-bubble, .survey-card-msg, .soulqa-card');
+  const bubble = e.target.closest('.bubble, .shop-card, .transfer-card, .voice-bubble, .survey-card-msg, .soulqa-card, .distance-wrap');
   if (!bubble) return;
   const row = bubble.closest('.msg-row') || bubble.closest('.soulqa-wrap');
   if (!row) return;
@@ -2189,7 +2407,7 @@ document.addEventListener('touchend', () => clearTimeout(longPressTimer));
 document.addEventListener('touchmove', () => clearTimeout(longPressTimer));
 document.addEventListener('mousedown', (e) => {
   if ('ontouchstart' in window) return;
-  const bubble = e.target.closest('.bubble, .shop-card, .transfer-card, .voice-bubble, .survey-card-msg, .soulqa-card');
+  const bubble = e.target.closest('.bubble, .shop-card, .transfer-card, .voice-bubble, .survey-card-msg, .soulqa-card, .distance-wrap');
   if (!bubble) return;
   const row = bubble.closest('.msg-row') || bubble.closest('.soulqa-wrap');
   if (!row) return;
@@ -2230,7 +2448,6 @@ document.querySelectorAll('#longPressMenu .lp-item').forEach(item => {
       if (m && m.type === 'text') text = m.content;
       else if (m && m.type === 'shopcard') text = (m.title || '') + ' ' + (m.sub || '');
       else if (m && m.type === 'transfer') text = '转账 ¥' + m.amount;
-      else if (m && m.type === 'soulqa') text = '灵魂问答：' + m.record.question;
       if (text && navigator.clipboard) navigator.clipboard.writeText(text).then(() => alert('已复制')).catch(() => alert('已复制：' + text));
       else if (text) alert('已复制：' + text);
     }
@@ -2246,9 +2463,9 @@ document.querySelectorAll('#longPressMenu .lp-item').forEach(item => {
     }
     if (act === 'fav') {
       if (!m) return;
-      let text = m.content || m.title || (m.type === 'transfer' ? ('转账 ¥' + m.amount) : '') || (m.type === 'soulqa' ? m.record.question : '');
+      let text = m.content || m.title || (m.type === 'transfer' ? ('转账 ¥' + m.amount) : '') || '';
       const favs = load('our_favorites', []);
-      favs.push({ text, from: m.sender || 'me', t: Date.now() });
+      favs.push({ text, from: m.sender, t: Date.now() });
       save('our_favorites', favs);
       alert('已收藏');
     }
@@ -2268,7 +2485,7 @@ document.addEventListener('click', (e) => {
 });
 
 /* ============================================================
-   双击头像拍一拍
+   双击拍一拍
    ============================================================ */
 document.addEventListener('dblclick', function(e) {
   const avatar = e.target.closest('.avatar');
@@ -2281,264 +2498,14 @@ document.addEventListener('dblclick', function(e) {
   let template = row.classList.contains('me') ? patToMe[Math.floor(Math.random() * patToMe.length)] : patToTa[0];
   let text = template.replace(/\{我\}/g, myName).replace(/\{TA\}/g, taName);
   addSystemTip(text, true);
+  refreshMessages();
   playSound('poke');
 });
-
-/* ============================================================
-   一起看电影
-   ============================================================ */
-let movieMsgTimer = null;
-let movieInviteTimeout = null;
-
-// 发起邀请
-function startMovieInvite() {
-  const taName = load('ta_name', 'TA');
-  const cardId = Date.now() + '_movie_inv_' + Math.random().toString(36).slice(2, 8);
-  const msg = {
-    type: 'moviecard', sender: 'me', status: 'waiting', cardId, t: Date.now(),
-    title: '邀请你一起看电影', sub: '等待对方接受...'
-  };
-  const msgs = load('our_messages', []);
-  msgs.push(msg);
-  save('our_messages', msgs);
-  renderMovieCard(msg);
-  playSound('send');
-
-  // 对方响应逻辑 (3~6秒后)
-  movieInviteTimeout = setTimeout(() => {
-    const isAgree = Math.random() < 0.8; // 80% 概率同意
-    const all = load('our_messages', []);
-    const target = all.find(x => x.cardId === cardId);
-    if (target) {
-      target.status = isAgree ? 'agreed' : 'refused';
-      target.sub = isAgree ? '对方同意了邀请' : '对方拒绝了邀请';
-      save('our_messages', all);
-    }
-    // 更新聊天中的 UI
-    if (!document.getElementById('chatPage').classList.contains('hidden')) {
-      refreshMessages();
-    }
-    
-    if (isAgree) {
-      playSound('receive');
-      showMovieConfirmPopup();
-    } else {
-      addSystemTip(`[🎬] ${taName} 拒绝了看电影邀请`, true);
-    }
-  }, 3000 + Math.random() * 3000);
-}
-
-// 渲染电影邀请卡片
-function renderMovieCard(m) {
-  const row = document.createElement('div');
-  row.className = 'msg-row ' + (m.sender === 'me' ? 'me' : 'ta');
-  row.dataset.msgId = m.cardId;
-  const avatar = buildAvatar(m.sender);
-  const card = document.createElement('div');
-  card.className = 'movie-invite-card ' + (m.status === 'agreed' ? 'agreed' : (m.status === 'refused' ? 'refused' : ''));
-  card.style.cssText = 'background:#fff; border-radius:14px; padding:18px; width:82%; min-width:260px; box-shadow:0 2px 10px rgba(0,0,0,0.08); border:1px solid #eee; display:flex; flex-direction:column; justify-content:center;';
-  
-  let icon = '🎬', titleColor = '#111';
-  if (m.status === 'agreed') icon = '✅';
-  if (m.status === 'refused') icon = '❌';
-
-  card.innerHTML = `
-    <div style="display:flex; align-items:center; gap:12px; margin-bottom:12px;">
-      <div style="width:48px; height:48px; border-radius:12px; background:${m.status==='agreed'?'#e8f5e9':(m.status==='refused'?'#ffebee':'#fff3e0')}; display:flex; align-items:center; justify-content:center; font-size:24px; flex-shrink:0;">${icon}</div>
-      <div style="flex:1;">
-        <div style="font-size:16px; font-weight:600; color:${titleColor};">${escHtml(m.title)}</div>
-        <div style="font-size:13px; color:#888; margin-top:4px;">${escHtml(m.sub)}</div>
-      </div>
-    </div>
-    <div style="height:1px; background:#f5f5f5; margin:12px 0;"></div>
-    <div style="display:flex; justify-content:space-between; font-size:12px; color:#999;">
-      <span>看电影</span>
-      <span>${new Date(m.t).toLocaleTimeString('zh-CN', {hour:'2-digit', minute:'2-digit'})}</span>
-    </div>
-  `;
-  row.appendChild(avatar); row.appendChild(card);
-  messagesEl.appendChild(row);
-  messagesEl.scrollTop = messagesEl.scrollHeight;
-}
-
-// 询问是否现在观看
-function showMovieConfirmPopup() {
-  const mask = document.createElement('div');
-  mask.className = 'modal';
-  mask.style.zIndex = '10005';
-  mask.innerHTML = `
-    <div style="background:#fff; border-radius:16px; width:78%; max-width:300px; padding:24px 20px; box-shadow:0 12px 36px rgba(0,0,0,0.2); text-align:center;">
-      <div style="font-size:17px; font-weight:600; color:#111; margin-bottom:20px;">对方同意了邀请，是否现在观看？</div>
-      <div style="display:flex; gap:12px;">
-        <button id="movieNowBtn" style="flex:1; padding:12px 0; border-radius:10px; font-size:15px; font-weight:600; cursor:pointer; border:none; background:#222; color:#fff;">是</button>
-        <button id="movieLaterBtn" style="flex:1; padding:12px 0; border-radius:10px; font-size:15px; font-weight:600; cursor:pointer; border:none; background:#f0f0f0; color:#333;">否</button>
-      </div>
-    </div>
-  `;
-  document.body.appendChild(mask);
-
-  mask.querySelector('#movieNowBtn').onclick = () => {
-    mask.remove();
-    enterMoviePage();
-  };
-  mask.querySelector('#movieLaterBtn').onclick = () => {
-    mask.remove();
-    addSystemTip('稍后再一起看吧', true);
-    // 记录 pending 状态（如果后面还要用）
-    save('pending_movie', true);
-  };
-}
-
-// 进入播放页
-function enterMoviePage() {
-  save('pending_movie', false);
-  showPage('moviePage');
-  const vid = document.getElementById('movieVideo');
-  const placeholder = document.getElementById('moviePlaceholder');
-  const chatBox = document.getElementById('movieChatBox');
-  if (vid) { vid.style.display = 'none'; vid.pause(); vid.src = ''; }
-  if (placeholder) placeholder.style.display = 'block';
-  if (chatBox) chatBox.innerHTML = '';
-  save('our_movie_chat', []); // 清空边看边聊记录
-  renderMovieChat();
-  clearInterval(movieMsgTimer);
-  movieMsgTimer = null;
-}
-
-// 渲染边看边聊
-function renderMovieChat() {
-  const box = document.getElementById('movieChatBox');
-  if (!box) return;
-  const list = load('our_movie_chat', []);
-  box.innerHTML = '';
-  list.forEach(m => {
-    const div = document.createElement('div');
-    div.className = 'msg-row ' + (m.sender === 'me' ? 'me' : 'ta');
-    const isMe = m.sender === 'me';
-    const avatarUrl = isMe ? load('my_avatar', '') : load('ta_avatar', '');
-    const av = document.createElement('div');
-    av.className = 'avatar';
-    if (avatarUrl) av.style.background = `url(${avatarUrl}) center/cover no-repeat`;
-    else av.textContent = isMe ? load('my_name', '我').charAt(0) : load('ta_name', 'TA').charAt(0);
-    const bubble = document.createElement('div');
-    bubble.className = 'bubble';
-    bubble.textContent = m.text;
-    div.appendChild(av); div.appendChild(bubble);
-    box.appendChild(div);
-  });
-  box.scrollTop = box.scrollHeight;
-}
-
-function pushMovieChat(sender, text) {
-  const list = load('our_movie_chat', []);
-  list.push({ sender, text, t: Date.now() });
-  save('our_movie_chat', list);
-  renderMovieChat();
-}
-
-// 电影页的按钮绑定与退出逻辑
-(function bindMovieUI() {
-  const backBtn = document.getElementById('backFromMovieBtn');
-  const fsBtn = document.getElementById('movieFullscreenBtn');
-  const uploadBtn = document.getElementById('movieUploadBtn');
-  const videoUpload = document.getElementById('movieVideoUpload');
-  const sendBtn = document.getElementById('movieSendBtn');
-  const input = document.getElementById('movieInput');
-  const vid = document.getElementById('movieVideo');
-
-  // 退出确认
-  if (backBtn) backBtn.onclick = () => {
-    const mask = document.createElement('div');
-    mask.className = 'modal'; mask.style.zIndex = '10005';
-    mask.innerHTML = `
-      <div style="background:#fff; border-radius:16px; width:78%; max-width:300px; padding:24px 20px; text-align:center;">
-        <div style="font-size:17px; font-weight:600; color:#111; margin-bottom:20px;">确定退出观看？</div>
-        <div style="display:flex; gap:12px;">
-          <button id="exitYes" style="flex:1; padding:12px 0; border-radius:10px; background:#222; color:#fff; font-weight:600; border:none;">退出</button>
-          <button id="exitNo" style="flex:1; padding:12px 0; border-radius:10px; background:#f0f0f0; color:#333; font-weight:600; border:none;">取消</button>
-        </div>
-      </div>`;
-    document.body.appendChild(mask);
-    mask.querySelector('#exitYes').onclick = () => {
-      mask.remove();
-      if (vid) { vid.pause(); vid.src = ''; vid.style.display = 'none'; }
-      document.getElementById('moviePlaceholder').style.display = 'block';
-      save('our_movie_chat', []); // 清空边看边聊
-      if (document.body.classList.contains('movie-landscape')) {
-        document.body.classList.remove('movie-landscape');
-      }
-      clearInterval(movieMsgTimer); movieMsgTimer = null;
-      showPage('chatPage');
-    };
-    mask.querySelector('#exitNo').onclick = () => mask.remove();
-  };
-
-  // 横屏按钮
-  if (fsBtn) fsBtn.onclick = () => {
-    document.body.classList.toggle('movie-landscape');
-    // 触发重绘确保视频适应
-    setTimeout(() => { if (vid) vid.style.height = '100%'; }, 300);
-  };
-
-  // 选视频
-  if (uploadBtn && videoUpload) {
-    uploadBtn.onclick = () => videoUpload.click();
-    videoUpload.onchange = (e) => {
-      const f = e.target.files[0];
-      if (!f) return;
-      const url = URL.createObjectURL(f);
-      if (vid) { vid.src = url; vid.style.display = 'block'; vid.play().catch(()=>{}); }
-      document.getElementById('moviePlaceholder').style.display = 'none';
-      e.target.value = '';
-
-      clearInterval(movieMsgTimer);
-      movieMsgTimer = setInterval(() => {
-        if (!vid || vid.paused) return;
-        const mainCards = cards.filter(c => (c.type || 'main') === 'main' && !c.blocked);
-        if (mainCards.length > 0) {
-          const text = mainCards[Math.floor(Math.random() * mainCards.length)].content;
-          pushMovieChat('ta', text);
-          playSound('receive');
-        }
-      }, 8000);
-    };
-  }
-
-  // 聊天发送
-  if (sendBtn && input) {
-    sendBtn.onclick = () => {
-      const text = input.value.trim();
-      if (!text) return;
-      input.value = '';
-      pushMovieChat('me', text);
-      playSound('send');
-    };
-    input.addEventListener('keydown', (e) => {
-      if (e.key === 'Enter') { sendBtn.click(); input.blur(); }
-    });
-  }
-})();
 </script>
 <!-- ★★★ 第 10 段 结束 ★★★ --><!-- ★★★ 第 11 段 开始 ★★★ -->
 <script>
 /* ============================================================
-   补丁：将电影卡片加入全局渲染逻辑
-   ============================================================ */
-const originalRefreshMessages = refreshMessages;
-refreshMessages = function() {
-  originalRefreshMessages();
-  const msgs = load('our_messages', []);
-  const movieCards = msgs.filter(m => m.type === 'moviecard');
-  movieCards.forEach(m => {
-    // 检查是否已经渲染，防止重复
-    if (!document.querySelector(`.msg-row[data-msg-id="${m.cardId}"]`)) {
-      renderMovieCard(m);
-    }
-  });
-};
-
-/* ============================================================
-   字卡库：Tab 切换 + 5 个子面板
+   字卡库
    ============================================================ */
 let currentCardTab = 'main';
 let currentCat = 'all';
@@ -3547,7 +3514,9 @@ function taPostMoment() {
   const page = document.getElementById('momentsPage');
   if (page && !page.classList.contains('hidden')) renderMomentsList();
 }
-
+</script>
+<!-- ★★★ 第 13 段 结束 ★★★ --><!-- ★★★ 第 14 段 开始 ★★★ -->
+<script>
 /* ============================================================
    纪念日 (含三列滑动滚轮)
    ============================================================ */
@@ -3688,9 +3657,7 @@ function renderAnniv() {
     });
   };
 })();
-</script>
-<!-- ★★★ 第 13 段 结束 ★★★ --><!-- ★★★ 第 14 段 开始 ★★★ -->
-<script>
+
 /* ============================================================
    商店与订单
    ============================================================ */
@@ -3889,7 +3856,7 @@ function buyForTa(it) {
   const msgs = load('our_messages', []);
   msgs.push(msg);
   save('our_messages', msgs);
-  if (!document.getElementById('chatPage').classList.contains('hidden')) renderShopCard(msg);
+  if (!document.getElementById('chatPage').classList.contains('hidden')) refreshMessages();
   playSound('send');
   shopOrders.push({ id: cardId, direction: 'me_to_ta', itemId: it.id, name: it.name, price: it.price, img: it.img, t: Date.now() });
   saveShopOrders();
@@ -3897,8 +3864,7 @@ function buyForTa(it) {
     const all = load('our_messages', []);
     const m = all.find(x => x.cardId === cardId);
     if (m) { m.status = '已接收'; save('our_messages', all); }
-    const el = document.querySelector('[data-shop-card="' + cardId + '"] .shop-card-status .tag');
-    if (el) el.textContent = '已接收';
+    if (!document.getElementById('chatPage').classList.contains('hidden')) refreshMessages();
     addSystemTip('对方已收下', true);
     playSound('receive');
   }, 3000 + Math.random() * 2000);
@@ -3910,13 +3876,12 @@ function helpPay(it) {
   const msgs = load('our_messages', []);
   msgs.push(msg);
   save('our_messages', msgs);
-  if (!document.getElementById('chatPage').classList.contains('hidden')) renderShopCard(msg);
+  if (!document.getElementById('chatPage').classList.contains('hidden')) refreshMessages();
   setTimeout(() => {
     const all = load('our_messages', []);
     const m = all.find(x => x.cardId === cardId);
     if (m) { m.status = '已付款'; save('our_messages', all); }
-    const el = document.querySelector('[data-shop-card="' + cardId + '"] .shop-card-status .tag');
-    if (el) el.textContent = '已付款';
+    if (!document.getElementById('chatPage').classList.contains('hidden')) refreshMessages();
     addSystemTip('对方已付款', true);
     playSound('receive');
     shopOrders.push({ id: cardId, direction: 'ta_to_me', itemId: it.id, name: it.name, price: it.price, img: it.img, t: Date.now() });
@@ -3931,12 +3896,14 @@ function taSendGift(it) {
   const msgs = load('our_messages', []);
   msgs.push(msg);
   save('our_messages', msgs);
-  if (!document.getElementById('chatPage').classList.contains('hidden')) renderShopCard(msg);
+  if (!document.getElementById('chatPage').classList.contains('hidden')) refreshMessages();
   shopOrders.push({ id: cardId, direction: 'ta_to_me', itemId: it.id, name: it.name, price: it.price, img: it.img, t: Date.now() });
   saveShopOrders();
   playSound('receive');
 }
-
+</script>
+<!-- ★★★ 第 14 段 结束 ★★★ --><!-- ★★★ 第 15 段 开始 ★★★ -->
+<script>
 /* ============================================================
    信箱
    ============================================================ */
@@ -4044,9 +4011,6 @@ function openMailRead(mailId) {
   };
 })();
 
-/* ============================================================
-   TA 自动写信与送礼（由 checkOnlineEvents 触发）
-   ============================================================ */
 function triggerTaMail() {
   const mainCards = cards.filter(c => (c.type || 'main') === 'main' && !c.blocked);
   const content = mainCards.length > 0 ? mainCards[Math.floor(Math.random() * mainCards.length)].content : '想你了。';
@@ -4070,29 +4034,7 @@ function triggerTaGift() {
 }
 
 /* ============================================================
-   补丁：礼物触发的在线时长检查
-   ============================================================ */
-const originalCheckOnlineEvents = checkOnlineEvents;
-checkOnlineEvents = function() {
-  originalCheckOnlineEvents();
-  const totalOnline = load('total_online_time', 0);
-  
-  // 礼物触发 (30 ~ 60 分钟)
-  if (load('gift_auto_on', true)) {
-    let gTrigger = load('gift_trigger_time', 0);
-    if (gTrigger === 0) {
-      save('gift_trigger_time', totalOnline + (30 + Math.random() * 30) * 60 * 1000);
-    } else if (totalOnline >= gTrigger) {
-      triggerTaGift();
-      save('gift_trigger_time', 0);
-    }
-  }
-};
-</script>
-<!-- ★★★ 第 14 段 结束 ★★★ --><!-- ★★★ 第 15 段 开始 ★★★ -->
-<script>
-/* ============================================================
-   问卷：发送列表 & 作答
+   问卷列表与作答
    ============================================================ */
 function showSurveyListPage() {
   showPage('surveyListPage');
@@ -4286,7 +4228,7 @@ function sendSurveyToChat(survey) {
   const msgs = load('our_messages', []);
   msgs.push(msg);
   save('our_messages', msgs);
-  if (!document.getElementById('chatPage').classList.contains('hidden')) renderSurveyCard(msg);
+  if (!document.getElementById('chatPage').classList.contains('hidden')) refreshMessages();
   playSound('send');
   setTimeout(() => { autoAnswerSurvey(survey.id); }, 2000 + Math.random() * 1000);
 }
@@ -4329,7 +4271,7 @@ function autoAnswerSurvey(surveyId) {
 }
 
 /* ============================================================
-   TA 发问卷与作答
+   TA 主动发问卷
    ============================================================ */
 function triggerTaQuestion() {
   const bank = load('our_question_bank', []);
@@ -4362,7 +4304,7 @@ function triggerTaQuestion() {
   playSound('receive');
 
   if (!document.getElementById('chatPage').classList.contains('hidden')) {
-    renderQuestionCard(msg);
+    refreshMessages();
   }
 }
 
@@ -4882,7 +4824,7 @@ function openFloatCardFromDisc() {
 <!-- ★★★ 第 16 段 结束 ★★★ --><!-- ★★★ 第 17 段 开始 ★★★ -->
 <script>
 /* ============================================================
-   音乐播放器核心（解决返回卡死问题）
+   音乐播放器核心
    ============================================================ */
 async function playMusic(id, isSilent = false) {
   const m = musicList.find(x => x.id === id);
@@ -5058,7 +5000,6 @@ function toggleLoop() {
 }
 
 (function bindPlayerUI() {
-  // 返回逻辑重构：全屏播放器返回 -> 音乐库列表；音乐库列表返回 -> 首页
   const backBtn = document.getElementById('musicBackBtn');
   if (backBtn) backBtn.onclick = () => {
     showPage('musicLibraryPage');
@@ -5199,6 +5140,7 @@ function startCall(isIncoming = false) {
       if (Math.random() < 0.1) {
         endCall(false);
         addSystemTip('[📞] 对方已拒绝', true);
+        if (!document.getElementById('chatPage').classList.contains('hidden')) refreshMessages();
       } else {
         connectCall();
       }
@@ -5236,6 +5178,7 @@ function endCall(showTip = true) {
     const m = String(Math.floor(callSeconds / 60)).padStart(2, '0');
     const s = String(callSeconds % 60).padStart(2, '0');
     addSystemTip(`[📞] 语音通话已结束 · ${m}:${s}`, true);
+    if (!document.getElementById('chatPage').classList.contains('hidden')) refreshMessages();
   }
   callSeconds = 0;
 }
@@ -5342,7 +5285,7 @@ function endCall(showTip = true) {
 <!-- ★★★ 第 17 段 结束 ★★★ --><!-- ★★★ 第 18 段 开始 ★★★ -->
 <script>
 /* ============================================================
-   在线主动互动触发器（统一按在线时长判定）
+   在线主动互动触发器
    ============================================================ */
 
 // 1. 朋友圈：发动态 / 点赞评论
@@ -5379,16 +5322,7 @@ function triggerTaCall() {
   }
 }
 
-// 3. 搞怪 (扔东西/戳脸) - 让 TA 扔给我
-function triggerTaPrank() {
-  const pranks = ['tomato', 'cake', 'water', 'poke'];
-  const p = pranks[Math.floor(Math.random() * pranks.length)];
-  if (typeof doPrank === 'function') {
-    doPrank(p, 'ta'); // 传入 'ta' 让动画反向飞向我
-  }
-}
-
-// 4. 送礼物 (30~60 分钟)
+// 3. 礼物 (30 ~ 60 分钟)
 function triggerTaGift() {
   if (typeof shopItems === 'undefined' || shopItems.length === 0) return;
   const it = shopItems[Math.floor(Math.random() * shopItems.length)];
@@ -5399,7 +5333,7 @@ function triggerTaGift() {
   }, 1000 + Math.random() * 2000);
 }
 
-// 5. 发信件 (1~2 小时)
+// 4. 信件 (1 ~ 2 小时)
 function triggerTaMail() {
   const mainCards = cards.filter(c => (c.type || 'main') === 'main' && !c.blocked);
   const content = mainCards.length > 0 ? mainCards[Math.floor(Math.random() * mainCards.length)].content : '想你了。';
@@ -5410,6 +5344,7 @@ function triggerTaMail() {
   const page = document.getElementById('mailPage');
   if (page && !page.classList.contains('hidden')) renderMailList();
   addSystemTip('[💌] 收到了一封新信件', true);
+  if (!document.getElementById('chatPage').classList.contains('hidden')) refreshMessages();
 }
 
 /* ============================================================
@@ -5444,24 +5379,7 @@ checkOnlineEvents = function() {
     }
   }
 
-  // 3. 搞怪
-  if (load('prank_auto_on', true)) {
-    let pTrigger = load('prank_trigger_time', 0);
-    let pCount = load('prank_trigger_count', 0);
-    let pMax = load('prank_trigger_max', 0);
-    if (pMax === 0) { pMax = 2 + Math.floor(Math.random() * 4); save('prank_trigger_max', pMax); }
-    if (pCount < pMax) {
-      if (pTrigger === 0) {
-        save('prank_trigger_time', totalOnline + (20 + Math.random() * 40) * 60 * 1000);
-      } else if (totalOnline >= pTrigger) {
-        triggerTaPrank();
-        save('prank_trigger_time', 0);
-        save('prank_trigger_count', pCount + 1);
-      }
-    }
-  }
-
-  // 4. 问卷
+  // 3. 问卷
   if (load('question_auto_on', true)) {
     let qTrigger = load('question_trigger_time', 0);
     if (qTrigger === 0) {
@@ -5472,7 +5390,7 @@ checkOnlineEvents = function() {
     }
   }
 
-  // 5. 礼物 (30 ~ 60 分钟)
+  // 4. 礼物 (30 ~ 60 分钟)
   if (load('gift_auto_on', true)) {
     let gTrigger = load('gift_trigger_time', 0);
     if (gTrigger === 0) {
@@ -5483,7 +5401,7 @@ checkOnlineEvents = function() {
     }
   }
 
-  // 6. 信箱 (1 ~ 2 小时)
+  // 5. 信箱 (1 ~ 2 小时)
   if (load('mail_auto_on', false)) {
     let mailTrigger = load('mail_trigger_time', 0);
     if (mailTrigger === 0) {
@@ -5756,10 +5674,12 @@ function renderStickerPanel() {
     d.onclick = () => {
       if (stickerTab === 'mine') {
         addImage('me', url, true);
+        if (!document.getElementById('chatPage').classList.contains('hidden')) refreshMessages();
         closeStickerPanel();
         playSound('send');
       } else {
         addImage('ta', url, true);
+        if (!document.getElementById('chatPage').classList.contains('hidden')) refreshMessages();
         closeStickerPanel();
         playSound('receive');
       }
@@ -5774,8 +5694,6 @@ function openStickerPanel() {
   if (panel) panel.classList.remove('hidden');
   const pm = document.getElementById('plusMenu');
   if (pm) pm.classList.add('hidden');
-  const prm = document.getElementById('prankMenu');
-  if (prm) prm.classList.add('hidden');
 }
 
 function closeStickerPanel() {
